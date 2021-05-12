@@ -12,7 +12,8 @@ import Web3ReactManager from '../components/Web3ReactManager'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
 
 //  for  Card testing
-import NTFCard, { NftCardContent } from '../components/NFTcard/ntfcard'
+import NTFCard from '../components/NFTcard/nftcard'
+import { NftCardContent } from 'components/NFTcard/nftcard.interface'
 
 // DEMO NTF CARD CONTENT
 const nftCrd: NftCardContent = {
@@ -59,7 +60,12 @@ const Marginer = styled.div`
 `
 
 export default function App() {
-  const navigateToCard = () => {}
+
+
+// for testing only
+  const navigateToCard = (card: NftCardContent) => {console.log(card)}
+
+
   return (
     <Suspense fallback={null}>
       <Route component={GoogleAnalyticsReporter} />
@@ -74,13 +80,15 @@ export default function App() {
           <Polling />
           <Web3ReactManager>
             <Switch>
-
+{/* testing */}
               <NTFCard
                 cardContent={nftCrd}
                 navigateToCard={navigateToCard}
                 addToWhiteList={navigateToCard}
-                placeBide={navigateToCard}
+                placeBid={navigateToCard}
               ></NTFCard>
+
+
             </Switch>
           </Web3ReactManager>
           <Marginer />
