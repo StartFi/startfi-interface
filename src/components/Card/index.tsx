@@ -10,6 +10,8 @@ const Card = styled(Box)<{ width?: string; padding?: string; border?: string; bo
   padding: ${({ padding }) => padding};
   border: ${({ border }) => border};
   border-radius: ${({ borderRadius }) => borderRadius};
+
+
 `
 export default Card
 
