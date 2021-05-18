@@ -14,9 +14,15 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhi
   return (
     <div>
       <Card>
+
         <CardActionArea>
+
+        {/* <Link  to="/product"> */}
           <CardMedia className={classes.media}  component="img" image={cardContent.ntfImg} title="IMG" />
+          {/* </Link> */}
+
           <CardContent onClick={() => navigateToCard(cardContent)}>
+
             <div className={classes.price}>
               <h3>{cardContent.price}</h3>
             </div>
@@ -26,6 +32,7 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhi
             </div>
           </CardContent>
         </CardActionArea>
+
         <CardActions className={classes.action} disableSpacing={true}>
           <div className={classes.whiteList}>
             <Icon className={classes.icon}>favorite_border</Icon>

@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import {  Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 import Header from '../components/Header'
@@ -12,16 +12,17 @@ import Web3ReactManager from '../components/Web3ReactManager'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
 
 //  for  Card testing
-import NTFCard from '../components/NFTcard/nftcard'
-import { NftCardContent } from 'components/NFTcard/nftcard.interface'
+// import NTFCard from '../components/NFTcard/nftcard'
+// import { NftCardContent } from 'components/NFTcard/nftcard.interface';
+import Nftproduct from 'components/NFTproduct/Nftproduct'
 
 // DEMO NTF CARD CONTENT
-const nftCrd: NftCardContent = {
-  ntfImg: 'https://picsum.photos/200',
-  title: 'Apple Watch Series 4 GPS',
-  price: '16 ETH',
-  description: 'Redesigned from scratch and completely revised'
-}
+// const nftCrd: NftCardContent = {
+//   ntfImg: 'https://picsum.photos/200',
+//   title: 'Apple Watch Series 4 GPS',
+//   price: '16 ETH',
+//   description: 'Redesigned from scratch and completely revised'
+// }
 
 const AppWrapper = styled.div`
   display: flex;
@@ -60,11 +61,8 @@ const Marginer = styled.div`
 `
 
 export default function App() {
-
-
-// for testing only
-  const navigateToCard = (card: NftCardContent) => {console.log(card)}
-
+  // for testing only
+  // const navigateToCard = (card: NftCardContent) => {console.log(card)}
 
   return (
     <Suspense fallback={null}>
@@ -78,21 +76,29 @@ export default function App() {
         <BodyWrapper>
           <Popups />
           <Polling />
+
           <Web3ReactManager>
             <Switch>
-{/* testing */}
-              <NTFCard
+              {/* testing */}
+              {/* <NTFCard
                 cardContent={nftCrd}
                 navigateToCard={navigateToCard}
                 addToWhiteList={navigateToCard}
                 placeBid={navigateToCard}
-              ></NTFCard>
+              ></NTFCard> */}
 
+
+                <Route path='/product' component={Nftproduct} />
+                <Nftproduct/>
 
             </Switch>
+
           </Web3ReactManager>
+
+
           <Marginer />
         </BodyWrapper>
+
       </AppWrapper>
     </Suspense>
   )
