@@ -12,14 +12,15 @@ import Web3ReactManager from '../components/Web3ReactManager'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
 
 //  for  Card testing
-import NTFCard, { NftCardContent } from '../components/NFTcard/nftcard'
-
+import NTFCard, { NFT } from '../components/NFTcard/nftcard'
 
 // DEMO NTF CARD CONTENT
-const nftCrd: NftCardContent = {
-  ntfImg: 'https://picsum.photos/200',
-  title: 'Apple Watch Series 4 GPS',
-  price: '16 ETH',
+const nftCard: NFT = {
+  id: 1,
+  name: 'Apple Watch Series 4 GPS',
+  image: 'https://picsum.photos/200',
+  price: 16,
+  category: 'apple',
   description: 'Redesigned from scratch and completely revised'
 }
 
@@ -60,11 +61,10 @@ const Marginer = styled.div`
 `
 
 export default function App() {
-
-
-// for testing only
-  const navigateToCard = (card: NftCardContent) => {console.log(card)}
-
+  // for testing only
+  const navigateToCard = (card: NFT) => {
+    console.log(card)
+  }
 
   return (
     <Suspense fallback={null}>
@@ -80,15 +80,13 @@ export default function App() {
           <Polling />
           <Web3ReactManager>
             <Switch>
-{/* testing */}
+              {/* testing */}
               <NTFCard
-                cardContent={nftCrd}
+                cardContent={nftCard}
                 navigateToCard={navigateToCard}
                 addToWhiteList={navigateToCard}
                 placeBid={navigateToCard}
               ></NTFCard>
-
-
             </Switch>
           </Web3ReactManager>
           <Marginer />

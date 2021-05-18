@@ -4,18 +4,22 @@ import Path from '../../assets/svg/Path.svg'
 import { useStyles } from './nftcard.styles'
 import { NftButton } from '../Button/index'
 
-export interface NftCardContent {
-  ntfImg: string
-  title: string
-  price: string
-  description: string
+export interface NFT {
+
+    id: number
+    name: string
+    image: string
+    price: number
+    category: string
+    description: string
+
 }
 
 export interface NftCardProps {
-  cardContent: NftCardContent
-  navigateToCard: (clickedCard: NftCardContent) => void
-  addToWhiteList: (clickedCard: NftCardContent) => void
-  placeBid: (clickedCard: NftCardContent) => void
+  cardContent: NFT
+  navigateToCard: (clickedCard: NFT) => void
+  addToWhiteList: (clickedCard: NFT) => void
+  placeBid: (clickedCard: NFT) => void
 }
 
 const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhiteList, placeBid }) => {
@@ -24,15 +28,15 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhi
     <div>
       <Card className={classes.card}>
         <div className={classes.media}>
-          <img src={cardContent.ntfImg} />
+          <img src={cardContent.image} />
         </div>
 
         <div onClick={() => navigateToCard(cardContent)}>
           <div className={classes.price}>
-            <p>{cardContent.price}</p>
+            <p>{cardContent.price} ETH</p>
           </div>
           <div>
-            <p className={classes.title}>{cardContent.title}</p>
+            <p className={classes.title}>{cardContent.name}</p>
             <p className={classes.description}> {cardContent.description}</p>
           </div>
         </div>
