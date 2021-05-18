@@ -11,7 +11,6 @@ import Web3ReactManager from '../components/Web3ReactManager'
 // import { ApplicationModal } from '../state/application/actions'
 // import { useModalOpen, useToggleModal } from '../state/application/hooks'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
-
 import NFTs from './NFTs'
 
 const AppWrapper = styled.div`

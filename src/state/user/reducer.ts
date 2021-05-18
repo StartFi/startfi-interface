@@ -14,7 +14,8 @@ import {
   updateUserSlippageTolerance,
   updateUserDeadline,
   toggleURLWarning,
-  updateUserSingleHopOnly
+  updateUserSingleHopOnly,
+  whitelistNFT
 } from './actions'
 
 const currentTimestamp = () => new Date().getTime()
@@ -147,5 +148,12 @@ export default createReducer(initialState, builder =>
     })
     .addCase(toggleURLWarning, state => {
       state.URLWarningVisible = !state.URLWarningVisible
+    })
+    .addCase(whitelistNFT.pending, (state, action) => {})
+    .addCase(whitelistNFT.fulfilled, (state, action) => {
+      //notify
+    })
+    .addCase(whitelistNFT.rejected, (state, action) => {
+      //notify
     })
 )

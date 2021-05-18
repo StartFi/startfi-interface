@@ -4,7 +4,9 @@ import SelectIcon from '../assets/icons/select.svg'
 import { styled, MenuItem, Box, Grid } from '@material-ui/core/'
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
-import { NFT } from 'state/nfts/reducer'
+import { COLORS } from 'theme'
+import { useHistory } from 'react-router'
+import { useWhitelistNFT } from 'state/user/hooks'
 
 const NFTS = styled(Grid)({
   padding: '0 5vw'
@@ -15,17 +17,15 @@ const Header = styled(Grid)({
 })
 
 const Results = styled(Box)({
-  fontSize: '16px',
-  color: '#2C2C2C'
+  fontSize: '1rem',
+  color: COLORS.black2
 })
 
 const SORTBY = ['With Bids', 'b']
 
-const navigateToCard = (card: NFT) => {
-  console.log(card)
-}
-
 const NFTs: React.FC = () => {
+  const history = useHistory()
+
   const [sort, setSort] = useState(SORTBY[0])
 
   useLoadNFTs()
@@ -35,6 +35,8 @@ const NFTs: React.FC = () => {
   const loadtime = useLoadTime()
 
   const getNFTs = useGetNFTs()
+
+  const whitelistNFT = useWhitelistNFT()
 
   return (
     <NFTS container direction="column">
@@ -60,14 +62,14 @@ const NFTs: React.FC = () => {
           ))}
         </DropDownSort>
       </Header>
-      <Grid container spacing={10}>
-        {nfts.map(nft => (
-          <Grid key={nft.id} item xs={4}>
+      <Grid container direction="row" justify="space-between">
+        {nfts.slice(0,3).map(nft => (
+          <Grid key={nft.id}>
             <NTFCard
               cardContent={nft}
-              navigateToCard={navigateToCard}
-              addToWhiteList={navigateToCard}
-              placeBid={navigateToCard}
+              navigateToCard={()=>history.push('NFT', nft)}
+              addToWhiteList={()=>whitelistNFT(nft)}
+              placeBid={()=>history.push('NFT', nft)}
             ></NTFCard>
           </Grid>
         ))}
