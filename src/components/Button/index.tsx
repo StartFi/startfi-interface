@@ -1,12 +1,13 @@
 import React from 'react'
-import styled from 'styled-components'
+import oldStyled from 'styled-components'
 import { darken, lighten } from 'polished'
 
 import { RowBetween } from '../Row'
 import { ChevronDown } from 'react-feather'
 import { Button as RebassButton, ButtonProps } from 'rebass/styled-components'
+import { Button, styled } from '@material-ui/core'
 
-const Base = styled(RebassButton)<{
+const Base = oldStyled(RebassButton)<{
   padding?: string
   width?: string
   borderRadius?: string
@@ -38,7 +39,7 @@ const Base = styled(RebassButton)<{
   }
 `
 
-export const ButtonPrimary = styled(Base)`
+export const ButtonPrimaryy = oldStyled(Base)`
   background-color: ${({ theme }) => theme.primary1};
   color: white;
   &:focus {
@@ -65,7 +66,7 @@ export const ButtonPrimary = styled(Base)`
   }
 `
 
-export const ButtonLight = styled(Base)`
+export const ButtonLight = oldStyled(Base)`
   background-color: ${({ theme }) => theme.primary5};
   color: ${({ theme }) => theme.primaryText1};
   font-size: 16px;
@@ -93,7 +94,7 @@ export const ButtonLight = styled(Base)`
   }
 `
 
-export const ButtonGray = styled(Base)`
+export const ButtonGray = oldStyled(Base)`
   background-color: ${({ theme }) => theme.bg3};
   color: ${({ theme }) => theme.text2};
   font-size: 16px;
@@ -109,7 +110,7 @@ export const ButtonGray = styled(Base)`
   }
 `
 
-export const ButtonSecondary = styled(Base)`
+export const ButtonSecondary = oldStyled(Base)`
   border: 1px solid ${({ theme }) => theme.primary4};
   color: ${({ theme }) => theme.primary1};
   background-color: transparent;
@@ -137,7 +138,7 @@ export const ButtonSecondary = styled(Base)`
   }
 `
 
-export const ButtonPink = styled(Base)`
+export const ButtonPink = oldStyled(Base)`
   background-color: ${({ theme }) => theme.primary1};
   color: white;
 
@@ -159,7 +160,7 @@ export const ButtonPink = styled(Base)`
   }
 `
 
-export const ButtonUNIGradient = styled(ButtonPrimary)`
+export const ButtonUNIGradient = oldStyled(ButtonPrimaryy)`
   color: white;
   padding: 4px 8px;
   height: 36px;
@@ -179,7 +180,7 @@ export const ButtonUNIGradient = styled(ButtonPrimary)`
   }
 `
 
-export const ButtonOutlined = styled(Base)`
+export const ButtonOutlined = oldStyled(Base)`
   border: 1px solid ${({ theme }) => theme.bg2};
   background-color: transparent;
   color: ${({ theme }) => theme.text1};
@@ -199,8 +200,9 @@ export const ButtonOutlined = styled(Base)`
   }
 `
 
-export const ButtonEmpty = styled(Base)`
-   background-color: transparent;
+export const ButtonEmpty = oldStyled(Base)`
+  background-color: transparent;
+
   color: ${({ theme }) => theme.primary1};
   display: flex;
   justify-content: center;
@@ -221,7 +223,7 @@ export const ButtonEmpty = styled(Base)`
   }
 `
 
-export const ButtonWhite = styled(Base)`
+export const ButtonWhite = oldStyled(Base)`
   border: 1px solid #edeef2;
   background-color: ${({ theme }) => theme.bg1};
   color: black;
@@ -242,7 +244,7 @@ export const ButtonWhite = styled(Base)`
   }
 `
 // ntf card button
-export const NftButton=styled(Base)<{color?:string}>`
+export const NftButton = oldStyled(Base)<{ color?: string }>`
 color: black;
 background-color: transparent;
 width:100%;
@@ -250,11 +252,10 @@ font-size: 1em;
 margin: 1em;
 padding: 0.25em 1em;
 border: none;
-color: ${({color}) =>color}
-`;
+color: ${({ color }) => color}
+`
 
-
-const ButtonConfirmedStyle = styled(Base)`
+const ButtonConfirmedStyle = oldStyled(Base)`
   background-color: ${({ theme }) => lighten(0.5, theme.green1)};
   color: ${({ theme }) => theme.green1};
   border: 1px solid ${({ theme }) => theme.green1};
@@ -265,7 +266,7 @@ const ButtonConfirmedStyle = styled(Base)`
   }
 `
 
-const ButtonErrorStyle = styled(Base)`
+const ButtonErrorStyle = oldStyled(Base)`
   background-color: ${({ theme }) => theme.red1};
   border: 1px solid ${({ theme }) => theme.red1};
 
@@ -297,7 +298,7 @@ export function ButtonConfirmed({
   if (confirmed) {
     return <ButtonConfirmedStyle {...rest} />
   } else {
-    return <ButtonPrimary {...rest} altDisabledStyle={altDisabledStyle} />
+    return <ButtonPrimaryy {...rest} altDisabledStyle={altDisabledStyle} />
   }
 }
 
@@ -305,18 +306,18 @@ export function ButtonError({ error, ...rest }: { error?: boolean } & ButtonProp
   if (error) {
     return <ButtonErrorStyle {...rest} />
   } else {
-    return <ButtonPrimary {...rest} />
+    return <ButtonPrimaryy {...rest} />
   }
 }
 
 export function ButtonDropdown({ disabled = false, children, ...rest }: { disabled?: boolean } & ButtonProps) {
   return (
-    <ButtonPrimary {...rest} disabled={disabled}>
+    <ButtonPrimaryy {...rest} disabled={disabled}>
       <RowBetween>
         <div style={{ display: 'flex', alignItems: 'center' }}>{children}</div>
         <ChevronDown size={24} />
       </RowBetween>
-    </ButtonPrimary>
+    </ButtonPrimaryy>
   )
 }
 
@@ -346,6 +347,27 @@ export function ButtonRadio({ active, ...rest }: { active?: boolean } & ButtonPr
   if (!active) {
     return <ButtonWhite {...rest} />
   } else {
-    return <ButtonPrimary {...rest} />
+    return <ButtonPrimaryy {...rest} />
   }
 }
+
+export const ButtonBase = styled(Button)({
+  textTransform: 'none',
+  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.135216)'
+})
+
+export const ButtonPrimary = styled(ButtonBase)({
+  backgroundColor: '#000000',
+  color: '#FFFFFF',
+  '&:hover': {
+    backgroundColor: '#000000',
+    color: '#FFFFFF'
+  }
+})
+
+export const ButtonSearch = styled(ButtonPrimary)({
+  width: '8.5vw',
+  height: '6vh',
+  borderRadius: '0px 4px 4px 0px',
+  fontSize: '18px'
+})
