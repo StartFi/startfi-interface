@@ -1,13 +1,8 @@
-export interface NftCardContent {
-    ntfImg: string
-    title: string
-    price: string
-    description: string
-  }
+import { NFT } from "state/nfts/reducer";
 
  export interface NftCardProps {
-    cardContent: NftCardContent
-    navigateToCard: (clickedCard: NftCardContent) => void
-    addToWhiteList: (clickedCard: NftCardContent) => void
-    placeBid: (clickedCard: NftCardContent) => void
+    cardContent: NFT
+    navigateToCard: (clickedCard: NFT) => void
+    addToWhiteList: (clickedCard: NFT) => void
+    placeBid: (clickedCard: NFT) => void
   }
