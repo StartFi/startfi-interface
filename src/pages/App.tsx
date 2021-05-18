@@ -12,8 +12,8 @@ import Web3ReactManager from '../components/Web3ReactManager'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
 
 //  for  Card testing
-import NTFCard from '../components/NFTcard/nftcard'
-import { NftCardContent } from 'components/NFTcard/nftcard.interface'
+import NTFCard, { NftCardContent } from '../components/NFTcard/nftcard'
+
 
 // DEMO NTF CARD CONTENT
 const nftCrd: NftCardContent = {

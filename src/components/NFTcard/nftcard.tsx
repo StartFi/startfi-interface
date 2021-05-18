@@ -3,22 +3,41 @@ import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
+// import CardMedia from '@material-ui/core/CardMedia'
 import Icon from '@material-ui/core/Icon'
 import { useStyles } from './nftcard.styles'
 import { NftButton } from '../Button/index'
-import { NftCardProps } from './nftcard.interface'
+
+
+export interface NftCardContent {
+  ntfImg: string
+  title: string
+  price: string
+  description: string
+}
+
+export interface NftCardProps {
+  cardContent: NftCardContent
+  navigateToCard: (clickedCard: NftCardContent) => void
+  addToWhiteList: (clickedCard: NftCardContent) => void
+  placeBid: (clickedCard: NftCardContent) => void
+}
 
 const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhiteList, placeBid }) => {
   const classes = useStyles()
   return (
     <div>
-      <Card>
+      <Card className={classes.card}>
         <CardActionArea>
-          <CardMedia className={classes.media}  component="img" image={cardContent.ntfImg} title="IMG" />
+          {/* <CardMedia className={classes.media}  component="img" image={cardContent.ntfImg} title="IMG" /> */}
+          <div className={classes.media}  >
+            <img src={cardContent.ntfImg}/>
+          </div>
+
+
           <CardContent onClick={() => navigateToCard(cardContent)}>
             <div className={classes.price}>
-              <h3>{cardContent.price}</h3>
+              <p>{cardContent.price}</p>
             </div>
             <div>
               <h2>{cardContent.title}</h2>
