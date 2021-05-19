@@ -58,7 +58,6 @@ const Web3StatusError = styled(Web3StatusGeneric)`
 `
 
 const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
-  background-color: ${({ theme }) => theme.primary4};
   border: none;
   color: ${({ theme }) => theme.primaryText1};
   font-weight: 500;
@@ -72,14 +71,18 @@ const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
   ${({ faded }) =>
     faded &&
     css`
-      background-color: ${({ theme }) => theme.primary5};
-      border: 1px solid ${({ theme }) => theme.primary5};
-      color: ${({ theme }) => theme.primaryText1};
+      border: 2px solid #000000;
+      filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.135216));
+      border-radius: 4px;
+      font-size: 1rem;
+      color: #000000;
+      width: 10vw;
+      height: 6vh;
 
       :hover,
       :focus {
-        border: 1px solid ${({ theme }) => darken(0.05, theme.primary4)};
-        color: ${({ theme }) => darken(0.05, theme.primaryText1)};
+        border: 2px solid #000000;
+        color: #000000;
       }
     `}
 `
@@ -121,7 +124,6 @@ const NetworkIcon = styled(Activity)`
 function newTransactionsFirst(a: TransactionDetails, b: TransactionDetails) {
   return b.addedTime - a.addedTime
 }
-
 
 // eslint-disable-next-line react/prop-types
 function StatusIcon({ connector }: { connector: AbstractConnector }) {
@@ -171,7 +173,7 @@ function Web3StatusInner() {
   const pending = sortedRecentTransactions.filter(tx => !tx.receipt).map(tx => tx.hash)
 
   const hasPendingTransactions = !!pending.length
-   const toggleWalletModal = useWalletModalToggle()
+  const toggleWalletModal = useWalletModalToggle()
 
   if (account) {
     return (
@@ -182,7 +184,6 @@ function Web3StatusInner() {
           </RowBetween>
         ) : (
           <>
-         
             <Text>{ENSName || shortenAddress(account)}</Text>
           </>
         )}
@@ -199,7 +200,7 @@ function Web3StatusInner() {
   } else {
     return (
       <Web3StatusConnect id="connect-wallet" onClick={toggleWalletModal} faded={!account}>
-        <Text>{t('Connect to a wallet')}</Text>
+        <Text>{t('Connect wallet')}</Text>
       </Web3StatusConnect>
     )
   }

@@ -1,8 +1,9 @@
+import NFTsHeader from 'components/Header/NFTsHeader'
 import React, { Suspense } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
- import Header from '../components/Header'
+// import Header from '../components/Header'
 import Polling from '../components/Header/Polling'
 import URLWarning from '../components/Header/URLWarning'
 import Popups from '../components/Popups'
@@ -10,25 +11,21 @@ import Web3ReactManager from '../components/Web3ReactManager'
 // import { ApplicationModal } from '../state/application/actions'
 // import { useModalOpen, useToggleModal } from '../state/application/hooks'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
- 
+import NFTs from './NFTs'
+
 const AppWrapper = styled.div`
   display: flex;
   flex-flow: column;
   align-items: flex-start;
   overflow-x: hidden;
-`
-
-const HeaderWrapper = styled.div`
-  ${({ theme }) => theme.flexRowNoWrap}
   width: 100%;
-  justify-content: space-between;
+  padding: 3vh 3vw;
 `
 
 const BodyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding-top: 100px;
   align-items: center;
   flex: 1;
   overflow-y: auto;
@@ -47,8 +44,6 @@ const Marginer = styled.div`
   margin-top: 5rem;
 `
 
- 
-
 export default function App() {
   return (
     <Suspense fallback={null}>
@@ -56,18 +51,14 @@ export default function App() {
       <Route component={DarkModeQueryParamReader} />
       <AppWrapper>
         <URLWarning />
-        <HeaderWrapper>
-          <Header />
-        </HeaderWrapper>
+        <NFTsHeader />
         <BodyWrapper>
           <Popups />
           <Polling />
           <Web3ReactManager>
             <Switch>
-            
-              
-              
-             </Switch>
+              <Route path="" component={NFTs} />
+            </Switch>
           </Web3ReactManager>
           <Marginer />
         </BodyWrapper>

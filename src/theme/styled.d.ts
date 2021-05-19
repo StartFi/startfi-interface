@@ -5,6 +5,8 @@ export interface Colors {
   // base
   white: Color
   black: Color
+  black2: Color
+  placeholder: Color
 
   // text
   text1: Color
