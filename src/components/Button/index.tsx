@@ -202,7 +202,6 @@ export const ButtonOutlined = oldStyled(Base)`
 
 export const ButtonEmpty = oldStyled(Base)`
   background-color: transparent;
-
   color: ${({ theme }) => theme.primary1};
   display: flex;
   justify-content: center;
@@ -245,10 +244,10 @@ export const ButtonWhite = oldStyled(Base)`
 `
 // ntf card button
 export const NftButton = oldStyled(Base)<{ color?: string }>`
-color: black;
+font-weight: 400;
+font-size: 0.75rem;
 background-color: transparent;
 width:100%;
-font-size: 1em;
 margin: 1em;
 padding: 0.25em 1em;
 border: none;
