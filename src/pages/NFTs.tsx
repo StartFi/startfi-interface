@@ -7,9 +7,11 @@ import NTFCard from '../components/NFTcard/nftcard'
 import { COLORS } from 'theme'
 import { useHistory } from 'react-router'
 import { useWhitelistNFT } from 'state/user/hooks'
+import { NFT } from 'state/nfts/reducer'
 
 const NFTS = styled(Grid)({
-  padding: '0 5vw'
+  padding: '0 5vw',
+  width: '100%'
 })
 
 const Header = styled(Grid)({
@@ -40,7 +42,7 @@ const NFTs: React.FC = () => {
 
   return (
     <NFTS container direction="column">
-      <Header container direction="row" justify="space-between">
+      <Header container direction="row" justify="space-between" alignContent="space-between" alignItems="center">
         <Results>
           {nfts.length} results found in {loadtime}ms
         </Results>
@@ -62,17 +64,17 @@ const NFTs: React.FC = () => {
           ))}
         </DropDownSort>
       </Header>
-      <Grid container direction="row" justify="space-between">
-        {nfts.slice(0,3).map(nft => (
-          <Grid key={nft.id}>
-            <NTFCard
-              cardContent={nft}
-              navigateToCard={()=>history.push('NFT', nft)}
-              addToWhiteList={()=>whitelistNFT(nft)}
-              placeBid={()=>history.push('NFT', nft)}
-            ></NTFCard>
-          </Grid>
-        ))}
+      <Grid container direction="row" justify="space-between" spacing={10}>
+        {nfts.map(nft => (
+            <Grid key={nft.id} item>
+              <NTFCard
+                cardContent={nft}
+                navigateToCard={(NFT: NFT)=>history.push('NFT', NFT)}
+                addToWhiteList={(NFT: NFT)=>whitelistNFT(NFT)}
+                placeBid={(NFT: NFT)=>history.push('NFT', NFT)}
+              ></NTFCard>
+            </Grid>
+          ))}
       </Grid>
     </NFTS>
   )
