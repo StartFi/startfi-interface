@@ -32,12 +32,66 @@ const mediaWidthTemplates: { [width in keyof typeof MEDIA_WIDTHS]: typeof css } 
 
 const white = '#FFFFFF'
 const black = '#000000'
+const black2 = '#2C2C2C'
+const placeholder = '#AFAFAF'
+
+export const COLORS = {
+  // base
+  white,
+  black,
+  black2,
+  placeholder,
+
+  // text
+  text1: '#000000',
+  text2: '#565A69',
+  text3: '#888D9B',
+  text4: '#C3C5CB',
+  text5: '#EDEEF2',
+
+  // backgrounds / greys
+  bg1: '#FFFFFF',
+  bg2: '#F7F8FA',
+  bg3: '#EDEEF2',
+  bg4: '#CED0D9',
+  bg5: '#888D9B',
+
+  //specialty colors
+  modalBG: 'rgba(0,0,0,0.3)',
+  advancedBG: 'rgba(255,255,255,0.6)',
+
+  //primary colors
+  primary1: '#ff007a',
+  primary2: '#FF8CC3',
+  primary3: '#FF99C9',
+  primary4: '#F6DDE8',
+  primary5: '#FDEAF1',
+
+  // color text
+  primaryText1: '#ff007a',
+
+  // secondary colors
+  secondary1: '#ff007a',
+  secondary2: '#F6DDE8',
+  secondary3: '#FDEAF1',
+
+  // other
+  red1: '#FD4040',
+  red2: '#F82D3A',
+  red3: '#D60000',
+  green1: '#27AE60',
+  yellow1: '#FFE270',
+  yellow2: '#F3841E',
+  blue1: '#2172E5'
+}
 
 export function colors(darkMode: boolean): Colors {
   return {
     // base
     white,
     black,
+    black2,
+    placeholder,
 
     // text
     text1: darkMode ? '#FFFFFF' : '#000000',

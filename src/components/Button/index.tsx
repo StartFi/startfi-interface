@@ -6,6 +6,7 @@ import { RowBetween } from '../Row'
 import { ChevronDown } from 'react-feather'
 import { Button as RebassButton, ButtonProps } from 'rebass/styled-components'
 import { Button, styled } from '@material-ui/core'
+import { COLORS } from 'theme'
 
 const Base = oldStyled(RebassButton)<{
   padding?: string
@@ -356,11 +357,11 @@ export const ButtonBase = styled(Button)({
 })
 
 export const ButtonPrimary = styled(ButtonBase)({
-  backgroundColor: '#000000',
-  color: '#FFFFFF',
+  backgroundColor: COLORS.black,
+  color: COLORS.white,
   '&:hover': {
-    backgroundColor: '#000000',
-    color: '#FFFFFF'
+    backgroundColor: COLORS.black,
+    color: COLORS.white
   }
 })
 
@@ -368,5 +369,5 @@ export const ButtonSearch = styled(ButtonPrimary)({
   width: '8.5vw',
   height: '6vh',
   borderRadius: '0px 4px 4px 0px',
-  fontSize: '18px'
+  fontSize: '1.125rem'
 })

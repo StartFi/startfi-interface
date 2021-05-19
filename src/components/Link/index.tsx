@@ -1,10 +1,11 @@
 import { Link, styled } from '@material-ui/core'
+import { COLORS } from 'theme'
 
 export const LinkBase = styled(Link)({
-  color: '#000000'
+  color: COLORS.black
 })
 
 export const LinkCreateNFT = styled(LinkBase)({
-  fontSize: '18px',
+  fontSize: '1.125rem',
   fontWeight: 500
 })

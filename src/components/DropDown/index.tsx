@@ -1,11 +1,12 @@
 import { Select, styled } from '@material-ui/core'
+import { COLORS } from 'theme'
 
 export const DropDownBase = styled(Select)({
-  color: '#2C2C2C',
+  color: COLORS.black2,
   padding: '0 1vw',
   borderRadius: '8px',
   boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.135216)',
-  fontSize: '14px'
+  fontSize: '0.875rem'
 })
 
 export const DropDownSort = styled(DropDownBase)({

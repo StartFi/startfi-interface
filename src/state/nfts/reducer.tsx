@@ -23,8 +23,13 @@ const initialState: NFTState = {
 }
 
 export default createReducer(initialState, builder =>
-  builder.addCase(getNFTs.fulfilled, (state, action) => {
-    state.nfts = action.payload.nfts
-    state.loadtime = action.payload.loadtime
-  })
+  builder
+    .addCase(getNFTs.pending, (state, action) => {})
+    .addCase(getNFTs.fulfilled, (state, action) => {
+      state.nfts = action.payload.nfts
+      state.loadtime = action.payload.loadtime
+    })
+    .addCase(getNFTs.rejected, (state, action) => {
+      //notify
+    })
 )

@@ -74,7 +74,7 @@ const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
       border: 2px solid #000000;
       filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.135216));
       border-radius: 4px;
-      font-size: 16px;
+      font-size: 1rem;
       color: #000000;
       width: 10vw;
       height: 6vh;
