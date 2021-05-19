@@ -242,14 +242,16 @@ export const ButtonWhite = styled(Base)`
   }
 `
 // ntf card button
-export const NftButton=styled(Base)<{color?:string}>`
+export const NftButton=styled(Base)<{color?:string,border?:string}>`
 color: black;
 background-color: transparent;
 width:100%;
 font-size: 1em;
 margin: 1em;
 padding: 0.25em 1em;
-border: none;
+border: none;border: none;
+border:  ${({border}) =>border};
+
 color: ${({color}) =>color}
 `;
 
