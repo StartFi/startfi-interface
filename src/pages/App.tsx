@@ -13,6 +13,7 @@ import Web3ReactManager from '../components/Web3ReactManager'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
 import NFTs from './NFTs'
 
+
 const AppWrapper = styled.div`
   display: flex;
   flex-flow: column;

@@ -50,4 +50,4 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhi
   )
 }
 
-export default NTFCard
+export default NTFCard;
