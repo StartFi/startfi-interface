@@ -1,6 +1,6 @@
 import NFTsHeader from 'components/Header/NFTsHeader'
 import React, { Suspense } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import {  Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 // import Header from '../components/Header'
@@ -55,13 +55,18 @@ export default function App() {
         <BodyWrapper>
           <Popups />
           <Polling />
+
           <Web3ReactManager>
             <Switch>
               <Route path="" component={NFTs} />
             </Switch>
+
           </Web3ReactManager>
+
+
           <Marginer />
         </BodyWrapper>
+
       </AppWrapper>
     </Suspense>
   )

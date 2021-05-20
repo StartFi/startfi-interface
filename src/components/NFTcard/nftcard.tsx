@@ -16,22 +16,27 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhi
   const classes = useStyles()
   return (
     <div>
-      <Card className={classes.card}>
-        <div className={classes.media}>
-          <img src={cardContent.image} />
-        </div>
+      <Card>
 
-        <div onClick={() => navigateToCard(cardContent)}>
-          <div className={classes.price}>
-            <p>{cardContent.price} ETH</p>
-          </div>
-          <div>
-            <p className={classes.title}>{cardContent.name}</p>
-            <p className={classes.description}> {cardContent.description}</p>
-          </div>
-        </div>
+        <CardActionArea>
 
-        <div className={classes.action}>
+        {/* <Link  to="/product"> */}
+          <CardMedia className={classes.media}  component="img" image={cardContent.ntfImg} title="IMG" />
+          {/* </Link> */}
+
+          <CardContent onClick={() => navigateToCard(cardContent)}>
+
+            <div className={classes.price}>
+              <h3>{cardContent.price}</h3>
+            </div>
+            <div>
+              <h2>{cardContent.title}</h2>
+              <p> {cardContent.description}</p>
+            </div>
+          </CardContent>
+        </CardActionArea>
+
+        <CardActions className={classes.action} disableSpacing={true}>
           <div className={classes.whiteList}>
             <img className={classes.icon} src={Path} />
             <NftButton onClick={() => addToWhiteList(cardContent)} color='#000000'>

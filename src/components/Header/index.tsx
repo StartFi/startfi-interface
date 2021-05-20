@@ -118,8 +118,6 @@ const AccountElement = styled.div<{ active: boolean }>`
   }
 `
 
-
-
 const HideSmall = styled.span`
   ${({ theme }) => theme.mediaWidth.upToSmall`
     display: none;
@@ -195,7 +193,6 @@ const StyledNavLink = styled(NavLink).attrs({
   }
 `
 
-
 export const StyledMenuButton = styled.button`
   position: relative;
   width: 100%;
@@ -240,28 +237,24 @@ export default function Header() {
   // const [isDark] = useDarkModeManager()
   const [darkMode, toggleDarkMode] = useDarkModeManager()
 
-
-
-
-
   const [] = useState(false)
-
 
   return (
     <HeaderFrame>
-    
       <HeaderRow>
-        <Title href=".">
+        <Title href='.'>
           <UniIcon>
-            <img width={'24px'} src={darkMode ? LogoDark : Logo} alt="logo" />
+            <img width={'24px'} src={darkMode ? LogoDark : Logo} alt='logo' />
           </UniIcon>
         </Title>
         <HeaderLinks>
           <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
             {t('swap')}
           </StyledNavLink>
-          
-     
+
+          <StyledNavLink id={`swap-nav-link`} to={'/product'}>
+            {t('product')}
+          </StyledNavLink>
         </HeaderLinks>
       </HeaderRow>
       <HeaderControls>
@@ -273,7 +266,7 @@ export default function Header() {
           </HideSmall>
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             {account && userEthBalance ? (
-              <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
+              <BalanceText style={{ flexShrink: 0 }} pl='0.75rem' pr='0.5rem' fontWeight={500}>
                 {userEthBalance?.toSignificant(4)} ETH
               </BalanceText>
             ) : null}

@@ -244,16 +244,18 @@ export const ButtonWhite = oldStyled(Base)`
   }
 `
 // ntf card button
-export const NftButton = oldStyled(Base)<{ color?: string }>`
-font-weight: 400;
-font-size: 0.75rem;
+export const NftButton=oldStyled(Base)<{color?:string,border?:string}>`
+color: black;
 background-color: transparent;
 width:100%;
 margin: 1em;
 padding: 0.25em 1em;
-border: none;
-color: ${({ color }) => color}
-`
+border: none;border: none;
+border:  ${({border}) =>border};
+
+color: ${({color}) =>color}
+`;
+
 
 const ButtonConfirmedStyle = oldStyled(Base)`
   background-color: ${({ theme }) => lighten(0.5, theme.green1)};
