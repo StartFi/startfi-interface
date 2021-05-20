@@ -1,13 +1,16 @@
 import React from 'react'
 import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import Icon from '@material-ui/core/Icon'
+import Path from '../../assets/svg/Path.svg'
 import { useStyles } from './nftcard.styles'
 import { NftButton } from '../Button/index'
-import { NftCardProps } from './nftcard.interface'
+import { NFT } from 'state/nfts/reducer'
+
+export interface NftCardProps {
+  cardContent: NFT
+  navigateToCard: (clickedCard: NFT) => void
+  addToWhiteList: (clickedCard: NFT) => void
+  placeBid: (clickedCard: NFT) => void
+}
 
 const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhiteList, placeBid }) => {
   const classes = useStyles()
@@ -35,8 +38,10 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhi
 
         <CardActions className={classes.action} disableSpacing={true}>
           <div className={classes.whiteList}>
-            <Icon className={classes.icon}>favorite_border</Icon>
-            <NftButton onClick={() => addToWhiteList(cardContent)}>WhiteList</NftButton>
+            <img className={classes.icon} src={Path} />
+            <NftButton onClick={() => addToWhiteList(cardContent)} color='#000000'>
+              WHITELIST
+            </NftButton>
           </div>
           <div className={classes.bid}>
             <NftButton onClick={() => placeBid(cardContent)} color='#ffffff'>
@@ -44,7 +49,7 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhi
               place a bid
             </NftButton>
           </div>
-        </CardActions>
+        </div>
       </Card>
     </div>
   )

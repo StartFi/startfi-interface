@@ -1,9 +1,10 @@
 import { ChainId, Pair, Token } from '@uniswap/sdk'
 import { useCallback, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { NFT } from 'state/nfts/reducer'
 
 import { useActiveWeb3React } from '../../hooks'
- import { AppDispatch, AppState } from '../index'
+import { AppDispatch, AppState } from '../index'
 import {
   addSerializedPair,
   addSerializedToken,
@@ -15,9 +16,15 @@ import {
   updateUserExpertMode,
   updateUserSlippageTolerance,
   toggleURLWarning,
-  updateUserSingleHopOnly
+  updateUserSingleHopOnly,
+  whitelistNFT
 } from './actions'
 
+export const useWhitelistNFT = (): ((nft: NFT) => void) => {
+  const dispatch = useDispatch()
+  const user = ''
+  return useCallback((nft: NFT) => dispatch(whitelistNFT({ user, nft })), [dispatch])
+}
 function serializeToken(token: Token): SerializedToken {
   return {
     chainId: token.chainId,
@@ -184,4 +191,3 @@ export function useURLWarningToggle(): () => void {
   const dispatch = useDispatch()
   return useCallback(() => dispatch(toggleURLWarning()), [dispatch])
 }
-
