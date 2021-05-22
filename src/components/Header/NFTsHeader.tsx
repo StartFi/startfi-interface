@@ -16,10 +16,9 @@ import Music from '../../assets/icons/musictab.svg'
 import Images from '../../assets/icons/imagestab.svg'
 import { useGetNFTs } from 'state/nfts/hooks'
 import { useHistory } from 'react-router'
+import { CATEGORIES, Dictionary } from './../../constants'
 
-const CATEGORIES = ['All', 'Music', 'Books', 'Videos', 'Art', 'Images', 'Games']
-
-type Dictionary = { [index: string]: string }
+const Categories = ['All', ...CATEGORIES]
 
 const TabIcons: Dictionary = {
   Books: Books,
@@ -56,7 +55,7 @@ const NFTsHeader: React.FC = () => {
         <Link onClick={() => history.push('whitelist')} underline="none">
           <img src={Heart} alt="Whitelist" />
         </Link>
-        <LinkCreateNFT onClick={() => history.push('createnft')} underline="none">
+        <LinkCreateNFT to="mintnft">
           Create NFT
         </LinkCreateNFT>
         <Wallet />
@@ -65,10 +64,10 @@ const NFTsHeader: React.FC = () => {
         value={category}
         onChange={(e, category) => {
           setCategory(category)
-          getNFTs({ category: CATEGORIES[category] })
+          getNFTs({ category: Categories[category] })
         }}
       >
-        {CATEGORIES.map(category => (
+        {Categories.map(category => (
           <TabCategory
             key={category}
             label={
