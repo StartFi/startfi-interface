@@ -48,6 +48,7 @@ const NFTs: React.FC = () => {
           {nfts.length} results found in {loadtime}ms
         </Results>
         <DropDownSort
+          boxshadow
           name="sort"
           options={SORTBY}
           value={sort}

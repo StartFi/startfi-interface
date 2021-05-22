@@ -16,6 +16,11 @@ interface DropDownProps {
   ) => void
   width?: string
   label?: string
+  boxshadow?: boolean
+}
+
+interface StyleProps {
+  boxshadow?: boolean;
 }
 
 const useStyles = makeStyles({
@@ -33,8 +38,8 @@ const useStyles = makeStyles({
     borderRadius: '8px',
     background: '#FFFFFF',
     fontSize: '0.875rem',
-    height: '7vh'
-    // boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.135216)'
+    height: '7vh',
+    boxShadow: (props: StyleProps) => props.boxshadow ? '0px 2px 8px rgba(0, 0, 0, 0.135216)' : 'none'
   },
   menu: {
     borderRadius: '8px',
@@ -45,12 +50,17 @@ const useStyles = makeStyles({
     }
   },
   input: {
-    paddingLeft: '1vw'
+    paddingLeft: '1vw',
+    marginRight: '3px'
   },
   item: {
     height: '7.5vh',
     fontSize: '1rem',
     borderBottom: '1px solid #DDDDDD',
+    backgroundColor: COLORS.white,
+    '&:focus': {
+      backgroundColor: COLORS.white,
+    },
     '&:hover': {
       color: COLORS.white,
       backgroundColor: COLORS.black
@@ -70,9 +80,11 @@ export const DropDown: React.FunctionComponent<DropDownProps> = ({
   value,
   onChange,
   width,
-  label
+  label,
+  boxshadow
 }: DropDownProps) => {
-  const classes = useStyles()
+
+  const classes = useStyles({boxshadow})
 
   return (
     <FormControl style={{ minWidth: width }}>

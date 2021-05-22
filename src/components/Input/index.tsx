@@ -120,17 +120,13 @@ export const InputFile = ({ name, label, value, onChange, error }: any) => {
 }
 
 const InputUnderline = styled.input`
+  width: 100%;
   border: none;
   border-bottom: 1px solid #dddddd;
   outline: none;
   padding: 2vh 0;
   font-size: 1rem;
   color: #0b0b0b;
-  &::placeholder,
-  :-ms-input-placeholder,
-  ::-webkit-input-placeholder {
-    color: blue;
-  }
 `
 
 const InputOutline = styled.textarea`
@@ -140,11 +136,6 @@ const InputOutline = styled.textarea`
   resize: none;
   line-height: 28px;
   letter-spacing: 0.04em;
-  &::placeholder,
-  :-ms-input-placeholder,
-  ::-webkit-input-placeholder {
-    padding: 1vh 1vw;
-  }
 `
 
 const Label = styled.div`

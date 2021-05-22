@@ -56,7 +56,7 @@ const NFTsHeader: React.FC = () => {
           <img src={Heart} alt="Whitelist" />
         </Link>
         <LinkCreateNFT to="mintnft">
-          Create NFT
+          Start Earning
         </LinkCreateNFT>
         <Wallet />
       </Grid>
