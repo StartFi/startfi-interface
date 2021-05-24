@@ -11,7 +11,8 @@ import Web3ReactManager from '../components/Web3ReactManager'
 // import { ApplicationModal } from '../state/application/actions'
 // import { useModalOpen, useToggleModal } from '../state/application/hooks'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
-import NFTs from './NFTs'
+// import NFTs from './NFTs'
+import {LandingPage} from '../components/LandingPage'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -58,7 +59,7 @@ export default function App() {
 
           <Web3ReactManager>
             <Switch>
-              <Route path="" component={NFTs} />
+              <Route path="" component={LandingPage} />
             </Switch>
 
           </Web3ReactManager>
