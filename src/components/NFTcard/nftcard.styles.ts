@@ -47,8 +47,9 @@ export const useStyles = makeStyles({
     height: 14,
     fontFamily: 'Roboto',
     fontWeight: 400,
-    fontSize: '0.75rem',
-    lineHeight: '0.875rem'
+    fontSize: '0.74rem',
+    lineHeight: '0.875rem',
+    marginBottom:16,
   },
   action: {
     display: 'flex',

@@ -1,6 +1,6 @@
 import NFTsHeader from 'components/Header/NFTsHeader'
 import React, { Suspense } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import {  Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 // import Header from '../components/Header'
@@ -11,7 +11,8 @@ import Web3ReactManager from '../components/Web3ReactManager'
 // import { ApplicationModal } from '../state/application/actions'
 // import { useModalOpen, useToggleModal } from '../state/application/hooks'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
-import NFTs from './NFTs'
+// import NFTs from './NFTs'
+import {LandingPage} from '../components/LandingPage'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -55,13 +56,18 @@ export default function App() {
         <BodyWrapper>
           <Popups />
           <Polling />
+
           <Web3ReactManager>
             <Switch>
-              <Route path="" component={NFTs} />
+              <Route path="" component={LandingPage} />
             </Switch>
+
           </Web3ReactManager>
+
+
           <Marginer />
         </BodyWrapper>
+
       </AppWrapper>
     </Suspense>
   )
