@@ -142,6 +142,7 @@ export function colors(darkMode: boolean): Colors {
 }
 
 export function theme(darkMode: boolean): DefaultTheme {
+  darkMode = false
   return {
     ...colors(darkMode),
 
