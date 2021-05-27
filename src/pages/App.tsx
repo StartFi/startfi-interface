@@ -13,6 +13,7 @@ import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
 import MintNFT from '../components/MintNFT'
 import NFTs from './NFTs'
 
+
 const AppWrapper = styled.div`
   display: flex;
   flex-flow: column;
@@ -53,14 +54,19 @@ export default function App() {
         <BodyWrapper>
           <Popups />
           <Polling />
+
           <Web3ReactManager>
+
             <BrowserRouter>
               <Route path="/nfts" component={NFTs} />
               <Route path="/mintnft" component={MintNFT} />
             </BrowserRouter>
           </Web3ReactManager>
+
+
           <Marginer />
         </BodyWrapper>
+
       </AppWrapper>
     </Suspense>
   )
