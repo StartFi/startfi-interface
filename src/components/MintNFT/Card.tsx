@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
+import { useHistory } from 'react-router'
 
 const Container = styled.div`
   display: flex;
@@ -39,6 +40,7 @@ const Footer = styled.div`
 `
 
 const Card: React.FC = () => {
+  const history = useHistory()
   const [state, setState] = useState<Dictionary>({
     category: '',
     file: null,
@@ -75,6 +77,7 @@ const Card: React.FC = () => {
         }
         break
       case 3:
+        history.push('/mintednft')
         console.log(state)
         break
       default:

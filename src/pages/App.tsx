@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { BrowserRouter, Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 // import Header from '../components/Header'
@@ -12,7 +12,9 @@ import Web3ReactManager from '../components/Web3ReactManager'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
 import MintNFT from '../components/MintNFT'
 import NFTs from './NFTs'
-
+import { LandingPage } from 'components/LandingPage'
+import Nftproduct from 'components/NFTproduct/Nftproduct'
+import MintingCongrats from 'components/MintingCongrats/mintingCongrats'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -54,19 +56,17 @@ export default function App() {
         <BodyWrapper>
           <Popups />
           <Polling />
-
           <Web3ReactManager>
-
-            <BrowserRouter>
-              <Route path="/nfts" component={NFTs} />
-              <Route path="/mintnft" component={MintNFT} />
-            </BrowserRouter>
+            <Switch>
+              <Route exact path="/" component={LandingPage} />
+              <Route exact path="/nfts" component={NFTs} />
+              <Route exact path="/nft" component={Nftproduct} />
+              <Route exact path="/mintnft" component={MintNFT} />
+              <Route exact path="/mintednft" component={MintingCongrats} />
+            </Switch>
           </Web3ReactManager>
-
-
           <Marginer />
         </BodyWrapper>
-
       </AppWrapper>
     </Suspense>
   )

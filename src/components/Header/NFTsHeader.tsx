@@ -35,7 +35,6 @@ const FullWidth = styled(Box)({
 })
 
 const NFTsHeader: React.FC = () => {
-
   const history = useHistory()
 
   const [search, setSearch] = useState('')
@@ -47,17 +46,15 @@ const NFTsHeader: React.FC = () => {
   return (
     <FullWidth>
       <Grid container direction="row" justify="space-between" alignItems="center">
-        <img src={Logo} alt="Logo"/>
+        <img src={Logo} alt="Logo" onClick={() => history.push('/')} />
         <Grid>
-          <InputSearch value={search} onChange={(e: any) => setSearch(e.target.value)}/>
+          <InputSearch value={search} onChange={(e: any) => setSearch(e.target.value)} />
           <ButtonSearch onClick={() => getNFTs({ search })}>Search</ButtonSearch>
         </Grid>
         <Link onClick={() => history.push('whitelist')} underline="none">
           <img src={Heart} alt="Whitelist" />
         </Link>
-        <LinkCreateNFT to="mintnft">
-          Start Earning
-        </LinkCreateNFT>
+        <LinkCreateNFT to="mintnft">Start Earning</LinkCreateNFT>
         <Wallet />
       </Grid>
       <TabsCategory
@@ -72,7 +69,7 @@ const NFTsHeader: React.FC = () => {
             key={category}
             label={
               <Grid container direction="row" justify="center" alignItems="center">
-                <img src={TabIcons[category]} style={{ marginRight: '1vw' }} alt={category}/>
+                <img src={TabIcons[category]} style={{ marginRight: '1vw' }} alt={category} />
                 {category}
               </Grid>
             }

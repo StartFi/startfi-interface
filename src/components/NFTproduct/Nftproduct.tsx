@@ -7,6 +7,13 @@ import Path from '../../assets/svg/Path.svg'
 
 import { useStyles } from './Nftproduct.styles'
 import ReadMore from '../ReadMore/readmore'
+import NFTsHeader from 'components/Header/NFTsHeader'
+import styled from 'styled-components'
+
+const NFTS = styled(Grid)({
+  padding: '4vh 3.2vw',
+  width: '100%'
+})
 
 const Nftproduct = () => {
   const classes = useStyles()
@@ -16,20 +23,22 @@ const Nftproduct = () => {
   const showScroll = (res: boolean) => {
     setIsReadMore(res)
   }
+
   return (
-    <div>
-      <Grid className={classes.container} container direction='row'>
+    <NFTS container direction="column">
+      <NFTsHeader />
+      <Grid className={classes.container} container direction="row" justify="center">
         {/* left */}
         {/* <Grid item> */}
         <div>
-          <Grid container direction='column'>
+          <Grid container direction="column">
             <Card className={classes.img}>
               <div>
                 <img src={Vector} />
                 <p>1234 Views</p>{' '}
               </div>
 
-              <CardMedia className={classes.img} component='img' image={image} title='IMG' />
+              <CardMedia className={classes.img} component="img" image={image} title="IMG" />
             </Card>
 
             {/* created by */}
@@ -55,7 +64,7 @@ const Nftproduct = () => {
 
         {/* right */}
         <div>
-          <Grid container direction='column'>
+          <Grid container direction="column">
             <div className={classes.title}>
               <p>Apple Watch Series 4 GPS</p>
             </div>
@@ -85,7 +94,7 @@ const Nftproduct = () => {
                 <button className={classes.buy__now}>BUY NOW</button>
               </div>
             </Card>
-            <Card className={isReadMore ?   classes.description__Scroll:classes.description}>
+            <Card className={isReadMore ? classes.description__Scroll : classes.description}>
               <div className={classes.description__title}>
                 <p>About Apple Watch Series 4 GPS</p>
               </div>
@@ -106,7 +115,7 @@ const Nftproduct = () => {
           </Grid>
         </div>
       </Grid>
-    </div>
+    </NFTS>
   )
 }
 
