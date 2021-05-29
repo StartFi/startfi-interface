@@ -1,18 +1,27 @@
 import { Contract } from '@ethersproject/contracts'
-import { ChainId, WETH } from '@uniswap/sdk'
+import { Token } from '@uniswap/sdk-core'
 import { useMemo } from 'react'
+
+import { ChainId } from '../constants/supportedChains'
+
 import {
   ARGENT_WALLET_DETECTOR_ABI,
   ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS
 } from '../constants/abis/argent-wallet-detector'
 import ENS_PUBLIC_RESOLVER_ABI from '../constants/abis/ens-public-resolver.json'
+import EIP_2612 from '../constants/abis/eip_2612.json'
+import ERC20_BYTES32_ABI from '../constants/abis/erc20_bytes32.json'
 import ENS_ABI from '../constants/abis/ens-registrar.json'
 import { MULTICALL_ABI, MULTICALL_NETWORKS } from '../constants/multicall'
 import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'
 import WETH_ABI from '../constants/abis/weth.json'
 
+import ERC20_ABI from '../constants/abis/erc20.json'
 // returns null on errors
+declare const WETH: {
+  [chainId in ChainId]: Token;
+};
 function useContract(address: string | undefined, ABI: any, withSignerIfPossible = true): Contract | null {
   const { library, account } = useActiveWeb3React()
 
@@ -62,11 +71,21 @@ export function useENSResolverContract(address: string | undefined, withSignerIf
   return useContract(address, ENS_PUBLIC_RESOLVER_ABI, withSignerIfPossible)
 }
 
- 
+export function useBytes32TokenContract(tokenAddress?: string, withSignerIfPossible?: boolean): Contract | null {
+  return useContract(tokenAddress, ERC20_BYTES32_ABI, withSignerIfPossible)
+}
+
+export function useEIP2612Contract(tokenAddress?: string): Contract | null {
+  return useContract(tokenAddress, EIP_2612, false)
+}
+export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: boolean) {
+  return useContract(tokenAddress, ERC20_ABI, withSignerIfPossible)
+}
 
 
 export function useMulticallContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
+  
   return useContract(chainId && MULTICALL_NETWORKS[chainId], MULTICALL_ABI, false)
 }
 

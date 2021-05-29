@@ -1,3 +1,4 @@
+import JSBI from 'jsbi'
 import { Contract } from '@ethersproject/contracts'
 import { getAddress } from '@ethersproject/address'
 import { AddressZero } from '@ethersproject/constants'
@@ -5,8 +6,9 @@ import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
 import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
 import { ROUTER_ADDRESS } from '../constants'
-import { ChainId, JSBI, Percent, CurrencyAmount } from '@uniswap/sdk'
- 
+import { Percent } from '@uniswap/sdk-core'
+import { ChainId } from '../constants/supportedChains'
+
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
   try {
@@ -21,6 +23,9 @@ const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   3: 'ropsten.',
   4: 'rinkeby.',
   5: 'goerli.',
+  56: 'goerli.',
+  97: 'goerli.',
+  1337: 'goerli.',
   42: 'kovan.'
 }
 
@@ -67,15 +72,7 @@ export function basisPointsToPercent(num: number): Percent {
   return new Percent(JSBI.BigInt(num), JSBI.BigInt(10000))
 }
 
-export function calculateSlippageAmount(value: CurrencyAmount, slippage: number): [JSBI, JSBI] {
-  if (slippage < 0 || slippage > 10000) {
-    throw Error(`Unexpected slippage value: ${slippage}`)
-  }
-  return [
-    JSBI.divide(JSBI.multiply(value.raw, JSBI.BigInt(10000 - slippage)), JSBI.BigInt(10000)),
-    JSBI.divide(JSBI.multiply(value.raw, JSBI.BigInt(10000 + slippage)), JSBI.BigInt(10000))
-  ]
-}
+ 
 
 // account is not optional
 export function getSigner(library: Web3Provider, account: string): JsonRpcSigner {
