@@ -26,10 +26,12 @@ const NETWORK_URLS: {
   [3]: `https://ropsten.infura.io/v3/${INFURA_KEY}`,
   [5]: `https://goerli.infura.io/v3/${INFURA_KEY}`,
   [42]: `https://kovan.infura.io/v3/${INFURA_KEY}`,
+  [56]: `https://bsc-dataseed.binance.org/`,
+  [97]: `https://data-seed-prebsc-1-s1.binance.org:8545/`,
   [1337]:`http://208.87.128.217:8545/`,
 }
 
-const SUPPORTED_CHAIN_IDS = [1, 4, 3, 42, 5,1337]
+const SUPPORTED_CHAIN_IDS = [1, 4, 3, 42, 5,56,97,1337]
 
 export const network = new NetworkConnector({
   urls: NETWORK_URLS,

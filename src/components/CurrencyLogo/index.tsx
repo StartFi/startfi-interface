@@ -1,11 +1,11 @@
-import { Currency, ETHER, Token } from '@uniswap/sdk'
+import { Currency,Token } from '@uniswap/sdk-core'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
 import EthereumLogo from '../../assets/images/ethereum-logo.png'
 import useHttpLocations from '../../hooks/useHttpLocations'
  import Logo from '../Logo'
-
+ 
 export const getTokenLogoURL = (address: string) =>
   `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
 
@@ -34,18 +34,20 @@ export default function CurrencyLogo({
   style?: React.CSSProperties
 }) {
   const uriLocations = useHttpLocations( undefined)
-
   const srcs: string[] = useMemo(() => {
-    if (currency === ETHER) return []
+    if (!currency || currency.isNative) return []
 
-    if (currency instanceof Token) {
-      
-      return [getTokenLogoURL(currency.address)]
+    if (currency.isToken) {
+      const defaultUrls = currency.chainId === 1 ? [getTokenLogoURL(currency.address)] : []
+      if (currency instanceof Token) {
+        return [...uriLocations, ...defaultUrls]
+      }
+      return defaultUrls
     }
     return []
   }, [currency, uriLocations])
 
-  if (currency === ETHER) {
+  if (currency?.isNative) {
     return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} />
   }
 

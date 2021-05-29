@@ -1,7 +1,9 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { Text } from 'rebass'
-import { ChainId } from '@uniswap/sdk'
+// import { ChainId } from '@uniswap/sdk'
+import { ChainId } from '../../constants/supportedChains'
+
 import { YellowCard } from 'components/Card'
 import { useActiveWeb3React } from 'hooks'
 import { useETHBalances } from 'state/wallet/hooks'
