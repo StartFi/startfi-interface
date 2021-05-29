@@ -1,5 +1,5 @@
 import { Contract } from '@ethersproject/contracts'
-import { Token } from '@uniswap/sdk-core'
+import { Token,WETH9 } from '@uniswap/sdk-core'
 import { useMemo } from 'react'
 
 import { ChainId } from '../constants/supportedChains'
@@ -18,10 +18,21 @@ import { useActiveWeb3React } from './index'
 import WETH_ABI from '../constants/abis/weth.json'
 
 import ERC20_ABI from '../constants/abis/erc20.json'
+import ERC721_ABI from '../constants/abis/erc721.json'
 // returns null on errors
-declare const WETH: {
-  [chainId in ChainId]: Token;
+declare type WETH_Only= {
+  [chainId in ChainId]: Token
 };
+const WETH :WETH_Only={
+  [ChainId.MAINNET]: WETH9[ChainId.MAINNET],
+  [ChainId.ROPSTEN]: WETH9[ChainId.ROPSTEN],
+  [ChainId.RINKEBY]: WETH9[ChainId.RINKEBY],
+  [ChainId.GÖRLI]: WETH9[ChainId.GÖRLI],
+  [ChainId.BSCT]: new Token(ChainId.BSCT, '0x793b6B742e1206C5D3DFAF2Efd85D3919dba60eB', 18, 'ETH', 'Ethereum Token'),
+  [ChainId.BSC]: new Token(ChainId.BSC, '0x2170Ed0880ac9A755fd29B2688956BD959F933F8', 18, 'ETH', 'Binance-Peg Ethereum'),
+  [ChainId.StartFi]:  new Token(ChainId.BSC, '0x2170Ed0880ac9A755fd29B2688956BD959F933F8', 18, 'ETH', 'Binance-Peg Ethereum'),
+  [ChainId.KOVAN]: WETH9[ChainId.KOVAN]
+}
 function useContract(address: string | undefined, ABI: any, withSignerIfPossible = true): Contract | null {
   const { library, account } = useActiveWeb3React()
 
@@ -39,9 +50,13 @@ function useContract(address: string | undefined, ABI: any, withSignerIfPossible
 // left as a reference to follow when consuming startfi contract 
 export function useWETHContract(withSignerIfPossible?: boolean): Contract | null {
   const { chainId } = useActiveWeb3React()
+  console.log(chainId,WETH,'chainId');
+  
   return useContract(chainId ? WETH[chainId].address : undefined, WETH_ABI, withSignerIfPossible)
 }
-
+export const useERC721= (address: string | undefined,withSignerIfPossible?: boolean): Contract | null => {
+  return useContract(address, ERC721_ABI, withSignerIfPossible)
+}
 export function useArgentWalletDetectorContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
   return useContract(
