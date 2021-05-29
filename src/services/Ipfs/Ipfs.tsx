@@ -35,7 +35,7 @@ export const uploadIPFS = async (ipfsMedia: IpfsMedia): Promise<string> => {
           progress: demoCall // for testing purpose not working issue  https://github.com/ipfs/js-ipfs/issues/2854
         }
       )
-      return cid.toString() // To fetch data you need to use the full url ex: `${host}/${cid.toString()}/${data.name}`
+      return cid.toString() // To fetch data you need to use the full url ex: `https://ipfs.io/ipfs/${cid.toString()}/${fileName}`
     }
   } catch (error) {
     return error
