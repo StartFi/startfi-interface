@@ -7,3 +7,4 @@ export enum ipfsEnumStatus {
 }
 export const uploadedToIpfs = createAction<{ IpfsHash: string }>('ipfs/uploaded')
 export const ipfsStatus = createAction<{ status: ipfsEnumStatus }>('ipfs/status')
+export const ipfsProgress = createAction<{ progress: string }>('ipfs/progress')

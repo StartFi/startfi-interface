@@ -19,8 +19,9 @@ export interface IpfsMedia {
   content: ToContent
 }
 
-const demoCall = function(data: any) {
-  console.log('uploaded : ' + data)
+export function ProgressCallIPFS(bytesLoaded: any, dataSize: number): string {
+  console.log('uploaded : ' + (bytesLoaded / dataSize) * 100 + '%')
+  return (bytesLoaded / dataSize) * 100 + '%'
 }
 
 export const uploadIPFS = async (ipfsMedia: IpfsMedia): Promise<string> => {
@@ -32,7 +33,9 @@ export const uploadIPFS = async (ipfsMedia: IpfsMedia): Promise<string> => {
         { path: `${rooDir}/${ipfsMedia.path}`, content: ipfsMedia.content },
         {
           pin: true,
-          progress: demoCall // for testing purpose not working issue  https://github.com/ipfs/js-ipfs/issues/2854
+          progress: function ProgressData(bytesLoad): void {
+            ProgressCallIPFS(bytesLoad, ipfsMedia.content.toString().length)
+          }
         }
       )
       return cid.toString() // To fetch data you need to use the full url ex: `https://ipfs.io/ipfs/${cid.toString()}/${fileName}`
