@@ -1,8 +1,9 @@
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+// import { UserDoc } from 'services/firebase/firebaseStore'
 import { NFTQUERY } from 'services/Storage/NFT'
 import { AppState } from 'state'
-import { getNFTs } from './actions'
+import {  getNFTs } from './actions'
 import { NFTS } from './reducer'
 
 export const useNFTs = (): NFTS => {
@@ -25,3 +26,5 @@ export const useLoadNFTs = (): void => {
     dispatch(getNFTs({}))
   }, [dispatch])
 }
+
+

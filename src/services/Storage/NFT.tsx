@@ -1,3 +1,5 @@
+// import {updateUserDoc} from '../firebase/firebaseStore'
+
 const array = [
   {
     id: 0,

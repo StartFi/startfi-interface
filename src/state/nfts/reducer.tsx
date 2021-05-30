@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { getNFTs } from './actions'
+import {  getNFTs } from './actions'
 
 export interface NFT {
   id: number
