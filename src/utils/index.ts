@@ -25,7 +25,7 @@ const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   5: 'goerli.',
   56: 'goerli.',
   97: 'goerli.',
-  1337: 'goerli.',
+  1337: 'startfi.',
   42: 'kovan.'
 }
 
@@ -72,8 +72,6 @@ export function basisPointsToPercent(num: number): Percent {
   return new Percent(JSBI.BigInt(num), JSBI.BigInt(10000))
 }
 
- 
-
 // account is not optional
 export function getSigner(library: Web3Provider, account: string): JsonRpcSigner {
   return library.getSigner(account).connectUnchecked()
@@ -101,5 +99,3 @@ export function getRouterContract(_: number, library: Web3Provider, account?: st
 export function escapeRegExp(string: string): string {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // $& means the whole matched string
 }
-
- 

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { Contract } from '@ethersproject/contracts'
-import { Token,WETH9 } from '@uniswap/sdk-core'
+import { Token, WETH9 } from '@uniswap/sdk-core'
 import { useMemo } from 'react'
 
 import { ChainId } from '../constants/supportedChains'
@@ -20,17 +21,29 @@ import WETH_ABI from '../constants/abis/weth.json'
 import ERC20_ABI from '../constants/abis/erc20.json'
 import ERC721_ABI from '../constants/abis/erc721.json'
 // returns null on errors
-declare type WETH_Only= {
+declare type WETH_Only = {
   [chainId in ChainId]: Token
-};
-const WETH :WETH_Only={
+}
+const WETH: WETH_Only = {
   [ChainId.MAINNET]: WETH9[ChainId.MAINNET],
   [ChainId.ROPSTEN]: WETH9[ChainId.ROPSTEN],
   [ChainId.RINKEBY]: WETH9[ChainId.RINKEBY],
   [ChainId.GÖRLI]: WETH9[ChainId.GÖRLI],
   [ChainId.BSCT]: new Token(ChainId.BSCT, '0x793b6B742e1206C5D3DFAF2Efd85D3919dba60eB', 18, 'ETH', 'Ethereum Token'),
-  [ChainId.BSC]: new Token(ChainId.BSC, '0x2170Ed0880ac9A755fd29B2688956BD959F933F8', 18, 'ETH', 'Binance-Peg Ethereum'),
-  [ChainId.StartFi]:  new Token(ChainId.BSC, '0x2170Ed0880ac9A755fd29B2688956BD959F933F8', 18, 'ETH', 'Binance-Peg Ethereum'),
+  [ChainId.BSC]: new Token(
+    ChainId.BSC,
+    '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
+    18,
+    'ETH',
+    'Binance-Peg Ethereum'
+  ),
+  [ChainId.StartFi]: new Token(
+    ChainId.BSC,
+    '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
+    18,
+    'ETH',
+    'Binance-Peg Ethereum'
+  ),
   [ChainId.KOVAN]: WETH9[ChainId.KOVAN]
 }
 function useContract(address: string | undefined, ABI: any, withSignerIfPossible = true): Contract | null {
@@ -47,14 +60,14 @@ function useContract(address: string | undefined, ABI: any, withSignerIfPossible
   }, [address, ABI, library, withSignerIfPossible, account])
 }
 
-// left as a reference to follow when consuming startfi contract 
+// left as a reference to follow when consuming startfi contract
 export function useWETHContract(withSignerIfPossible?: boolean): Contract | null {
   const { chainId } = useActiveWeb3React()
-  console.log(chainId,WETH,'chainId');
-  
+  console.log(chainId, WETH, 'chainId')
+
   return useContract(chainId ? WETH[chainId].address : undefined, WETH_ABI, withSignerIfPossible)
 }
-export const useERC721= (address: string | undefined,withSignerIfPossible?: boolean): Contract | null => {
+export const useERC721 = (address: string | undefined, withSignerIfPossible?: boolean): Contract | null => {
   return useContract(address, ERC721_ABI, withSignerIfPossible)
 }
 export function useArgentWalletDetectorContract(): Contract | null {
@@ -97,16 +110,8 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
   return useContract(tokenAddress, ERC20_ABI, withSignerIfPossible)
 }
 
-
 export function useMulticallContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
-  
+
   return useContract(chainId && MULTICALL_NETWORKS[chainId], MULTICALL_ABI, false)
 }
-
-
- 
- 
- 
-
- 
