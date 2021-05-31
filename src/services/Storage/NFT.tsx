@@ -1,9 +1,12 @@
 // import {updateUserDoc} from '../firebase/firebaseStore'
 
-const array = [
+ export const array = [
   {
     id: 0,
     name: 'Apple Watch Series 4 GPS',
+    owner: 'on1',
+    issueDate: Date.now(),
+    onAuction:false,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -12,7 +15,10 @@ const array = [
   {
     id: 1,
     name: 'Apple Watch Series 4 GPS',
+    owner: 'on1',
+    issueDate: Date.now(),
     price: 16,
+    onAuction:false,
     category: 'Music',
     image: 'https://picsum.photos/200',
     description: 'Redesigned from scratch and completely revised'
@@ -20,6 +26,9 @@ const array = [
   {
     id: 2,
     name: 'Apple Watch Series 4 GPS',
+    owner: 'on1',
+    issueDate: Date.now(),
+    onAuction:true,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -28,6 +37,9 @@ const array = [
   {
     id: 3,
     name: 'Apple Watch Series 4 GPSa',
+    owner: 'on1',
+    issueDate: Date.now(),
+    onAuction:false,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -36,6 +48,9 @@ const array = [
   {
     id: 4,
     name: 'Apple Watch Series 4 GPS',
+    owner: 'on1',
+    issueDate: Date.now(),
+    onAuction:false,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -44,6 +59,9 @@ const array = [
   {
     id: 5,
     name: 'Apple Watch Series 4 GPS',
+    owner: 'on1',
+    issueDate: Date.now(),
+    onAuction:true,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -52,6 +70,9 @@ const array = [
   {
     id: 6,
     name: 'Apple Watch Series 4 GPS',
+    owner: 'on1',
+    issueDate: Date.now(),
+    onAuction:true,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
