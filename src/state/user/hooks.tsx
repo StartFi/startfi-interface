@@ -1,4 +1,5 @@
 import { ChainId, Pair, Token } from '@uniswap/sdk'
+
 import { useCallback, useEffect, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { UserDoc } from 'services/firebase/firebaseStore'
@@ -197,9 +198,11 @@ export function useURLWarningToggle(): () => void {
 }
 
 // add user docs
-export const useAddUserDoc = (user: UserDoc) => {
+export const useAddUserDoc = (user:UserDoc,account:any) => {
+  console.log(user)
   const dispatch = useDispatch()
   return useEffect(() => {
+
     dispatch(addUserDocs(user))
-  }, [dispatch])
+  }, [dispatch,account])
 }
