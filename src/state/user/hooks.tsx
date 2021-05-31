@@ -21,8 +21,9 @@ import {
   toggleURLWarning,
   updateUserSingleHopOnly,
   whitelistNFT,
-  addUserDocs
-  // addUserDocs
+  addUserDocs,
+  updateUserDocs
+
 } from './actions'
 
 export const useWhitelistNFT = (): ((nft: NFT) => void) => {
@@ -196,13 +197,20 @@ export function useURLWarningToggle(): () => void {
   const dispatch = useDispatch()
   return useCallback(() => dispatch(toggleURLWarning()), [dispatch])
 }
+// Edit user docs
+export const useEditUserDoc = (user:UserDoc) => {
+  const dispatch = useDispatch()
+  return useEffect(() => {
+       dispatch(updateUserDocs(user))
+  }, [dispatch])
+}
 
 // add user docs
 export const useAddUserDoc = (user:UserDoc,account:any) => {
-  console.log(user)
   const dispatch = useDispatch()
   return useEffect(() => {
-
     dispatch(addUserDocs(user))
   }, [dispatch,account])
 }
+
+

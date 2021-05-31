@@ -17,6 +17,7 @@ import {
   updateUserSingleHopOnly,
   whitelistNFT,
   addUserDocs,
+  updateUserDocs,
   // addUserDocs
 
 } from './actions'
@@ -168,7 +169,18 @@ export default createReducer(initialState, builder =>
     })
 
     .addCase(addUserDocs.rejected,(state, action) => {
-     
+
+      // notify
+    }).addCase(updateUserDocs.pending,(state, action) => {
+
+    })
+    .addCase(updateUserDocs.fulfilled,(state, action) => {
+
+      // notify
+    })
+
+    .addCase(updateUserDocs.rejected,(state, action) => {
+
       // notify
     })
 

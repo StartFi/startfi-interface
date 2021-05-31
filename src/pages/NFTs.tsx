@@ -7,12 +7,11 @@ import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { COLORS } from 'theme'
 import { useHistory } from 'react-router'
-import { useWhitelistNFT} from 'state/user/hooks'
+import {useWhitelistNFT} from 'state/user/hooks'
 import { NFT } from 'state/nfts/reducer'
 import NFTsHeader from 'components/Header/NFTsHeader'
 
-//nft array
-// import {array} from '../services/Storage/NFT'
+
 
 
 
@@ -40,15 +39,8 @@ const NFTs: React.FC = () => {
   useLoadNFTs()
 
 
-  // const user = {
-  //   ehAddress:'final trial',
-  //   name: 'abdelaziz',
-  //   email: 'abdelzizt320@gmail.com'
-  // }
-  // useAddUserDoc(user)
 
-  // add NFT test
-  // useAddNFT(array[5])
+
 
   const nfts = useNFTs()
 
