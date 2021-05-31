@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { useGetNFTs, useLoadNFTs, useLoadTime, useNFTs ,useAddNFT } from 'state/nfts/hooks'
+import { useGetNFTs, useLoadNFTs, useLoadTime, useNFTs ,
+  // useAddNFT
+} from 'state/nfts/hooks'
 import { styled, Box, Grid } from '@material-ui/core/'
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
@@ -10,7 +12,7 @@ import { NFT } from 'state/nfts/reducer'
 import NFTsHeader from 'components/Header/NFTsHeader'
 
 //nft array
-import {array} from '../services/Storage/NFT'
+// import {array} from '../services/Storage/NFT'
 
 
 
@@ -46,7 +48,7 @@ const NFTs: React.FC = () => {
   // useAddUserDoc(user)
 
   // add NFT test
-  useAddNFT(array[1])
+  // useAddNFT(array[5])
 
 
   const nfts = useNFTs()

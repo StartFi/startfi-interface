@@ -1,4 +1,4 @@
-// import {updateUserDoc} from '../firebase/firebaseStore'
+ import {getNfts} from '../firebase/firebaseStore'
 
  export const array = [
   {
@@ -88,8 +88,9 @@ export type NFTQUERY = {
 
 export const getAll = async (query?: NFTQUERY) => {
   const t0 = performance.now()
-  await new Promise(resolve => setTimeout(resolve, 1000))
-  var nfts = [...array]
+  // await new Promise(resolve => setTimeout(resolve, 1000))
+
+  let nfts =await getNfts()
   if (query) {
     const { search, category, sort } = query
     if (search) nfts = nfts.filter(a => a.name.includes(search))
