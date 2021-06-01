@@ -20,6 +20,15 @@ import WETH_ABI from '../constants/abis/weth.json'
 
 import ERC20_ABI from '../constants/abis/erc20.json'
 import ERC721_ABI from '../constants/abis/erc721.json'
+
+import { networks as STARTFI_TOKEN_NETWORK, abi as STARTFI_TOKEN_ABI } from '../constants/abis/StartFiToken.json'
+
+import { networks as STARTFI_NFT_NETWORK, abi as STARTFI_NFT_ABI } from '../constants/abis/StartfiNFT.json'
+import {
+  networks as STARTFI_MARKET_PLACE_NETWORK,
+  abi as STARTFI_MARKET_PLACE_ABI
+} from '../constants/abis/StartfiMarketPlace.json'
+
 // returns null on errors
 declare type WETH_Only = {
   [chainId in ChainId]: Token
@@ -114,4 +123,19 @@ export function useMulticallContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
 
   return useContract(chainId && MULTICALL_NETWORKS[chainId], MULTICALL_ABI, false)
+}
+
+export const useStartFiToken = (withSignerIfPossible?: boolean): Contract | null => {
+  return useContract(STARTFI_TOKEN_NETWORK[3].address, STARTFI_TOKEN_ABI, withSignerIfPossible)
+}
+
+export const useStartFiNft = (withSignerIfPossible?: boolean): Contract | null => {
+  /*   const { chainId } = useActiveWeb3React()
+  const networkId = chainId ? chainId : '3'
+  console.log('network id', networkId) */
+  return useContract(STARTFI_NFT_NETWORK['3'].address, STARTFI_NFT_ABI, withSignerIfPossible)
+}
+
+export const useStartFiMarketPlace = (withSignerIfPossible?: boolean): Contract | null => {
+  return useContract(STARTFI_MARKET_PLACE_NETWORK[3].address, STARTFI_MARKET_PLACE_ABI, withSignerIfPossible)
 }
