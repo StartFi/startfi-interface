@@ -1,10 +1,7 @@
 import { LinkCreateNFT } from 'components/Link'
 import Wallet from 'components/Wallet'
-import { useActiveWeb3React} from 'hooks'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { UserDoc } from 'services/firebase/firebaseStore'
-import { useAddUserDoc } from 'state/user/hooks'
 import styled from 'styled-components'
 import StartFi from '../../assets/svg/StartFi-c 1.svg'
 
@@ -87,14 +84,11 @@ const InnerHeader = styled.div`
 `
 
 export const LandingPage = () => {
-  const { account, } = useActiveWeb3React()
-  const user:UserDoc ={ehAddress:account}
-  useAddUserDoc(user,account)
   return (
     <PageWrapper>
       <Header>
         <InnerHeader>
-          <LinkCreateNFT to="mintnft">Start Earning</LinkCreateNFT>
+          <LinkCreateNFT to='mintnft'>Start Earning</LinkCreateNFT>
           <Wallet />
         </InnerHeader>
       </Header>
@@ -111,8 +105,8 @@ export const LandingPage = () => {
         </p>
       </SubText>
       <LinkContainer>
-        <PageLink to="nfts">Marketplace</PageLink>
-        <PageLink to="">Launchpad</PageLink>
+        <PageLink to='nfts'>Marketplace</PageLink>
+        <PageLink to=''>Launchpad</PageLink>
       </LinkContainer>
     </PageWrapper>
   )

@@ -1,3 +1,4 @@
+import { UserDoc } from 'services/firebase/firebaseStore';
 import { INITIAL_ALLOWED_SLIPPAGE, DEFAULT_DEADLINE_FROM_NOW } from '../../constants'
 import { createReducer } from '@reduxjs/toolkit'
 import { updateVersion } from '../global/actions'
@@ -18,6 +19,7 @@ import {
   whitelistNFT,
   addUserDocs,
   updateUserDocs,
+  getUserDocs,
   // addUserDocs
 
 } from './actions'
@@ -40,11 +42,14 @@ export interface UserState {
 
   // deadline set by user in minutes, used in all txns
   userDeadline: number
+  user:UserDoc
 
   tokens: {
     [chainId: number]: {
       [address: string]: SerializedToken
     }
+
+
   }
 
   pairs: {
@@ -70,6 +75,7 @@ export const initialState: UserState = {
   userSlippageTolerance: INITIAL_ALLOWED_SLIPPAGE,
   userDeadline: DEFAULT_DEADLINE_FROM_NOW,
   tokens: {},
+  user:{ehAddress:null},
   pairs: {},
   timestamp: currentTimestamp(),
   URLWarningVisible: true
@@ -183,5 +189,16 @@ export default createReducer(initialState, builder =>
 
       // notify
     })
+    .addCase(getUserDocs.pending,(state, action) => {
 
+    })
+    .addCase(getUserDocs.fulfilled,(state, action) => {
+      state.user =action.payload
+
+      // notify
+    })
+    .addCase(getUserDocs.rejected,(state, action) => {
+
+      // notify
+    })
 )

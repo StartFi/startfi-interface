@@ -7,9 +7,11 @@ import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { COLORS } from 'theme'
 import { useHistory } from 'react-router'
-import {useWhitelistNFT} from 'state/user/hooks'
+import {
+   useWhitelistNFT} from 'state/user/hooks'
 import { NFT } from 'state/nfts/reducer'
 import NFTsHeader from 'components/Header/NFTsHeader'
+
 
 
 
@@ -35,6 +37,11 @@ const NFTs: React.FC = () => {
   const history = useHistory()
 
   const [sort, setSort] = useState(SORTBY[0])
+
+
+
+  // const user =useUserDoc()
+
 
   useLoadNFTs()
 

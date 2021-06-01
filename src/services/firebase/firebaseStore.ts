@@ -29,14 +29,14 @@ export const updateUserDoc = async (user: UserDoc): Promise<void> => {
 }
 
 // get userData
-const getUseData = async (account: any): Promise<UserDoc> => {
+export const getUseData = async (account: any): Promise<UserDoc> => {
   const userData: UserDoc = await (
     await firebase
       .database()
       .ref('/users/' + account)
       .once('value')
   ).val()
-  console.log(userData)
+
   return userData
 }
 // add/update NFT

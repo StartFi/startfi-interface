@@ -22,7 +22,8 @@ import {
   updateUserSingleHopOnly,
   whitelistNFT,
   addUserDocs,
-  updateUserDocs
+  updateUserDocs,
+  getUserDocs
 
 } from './actions'
 
@@ -213,4 +214,16 @@ export const useAddUserDoc = (user:UserDoc,account:any) => {
   }, [dispatch,account])
 }
 
+// add user docs
+export const useGetUserDoc = (account:any) => {
+  const dispatch = useDispatch()
+  return useEffect(() => {
+    dispatch(getUserDocs(account))
+  }, [dispatch,account])
+}
+
+
+export const useUserDoc = () => {
+  return useSelector((state: AppState) => state.user.user)
+}
 
