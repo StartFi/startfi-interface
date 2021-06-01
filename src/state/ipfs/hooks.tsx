@@ -14,15 +14,15 @@ export const useIpfsStatus = (): ipfsEnumStatus | null => {
 
 export const useUploadToIpfs = (ipfsMedia: IpfsMedia): void => {
   const dispatch = useDispatch()
-  dispatch(ipfsStatus({ status: ipfsEnumStatus['loading'] }))
+  dispatch(ipfsStatus({ status: ipfsEnumStatus['LOADING'] }))
   useEffect(() => {
     const uploadFile = async () => {
       const ipfsHash = await uploadIPFS(ipfsMedia)
       if (ipfsHash) {
         dispatch(uploadedToIpfs({ IpfsHash: ipfsHash }))
-        dispatch(ipfsStatus({ status: ipfsEnumStatus['done'] }))
+        dispatch(ipfsStatus({ status: ipfsEnumStatus['DONE'] }))
       } else {
-        dispatch(ipfsStatus({ status: ipfsEnumStatus['rejected'] }))
+        dispatch(ipfsStatus({ status: ipfsEnumStatus['REJECTED'] }))
       }
     }
     uploadFile()

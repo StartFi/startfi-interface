@@ -1,7 +1,7 @@
 import fecth from 'node-fetch'
 import ipfs from '../../utils/ipfs'
 
-const rooDir = './NFTs'
+const rooDir = 'NFTs'
 
 export type AwaitIterable<T> = Iterable<T> | AsyncIterable<T>
 
@@ -45,9 +45,9 @@ export const uploadIPFS = async (ipfsMedia: IpfsMedia): Promise<string> => {
   }
 }
 
-export const getdataIPFS = async (name: string, hash: string): Promise<any> => {
+export const getdataIPFS = async (path: string): Promise<any> => {
   try {
-    const data = await fecth(hash)
+    const data = await fecth(path)
     return data
   } catch (error) {
     throw Error(error)

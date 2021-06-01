@@ -21,7 +21,7 @@ const media = {
 ### Use ipfs as a Service outside the react components
 
 ```
-import {uploadIPFS} from 'src/services/Ipfs/Ipfs.tsx'
+import {uploadIPFS,getDataIPFS} from 'src/services/Ipfs/Ipfs.tsx'
 
 const mdeia = {fileName, content}
 const hash = await uploadIPFS(mdeia)
@@ -58,21 +58,19 @@ status: INIT, Loading, Done, Rejected
 progress: 0% (In progress)
 ![no image found](./images/IPFS_INIT_State.png)
 
-
-
 ## To check everything is working
 
 enter the url: `https://ipfs.io/ipfs/<YourHash>/filename.extension`
 
-
 ### Exmaple
+
 #### File location
+
 ![no image found](./images/ipfs_file_location.png)
 
- https://ipfs.io/ipfs/QmbxyBFi9qFD7GRD7eXMSN8C2jpeGq6NhYg6MzxsbSNCXs/
- 
+https://ipfs.io/ipfs/QmbxyBFi9qFD7GRD7eXMSN8C2jpeGq6NhYg6MzxsbSNCXs/
 
 #### File content
 
 ![no image found](./images/ipfs_file_content.png)
- https://ipfs.io/ipfs/QmbxyBFi9qFD7GRD7eXMSN8C2jpeGq6NhYg6MzxsbSNCXs/yarab.txt
+https://ipfs.io/ipfs/QmbxyBFi9qFD7GRD7eXMSN8C2jpeGq6NhYg6MzxsbSNCXs/yarab.txt

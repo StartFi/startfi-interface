@@ -9,7 +9,7 @@ export interface IpfsState {
 
 const initialState: IpfsState = {
   ipfsHashs: [],
-  ipfsStatus: ipfsEnumStatus['init'],
+  ipfsStatus: ipfsEnumStatus['INIT'],
   ipfsProgress: '0%'
 }
 
