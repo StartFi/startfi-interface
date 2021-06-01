@@ -1,7 +1,12 @@
-const array = [
+ import {getNfts} from '../firebase/firebaseStore'
+
+ export const array = [
   {
     id: 0,
     name: 'Apple Watch Series 4 GPS',
+    owner: 'on1',
+    issueDate: Date.now(),
+    onAuction:false,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -10,7 +15,10 @@ const array = [
   {
     id: 1,
     name: 'Apple Watch Series 4 GPS',
+    owner: 'on1',
+    issueDate: Date.now(),
     price: 16,
+    onAuction:false,
     category: 'Music',
     image: 'https://picsum.photos/200',
     description: 'Redesigned from scratch and completely revised'
@@ -18,6 +26,9 @@ const array = [
   {
     id: 2,
     name: 'Apple Watch Series 4 GPS',
+    owner: 'on1',
+    issueDate: Date.now(),
+    onAuction:true,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -26,6 +37,9 @@ const array = [
   {
     id: 3,
     name: 'Apple Watch Series 4 GPSa',
+    owner: 'on1',
+    issueDate: Date.now(),
+    onAuction:false,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -34,6 +48,9 @@ const array = [
   {
     id: 4,
     name: 'Apple Watch Series 4 GPS',
+    owner: 'on1',
+    issueDate: Date.now(),
+    onAuction:false,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -42,6 +59,9 @@ const array = [
   {
     id: 5,
     name: 'Apple Watch Series 4 GPS',
+    owner: 'on1',
+    issueDate: Date.now(),
+    onAuction:true,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -50,6 +70,9 @@ const array = [
   {
     id: 6,
     name: 'Apple Watch Series 4 GPS',
+    owner: 'on1',
+    issueDate: Date.now(),
+    onAuction:true,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -65,8 +88,9 @@ export type NFTQUERY = {
 
 export const getAll = async (query?: NFTQUERY) => {
   const t0 = performance.now()
-  await new Promise(resolve => setTimeout(resolve, 1000))
-  var nfts = [...array]
+  // await new Promise(resolve => setTimeout(resolve, 1000))
+
+  let nfts =await getNfts()
   if (query) {
     const { search, category, sort } = query
     if (search) nfts = nfts.filter(a => a.name.includes(search))

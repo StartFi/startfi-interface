@@ -15,7 +15,11 @@ import {
   updateUserDeadline,
   toggleURLWarning,
   updateUserSingleHopOnly,
-  whitelistNFT
+  whitelistNFT,
+  addUserDocs,
+  updateUserDocs,
+  // addUserDocs
+
 } from './actions'
 
 const currentTimestamp = () => new Date().getTime()
@@ -93,6 +97,7 @@ export default createReducer(initialState, builder =>
       state.timestamp = currentTimestamp()
     })
     .addCase(updateMatchesDarkMode, (state, action) => {
+
       state.matchesDarkMode = action.payload.matchesDarkMode
       state.timestamp = currentTimestamp()
     })
@@ -155,5 +160,28 @@ export default createReducer(initialState, builder =>
     })
     .addCase(whitelistNFT.rejected, (state, action) => {
       //notify
+    }).addCase(addUserDocs.pending,(state, action) => {
+
     })
+    .addCase(addUserDocs.fulfilled,(state, action) => {
+
+      // notify
+    })
+
+    .addCase(addUserDocs.rejected,(state, action) => {
+
+      // notify
+    }).addCase(updateUserDocs.pending,(state, action) => {
+
+    })
+    .addCase(updateUserDocs.fulfilled,(state, action) => {
+
+      // notify
+    })
+
+    .addCase(updateUserDocs.rejected,(state, action) => {
+
+      // notify
+    })
+
 )

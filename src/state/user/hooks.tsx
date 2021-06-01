@@ -1,6 +1,9 @@
 import { ChainId, Pair, Token } from '@uniswap/sdk'
-import { useCallback, useMemo } from 'react'
+
+import { useCallback, useEffect, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { UserDoc } from 'services/firebase/firebaseStore'
+
 import { NFT } from 'state/nfts/reducer'
 
 import { useActiveWeb3React } from '../../hooks'
@@ -17,7 +20,10 @@ import {
   updateUserSlippageTolerance,
   toggleURLWarning,
   updateUserSingleHopOnly,
-  whitelistNFT
+  whitelistNFT,
+  addUserDocs,
+  updateUserDocs
+
 } from './actions'
 
 export const useWhitelistNFT = (): ((nft: NFT) => void) => {
@@ -191,3 +197,20 @@ export function useURLWarningToggle(): () => void {
   const dispatch = useDispatch()
   return useCallback(() => dispatch(toggleURLWarning()), [dispatch])
 }
+// Edit user docs
+export const useEditUserDoc = (user:UserDoc) => {
+  const dispatch = useDispatch()
+  return useEffect(() => {
+       dispatch(updateUserDocs(user))
+  }, [dispatch])
+}
+
+// add user docs
+export const useAddUserDoc = (user:UserDoc,account:any) => {
+  const dispatch = useDispatch()
+  return useEffect(() => {
+    dispatch(addUserDocs(user))
+  }, [dispatch,account])
+}
+
+

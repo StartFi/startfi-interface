@@ -4,9 +4,12 @@ import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 
 import { network } from '../../connectors'
-import { useEagerConnect, useInactiveListener } from '../../hooks'
+import {  useEagerConnect, useInactiveListener } from '../../hooks'
 import { NetworkContextName } from '../../constants'
 import Loader from '../Loader'
+
+
+
 
 const MessageWrapper = styled.div`
   display: flex;
@@ -24,8 +27,13 @@ export default function Web3ReactManager({ children }: { children: JSX.Element }
   const { active } = useWeb3React()
   const { active: networkActive, error: networkError, activate: activateNetwork } = useWeb3React(NetworkContextName)
 
+
+
+
+
   // try to eagerly connect to an injected provider, if it exists and has granted access already
   const triedEager = useEagerConnect()
+
 
   // after eagerly trying injected, if the network connect ever isn't active or in an error state, activate itd
   useEffect(() => {
@@ -62,6 +70,11 @@ export default function Web3ReactManager({ children }: { children: JSX.Element }
       </MessageWrapper>
     )
   }
+
+
+
+
+
 
   // if neither context is active, spin
   if (!active && !networkActive) {

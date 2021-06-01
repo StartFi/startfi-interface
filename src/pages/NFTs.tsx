@@ -1,13 +1,19 @@
 import React, { useState } from 'react'
-import { useGetNFTs, useLoadNFTs, useLoadTime, useNFTs } from 'state/nfts/hooks'
+import { useGetNFTs, useLoadNFTs, useLoadTime, useNFTs ,
+  // useAddNFT
+} from 'state/nfts/hooks'
 import { styled, Box, Grid } from '@material-ui/core/'
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { COLORS } from 'theme'
 import { useHistory } from 'react-router'
-import { useWhitelistNFT } from 'state/user/hooks'
+import {useWhitelistNFT} from 'state/user/hooks'
 import { NFT } from 'state/nfts/reducer'
 import NFTsHeader from 'components/Header/NFTsHeader'
+
+
+
+
 
 const NFTS = styled(Grid)({
   padding: '4vh 3.2vw',
@@ -32,6 +38,10 @@ const NFTs: React.FC = () => {
 
   useLoadNFTs()
 
+
+
+
+
   const nfts = useNFTs()
 
   const loadtime = useLoadTime()
@@ -41,15 +51,15 @@ const NFTs: React.FC = () => {
   const whitelistNFT = useWhitelistNFT()
 
   return (
-    <NFTS container direction="column">
-      <NFTsHeader/>
-      <Header container direction="row" justify="space-between" alignContent="space-between" alignItems="center">
+    <NFTS container direction='column'>
+      <NFTsHeader />
+      <Header container direction='row' justify='space-between' alignContent='space-between' alignItems='center'>
         <Results>
           {nfts.length} results found in {loadtime}ms
         </Results>
         <DropDownSort
           boxshadow
-          name="sort"
+          name='sort'
           options={SORTBY}
           value={sort}
           onChange={(e: any) => {
@@ -59,7 +69,7 @@ const NFTs: React.FC = () => {
           }}
         />
       </Header>
-      <Grid container direction="row" justify="space-between" spacing={10}>
+      <Grid container direction='row' justify='space-between' spacing={10}>
         {nfts.map(nft => (
           <Grid key={nft.id} item>
             <NTFCard
