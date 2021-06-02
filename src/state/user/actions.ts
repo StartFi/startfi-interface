@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 
 import { addToWhitelist } from 'services/User/User'
-import {addUserDoc, getUseData, updateUserDoc} from 'services/firebase/firebaseStore';
+import {addUserDoc, getUseData, updateUserDoc, updateWhiteList} from 'services/firebase/firebaseStore';
 
 export interface SerializedToken {
   chainId: number
@@ -43,6 +43,9 @@ export const updateUserDocs =createAsyncThunk('user/updateDocs',updateUserDoc)
 
 // get user Docs
 export const getUserDocs =createAsyncThunk('user/getDocs',getUseData )
+
+// get user Docs
+export const updateUserWhiteList =createAsyncThunk('user/updateWhiteList',updateWhiteList )
 
 
 

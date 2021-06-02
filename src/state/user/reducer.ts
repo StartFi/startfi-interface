@@ -1,4 +1,4 @@
-import { UserDoc } from 'services/firebase/firebaseStore';
+import { UserDoc } from 'services/firebase/firebaseStore'
 import { INITIAL_ALLOWED_SLIPPAGE, DEFAULT_DEADLINE_FROM_NOW } from '../../constants'
 import { createReducer } from '@reduxjs/toolkit'
 import { updateVersion } from '../global/actions'
@@ -20,8 +20,8 @@ import {
   addUserDocs,
   updateUserDocs,
   getUserDocs,
+  updateUserWhiteList
   // addUserDocs
-
 } from './actions'
 
 const currentTimestamp = () => new Date().getTime()
@@ -42,14 +42,12 @@ export interface UserState {
 
   // deadline set by user in minutes, used in all txns
   userDeadline: number
-  user:UserDoc
+  user: UserDoc
 
   tokens: {
     [chainId: number]: {
       [address: string]: SerializedToken
     }
-
-
   }
 
   pairs: {
@@ -75,7 +73,7 @@ export const initialState: UserState = {
   userSlippageTolerance: INITIAL_ALLOWED_SLIPPAGE,
   userDeadline: DEFAULT_DEADLINE_FROM_NOW,
   tokens: {},
-  user:{ehAddress:null},
+  user: { ehAddress: null },
   pairs: {},
   timestamp: currentTimestamp(),
   URLWarningVisible: true
@@ -103,7 +101,6 @@ export default createReducer(initialState, builder =>
       state.timestamp = currentTimestamp()
     })
     .addCase(updateMatchesDarkMode, (state, action) => {
-
       state.matchesDarkMode = action.payload.matchesDarkMode
       state.timestamp = currentTimestamp()
     })
@@ -166,39 +163,37 @@ export default createReducer(initialState, builder =>
     })
     .addCase(whitelistNFT.rejected, (state, action) => {
       //notify
-    }).addCase(addUserDocs.pending,(state, action) => {
-
     })
-    .addCase(addUserDocs.fulfilled,(state, action) => {
-
+    .addCase(addUserDocs.pending, (state, action) => {})
+    .addCase(addUserDocs.fulfilled, (state, action) => {
       // notify
     })
 
-    .addCase(addUserDocs.rejected,(state, action) => {
-
+    .addCase(addUserDocs.rejected, (state, action) => {
       // notify
-    }).addCase(updateUserDocs.pending,(state, action) => {
-
     })
-    .addCase(updateUserDocs.fulfilled,(state, action) => {
-
+    .addCase(updateUserDocs.pending, (state, action) => {})
+    .addCase(updateUserDocs.fulfilled, (state, action) => {
       // notify
     })
 
-    .addCase(updateUserDocs.rejected,(state, action) => {
+    .addCase(updateUserDocs.rejected, (state, action) => {
+      // notify
+    })
+    .addCase(getUserDocs.pending, (state, action) => {})
+    .addCase(getUserDocs.fulfilled, (state, action) => {
+      state.user = action.payload
 
       // notify
     })
-    .addCase(getUserDocs.pending,(state, action) => {
-
-    })
-    .addCase(getUserDocs.fulfilled,(state, action) => {
-      state.user =action.payload
-
+    .addCase(getUserDocs.rejected, (state, action) => {
       // notify
     })
-    .addCase(getUserDocs.rejected,(state, action) => {
-
+    .addCase(updateUserWhiteList.pending, (state, action) => {})
+    .addCase(updateUserWhiteList.fulfilled, (state, action) => {
+      // notify
+    })
+    .addCase(updateUserWhiteList.rejected, (state, action) => {
       // notify
     })
 )

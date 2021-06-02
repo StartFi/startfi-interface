@@ -23,7 +23,8 @@ import {
   whitelistNFT,
   addUserDocs,
   updateUserDocs,
-  getUserDocs
+  getUserDocs,
+  // updateUserWhiteList
 
 } from './actions'
 
@@ -226,4 +227,11 @@ export const useGetUserDoc = (account:any) => {
 export const useUserDoc = () => {
   return useSelector((state: AppState) => state.user.user)
 }
+
+// export const useUpdateUserWhitList = (account:any,nft:NFT) => {
+//   const dispatch = useDispatch()
+//   return useEffect(() => {
+//     dispatch(updateUserWhiteList({account,nft}))
+//   }, [dispatch])
+// }
 

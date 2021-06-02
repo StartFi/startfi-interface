@@ -8,7 +8,7 @@ export type UserDoc = {
   // NFT hash array belong to user
   NFTs?: Array<string>
   // NFT hash array belong to any
-  whitelists?: Array<string>
+  whitelists?: Array<number>
 }
 
 // add user docs
@@ -17,7 +17,6 @@ export const addUserDoc = async (user: UserDoc): Promise<void> => {
   const userRef = firebase.database().ref('/users/' + user.ehAddress)
   return await userRef.update(user)
 }
-
 
 // update userDoc
 export const updateUserDoc = async (user: UserDoc): Promise<void> => {
@@ -54,4 +53,20 @@ export const getNfts = async (): Promise<NFTS> => {
       .once('value')
   ).val()
   return Object.values(nfts)
+}
+
+// updateWhiteList
+export const updateWhiteList = async ({ accountId, nft }: any) => {
+  let user = await getUseData(accountId)
+  if (!user) return
+  let nftsWhiteList: Array<number>
+  if (user?.whitelists) {
+    nftsWhiteList = [...user.whitelists]
+    nftsWhiteList.includes(nft.id) ? (nftsWhiteList = nftsWhiteList) : (nftsWhiteList = nftsWhiteList.concat(nft.id))
+  } else {
+    nftsWhiteList = [nft.id]
+  }
+
+  const updatedUserData = { ...user, whitelists: [...nftsWhiteList] }
+  return await updateUserDoc(updatedUserData)
 }

@@ -1,21 +1,15 @@
 import React, { useState } from 'react'
-import { useGetNFTs, useLoadNFTs, useLoadTime, useNFTs ,
-  // useAddNFT
-} from 'state/nfts/hooks'
+import { useGetNFTs, useLoadNFTs, useLoadTime, useNFTs } from 'state/nfts/hooks'
 import { styled, Box, Grid } from '@material-ui/core/'
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { COLORS } from 'theme'
 import { useHistory } from 'react-router'
-import {
-   useWhitelistNFT} from 'state/user/hooks'
+import { useUserDoc } from 'state/user/hooks'
 import { NFT } from 'state/nfts/reducer'
 import NFTsHeader from 'components/Header/NFTsHeader'
-
-
-
-
-
+import { updateUserWhiteList } from 'state/user/actions'
+import { useDispatch } from 'react-redux'
 
 const NFTS = styled(Grid)({
   padding: '4vh 3.2vw',
@@ -36,18 +30,11 @@ const SORTBY = ['With Bids', 'b']
 const NFTs: React.FC = () => {
   const history = useHistory()
 
+  const dispatch = useDispatch()
+
   const [sort, setSort] = useState(SORTBY[0])
 
-
-
-  // const user =useUserDoc()
-
-
   useLoadNFTs()
-
-
-
-
 
   const nfts = useNFTs()
 
@@ -55,7 +42,18 @@ const NFTs: React.FC = () => {
 
   const getNFTs = useGetNFTs()
 
-  const whitelistNFT = useWhitelistNFT()
+
+  const userId = useUserDoc()?.ehAddress
+
+
+  // add Nft Id Tto user white list
+  const addToWhiteList = (nft: NFT, accountId: any) => {
+    let payLoad = {
+      accountId,
+      nft
+    }
+    dispatch(updateUserWhiteList(payLoad))
+  }
 
   return (
     <NFTS container direction='column'>
@@ -82,7 +80,7 @@ const NFTs: React.FC = () => {
             <NTFCard
               cardContent={nft}
               navigateToCard={(Nft: NFT) => history.push('NFT', Nft)}
-              addToWhiteList={(Nft: NFT) => whitelistNFT(Nft)}
+              addToWhiteList={(Nft: NFT) => addToWhiteList(Nft, userId)}
               placeBid={(Nft: NFT) => history.push('NFT', Nft)}
             ></NTFCard>
           </Grid>
