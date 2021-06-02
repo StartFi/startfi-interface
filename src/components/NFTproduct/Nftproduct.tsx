@@ -9,6 +9,27 @@ import { useStyles } from './Nftproduct.styles'
 import ReadMore from '../ReadMore/readmore'
 import NFTsHeader from 'components/Header/NFTsHeader'
 import styled from 'styled-components'
+import * as faker from 'faker';
+import { AuctionItem } from 'services/Storage/Auction'
+import { useDispatch } from 'react-redux'
+import { addAuctionItem } from 'state/auction/actions'
+
+// for testing only
+const auctionItem :AuctionItem ={
+  listingPrice: faker.random.number(),
+  seller:faker.random.word() ,
+  buyer:faker.random.word() ,
+  isForSale:faker.random.boolean() ,
+  isForBid: faker.random.boolean(),
+  bids: [4],
+  listTime: faker.random.word(),
+  purchaseTime:faker.random.word() ,
+  expireTimestamp: faker.random.word(),
+  listingTxt: faker.random.word(),
+  purchaseTxt:faker.random.word(),
+  soldPrice: faker.random.number(),
+
+}
 
 const NFTS = styled(Grid)({
   padding: '4vh 3.2vw',
@@ -16,6 +37,7 @@ const NFTS = styled(Grid)({
 })
 
 const Nftproduct = () => {
+  const dispatch = useDispatch()
   const classes = useStyles()
   const image = 'https://picsum.photos/200'
   const [isReadMore, setIsReadMore] = useState(false)
@@ -24,6 +46,10 @@ const Nftproduct = () => {
     setIsReadMore(res)
   }
 
+  // for testing only
+  const addToAuction=(item:AuctionItem)=>{
+    dispatch(addAuctionItem(item))
+  }
   return (
     <NFTS container direction="column">
       <NFTsHeader />
@@ -88,7 +114,7 @@ const Nftproduct = () => {
                 <img className={classes.icon} src={Path} />
                 <button>Wishlist</button>
 
-                <button>Make an offer</button>
+                <button onClick={()=>addToAuction(auctionItem)}>Make an offer</button>
               </div>
               <div>
                 <button className={classes.buy__now}>BUY NOW</button>
