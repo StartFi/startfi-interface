@@ -31,6 +31,7 @@
     "@uniswap/liquidity-staker": "^1.0.2",
     "@uniswap/merkle-distributor": "1.0.1",
     "@uniswap/sdk": "3.0.3",
+    "@uniswap/sdk-core": "^3.0.0-alpha.3",
     "@uniswap/token-lists": "^1.0.0-beta.19",
     "@uniswap/v2-core": "1.0.0",
     "@uniswap/v2-periphery": "^1.1.0-beta.0",
@@ -123,7 +124,9 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@material-ui/core": "^4.11.4",
+    "firebase": "^8.6.3",
+    "@types/node-fetch": "^2.5.10",
     "@uniswap/default-token-list": "^2.0.0",
-    "firebase": "^8.6.3"
+    "ipfs-http-client": "^50.1.0"
   }
 }
