@@ -4,16 +4,20 @@ import { DropDownCategory } from 'components/DropDown'
 import { InputFile, LabelBlack, LabelWithCheck } from 'components/Input'
 import { CATEGORIES, StepProps } from '../../constants'
 import { useTranslation } from 'react-i18next'
+import { useIpfsHashes, useIpfsStatus } from 'state/ipfs/hooks'
 
 const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
-
   const { t } = useTranslation()
-
+  // const f = useUploadToIpfs
+  const x = useIpfsHashes() // get all uploaded hashes by the user (during the current session)
+  console.log(x)
+  const s = useIpfsStatus() // get user status
+  console.log(s)
   return (
     <React.Fragment>
       <Box mt={8} mb={8}>
         <LabelWithCheck
-          text={t("Choose your NFT Product Category")}
+          text={t('chooseCategoryLabel')}
           Label={LabelBlack}
           verified={state.category}
           error={missing.includes('category')}
@@ -21,7 +25,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
         <Box mt={2}>
           <DropDownCategory
             name="category"
-            label={t("Choose your NFT From our Categories")}
+            label={t('chooseCategory')}
             options={CATEGORIES}
             value={state.category}
             onChange={handleChange}
@@ -30,10 +34,11 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
       </Box>
       <InputFile
         name="file"
-        label={t("Uplaod your NFT")}
+        label={t('uploadNFT')}
         value={state.file}
-        // onChange={(e:any)=>upload({fileName:e.target.files[0].name+"."+e.target.files[0].type, content:e.target.files[0]})}
-        // progress={}
+        onChange={handleChange}
+        //f({path:e.target.files[0].name, content:e.target.files[0].arrayBuffer()})
+        progress={s}
         error={missing.includes('file')}
       />
     </React.Fragment>

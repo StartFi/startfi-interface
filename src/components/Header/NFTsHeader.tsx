@@ -19,16 +19,16 @@ import { useHistory } from 'react-router'
 import { CATEGORIES, Dictionary } from './../../constants'
 import { useTranslation } from 'react-i18next'
 
-const Categories = ['All', ...CATEGORIES]
+const Categories = ['all', ...CATEGORIES]
 
 const TabIcons: Dictionary = {
-  Books: Books,
-  Videos: Videos,
-  Art: Art,
-  Games: Games,
-  All: All,
-  Music: Music,
-  Images: Images
+  books: Books,
+  videos: Videos,
+  art: Art,
+  games: Games,
+  all: All,
+  music: Music,
+  images: Images
 }
 
 const FullWidth = styled(Box)({
@@ -51,17 +51,13 @@ const NFTsHeader: React.FC = () => {
       <Grid container direction="row" justify="space-between" alignItems="center">
         <img src={Logo} alt="Logo" onClick={() => history.push('/')} />
         <Grid>
-          <InputSearch
-            label={t('what are you looking for?')}
-            value={search}
-            onChange={(e: any) => setSearch(e.target.value)}
-          />
-          <ButtonSearch onClick={() => getNFTs({ search })}>{t('Search')}</ButtonSearch>
+          <InputSearch label={t('searchNFTS')} value={search} onChange={(e: any) => setSearch(e.target.value)} />
+          <ButtonSearch onClick={() => getNFTs({ search })}>{t('search')}</ButtonSearch>
         </Grid>
         <Link onClick={() => history.push('whitelist')} underline="none">
           <img src={Heart} alt="Whitelist" />
         </Link>
-        <LinkCreateNFT to="mintnft">{t('Start Earning')}</LinkCreateNFT>
+        <LinkCreateNFT to="mintnft">{t('mintNFT')}</LinkCreateNFT>
         <Wallet />
       </Grid>
       <TabsCategory

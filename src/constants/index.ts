@@ -5,7 +5,7 @@ import { AbstractConnector } from '@web3-react/abstract-connector'
 
 import { fortmatic, injected, portis, walletconnect, walletlink } from '../connectors'
 
-export const CATEGORIES = ['Music', 'Books', 'Videos', 'Art', 'Images', 'Games']
+export const CATEGORIES = ['music', 'books', 'videos', 'art', 'images', 'games']
 
 export type Dictionary = { [index: string]: any }
 

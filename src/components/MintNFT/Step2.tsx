@@ -5,12 +5,11 @@ import { StepProps } from '../../constants'
 import Tags from 'components/Tags'
 
 const Step2: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
-  
   return (
     <Grid container direction="column" justify="space-around" style={{ flex: '1 1 auto' }}>
       <Input
         name="name"
-        label="NFT Name"
+        label="NFTname"
         value={state.name}
         onChange={handleChange}
         error={missing.includes('name')}
@@ -26,11 +25,11 @@ const Step2: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
         textarea={2}
         error={missing.includes('details')}
       /> */}
-      <Tags max={10}/>
+      <Tags max={10} />
       <Input
         name="description"
-        label="NFT Description"
-        placeholder="Write Details about your product"
+        label="NFTdescription"
+        placeholder="writeNFTdescription"
         value={state.description}
         onChange={handleChange}
         characters={500}

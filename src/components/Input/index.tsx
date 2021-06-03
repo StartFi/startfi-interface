@@ -81,7 +81,6 @@ export const LabelWithCheck = ({ Label, text, verified, error }: any) => (
 )
 
 export const InputFile = ({ name, label, value, onChange, error, progress }: any) => {
-
   const { t } = useTranslation()
 
   const ref = useRef<HTMLInputElement>(null)
@@ -90,7 +89,9 @@ export const InputFile = ({ name, label, value, onChange, error, progress }: any
     <Box>
       <Grid container direction="row" justify="space-between" alignItems="baseline">
         <LabelWithCheck text={label} Label={LabelBlack} error={error} />
-        {value && <ButtonFile onClick={() => onChange({ target: { files: [null] }, type: 'file' })}>{t('Delete')}</ButtonFile>}
+        {value && (
+          <ButtonFile onClick={() => onChange({ target: { files: [null] }, type: 'file' })}>{t('Delete')}</ButtonFile>
+        )}
       </Grid>
       <Grid container direction="row" justify="space-between" alignItems="baseline" style={{ marginTop: '2vh' }}>
         <FileInput
@@ -103,7 +104,7 @@ export const InputFile = ({ name, label, value, onChange, error, progress }: any
           error={error}
         >
           <input type="file" name={name} ref={ref} style={{ display: 'none' }} onChange={onChange} />
-          <Box>{t('Uploading')}</Box>
+          <Box>{t(progress > 0 ? 'Uploading' : 'Upload')}</Box>
           <img src={Upload} alt="Upload file" />
         </FileInput>
         {value && value.name && (
@@ -216,7 +217,6 @@ export const Input = ({
   error,
   currency
 }: any) => {
-
   const { t } = useTranslation()
 
   const [count, setCount] = useState(0)
@@ -247,13 +247,15 @@ export const Input = ({
             onChange={handleChange}
             rows={textarea}
           />
-          <Character alignSelf="flex-end">{characters - count} {t('Character')}</Character>
+          <Character alignSelf="flex-end">
+            {characters - count} {t('character')}
+          </Character>
         </Outline>
       )}
       {number && (
         <OutlineNumber>
-          <InputNumber name={name} type="number" onChange={handleChange}/>
-          {currency ? currency : "STFI"}
+          <InputNumber name={name} type="number" onChange={handleChange} />
+          {currency ? currency : 'STFI'}
         </OutlineNumber>
       )}
     </Grid>

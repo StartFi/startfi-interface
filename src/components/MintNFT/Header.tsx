@@ -34,9 +34,8 @@ const Right = styled.div`
 `
 
 const Header: React.FC = () => {
-
   const { t } = useTranslation()
-  
+
   return (
     <Container>
       <Left>
@@ -45,7 +44,7 @@ const Header: React.FC = () => {
       </Left>
       <Right>
         <Box>
-          <LinkMarketplace to="nfts">{t('Back to Marketplace')}</LinkMarketplace>
+          <LinkMarketplace to="nfts">{t('backToMarketplace')}</LinkMarketplace>
           <img src={Arrow} alt="Back" />
         </Box>
         <Wallet />

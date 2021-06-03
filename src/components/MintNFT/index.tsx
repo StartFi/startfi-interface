@@ -6,7 +6,7 @@ import Questions from './Questions'
 
 const Container = styled.div`
   width: 100%;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   padding: 4vh 3.2vw;
 `
 
@@ -43,7 +43,7 @@ const MintNFT: React.FC = () => {
       <Header />
       <Body>
         <Left>
-          <Questions/>
+          <Questions />
         </Left>
         <Right>
           <Card />

@@ -36,7 +36,7 @@ const Tag = styled.div`
   border-radius: 4px;
   color: #0b0b0b;
   padding: 1vh 1vw;
-  margin-right: .6vw;
+  margin-right: 0.6vw;
   margin-top: 1vh;
 `
 
@@ -56,7 +56,6 @@ interface TagsProps {
 }
 
 const Tags: React.FC<TagsProps> = ({ max }) => {
-
   const { t } = useTranslation()
 
   const [tags, setTags] = useState<string[]>([])
@@ -66,15 +65,17 @@ const Tags: React.FC<TagsProps> = ({ max }) => {
   return (
     <div>
       <Header>
-        <Title>{t('Tags')}</Title>
-        <Count>{max} {t('Tags Maximum')}</Count>
+        <Title>{t('tags')}</Title>
+        <Count>
+          {max} {t('tagsMax')}
+        </Count>
       </Header>
       <Outline>
         {tags.map((t: string) => (
           <Tag key={t}>{t}</Tag>
         ))}
         <Input
-          placeholder={tags.length === 0 ? t("Write your tag keyword") : ""}
+          placeholder={tags.length === 0 ? t('writeKeyword') : ''}
           value={value}
           onChange={(e: any) => setvalue(e.target.value)}
           onKeyDown={e => {
