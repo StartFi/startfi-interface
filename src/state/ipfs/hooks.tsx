@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+import { Callback } from 'node-vibrant/lib/typing'
+import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { uploadIPFS, IpfsMedia } from 'services/Ipfs/Ipfs'
 import { AppState } from 'state'
@@ -12,19 +13,17 @@ export const useIpfsStatus = (): ipfsEnumStatus | null => {
   return useSelector((state: AppState) => state.ipfs.ipfsStatus)
 }
 
-export const useUploadToIpfs = (ipfsMedia: IpfsMedia): void => {
+export const useUploadToIpfs = (ipfsMedia: IpfsMedia): Callback<void> => {
   const dispatch = useDispatch()
   dispatch(ipfsStatus({ status: ipfsEnumStatus['LOADING'] }))
-  useEffect(() => {
-    const uploadFile = async () => {
-      const ipfsHash = await uploadIPFS(ipfsMedia)
-      if (ipfsHash) {
-        dispatch(uploadedToIpfs({ IpfsHash: ipfsHash }))
-        dispatch(ipfsStatus({ status: ipfsEnumStatus['DONE'] }))
-      } else {
-        dispatch(ipfsStatus({ status: ipfsEnumStatus['REJECTED'] }))
-      }
+
+  return useCallback(async () => {
+    const ipfsHash = await uploadIPFS(ipfsMedia)
+    if (ipfsHash) {
+      dispatch(uploadedToIpfs({ IpfsHash: ipfsHash }))
+      dispatch(ipfsStatus({ status: ipfsEnumStatus['DONE'] }))
+    } else {
+      dispatch(ipfsStatus({ status: ipfsEnumStatus['REJECTED'] }))
     }
-    uploadFile()
   }, [dispatch])
 }
