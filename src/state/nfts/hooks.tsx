@@ -28,12 +28,9 @@ export const useLoadNFTs = (): void => {
 }
 
 
-export const useAddNFT = (nft:NFT): void => {
+export const useAddNFT = (): ((nft:NFT) => void) => {
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(addNFT(nft))
-  }, [dispatch])
+  return useCallback((nft: NFT) => dispatch(addNFT(nft)), [dispatch])
 }
 
 

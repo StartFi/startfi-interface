@@ -2,6 +2,7 @@ import React from 'react'
 import { FormControl, makeStyles, MenuItem, Select } from '@material-ui/core'
 import { COLORS } from 'theme'
 import SelectIcon from './../../assets/icons/select.svg'
+import { useTranslation } from 'react-i18next'
 
 interface DropDownProps {
   name: string
@@ -86,6 +87,8 @@ export const DropDown: React.FunctionComponent<DropDownProps> = ({
 
   const classes = useStyles({boxshadow})
 
+  const { t } = useTranslation()
+
   return (
     <FormControl style={{ minWidth: width }}>
       <Select
@@ -115,7 +118,7 @@ export const DropDown: React.FunctionComponent<DropDownProps> = ({
       >
         {options.map(o => (
           <MenuItem key={o} value={o} classes={{ root: classes.item, selected: classes.selected }}>
-            {o}
+            {t(o)}
           </MenuItem>
         ))}
       </Select>

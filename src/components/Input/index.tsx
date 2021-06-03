@@ -6,6 +6,7 @@ import Upload from './../../assets/icons/upload.svg'
 import Decrement from './../../assets/icons/decrement.svg'
 import Increment from './../../assets/icons/increment.svg'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
 export const InputBase = styledmui(TextField)({
   backgroundColor: COLORS.white,
@@ -28,6 +29,7 @@ const useStyles = makeStyles({
 })
 
 interface InputSearchProps {
+  label: string
   value: string
   onChange: (event: React.ChangeEvent<{}>) => void
 }
@@ -37,7 +39,6 @@ export const InputSearch = (props: InputSearchProps) => {
   return (
     <InputBase
       {...props}
-      label="what are you looking for?"
       variant="filled"
       InputProps={{
         className: classes.textfield,
@@ -79,14 +80,17 @@ export const LabelWithCheck = ({ Label, text, verified, error }: any) => (
   </Box>
 )
 
-export const InputFile = ({ name, label, value, onChange, error }: any) => {
+export const InputFile = ({ name, label, value, onChange, error, progress }: any) => {
+
+  const { t } = useTranslation()
+
   const ref = useRef<HTMLInputElement>(null)
 
   return (
     <Box>
       <Grid container direction="row" justify="space-between" alignItems="baseline">
         <LabelWithCheck text={label} Label={LabelBlack} error={error} />
-        {value && <ButtonFile onClick={() => onChange({ target: { files: [null] }, type: 'file' })}>Delete</ButtonFile>}
+        {value && <ButtonFile onClick={() => onChange({ target: { files: [null] }, type: 'file' })}>{t('Delete')}</ButtonFile>}
       </Grid>
       <Grid container direction="row" justify="space-between" alignItems="baseline" style={{ marginTop: '2vh' }}>
         <FileInput
@@ -99,7 +103,7 @@ export const InputFile = ({ name, label, value, onChange, error }: any) => {
           error={error}
         >
           <input type="file" name={name} ref={ref} style={{ display: 'none' }} onChange={onChange} />
-          <Box>Uploading</Box>
+          <Box>{t('Uploading')}</Box>
           <img src={Upload} alt="Upload file" />
         </FileInput>
         {value && value.name && (
@@ -111,7 +115,7 @@ export const InputFile = ({ name, label, value, onChange, error }: any) => {
             minWidth="28vw"
           >
             <Box>{value.name}</Box>
-            <Box>50%</Box>
+            <Box>{progress}</Box>
           </FileInput>
         )}
       </Grid>
@@ -168,18 +172,18 @@ const Character = styled(Box)`
   color: #444444;
 `
 
-const InputNumber = styled.input`
+export const InputNumber = styled.input`
   border: none;
   outline: none;
   width: 7vw;
 `
 
-const OutlineNumber = styled.div`
+export const OutlineNumber = styled.div`
   display: flex;
   flex-flow: row nowrap;
   width: 12vw;
   height: 7vh;
-  background: #ffffff;
+  background-color: #ffffff;
   border: 1px solid #dddddd;
   border-radius: 8px;
   align-items: center;
@@ -209,8 +213,12 @@ export const Input = ({
   number,
   characters,
   height,
-  error
+  error,
+  currency
 }: any) => {
+
+  const { t } = useTranslation()
+
   const [count, setCount] = useState(0)
 
   const handleChange = (e: any) => {
@@ -222,30 +230,30 @@ export const Input = ({
 
   return (
     <Grid container direction={number ? 'row' : 'column'} alignItems={number ? 'center' : 'flex-start'}>
-      {number ? (
-        <LabelBlack>{label}</LabelBlack>
+      {number && label ? (
+        <LabelBlack>{t(label)}</LabelBlack>
       ) : value || textarea ? (
-        <LabelWithCheck text={label} Label={LabelGrey} verified={value} error={error} />
+        <LabelWithCheck text={t(label)} Label={LabelGrey} verified={value} error={error} />
       ) : null}
       {underline && (
-        <InputUnderline type="text" name={name} placeholder={label} value={value} onChange={handleChange} />
+        <InputUnderline type="text" name={name} placeholder={t(label)} value={value} onChange={handleChange} />
       )}
       {textarea && (
         <Outline container direction="column" height={height} error={error}>
           <InputOutline
             name={name}
-            placeholder={placeholder ? placeholder : label}
+            placeholder={t(placeholder ? placeholder : label)}
             value={value}
             onChange={handleChange}
             rows={textarea}
           />
-          <Character alignSelf="flex-end">{characters - count} Character</Character>
+          <Character alignSelf="flex-end">{characters - count} {t('Character')}</Character>
         </Outline>
       )}
       {number && (
         <OutlineNumber>
-          <InputNumber type="number" />
-          STFI
+          <InputNumber name={name} type="number" onChange={handleChange}/>
+          {currency ? currency : "STFI"}
         </OutlineNumber>
       )}
     </Grid>

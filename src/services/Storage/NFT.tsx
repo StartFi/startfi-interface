@@ -90,13 +90,9 @@ export const getAll = async (query?: NFTQUERY) => {
   const t0 = performance.now()
   // await new Promise(resolve => setTimeout(resolve, 1000))
 
-  let nfts =await getNfts()
-  if (query) {
-    const { search, category, sort } = query
-    if (search) nfts = nfts.filter(a => a.name.includes(search))
-    else if (category) nfts = nfts.filter(a => a.category === category)
-    else if (sort) nfts = nfts.filter(a => a.name.includes(sort))
-  }
+  let q = query || {}
+
+  let nfts =await getNfts(q)
   const t1 = performance.now()
   return { nfts, loadtime: Math.round(t1 - t0) }
 }

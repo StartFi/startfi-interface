@@ -17,6 +17,7 @@ import Images from '../../assets/icons/imagestab.svg'
 import { useGetNFTs } from 'state/nfts/hooks'
 import { useHistory } from 'react-router'
 import { CATEGORIES, Dictionary } from './../../constants'
+import { useTranslation } from 'react-i18next'
 
 const Categories = ['All', ...CATEGORIES]
 
@@ -37,6 +38,8 @@ const FullWidth = styled(Box)({
 const NFTsHeader: React.FC = () => {
   const history = useHistory()
 
+  const { t } = useTranslation()
+
   const [search, setSearch] = useState('')
 
   const [category, setCategory] = useState(0)
@@ -48,13 +51,17 @@ const NFTsHeader: React.FC = () => {
       <Grid container direction="row" justify="space-between" alignItems="center">
         <img src={Logo} alt="Logo" onClick={() => history.push('/')} />
         <Grid>
-          <InputSearch value={search} onChange={(e: any) => setSearch(e.target.value)} />
-          <ButtonSearch onClick={() => getNFTs({ search })}>Search</ButtonSearch>
+          <InputSearch
+            label={t('what are you looking for?')}
+            value={search}
+            onChange={(e: any) => setSearch(e.target.value)}
+          />
+          <ButtonSearch onClick={() => getNFTs({ search })}>{t('Search')}</ButtonSearch>
         </Grid>
         <Link onClick={() => history.push('whitelist')} underline="none">
           <img src={Heart} alt="Whitelist" />
         </Link>
-        <LinkCreateNFT to="mintnft">Start Earning</LinkCreateNFT>
+        <LinkCreateNFT to="mintnft">{t('Start Earning')}</LinkCreateNFT>
         <Wallet />
       </Grid>
       <TabsCategory
@@ -70,7 +77,7 @@ const NFTsHeader: React.FC = () => {
             label={
               <Grid container direction="row" justify="center" alignItems="center">
                 <img src={TabIcons[category]} style={{ marginRight: '1vw' }} alt={category} />
-                {category}
+                {t(category)}
               </Grid>
             }
           />

@@ -392,3 +392,7 @@ export const ButtonDraft = styled(ButtonMint)`
     color: #929292;
   }
 `
+export const ButtonMintBack = styled(ButtonDraft)`
+color: #3F3F3F;
+margin-right: 0;
+`

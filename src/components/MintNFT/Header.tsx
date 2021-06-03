@@ -5,6 +5,7 @@ import Wallet from 'components/Wallet'
 import Logo from './../../assets/icons/logo.svg'
 import Arrow from './../../assets/icons/backarrow.svg'
 import { LinkMarketplace } from 'components/Link'
+import { useTranslation } from 'react-i18next'
 
 const Container = styled.div`
   display: flex;
@@ -33,6 +34,9 @@ const Right = styled.div`
 `
 
 const Header: React.FC = () => {
+
+  const { t } = useTranslation()
+  
   return (
     <Container>
       <Left>
@@ -41,7 +45,7 @@ const Header: React.FC = () => {
       </Left>
       <Right>
         <Box>
-          <LinkMarketplace to="nfts">Back to Marketplace</LinkMarketplace>
+          <LinkMarketplace to="nfts">{t('Back to Marketplace')}</LinkMarketplace>
           <img src={Arrow} alt="Back" />
         </Box>
         <Wallet />

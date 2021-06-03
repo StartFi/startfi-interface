@@ -10,10 +10,7 @@ import { useHistory } from 'react-router'
 import {useWhitelistNFT} from 'state/user/hooks'
 import { NFT } from 'state/nfts/reducer'
 import NFTsHeader from 'components/Header/NFTsHeader'
-
-
-
-
+import { useTranslation } from 'react-i18next'
 
 const NFTS = styled(Grid)({
   padding: '4vh 3.2vw',
@@ -29,18 +26,16 @@ const Results = styled(Box)({
   color: COLORS.black2
 })
 
-const SORTBY = ['With Bids', 'b']
+const SORTBY = ['Lowest price', 'Highest price']
 
 const NFTs: React.FC = () => {
   const history = useHistory()
 
+  const { t } = useTranslation()
+
   const [sort, setSort] = useState(SORTBY[0])
 
   useLoadNFTs()
-
-
-
-
 
   const nfts = useNFTs()
 
@@ -55,7 +50,7 @@ const NFTs: React.FC = () => {
       <NFTsHeader />
       <Header container direction='row' justify='space-between' alignContent='space-between' alignItems='center'>
         <Results>
-          {nfts.length} results found in {loadtime}ms
+          {nfts.length} {t('results found in')} {loadtime}ms
         </Results>
         <DropDownSort
           boxshadow

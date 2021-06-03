@@ -2,8 +2,10 @@ import React from 'react'
 import { Grid } from '@material-ui/core'
 import { Input } from 'components/Input'
 import { StepProps } from '../../constants'
+import Tags from 'components/Tags'
 
 const Step2: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
+  
   return (
     <Grid container direction="column" justify="space-around" style={{ flex: '1 1 auto' }}>
       <Input
@@ -14,7 +16,7 @@ const Step2: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
         error={missing.includes('name')}
         underline
       />
-      <Input
+      {/* <Input
         name="details"
         label="NFT Details"
         placeholder="Write Details about your product"
@@ -23,7 +25,8 @@ const Step2: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
         characters={150}
         textarea={2}
         error={missing.includes('details')}
-      />
+      /> */}
+      <Tags max={10}/>
       <Input
         name="description"
         label="NFT Description"
