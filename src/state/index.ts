@@ -3,6 +3,7 @@ import { save, load } from 'redux-localstorage-simple'
 
 import nfts from './nfts/reducer'
 import auction from './auction/reducer'
+import Bid from'./bids/reducer'
 import application from './application/reducer'
 import { updateVersion } from './global/actions'
 import user from './user/reducer'
@@ -15,6 +16,7 @@ const store = configureStore({
   reducer: {
     nfts,
     auction,
+    Bid,
     application,
     user,
     transactions,

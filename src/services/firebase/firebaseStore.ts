@@ -70,3 +70,4 @@ export const updateWhiteList = async ({ accountId, nft }: any) => {
   const updatedUserData = { ...user, whitelists: [...nftsWhiteList] }
   return await updateUserDoc(updatedUserData)
 }
+
