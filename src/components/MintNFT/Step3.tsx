@@ -60,9 +60,9 @@ const Step3: React.FC<StepProps> = ({ state, handleChange }: StepProps) => {
         <div>
           <input
             type="radio"
-            name="bidsoffers"
+            name="bidsOffers"
             value="true"
-            checked={state.bidsoffers === 'true'}
+            checked={state.bidsOffers === 'true'}
             onChange={handleChange}
           />
           <RadioLabel>{t('allowed')}</RadioLabel>
@@ -72,20 +72,20 @@ const Step3: React.FC<StepProps> = ({ state, handleChange }: StepProps) => {
             type="radio"
             name="bidsoffers"
             value="false"
-            checked={state.bidsoffers === 'false'}
+            checked={state.bidsOffers === 'false'}
             onChange={handleChange}
           />
           <RadioLabel>{t('notAllowed')}</RadioLabel>
         </div>
       </Radios>
-      {state.bidsoffers === 'true' && (
+      {state.bidsOffers === 'true' && (
         <div>
           <MinBid>
-            <Input name="bid" label="minBid" value={state.price} onChange={handleChange} number />
+            <Input name="minBid" label="minBid" value={state.minBid} onChange={handleChange} number />
           </MinBid>
           <OpenFor>
             <div>{t('openFor')}</div>
-            <InputNumberButtons />
+            <InputNumberButtons name="openFor" value={state.openFor} onChange={handleChange} />
             <DropDownDateType
               name="type"
               options={['Day', 'Week', 'Month', 'Year']}

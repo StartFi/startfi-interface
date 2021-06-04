@@ -57,8 +57,9 @@ const Card: React.FC = () => {
     tags: '',
     description: '',
     price: 0,
-    bidsoffers: 'false',
-    bid: 0,
+    bidsOffers: 'false',
+    minBid: 0,
+    openFor: 0,
     type: 'Day'
   })
 
@@ -85,19 +86,19 @@ const Card: React.FC = () => {
         }
         break
       case 3:
-        history.push('/mintednft')
-        console.log(state)
         addnft({
           id: 0,
           owner: '',
           issueDate: 0,
-          onAuction: state.bidsoffers,
+          onAuction: state.bidsOffers === 'true',
           name: state.name,
           image: state.filehash,
           price: state.price,
           category: state.category,
-          description: state.description
+          description: state.description,
+          // tags: state.tags
         })
+        history.push('/mintednft')
         break
       default:
     }

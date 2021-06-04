@@ -1,5 +1,3 @@
-import { NFTQUERY } from 'services/Storage/NFT'
-import { NFT, NFTS } from 'state/nfts/reducer'
 import firebase from './firebaseConfig'
 
 export type UserDoc = {
@@ -38,32 +36,4 @@ const getUseData = async (account: any): Promise<UserDoc> => {
   ).val()
   console.log(userData)
   return userData
-}
-// add/update NFT
-export const addNft = async (nft: NFT): Promise<void> => {
-  const nftRef = firebase.database().ref('/nfts/' + nft.id)
-  return await nftRef.update(nft)
-}
-
-const LIMIT = 4
-
-// get NFTS
-export const getNfts = async ({ search, category, sort }: NFTQUERY): Promise<NFTS> => {
-  var ref = firebase.database().ref('nfts').orderByChild(category ? 'category' : (sort ? 'price' : 'price'))
-  if (category && category !== "all") ref = ref.equalTo(category)
-  if (sort) {
-    switch (sort) {
-      case 'Lowest price':
-        ref = ref.limitToFirst(LIMIT)
-        break
-      case 'Highest price':
-        ref = ref.limitToLast(LIMIT)
-        break
-      default:
-    }
-  }
-  const nfts = await (await ref.once('value')).val()
-  console.log(nfts)
-  if (!nfts) return []
-  return Object.values(nfts)
 }

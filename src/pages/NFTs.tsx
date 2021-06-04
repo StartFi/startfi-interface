@@ -86,7 +86,7 @@ const NFTs: React.FC = () => {
         </Header>
         <NFTList>
           {nfts.map(nft => (
-            <Nft>
+            <Nft key={nft.id}>
               <NTFCard
                 cardContent={nft}
                 navigateToCard={(Nft: NFT) => history.push('NFT', Nft)}

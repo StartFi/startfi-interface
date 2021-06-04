@@ -39,7 +39,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
         name="file"
         label={t('uploadNFT')}
         value={state.file}
-        // onChange={(e: any) => upload({path:e.target.files[0].name,content:e.target.files[0]})}
+        onChange={handleChange}
         //f({path:e.target.files[0].name, content:e.target.files[0].arrayBuffer()})
         // progress={s}
         error={missing.includes('file')}

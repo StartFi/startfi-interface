@@ -14,16 +14,32 @@ export const useLoadTime = (): number => {
   return useSelector((state: AppState) => state.nfts.loadtime)
 }
 
+export const useLastSearch = (): string => {
+  return useSelector((state: AppState) => state.nfts.search)
+}
+
+export const useLastCategory = (): string => {
+  return useSelector((state: AppState) => state.nfts.category)
+}
+
 export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
   const dispatch = useDispatch()
-  return useCallback((query?: NFTQUERY) => dispatch(getNFTs(query)), [dispatch])
+  const search = useLastSearch()
+  const category = useLastCategory()
+
+  return useCallback((query?: NFTQUERY) => {
+    let q = query || {}
+    if (!q.search && search) q.search = search 
+    if (!q.category && category) q.category = category 
+    dispatch(getNFTs(q))
+  }, [search, category, dispatch])
 }
 
 export const useLoadNFTs = (): void => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getNFTs({}))
+    dispatch(getNFTs())
   }, [dispatch])
 }
 
@@ -32,5 +48,3 @@ export const useAddNFT = (): ((nft:NFT) => void) => {
   const dispatch = useDispatch()
   return useCallback((nft: NFT) => dispatch(addNFT(nft)), [dispatch])
 }
-
-

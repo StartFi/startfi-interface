@@ -52,10 +52,12 @@ const Input = styled.input`
 `
 
 interface TagsProps {
+  name: string
   max: number
+  onChange: (e:any) => void
 }
 
-const Tags: React.FC<TagsProps> = ({ max }) => {
+const Tags: React.FC<TagsProps> = ({ name, max, onChange }) => {
   const { t } = useTranslation()
 
   const [tags, setTags] = useState<string[]>([])
@@ -82,6 +84,7 @@ const Tags: React.FC<TagsProps> = ({ max }) => {
             if (e.key === 'Enter') {
               setTags([...tags, value])
               setvalue('')
+              onChange({target:{name,value:tags}})
             }
           }}
         />

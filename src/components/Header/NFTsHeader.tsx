@@ -101,6 +101,7 @@ const NFTsHeader: React.FC = () => {
       <TabsCategory>
         {Categories.map(c => (
           <Tab
+            key={c}
             selected={category === c}
             onClick={() => {
               setCategory(c)

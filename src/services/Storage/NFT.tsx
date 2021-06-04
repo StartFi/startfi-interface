@@ -1,4 +1,5 @@
- import {getNfts} from '../firebase/firebaseStore'
+ import { add, getNFTS } from 'services/firebase/Firebase'
+import { NFT } from 'state/nfts/reducer'
 
  export const array = [
   {
@@ -92,7 +93,13 @@ export const getAll = async (query?: NFTQUERY) => {
 
   let q = query || {}
 
-  let nfts =await getNfts(q)
+  let nfts = await getNFTS(q)
   const t1 = performance.now()
-  return { nfts, loadtime: Math.round(t1 - t0) }
+  return { nfts, loadtime: Math.round(t1 - t0), ...query }
+}
+
+export const mint = async (nft: NFT): Promise<string | void> => {
+  nft.id = 6
+  nft.image = 'sas'
+  return add("nfts", nft.id, nft)
 }

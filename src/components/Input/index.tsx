@@ -273,16 +273,34 @@ const Img = styled.div`
   padding: 5px;
 `
 
-export const InputNumberButtons = () => {
-  const [value, setValue] = useState(0)
+interface InputNumberButtonsProps {
+  name: string
+  value: number
+  onChange: (e: any) => void
+}
+
+export const InputNumberButtons = ({ name, value, onChange }: InputNumberButtonsProps) => {
+  const [number, setNumber] = useState(value)
 
   return (
     <Border>
-      <Img onClick={() => (value > 0 ? setValue(value - 1) : null)}>
+      <Img
+        onClick={() => {
+          if (value > 0) {
+            setNumber(number - 1)
+            onChange({ target: { name, value: number - 1 } })
+          }
+        }}
+      >
         <img src={Decrement} alt="Decrement" />
       </Img>
       <div>{value}</div>
-      <Img onClick={() => setValue(value + 1)}>
+      <Img
+        onClick={() => {
+          setNumber(number + 1)
+          onChange({ target: { name, value: number + 1 } })
+        }}
+      >
         <img src={Increment} alt="Increment" />
       </Img>
     </Border>
