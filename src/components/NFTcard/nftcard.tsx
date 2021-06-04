@@ -34,12 +34,12 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhi
         <div className={classes.action}>
           <div className={classes.whiteList}>
             <img className={classes.icon} src={Path} />
-            <NftButton onClick={() => addToWhiteList(cardContent)} color='#000000'>
+            <NftButton onClick={() => addToWhiteList(cardContent)} color="#000000">
               WHITELIST
             </NftButton>
           </div>
           <div className={classes.bid}>
-            <NftButton onClick={() => placeBid(cardContent)} color='#ffffff'>
+            <NftButton onClick={() => placeBid(cardContent)} color="#ffffff">
               {' '}
               place a bid
             </NftButton>
@@ -50,4 +50,4 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhi
   )
 }
 
-export default NTFCard;
+export default NTFCard

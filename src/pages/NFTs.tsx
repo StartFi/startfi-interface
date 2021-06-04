@@ -6,31 +6,47 @@ import {
   useNFTs
   // useAddNFT
 } from 'state/nfts/hooks'
-import { styled, Box, Grid } from '@material-ui/core/'
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
-import { COLORS } from 'theme'
 import { useHistory } from 'react-router'
 import { useWhitelistNFT } from 'state/user/hooks'
 import { NFT } from 'state/nfts/reducer'
 import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 
-const NFTS = styled(Grid)({
-  padding: '4vh 3.2vw',
-  width: '100%'
-})
+const NFTS = styled.div`
+  padding: 4vh 3.2vw;
+  width: 100%;
+`
 
-const Header = styled(Grid)({
-  paddingBottom: '6vh'
-})
+const Header = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 6vh;
+`
 
-const Results = styled(Box)({
-  fontSize: '1rem',
-  color: COLORS.black2
-})
+const Results = styled.div`
+  color: #2c2c2c;
+`
 
-const SORTBY = ['Lowest price', 'Highest price']
+const NFTList = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+`
+
+const Nft = styled.div`
+  margin-bottom: 8vh;
+`
+
+const Padding = styled.div`
+  padding: 0 2vw;
+`
+
+const SORTBY = ['With Bids', 'Lowest price', 'Highest price']
 
 const NFTs: React.FC = () => {
   const history = useHistory()
@@ -50,35 +66,37 @@ const NFTs: React.FC = () => {
   const whitelistNFT = useWhitelistNFT()
 
   return (
-    <NFTS container direction="column">
+    <NFTS>
       <NFTsHeader />
-      <Header container direction="row" justify="space-between" alignContent="space-between" alignItems="center">
-        <Results>
-          {nfts.length} {t('NFTSResults')} {loadtime}ms
-        </Results>
-        <DropDownSort
-          boxshadow
-          name="sort"
-          options={SORTBY}
-          value={sort}
-          onChange={(e: any) => {
-            setSort(e.target.value)
-            getNFTs({ sort: e.target.value })
-          }}
-        />
-      </Header>
-      <Grid container direction="row" justify="space-between" spacing={10}>
-        {nfts.map(nft => (
-          <Grid key={nft.id} item>
-            <NTFCard
-              cardContent={nft}
-              navigateToCard={(Nft: NFT) => history.push('NFT', Nft)}
-              addToWhiteList={(Nft: NFT) => whitelistNFT(Nft)}
-              placeBid={(Nft: NFT) => history.push('NFT', Nft)}
-            ></NTFCard>
-          </Grid>
-        ))}
-      </Grid>
+      <Padding>
+        <Header>
+          <Results>
+            {nfts.length} {t('NFTSResults')} {loadtime}ms
+          </Results>
+          <DropDownSort
+            boxshadow
+            name="sort"
+            options={SORTBY}
+            value={sort}
+            onChange={(e: any) => {
+              setSort(e.target.value)
+              getNFTs({ sort: e.target.value })
+            }}
+          />
+        </Header>
+        <NFTList>
+          {nfts.map(nft => (
+            <Nft>
+              <NTFCard
+                cardContent={nft}
+                navigateToCard={(Nft: NFT) => history.push('NFT', Nft)}
+                addToWhiteList={(Nft: NFT) => whitelistNFT(Nft)}
+                placeBid={(Nft: NFT) => history.push('NFT', Nft)}
+              ></NTFCard>
+            </Nft>
+          ))}
+        </NFTList>
+      </Padding>
     </NFTS>
   )
 }

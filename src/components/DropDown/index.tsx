@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-// import { COLORS } from 'theme'
 import SelectIcon from './../../assets/icons/select.svg'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -98,7 +97,7 @@ export const DropDown: React.FunctionComponent<DropDownProps> = ({
 
   return (
     <React.Fragment>
-      <BlurLayer onClick={() => setOpen(false)} />
+      {open && <BlurLayer onClick={() => setOpen(false)} />}
       <Container width={width || '10vh'}>
         <Row onBlur={() => setOpen(false)} onClick={() => setOpen(!open)}>
           <Label>{t(selected) || t(label)}</Label>

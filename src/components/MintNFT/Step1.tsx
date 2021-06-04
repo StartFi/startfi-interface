@@ -1,32 +1,40 @@
 import React from 'react'
-import { Box } from '@material-ui/core'
 import { DropDownCategory } from 'components/DropDown'
 import { InputFile, LabelBlack, LabelWithCheck } from 'components/Input'
 import { CATEGORIES, StepProps } from '../../constants'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+
+const DropDown = styled.div`
+  margin: 10vh 0;
+`
+
+const Label = styled.div`
+  margin-bottom: 2vh;
+`
 
 const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
   const { t } = useTranslation()
-  
+
   return (
     <React.Fragment>
-      <Box mt={8} mb={8}>
-        <LabelWithCheck
-          text={t('chooseCategoryLabel')}
-          Label={LabelBlack}
-          verified={state.category}
-          error={missing.includes('category')}
-        />
-        <Box mt={2}>
-          <DropDownCategory
-            name="category"
-            label={t('chooseCategory')}
-            options={CATEGORIES}
-            value={state.category}
-            onChange={handleChange}
+      <DropDown>
+        <Label>
+          <LabelWithCheck
+            text={t('chooseCategoryLabel')}
+            Label={LabelBlack}
+            verified={state.category}
+            error={missing.includes('category')}
           />
-        </Box>
-      </Box>
+        </Label>
+        <DropDownCategory
+          name="category"
+          label={t('chooseCategory')}
+          options={CATEGORIES}
+          value={state.category}
+          onChange={handleChange}
+        />
+      </DropDown>
       <InputFile
         name="file"
         label={t('uploadNFT')}

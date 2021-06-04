@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Box } from '@material-ui/core'
 import { Dictionary } from '../../constants'
 import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
 import styled from 'styled-components'
@@ -67,8 +66,7 @@ const Card: React.FC = () => {
 
   const [step, setStep] = useState<number>(1)
 
-  const handleChange = (e: any) =>
-    setState({ ...state, [e.target.name]: e.target.type === 'file' ? e.target.files[0] : e.target.value })
+  const handleChange = (e: any) => setState({ ...state, [e.target.name]: e.target.value })
 
   const next = () => {
     var newMissing: string[] = []
@@ -122,10 +120,10 @@ const Card: React.FC = () => {
   return (
     <Container>
       <Header>
-        <Box>
+        <div>
           <Title>{t('mintNFTTitle')}</Title>
           <Underline />
-        </Box>
+        </div>
         <img src={StepIcon()} alt="Step" />
       </Header>
       {step === 1 ? (

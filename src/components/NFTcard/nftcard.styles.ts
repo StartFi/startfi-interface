@@ -3,8 +3,8 @@ import { makeStyles } from '@material-ui/core/styles'
 export const useStyles = makeStyles({
   card: {
     height: 378,
-    width: 310,
-    borderRadius:8,
+    width: '23vw',
+    borderRadius: 8
   },
   media: {
     height: 176,
@@ -49,7 +49,7 @@ export const useStyles = makeStyles({
     fontWeight: 400,
     fontSize: '0.74rem',
     lineHeight: '0.875rem',
-    marginBottom:16,
+    marginBottom: 16
   },
   action: {
     display: 'flex',
@@ -70,8 +70,6 @@ export const useStyles = makeStyles({
     backgroundColor: '#000000',
     display: 'flex',
     boxSizing: 'border-box',
-    width: '50%',
-
-
+    width: '50%'
   }
 })

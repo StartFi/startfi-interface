@@ -5,8 +5,6 @@ import Heart from '../../assets/icons/heart.svg'
 import { ButtonSearch } from 'components/Button'
 import { LinkCreateNFT } from 'components/Link'
 import { InputSearch } from 'components/Input'
-import { Grid, Link } from '@material-ui/core'
-// import { TabCategory, TabsCategory } from 'components/Tabs'
 import Books from '../../assets/icons/bookstab.svg'
 import Videos from '../../assets/icons/videostab.svg'
 import Art from '../../assets/icons/arttab.svg'
@@ -19,6 +17,7 @@ import { useHistory } from 'react-router'
 import { CATEGORIES, Dictionary } from './../../constants'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const Categories = ['all', ...CATEGORIES]
 
@@ -32,33 +31,46 @@ const TabIcons: Dictionary = {
   images: Images
 }
 
-const FullWidth = styled.div`
-  width: 100%;
+const Container = styled.div``
+
+const Header = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
 `
 
 const TabsCategory = styled.div`
-display: flex;
-flex-flow: row nowrap;
-justify-content: space-between;
-margin: 4vh 0;
-padding: 3vh 0;
-border-bottom: 1px solid #EFEFEF;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin: 4vh 0;
+  padding: 3vh 0;
+  border-bottom: 1px solid #efefef;
+  padding-right: 10vw;
 `
 
 interface TabProps {
-  readonly selected: boolean;
-};
+  readonly selected: boolean
+}
 
 const Tab = styled.div<TabProps>`
-display: flex;
-flex-flow: row nowrap;
-align-items: center;
-padding-bottom: 1vh;
-cursor: pointer;
-border-bottom: ${props => props.selected ? "2px solid #000000;" : 'none;'};
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  padding-bottom: 1vh;
+  cursor: pointer;
+  border-bottom: ${props => (props.selected ? '2px solid #000000;' : 'none;')};
 `
 const Img = styled.img`
-margin-right: 1vw;
+  margin-right: 1vw;
+`
+
+const Search = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  height: 6vh;
 `
 
 const NFTsHeader: React.FC = () => {
@@ -73,29 +85,34 @@ const NFTsHeader: React.FC = () => {
   const getNFTs = useGetNFTs()
 
   return (
-    <FullWidth>
-      <Grid container direction="row" justify="space-between" alignItems="center">
+    <Container>
+      <Header>
         <img src={Logo} alt="Logo" onClick={() => history.push('/')} />
-        <Grid>
-          <InputSearch label={t('searchNFTS')} value={search} onChange={(e: any) => setSearch(e.target.value)} />
+        <Search>
+          <InputSearch placeholder={t('searchNFTS')} value={search} onChange={(e: any) => setSearch(e.target.value)} />
           <ButtonSearch onClick={() => getNFTs({ search })}>{t('search')}</ButtonSearch>
-        </Grid>
-        <Link onClick={() => history.push('whitelist')} underline="none">
+        </Search>
+        <Link to="" onClick={() => history.push('whitelist')}>
           <img src={Heart} alt="Whitelist" />
         </Link>
         <LinkCreateNFT to="mintnft">{t('mintNFT')}</LinkCreateNFT>
         <Wallet />
-      </Grid>
+      </Header>
       <TabsCategory>
-        {Categories.map(c=><Tab selected={category === c} onClick={()=>{
-          setCategory(c)
-          getNFTs({ category: c })
-        }}>
-          <Img src={TabIcons[c]} alt={c} />
-          {t(c)}
-        </Tab>)}
+        {Categories.map(c => (
+          <Tab
+            selected={category === c}
+            onClick={() => {
+              setCategory(c)
+              getNFTs({ category: c })
+            }}
+          >
+            <Img src={TabIcons[c]} alt={c} />
+            {t(c)}
+          </Tab>
+        ))}
       </TabsCategory>
-    </FullWidth>
+    </Container>
   )
 }
 

@@ -1,4 +1,3 @@
-import { Box } from '@material-ui/core'
 import React from 'react'
 import styled from 'styled-components'
 import Wallet from 'components/Wallet'
@@ -40,13 +39,13 @@ const Header: React.FC = () => {
     <Container>
       <Left>
         <img src={Logo} alt="Logo" />
-        <Box>Startfi</Box>
+        <div>Startfi</div>
       </Left>
       <Right>
-        <Box>
+        <div>
           <LinkMarketplace to="nfts">{t('backToMarketplace')}</LinkMarketplace>
           <img src={Arrow} alt="Back" />
-        </Box>
+        </div>
         <Wallet />
       </Right>
     </Container>
