@@ -5,8 +5,8 @@ import Heart from '../../assets/icons/heart.svg'
 import { ButtonSearch } from 'components/Button'
 import { LinkCreateNFT } from 'components/Link'
 import { InputSearch } from 'components/Input'
-import { Box, Grid, Link, styled } from '@material-ui/core'
-import { TabCategory, TabsCategory } from 'components/Tabs'
+import { Grid, Link } from '@material-ui/core'
+// import { TabCategory, TabsCategory } from 'components/Tabs'
 import Books from '../../assets/icons/bookstab.svg'
 import Videos from '../../assets/icons/videostab.svg'
 import Art from '../../assets/icons/arttab.svg'
@@ -18,6 +18,7 @@ import { useGetNFTs } from 'state/nfts/hooks'
 import { useHistory } from 'react-router'
 import { CATEGORIES, Dictionary } from './../../constants'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 
 const Categories = ['all', ...CATEGORIES]
 
@@ -31,9 +32,34 @@ const TabIcons: Dictionary = {
   images: Images
 }
 
-const FullWidth = styled(Box)({
-  width: '100%'
-})
+const FullWidth = styled.div`
+  width: 100%;
+`
+
+const TabsCategory = styled.div`
+display: flex;
+flex-flow: row nowrap;
+justify-content: space-between;
+margin: 4vh 0;
+padding: 3vh 0;
+border-bottom: 1px solid #EFEFEF;
+`
+
+interface TabProps {
+  readonly selected: boolean;
+};
+
+const Tab = styled.div<TabProps>`
+display: flex;
+flex-flow: row nowrap;
+align-items: center;
+padding-bottom: 1vh;
+cursor: pointer;
+border-bottom: ${props => props.selected ? "2px solid #000000;" : 'none;'};
+`
+const Img = styled.img`
+margin-right: 1vw;
+`
 
 const NFTsHeader: React.FC = () => {
   const history = useHistory()
@@ -42,7 +68,7 @@ const NFTsHeader: React.FC = () => {
 
   const [search, setSearch] = useState('')
 
-  const [category, setCategory] = useState(0)
+  const [category, setCategory] = useState('all')
 
   const getNFTs = useGetNFTs()
 
@@ -60,24 +86,14 @@ const NFTsHeader: React.FC = () => {
         <LinkCreateNFT to="mintnft">{t('mintNFT')}</LinkCreateNFT>
         <Wallet />
       </Grid>
-      <TabsCategory
-        value={category}
-        onChange={(e, category) => {
-          setCategory(category)
-          getNFTs({ category: Categories[category] })
-        }}
-      >
-        {Categories.map(category => (
-          <TabCategory
-            key={category}
-            label={
-              <Grid container direction="row" justify="center" alignItems="center">
-                <img src={TabIcons[category]} style={{ marginRight: '1vw' }} alt={category} />
-                {t(category)}
-              </Grid>
-            }
-          />
-        ))}
+      <TabsCategory>
+        {Categories.map(c=><Tab selected={category === c} onClick={()=>{
+          setCategory(c)
+          getNFTs({ category: c })
+        }}>
+          <Img src={TabIcons[c]} alt={c} />
+          {t(c)}
+        </Tab>)}
       </TabsCategory>
     </FullWidth>
   )

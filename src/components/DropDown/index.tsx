@@ -1,79 +1,81 @@
-import React from 'react'
-import { FormControl, makeStyles, MenuItem, Select } from '@material-ui/core'
-import { COLORS } from 'theme'
+import React, { useEffect, useState } from 'react'
+// import { COLORS } from 'theme'
 import SelectIcon from './../../assets/icons/select.svg'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 
 interface DropDownProps {
   name: string
   options: string[]
   value: string
-  onChange: (
-    event: React.ChangeEvent<{
-      name?: string | undefined
-      value: unknown
-    }>,
-    child: React.ReactNode
-  ) => void
+  onChange: (e: any) => void
   width?: string
   label?: string
   boxshadow?: boolean
 }
 
-interface StyleProps {
-  boxshadow?: boolean;
+interface WidthProps {
+  readonly width: string
 }
 
-const useStyles = makeStyles({
-  selected: {
-    color: COLORS.white
-  },
-  focus: {
-    '&:focus': {
-      backgroundColor: 'white'
-    }
-  },
-  select: {
-    color: COLORS.black2,
-    border: '1px solid #DDDDDD',
-    borderRadius: '8px',
-    background: '#FFFFFF',
-    fontSize: '0.875rem',
-    height: '7vh',
-    boxShadow: (props: StyleProps) => props.boxshadow ? '0px 2px 8px rgba(0, 0, 0, 0.135216)' : 'none'
-  },
-  menu: {
-    borderRadius: '8px',
-    marginTop: '3vh',
-    '& *': {
-      paddingTop: '0',
-      paddingBottom: '0'
-    }
-  },
-  input: {
-    paddingLeft: '1vw',
-    marginRight: '3px'
-  },
-  item: {
-    height: '7.5vh',
-    fontSize: '1rem',
-    borderBottom: '1px solid #DDDDDD',
-    backgroundColor: COLORS.white,
-    '&:focus': {
-      backgroundColor: COLORS.white,
-    },
-    '&:hover': {
-      color: COLORS.white,
-      backgroundColor: COLORS.black
-    },
-    '&$selected': {
-      backgroundColor: COLORS.black,
-      '&:hover': {
-        backgroundColor: COLORS.black
-      }
-    }
+const Container = styled.div<WidthProps>`
+  width: ${props => props.width};
+  position: relative;
+  z-index: 9999;
+`
+
+const Row = styled.div`
+  border: 1px solid #dddddd;
+  box-sizing: border-box;
+  border-radius: 8px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2vh 2vw;
+  cursor: pointer;
+`
+
+const Label = styled.div`
+  text-transform: capitalize;
+`
+
+const Items = styled.div<WidthProps>`
+  margin-top: 2vh;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  position: absolute;
+  width: ${props => props.width};
+`
+
+interface ItemProps {
+  readonly selected: boolean
+  readonly last: boolean
+}
+
+const Item = styled.div<ItemProps>`
+  border-bottom: ${props => (props.last ? 'none' : '1px solid #DDDDDD')};
+  padding: 3vh 1vw;
+  cursor: pointer;
+  text-transform: capitalize;
+  border-radius: ${props => (props.selected ? 'none' : props.last ? '0px 0px 8px 8px' : '8px 8px 0px 0px')};
+  color: ${props => (props.selected ? 'white' : 'black')};
+  background-color: ${props => (props.selected ? 'black' : 'white')};
+  &:hover {
+    color: white;
+    background-color: black;
+    border-radius: 0;
   }
-})
+`
+
+const BlurLayer = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+`
 
 export const DropDown: React.FunctionComponent<DropDownProps> = ({
   name,
@@ -84,45 +86,44 @@ export const DropDown: React.FunctionComponent<DropDownProps> = ({
   label,
   boxshadow
 }: DropDownProps) => {
-
-  const classes = useStyles({boxshadow})
-
   const { t } = useTranslation()
 
+  const [open, setOpen] = useState(false)
+
+  const [selected, setSelected] = useState('')
+
+  useEffect(() => {
+    if (value) setSelected(value)
+  }, [value, setSelected])
+
   return (
-    <FormControl style={{ minWidth: width }}>
-      <Select
-        disableUnderline
-        displayEmpty
-        name={name}
-        value={value}
-        onChange={onChange}
-        defaultValue={options[0]}
-        className={classes.select}
-        inputProps={{ className: classes.input }}
-        classes={{ root: classes.focus, filled: classes.input }}
-        renderValue={value !== '' ? undefined : () => <div style={{ color: 'black' }}>{label}</div>}
-        IconComponent={() => <img src={SelectIcon} alt="Sort by" style={{ marginLeft: '-2vw', paddingRight: '1vw' }} />}
-        MenuProps={{
-          className: classes.menu,
-          anchorOrigin: {
-            vertical: 'bottom',
-            horizontal: 'left'
-          },
-          transformOrigin: {
-            vertical: 'top',
-            horizontal: 'left'
-          },
-          getContentAnchorEl: null
-        }}
-      >
-        {options.map(o => (
-          <MenuItem key={o} value={o} classes={{ root: classes.item, selected: classes.selected }}>
-            {t(o)}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <React.Fragment>
+      <BlurLayer onClick={() => setOpen(false)} />
+      <Container width={width || '10vh'}>
+        <Row onBlur={() => setOpen(false)} onClick={() => setOpen(!open)}>
+          <Label>{t(selected) || t(label)}</Label>
+          <img src={SelectIcon} alt="Select" />
+        </Row>
+        {open && (
+          <Items width={width || '10vh'}>
+            {options.map((o, i) => (
+              <Item
+                selected={selected === o}
+                last={i === options.length - 1}
+                key={o}
+                onClick={() => {
+                  setSelected(o)
+                  setOpen(false)
+                  onChange({ target: { name, value: o } })
+                }}
+              >
+                {t(o)}
+              </Item>
+            ))}
+          </Items>
+        )}
+      </Container>
+    </React.Fragment>
   )
 }
 

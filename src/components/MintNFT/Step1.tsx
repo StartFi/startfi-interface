@@ -4,15 +4,10 @@ import { DropDownCategory } from 'components/DropDown'
 import { InputFile, LabelBlack, LabelWithCheck } from 'components/Input'
 import { CATEGORIES, StepProps } from '../../constants'
 import { useTranslation } from 'react-i18next'
-import { useIpfsHashes, useIpfsStatus } from 'state/ipfs/hooks'
 
 const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
   const { t } = useTranslation()
-  // const f = useUploadToIpfs
-  const x = useIpfsHashes() // get all uploaded hashes by the user (during the current session)
-  console.log(x)
-  const s = useIpfsStatus() // get user status
-  console.log(s)
+  
   return (
     <React.Fragment>
       <Box mt={8} mb={8}>
@@ -36,9 +31,9 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
         name="file"
         label={t('uploadNFT')}
         value={state.file}
-        onChange={handleChange}
+        // onChange={(e: any) => upload({path:e.target.files[0].name,content:e.target.files[0]})}
         //f({path:e.target.files[0].name, content:e.target.files[0].arrayBuffer()})
-        progress={s}
+        // progress={s}
         error={missing.includes('file')}
       />
     </React.Fragment>

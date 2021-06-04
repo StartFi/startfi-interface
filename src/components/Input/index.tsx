@@ -76,7 +76,7 @@ const FileInput = styled(Box)<FileInputProps>`
 export const LabelWithCheck = ({ Label, text, verified, error }: any) => (
   <Box display="flex" flexDirection="row" flexWrap="no" alignItems="baseline">
     <Label>{text}</Label>
-    {verified ? <img src={Check} alt="Verified" /> : error && <Missed>Missed</Missed>}
+    {verified ? <img src={Check} alt="Verified" /> : (error ? <Missed>Missed</Missed> : null)}
   </Box>
 )
 

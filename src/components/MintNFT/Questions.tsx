@@ -60,7 +60,7 @@ const Questions: React.FC = () => {
       <NeedHelp>{t('Need Help?')}</NeedHelp>
       <Underline />
       {_.times(QAS, (i: number) => (
-        <QA onClick={() => setSelected(selected === i ? -1 : i)}>
+        <QA key={i} onClick={() => setSelected(selected === i ? -1 : i)}>
           <Row>
             <div>{t('needHelpQ' + i)}</div>
             <Img src={selected === i ? ArrowUp : ArrowDown} alt="Arrow" />

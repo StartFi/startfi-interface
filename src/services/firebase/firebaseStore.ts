@@ -50,7 +50,7 @@ const LIMIT = 4
 // get NFTS
 export const getNfts = async ({ search, category, sort }: NFTQUERY): Promise<NFTS> => {
   var ref = firebase.database().ref('nfts').orderByChild(category ? 'category' : (sort ? 'price' : 'price'))
-  if (category && category !== "All") ref = ref.equalTo(category)
+  if (category && category !== "all") ref = ref.equalTo(category)
   if (sort) {
     switch (sort) {
       case 'Lowest price':

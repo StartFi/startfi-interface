@@ -62,7 +62,6 @@ const NFTs: React.FC = () => {
           options={SORTBY}
           value={sort}
           onChange={(e: any) => {
-            console.log(e.target.value)
             setSort(e.target.value)
             getNFTs({ sort: e.target.value })
           }}

@@ -65,7 +65,7 @@ const Card: React.FC = () => {
 
   const [missing, setMissing] = useState<string[]>([])
 
-  const [step, setStep] = useState<number>(2)
+  const [step, setStep] = useState<number>(1)
 
   const handleChange = (e: any) =>
     setState({ ...state, [e.target.name]: e.target.type === 'file' ? e.target.files[0] : e.target.value })
