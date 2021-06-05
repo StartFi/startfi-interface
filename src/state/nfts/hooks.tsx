@@ -29,8 +29,8 @@ export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
 
   return useCallback((query?: NFTQUERY) => {
     let q = query || {}
-    if (!q.search && search) q.search = search 
-    if (!q.category && category) q.category = category 
+    // if (!q.search && search) q.search = search 
+    // if (!q.category && category) q.category = category 
     dispatch(getNFTs(q))
   }, [search, category, dispatch])
 }

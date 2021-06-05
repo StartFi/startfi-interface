@@ -5,7 +5,7 @@ import { NFTS } from 'state/nfts/reducer'
 console.log(process.env.REACT_APP_FIREBASE_API_KEY)
 
 const config = {
-  apiKey:   process.env.REACT_APP_FIREBASE_API_KEY,
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
@@ -55,27 +55,21 @@ export const get = async (entity: string, key: string): Promise<Document> => {
 const LIMIT = 4
 
 export const getNFTS = async ({ search, category, sort }: NFTQUERY): Promise<NFTS> => {
-  var ref = firebase
-    .database()
-    .ref('nfts')
-    .orderByChild(category ? 'category' : (search ? 'name' : 'price'))
-    if (category && category !== 'all') ref = ref.equalTo(category)
-    if (search) {
-      if (category) ref = ref.orderByChild('name')
-      ref = ref.equalTo(search)
+  console.log({ search, category, sort })
+  var ref: any = firebase.database().ref('nfts')
+  if (search) ref = ref.orderByChild('name').equalTo(search)
+  else if (category && category !== 'all') ref = ref.orderByChild('category').equalTo(category)
+  else if (sort) {
+    switch (sort) {
+      case 'Lowest price':
+        ref = ref.orderByChild('price').limitToFirst(LIMIT)
+        break
+      case 'Highest price':
+        ref = ref.orderByChild('price').limitToLast(LIMIT)
+        break
+      default:
     }
-  // if (search || category) ref = ref.orderByChild('price')
-  if (sort) {
-  switch (sort) {
-    case 'Lowest price':
-      ref = ref.limitToFirst(LIMIT)
-      break
-    case 'Highest price':
-      ref = ref.limitToLast(LIMIT)
-      break
-    default: //ref = ref.limitToFirst(LIMIT)
   }
-}
   const nfts = await (await ref.once('value')).val()
   console.log(nfts)
   if (!nfts) return []
@@ -84,7 +78,7 @@ export const getNFTS = async ({ search, category, sort }: NFTQUERY): Promise<NFT
   return sorted
 }
 
-const sortByKey = (array: any, key: string, desc?:boolean) => {
+const sortByKey = (array: any, key: string, desc?: boolean) => {
   var sorted = array.sort((a: any, b: any) => {
     var x = a[key]
     var y = b[key]
