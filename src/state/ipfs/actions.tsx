@@ -5,6 +5,6 @@ export enum ipfsEnumStatus {
   DONE,
   REJECTED
 }
-export const uploadedToIpfs = createAction<{ IpfsHash: string }>('ipfs/uploaded')
+export const uploadedToIpfs = createAction<{ fileName: string; IpfsHash: string }>('ipfs/uploaded')
 export const ipfsStatus = createAction<{ status: ipfsEnumStatus }>('ipfs/status')
-export const ipfsProgress = createAction<{ progress: string }>('ipfs/progress')
+export const ipfsProgress = createAction<{ type: string; progress: string }>('ipfs/progress') // @YT add type as workaround to be Improved

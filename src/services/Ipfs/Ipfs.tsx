@@ -1,8 +1,7 @@
-import fecth from 'node-fetch'
+import uint8ArrayConcat from 'uint8arrays/concat'
+import all from 'it-all'
 import ipfs from '../../utils/ipfs'
-
-const rooDir = 'NFTs'
-
+import store from 'state'
 export type AwaitIterable<T> = Iterable<T> | AsyncIterable<T>
 
 export type ToContent =
@@ -19,9 +18,8 @@ export interface IpfsMedia {
   content: ToContent
 }
 
-export function ProgressCallIPFS(bytesLoaded: any, dataSize: number): string {
-  console.log('uploaded : ' + (bytesLoaded / dataSize) * 100 + '%')
-  return (bytesLoaded / dataSize) * 100 + '%'
+export function ProgressCallIPFS(bytesLoaded: any, dataSize: number): void {
+  store.dispatch({ type: 'ipfs/progress', payload: { progress: (bytesLoaded / dataSize) * 100 + '%' } })
 }
 
 export const uploadIPFS = async (ipfsMedia: IpfsMedia): Promise<string> => {
@@ -30,9 +28,8 @@ export const uploadIPFS = async (ipfsMedia: IpfsMedia): Promise<string> => {
       return 'No content found'
     } else {
       const { cid } = await ipfs.add(
-        { path: `${rooDir}/${ipfsMedia.path}`, content: ipfsMedia.content },
+        { path: ipfsMedia.path, content: ipfsMedia.content },
         {
-          pin: true,
           progress: function ProgressData(bytesLoad): void {
             ProgressCallIPFS(bytesLoad, ipfsMedia.content.toString().length)
           }
@@ -45,10 +42,9 @@ export const uploadIPFS = async (ipfsMedia: IpfsMedia): Promise<string> => {
   }
 }
 
-export const getdataIPFS = async (path: string): Promise<any> => {
+export const getDataIPFS = async (path: string): Promise<any> => {
   try {
-    const data = await fecth(path)
-    return data
+    return uint8ArrayConcat(await all(await ipfs.cat(path)))
   } catch (error) {
     throw Error(error)
   }

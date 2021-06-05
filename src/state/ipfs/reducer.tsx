@@ -1,14 +1,18 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { uploadedToIpfs, ipfsStatus, ipfsEnumStatus, ipfsProgress } from './actions'
 
+export interface IpfsFile {
+  fileName: string
+  hash: string
+}
 export interface IpfsState {
-  ipfsHashs: string[]
+  ipfsFiles: IpfsFile[]
   ipfsStatus: ipfsEnumStatus | null
   ipfsProgress: string
 }
 
 const initialState: IpfsState = {
-  ipfsHashs: [],
+  ipfsFiles: [],
   ipfsStatus: ipfsEnumStatus['INIT'],
   ipfsProgress: '0%'
 }
@@ -16,7 +20,7 @@ const initialState: IpfsState = {
 export default createReducer(initialState, builder =>
   builder
     .addCase(uploadedToIpfs, (state, action) => {
-      state.ipfsHashs.push(action.payload.IpfsHash)
+      state.ipfsFiles.push({ fileName: action.payload.fileName, hash: action.payload.IpfsHash })
     })
     .addCase(ipfsStatus, (state, action) => {
       state.ipfsStatus = action.payload.status

@@ -74,3 +74,20 @@ https://ipfs.io/ipfs/QmbxyBFi9qFD7GRD7eXMSN8C2jpeGq6NhYg6MzxsbSNCXs/
 
 ![no image found](./images/ipfs_file_content.png)
 https://ipfs.io/ipfs/QmbxyBFi9qFD7GRD7eXMSN8C2jpeGq6NhYg6MzxsbSNCXs/yarab.txt
+
+
+
+### Fetch Files
+
+To fetch any file you need to use `getDataIpfs` service and send the file `path` as parameter
+
+```
+const uint8Array = await getDataIPFS(`${ipfsHash}/${file.name}`)
+```
+The returned value will be an `uint8Array`. To parse it to string for example we use `uint8arrays/to-string` package
+
+```
+import uint8ArrayToString from 'uint8arrays/to-string'
+const uint8Array = await getDataIPFS(`${ipfsHash}/${file.name}`)
+uint8ArrayToString(uint8Array) // return the content in string form
+```
