@@ -1,5 +1,5 @@
 import { BidItem } from './../Storage/Bids';
-import firebase from './firebaseConfig'
+import firebase from './Firebase'
 
 
 // update bids

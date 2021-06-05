@@ -1,15 +1,16 @@
+import { UserDoc } from 'services/User/User'
 import { NFT, NFTS } from 'state/nfts/reducer'
-import firebase from './firebaseConfig'
+import firebase from './Firebase'
 
-export type UserDoc = {
-  ehAddress: string | null | undefined
-  name?: string
-  email?: string
-  // NFT hash array belong to user
-  NFTs?: Array<string>
-  // NFT hash array belong to any
-  whitelists?: Array<number>
-}
+// export type UserDoc = {
+//   ehAddress: string | null | undefined
+//   name?: string
+//   email?: string
+//   // NFT hash array belong to user
+//   NFTs?: Array<string>
+//   // NFT hash array belong to any
+//   whitelists?: Array<number>
+// }
 
 // add user docs
 export const addUserDoc = async (user: UserDoc): Promise<void> => {
@@ -57,8 +58,9 @@ export const getNfts = async (): Promise<NFTS> => {
 
 // updateWhiteList
 export const updateWhiteList = async ({ accountId, nft }: any) => {
+  if (!accountId) throw Error('you are not logged in')
   let user = await getUseData(accountId)
-  if (!user) return
+  if (!user) throw Error('no user')
   let nftsWhiteList: Array<number>
   if (user?.whitelists) {
     nftsWhiteList = [...user.whitelists]

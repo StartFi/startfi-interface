@@ -1,5 +1,5 @@
 import { AuctionItem } from './../Storage/Auction';
-import firebase from './firebaseConfig'
+import firebase from './Firebase'
 
 
 // update auction item

@@ -1,4 +1,4 @@
-import { UserDoc } from 'services/firebase/firebaseStore'
+import { UserDoc } from 'services/User/User'
 import { INITIAL_ALLOWED_SLIPPAGE, DEFAULT_DEADLINE_FROM_NOW } from '../../constants'
 import { createReducer } from '@reduxjs/toolkit'
 import { updateVersion } from '../global/actions'
@@ -16,7 +16,7 @@ import {
   updateUserDeadline,
   toggleURLWarning,
   updateUserSingleHopOnly,
-  whitelistNFT,
+  // whitelistNFT,
   addUserDocs,
   updateUserDocs,
   getUserDocs,
@@ -157,19 +157,20 @@ export default createReducer(initialState, builder =>
     .addCase(toggleURLWarning, state => {
       state.URLWarningVisible = !state.URLWarningVisible
     })
-    .addCase(whitelistNFT.pending, (state, action) => {})
-    .addCase(whitelistNFT.fulfilled, (state, action) => {
-      //notify
-    })
-    .addCase(whitelistNFT.rejected, (state, action) => {
-      //notify
-    })
+    // .addCase(whitelistNFT.pending, (state, action) => {})
+    // .addCase(whitelistNFT.fulfilled, (state, action) => {
+    //   //notify
+    // })
+    // .addCase(whitelistNFT.rejected, (state, action) => {
+    //   //notify
+    // })
     .addCase(addUserDocs.pending, (state, action) => {})
     .addCase(addUserDocs.fulfilled, (state, action) => {
       // notify
     })
 
     .addCase(addUserDocs.rejected, (state, action) => {
+      console.log(action.error)
       // notify
     })
     .addCase(updateUserDocs.pending, (state, action) => {})
@@ -187,6 +188,7 @@ export default createReducer(initialState, builder =>
       // notify
     })
     .addCase(getUserDocs.rejected, (state, action) => {
+      console.log(action.error)
       // notify
     })
     .addCase(updateUserWhiteList.pending, (state, action) => {})
@@ -194,6 +196,7 @@ export default createReducer(initialState, builder =>
       // notify
     })
     .addCase(updateUserWhiteList.rejected, (state, action) => {
+      console.log(action.error)
       // notify
     })
 )
