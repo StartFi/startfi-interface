@@ -1,6 +1,7 @@
 import uint8ArrayConcat from 'uint8arrays/concat'
 import all from 'it-all'
 import ipfs from '../../utils/ipfs'
+import store from 'state'
 export type AwaitIterable<T> = Iterable<T> | AsyncIterable<T>
 
 export type ToContent =
@@ -17,9 +18,8 @@ export interface IpfsMedia {
   content: ToContent
 }
 
-export function ProgressCallIPFS(bytesLoaded: any, dataSize: number): string {
-  console.log('uploaded : ' + (bytesLoaded / dataSize) * 100 + '%')
-  return (bytesLoaded / dataSize) * 100 + '%'
+export function ProgressCallIPFS(bytesLoaded: any, dataSize: number): void {
+  store.dispatch({ type: 'ipfs/progress', payload: { progress: (bytesLoaded / dataSize) * 100 + '%' } })
 }
 
 export const uploadIPFS = async (ipfsMedia: IpfsMedia): Promise<string> => {
