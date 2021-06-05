@@ -93,7 +93,7 @@ const Card: React.FC = () => {
           onAuction: state.bidsOffers === 'true',
           name: state.name,
           image: state.filehash,
-          price: state.price,
+          price: parseInt(state.price),
           category: state.category,
           description: state.description,
           // tags: state.tags
