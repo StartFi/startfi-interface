@@ -42,7 +42,7 @@ export const uploadIPFS = async (ipfsMedia: IpfsMedia): Promise<string> => {
   }
 }
 
-export const getdataIPFS = async (path: string): Promise<any> => {
+export const getDataIPFS = async (path: string): Promise<any> => {
   try {
     return uint8ArrayConcat(await all(await ipfs.cat(path)))
   } catch (error) {
