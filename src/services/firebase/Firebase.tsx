@@ -36,7 +36,7 @@ export const update = async (entity: string, key: string, object: any): Promise<
 
 
 
-export const get = async (entity: string, key: string): Promise<Document> => {
+export const get = async (entity: string, key: string): Promise<any> => {
   return (
     await firebase
       .database()
