@@ -69,6 +69,22 @@ function useContract(address: string | undefined, ABI: any, withSignerIfPossible
   }, [address, ABI, library, withSignerIfPossible, account])
 }
 
+async function useContractWithLibrary(
+  address: string | undefined,
+  ABI: any,
+  withSignerIfPossible = true,
+  library: any,
+  account: any
+): Promise<any> {
+  if (!address || !ABI || !library) return null
+  try {
+    return await getContract(address, ABI, library, withSignerIfPossible && account ? account : undefined)
+  } catch (error) {
+    console.error('Failed to get contract', error)
+    return null
+  }
+}
+
 // left as a reference to follow when consuming startfi contract
 export function useWETHContract(withSignerIfPossible?: boolean): Contract | null {
   const { chainId } = useActiveWeb3React()
@@ -129,11 +145,17 @@ export const useStartFiToken = (withSignerIfPossible?: boolean): Contract | null
   return useContract(STARTFI_TOKEN_NETWORK[3].address, STARTFI_TOKEN_ABI, withSignerIfPossible)
 }
 
-export const useStartFiNft = (withSignerIfPossible?: boolean): Contract | null => {
+export async const useStartFiNft = (account: any, library: any, withSignerIfPossible?: boolean): Promise<any>=> {
   /*   const { chainId } = useActiveWeb3React()
   const networkId = chainId ? chainId : '3'
   console.log('network id', networkId) */
-  return useContract(STARTFI_NFT_NETWORK['3'].address, STARTFI_NFT_ABI, withSignerIfPossible)
+  return await useContractWithLibrary(
+    STARTFI_NFT_NETWORK['3'].address,
+    STARTFI_NFT_ABI,
+    withSignerIfPossible,
+    account,
+    library
+  )
 }
 
 export const useStartFiMarketPlace = (withSignerIfPossible?: boolean): Contract | null => {
