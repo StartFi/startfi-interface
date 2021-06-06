@@ -29,7 +29,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
     console.log(hashes)
     console.log(filename)
     if (hashes.length > 0 && filename) {
-      var { fileName, hash } = hashes[hashes.length - 1]
+      let { fileName, hash } = hashes[hashes.length - 1]
       if (fileName === filename) handleChange({ target: { name: 'file', value: hash } })
     }
   }, [filename, hashes, handleChange])
@@ -57,17 +57,9 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
         name="file"
         label={t('uploadNFT')}
         value={state.file}
-        onChange={(e: any) => {
-          if (e.target.files[0] === null) {
-            setFilename('')
-            handleChange({ target: { name: 'file', value: '' } })
-          } else {
-            upload({ path: e.target.files[0].name, content: e.target.files[0] })
-            setFilename(e.target.files[0].name)
-          }
+        onChange={function Onhandle(event: Event) {
+          console.log('event', event.target)
         }}
-        progress={progress}
-        filename={filename}
         error={missing.includes('file')}
       />
     </React.Fragment>
