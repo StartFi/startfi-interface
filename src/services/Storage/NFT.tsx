@@ -1,13 +1,13 @@
- import { add, getNFTS } from 'services/firebase/Firebase'
+import { add, getNFTS } from 'services/firebase/Firebase'
 import { NFT } from 'state/nfts/reducer'
 
- export const array = [
+export const array = [
   {
     id: 0,
     name: 'Apple Watch Series 4 GPS',
     owner: 'on1',
     issueDate: Date.now(),
-    onAuction:false,
+    onAuction: false,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -19,7 +19,7 @@ import { NFT } from 'state/nfts/reducer'
     owner: 'on1',
     issueDate: Date.now(),
     price: 16,
-    onAuction:false,
+    onAuction: false,
     category: 'Music',
     image: 'https://picsum.photos/200',
     description: 'Redesigned from scratch and completely revised'
@@ -29,7 +29,7 @@ import { NFT } from 'state/nfts/reducer'
     name: 'Apple Watch Series 4 GPS',
     owner: 'on1',
     issueDate: Date.now(),
-    onAuction:true,
+    onAuction: true,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -40,7 +40,7 @@ import { NFT } from 'state/nfts/reducer'
     name: 'Apple Watch Series 4 GPSa',
     owner: 'on1',
     issueDate: Date.now(),
-    onAuction:false,
+    onAuction: false,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -51,7 +51,7 @@ import { NFT } from 'state/nfts/reducer'
     name: 'Apple Watch Series 4 GPS',
     owner: 'on1',
     issueDate: Date.now(),
-    onAuction:false,
+    onAuction: false,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -62,7 +62,7 @@ import { NFT } from 'state/nfts/reducer'
     name: 'Apple Watch Series 4 GPS',
     owner: 'on1',
     issueDate: Date.now(),
-    onAuction:true,
+    onAuction: true,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -73,7 +73,7 @@ import { NFT } from 'state/nfts/reducer'
     name: 'Apple Watch Series 4 GPS',
     owner: 'on1',
     issueDate: Date.now(),
-    onAuction:true,
+    onAuction: true,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -100,5 +100,5 @@ export const getAll = async (query?: NFTQUERY) => {
 
 export const mint = async (nft: NFT): Promise<string | void> => {
   nft.id = 7
-  return add("nfts", nft.id, nft)
+  return add('nfts', nft.id, nft)
 }

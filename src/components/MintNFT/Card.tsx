@@ -157,7 +157,7 @@ const Card: React.FC = () => {
           }
           setNft(nft)
           setNftPath('id.js')
-          upload({ path: 'id.js', content: JSON.stringify(nft) })  
+          upload({ path: 'id.js', content: JSON.stringify(nft) })
         } else history.push('/')
         break
       default:

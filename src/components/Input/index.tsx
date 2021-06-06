@@ -87,7 +87,7 @@ export const InputFile = ({ name, label, value, onChange, error, progress, filen
       <InputFileHeader>
         <LabelWithCheck text={label} Label={LabelBlack} error={error} />
         {filename && (
-          <ButtonFile onClick={() => onChange({ target: { files: [null] }, type: 'file' })}>{t('Delete')}</ButtonFile>
+          <ButtonFile onClick={() => onChange({ target: { files: [''] }, name: 'file' })}>{t('Delete')}</ButtonFile>
         )}
       </InputFileHeader>
       <InputFileFooter>

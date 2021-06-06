@@ -1,6 +1,6 @@
 import { LinkCreateNFT } from 'components/Link'
 import Wallet from 'components/Wallet'
-import { useActiveWeb3React} from 'hooks'
+import { useActiveWeb3React } from 'hooks'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { UserDoc } from 'services/firebase/firebaseStore'
@@ -87,9 +87,9 @@ const InnerHeader = styled.div`
 `
 
 export const LandingPage = () => {
-  const { account, } = useActiveWeb3React()
-  const user:UserDoc ={ehAddress:account}
-  useAddUserDoc(user,account)
+  const { account } = useActiveWeb3React()
+  const user: UserDoc = { ehAddress: account }
+  useAddUserDoc(user, account)
   return (
     <PageWrapper>
       <Header>
