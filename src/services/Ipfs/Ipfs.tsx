@@ -27,11 +27,17 @@ export const uploadIPFS = async (ipfsMedia: IpfsMedia): Promise<string> => {
     if (!ipfsMedia.content) {
       return 'No content found'
     } else {
+      const mediaSize =
+        (ipfsMedia.path as string).split('.').pop() === '.json'
+          ? ipfsMedia.content.toString().length
+          : (ipfsMedia.content as File).size
+          ? (ipfsMedia.content as File).size
+          : Buffer.byteLength(ipfsMedia.content as Buffer)
       const { cid } = await ipfs.add(
         { path: ipfsMedia.path, content: ipfsMedia.content },
         {
           progress: function ProgressData(bytesLoad): void {
-            ProgressCallIPFS(bytesLoad, ipfsMedia.content.toString().length)
+            ProgressCallIPFS(bytesLoad, mediaSize)
           }
         }
       )
