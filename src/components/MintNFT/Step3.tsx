@@ -70,7 +70,7 @@ const Step3: React.FC<StepProps> = ({ state, handleChange }: StepProps) => {
         <div>
           <input
             type="radio"
-            name="bidsoffers"
+            name="bidsOffers"
             value="false"
             checked={state.bidsOffers === 'false'}
             onChange={handleChange}

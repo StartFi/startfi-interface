@@ -10,7 +10,8 @@ export interface NFT {
   onAuction:boolean
   issueDate:number
   image: string
-  price: number
+  price: number,
+  hash: string,
   // tags: string[]
 }
 

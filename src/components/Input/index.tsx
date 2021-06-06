@@ -77,7 +77,7 @@ const InputFileFooter = styled(InputFileHeader)`
   margin-top: 2vh;
 `
 
-export const InputFile = ({ name, label, value, onChange, error, progress }: any) => {
+export const InputFile = ({ name, label, value, onChange, error, progress, filename }: any) => {
   const { t } = useTranslation()
 
   const ref = useRef<HTMLInputElement>(null)
@@ -86,7 +86,7 @@ export const InputFile = ({ name, label, value, onChange, error, progress }: any
     <div>
       <InputFileHeader>
         <LabelWithCheck text={label} Label={LabelBlack} error={error} />
-        {value && (
+        {filename && (
           <ButtonFile onClick={() => onChange({ target: { files: [null] }, type: 'file' })}>{t('Delete')}</ButtonFile>
         )}
       </InputFileHeader>
@@ -96,9 +96,9 @@ export const InputFile = ({ name, label, value, onChange, error, progress }: any
           <div>{t(progress > 0 ? 'Uploading' : 'Upload')}</div>
           <img src={Upload} alt="Upload file" />
         </FileInput>
-        {value && value.name && (
+        {filename && (
           <FileInput minWidth="28vw">
-            <div>{value.name}</div>
+            <div>{filename.substring(0, 20)}</div>
             <div>{progress}</div>
           </FileInput>
         )}

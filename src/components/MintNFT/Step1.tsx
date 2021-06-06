@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { DropDownCategory } from 'components/DropDown'
 import { InputFile, LabelBlack, LabelWithCheck } from 'components/Input'
 import { CATEGORIES, StepProps } from '../../constants'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { useIpfsHashes, useIpfsProgress, useUploadToIpfs } from 'state/ipfs/hooks'
 
 const DropDown = styled.div`
   margin: 10vh 0;
@@ -14,7 +15,26 @@ const Label = styled.div`
 `
 
 const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
+
+  const [filename, setFilename] = useState('')
+
   const { t } = useTranslation()
+
+  const upload = useUploadToIpfs()
+
+  const progress = useIpfsProgress()
+
+  const hashes = useIpfsHashes()
+
+  useEffect(() => {
+    console.log(hashes)
+    console.log(filename)
+    if (hashes.length > 0  && filename) {
+      var { fileName, hash } = hashes[hashes.length - 1]
+      if (fileName === filename)
+      handleChange({ target: { name: 'file', value: hash } })  
+    }
+  }, [filename, hashes, handleChange])
 
   return (
     <React.Fragment>
@@ -39,9 +59,12 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
         name="file"
         label={t('uploadNFT')}
         value={state.file}
-        onChange={handleChange}
-        //f({path:e.target.files[0].name, content:e.target.files[0].arrayBuffer()})
-        // progress={s}
+        onChange={(e: any) => {
+          upload({ path: e.target.files[0].name, content: e.target.files[0] })
+          setFilename(e.target.files[0].name)
+        }}
+        progress={progress}
+        filename={filename}
         error={missing.includes('file')}
       />
     </React.Fragment>

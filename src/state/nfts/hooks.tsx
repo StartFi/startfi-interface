@@ -24,15 +24,15 @@ export const useLastCategory = (): string => {
 
 export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
   const dispatch = useDispatch()
-  const search = useLastSearch()
-  const category = useLastCategory()
+  // const search = useLastSearch()
+  // const category = useLastCategory()
 
   return useCallback((query?: NFTQUERY) => {
     let q = query || {}
     // if (!q.search && search) q.search = search 
     // if (!q.category && category) q.category = category 
     dispatch(getNFTs(q))
-  }, [search, category, dispatch])
+  }, [dispatch])//search, category, 
 }
 
 export const useLoadNFTs = (): void => {

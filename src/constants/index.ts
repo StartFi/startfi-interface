@@ -11,7 +11,7 @@ export type Dictionary = { [index: string]: any }
 
 export interface StepProps {
   state: Dictionary
-  handleChange: (e: React.ChangeEvent<{}>) => void
+  handleChange: (e: any) => void
   missing: string[]
 }
 

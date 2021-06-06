@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Dictionary } from '../../constants'
 import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
 import styled from 'styled-components'
@@ -11,6 +11,7 @@ import Step2Icon from './../../assets/icons/step2.svg'
 import Step3Icon from './../../assets/icons/step3.svg'
 import { useTranslation } from 'react-i18next'
 import { useAddNFT } from 'state/nfts/hooks'
+import { useIpfsHashes, useUploadToIpfs } from 'state/ipfs/hooks'
 
 const Container = styled.div`
   display: flex;
@@ -44,15 +45,16 @@ const Footer = styled.div`
 `
 
 const Card: React.FC = () => {
+  console.log(5)
   const history = useHistory()
 
   const { t } = useTranslation()
 
-  const addnft = useAddNFT()
+  const addNft = useAddNFT()
 
   const [state, setState] = useState<Dictionary>({
     category: '',
-    file: null,
+    file: '',
     name: '',
     tags: '',
     description: '',
@@ -67,7 +69,51 @@ const Card: React.FC = () => {
 
   const [step, setStep] = useState<number>(1)
 
-  const handleChange = (e: any) => setState({ ...state, [e.target.name]: e.target.value })
+  const [nft, setNft] = useState({
+    id: 0,
+    owner: '',
+    issueDate: 0,
+    onAuction: false,
+    name: '',
+    image: '',
+    price: 0,
+    category: '',
+    description: '',
+    hash: ''
+    // tags: state.tags
+  })
+
+  const [nftPath, setNftPath] = useState('')
+
+  const handleChange = useCallback(
+    (e: any) => {
+      if (e.persist) e.persist()
+      setState(state => {
+        return { ...state, [e.target.name]: e.target.value }
+      })}, [setState])
+
+  const upload = useUploadToIpfs()
+
+  const hashes = useIpfsHashes()
+
+  useEffect(() => {
+    console.log(hashes)
+    if (hashes.length > 0 && nftPath) {
+      var { fileName, hash } = hashes[hashes.length - 1]
+      if (fileName === nftPath)
+        setNft(nft => {
+          return { ...nft, hash }
+        })
+    }
+  }, [nftPath, hashes, setNft])
+
+  useEffect(() => {
+    console.log(nft)
+    if (nft.hash) {
+      addNft(nft)
+      history.push('/mintednft')
+    }
+  }, [nft, addNft])
 
   const next = () => {
     var newMissing: string[] = []
@@ -86,19 +132,22 @@ const Card: React.FC = () => {
         }
         break
       case 3:
-        addnft({
+        var nft = {
           id: 0,
           owner: '',
           issueDate: 0,
           onAuction: state.bidsOffers === 'true',
           name: state.name,
-          image: state.filehash,
+          image: state.file,
           price: parseInt(state.price),
           category: state.category,
           description: state.description,
+          hash: ''
           // tags: state.tags
-        })
-        history.push('/mintednft')
+        }
+        setNft(nft)
+        setNftPath('id.js')
+        upload({ path: 'id.js', content: JSON.stringify(nft) })
         break
       default:
     }
