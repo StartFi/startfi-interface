@@ -1,16 +1,9 @@
-import { useStartFiNft } from 'hooks/useContract'
-import { submitTransaction } from 'services/blockchain/submitTransaction'
+import { useCallback } from 'react'
+import { useSubmitTransaction } from 'services/blockchain/submitTransaction'
 
-export const mint = (address: string, account: string, library: any): any => {
-  console.log('library', library)
-  return (
-    submitTransaction(
-      useStartFiNft,
-      'mint',
-      ['0x54B1b002cE313ACd16202e58da794f4F4Db1eE49'],
-      account as string,
-      library
-    ),
-    []
-  )
+export const useMint = (): ((address: string, contract: any, account: any, library: any) => void) => {
+  const mint = useSubmitTransaction()
+  return useCallback((address: string, contract: any, account: any, library: any) => {
+    mint('mint', [address], contract, account, library)
+  }, [])
 }

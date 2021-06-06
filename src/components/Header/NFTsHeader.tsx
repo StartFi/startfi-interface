@@ -17,8 +17,9 @@ import Images from '../../assets/icons/imagestab.svg'
 import { useGetNFTs } from 'state/nfts/hooks'
 import { useHistory } from 'react-router'
 import { CATEGORIES, Dictionary } from './../../constants'
+import { useMint } from 'hooks/startfiNft'
+import { useStartFiNft } from 'hooks/useContract'
 import { useActiveWeb3React } from 'hooks'
-import { mint } from 'hooks/startfiNft'
 const Categories = ['All', ...CATEGORIES]
 
 const TabIcons: Dictionary = {
@@ -36,9 +37,10 @@ const FullWidth = styled(Box)({
 })
 
 const NFTsHeader: React.FC = () => {
-  const { account, library } = useActiveWeb3React()
   const history = useHistory()
-
+  const mint = useMint()
+  const { account, library } = useActiveWeb3React()
+  const contract = useStartFiNft(true)
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState(0)
   const getNFTs = useGetNFTs()
@@ -59,7 +61,7 @@ const NFTsHeader: React.FC = () => {
       <TabsCategory
         value={category}
         onChange={(e, category) => {
-          mint('0x54B1b002cE313ACd16202e58da794f4F4Db1eE49', account as string, library)
+          mint(account as string, contract, account, library)
           getNFTs({ category: Categories[category] })
           setCategory(category)
         }}
