@@ -1,75 +1,64 @@
-import { makeStyles } from '@material-ui/core/styles'
+import styled from 'styled-components'
 
-export const useStyles = makeStyles({
-  card: {
-    height: 378,
-    width: '23vw',
-    borderRadius: 8
-  },
-  media: {
-    height: 176,
-    marginTop: 30,
-    marginBottom: 30,
+export const Card = styled.div`
+  width: 310px;
+  height: 378px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.135216);
+  position: relative;
+`
+export const Media = styled.div`
+  height: 176px;
+  width: 256px;
+  position: relative;
+  top: 28px;
+  left: 27px;
 
-    paddingLeft: 27,
-    paddingRight: 27,
+  /* padding: 28px 27px 0px 28px; */
+`
 
-    '& img': {
-      width: '100%',
-      height: '100%'
-    }
-  },
-  price: {
-    height: 21,
-    marginBottom: 19,
-    paddingLeft: 27,
-    paddingRight: 27,
+export const CardImg = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+`
 
-    '& p': {
-      fontFamily: 'Roboto',
-      fontWeight: 700,
-      fontSize: '1.125rem'
-    }
-  },
+export const Price = styled.div`
+  position: relative;
+  top: 38px;
+  left: 27px;
+`
 
-  title: {
-    height: 19,
-    marginBottom: 10,
-    paddingLeft: 27,
-    paddingRight: 27,
-    fontFamily: 'Roboto',
-    fontWeight: 400,
-    fontSize: '1rem'
-  },
-  description: {
-    paddingLeft: 27,
-    paddingRight: 27,
-    height: 14,
-    fontFamily: 'Roboto',
-    fontWeight: 400,
-    fontSize: '0.74rem',
-    lineHeight: '0.875rem',
-    marginBottom: 16
-  },
-  action: {
-    display: 'flex',
-    height: 45
-  },
-  whiteList: {
-    display: 'flex',
-    alignItems: 'center',
-    backgroundColor: '#EDEDED',
-    boxSizing: 'border-box',
-    width: '50%'
-  },
-  icon: {
-    position: 'relative',
-    left: 29
-  },
-  bid: {
-    backgroundColor: '#000000',
-    display: 'flex',
-    boxSizing: 'border-box',
-    width: '50%'
-  }
-})
+export const Text = styled('p')<{ fontFamily?: string; FontWight?: string; fontSize?: string }>`
+  font-family: ${({ fontFamily }) => fontFamily};
+  font-weight: ${({ FontWight }) => FontWight};
+  font-size: ${({ fontSize }) => fontSize};
+`
+
+export const Actions = styled.div`
+  display: flex;
+  position: absolute;
+  height: 45px;
+  top: 333px;
+  width: 100%;
+`
+
+export const WhiteList = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: #ededed;
+  border-radius: 0px 0px 0px 8px;
+`
+export const Bid = styled.div`
+  display: flex;
+  background-color: #000000;
+  width: 100%;
+  align-items: center;
+  border-radius: 0px 0px 8px 0px;
+`
+
+export const ImageIcon = styled.img`
+  position: relative;
+  left: 29px;
+`
