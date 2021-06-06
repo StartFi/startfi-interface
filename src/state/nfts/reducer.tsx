@@ -8,11 +8,12 @@ export interface NFT {
   category: string
   owner: string
   onAuction: boolean
-  issueDate: number
+  issuer: string
+  issueDate: Date
   image: string
   price: number
   hash: string
-  // tags: string[]
+  tags: string[]
 }
 
 export type NFTS = Array<NFT>

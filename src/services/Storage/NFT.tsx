@@ -99,7 +99,6 @@ export const getAll = async (query?: NFTQUERY) => {
 }
 
 export const mint = async (nft: NFT): Promise<string | void> => {
-  nft.id = 6
-  nft.image = 'sas'
+  nft.id = 7
   return add("nfts", nft.id, nft)
 }

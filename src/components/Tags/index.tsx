@@ -54,7 +54,7 @@ const Input = styled.input`
 interface TagsProps {
   name: string
   max: number
-  onChange: (e:any) => void
+  onChange: (e: any) => void
 }
 
 const Tags: React.FC<TagsProps> = ({ name, max, onChange }) => {
@@ -82,9 +82,9 @@ const Tags: React.FC<TagsProps> = ({ name, max, onChange }) => {
           onChange={(e: any) => setvalue(e.target.value)}
           onKeyDown={e => {
             if (e.key === 'Enter') {
+              onChange({ target: { name, value: [...tags, value] } })
               setTags([...tags, value])
               setvalue('')
-              onChange({target:{name,value:tags}})
             }
           }}
         />

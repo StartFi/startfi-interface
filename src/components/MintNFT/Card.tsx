@@ -12,6 +12,7 @@ import Step3Icon from './../../assets/icons/step3.svg'
 import { useTranslation } from 'react-i18next'
 import { useAddNFT } from 'state/nfts/hooks'
 import { useIpfsHashes, useUploadToIpfs } from 'state/ipfs/hooks'
+import { useActiveWeb3React } from 'hooks'
 
 const Container = styled.div`
   display: flex;
@@ -45,8 +46,11 @@ const Footer = styled.div`
 `
 
 const Card: React.FC = () => {
-  console.log(5)
   const history = useHistory()
+
+  const { account } = useActiveWeb3React()
+
+  console.log(account)
 
   const { t } = useTranslation()
 
@@ -72,15 +76,16 @@ const Card: React.FC = () => {
   const [nft, setNft] = useState({
     id: 0,
     owner: '',
-    issueDate: 0,
+    issuer: '',
+    issueDate: new Date(),
     onAuction: false,
     name: '',
     image: '',
     price: 0,
     category: '',
     description: '',
-    hash: ''
-    // tags: state.tags
+    hash: '',
+    tags: []
   })
 
   const [nftPath, setNftPath] = useState('')
@@ -135,22 +140,25 @@ const Card: React.FC = () => {
         }
         break
       case 3:
-        var nft = {
-          id: 0,
-          owner: '',
-          issueDate: 0,
-          onAuction: state.bidsOffers === 'true',
-          name: state.name,
-          image: state.file,
-          price: parseInt(state.price),
-          category: state.category,
-          description: state.description,
-          hash: ''
-          // tags: state.tags
-        }
-        setNft(nft)
-        setNftPath('id.js')
-        upload({ path: 'id.js', content: JSON.stringify(nft) })
+        if (account) {
+          var nft = {
+            id: 0,
+            owner: account,
+            issuer: account,
+            issueDate: new Date(),
+            onAuction: state.bidsOffers === 'true',
+            name: state.name,
+            image: state.file,
+            price: parseInt(state.price),
+            category: state.category,
+            description: state.description,
+            hash: '',
+            tags: state.tags
+          }
+          setNft(nft)
+          setNftPath('id.js')
+          upload({ path: 'id.js', content: JSON.stringify(nft) })  
+        } else history.push('/')
         break
       default:
     }
