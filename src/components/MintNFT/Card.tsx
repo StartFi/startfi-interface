@@ -90,7 +90,10 @@ const Card: React.FC = () => {
       if (e.persist) e.persist()
       setState(state => {
         return { ...state, [e.target.name]: e.target.value }
-      })}, [setState])
+      })
+    },
+    [setState]
+  )
 
   const upload = useUploadToIpfs()
 

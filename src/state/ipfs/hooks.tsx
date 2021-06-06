@@ -17,17 +17,20 @@ export const useIpfsProgress = (): string => {
   return useSelector((state: AppState) => state.ipfs.ipfsProgress)
 }
 
-export const useUploadToIpfs = (): (ipfsMedia: IpfsMedia) => void => {
+export const useUploadToIpfs = (): ((ipfsMedia: IpfsMedia) => void) => {
   const dispatch = useDispatch()
   dispatch(ipfsStatus({ status: ipfsEnumStatus['LOADING'] }))
 
-  return useCallback(async (ipfsMedia: IpfsMedia) => {
-    const ipfsHash = await uploadIPFS(ipfsMedia)
-    if (ipfsHash) {
-      dispatch(uploadedToIpfs({ fileName: ipfsMedia.path as string, IpfsHash: ipfsHash }))
-      dispatch(ipfsStatus({ status: ipfsEnumStatus['DONE'] }))
-    } else {
-      dispatch(ipfsStatus({ status: ipfsEnumStatus['REJECTED'] }))
-    }
-  }, [dispatch])
+  return useCallback(
+    async (ipfsMedia: IpfsMedia) => {
+      const ipfsHash = await uploadIPFS(ipfsMedia)
+      if (ipfsHash) {
+        dispatch(uploadedToIpfs({ fileName: ipfsMedia.path as string, IpfsHash: ipfsHash }))
+        dispatch(ipfsStatus({ status: ipfsEnumStatus['DONE'] }))
+      } else {
+        dispatch(ipfsStatus({ status: ipfsEnumStatus['REJECTED'] }))
+      }
+    },
+    [dispatch]
+  )
 }

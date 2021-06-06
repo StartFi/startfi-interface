@@ -15,7 +15,6 @@ const Label = styled.div`
 `
 
 const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
-
   const [filename, setFilename] = useState('')
 
   const { t } = useTranslation()
@@ -29,10 +28,9 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
   useEffect(() => {
     console.log(hashes)
     console.log(filename)
-    if (hashes.length > 0  && filename) {
+    if (hashes.length > 0 && filename) {
       var { fileName, hash } = hashes[hashes.length - 1]
-      if (fileName === filename)
-      handleChange({ target: { name: 'file', value: hash } })  
+      if (fileName === filename) handleChange({ target: { name: 'file', value: hash } })
     }
   }, [filename, hashes, handleChange])
 

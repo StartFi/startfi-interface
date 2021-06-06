@@ -1,6 +1,6 @@
-import {  Percent, Token, WETH9 } from '@uniswap/sdk-core'
-import JSBI from 'jsbi';
-import {ChainId} from '../constants/supportedChains'
+import { Percent, Token, WETH9 } from '@uniswap/sdk-core'
+import JSBI from 'jsbi'
+import { ChainId } from '../constants/supportedChains'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 
 import { fortmatic, injected, portis, walletconnect, walletlink } from '../connectors'
@@ -45,7 +45,6 @@ export const GOVERNANCE_ADDRESS = '0x5e4be8Bc9637f0EAA1A755019e06A68ce081D58F'
 export const TIMELOCK_ADDRESS = '0x1a9C8182C09F50C8318d769245beA52c32BE35BC'
 
 const UNI_ADDRESS = '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984'
-
 
 export const COMMON_CONTRACT_NAMES: { [address: string]: string } = {
   [UNI_ADDRESS]: 'UNI',
