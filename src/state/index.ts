@@ -7,6 +7,7 @@ import { updateVersion } from './global/actions'
 import user from './user/reducer'
 import transactions from './transactions/reducer'
 import multicall from './multicall/reducer'
+import ipfs from './ipfs/reducer'
 
 const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists']
 
@@ -16,7 +17,8 @@ const store = configureStore({
     application,
     user,
     transactions,
-    multicall
+    multicall,
+    ipfs
   },
   middleware: [...getDefaultMiddleware({ thunk: true }), save({ states: PERSISTED_KEYS })],
   preloadedState: load({ states: PERSISTED_KEYS })
