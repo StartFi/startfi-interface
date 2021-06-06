@@ -19,7 +19,7 @@ export interface IpfsMedia {
 }
 
 export function ProgressCallIPFS(bytesLoaded: any, dataSize: number): void {
-  store.dispatch({ type: 'ipfs/progress', payload: { progress: (bytesLoaded / dataSize) * 100 + '%' } })
+  store.dispatch({ type: 'ipfs/progress', payload: { progress: Math.round((bytesLoaded / dataSize) * 100) + '%' } })
 }
 
 export const uploadIPFS = async (ipfsMedia: IpfsMedia): Promise<string> => {
