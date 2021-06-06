@@ -58,8 +58,13 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
         label={t('uploadNFT')}
         value={state.file}
         onChange={(e: any) => {
-          upload({ path: e.target.files[0].name, content: e.target.files[0] })
-          setFilename(e.target.files[0].name)
+          if (e.target.files[0] === null) {
+            setFilename('')
+            handleChange({ target: { name: 'file', value: '' } })
+          } else {
+            upload({ path: e.target.files[0].name, content: e.target.files[0] })
+            setFilename(e.target.files[0].name)
+          }
         }}
         progress={progress}
         filename={filename}

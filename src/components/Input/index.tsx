@@ -34,6 +34,7 @@ const ButtonFile = styled.button`
   color: #444444;
   border: none;
   background-color: white;
+  cursor: pointer;
 `
 
 interface FileInputProps {
@@ -87,7 +88,7 @@ export const InputFile = ({ name, label, value, onChange, error, progress, filen
       <InputFileHeader>
         <LabelWithCheck text={label} Label={LabelBlack} error={error} />
         {filename && (
-          <ButtonFile onClick={() => onChange({ target: { files: [''] }, name: 'file' })}>{t('Delete')}</ButtonFile>
+          <ButtonFile onClick={() => onChange({ target: { files: [null] }, name: 'file' })}>{t('Delete')}</ButtonFile>
         )}
       </InputFileHeader>
       <InputFileFooter>
