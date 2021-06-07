@@ -91,6 +91,8 @@ export const InputFile = ({ name, label, value, onChange, error, progress, filen
 
   const ref = useRef<HTMLInputElement>(null)
 
+  // const [file, setFile] = useState('')
+
   return (
     <div>
       <InputFileHeader>
@@ -101,7 +103,16 @@ export const InputFile = ({ name, label, value, onChange, error, progress, filen
       </InputFileHeader>
       <InputFileFooter>
         <FileInput onClick={() => ref.current?.click()} minWidth="11vw" error={error}>
-          <input type="file" name={name} ref={ref} style={{ display: 'none' }} onChange={onChange} />
+          <input
+            type="file"
+            name={name}
+            ref={ref}
+            style={{ display: 'none' }}
+            onChange={(e: any) => {
+              console.log(e)
+              onChange(e)
+            }}
+          />
           <div>{t(progress > 0 ? 'Uploading' : 'Upload')}</div>
           <img src={Upload} alt="Upload file" />
         </FileInput>
@@ -225,7 +236,7 @@ export const Input = ({
 
   const ref = useRef<HTMLInputElement>(null)
 
-  const [underlineClick, setUnderlineClick] = useState(underline)
+  const [underlineClick, setUnderlineClick] = useState(underline && !value)
 
   const [count, setCount] = useState(0)
 
@@ -270,7 +281,7 @@ export const Input = ({
       )}
       {number && (
         <OutlineNumber>
-          <InputNumber name={name} type="number" onChange={handleChange} />
+          <InputNumber name={name} type="number" onChange={handleChange} value={value} />
           {currency ? currency : 'STFI'}
         </OutlineNumber>
       )}

@@ -15,7 +15,7 @@ const Label = styled.div`
 `
 
 const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
-  const [filename, setFilename] = useState('')
+  const [filename, setFilename] = useState(state.file)
 
   const { t } = useTranslation()
 
@@ -26,8 +26,6 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
   const hashes = useIpfsHashes()
 
   useEffect(() => {
-    console.log(hashes)
-    console.log(filename)
     if (hashes.length > 0 && filename) {
       var { fileName, hash } = hashes[hashes.length - 1]
       if (fileName === filename) handleChange({ target: { name: 'file', value: hash } })
@@ -58,6 +56,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
         label={t('uploadNFT')}
         value={state.file}
         onChange={(e: any) => {
+          console.log(e)
           if (e.target.files[0] === null) {
             setFilename('')
             handleChange({ target: { name: 'file', value: '' } })
