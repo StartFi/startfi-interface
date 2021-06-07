@@ -1,3 +1,4 @@
+import styled from 'styled-components'
 import { makeStyles } from '@material-ui/core/styles'
 
 export const useStyles = makeStyles({
@@ -160,7 +161,6 @@ export const useStyles = makeStyles({
     width: 445,
     borderRadius: 8,
     marginBottom: 30,
-
     backgroundColor: '#FBFBFB'
   },
   description__title: {
@@ -202,3 +202,130 @@ export const useStyles = makeStyles({
     backgroundColor: '#FBFBFB'
   }
 })
+
+export const Container = styled.div`
+  padding: 4vh 3.2vw;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`
+export const Grid = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-left: 130px;
+`
+
+export const LeftGrid = styled.div`
+  width: 50%;
+`
+
+export const RightGrid = styled.div`
+  width: 50%;
+`
+export const ImgCard = styled.div`
+  width: 444px;
+  height: 500px;
+  margin-top: 30px;
+  position: relative;
+  border-radius: 8px;
+
+  & img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+
+  & p {
+    height: 50px;
+    width: 147px;
+    background-color: #2e2e2e;
+    color: #ffffff;
+    position: absolute;
+    top: -16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`
+
+export const LeftTextCard = styled.div`
+  height: 223px;
+  width: 444px;
+  margin-top: 20px;
+  border-radius: 8px;
+  background-color: #fbfbfb;
+`
+
+export const CreatedTitle = styled.div`
+  height: 57px;
+  border-bottom: 1px solid #eeeeee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & p {
+    font-family: Roboto;
+    font-weight: 400;
+    font-size: 1rem;
+    color: #323232;
+
+    & span {
+      font-weight: 500;
+      font-size: 1.125rem;
+      color: #000000;
+      margin-left: 7px;
+    }
+  }
+`
+
+export const CreatedText = styled.div`
+  padding-right: 27px;
+  padding-left: 27px;
+  & p {
+    font-family: Roboto;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.75rem;
+    color: #000000;
+    text-align: justify;
+  }
+`
+
+export const RightTitle = styled.div`
+  margin-top: 30px;
+  margin-bottom: 12px;
+  font-family: Roboto;
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.1875rem;
+`
+
+export const RightSubTitle = styled.div`
+  width: 445px;
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 1rem;
+  margin-bottom: 17px;
+`
+
+export const PublisherCard = styled('div')<{height?:string}>`
+  height:${({ height }) => height};
+  width: 445px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  background-color: #fbfbfb;
+  display:flex;
+  align-items:center;
+  & p {
+    padding-left: 22px;
+    font-family: Roboto;
+    font-weight: 400;
+    font-size: 1rem;
+    color: #323232;
+    & span {
+      font-weight: 500;
+      font-size: 1.125rem;
+      color: #000000;
+      margin-left: 7px;
+    }
+  }
+`
