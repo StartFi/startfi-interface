@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Dictionary } from '../../constants'
 import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
 import styled from 'styled-components'
@@ -11,7 +11,6 @@ import Step2Icon from './../../assets/icons/step2.svg'
 import Step3Icon from './../../assets/icons/step3.svg'
 import { useTranslation } from 'react-i18next'
 import { useAddNFT } from 'state/nfts/hooks'
-import { useIpfsHashes, useUploadToIpfs } from 'state/ipfs/hooks'
 import { useActiveWeb3React } from 'hooks'
 
 const Container = styled.div`
@@ -73,23 +72,6 @@ const Card: React.FC = () => {
 
   const [step, setStep] = useState<number>(1)
 
-  const [nft, setNft] = useState({
-    id: 0,
-    owner: '',
-    issuer: '',
-    issueDate: new Date(),
-    onAuction: false,
-    name: '',
-    image: '',
-    price: 0,
-    category: '',
-    description: '',
-    hash: '',
-    tags: []
-  })
-
-  const [nftPath, setNftPath] = useState('')
-
   const handleChange = useCallback(
     (e: any) => {
       if (e.persist) e.persist()
@@ -99,29 +81,6 @@ const Card: React.FC = () => {
     },
     [setState]
   )
-
-  const upload = useUploadToIpfs()
-
-  const hashes = useIpfsHashes()
-
-  useEffect(() => {
-    console.log(hashes)
-    if (hashes.length > 0 && nftPath) {
-      var { fileName, hash } = hashes[hashes.length - 1]
-      if (fileName === nftPath)
-        setNft(nft => {
-          return { ...nft, hash }
-        })
-    }
-  }, [nftPath, hashes, setNft])
-
-  useEffect(() => {
-    console.log(nft)
-    if (nft.hash) {
-      addNft(nft)
-      history.push('/mintednft')
-    }
-  }, [nft, addNft])
 
   const next = () => {
     var newMissing: string[] = []
@@ -134,7 +93,7 @@ const Card: React.FC = () => {
         }
         break
       case 2:
-        if (['name', 'tags', 'description'].filter(f => newMissing.includes(f)).length === 0) {
+        if (['name', 'description'].filter(f => newMissing.includes(f)).length === 0) {
           setMissing([])
           return setStep(3)
         }
@@ -155,9 +114,8 @@ const Card: React.FC = () => {
             hash: '',
             tags: state.tags
           }
-          setNft(nft)
-          setNftPath('id.js')
-          upload({ path: 'id.js', content: JSON.stringify(nft) })
+          addNft(nft)
+          history.push('/mintednft')
         } else history.push('/')
         break
       default:
@@ -195,7 +153,7 @@ const Card: React.FC = () => {
         <Step3 state={state} handleChange={handleChange} missing={missing} />
       )}
       <Footer>
-        <ButtonMintBack>{t('back')}</ButtonMintBack>
+        <ButtonMintBack onClick={() => (step > 1 ? setStep(step - 1) : null)}>{t('back')}</ButtonMintBack>
         <ButtonDraft>{t('saveDraft')}</ButtonDraft>
         <ButtonMint onClick={() => next()}>{t('next')}</ButtonMint>
       </Footer>
