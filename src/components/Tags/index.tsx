@@ -65,15 +65,16 @@ const Input = styled.input`
 interface TagsProps {
   name: string
   max: number
+  value: string[]
   onChange: (e: any) => void
 }
 
-const Tags: React.FC<TagsProps> = ({ name, max, onChange }) => {
+const Tags: React.FC<TagsProps> = ({ name, max, value, onChange }) => {
   const { t } = useTranslation()
 
-  const [tags, setTags] = useState<string[]>([])
+  const [tags, setTags] = useState<string[]>(value)
 
-  const [value, setvalue] = useState('')
+  const [word, setWord] = useState('')
 
   return (
     <div>
@@ -100,13 +101,13 @@ const Tags: React.FC<TagsProps> = ({ name, max, onChange }) => {
         ))}
         <Input
           placeholder={tags.length === 0 ? t('writeKeyword') : ''}
-          value={value}
-          onChange={(e: any) => setvalue(e.target.value)}
+          value={word}
+          onChange={(e: any) => setWord(e.target.value)}
           onKeyDown={e => {
             if (e.key === 'Enter') {
-              onChange({ target: { name, value: [...tags, value] } })
-              setTags([...tags, value])
-              setvalue('')
+              onChange({ target: { name, value: [...tags, word] } })
+              setTags([...tags, word])
+              setWord('')
             }
           }}
         />

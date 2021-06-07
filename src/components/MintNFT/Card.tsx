@@ -49,8 +49,6 @@ const Card: React.FC = () => {
 
   const { account } = useActiveWeb3React()
 
-  console.log(account)
-
   const { t } = useTranslation()
 
   const addNft = useAddNFT()
@@ -59,7 +57,7 @@ const Card: React.FC = () => {
     category: '',
     file: '',
     name: '',
-    tags: '',
+    tags: [],
     description: '',
     price: 0,
     bidsOffers: 'false',

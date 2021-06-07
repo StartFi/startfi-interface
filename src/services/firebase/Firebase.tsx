@@ -2,8 +2,6 @@ import firebase from 'firebase'
 import { NFTQUERY } from 'services/Storage/NFT'
 import { NFTS } from 'state/nfts/reducer'
 
-console.log(process.env.REACT_APP_FIREBASE_API_KEY)
-
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -55,7 +53,6 @@ export const get = async (entity: string, key: string): Promise<Document> => {
 const LIMIT = 4
 
 export const getNFTS = async ({ search, category, sort }: NFTQUERY): Promise<NFTS> => {
-  console.log({ search, category, sort })
   var ref: any = firebase.database().ref('nfts')
   if (search) ref = ref.orderByChild('name').equalTo(search)
   else if (category && category !== 'all') ref = ref.orderByChild('category').equalTo(category)
@@ -71,7 +68,6 @@ export const getNFTS = async ({ search, category, sort }: NFTQUERY): Promise<NFT
     }
   }
   const nfts = await (await ref.once('value')).val()
-  console.log(nfts)
   if (!nfts) return []
   var jsonArray = Object.values(nfts)
   var sorted = sortByKey(jsonArray, 'price', sort === 'Highest price')
