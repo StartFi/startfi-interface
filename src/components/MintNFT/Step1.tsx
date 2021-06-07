@@ -62,8 +62,8 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
             setFilename('')
             handleChange({ target: { name: 'file', value: '' } })
           } else {
-            upload({ path: e.target.files[0].name, content: e.target.files[0] })
             setFilename(e.target.files[0].name)
+            upload({ path: e.target.files[0].name, content: e.target.files[0] })
           }
         }}
         progress={progress}
