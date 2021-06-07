@@ -1,9 +1,6 @@
-import React from 'react'
-// import Grid from '@material-ui/core/Grid'
-// import Card from '@material-ui/core/Card'
-// import CardMedia from '@material-ui/core/CardMedia'
+import React, { useState } from 'react'
 import Rectangle from '../../assets/images/Rectangle.png'
-// import Path from '../../assets/svg/Path.svg'
+import Path from '../../assets/svg/Path.svg'
 
 import {
   Grid,
@@ -16,24 +13,24 @@ import {
   CreatedText,
   RightTitle,
   RightSubTitle,
-  PublisherCard
+  PublisherCard,
+  BuyCard,
+  BuyButtons,
+  BuyCost,
+  BuyNow,
+  DescriptionCard,
+  DescriptionTitle,
+  DescriptionText
 } from './Nftproduct.styles'
-// import ReadMore from '../ReadMore/readmore'
+import ReadMore from '../ReadMore/readmore'
 import NFTsHeader from 'components/Header/NFTsHeader'
 
-// const NFTS = styled(Grid)({
-//   padding: '4vh 3.2vw',
-//   width: '100%'
-// })
-
 const Nftproduct = () => {
-  // const classes = useStyles()
-  // const image = 'https://picsum.photos/200'
-  // const [isReadMore, setIsReadMore] = useState(false)
+  const [isReadMore, setIsReadMore] = useState('')
 
-  // const showScroll = (res: boolean) => {
-  //   setIsReadMore(res)
-  // }
+  const showScroll = (res: boolean) => {
+    res ? setIsReadMore('overflowY') : setIsReadMore('')
+  }
 
   return (
     <Container>
@@ -64,7 +61,7 @@ const Nftproduct = () => {
             <p>Apple Watch Series 4 GPS</p>
           </RightTitle>
           <RightSubTitle>Prediction: Round 11 (Bronze) - Only 100 Available</RightSubTitle>
-          <PublisherCard height="91px">
+          <PublisherCard height='91px'>
             <div>
               <p>
                 Publisher :<span>Muhammed Amin</span>
@@ -72,14 +69,47 @@ const Nftproduct = () => {
               <p>8% Percentage on each reselling transaction</p>
             </div>
           </PublisherCard>
-          <PublisherCard height="60px">
+          <PublisherCard height='60px'>
             <div>
               <p>
                 Owner :<span>Mohamed Mounier El - King</span>
               </p>
-
             </div>
           </PublisherCard>
+          <BuyCard>
+            <BuyCost>
+              <p>
+                Cost : <span>180 ETH</span>
+              </p>
+            </BuyCost>
+            <BuyButtons>
+              <img src={Path} />
+
+              <button>Wishlist</button>
+              <button>Make an offer</button>
+            </BuyButtons>
+            <BuyNow>
+              <button>BUY NOW</button>
+            </BuyNow>
+          </BuyCard>
+          <DescriptionCard overflowY={isReadMore}>
+            <DescriptionTitle>
+              <p>About Apple Watch Series 4 GPS</p>
+            </DescriptionTitle>
+            <DescriptionText>
+              <ReadMore showScroll={showScroll}>
+                <p>
+                  he biggest fight of the year is set for May 8 at AT&T Stadium in Arlington, Texas, as WBA, WBC and
+                  Ring Magazine champion and the number one pound-for-pound fighter in the world, Canelo Alvarez, meets
+                  Billy Joe Saunders, the holder of the WBO belt, in a battle for super middleweight supremacy. This
+                  stunning collection of. he biggest fight of the year is set for May 8 at AT&T Stadium in Arlington,
+                  Texas, as WBA, WBC and Ring Magazine champion and the number one pound-for-pound fighter in the world,
+                  Canelo Alvarez, meets Billy Joe Saunders, the holder of the WBO belt, in a battle for super
+                  middleweight supremacy. This stunning collection of
+                </p>
+              </ReadMore>
+            </DescriptionText>
+          </DescriptionCard>
         </RightGrid>
       </Grid>
     </Container>
