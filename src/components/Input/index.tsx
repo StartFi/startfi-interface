@@ -91,14 +91,21 @@ export const InputFile = ({ name, label, value, onChange, error, progress, filen
 
   const ref = useRef<HTMLInputElement>(null)
 
-  // const [file, setFile] = useState('')
+  const [file, setFile] = useState('')
 
   return (
     <div>
       <InputFileHeader>
         <LabelWithCheck text={label} Label={LabelBlack} error={error} />
         {filename && (
-          <ButtonFile onClick={() => onChange({ target: { files: [null] }, name: 'file' })}>{t('Delete')}</ButtonFile>
+          <ButtonFile
+            onClick={() => {
+              setFile('')
+              onChange({ target: { files: [null] }, name: 'file' })
+            }}
+          >
+            {t('Delete')}
+          </ButtonFile>
         )}
       </InputFileHeader>
       <InputFileFooter>
@@ -108,8 +115,9 @@ export const InputFile = ({ name, label, value, onChange, error, progress, filen
             name={name}
             ref={ref}
             style={{ display: 'none' }}
+            value={file}
             onChange={(e: any) => {
-              console.log(e)
+              setFile(e.target.value)
               onChange(e)
             }}
           />
