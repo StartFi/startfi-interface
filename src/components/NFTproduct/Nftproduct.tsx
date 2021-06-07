@@ -29,7 +29,7 @@ const Nftproduct = () => {
   const [isReadMore, setIsReadMore] = useState('')
 
   const showScroll = (res: boolean) => {
-    res ? setIsReadMore('overflowY') : setIsReadMore('')
+    res ? setIsReadMore('scroll') : setIsReadMore('')
   }
 
   return (
