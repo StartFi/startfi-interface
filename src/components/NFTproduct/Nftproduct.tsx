@@ -24,12 +24,14 @@ import {
 } from './Nftproduct.styles'
 import ReadMore from '../ReadMore/readmore'
 import NFTsHeader from 'components/Header/NFTsHeader'
+import { useTranslation } from 'react-i18next'
 
 const Nftproduct = () => {
+  const { t } = useTranslation()
   const [isReadMore, setIsReadMore] = useState('')
 
-  const showScroll = (res: boolean) => {
-    res ? setIsReadMore('scroll') : setIsReadMore('')
+  const showScroll = (readMore: boolean) => {
+    readMore? setIsReadMore('scroll') : setIsReadMore('')
   }
 
   return (
@@ -39,12 +41,12 @@ const Nftproduct = () => {
         <LeftGrid>
           <ImgCard>
             <img src={Rectangle} />
-            <p>1234 Views</p>
+            <p>1234  {t('views')}</p>
           </ImgCard>
           <LeftTextCard>
             <CreatedTitle>
               <p>
-                Details created By<span>Muhammed Amin</span>
+              {t('createdBy')}<span>Muhammed Amin</span>
               </p>
             </CreatedTitle>
             <CreatedText>
@@ -60,11 +62,11 @@ const Nftproduct = () => {
           <RightTitle>
             <p>Apple Watch Series 4 GPS</p>
           </RightTitle>
-          <RightSubTitle>Prediction: Round 11 (Bronze) - Only 100 Available</RightSubTitle>
+          <RightSubTitle>{t('prediction')}: Round 11 (Bronze) - Only 100 Available</RightSubTitle>
           <PublisherCard height='91px'>
             <div>
               <p>
-                Publisher :<span>Muhammed Amin</span>
+              {t('publisher')} :<span>Muhammed Amin</span>
               </p>
               <p>8% Percentage on each reselling transaction</p>
             </div>
@@ -72,24 +74,24 @@ const Nftproduct = () => {
           <PublisherCard height='60px'>
             <div>
               <p>
-                Owner :<span>Mohamed Mounier El - King</span>
+              {t('owner')} :<span>Mohamed Mounier El - King</span>
               </p>
             </div>
           </PublisherCard>
           <BuyCard>
             <BuyCost>
               <p>
-                Cost : <span>180 ETH</span>
+              {t('cost')} : <span>180 ETH</span>
               </p>
             </BuyCost>
             <BuyButtons>
               <img src={Path} />
 
-              <button>Wishlist</button>
-              <button>Make an offer</button>
+              <button>{t('wishlist')}</button>
+              <button>{t('offer')}</button>
             </BuyButtons>
             <BuyNow>
-              <button>BUY NOW</button>
+              <button>{t('buy')}</button>
             </BuyNow>
           </BuyCard>
           <DescriptionCard overflowY={isReadMore}>

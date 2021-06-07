@@ -2,6 +2,7 @@ import { LinkCreateNFT } from 'components/Link'
 import Wallet from 'components/Wallet'
 import { useActiveWeb3React } from 'hooks'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { UserDoc } from 'services/firebase/firebaseStore'
 import { useAddUserDoc } from 'state/user/hooks'
@@ -87,6 +88,8 @@ const InnerHeader = styled.div`
 `
 
 export const LandingPage = () => {
+  const { t } = useTranslation()
+
   const { account } = useActiveWeb3React()
   const user: UserDoc = { ehAddress: account }
   useAddUserDoc(user, account)
@@ -94,25 +97,23 @@ export const LandingPage = () => {
     <PageWrapper>
       <Header>
         <InnerHeader>
-          <LinkCreateNFT to="mintnft">Start Earning</LinkCreateNFT>
+          <LinkCreateNFT to='mintnft'>Start Earning</LinkCreateNFT>
           <Wallet />
         </InnerHeader>
       </Header>
-      {/* <h2>landing page</h2> */}
+
       <Logo src={StartFi} />
       <MainText>
         <p>
-          <MainSpan>Startfi</MainSpan> marketplace and lunchpad for NFT collateralised loans
+          <MainSpan>Startfi</MainSpan> {t('landHead')}
         </p>
       </MainText>
       <SubText>
-        <p>
-          Put your NFT assets up as collateral for a loan, or offer loans to other users on their non-fungible tokens
-        </p>
+        <p>{t('landSubText')}</p>
       </SubText>
       <LinkContainer>
-        <PageLink to="nfts">Marketplace</PageLink>
-        <PageLink to="">Launchpad</PageLink>
+        <PageLink to='nfts'>{t('marketPlace')}</PageLink>
+        <PageLink to=''>{t('launchpad')}</PageLink>
       </LinkContainer>
     </PageWrapper>
   )
