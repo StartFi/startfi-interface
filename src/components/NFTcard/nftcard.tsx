@@ -3,6 +3,7 @@ import Path from '../../assets/svg/Path.svg'
 import { Media, CardImg, Card, Price, Text, Actions, Bid, WhiteList, ImageIcon } from './nftcard.styles'
 import { NftButton } from '../Button/index'
 import { NFT } from 'state/nfts/reducer'
+import { useTranslation } from 'react-i18next'
 
 export interface NftCardProps {
   cardContent: NFT
@@ -12,6 +13,8 @@ export interface NftCardProps {
 }
 
 const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhiteList, placeBid }) => {
+  const { t } = useTranslation()
+
   return (
     <div>
       <Card>
@@ -36,13 +39,13 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhi
           <WhiteList>
             <ImageIcon src={Path} />
             <NftButton onClick={() => addToWhiteList(cardContent)} color='#000000'>
-              WHITELIST
+              {t('whiteList')}
             </NftButton>
           </WhiteList>
           <Bid>
             <NftButton onClick={() => placeBid(cardContent)} color='#ffffff'>
-              {' '}
-              place a bid
+              {t('placeBid')}
+
             </NftButton>
           </Bid>
         </Actions>
