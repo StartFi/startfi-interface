@@ -16,9 +16,8 @@ export const useIpfsStatus = (): ipfsEnumStatus | null => {
 
 export const useUploadToIpfs = (ipfsMedia: IpfsMedia): Callback<void> => {
   const dispatch = useDispatch()
-  dispatch(ipfsStatus({ status: ipfsEnumStatus['LOADING'] }))
-
   return useCallback(async () => {
+    dispatch(ipfsStatus({ status: ipfsEnumStatus['LOADING'] }))
     const ipfsHash = await uploadIPFS(ipfsMedia)
     if (ipfsHash) {
       dispatch(uploadedToIpfs({ fileName: ipfsMedia.path as string, IpfsHash: ipfsHash }))
