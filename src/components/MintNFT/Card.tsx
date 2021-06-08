@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
 import styled from 'styled-components'
 import Step1 from './Step1'
@@ -87,22 +87,23 @@ const Card: React.FC = () => {
   const handleChange = useCallback(
     (e: any) => {
       if (e.persist) e.persist()
+      if (e.target.value)
+        setMissing(missing => {
+          var newMissing = [...missing]
+          newMissing.splice(newMissing.indexOf(e.target.name), 1)
+          return newMissing
+        })
+      else
+        setMissing(missing => {
+          if (missing.includes(e.target.name)) return missing
+          return [...missing, e.target.name]
+        })
       setNFT(nft => {
         return { ...nft, [e.target.name]: e.target.value }
       })
     },
     [setNFT]
   )
-
-  const didMountRef = useRef(false)
-
-  useEffect(() => {
-    if (didMountRef.current) {
-      var newMissing: string[] = []
-      Object.keys(nft).forEach((key: string) => (nft[key] ? null : newMissing.push(key)))
-      setMissing(newMissing)
-    } else didMountRef.current = true
-  }, [nft, setMissing])
 
   const next = () => {
     var newMissing: string[] = []
