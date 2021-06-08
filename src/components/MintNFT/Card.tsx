@@ -68,7 +68,7 @@ const Card: React.FC = () => {
 
   const [missing, setMissing] = useState<string[]>([])
 
-  const [step, setStep] = useState<number>(1)
+  const [step, setStep] = useState<number>(2)
 
   const handleChange = useCallback(
     (e: any) => {
