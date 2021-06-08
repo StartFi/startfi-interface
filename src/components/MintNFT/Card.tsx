@@ -93,28 +93,27 @@ const Card: React.FC = () => {
       case 2:
         if (['name', 'description'].filter(f => newMissing.includes(f)).length === 0) {
           setMissing([])
-          return setStep(3)
+          if (account) {
+            var nft = {
+              id: 0,
+              owner: account,
+              issuer: account,
+              issueDate: new Date(),
+              onAuction: false,
+              name: state.name,
+              image: state.file,
+              price: 0,
+              category: state.category,
+              description: state.description,
+              hash: '',
+              tags: state.tags
+            }
+            addNft(nft)
+            history.push('/mintednft')
+          } else history.push('/')
         }
         break
       case 3:
-        if (account) {
-          var nft = {
-            id: 0,
-            owner: account,
-            issuer: account,
-            issueDate: new Date(),
-            onAuction: state.bidsOffers === 'true',
-            name: state.name,
-            image: state.file,
-            price: parseInt(state.price),
-            category: state.category,
-            description: state.description,
-            hash: '',
-            tags: state.tags
-          }
-          addNft(nft)
-          history.push('/mintednft')
-        } else history.push('/')
         break
       default:
     }
