@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
 import styled from 'styled-components'
 import Step1 from './Step1'
@@ -94,12 +94,22 @@ const Card: React.FC = () => {
     [setNFT]
   )
 
+  const didMountRef = useRef(false)
+
+  useEffect(() => {
+    if (didMountRef.current) {
+      var newMissing: string[] = []
+      Object.keys(nft).forEach((key: string) => (nft[key] ? null : newMissing.push(key)))
+      setMissing(newMissing)
+    } else didMountRef.current = true
+  }, [nft, setMissing])
+
   const next = () => {
     var newMissing: string[] = []
     Object.keys(nft).forEach((key: string) => (nft[key] ? null : newMissing.push(key)))
     switch (step) {
       case 1:
-        if (['category', 'file'].filter(f => newMissing.includes(f)).length === 0) {
+        if (['category', 'image'].filter(f => newMissing.includes(f)).length === 0) {
           setMissing([])
           return setStep(2)
         }
