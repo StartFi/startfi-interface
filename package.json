@@ -123,13 +123,12 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "@material-ui/core": "^4.11.4",
     "@types/node-fetch": "^2.5.10",
     "@uniswap/default-token-list": "^2.0.0",
     "firebase": "^8.6.3",
-    "ipfs-http-client": "^50.1.0",
-    "lodash": "^4.17.21",
+    "ipfs-http-client": "^50.1.1",
     "it-all": "^1.0.5",
+    "lodash": "^4.17.21",
     "uint8arrays": "^2.1.5"
   }
 }
