@@ -1,4 +1,10 @@
 {
+  "placeBid": "Place Bid",
+  "price": "Price",
+  "balance": "Balance",
+  "cancel": "Cancel",
+  "getBalance": "Get Balance",
+  "setBidding": "Set Bidding",
   "noWallet": "No Ethereum wallet found",
   "wrongNetwork": "You are on the wrong network",
   "switchNetwork": "Please switch to {{ correctNetwork }}",

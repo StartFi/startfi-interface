@@ -1,14 +1,13 @@
 import React from 'react'
-import oldStyled from 'styled-components'
+import styled from 'styled-components'
 import { darken, lighten } from 'polished'
 
 import { RowBetween } from '../Row'
 import { ChevronDown } from 'react-feather'
 import { Button as RebassButton, ButtonProps } from 'rebass/styled-components'
-import { Button, styled } from '@material-ui/core'
 import { COLORS } from 'theme'
 
-const Base = oldStyled(RebassButton)<{
+const Base = styled(RebassButton)<{
   padding?: string
   width?: string
   borderRadius?: string
@@ -40,7 +39,7 @@ const Base = oldStyled(RebassButton)<{
   }
 `
 
-export const ButtonPrimaryy = oldStyled(Base)`
+export const ButtonPrimaryy = styled(Base)`
   background-color: ${({ theme }) => theme.primary1};
   color: white;
   &:focus {
@@ -67,7 +66,7 @@ export const ButtonPrimaryy = oldStyled(Base)`
   }
 `
 
-export const ButtonLight = oldStyled(Base)`
+export const ButtonLight = styled(Base)`
   background-color: ${({ theme }) => theme.primary5};
   color: ${({ theme }) => theme.primaryText1};
   font-size: 16px;
@@ -95,7 +94,7 @@ export const ButtonLight = oldStyled(Base)`
   }
 `
 
-export const ButtonGray = oldStyled(Base)`
+export const ButtonGray = styled(Base)`
   background-color: ${({ theme }) => theme.bg3};
   color: ${({ theme }) => theme.text2};
   font-size: 16px;
@@ -111,7 +110,7 @@ export const ButtonGray = oldStyled(Base)`
   }
 `
 
-export const ButtonSecondary = oldStyled(Base)`
+export const ButtonSecondary = styled(Base)`
   border: 1px solid ${({ theme }) => theme.primary4};
   color: ${({ theme }) => theme.primary1};
   background-color: transparent;
@@ -139,7 +138,7 @@ export const ButtonSecondary = oldStyled(Base)`
   }
 `
 
-export const ButtonPink = oldStyled(Base)`
+export const ButtonPink = styled(Base)`
   background-color: ${({ theme }) => theme.primary1};
   color: white;
 
@@ -161,7 +160,7 @@ export const ButtonPink = oldStyled(Base)`
   }
 `
 
-export const ButtonUNIGradient = oldStyled(ButtonPrimaryy)`
+export const ButtonUNIGradient = styled(ButtonPrimaryy)`
   color: white;
   padding: 4px 8px;
   height: 36px;
@@ -181,7 +180,7 @@ export const ButtonUNIGradient = oldStyled(ButtonPrimaryy)`
   }
 `
 
-export const ButtonOutlined = oldStyled(Base)`
+export const ButtonOutlined = styled(Base)`
   border: 1px solid ${({ theme }) => theme.bg2};
   background-color: transparent;
   color: ${({ theme }) => theme.text1};
@@ -201,7 +200,7 @@ export const ButtonOutlined = oldStyled(Base)`
   }
 `
 
-export const ButtonEmpty = oldStyled(Base)`
+export const ButtonEmpty = styled(Base)`
   background-color: transparent;
   color: ${({ theme }) => theme.primary1};
   display: flex;
@@ -223,7 +222,7 @@ export const ButtonEmpty = oldStyled(Base)`
   }
 `
 
-export const ButtonWhite = oldStyled(Base)`
+export const ButtonWhite = styled(Base)`
   border: 1px solid #edeef2;
   background-color: ${({ theme }) => theme.bg1};
   color: black;
@@ -244,20 +243,20 @@ export const ButtonWhite = oldStyled(Base)`
   }
 `
 // ntf card button
-export const NftButton=oldStyled(Base)<{color?:string,border?:string}>`
-color: black;
-background-color: transparent;
-width:100%;
-margin: 1em;
-padding: 0.25em 1em;
-border: none;border: none;
-border:  ${({border}) =>border};
+export const NftButton = styled(Base)<{ color?: string; border?: string }>`
+  color: black;
+  background-color: transparent;
+  width: 100%;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: none;
+  border: none;
+  border: ${({ border }) => border};
 
-color: ${({color}) =>color}
-`;
+  color: ${({ color }) => color};
+`
 
-
-const ButtonConfirmedStyle = oldStyled(Base)`
+const ButtonConfirmedStyle = styled(Base)`
   background-color: ${({ theme }) => lighten(0.5, theme.green1)};
   color: ${({ theme }) => theme.green1};
   border: 1px solid ${({ theme }) => theme.green1};
@@ -268,7 +267,7 @@ const ButtonConfirmedStyle = oldStyled(Base)`
   }
 `
 
-const ButtonErrorStyle = oldStyled(Base)`
+const ButtonErrorStyle = styled(Base)`
   background-color: ${({ theme }) => theme.red1};
   border: 1px solid ${({ theme }) => theme.red1};
 
@@ -353,12 +352,13 @@ export function ButtonRadio({ active, ...rest }: { active?: boolean } & ButtonPr
   }
 }
 
-export const ButtonBase = styled(Button)({
-  textTransform: 'none',
-  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.135216)'
-})
+export const ButtonBase = styled.button`
+  text-transform: none;
+  cursor: pointer;
+`
 
 export const ButtonPrimary = styled(ButtonBase)({
+  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.135216)',
   backgroundColor: COLORS.black,
   color: COLORS.white,
   '&:hover': {
@@ -368,8 +368,39 @@ export const ButtonPrimary = styled(ButtonBase)({
 })
 
 export const ButtonSearch = styled(ButtonPrimary)({
+  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.135216)',
   width: '8.5vw',
   height: '6vh',
   borderRadius: '0px 4px 4px 0px',
   fontSize: '1.125rem'
 })
+
+export const ButtonPlaceBidCancel = styled(ButtonBase)`
+  border: 1px solid #d6d6d6;
+  box-sizing: border-box;
+  border-radius: 4px;
+  color: #9b9b9b;
+  background-color: white;
+  width: 12vw;
+  height: 6vh;
+`
+
+export const ButtonPlaceBidGetBalance = styled(ButtonBase)`
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  border-radius: 4px;
+  color: #000000;
+  background-color: white;
+  width: 12vw;
+  height: 6vh;
+`
+
+export const ButtonPlaceBidSetBidding = styled(ButtonBase)`
+  border: 1px solid #d6d6d6;
+  box-sizing: border-box;
+  border-radius: 4px;
+  color: white;
+  background-color: black;
+  width: 12vw;
+  height: 6vh;
+`
