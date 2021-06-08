@@ -68,7 +68,7 @@ const Card: React.FC = () => {
 
   const [missing, setMissing] = useState<string[]>([])
 
-  const [step, setStep] = useState<number>(1)
+  const [step, setStep] = useState<number>(2)
 
   const handleChange = useCallback(
     (e: any) => {
@@ -94,22 +94,8 @@ const Card: React.FC = () => {
         if (['name', 'description'].filter(f => newMissing.includes(f)).length === 0) {
           setMissing([])
           if (account) {
-            var nft = {
-              id: 0,
-              owner: account,
-              issuer: account,
-              issueDate: new Date(),
-              onAuction: false,
-              name: state.name,
-              image: state.file,
-              price: 0,
-              category: state.category,
-              description: state.description,
-              hash: '',
-              tags: state.tags
-            }
-            addNft(nft)
-            history.push('/mintednft')
+            addNft(getNFT(account))
+            history.push('/')
           } else history.push('/')
         }
         break
@@ -151,8 +137,17 @@ const Card: React.FC = () => {
       )}
       <Footer>
         <ButtonMintBack onClick={() => (step > 1 ? setStep(step - 1) : null)}>{t('back')}</ButtonMintBack>
-        <ButtonDraft>{t('saveDraft')}</ButtonDraft>
-        <ButtonMint onClick={() => next()}>{t('next')}</ButtonMint>
+        <ButtonDraft
+          onClick={() => {
+            if (account) {
+              saveDraft(getNFT(account))
+              history.push('/')
+            } else history.push('/')
+          }}
+        >
+          {t('saveDraft')}
+        </ButtonDraft>
+        <ButtonMint onClick={() => next()}>{t(step === 1 ? 'next' : 'submit')}</ButtonMint>
       </Footer>
     </Container>
   )
