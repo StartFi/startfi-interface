@@ -104,7 +104,6 @@ const Tags: React.FC<TagsProps> = ({ name, max, value, onChange }) => {
           value={word}
           onChange={(e: any) => setWord(e.target.value)}
           onKeyDown={e => {
-            console.log(e.key)
             if (e.key === 'Enter' || e.key === " ") {
               onChange({ target: { name, value: [...tags, word] } })
               setTags([...tags, word])
