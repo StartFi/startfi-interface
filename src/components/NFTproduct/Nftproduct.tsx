@@ -70,7 +70,7 @@ const Nftproduct = () => {
               <p>
               {t('publisher')} :<span>Muhammed Amin</span>
               </p>
-              <p>8% Percentage on each reselling transaction</p>
+              <p>8% {t('resellingPercentage')}</p>
             </div>
           </PublisherCard>
           <PublisherCard height='60px'>
