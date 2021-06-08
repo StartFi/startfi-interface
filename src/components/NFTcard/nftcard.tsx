@@ -4,8 +4,7 @@ import { Media, CardImg, Card, Price, Text, Actions, Bid, WhiteList, ImageIcon }
 import { NftButton } from '../Button/index'
 import { NFT } from 'state/nfts/reducer'
 import { useTranslation } from 'react-i18next'
-
-
+import uriToHttp from '../../utils/uriToHttp'
 
 export interface NftCardProps {
   cardContent: NFT
@@ -14,16 +13,16 @@ export interface NftCardProps {
   placeBid: (clickedCard: NFT) => void
 }
 
-
 const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhiteList, placeBid }) => {
   const { t } = useTranslation()
-  
+
+  const imgUrl = uriToHttp(`${process.env.REACT_APP_IPFS_URL}${cardContent.image}`)[0]
 
   return (
     <div>
       <Card>
         <Media>
-          <CardImg src={`${process.env.REACT_APP_IPFS_URL}${cardContent.image}`} />
+          <CardImg src={imgUrl} />
         </Media>
 
         <div onClick={() => navigateToCard(cardContent)}>
@@ -49,7 +48,6 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhi
           <Bid>
             <NftButton onClick={() => placeBid(cardContent)} color='#ffffff'>
               {t('placeBid')}
-
             </NftButton>
           </Bid>
         </Actions>
