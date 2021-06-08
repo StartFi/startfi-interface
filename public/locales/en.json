@@ -133,7 +133,7 @@
   "brokenToken": "The selected token is not compatible with Uniswap V1. Adding liquidity will result in locked funds.",
   "toleranceExplanation": "Lowering this limit decreases your risk of frontrunning. However, this makes more likely that your transaction will fail due to normal price movements.",
   "tokenSearchPlaceholder": "Search name or paste address",
-  "whiteList":"WHITELIST",
+  "whishList":"WISHLIST",
   "placeBid":"place a bid",
   "views":"Views",
   "createdBy":"Details created By",
@@ -149,6 +149,7 @@
   "congratulations":"Congratulations ",
   "nftReviewedBy":"Your NFT Product will be reviewd by",
   "nftPublishing":"NFT Publishing team and will be Published in 48 hours",
+  "resellingPrecentage":""
   "marketPlace":"Marketplace",
   "lunchpad":"Launchpad",
   "landHead":"marketplace and lunchpad for NFT collateralised loans",

@@ -50,6 +50,7 @@ const Nftproduct = () => {
               </p>
             </CreatedTitle>
             <CreatedText>
+              {/* text created by user */}
               <p>
                 Put your NFT assets up as collateral for a loan, or offer loans to other users on their non-fungible
                 tokens Put your NFT assets up as collateral for a loan, or offer loans to other users on their
@@ -60,6 +61,7 @@ const Nftproduct = () => {
         </LeftGrid>
         <RightGrid>
           <RightTitle>
+               {/* text created by user */}
             <p>Apple Watch Series 4 GPS</p>
           </RightTitle>
           <RightSubTitle>{t('prediction')}: Round 11 (Bronze) - Only 100 Available</RightSubTitle>

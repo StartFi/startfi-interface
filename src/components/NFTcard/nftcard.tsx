@@ -39,7 +39,7 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhi
           <WhiteList>
             <ImageIcon src={Path} />
             <NftButton onClick={() => addToWhiteList(cardContent)} color='#000000'>
-              {t('whiteList')}
+              {t('whishList')}
             </NftButton>
           </WhiteList>
           <Bid>
