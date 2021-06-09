@@ -5,6 +5,7 @@
   "cancel": "Cancel",
   "getBalance": "Get Balance",
   "setBidding": "Set Bidding",
+  "proceedToPayment": "Proceed to Payment",
   "noWallet": "No Ethereum wallet found",
   "wrongNetwork": "You are on the wrong network",
   "switchNetwork": "Please switch to {{ correctNetwork }}",

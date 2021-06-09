@@ -1,5 +1,4 @@
-import PlaceBid from 'components/PlaceBid'
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import StartFi from '../../assets/svg/StartFi-c 1.svg'
@@ -65,10 +64,8 @@ const PageLink = styled(Link)`
 `
 
 export const LandingPage = () => {
-  const [open, setOpen] = useState(false)
     return (
         <PageWrapper>
-          <PlaceBid isOpen={open} close={()=>setOpen(false)}/>
             {/* <h2>landing page</h2> */}
             <Logo src={StartFi} />
             <MainText>
@@ -82,8 +79,8 @@ export const LandingPage = () => {
         </p>
             </SubText>
             <LinkContainer>
-            <div onClick={()=>setOpen(true)}>Marketplace</div>
-            <PageLink to=''>Launchpad</PageLink>
+            <PageLink to=''>Marketplace</PageLink>
+            <PageLink to=''>Lanuchpad</PageLink>
             </LinkContainer>
 
         </PageWrapper>

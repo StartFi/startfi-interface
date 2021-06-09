@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 interface IPlaceBidProps {
+  title: string
+  button: string
   isOpen: boolean
   close: () => void
 }
@@ -14,15 +16,15 @@ const Container = styled.div`
   transform: translate(-50%,-50%);
   background: #ffffff;
   border-radius: 8px;
-  width: 55vw;
-  height: 55vh;
+  padding-bottom: 4vh;
+  z-index: 9;
 `
 
 const Title = styled.div`
   font-weight: 500;
   font-size: 18px;
   color: #000000;
-  padding: 4vh 0;
+  padding: 4.5vh 0;
   border-bottom: 1px solid #d1d1d1;
   text-align: center;
 `
@@ -35,12 +37,14 @@ const Price = styled.div`
   font-weight: 500;
   font-size: 18px;
   color: #000000;
-  border-bottom: 1px solid #000000;
   padding-left: 1vw;
   padding-bottom: 1vh;
-  width: fit-content;
-  margin-top: 4vh;
-  margin-bottom: 1vh;
+  margin-top: 4.5vh;
+`
+
+const PriceUnderline = styled.div`
+  border-bottom: 1px solid #000000;
+  width: 2.5vw;
 `
 
 const Balance = styled.div`
@@ -56,8 +60,8 @@ const InputContainer = styled.div`
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  margin-top: 2vh;
-  margin-bottom: 8vh;
+  margin-top: 3vh;
+  margin-bottom: 9vh;
   background: #ffffff;
   border: 1px solid #dddddd;
   border-radius: 8px;
@@ -73,7 +77,7 @@ const STFI = styled.div`
   font-weight: bold;
   color: #000000;
   border-right: 1px solid #dddddd;
-  padding: 2vh 2vw;
+  padding: 2vh 2vw 2vh 1.5vw;
 `
 
 const USD = styled.div`
@@ -86,10 +90,11 @@ const USD = styled.div`
 `
 
 const Input = styled.input`
-  width: 30vw;
+  width: 24vw;
   border: none;
   outline: none;
   padding: 2vh 2vw;
+  color: #444444;
 `
 
 const USDPrice = styled.div`
@@ -126,7 +131,7 @@ export const ButtonPlaceBidSetBidding = styled(ButtonPlaceBid)`
 `
 
 
-const PlaceBid: React.FunctionComponent<IPlaceBidProps> = ({isOpen, close}) => {
+const PlaceBid: React.FunctionComponent<IPlaceBidProps> = ({title, button, isOpen, close}) => {
   const { t } = useTranslation()
 
   const [bid, setBid] = useState(0)
@@ -139,9 +144,10 @@ const PlaceBid: React.FunctionComponent<IPlaceBidProps> = ({isOpen, close}) => {
 
   return (
     <Container>
-      <Title>{t('placeBid')}</Title>
+      <Title>{t(title)}</Title>
       <Body>
         <Price>{t('price')}</Price>
+        <PriceUnderline/>
         <Balance>
           {t('balance')} {balance} STFI
         </Balance>
@@ -156,7 +162,7 @@ const PlaceBid: React.FunctionComponent<IPlaceBidProps> = ({isOpen, close}) => {
         <ButtonsContainer>
           <ButtonPlaceBidCancel onClick={close}>{t('cancel')}</ButtonPlaceBidCancel>
           <ButtonPlaceBidGetBalance>{t('getBalance')}</ButtonPlaceBidGetBalance>
-          <ButtonPlaceBidSetBidding>{t('setBidding')}</ButtonPlaceBidSetBidding>
+          <ButtonPlaceBidSetBidding>{t(button)}</ButtonPlaceBidSetBidding>
         </ButtonsContainer>
       </Body>
     </Container>
