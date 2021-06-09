@@ -4,31 +4,36 @@ import Card from '@material-ui/core/Card'
 import CardMedia from '@material-ui/core/CardMedia'
 import Vector from '../../assets/svg/Vector.svg'
 import Path from '../../assets/svg/Path.svg'
-
 import { useStyles } from './Nftproduct.styles'
 import ReadMore from '../ReadMore/readmore'
 import NFTsHeader from 'components/Header/NFTsHeader'
 import styled from 'styled-components'
-import * as faker from 'faker';
+import * as faker from 'faker'
 import { AuctionItem } from 'services/Storage/Auction'
 import { useDispatch } from 'react-redux'
 import { addAuctionItem } from 'state/auction/actions'
+import { useParams } from 'react-router-dom'
+import { updateUserWishList } from 'state/user/actions'
+import { useUserDoc } from 'state/user/hooks'
 
 // for testing only
-const auctionItem :AuctionItem ={
+const auctionItem: AuctionItem = {
   listingPrice: faker.random.number(),
-  seller:faker.random.word() ,
-  buyer:faker.random.word() ,
-  isForSale:faker.random.boolean() ,
+  seller: faker.random.word(),
+  buyer: faker.random.word(),
+  isForSale: faker.random.boolean(),
   isForBid: faker.random.boolean(),
   bids: [4],
   listTime: faker.random.word(),
-  purchaseTime:faker.random.word() ,
+  purchaseTime: faker.random.word(),
   expireTimestamp: faker.random.word(),
   listingTxt: faker.random.word(),
-  purchaseTxt:faker.random.word(),
-  soldPrice: faker.random.number(),
+  purchaseTxt: faker.random.word(),
+  soldPrice: faker.random.number()
+}
 
+type RouterParam = {
+  id: string
 }
 
 const NFTS = styled(Grid)({
@@ -36,35 +41,53 @@ const NFTS = styled(Grid)({
   width: '100%'
 })
 
-const Nftproduct = () => {
+// type comProps={}
+
+const Nftproduct = (props: {}) => {
   const dispatch = useDispatch()
   const classes = useStyles()
   const image = 'https://picsum.photos/200'
   const [isReadMore, setIsReadMore] = useState(false)
+
+  const param: RouterParam = useParams()
+  const accountId = useUserDoc()?.ehAddress
+  const nftId = parseInt(param.id)
+
+
+
+  // add Nft Id to user wish list
+  const addToWishList = () => {
+    let payLoad = {
+      accountId,
+      nftId
+    }
+ 
+    dispatch(updateUserWishList(payLoad))
+  }
 
   const showScroll = (res: boolean) => {
     setIsReadMore(res)
   }
 
   // for testing only
-  const addToAuction=(item:AuctionItem)=>{
+  const addToAuction = (item: AuctionItem) => {
     dispatch(addAuctionItem(item))
   }
   return (
-    <NFTS container direction="column">
+    <NFTS container direction='column'>
       <NFTsHeader />
-      <Grid className={classes.container} container direction="row" justify="center">
+      <Grid className={classes.container} container direction='row' justify='center'>
         {/* left */}
         {/* <Grid item> */}
         <div>
-          <Grid container direction="column">
+          <Grid container direction='column'>
             <Card className={classes.img}>
               <div>
                 <img src={Vector} />
                 <p>1234 Views</p>{' '}
               </div>
 
-              <CardMedia className={classes.img} component="img" image={image} title="IMG" />
+              <CardMedia className={classes.img} component='img' image={image} title='IMG' />
             </Card>
 
             {/* created by */}
@@ -90,7 +113,7 @@ const Nftproduct = () => {
 
         {/* right */}
         <div>
-          <Grid container direction="column">
+          <Grid container direction='column'>
             <div className={classes.title}>
               <p>Apple Watch Series 4 GPS</p>
             </div>
@@ -112,9 +135,9 @@ const Nftproduct = () => {
               </div>
               <div className={classes.buy__buttons}>
                 <img className={classes.icon} src={Path} />
-                <button>Wishlist</button>
+                <button onClick={addToWishList}>Wishlist</button>
 
-                <button onClick={()=>addToAuction(auctionItem)}>Make an offer</button>
+                <button onClick={() => addToAuction(auctionItem)}>Make an offer</button>
               </div>
               <div>
                 <button className={classes.buy__now}>BUY NOW</button>

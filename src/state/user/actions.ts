@@ -1,4 +1,4 @@
-import { addUser, updateUser,getUserData, updateWhiteList } from './../../services/User/User';
+import { addUser, updateUser,getUserData, updateWhishList,} from './../../services/User/User';
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 
 
@@ -46,7 +46,7 @@ export const updateUserDocs =createAsyncThunk('user/updateDocs',updateUser)
 export const getUserDocs =createAsyncThunk('user/getDocs',getUserData )
 
 // get user Docs
-export const updateUserWhiteList =createAsyncThunk('user/updateWhiteList',updateWhiteList )
+export const updateUserWishList =createAsyncThunk('user/updateWhiteList',updateWhishList  )
 
 
 

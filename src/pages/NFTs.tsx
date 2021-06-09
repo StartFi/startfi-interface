@@ -8,8 +8,12 @@ import { useHistory } from 'react-router'
 import { useUserDoc } from 'state/user/hooks'
 import { NFT } from 'state/nfts/reducer'
 import NFTsHeader from 'components/Header/NFTsHeader'
-import { updateUserWhiteList } from 'state/user/actions'
+
 import { useDispatch } from 'react-redux'
+import { updateUserWishList } from 'state/user/actions'
+
+
+
 
 const NFTS = styled(Grid)({
   padding: '4vh 3.2vw',
@@ -47,12 +51,12 @@ const NFTs: React.FC = () => {
 
 
   // add Nft Id Tto user white list
-  const addToWhiteList = (nft: NFT, accountId: any) => {
+  const addToWishList = ( nftId:number, accountId: any) => {
     let payLoad = {
       accountId,
-      nft
+      nftId
     }
-    dispatch(updateUserWhiteList(payLoad))
+    dispatch(updateUserWishList(payLoad))
   }
 
   return (
@@ -79,8 +83,8 @@ const NFTs: React.FC = () => {
           <Grid key={nft.id} item>
             <NTFCard
               cardContent={nft}
-              navigateToCard={(Nft: NFT) => history.push('NFT', Nft)}
-              addToWhiteList={(Nft: NFT) => addToWhiteList(Nft, userId)}
+              navigateToCard={(Nft: NFT) => history.push(`NFT/${Nft.id}`)}
+              addToWhiteList={(Nft: NFT) => addToWishList(Nft.id, userId)}
               placeBid={(Nft: NFT) => history.push('NFT', Nft)}
             ></NTFCard>
           </Grid>

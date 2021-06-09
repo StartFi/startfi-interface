@@ -35,7 +35,7 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhi
           <div className={classes.whiteList}>
             <img className={classes.icon} src={Path} />
             <NftButton onClick={() => addToWhiteList(cardContent)} color='#000000'>
-              WHITELIST
+              WISHLIST
             </NftButton>
           </div>
           <div className={classes.bid}>

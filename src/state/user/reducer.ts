@@ -20,7 +20,8 @@ import {
   addUserDocs,
   updateUserDocs,
   getUserDocs,
-  updateUserWhiteList
+  updateUserWishList,
+
   // addUserDocs
 } from './actions'
 
@@ -191,11 +192,11 @@ export default createReducer(initialState, builder =>
       console.log(action.error)
       // notify
     })
-    .addCase(updateUserWhiteList.pending, (state, action) => {})
-    .addCase(updateUserWhiteList.fulfilled, (state, action) => {
+    .addCase(updateUserWishList.pending, (state, action) => {})
+    .addCase(updateUserWishList.fulfilled, (state, action) => {
       // notify
     })
-    .addCase(updateUserWhiteList.rejected, (state, action) => {
+    .addCase(updateUserWishList.rejected, (state, action) => {
       console.log(action.error)
       // notify
     })
