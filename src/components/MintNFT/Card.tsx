@@ -11,7 +11,7 @@ import Step2Icon from './../../assets/icons/step2.svg'
 import Step3Icon from './../../assets/icons/step3.svg'
 import { useTranslation } from 'react-i18next'
 import { useAddNFT } from 'state/nfts/hooks'
-import { useIpfsHashes, useUploadToIpfs } from 'state/ipfs/hooks'
+import { useIpfsHash, useUploadToIpfs } from 'state/ipfs/hooks'
 import { useActiveWeb3React } from 'hooks'
 
 const Container = styled.div`
@@ -102,18 +102,15 @@ const Card: React.FC = () => {
 
   const upload = useUploadToIpfs()
 
-  const hashes = useIpfsHashes()
+  const hash = useIpfsHash()
 
   useEffect(() => {
-    console.log(hashes)
-    if (hashes.length > 0 && nftPath) {
-      var { fileName, hash } = hashes[hashes.length - 1]
-      if (fileName === nftPath)
-        setNft(nft => {
-          return { ...nft, hash }
-        })
+    if (hash !== '' && nftPath) {
+      setNft(nft => {
+        return { ...nft, hash }
+      })
     }
-  }, [nftPath, hashes, setNft])
+  }, [nftPath, hash, setNft])
 
   useEffect(() => {
     console.log(nft)
@@ -124,7 +121,7 @@ const Card: React.FC = () => {
   }, [nft, addNft])
 
   const next = () => {
-    var newMissing: string[] = []
+    const newMissing: string[] = []
     Object.keys(state).forEach((key: string) => (state[key] ? null : newMissing.push(key)))
     switch (step) {
       case 1:
@@ -141,7 +138,7 @@ const Card: React.FC = () => {
         break
       case 3:
         if (account) {
-          var nft = {
+          const nft = {
             id: 0,
             owner: account,
             issuer: account,
