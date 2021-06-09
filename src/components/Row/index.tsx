@@ -11,12 +11,14 @@ const Row = styled(Box)<{
 }>`
   width: ${({ width }) => width ?? '100%'};
   display: flex;
+  flex-wrap: wrap;
   padding: 0;
   align-items: ${({ align }) => align ?? 'center'};
   justify-content: ${({ justify }) => justify ?? 'flex-start'};
   padding: ${({ padding }) => padding};
   border: ${({ border }) => border};
   border-radius: ${({ borderRadius }) => borderRadius};
+ 
 `
 
 export const RowBetween = styled(Row)`

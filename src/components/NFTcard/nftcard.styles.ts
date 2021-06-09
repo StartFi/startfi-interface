@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+
 export const Card = styled.div`
 display:flex;
 flex-direction:column;
@@ -39,8 +40,7 @@ export const Text = styled('p')<{ fontFamily?: string; FontWight?: string; fontS
   font-size: ${({ fontSize }) => fontSize};
   width:90%;
   overflow: hidden;
-    text-overflow: ellipsis;
-
+  text-overflow: ellipsis;
 `
 
 export const Actions = styled.div`
