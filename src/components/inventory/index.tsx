@@ -1,4 +1,5 @@
 import React from 'react';
+import CardHeader from './CardHeader';
 import Header from './Header';
 import { Container } from './inventory.styles';
 import { InventoryCard} from './inventory.styles'
@@ -8,7 +9,9 @@ import { InventoryCard} from './inventory.styles'
 
         <Container>
         <Header></Header>
-        <InventoryCard></InventoryCard>
+        <InventoryCard>
+            <CardHeader></CardHeader>
+        </InventoryCard>
         </Container>
 
 
