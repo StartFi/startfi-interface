@@ -53,17 +53,7 @@ const Nftproduct = (props: {}) => {
   const accountId = useUserDoc()?.ehAddress
   const nftId = parseInt(param.id)
 
-
-
-  // add Nft Id to user wish list
-  const addToWishList = () => {
-    let payLoad = {
-      accountId,
-      nftId
-    }
  
-    dispatch(updateUserWishList(payLoad))
-  }
 
   const showScroll = (res: boolean) => {
     setIsReadMore(res)
@@ -135,7 +125,7 @@ const Nftproduct = (props: {}) => {
               </div>
               <div className={classes.buy__buttons}>
                 <img className={classes.icon} src={Path} />
-                <button onClick={addToWishList}>Wishlist</button>
+                <button onClick={() => dispatch(updateUserWishList({accountId, nftId}))}>Wishlist</button>
 
                 <button onClick={() => addToAuction(auctionItem)}>Make an offer</button>
               </div>
