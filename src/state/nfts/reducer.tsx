@@ -1,7 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit'
+import { Dictionary } from './../../constants'
 import { addNFT, getNFTs } from './actions'
 
-export interface NFT {
+export interface NFT extends Dictionary {
   id: number
   name: string
   description: string
