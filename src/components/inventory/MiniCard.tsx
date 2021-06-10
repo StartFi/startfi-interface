@@ -11,6 +11,10 @@ const Card = styled.div`
   background-color: #ffffff;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.135216);
   border-radius: 8px;
+  &:hover{
+    width:50%;
+    height: 181px;
+  }
 `
 
 export const CardContent = styled.div`
