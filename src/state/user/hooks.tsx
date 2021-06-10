@@ -22,7 +22,8 @@ import {
   updateUserSingleHopOnly,
   whitelistNFT,
   addUserDocs,
-  updateUserDocs
+  updateUserDocs,
+  saveDraft
 } from './actions'
 
 export const useWhitelistNFT = (): ((nft: NFT) => void) => {
@@ -210,4 +211,23 @@ export const useAddUserDoc = (user: UserDoc, account: any) => {
   return useEffect(() => {
     dispatch(addUserDocs(user))
   }, [dispatch, account])
+}
+
+export const useUserAddress = () => {
+  const { account } = useActiveWeb3React()
+
+  return account
+}
+
+export const useSaveDraft = () => {
+  const dispatch = useDispatch()
+
+  const user = useUserAddress()
+
+  return useCallback(
+    (draft: NFT) => {
+      if (user) dispatch(saveDraft({ user, draft }))
+    },
+    [dispatch]
+  )
 }

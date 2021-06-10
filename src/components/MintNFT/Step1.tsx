@@ -15,7 +15,7 @@ const Label = styled.div`
 `
 
 const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
-  const [filename, setFilename] = useState(state.file)
+  const [filename, setFilename] = useState(state.image)
 
   const { t } = useTranslation()
 
@@ -28,7 +28,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
   useEffect(() => {
     if (hashes.length > 0 && filename) {
       var { fileName, hash } = hashes[hashes.length - 1]
-      if (fileName === filename) handleChange({ target: { name: 'file', value: hash } })
+      if (fileName === filename) handleChange({ target: { name: 'image', value: hash } })
     }
   }, [filename, hashes, handleChange])
 
@@ -52,13 +52,13 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
         />
       </DropDown>
       <InputFile
-        name="file"
+        name="image"
         label={t('uploadNFT')}
-        value={state.file}
+        value={state.imaghe}
         onChange={(e: any) => {
           if (e.target.files[0] === null) {
             setFilename('')
-            handleChange({ target: { name: 'file', value: '' } })
+            handleChange({ target: { name: 'image', value: '' } })
           } else {
             setFilename(e.target.files[0].name)
             upload({ path: e.target.files[0].name, content: e.target.files[0] })
@@ -66,7 +66,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
         }}
         progress={progress}
         filename={filename}
-        error={missing.includes('file')}
+        error={missing.includes('image')}
       />
     </React.Fragment>
   )
