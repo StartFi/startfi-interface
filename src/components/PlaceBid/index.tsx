@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router'
+import { NFT } from 'state/nfts/reducer'
+import { useUserBalance } from 'state/user/hooks'
 import styled from 'styled-components'
 
-interface IPlaceBidProps {
-  title: string
-  button: string
+interface PlaceBidProps {
+  bidOrBuy: boolean
   isOpen: boolean
   close: () => void
+  nft: NFT
 }
 
 const Container = styled.div`
@@ -97,7 +100,10 @@ const Input = styled.input`
   color: #444444;
 `
 
-const USDPrice = styled.div`
+const USDPrice = styled.input`
+  border: none;
+  outline: none;
+  width: 5.2vw;
   color: #444444;
 `
 
@@ -130,19 +136,35 @@ export const ButtonPlaceBidSetBidding = styled(ButtonPlaceBid)`
   background-color: black;
 `
 
+const Shadow = styled.div`
+position: fixed;
+top: 0;
+left: 0;
+width: 100vw;
+height: 100vh;
+background-color: rgba(0, 0, 0, 0.5);
+`
 
-const PlaceBid: React.FunctionComponent<IPlaceBidProps> = ({title, button, isOpen, close}) => {
+const PlaceBid: React.FunctionComponent<PlaceBidProps> = ({bidOrBuy, isOpen, close, nft}) => {
   const { t } = useTranslation()
 
-  const [bid, setBid] = useState(0)
+  const history = useHistory()
 
-  const balance = 0.00005
+  const balance  = useUserBalance()
 
-  const usd = 43.5
+  const [value, setValue] = useState(0)
+
+  const usd = () => value * 10
+
+  const title = bidOrBuy ? 'placeBid' : 'proceedToPayment'
+  
+  const button = bidOrBuy ? 'setBidding' : 'proceedToPayment'
 
   if (!isOpen) return null
 
   return (
+    <React.Fragment>
+      <Shadow/>
     <Container>
       <Title>{t(title)}</Title>
       <Body>
@@ -153,19 +175,20 @@ const PlaceBid: React.FunctionComponent<IPlaceBidProps> = ({title, button, isOpe
         </Balance>
         <InputContainer>
           <STFI>STFI</STFI>
-          <Input type="number" value={bid} onChange={(e:any)=>setBid(e.target.value)}/>
+          <Input type="number" value={value} onChange={(e:any)=>setValue(e.target.value)}/>
           <USD>
-            <USDPrice>{usd}</USDPrice>
+            <USDPrice type="number" value={usd()}/>
             <USDWord>USD</USDWord>
           </USD>
         </InputContainer>
         <ButtonsContainer>
           <ButtonPlaceBidCancel onClick={close}>{t('cancel')}</ButtonPlaceBidCancel>
           <ButtonPlaceBidGetBalance>{t('getBalance')}</ButtonPlaceBidGetBalance>
-          <ButtonPlaceBidSetBidding>{t(button)}</ButtonPlaceBidSetBidding>
+          <ButtonPlaceBidSetBidding onClick={()=>history.push('nftconfirm', {bidOrBuy,value,nft})}>{t(button)}</ButtonPlaceBidSetBidding>
         </ButtonsContainer>
       </Body>
     </Container>
+    </React.Fragment>
   )
 }
 
