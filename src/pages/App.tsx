@@ -1,4 +1,4 @@
-import NFTsHeader from 'components/Header/NFTsHeader'
+// import NFTsHeader from 'components/Header/NFTsHeader'
 import React, { Suspense } from 'react'
 import {  Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
@@ -12,7 +12,9 @@ import Web3ReactManager from '../components/Web3ReactManager'
 // import { useModalOpen, useToggleModal } from '../state/application/hooks'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
 // import NFTs from './NFTs'
-import {LandingPage} from '../components/LandingPage'
+// import {LandingPage} from '../components/LandingPage'
+import NFTConfirm from 'components/NFTConfirm'
+import NFTsHeader from 'components/Header/NFTsHeader'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -52,14 +54,13 @@ export default function App() {
       <Route component={DarkModeQueryParamReader} />
       <AppWrapper>
         <URLWarning />
-        <NFTsHeader />
         <BodyWrapper>
           <Popups />
           <Polling />
-
+          <NFTsHeader />
           <Web3ReactManager>
             <Switch>
-              <Route path="" component={LandingPage} />
+              <Route path="" component={NFTConfirm} />
             </Switch>
 
           </Web3ReactManager>
