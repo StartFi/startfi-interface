@@ -1,6 +1,6 @@
-import PlaceBid from 'components/PlaceBid'
+import NFTsHeader from 'components/Header/NFTsHeader'
 import WaitingConfirmation from 'components/WaitingConfirmation'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router'
 import { useHistory } from 'react-router-dom'
@@ -143,17 +143,10 @@ const ButtonTransparentBorder = styled(ButtonTransparent)`
   border: 1px solid #000000;
 `
 
-const Nft = {
-  name: 'Apple Watch Series 4 GPS',
-  publisher: 'Muhammed Amin',
-  ownername: 'Mohamed Mounier El - King',
-  description:
-    'he biggest fight of the year is set for May 8 at AT&T Stadium in Arlington, Texas, as WBA, WBC and Ring Magazine champion and the number one pound-for-pound fighter in the world, Canelo Alvarez, meets Billy Joe Saunders, the holder of the WBO belt, in a battle for super middleweight supremacy.This stunning collection',
-  reselling: 8,
-  owner: '0x86f241af1...857c',
-  details:
-    'Put your NFT assets up as collateral for a loan, or offer loans to other users on their non-fungible tokens Put your NFT assets up as collateral for a loan, or offer loans to other users on their non-fungible tokens'
-}
+const Padding = styled.div`
+  padding: 4vh 3.2vw;
+  width: 100%;
+`
 
 const NFTConfirm: React.FunctionComponent<NFTConfirmProps> = () => {
   const { t } = useTranslation()
@@ -162,11 +155,9 @@ const NFTConfirm: React.FunctionComponent<NFTConfirmProps> = () => {
 
   const history = useHistory()
 
-  console.log(location)
+  const [waiting, setWaiting] = useState(false)
 
-  var state = { bidOrBuy: true, value: 0.0223, nft: Nft }
-
-  const { bidOrBuy, value, nft } = state as NFTConfirmProps
+  const { bidOrBuy, value, nft } = location.state as NFTConfirmProps
 
   const balance = useUserBalance()
 
@@ -175,9 +166,10 @@ const NFTConfirm: React.FunctionComponent<NFTConfirmProps> = () => {
   const total = (): number => value + service()
 
   return (
+    <Padding>
+            <NFTsHeader/>
     <Container>
-      <PlaceBid bidOrBuy={bidOrBuy} isOpen={false} close={() => {}} nft={nft} />
-      <WaitingConfirmation bidOrBuy={bidOrBuy} owner={nft.owner} ownername={nft.ownername} />
+      <WaitingConfirmation isOpen={waiting} bidOrBuy={bidOrBuy} owner={nft.owner} ownername={nft.ownername} />
       <Left>
         <Rows>
           <Img />
@@ -240,13 +232,14 @@ const NFTConfirm: React.FunctionComponent<NFTConfirmProps> = () => {
           <Bold>{t(bidOrBuy ? 'totalBidAmount' : 'totalPaymentAmount')}</Bold>
           <Bold>{total()} STFI</Bold>
         </SpaceBetween>
-        <ButtonBlack>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</ButtonBlack>
+        <ButtonBlack onClick={()=>setWaiting(true)}>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</ButtonBlack>
         <ButtonTransparentBorder>{t('addToWhitelist')}</ButtonTransparentBorder>
-        <ButtonTransparent onClick={() => history.push('nft', { nft })}>
+        <ButtonTransparent onClick={() => history.goBack()}>
           {t(bidOrBuy ? 'cancelBidding' : 'cancelPayment')}
         </ButtonTransparent>
       </Right>
     </Container>
+    </Padding>
   )
 }
 

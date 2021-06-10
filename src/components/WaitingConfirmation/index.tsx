@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import Loading from './../../assets/icons/loading.svg'
 interface WaitingConfirmationProps {
+  isOpen: boolean
   bidOrBuy: boolean
   ownername: string
   owner: string
@@ -63,8 +64,10 @@ const Footer = styled.div`
   color: #000000;
 `
 
-const WaitingConfirmation: React.FunctionComponent<WaitingConfirmationProps> = ({ bidOrBuy, ownername, owner }) => {
+const WaitingConfirmation: React.FunctionComponent<WaitingConfirmationProps> = ({ isOpen, bidOrBuy, ownername, owner }) => {
   const { t } = useTranslation()
+
+  if (!isOpen) return null
 
   const bidorbuy = bidOrBuy ? 'Bidding' : 'Payment'
 

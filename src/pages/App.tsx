@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Route, BrowserRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 // import Header from '../components/Header'
@@ -59,14 +59,14 @@ export default function App() {
           <Popups />
           <Polling />
           <Web3ReactManager>
-            <Switch>
+            <BrowserRouter>
               <Route exact path="/" component={LandingPage} />
               <Route exact path="/nfts" component={NFTs} />
               <Route exact path="/nft" component={Nftproduct} />
               <Route path="/nftconfirm" component={NFTConfirm} />
               <Route exact path="/mintnft" component={MintNFT} />
               <Route exact path="/mintednft" component={MintingCongrats} />
-            </Switch>
+            </BrowserRouter>
           </Web3ReactManager>
           <Marginer />
         </BodyWrapper>

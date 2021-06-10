@@ -25,6 +25,19 @@ import {
 import ReadMore from '../ReadMore/readmore'
 import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
+import BidOrBuy from 'components/BidOrBuy'
+
+const nft = {
+  name: 'Apple Watch Series 4 GPS',
+  publisher: 'Muhammed Amin',
+  ownername: 'Mohamed Mounier El - King',
+  description:
+    'he biggest fight of the year is set for May 8 at AT&T Stadium in Arlington, Texas, as WBA, WBC and Ring Magazine champion and the number one pound-for-pound fighter in the world, Canelo Alvarez, meets Billy Joe Saunders, the holder of the WBO belt, in a battle for super middleweight supremacy.This stunning collection',
+  reselling: 8,
+  owner: '0x86f241af1...857c',
+  details:
+    'Put your NFT assets up as collateral for a loan, or offer loans to other users on their non-fungible tokens Put your NFT assets up as collateral for a loan, or offer loans to other users on their non-fungible tokens'
+}
 
 const Nftproduct = () => {
   const { t } = useTranslation()
@@ -34,8 +47,13 @@ const Nftproduct = () => {
     readMore? setIsReadMore('scroll') : setIsReadMore('')
   }
 
+  const [isOpen, setIsOpen] = useState(false)
+
+  const [bidOrBuy, setBidOrBuy] = useState(false)
+
   return (
     <Container>
+      <BidOrBuy bidOrBuy={bidOrBuy} isOpen={isOpen} close={() => setIsOpen(false)} nft={nft} />
       <NFTsHeader />
       <Grid>
         <LeftGrid>
@@ -90,10 +108,10 @@ const Nftproduct = () => {
               <img src={Path} />
 
               <button>{t('wishlist')}</button>
-              <button>{t('offer')}</button>
+              <button onClick={()=>{setBidOrBuy(true);setIsOpen(true)}}>{t('offer')}</button>
             </BuyButtons>
             <BuyNow>
-              <button>{t('buy')}</button>
+              <button onClick={()=>{setBidOrBuy(false);setIsOpen(true)}}>{t('buy')}</button>
             </BuyNow>
           </BuyCard>
           <DescriptionCard overflowY={isReadMore}>

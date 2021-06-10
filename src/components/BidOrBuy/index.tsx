@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
-import { NFT } from 'state/nfts/reducer'
 import { useUserBalance } from 'state/user/hooks'
 import styled from 'styled-components'
 
-interface PlaceBidProps {
+interface BidOrBuyProps {
   bidOrBuy: boolean
   isOpen: boolean
   close: () => void
-  nft: NFT
+  nft: any
 }
 
 const Container = styled.div`
@@ -20,7 +19,7 @@ const Container = styled.div`
   background: #ffffff;
   border-radius: 8px;
   padding-bottom: 4vh;
-  z-index: 9;
+  z-index: 999;
 `
 
 const Title = styled.div`
@@ -143,16 +142,20 @@ const Shadow = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
 `
 
-const PlaceBid: React.FunctionComponent<PlaceBidProps> = ({ bidOrBuy, isOpen, close, nft }) => {
+const BidOrBuy: React.FunctionComponent<BidOrBuyProps> = ({ bidOrBuy, isOpen, close, nft }) => {
+  
   const { t } = useTranslation()
 
   const history = useHistory()
 
   const balance = useUserBalance()
 
-  const [value, setValue] = useState(0)
+  const [value, setValue] = useState<number>(0)
+
+  if (!isOpen) return null
 
   const usd = () => value * 10
 
@@ -160,7 +163,6 @@ const PlaceBid: React.FunctionComponent<PlaceBidProps> = ({ bidOrBuy, isOpen, cl
 
   const button = bidOrBuy ? 'setBidding' : 'proceedToPayment'
 
-  if (!isOpen) return null
 
   return (
     <React.Fragment>
@@ -184,7 +186,7 @@ const PlaceBid: React.FunctionComponent<PlaceBidProps> = ({ bidOrBuy, isOpen, cl
           <ButtonsContainer>
             <ButtonPlaceBidCancel onClick={close}>{t('cancel')}</ButtonPlaceBidCancel>
             <ButtonPlaceBidGetBalance>{t('getBalance')}</ButtonPlaceBidGetBalance>
-            <ButtonPlaceBidSetBidding onClick={() => history.push('nftconfirm', { bidOrBuy, value, nft })}>
+            <ButtonPlaceBidSetBidding onClick={() => {console.log({ bidOrBuy, value, nft });history.push('/nftconfirm', { bidOrBuy, value, nft })}}>
               {t(button)}
             </ButtonPlaceBidSetBidding>
           </ButtonsContainer>
@@ -194,4 +196,4 @@ const PlaceBid: React.FunctionComponent<PlaceBidProps> = ({ bidOrBuy, isOpen, cl
   )
 }
 
-export default PlaceBid
+export default BidOrBuy
