@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-
-
 
 const Container = styled.div`
   display: flex;
@@ -17,9 +16,7 @@ const Container = styled.div`
 const TabsCategory = styled.div`
   display: flex;
   flex-flow: row nowrap;
-  width: 40%;
-  justify-content: space-between;
-  margin-left: 40px;
+  margin-left: -40px;
 `
 
 interface TabProps {
@@ -27,22 +24,19 @@ interface TabProps {
 }
 
 const Tab = styled.div<TabProps>`
-  display: flex;
-  flex-flow: row ;
-  align-items: center;
+  margin-left: 80px;
   padding-bottom: 1vh;
   cursor: pointer;
   border-bottom: ${props => (props.selected ? '2px solid #000000;' : 'none;')};
   color: ${props => (props.selected ? ' #000000;' : '#919191;')};
-
-   transition:ease-in-out .3s all;
-
+  transition: ease-in-out 0.3s all;
 `
 
 const inventoryTypes: Array<string> = ['Draft', 'In marketplace', 'off market place']
 
 const CardHeader = () => {
   const [inventoryType, setInventoryType] = useState(inventoryTypes[0])
+  const { t } = useTranslation()
 
   return (
     <Container>
@@ -55,7 +49,7 @@ const CardHeader = () => {
               setInventoryType(type)
             }}
           >
-            {type}
+            {t(type)}
           </Tab>
         ))}
       </TabsCategory>
