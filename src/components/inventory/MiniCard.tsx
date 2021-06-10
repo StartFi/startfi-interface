@@ -11,8 +11,9 @@ const Card = styled.div`
   background-color: #ffffff;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.135216);
   border-radius: 8px;
-  &:hover{
-    width:50%;
+  &:hover {
+    flex: 2;
+    width: 60%;
     height: 181px;
   }
 `
@@ -37,15 +38,14 @@ const ButtonContainer = styled.div`
   & button {
     width: 89px;
     height: 35px;
-    margin-right:10px;
+    margin-right: 10px;
     background: #f4f4f4;
     border-radius: 4px;
-    outline:none;
-    border:transparent;
+    outline: none;
+    border: transparent;
   }
   & :last-child {
     width: 69px;
-
   }
 `
 
@@ -62,9 +62,8 @@ const MiniCard = () => {
             Redesigned from scratch and completely revised.
           </Text>
           <ButtonContainer>
-              <button>Starbuks</button>
-              <button>others</button>
-
+            <button>Starbuks</button>
+            <button>others</button>
           </ButtonContainer>
         </TextContainer>
       </CardContent>
