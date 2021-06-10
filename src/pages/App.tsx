@@ -1,6 +1,5 @@
-// import NFTsHeader from 'components/Header/NFTsHeader'
 import React, { Suspense } from 'react'
-import {  Route, Switch } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 // import Header from '../components/Header'
@@ -11,10 +10,12 @@ import Web3ReactManager from '../components/Web3ReactManager'
 // import { ApplicationModal } from '../state/application/actions'
 // import { useModalOpen, useToggleModal } from '../state/application/hooks'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
-// import NFTs from './NFTs'
-// import {LandingPage} from '../components/LandingPage'
 import NFTConfirm from 'components/NFTConfirm'
-import NFTsHeader from 'components/Header/NFTsHeader'
+import MintNFT from '../components/MintNFT'
+import NFTs from './NFTs'
+import { LandingPage } from 'components/LandingPage'
+import Nftproduct from 'components/NFTproduct/Nftproduct'
+import MintingCongrats from 'components/MintingCongrats/mintingCongrats'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -22,7 +23,6 @@ const AppWrapper = styled.div`
   align-items: flex-start;
   overflow-x: hidden;
   width: 100%;
-  padding: 3vh 3vw;
 `
 
 const BodyWrapper = styled.div`
@@ -48,6 +48,7 @@ const Marginer = styled.div`
 `
 
 export default function App() {
+
   return (
     <Suspense fallback={null}>
       <Route component={GoogleAnalyticsReporter} />
@@ -57,18 +58,18 @@ export default function App() {
         <BodyWrapper>
           <Popups />
           <Polling />
-          <NFTsHeader />
           <Web3ReactManager>
             <Switch>
-              <Route path="" component={NFTConfirm} />
+              <Route exact path="/" component={LandingPage} />
+              <Route exact path="/nfts" component={NFTs} />
+              <Route exact path="/nft" component={Nftproduct} />
+              <Route path="/nftconfirm" component={NFTConfirm} />
+              <Route exact path="/mintnft" component={MintNFT} />
+              <Route exact path="/mintednft" component={MintingCongrats} />
             </Switch>
-
           </Web3ReactManager>
-
-
           <Marginer />
         </BodyWrapper>
-
       </AppWrapper>
     </Suspense>
   )

@@ -16,15 +16,8 @@ import ApplicationUpdater from './state/application/updater'
 import MulticallUpdater from './state/multicall/updater'
 import TransactionUpdater from './state/transactions/updater'
 import UserUpdater from './state/user/updater'
-import ThemeProviderr, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
+import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
 import getLibrary from './utils/getLibrary'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core'
-
-const theme = createMuiTheme({
-  typography: {
-    fontFamily: 'Roboto'
-  }
-})
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
@@ -74,13 +67,11 @@ ReactDOM.render(
         <Blocklist>
           <Provider store={store}>
             <Updaters />
-            <ThemeProvider theme={theme}>
-              <ThemeProviderr>
-                <ThemedGlobalStyle />
-                <HashRouter>
-                  <App />
-                </HashRouter>
-              </ThemeProviderr>
+            <ThemeProvider>
+              <ThemedGlobalStyle />
+              <HashRouter>
+                <App />
+              </HashRouter>
             </ThemeProvider>
           </Provider>
         </Blocklist>

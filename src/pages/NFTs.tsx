@@ -1,32 +1,57 @@
 import React, { useState } from 'react'
-import { useGetNFTs, useLoadNFTs, useLoadTime, useNFTs } from 'state/nfts/hooks'
-import SelectIcon from '../assets/icons/select.svg'
-import { styled, MenuItem, Box, Grid } from '@material-ui/core/'
+import {
+  useGetNFTs,
+  useLoadNFTs,
+  useLoadTime,
+  useNFTs
+  // useAddNFT
+} from 'state/nfts/hooks'
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
-import { COLORS } from 'theme'
 import { useHistory } from 'react-router'
 import { useWhitelistNFT } from 'state/user/hooks'
 import { NFT } from 'state/nfts/reducer'
+import NFTsHeader from 'components/Header/NFTsHeader'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 
-const NFTS = styled(Grid)({
-  padding: '0 5vw',
-  width: '100%'
-})
+const NFTS = styled.div`
+  padding: 4vh 3.2vw;
+  width: 100%;
+`
 
-const Header = styled(Grid)({
-  paddingBottom: '6vh'
-})
+const Header = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 6vh;
+`
 
-const Results = styled(Box)({
-  fontSize: '1rem',
-  color: COLORS.black2
-})
+const Results = styled.div`
+  color: #2c2c2c;
+`
 
-const SORTBY = ['With Bids', 'b']
+const NFTList = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+`
+
+const Nft = styled.div`
+  margin-bottom: 8vh;
+`
+
+const Padding = styled.div`
+  padding: 0 2vw;
+`
+
+const SORTBY = ['With Bids', 'Lowest price', 'Highest price']
 
 const NFTs: React.FC = () => {
   const history = useHistory()
+
+  const { t } = useTranslation()
 
   const [sort, setSort] = useState(SORTBY[0])
 
@@ -41,41 +66,37 @@ const NFTs: React.FC = () => {
   const whitelistNFT = useWhitelistNFT()
 
   return (
-    <NFTS container direction="column">
-      <Header container direction="row" justify="space-between" alignContent="space-between" alignItems="center">
-        <Results>
-          {nfts.length} results found in {loadtime}ms
-        </Results>
-        <DropDownSort
-          disableUnderline
-          onChange={(e: any) => {
-            console.log(e.target.value)
-            setSort(e.target.value)
-            getNFTs({ sort: e.target.value })
-          }}
-          value={sort}
-          defaultValue={SORTBY[0]}
-          IconComponent={() => <img src={SelectIcon} alt="Sort by" />}
-        >
-          {SORTBY.map(o => (
-            <MenuItem key={o} value={o}>
-              {o}
-            </MenuItem>
-          ))}
-        </DropDownSort>
-      </Header>
-      <Grid container direction="row" justify="space-between" spacing={10}>
-        {nfts.map(nft => (
-            <Grid key={nft.id} item>
+    <NFTS>
+      <NFTsHeader />
+      <Padding>
+        <Header>
+          <Results>
+            {nfts.length} {t('NFTSResults')} {loadtime}ms
+          </Results>
+          <DropDownSort
+            boxshadow
+            name="sort"
+            options={SORTBY}
+            value={sort}
+            onChange={(e: any) => {
+              setSort(e.target.value)
+              getNFTs({ sort: e.target.value })
+            }}
+          />
+        </Header>
+        <NFTList>
+          {nfts.map(nft => (
+            <Nft key={nft.id}>
               <NTFCard
                 cardContent={nft}
-                navigateToCard={(NFT: NFT)=>history.push('NFT', NFT)}
-                addToWhiteList={(NFT: NFT)=>whitelistNFT(NFT)}
-                placeBid={(NFT: NFT)=>history.push('NFT', NFT)}
+                navigateToCard={(Nft: NFT) => history.push('NFT', Nft)}
+                addToWhiteList={(Nft: NFT) => whitelistNFT(Nft)}
+                placeBid={(Nft: NFT) => history.push('NFT', Nft)}
               ></NTFCard>
-            </Grid>
+            </Nft>
           ))}
-      </Grid>
+        </NFTList>
+      </Padding>
     </NFTS>
   )
 }

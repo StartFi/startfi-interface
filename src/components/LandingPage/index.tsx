@@ -1,9 +1,17 @@
+import { LinkCreateNFT } from 'components/Link'
+import Wallet from 'components/Wallet'
+import { useActiveWeb3React } from 'hooks'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import { UserDoc } from 'services/firebase/firebaseStore'
+import { useAddUserDoc } from 'state/user/hooks'
 import styled from 'styled-components'
 import StartFi from '../../assets/svg/StartFi-c 1.svg'
 
 const PageWrapper = styled.div`
+  width: 100%;
+  padding: 4vh 3.2vw;
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -33,10 +41,10 @@ const SubText = styled.div`
   font-size: 1rem;
   margin-top: -15px;
 `
-const LinkContainer=styled.div`
-width: 31.25rem;
-margin-top:40px;
-display: flex;
+const LinkContainer = styled.div`
+  width: 31.25rem;
+  margin-top: 40px;
+  display: flex;
   flex-flow: row;
   align-items: center;
   justify-content: space-between;
@@ -63,26 +71,50 @@ const PageLink = styled(Link)`
   }
 `
 
-export const LandingPage = () => {
-    return (
-        <PageWrapper>
-            {/* <h2>landing page</h2> */}
-            <Logo src={StartFi} />
-            <MainText>
-                <p>
-                    <MainSpan>Startfi</MainSpan> marketplace and lunchpad for NFT collateralised loans
-        </p>
-            </MainText>
-            <SubText>
-                <p>
-                    Put your NFT assets up as collateral for a loan, or offer loans to other users on their non-fungible tokens
-        </p>
-            </SubText>
-            <LinkContainer>
-            <PageLink to=''>Marketplace</PageLink>
-            <PageLink to=''>Lanuchpad</PageLink>
-            </LinkContainer>
+const Header = styled.div`
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  margin-bottom: 15vh;
+`
 
-        </PageWrapper>
-    )
+const InnerHeader = styled.div`
+  min-width: 20vw;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+`
+
+export const LandingPage = () => {
+  const { t } = useTranslation()
+
+  const { account } = useActiveWeb3React()
+  const user: UserDoc = { ehAddress: account }
+  useAddUserDoc(user, account)
+  return (
+    <PageWrapper>
+      <Header>
+        <InnerHeader>
+          <LinkCreateNFT to='mintnft'>{t('mintNFT')}</LinkCreateNFT>
+          <Wallet />
+        </InnerHeader>
+      </Header>
+
+      <Logo src={StartFi} />
+      <MainText>
+        <p>
+          <MainSpan>Startfi</MainSpan> {t('landHead')}
+        </p>
+      </MainText>
+      <SubText>
+        <p>{t('landSubText')}</p>
+      </SubText>
+      <LinkContainer>
+        <PageLink to='nfts'>{t('marketPlace')}</PageLink>
+        <PageLink to=''>{t('launchpad')}</PageLink>
+      </LinkContainer>
+    </PageWrapper>
+  )
 }

@@ -1,5 +1,7 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { addToWhitelist } from 'services/User/User'
+import { addUserDoc, updateUserDoc } from 'services/firebase/firebaseStore'
+import { addDraft, getDrafts } from 'services/Storage/Draft'
 
 export interface SerializedToken {
   chainId: number
@@ -31,3 +33,13 @@ export const removeSerializedPair = createAction<{ chainId: number; tokenAAddres
 export const toggleURLWarning = createAction<void>('app/toggleURLWarning')
 
 export const whitelistNFT = createAsyncThunk('nfts/getNFTs', addToWhitelist)
+
+// ADD USER DOCS
+export const addUserDocs = createAsyncThunk('user/addDocs', addUserDoc)
+
+// UPDATE USER DOCS
+export const updateUserDocs = createAsyncThunk('user/updateDocs', updateUserDoc)
+
+export const saveDraft = createAsyncThunk('user/saveDraft', addDraft)
+
+export const getUserDrafts = createAsyncThunk('user/getUserDrafts', getDrafts)

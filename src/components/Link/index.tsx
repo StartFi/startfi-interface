@@ -1,11 +1,16 @@
-import { Link, styled } from '@material-ui/core'
-import { COLORS } from 'theme'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 
-export const LinkBase = styled(Link)({
-  color: COLORS.black
-})
+export const LinkBase = styled(Link)`
+  color: black;
+  text-decoration: none;
+`
 
-export const LinkCreateNFT = styled(LinkBase)({
-  fontSize: '1.125rem',
-  fontWeight: 500
-})
+export const LinkCreateNFT = styled(LinkBase)`
+  font-size: 1.125rem;
+  font-weight: 500;
+`
+
+export const LinkMarketplace = styled(LinkBase)`
+  display: block;
+`

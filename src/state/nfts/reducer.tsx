@@ -1,13 +1,20 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { getNFTs } from './actions'
+import { Dictionary } from './../../constants'
+import { addNFT, getNFTs } from './actions'
 
-export interface NFT {
+export interface NFT extends Dictionary {
   id: number
   name: string
+  description: string
+  category: string
+  owner: string
+  onAuction: boolean
+  issuer: string
+  issueDate: Date
   image: string
   price: number
-  category: string
-  description: string
+  hash: string
+  tags: string[]
 }
 
 export type NFTS = Array<NFT>
@@ -15,11 +22,17 @@ export type NFTS = Array<NFT>
 export interface NFTState {
   nfts: NFTS
   loadtime: number
+  search: string
+  category: string
+  nftAdded: boolean
 }
 
 const initialState: NFTState = {
   nfts: [],
-  loadtime: 0
+  loadtime: 0,
+  search: '',
+  category: 'all',
+  nftAdded: false
 }
 
 export default createReducer(initialState, builder =>
@@ -28,8 +41,15 @@ export default createReducer(initialState, builder =>
     .addCase(getNFTs.fulfilled, (state, action) => {
       state.nfts = action.payload.nfts
       state.loadtime = action.payload.loadtime
+      if (action.payload.search) state.search = action.payload.search
+      else state.search = ''
+      if (action.payload.category) state.category = action.payload.category
+      else state.category = ''
     })
-    .addCase(getNFTs.rejected, (state, action) => {
-      //notify
+    .addCase(getNFTs.rejected, (state, action) => {})
+    .addCase(addNFT.pending, (state, action) => {})
+    .addCase(addNFT.fulfilled, (state, action) => {
+      state.nftAdded = true
     })
+    .addCase(addNFT.rejected, (state, action) => {})
 )

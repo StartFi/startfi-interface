@@ -15,7 +15,11 @@ import {
   updateUserDeadline,
   toggleURLWarning,
   updateUserSingleHopOnly,
-  whitelistNFT
+  whitelistNFT,
+  addUserDocs,
+  updateUserDocs,
+  saveDraft
+  // addUserDocs
 } from './actions'
 
 const currentTimestamp = () => new Date().getTime()
@@ -155,5 +159,28 @@ export default createReducer(initialState, builder =>
     })
     .addCase(whitelistNFT.rejected, (state, action) => {
       //notify
+    })
+    .addCase(addUserDocs.pending, (state, action) => {})
+    .addCase(addUserDocs.fulfilled, (state, action) => {
+      // notify
+    })
+
+    .addCase(addUserDocs.rejected, (state, action) => {
+      // notify
+    })
+    .addCase(updateUserDocs.pending, (state, action) => {})
+    .addCase(updateUserDocs.fulfilled, (state, action) => {
+      // notify
+    })
+
+    .addCase(updateUserDocs.rejected, (state, action) => {
+      // notify
+    })
+    .addCase(saveDraft.pending, (state, action) => {})
+    .addCase(saveDraft.fulfilled, (state, action) => {
+      // notify
+    })
+    .addCase(saveDraft.rejected, (state, action) => {
+      // notify
     })
 )
