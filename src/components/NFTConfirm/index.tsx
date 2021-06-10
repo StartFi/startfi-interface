@@ -1,8 +1,17 @@
+import { useActiveWeb3React } from 'hooks';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router';
+import { useHistory } from 'react-router-dom';
+// import { NFT } from 'state/nfts/reducer';
+import { useETHBalances } from 'state/wallet/hooks';
 import styled from 'styled-components';
 
 interface NFTConfirmProps {
+    bid: boolean
+    value: number
+    service: number
+    nft: any
 }
 
 const Container = styled.div`
@@ -134,7 +143,7 @@ const ButtonTransparentBorder = styled(ButtonTransparent)`
 border: 1px solid #000000;
 `
 
-const nft = {
+const Nft = {
     name: "Apple Watch Series 4 GPS",
     publisher: "Muhammed Amin",
     ownername: "Mohamed Mounier El - King",
@@ -142,12 +151,29 @@ const nft = {
     reselling: 8,
     owner: "0x86f241af1...857c",
     details: "Put your NFT assets up as collateral for a loan, or offer loans to other users on their non-fungible tokens Put your NFT assets up as collateral for a loan, or offer loans to other users on their non-fungible tokens",
-    biddingOffer: 0.242424
 }
 
-const NFTConfirm: React.FunctionComponent<NFTConfirmProps> = (props) => {
+const NFTConfirm: React.FunctionComponent<NFTConfirmProps> = () => {
 
     const { t } = useTranslation()
+
+    const location = useLocation()
+
+    const history = useHistory()
+
+    console.log(location)
+
+    var state = {bid:false,value:0.0223,nft:Nft}
+
+    const { bid, value, nft } = state as NFTConfirmProps
+
+    const { account } = useActiveWeb3React()
+
+    const balance = useETHBalances(account ? [account] : [])?.[account ?? '']
+
+    const service = (): number => value * 1
+
+    const total = (): number => value + service()
 
   return <Container>
       <Left>
@@ -181,18 +207,18 @@ const NFTConfirm: React.FunctionComponent<NFTConfirmProps> = (props) => {
             <TextBlack>{nft.details}</TextBlack>
       </Left>
       <Right>
-          <Bold>{t('confirmBidding')}</Bold>
+          <Bold>{t(bid ? 'confirmBidding' : 'confirmPayment')}</Bold>
           <TextBlack>{t('bidDesc')}{nft.ownername}{nft.owner}</TextBlack>
-          <SpaceBetween><Bold>{t('biddingOffer')}</Bold><Bold>{nft.biddingOffer} STFI</Bold></SpaceBetween>
+          <SpaceBetween><Bold>{t(bid ? 'biddingOffer' : 'paymentAmount')}</Bold><Bold>{value} STFI</Bold></SpaceBetween>
           <Border/>
-          <SpaceBetween><SemiBold>{t('biddingBalance')}</SemiBold><Bold>{nft.biddingOffer} STFI</Bold></SpaceBetween>
-          <SpaceBetween><SemiBold>{t('yourBalance')}</SemiBold><Bold>{nft.biddingOffer} STFI</Bold></SpaceBetween>
-          <SpaceBetween><SemiBold>{t('serviceFees')}</SemiBold><Bold>{nft.biddingOffer} STFI</Bold></SpaceBetween>
+          <SpaceBetween><SemiBold>{t(bid ? 'biddingBalance' : 'paymentBalance')}</SemiBold><Bold>{value} STFI</Bold></SpaceBetween>
+          <SpaceBetween><SemiBold>{t('yourBalance')}</SemiBold><Bold>{balance?.toSignificant(5)} STFI</Bold></SpaceBetween>
+          <SpaceBetween><SemiBold>{t('serviceFees')}</SemiBold><Bold>{service()} STFI</Bold></SpaceBetween>
           <Border/>
-          <SpaceBetween><Bold>{t('totalBidAmount')}</Bold><Bold>{nft.biddingOffer} STFI</Bold></SpaceBetween>
-          <ButtonBlack>{t('confirmBidding')}</ButtonBlack>
+          <SpaceBetween><Bold>{t(bid ? 'totalBidAmount' : 'totalPaymentAmount')}</Bold><Bold>{total()} STFI</Bold></SpaceBetween>
+          <ButtonBlack>{t(bid ? 'confirmBidding' : 'confirmPayment')}</ButtonBlack>
           <ButtonTransparentBorder>{t('addToWhitelist')}</ButtonTransparentBorder>
-          <ButtonTransparent>{t('cancelBidding')}</ButtonTransparent>
+          <ButtonTransparent onClick={()=>history.push('nft', {nft})}>{t(bid ? 'cancelBidding' : 'cancelPayment')}</ButtonTransparent>
       </Right>
   </Container>;
 };
