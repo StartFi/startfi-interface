@@ -6,10 +6,12 @@ interface SaveDraft {
   draft: NFT
 }
 
-export const addDraft = async ({ user, draft }: SaveDraft): Promise<string | void> => {
-  return add('drafts', user, draft)
+export const addDraft = async ({ user, draft }: SaveDraft) => {
+  const data = await add('drafts', user, draft)
+  return {data}
 }
 
-export const getDrafts = (user: string) => {
-  return get('drafts', user)
+export const getDrafts = async (user: string) => {
+  const drafts = await get('drafts', user)
+  return {drafts}
 }

@@ -98,7 +98,8 @@ export const getAll = async (query?: NFTQUERY) => {
   return { nfts, loadtime: Math.round(t1 - t0), ...query }
 }
 
-export const mint = async (nft: NFT): Promise<string | void> => {
+export const mint = async (nft: NFT) => {
   nft.id = 7
-  return add('nfts', nft.id, nft)
+  var data = await add('nfts', nft.id, nft)
+  return {data}
 }
