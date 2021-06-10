@@ -16,7 +16,7 @@ const Container = styled.div`
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   background: #ffffff;
   border-radius: 8px;
   padding-bottom: 4vh;
@@ -137,57 +137,59 @@ export const ButtonPlaceBidSetBidding = styled(ButtonPlaceBid)`
 `
 
 const Shadow = styled.div`
-position: fixed;
-top: 0;
-left: 0;
-width: 100vw;
-height: 100vh;
-background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
 `
 
-const PlaceBid: React.FunctionComponent<PlaceBidProps> = ({bidOrBuy, isOpen, close, nft}) => {
+const PlaceBid: React.FunctionComponent<PlaceBidProps> = ({ bidOrBuy, isOpen, close, nft }) => {
   const { t } = useTranslation()
 
   const history = useHistory()
 
-  const balance  = useUserBalance()
+  const balance = useUserBalance()
 
   const [value, setValue] = useState(0)
 
   const usd = () => value * 10
 
   const title = bidOrBuy ? 'placeBid' : 'proceedToPayment'
-  
+
   const button = bidOrBuy ? 'setBidding' : 'proceedToPayment'
 
   if (!isOpen) return null
 
   return (
     <React.Fragment>
-      <Shadow/>
-    <Container>
-      <Title>{t(title)}</Title>
-      <Body>
-        <Price>{t('price')}</Price>
-        <PriceUnderline/>
-        <Balance>
-          {t('balance')} {balance} STFI
-        </Balance>
-        <InputContainer>
-          <STFI>STFI</STFI>
-          <Input type="number" value={value} onChange={(e:any)=>setValue(e.target.value)}/>
-          <USD>
-            <USDPrice type="number" value={usd()}/>
-            <USDWord>USD</USDWord>
-          </USD>
-        </InputContainer>
-        <ButtonsContainer>
-          <ButtonPlaceBidCancel onClick={close}>{t('cancel')}</ButtonPlaceBidCancel>
-          <ButtonPlaceBidGetBalance>{t('getBalance')}</ButtonPlaceBidGetBalance>
-          <ButtonPlaceBidSetBidding onClick={()=>history.push('nftconfirm', {bidOrBuy,value,nft})}>{t(button)}</ButtonPlaceBidSetBidding>
-        </ButtonsContainer>
-      </Body>
-    </Container>
+      <Shadow />
+      <Container>
+        <Title>{t(title)}</Title>
+        <Body>
+          <Price>{t('price')}</Price>
+          <PriceUnderline />
+          <Balance>
+            {t('balance')} {balance} STFI
+          </Balance>
+          <InputContainer>
+            <STFI>STFI</STFI>
+            <Input type="number" value={value} onChange={(e: any) => setValue(e.target.value)} />
+            <USD>
+              <USDPrice type="number" value={usd()} />
+              <USDWord>USD</USDWord>
+            </USD>
+          </InputContainer>
+          <ButtonsContainer>
+            <ButtonPlaceBidCancel onClick={close}>{t('cancel')}</ButtonPlaceBidCancel>
+            <ButtonPlaceBidGetBalance>{t('getBalance')}</ButtonPlaceBidGetBalance>
+            <ButtonPlaceBidSetBidding onClick={() => history.push('nftconfirm', { bidOrBuy, value, nft })}>
+              {t(button)}
+            </ButtonPlaceBidSetBidding>
+          </ButtonsContainer>
+        </Body>
+      </Container>
     </React.Fragment>
   )
 }
