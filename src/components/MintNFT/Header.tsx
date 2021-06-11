@@ -1,10 +1,10 @@
-import { Box } from '@material-ui/core'
 import React from 'react'
 import styled from 'styled-components'
 import Wallet from 'components/Wallet'
 import Logo from './../../assets/icons/logo.svg'
 import Arrow from './../../assets/icons/backarrow.svg'
 import { LinkMarketplace } from 'components/Link'
+import { useTranslation } from 'react-i18next'
 
 const Container = styled.div`
   display: flex;
@@ -33,17 +33,19 @@ const Right = styled.div`
 `
 
 const Header: React.FC = () => {
+  const { t } = useTranslation()
+
   return (
     <Container>
       <Left>
         <img src={Logo} alt="Logo" />
-        <Box>Startfi</Box>
+        <div>Startfi</div>
       </Left>
       <Right>
-        <Box>
-          <LinkMarketplace to="nfts">Back to Marketplace</LinkMarketplace>
+        <div>
+          <LinkMarketplace to="nfts">{t('backToMarketplace')}</LinkMarketplace>
           <img src={Arrow} alt="Back" />
-        </Box>
+        </div>
         <Wallet />
       </Right>
     </Container>

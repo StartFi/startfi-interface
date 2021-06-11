@@ -1,40 +1,39 @@
 import React from 'react'
-import { Grid } from '@material-ui/core'
 import { Input } from 'components/Input'
 import { StepProps } from '../../constants'
+import Tags from 'components/Tags'
+import styled from 'styled-components'
+
+const Container = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  flex: 1 1 auto;
+`
 
 const Step2: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
   return (
-    <Grid container direction="column" justify="space-around" style={{ flex: '1 1 auto' }}>
+    <Container>
       <Input
         name="name"
-        label="NFT Name"
+        label="NFTname"
         value={state.name}
         onChange={handleChange}
         error={missing.includes('name')}
         underline
       />
-      <Input
-        name="details"
-        label="NFT Details"
-        placeholder="Write Details about your product"
-        value={state.details}
-        onChange={handleChange}
-        characters={150}
-        textarea={2}
-        error={missing.includes('details')}
-      />
+      <Tags name="tags" max={10} onChange={handleChange} />
       <Input
         name="description"
-        label="NFT Description"
-        placeholder="Write Details about your product"
+        label="NFTdescription"
+        placeholder="writeNFTdescription"
         value={state.description}
         onChange={handleChange}
         characters={500}
         textarea={4}
         error={missing.includes('description')}
       />
-    </Grid>
+    </Container>
   )
 }
 

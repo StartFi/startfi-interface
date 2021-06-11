@@ -1,12 +1,14 @@
- import {getNfts} from '../firebase/firebaseStore'
+import { add} from 'services/firebase/Firebase'
+import {getNfts} from '../firebase/firebaseStore'
+import { NFT } from 'state/nfts/reducer'
 
- export const array = [
+export const array = [
   {
     id: 0,
     name: 'Apple Watch Series 4 GPS',
     owner: 'on1',
     issueDate: Date.now(),
-    onAuction:false,
+    onAuction: false,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -18,7 +20,7 @@
     owner: 'on1',
     issueDate: Date.now(),
     price: 16,
-    onAuction:false,
+    onAuction: false,
     category: 'Music',
     image: 'https://picsum.photos/200',
     description: 'Redesigned from scratch and completely revised'
@@ -28,7 +30,7 @@
     name: 'Apple Watch Series 4 GPS',
     owner: 'on1',
     issueDate: Date.now(),
-    onAuction:true,
+    onAuction: true,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -39,7 +41,7 @@
     name: 'Apple Watch Series 4 GPSa',
     owner: 'on1',
     issueDate: Date.now(),
-    onAuction:false,
+    onAuction: false,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -50,7 +52,7 @@
     name: 'Apple Watch Series 4 GPS',
     owner: 'on1',
     issueDate: Date.now(),
-    onAuction:false,
+    onAuction: false,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -61,7 +63,7 @@
     name: 'Apple Watch Series 4 GPS',
     owner: 'on1',
     issueDate: Date.now(),
-    onAuction:true,
+    onAuction: true,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -72,7 +74,7 @@
     name: 'Apple Watch Series 4 GPS',
     owner: 'on1',
     issueDate: Date.now(),
-    onAuction:true,
+    onAuction: true,
     price: 16,
     category: 'Music',
     image: 'https://picsum.photos/200',
@@ -90,13 +92,14 @@ export const getAll = async (query?: NFTQUERY) => {
   const t0 = performance.now()
   // await new Promise(resolve => setTimeout(resolve, 1000))
 
-  let nfts =await getNfts()
-  if (query) {
-    const { search, category, sort } = query
-    if (search) nfts = nfts.filter(a => a.name.includes(search))
-    else if (category) nfts = nfts.filter(a => a.category === category)
-    else if (sort) nfts = nfts.filter(a => a.name.includes(sort))
-  }
+  let q = query || {}
+
+  let nfts = await getNfts(q)
   const t1 = performance.now()
-  return { nfts, loadtime: Math.round(t1 - t0) }
+  return { nfts, loadtime: Math.round(t1 - t0), ...query }
+}
+
+export const mint = async (nft: NFT): Promise<string | void> => {
+  nft.id = 7
+  return add('nfts', nft.id, nft)
 }

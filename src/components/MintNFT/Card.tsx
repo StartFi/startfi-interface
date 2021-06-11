@@ -1,12 +1,18 @@
-import React, { useState } from 'react'
-import { Box } from '@material-ui/core'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Dictionary } from '../../constants'
-import { ButtonDraft, ButtonMint } from 'components/Button'
+import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
 import styled from 'styled-components'
 import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
 import { useHistory } from 'react-router'
+import Step1Icon from './../../assets/icons/step1.svg'
+import Step2Icon from './../../assets/icons/step2.svg'
+import Step3Icon from './../../assets/icons/step3.svg'
+import { useTranslation } from 'react-i18next'
+import { useAddNFT } from 'state/nfts/hooks'
+import { useIpfsHashes, useUploadToIpfs } from 'state/ipfs/hooks'
+import { useActiveWeb3React } from 'hooks'
 
 const Container = styled.div`
   display: flex;
@@ -41,15 +47,25 @@ const Footer = styled.div`
 
 const Card: React.FC = () => {
   const history = useHistory()
+
+  const { account } = useActiveWeb3React()
+
+  console.log(account)
+
+  const { t } = useTranslation()
+
+  const addNft = useAddNFT()
+
   const [state, setState] = useState<Dictionary>({
     category: '',
-    file: null,
+    file: '',
     name: '',
-    details: '',
+    tags: '',
     description: '',
     price: 0,
-    bidsoffers: 'false',
-    bid: 0,
+    bidsOffers: 'false',
+    minBid: 0,
+    openFor: 0,
     type: 'Day'
   })
 
@@ -57,8 +73,55 @@ const Card: React.FC = () => {
 
   const [step, setStep] = useState<number>(1)
 
-  const handleChange = (e: any) =>
-    setState({ ...state, [e.target.name]: e.target.type === 'file' ? e.target.files[0] : e.target.value })
+  const [nft, setNft] = useState({
+    id: 0,
+    owner: '',
+    issuer: '',
+    issueDate: new Date(),
+    onAuction: false,
+    name: '',
+    image: '',
+    price: 0,
+    category: '',
+    description: '',
+    hash: '',
+    tags: []
+  })
+
+  const [nftPath, setNftPath] = useState('')
+
+  const handleChange = useCallback(
+    (e: any) => {
+      if (e.persist) e.persist()
+      setState(state => {
+        return { ...state, [e.target.name]: e.target.value }
+      })
+    },
+    [setState]
+  )
+
+  const upload = useUploadToIpfs()
+
+  const hashes = useIpfsHashes()
+
+  useEffect(() => {
+    console.log(hashes)
+    if (hashes.length > 0 && nftPath) {
+      var { fileName, hash } = hashes[hashes.length - 1]
+      if (fileName === nftPath)
+        setNft(nft => {
+          return { ...nft, hash }
+        })
+    }
+  }, [nftPath, hashes, setNft])
+
+  useEffect(() => {
+    console.log(nft)
+    if (nft.hash) {
+      addNft(nft)
+      history.push('/mintednft')
+    }
+  }, [nft, addNft])
 
   const next = () => {
     var newMissing: string[] = []
@@ -71,28 +134,58 @@ const Card: React.FC = () => {
         }
         break
       case 2:
-        if (['name', 'details', 'description'].filter(f => newMissing.includes(f)).length === 0) {
+        if (['name', 'tags', 'description'].filter(f => newMissing.includes(f)).length === 0) {
           setMissing([])
           return setStep(3)
         }
         break
       case 3:
-        history.push('/mintednft')
-        console.log(state)
+        if (account) {
+          var nft = {
+            id: 0,
+            owner: account,
+            issuer: account,
+            issueDate: new Date(),
+            onAuction: state.bidsOffers === 'true',
+            name: state.name,
+            image: state.file,
+            price: parseInt(state.price),
+            category: state.category,
+            description: state.description,
+            hash: '',
+            tags: state.tags
+          }
+          setNft(nft)
+          setNftPath('id.js')
+          upload({ path: 'id.js', content: JSON.stringify(nft) })
+        } else history.push('/')
         break
       default:
     }
     setMissing(newMissing)
   }
 
+  const StepIcon = () => {
+    switch (step) {
+      case 1:
+        return Step1Icon
+      case 2:
+        return Step2Icon
+      case 3:
+        return Step3Icon
+      default:
+    }
+    return Step1Icon
+  }
+
   return (
     <Container>
       <Header>
-        <Box>
-          <Title>Create nft and start earnning</Title>
+        <div>
+          <Title>{t('mintNFTTitle')}</Title>
           <Underline />
-        </Box>
-        <Box>CREATE YOUR NFT</Box>
+        </div>
+        <img src={StepIcon()} alt="Step" />
       </Header>
       {step === 1 ? (
         <Step1 state={state} handleChange={handleChange} missing={missing} />
@@ -102,8 +195,9 @@ const Card: React.FC = () => {
         <Step3 state={state} handleChange={handleChange} missing={missing} />
       )}
       <Footer>
-        <ButtonDraft>Save as draft</ButtonDraft>
-        <ButtonMint onClick={() => next()}>Next</ButtonMint>
+        <ButtonMintBack>{t('back')}</ButtonMintBack>
+        <ButtonDraft>{t('saveDraft')}</ButtonDraft>
+        <ButtonMint onClick={() => next()}>{t('next')}</ButtonMint>
       </Footer>
     </Container>
   )

@@ -1,11 +1,11 @@
-import { ChainId, Pair, Token } from '@uniswap/sdk'
-
+// NOTICE: Kindly keep the old sdk unite we remove the code dependant on it in this file
+import { Pair, Token } from '@uniswap/sdk'
 import { useCallback, useEffect, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { UserDoc } from 'services/User/User'
 
-// import { NFT } from 'state/nfts/reducer'
 
+import { ChainId } from '../../constants/supportedChains'
 import { useActiveWeb3React } from '../../hooks'
 import { AppDispatch, AppState } from '../index'
 import {
@@ -200,19 +200,19 @@ export function useURLWarningToggle(): () => void {
   return useCallback(() => dispatch(toggleURLWarning()), [dispatch])
 }
 // Edit user docs
-export const useEditUserDoc = (user:UserDoc) => {
+export const useEditUserDoc = (user: UserDoc) => {
   const dispatch = useDispatch()
   return useEffect(() => {
-       dispatch(updateUserDocs(user))
+    dispatch(updateUserDocs(user))
   }, [dispatch])
 }
 
 // add user docs
-export const useAddUserDoc = (user:UserDoc,account:any) => {
+export const useAddUserDoc = (user: UserDoc, account: any) => {
   const dispatch = useDispatch()
   return useEffect(() => {
     dispatch(addUserDocs(user))
-  }, [dispatch,account])
+  }, [dispatch, account])
 }
 
 // add user docs

@@ -1,34 +1,73 @@
-import React from 'react'
-import { Box } from '@material-ui/core'
+import React, { useEffect, useState } from 'react'
 import { DropDownCategory } from 'components/DropDown'
 import { InputFile, LabelBlack, LabelWithCheck } from 'components/Input'
 import { CATEGORIES, StepProps } from '../../constants'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import { useIpfsHashes, useIpfsProgress, useUploadToIpfs } from 'state/ipfs/hooks'
+
+const DropDown = styled.div`
+  margin: 10vh 0;
+`
+
+const Label = styled.div`
+  margin-bottom: 2vh;
+`
 
 const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
+  const [filename, setFilename] = useState('')
+
+  const { t } = useTranslation()
+
+  const upload = useUploadToIpfs()
+
+  const progress = useIpfsProgress()
+
+  const hashes = useIpfsHashes()
+
+  useEffect(() => {
+    console.log(hashes)
+    console.log(filename)
+    if (hashes.length > 0 && filename) {
+      var { fileName, hash } = hashes[hashes.length - 1]
+      if (fileName === filename) handleChange({ target: { name: 'file', value: hash } })
+    }
+  }, [filename, hashes, handleChange])
+
   return (
     <React.Fragment>
-      <Box mt={8} mb={8}>
-        <LabelWithCheck
-          text="Choose your NFT Product Category"
-          Label={LabelBlack}
-          verified={state.category}
-          error={missing.includes('category')}
-        />
-        <Box mt={2}>
-          <DropDownCategory
-            name="category"
-            label="Choose your NFT From our Categories"
-            options={CATEGORIES}
-            value={state.category}
-            onChange={handleChange}
+      <DropDown>
+        <Label>
+          <LabelWithCheck
+            text={t('chooseCategoryLabel')}
+            Label={LabelBlack}
+            verified={state.category}
+            error={missing.includes('category')}
           />
-        </Box>
-      </Box>
+        </Label>
+        <DropDownCategory
+          name="category"
+          label={t('chooseCategory')}
+          options={CATEGORIES}
+          value={state.category}
+          onChange={handleChange}
+        />
+      </DropDown>
       <InputFile
         name="file"
-        label="Uplaod your NFT"
+        label={t('uploadNFT')}
         value={state.file}
-        onChange={handleChange}
+        onChange={(e: any) => {
+          if (e.target.files[0] === null) {
+            setFilename('')
+            handleChange({ target: { name: 'file', value: '' } })
+          } else {
+            upload({ path: e.target.files[0].name, content: e.target.files[0] })
+            setFilename(e.target.files[0].name)
+          }
+        }}
+        progress={progress}
+        filename={filename}
         error={missing.includes('file')}
       />
     </React.Fragment>

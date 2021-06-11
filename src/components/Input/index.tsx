@@ -1,52 +1,27 @@
 import React, { useRef, useState } from 'react'
-import { TextField, styled as styledmui, makeStyles, Box, Grid } from '@material-ui/core'
-import { COLORS } from 'theme'
 import Check from './../../assets/icons/check.svg'
 import Upload from './../../assets/icons/upload.svg'
 import Decrement from './../../assets/icons/decrement.svg'
 import Increment from './../../assets/icons/increment.svg'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
-export const InputBase = styledmui(TextField)({
-  backgroundColor: COLORS.white,
-  color: COLORS.placeholder,
-  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.135216)'
-})
+export const InputBase = styled.input`
+  box-sizing: border-box;
+`
 
-const useStyles = makeStyles({
-  textfield: {
-    width: '44vw',
-    height: '6vh',
-    backgroundColor: COLORS.white,
-    borderRadius: '4px 0px 0px 4px',
-    fontSize: '0.875rem'
-  },
-  placeholder: {
-    fontSize: '0.875rem',
-    color: COLORS.placeholder
+export const InputSearch = styled(InputBase)`
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.135216);
+  border-radius: 4px 0px 0px 4px;
+  padding: 0 2vw;
+  width: 40vw;
+  border: none;
+  outline: none;
+  &::placeholder {
+    font-size: 14px;
+    color: #afafaf;
   }
-})
-
-interface InputSearchProps {
-  value: string
-  onChange: (event: React.ChangeEvent<{}>) => void
-}
-
-export const InputSearch = (props: InputSearchProps) => {
-  const classes = useStyles()
-  return (
-    <InputBase
-      {...props}
-      label="what are you looking for?"
-      variant="filled"
-      InputProps={{
-        className: classes.textfield,
-        disableUnderline: true
-      }}
-      InputLabelProps={{ className: classes.placeholder }}
-    />
-  )
-}
+`
 
 const Missed = styled.div`
   font-size: 0.875rem;
@@ -59,63 +34,77 @@ const ButtonFile = styled.button`
   color: #444444;
   border: none;
   background-color: white;
+  cursor: pointer;
 `
 
 interface FileInputProps {
   readonly error?: boolean
+  readonly minWidth?: string
 }
 
-const FileInput = styled(Box)<FileInputProps>`
+const FileInput = styled.div<FileInputProps>`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
   border: 1px solid ${props => (props.error ? '#FF0000' : '#dddddd')};
   border-radius: 8px;
   height: 7vh;
   cursor: pointer;
+  min-width: ${props => props.minWidth || 'none'};
+`
+
+const LabelContainer = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: baseline;
 `
 
 export const LabelWithCheck = ({ Label, text, verified, error }: any) => (
-  <Box display="flex" flexDirection="row" flexWrap="no" alignItems="baseline">
+  <LabelContainer>
     <Label>{text}</Label>
-    {verified ? <img src={Check} alt="Verified" /> : error && <Missed>Missed</Missed>}
-  </Box>
+    {verified ? <img src={Check} alt="Verified" /> : error ? <Missed>Missed</Missed> : null}
+  </LabelContainer>
 )
 
-export const InputFile = ({ name, label, value, onChange, error }: any) => {
+const InputFileHeader = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: baseline;
+`
+
+const InputFileFooter = styled(InputFileHeader)`
+  margin-top: 2vh;
+`
+
+export const InputFile = ({ name, label, value, onChange, error, progress, filename }: any) => {
+  const { t } = useTranslation()
+
   const ref = useRef<HTMLInputElement>(null)
 
   return (
-    <Box>
-      <Grid container direction="row" justify="space-between" alignItems="baseline">
+    <div>
+      <InputFileHeader>
         <LabelWithCheck text={label} Label={LabelBlack} error={error} />
-        {value && <ButtonFile onClick={() => onChange({ target: { files: [null] }, type: 'file' })}>Delete</ButtonFile>}
-      </Grid>
-      <Grid container direction="row" justify="space-between" alignItems="baseline" style={{ marginTop: '2vh' }}>
-        <FileInput
-          display="flex"
-          flexDirection="row"
-          justifyContent="space-around"
-          alignItems="center"
-          onClick={() => ref.current?.click()}
-          minWidth="11vw"
-          error={error}
-        >
+        {filename && (
+          <ButtonFile onClick={() => onChange({ target: { files: [null] }, name: 'file' })}>{t('Delete')}</ButtonFile>
+        )}
+      </InputFileHeader>
+      <InputFileFooter>
+        <FileInput onClick={() => ref.current?.click()} minWidth="11vw" error={error}>
           <input type="file" name={name} ref={ref} style={{ display: 'none' }} onChange={onChange} />
-          <Box>Uploading</Box>
+          <div>{t(progress > 0 ? 'Uploading' : 'Upload')}</div>
           <img src={Upload} alt="Upload file" />
         </FileInput>
-        {value && value.name && (
-          <FileInput
-            display="flex"
-            flexDirection="row"
-            justifyContent="space-around"
-            alignItems="center"
-            minWidth="28vw"
-          >
-            <Box>{value.name}</Box>
-            <Box>50%</Box>
+        {filename && (
+          <FileInput minWidth="28vw">
+            <div>{filename.substring(0, 20)}</div>
+            <div>{progress}</div>
           </FileInput>
         )}
-      </Grid>
-    </Box>
+      </InputFileFooter>
+    </div>
   )
 }
 
@@ -155,7 +144,10 @@ interface OultineProps {
   readonly error: boolean
 }
 
-const Outline = styled(Grid)<OultineProps>`
+const Outline = styled.div<OultineProps>`
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
   border: 1px solid ${props => (props.error ? '#FF0000' : '#dddddd')};
   border-radius: 8px;
   padding: 1.5vh 1.2vw;
@@ -163,23 +155,24 @@ const Outline = styled(Grid)<OultineProps>`
   height: ${props => props.height};
 `
 
-const Character = styled(Box)`
+const Character = styled.div`
   font-size: 0.75rem;
   color: #444444;
+  align-self: flex-end;
 `
 
-const InputNumber = styled.input`
+export const InputNumber = styled.input`
   border: none;
   outline: none;
   width: 7vw;
 `
 
-const OutlineNumber = styled.div`
+export const OutlineNumber = styled.div`
   display: flex;
   flex-flow: row nowrap;
   width: 12vw;
   height: 7vh;
-  background: #ffffff;
+  background-color: #ffffff;
   border: 1px solid #dddddd;
   border-radius: 8px;
   align-items: center;
@@ -198,6 +191,17 @@ const Border = styled.div`
   height: 6vh;
 `
 
+interface InputContainerProps {
+  readonly direction: string
+  readonly align: string
+}
+
+const InputContainer = styled.div<InputContainerProps>`
+  display: flex;
+  flex-flow: ${props => props.direction} nowrap;
+  align-items: ${props => props.align};
+`
+
 export const Input = ({
   name,
   label,
@@ -209,8 +213,11 @@ export const Input = ({
   number,
   characters,
   height,
-  error
+  error,
+  currency
 }: any) => {
+  const { t } = useTranslation()
+
   const [count, setCount] = useState(0)
 
   const handleChange = (e: any) => {
@@ -221,34 +228,38 @@ export const Input = ({
   }
 
   return (
-    <Grid container direction={number ? 'row' : 'column'} alignItems={number ? 'center' : 'flex-start'}>
+    <InputContainer direction={number ? 'row' : 'column'} align={number ? 'center' : 'flex-start'}>
       {number ? (
-        <LabelBlack>{label}</LabelBlack>
+        label ? (
+          <LabelBlack>{t(label)}</LabelBlack>
+        ) : null
       ) : value || textarea ? (
-        <LabelWithCheck text={label} Label={LabelGrey} verified={value} error={error} />
+        <LabelWithCheck text={t(label)} Label={LabelGrey} verified={value} error={error} />
       ) : null}
       {underline && (
-        <InputUnderline type="text" name={name} placeholder={label} value={value} onChange={handleChange} />
+        <InputUnderline type="text" name={name} placeholder={t(label)} value={value} onChange={handleChange} />
       )}
       {textarea && (
-        <Outline container direction="column" height={height} error={error}>
+        <Outline height={height} error={error}>
           <InputOutline
             name={name}
-            placeholder={placeholder ? placeholder : label}
+            placeholder={t(placeholder ? placeholder : label)}
             value={value}
             onChange={handleChange}
             rows={textarea}
           />
-          <Character alignSelf="flex-end">{characters - count} Character</Character>
+          <Character>
+            {characters - count} {t('character')}
+          </Character>
         </Outline>
       )}
       {number && (
         <OutlineNumber>
-          <InputNumber type="number" />
-          STFI
+          <InputNumber name={name} type="number" onChange={handleChange} />
+          {currency ? currency : 'STFI'}
         </OutlineNumber>
       )}
-    </Grid>
+    </InputContainer>
   )
 }
 
@@ -263,16 +274,34 @@ const Img = styled.div`
   padding: 5px;
 `
 
-export const InputNumberButtons = () => {
-  const [value, setValue] = useState(0)
+interface InputNumberButtonsProps {
+  name: string
+  value: number
+  onChange: (e: any) => void
+}
+
+export const InputNumberButtons = ({ name, value, onChange }: InputNumberButtonsProps) => {
+  const [number, setNumber] = useState(value)
 
   return (
     <Border>
-      <Img onClick={() => (value > 0 ? setValue(value - 1) : null)}>
+      <Img
+        onClick={() => {
+          if (value > 0) {
+            setNumber(number - 1)
+            onChange({ target: { name, value: number - 1 } })
+          }
+        }}
+      >
         <img src={Decrement} alt="Decrement" />
       </Img>
-      <Box>{value}</Box>
-      <Img onClick={() => setValue(value + 1)}>
+      <div>{value}</div>
+      <Img
+        onClick={() => {
+          setNumber(number + 1)
+          onChange({ target: { name, value: number + 1 } })
+        }}
+      >
         <img src={Increment} alt="Increment" />
       </Img>
     </Border>
