@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux'
 import { addAuctionItem } from 'state/auction/actions'
 import { useParams } from 'react-router-dom'
 import { clearError, updateUserWishList } from 'state/user/actions'
-import { useUserDoc, useUserError, useUserWhishListItem } from 'state/user/hooks'
+import { useUserDoc, useUserError, useUserWhishListItem, useWishListLoading } from 'state/user/hooks'
 import ErrorDialogue from '../Error/index'
 
 // type comProps={}
@@ -31,12 +31,14 @@ import {
   BuyNow,
   DescriptionCard,
   DescriptionTitle,
-  DescriptionText
+  DescriptionText,
+  LoadingDiv
 } from './Nftproduct.styles'
 import ReadMore from '../ReadMore/readmore'
 import NFTsHeader from 'components/Header/NFTsHeader'
 import Modal from 'components/Modal'
-import { LoadingView } from 'components/ModalViews'
+// import { LoadingView } from 'components/ModalViews'
+import Loader from 'components/Loader'
 
 // for testing only
 const auctionItem: AuctionItem = {
@@ -72,12 +74,14 @@ const Nftproduct = () => {
   const accountId = useUserDoc()?.ethAddress
 
   const userWishListItem = useUserWhishListItem(nftId)
+  const wishListAdding =useWishListLoading()
 
 
   useEffect(() => {
     dispatch(clearError())
     setWhishListItem(userWishListItem)
-  }, [])
+    setIsLoading(wishListAdding)
+  }, [wishListAdding])
 
   const showScroll = (res: boolean) => {
     res ? setIsReadMore('scroll') : setIsReadMore('')
@@ -95,24 +99,29 @@ const Nftproduct = () => {
     dispatch(addAuctionItem(item))
   }
 
-  const loadingDismiss = () => {
-    setIsLoading(false)
-  }
-  if (loading) {
-    return (
-      <LoadingView onDismiss={loadingDismiss}>
-        <div>loading...</div>
-      </LoadingView>
-    )
-  }
+  // const loadingDismiss = () => {
+  //   setIsLoading(false)
+  // }
+  // if (loading) {
+  //   return (
+
+  //       <div>loading...</div>
+  //     </Loader>
+  //   )
+  // }
 
   return (
-    <Container>
+
+
+    <Container opacity={loading}>
       <Modal isOpen={open} onDismiss={onDismiss} maxHeight={150}>
         <ErrorDialogue message={error?.message} />
       </Modal>
       <NFTsHeader />
       <Grid>
+      <LoadingDiv display={loading} >
+      <Loader size="40px"></Loader>
+      </LoadingDiv>
         <LeftGrid>
           <ImgCard>
             <img src={Rectangle} />

@@ -26,6 +26,7 @@ import {
   // addUserDocs
 } from './actions'
 
+
 const currentTimestamp = () => new Date().getTime()
 
 export interface ErrorStatus {
@@ -68,6 +69,8 @@ export interface UserState {
   timestamp: number
   URLWarningVisible: boolean
   error: ErrorStatus | null
+  wishListItemAdded:boolean
+  wishListItemAdding:boolean
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -86,7 +89,9 @@ export const initialState: UserState = {
   pairs: {},
   timestamp: currentTimestamp(),
   URLWarningVisible: true,
-  error: { hasError: false, name:'',message:'' }
+  error: { hasError: false, name:'',message:'' },
+  wishListItemAdded:false,
+  wishListItemAdding:false
 }
 
 export default createReducer(initialState, builder =>
@@ -200,8 +205,11 @@ export default createReducer(initialState, builder =>
       // state.error=action.error
       // notify
     })
-    .addCase(updateUserWishList.pending, (state, action) => {})
+    .addCase(updateUserWishList.pending, (state, action) => {
+      state.wishListItemAdding=true
+    })
     .addCase(updateUserWishList.fulfilled, (state, action) => {
+      state.wishListItemAdding=false
       // notify
     })
     .addCase(updateUserWishList.rejected, (state, action) => {

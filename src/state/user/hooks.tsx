@@ -236,5 +236,9 @@ export const useUserError =()=>{
 
 }
 
+export const useWishListLoading=()=>{
+  return useSelector((state: AppState) => state.user.wishListItemAdding)
+}
+
 
 

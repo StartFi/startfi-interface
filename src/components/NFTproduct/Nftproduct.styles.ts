@@ -1,10 +1,21 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
+export const Container = styled('div')<{ opacity?: boolean }>`
+position:absolute;
   padding: 4vh 3.2vw;
   width: 100%;
   display: flex;
   flex-direction: column;
+
+  /* opacity: ${({ opacity }) => (opacity ? '50%' : '')}; */
+`
+export const LoadingDiv = styled('div')<{ display?: boolean }>`
+  position: absolute;
+  z-index:100;
+  top: 50%;
+  left: 50%;
+  display: ${({ display }) => (display ? 'block' : 'none')};
+  opacity:1;
 `
 export const Grid = styled.div`
   display: flex;
@@ -152,16 +163,16 @@ export const BuyCost = styled.div`
   }
 `
 
-export const BuyButtons = styled('div')<{opacity?:boolean}>`
+export const BuyButtons = styled('div')<{ opacity?: boolean }>`
   display: flex;
   position: relative;
   top: 29px;
-& img{
-  position: absolute;
+  & img {
+    position: absolute;
     top: 37%;
     left: 30px;
-    opacity:${({ opacity}) => opacity?'50%':''};
-}
+    opacity: ${({ opacity }) => (opacity ? '50%' : '')};
+  }
 
   & button {
     width: 175px;
@@ -171,17 +182,17 @@ export const BuyButtons = styled('div')<{opacity?:boolean}>`
     border-radius: 8px;
     cursor: pointer;
     margin-right: 28px;
-
   }
 `
 
-export const ImageIcon = styled('img')<{opacity?:boolean}>`
-   position: absolute;
-    top: 37%;
-    left: 30px;
-    opacity:${({ opacity}) => opacity?'50%':''};
-
+export const ImageIcon = styled('img')<{ opacity?: boolean }>`
+  position: absolute;
+  top: 37%;
+  left: 30px;
+  opacity: ${({ opacity }) => (opacity ? '50%' : '')};
 `
+
+
 
 export const BuyNow = styled.div`
   & button {
