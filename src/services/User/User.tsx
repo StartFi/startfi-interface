@@ -34,9 +34,11 @@ export const getUserData = async (account: any): Promise<UserDoc> => {
 
 // update user whiteList
 export const updateWhishList = async ({ accountId, nftId }: any) => {
-  if (!accountId) throw Error('you are not logged in')
+
+
+  if (!accountId) throw Error('You are not connected')
   let user = await getUserData(accountId)
-  if (!user) throw Error('no user')
+  if (!user) throw Error('Not user')
   let nftsWishList: Array<number>
   if (user?.wishlist) {
     nftsWishList = [...user.wishlist]

@@ -7,19 +7,19 @@ import { NFT } from 'state/nfts/reducer'
 export interface NftCardProps {
   cardContent: NFT
   navigateToCard: (clickedCard: NFT) => void
-  addToWhiteList: (clickedCard: NFT) => void
+  addToWishList: (clickedCard: NFT) => void
   placeBid: (clickedCard: NFT) => void
 }
 
-const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhiteList, placeBid }) => {
+const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWishList, placeBid }) => {
   return (
-    <div>
-      <Card>
+    <Card>
+      <div onClick={() => navigateToCard(cardContent)}>
+        
         <Media>
           <CardImg src={cardContent.image} />
         </Media>
-
-        <div onClick={() => navigateToCard(cardContent)}>
+        <div>
           <Price>
             <Text fontFamily='Roboto' FontWight='700' fontSize='1.125rem'>
               {cardContent.price} ETH
@@ -32,22 +32,22 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhi
             </Text>
           </Price>
         </div>
-        <Actions>
-          <WhiteList>
-            <ImageIcon src={Path} />
-            <NftButton onClick={() => addToWhiteList(cardContent)} color='#000000'>
-              WISHLIST
-            </NftButton>
-          </WhiteList>
-          <Bid>
-            <NftButton onClick={() => placeBid(cardContent)} color='#ffffff'>
-              {' '}
-              place a bid
-            </NftButton>
-          </Bid>
-        </Actions>
-      </Card>
-    </div>
+      </div>
+      <Actions>
+        <WhiteList>
+          <ImageIcon src={Path} />
+          <NftButton onClick={() => addToWishList(cardContent)} color='#000000'>
+            WISHLIST
+          </NftButton>
+        </WhiteList>
+        <Bid>
+          <NftButton onClick={() => placeBid(cardContent)} color='#ffffff'>
+            {' '}
+            place a bid
+          </NftButton>
+        </Bid>
+      </Actions>
+    </Card>
   )
 }
 

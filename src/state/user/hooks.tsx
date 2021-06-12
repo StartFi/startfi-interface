@@ -3,8 +3,6 @@ import { Pair, Token } from '@uniswap/sdk'
 import { useCallback, useEffect, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { UserDoc } from 'services/User/User'
-
-
 import { ChainId } from '../../constants/supportedChains'
 import { useActiveWeb3React } from '../../hooks'
 import { AppDispatch, AppState } from '../index'
@@ -226,6 +224,12 @@ export const useGetUserDoc = (account:any) => {
 
 export const useUserDoc = () => {
   return useSelector((state: AppState) => state.user.user)
+}
+
+
+export const useUserError =()=>{
+  return useSelector((state: AppState) => state.user.error)
+
 }
 
 // export const useUpdateUserWhitList = (account:any,nft:NFT) => {

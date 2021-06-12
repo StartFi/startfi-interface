@@ -1,24 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Rectangle from '../../assets/images/Rectangle.png'
 import Path from '../../assets/svg/Path.svg'
-
-
 
 import * as faker from 'faker'
 import { AuctionItem } from 'services/Storage/Auction'
 import { useDispatch } from 'react-redux'
 import { addAuctionItem } from 'state/auction/actions'
 import { useParams } from 'react-router-dom'
-import { updateUserWishList } from 'state/user/actions'
-import { useUserDoc } from 'state/user/hooks'
-
-
-
-
+import { clearError, updateUserWishList } from 'state/user/actions'
+import { useUserDoc, useUserError } from 'state/user/hooks'
+import ErrorDialogue from '../Error/index'
 
 // type comProps={}
-
-
 
 import {
   Grid,
@@ -42,6 +35,7 @@ import {
 } from './Nftproduct.styles'
 import ReadMore from '../ReadMore/readmore'
 import NFTsHeader from 'components/Header/NFTsHeader'
+import Modal from 'components/Modal'
 // for testing only
 const auctionItem: AuctionItem = {
   listingPrice: faker.random.number(),
@@ -64,15 +58,28 @@ type RouterParam = {
 const Nftproduct = () => {
   const [isReadMore, setIsReadMore] = useState('')
 
+  const error = useUserError()
+
+  let open = error?.hasError ? true : false
   const param: RouterParam = useParams()
   const accountId = useUserDoc()?.ehAddress
   const nftId = parseInt(param.id)
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
 
+  
+  useEffect(() => {
+    dispatch(clearError())
+  },[]);
 
 
   const showScroll = (res: boolean) => {
     res ? setIsReadMore('scroll') : setIsReadMore('')
+  }
+
+  // clear error state + close Error dialogue
+  const onDismiss = () => {
+    console.log('change')
+    dispatch(clearError())
   }
 
   // for testing only
@@ -81,6 +88,9 @@ const Nftproduct = () => {
   }
   return (
     <Container>
+      <Modal isOpen={open} onDismiss={onDismiss} maxHeight={150}>
+        <ErrorDialogue message={error?.message} />
+      </Modal>
       <NFTsHeader />
       <Grid>
         <LeftGrid>
@@ -132,7 +142,7 @@ const Nftproduct = () => {
             <BuyButtons>
               <img src={Path} />
 
-              <button onClick={() => dispatch(updateUserWishList({accountId, nftId}))}>Wishlist</button>
+              <button onClick={() => dispatch(updateUserWishList({ accountId, nftId }))}>Wishlist</button>
               <button onClick={() => addToAuction(auctionItem)}>Make an offer</button>
             </BuyButtons>
             <BuyNow>

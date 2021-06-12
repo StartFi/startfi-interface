@@ -1,6 +1,6 @@
 import { UserDoc } from 'services/User/User'
 import { INITIAL_ALLOWED_SLIPPAGE, DEFAULT_DEADLINE_FROM_NOW } from '../../constants'
-import { createReducer } from '@reduxjs/toolkit'
+import { createReducer, } from '@reduxjs/toolkit'
 import { updateVersion } from '../global/actions'
 import {
   addSerializedPair,
@@ -21,11 +21,18 @@ import {
   updateUserDocs,
   getUserDocs,
   updateUserWishList,
+  clearError
 
   // addUserDocs
 } from './actions'
 
 const currentTimestamp = () => new Date().getTime()
+
+export interface ErrorStatus {
+  name:string;
+  message:string
+  hasError:boolean
+}
 
 export interface UserState {
   // the timestamp of the last updateVersion action
@@ -60,6 +67,7 @@ export interface UserState {
 
   timestamp: number
   URLWarningVisible: boolean
+  error: ErrorStatus | null
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -77,7 +85,8 @@ export const initialState: UserState = {
   user: { ehAddress: null },
   pairs: {},
   timestamp: currentTimestamp(),
-  URLWarningVisible: true
+  URLWarningVisible: true,
+  error: { hasError: false, name:'',message:'' }
 }
 
 export default createReducer(initialState, builder =>
@@ -158,13 +167,11 @@ export default createReducer(initialState, builder =>
     .addCase(toggleURLWarning, state => {
       state.URLWarningVisible = !state.URLWarningVisible
     })
-    // .addCase(whitelistNFT.pending, (state, action) => {})
-    // .addCase(whitelistNFT.fulfilled, (state, action) => {
-    //   //notify
-    // })
-    // .addCase(whitelistNFT.rejected, (state, action) => {
-    //   //notify
-    // })
+    .addCase(clearError, state => {
+
+      state.error = null
+    })
+
     .addCase(addUserDocs.pending, (state, action) => {})
     .addCase(addUserDocs.fulfilled, (state, action) => {
       // notify
@@ -190,6 +197,7 @@ export default createReducer(initialState, builder =>
     })
     .addCase(getUserDocs.rejected, (state, action) => {
       console.log(action.error)
+      // state.error=action.error
       // notify
     })
     .addCase(updateUserWishList.pending, (state, action) => {})
@@ -197,7 +205,16 @@ export default createReducer(initialState, builder =>
       // notify
     })
     .addCase(updateUserWishList.rejected, (state, action) => {
-      console.log(action.error)
+    let {name,message}=action.error
+    name?name=name:name='Error'
+    message?message=message:message='some Error Ocurred'
+
+      state.error = {
+        hasError: true,
+        name,
+        message
+      }
+
       // notify
     })
 )

@@ -72,6 +72,7 @@ const NFTs: React.FC = () => {
 
   // add Nft Id Tto user white list
   const addToWishList = ( nftId:number, accountId: any) => {
+   
     let payLoad = {
       accountId,
       nftId
@@ -103,8 +104,8 @@ const NFTs: React.FC = () => {
             <Nft key={nft.id}>
               <NTFCard
                 cardContent={nft}
-                navigateToCard={(Nft: NFT) => history.push('NFT', Nft)}
-                addToWhiteList={(Nft: NFT) => addToWishList(Nft.id, userId)}
+                navigateToCard={(Nft: NFT) => history.push(`NFT/${Nft.id}`)}
+                addToWishList={(Nft: NFT) => addToWishList(Nft.id, userId)}
                 placeBid={(Nft: NFT) => history.push('NFT', Nft)}
               ></NTFCard>
             </Nft>
