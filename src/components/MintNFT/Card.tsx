@@ -61,7 +61,7 @@ const Card: React.FC = () => {
     setState({ ...state, [e.target.name]: e.target.type === 'file' ? e.target.files[0] : e.target.value })
 
   const next = () => {
-    var newMissing: string[] = []
+    const newMissing: string[] = []
     Object.keys(state).forEach((key: string) => (state[key] ? null : newMissing.push(key)))
     switch (step) {
       case 1:

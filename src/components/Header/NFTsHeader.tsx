@@ -17,9 +17,11 @@ import Images from '../../assets/icons/imagestab.svg'
 import { useGetNFTs } from 'state/nfts/hooks'
 import { useHistory } from 'react-router'
 import { CATEGORIES, Dictionary } from './../../constants'
+/* Beign example never merge to the main  branch*/
+import { useStartFiContract } from 'services/blockchain/useStartfiContracts'
 import { useMint } from 'hooks/startfiNft'
-import { useStartFiNft } from 'hooks/useContract'
-import { useActiveWeb3React } from 'hooks'
+/* End example never merge to the main  branch*/
+
 const Categories = ['All', ...CATEGORIES]
 
 const TabIcons: Dictionary = {
@@ -38,9 +40,11 @@ const FullWidth = styled(Box)({
 
 const NFTsHeader: React.FC = () => {
   const history = useHistory()
+  /* Beign example never merge to the main  branch*/
   const mint = useMint()
-  const { account, library } = useActiveWeb3React()
-  const contract = useStartFiNft(true)
+  const { account, library, contract } = useStartFiContract('nft')
+  /* End example never merge to the main  branch*/
+
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState(0)
   const getNFTs = useGetNFTs()
@@ -61,7 +65,10 @@ const NFTsHeader: React.FC = () => {
       <TabsCategory
         value={category}
         onChange={(e, category) => {
-          mint(account as string, contract, account, library)
+          /* Beign example never merge to the main  branch*/
+          mint(account as string, contract, account as string, library)
+          /* End example never merge to the main  branch*/
+
           getNFTs({ category: Categories[category] })
           setCategory(category)
         }}

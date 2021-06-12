@@ -50,14 +50,14 @@ export const useMint = (): ((address: string, contract: any, account: any, libra
 - use mint function
 
 ```
+import { useStartFiContract } from 'services/blockchain/useStartfiContracts'
 import { useMint } from 'hooks/startfiNft'
-import { useStartFiNft } from 'hooks/useContract'
-import { useActiveWeb3React } from 'hooks'
+import { useMint } from 'hooks/startfiNft'
+
 
 // Inside Component
 const mint = useMint()
-const { account, library } = useActiveWeb3React()
-const contract = useStartFiNft(true)
+const { contract, account, library } = useStartFiContract('nft)
 
 // Inside JSX
  onChange={() => {
