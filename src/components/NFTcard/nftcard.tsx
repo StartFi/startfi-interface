@@ -1,9 +1,9 @@
 import React from 'react'
-import Card from '@material-ui/core/Card'
 import Path from '../../assets/svg/Path.svg'
-import { useStyles } from './nftcard.styles'
+import { Media, CardImg, Card, Price, Text, Actions, Bid, WhiteList, ImageIcon } from './nftcard.styles'
 import { NftButton } from '../Button/index'
 import { NFT } from 'state/nfts/reducer'
+import { useTranslation } from 'react-i18next'
 
 export interface NftCardProps {
   cardContent: NFT
@@ -13,38 +13,42 @@ export interface NftCardProps {
 }
 
 const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhiteList, placeBid }) => {
-  const classes = useStyles()
+  const { t } = useTranslation()
+
   return (
     <div>
-      <Card className={classes.card}>
-        <div className={classes.media}>
-          <img src={cardContent.image} />
-        </div>
+      <Card>
+        <Media>
+          <CardImg src={cardContent.image} />
+        </Media>
 
         <div onClick={() => navigateToCard(cardContent)}>
-          <div className={classes.price}>
-            <p>{cardContent.price} ETH</p>
-          </div>
-          <div>
-            <p className={classes.title}>{cardContent.name}</p>
-            <p className={classes.description}> {cardContent.description}</p>
-          </div>
+          <Price>
+            <Text fontFamily='Roboto' FontWight='700' fontSize='1.125rem'>
+              {cardContent.price} ETH
+            </Text>
+            <Text fontFamily='Roboto' FontWight='400' fontSize='1.0rem'>
+              {cardContent.name}
+            </Text>
+            <Text fontFamily='Roboto' FontWight='400' fontSize='0.74rem'>
+              {cardContent.description}
+            </Text>
+          </Price>
         </div>
+        <Actions>
+          <WhiteList>
+            <ImageIcon src={Path} />
+            <NftButton onClick={() => addToWhiteList(cardContent)} color='#000000'>
+              {t('whishList')}
+            </NftButton>
+          </WhiteList>
+          <Bid>
+            <NftButton onClick={() => placeBid(cardContent)} color='#ffffff'>
+              {t('placeBid')}
 
-        <div className={classes.action}>
-          <div className={classes.whiteList}>
-            <img className={classes.icon} src={Path} />
-            <NftButton onClick={() => addToWhiteList(cardContent)} color="#000000">
-              WHITELIST
             </NftButton>
-          </div>
-          <div className={classes.bid}>
-            <NftButton onClick={() => placeBid(cardContent)} color="#ffffff">
-              {' '}
-              place a bid
-            </NftButton>
-          </div>
-        </div>
+          </Bid>
+        </Actions>
       </Card>
     </div>
   )

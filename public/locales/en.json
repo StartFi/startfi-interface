@@ -132,5 +132,33 @@
   "forAtLeast": "for at least ",
   "brokenToken": "The selected token is not compatible with Uniswap V1. Adding liquidity will result in locked funds.",
   "toleranceExplanation": "Lowering this limit decreases your risk of frontrunning. However, this makes more likely that your transaction will fail due to normal price movements.",
-  "tokenSearchPlaceholder": "Search name or paste address"
+  "tokenSearchPlaceholder": "Search name or paste address",
+  "whishList":"WISHLIST",
+  "placeBid":"place a bid",
+  "views":"Views",
+  "createdBy":"Details created By",
+  "prediction":"Prediction",
+  "publisher":"Publisher",
+  "owner":"Owner",
+  "cost":"Cost",
+  "wishlist":"Wishlist",
+  "offer":"Make an offer",
+  "buy":"BUY NOW",
+  "readMore":"Read more",
+  "showLess":"show less",
+  "congratulations":"Congratulations ",
+  "nftReviewedBy":"Your NFT Product will be reviewd by",
+  "nftPublishing":"NFT Publishing team and will be Published in 48 hours",
+  "resellingPercentage":"Percentage on each reselling transaction",
+  "marketPlace":"Marketplace",
+  "lunchpad":"Launchpad",
+  "landHead":"marketplace and lunchpad for NFT collateralised loans",
+  "landSubText":"Put your NFT assets up as collateral for a loan, or offer loans to other users on their non-fungible tokens"
+
+
+
+
+
+
+
 }
