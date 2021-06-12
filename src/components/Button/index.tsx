@@ -250,7 +250,6 @@ export const NftButton = styled(Base)<{ color?: string; border?: string }>`
   border: none;
   border: none;
   border: ${({ border }) => border};
-
   color: ${({ color }) => color};
 `
 
