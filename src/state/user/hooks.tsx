@@ -225,17 +225,16 @@ export const useGetUserDoc = (account:any) => {
 export const useUserDoc = () => {
   return useSelector((state: AppState) => state.user.user)
 }
-
+export const useUserWhishListItem = (id:number) => {
+  const user =useSelector((state: AppState) => state.user.user)
+  const userWishList =user?.wishlist
+ return userWishList?.includes(id)
+}
 
 export const useUserError =()=>{
   return useSelector((state: AppState) => state.user.error)
 
 }
 
-// export const useUpdateUserWhitList = (account:any,nft:NFT) => {
-//   const dispatch = useDispatch()
-//   return useEffect(() => {
-//     dispatch(updateUserWhiteList({account,nft}))
-//   }, [dispatch])
-// }
+
 

@@ -51,7 +51,7 @@ const Marginer = styled.div`
 
 export default function App() {
   const { account } = useActiveWeb3React()
-  const user:UserDoc ={ehAddress:account}
+  const user:UserDoc ={ethAddress:account}
   useAddUserDoc(user,account)
   useGetUserDoc(account)
 

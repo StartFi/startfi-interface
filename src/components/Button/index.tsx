@@ -31,6 +31,7 @@ const Base = styled(RebassButton)<{
   z-index: 1;
   &:disabled {
     cursor: auto;
+    opacity: 50%;
   }
 
   > * {

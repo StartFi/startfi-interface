@@ -67,12 +67,14 @@ const NFTs: React.FC = () => {
   const getNFTs = useGetNFTs()
 
 
-  const userId = useUserDoc()?.ehAddress
+  const userId = useUserDoc()?.ethAddress
+
+
 
 
   // add Nft Id Tto user white list
   const addToWishList = ( nftId:number, accountId: any) => {
-   
+
     let payLoad = {
       accountId,
       nftId

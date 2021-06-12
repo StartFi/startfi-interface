@@ -2,7 +2,7 @@ import { add, get, update } from 'services/firebase/Firebase'
 
 // import { NFT } from "state/nfts/reducer"
 export type UserDoc = {
-  ehAddress: string | null | undefined
+  ethAddress: string | null | undefined
   name?: string
   email?: string
   // NFT hash array belong to user
@@ -13,17 +13,17 @@ export type UserDoc = {
 
 // add user for first time
 export const addUser = async (user: UserDoc) => {
-  if (!user.ehAddress || (await get('users', user.ehAddress))) return
-  return await add('users', user.ehAddress, user)
+  if (!user.ethAddress || (await get('users', user.ethAddress))) return
+  return await add('users', user.ethAddress, user)
 }
 
 // update user
 export const updateUser = async (user: UserDoc) => {
-  if (!user.ehAddress) return
-  const userData = await get('users', user.ehAddress)
+  if (!user.ethAddress) return
+  const userData = await get('users', user.ethAddress)
   if (!userData) return
   const userUpdate = { ...userData, ...user }
-  return await update('users', user.ehAddress, userUpdate)
+  return await update('users', user.ethAddress, userUpdate)
 }
 
 // get user data
@@ -34,6 +34,7 @@ export const getUserData = async (account: any): Promise<UserDoc> => {
 
 // update user whiteList
 export const updateWhishList = async ({ accountId, nftId }: any) => {
+
 
 
   if (!accountId) throw Error('You are not connected')

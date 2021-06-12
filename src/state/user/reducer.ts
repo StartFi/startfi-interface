@@ -82,7 +82,7 @@ export const initialState: UserState = {
   userSlippageTolerance: INITIAL_ALLOWED_SLIPPAGE,
   userDeadline: DEFAULT_DEADLINE_FROM_NOW,
   tokens: {},
-  user: { ehAddress: null },
+  user: { ethAddress: null },
   pairs: {},
   timestamp: currentTimestamp(),
   URLWarningVisible: true,

@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux'
 import { addAuctionItem } from 'state/auction/actions'
 import { useParams } from 'react-router-dom'
 import { clearError, updateUserWishList } from 'state/user/actions'
-import { useUserDoc, useUserError } from 'state/user/hooks'
+import { useUserDoc, useUserError, useUserWhishListItem } from 'state/user/hooks'
 import ErrorDialogue from '../Error/index'
 
 // type comProps={}
@@ -31,7 +31,8 @@ import {
   BuyNow,
   DescriptionCard,
   DescriptionTitle,
-  DescriptionText
+  DescriptionText,
+
 } from './Nftproduct.styles'
 import ReadMore from '../ReadMore/readmore'
 import NFTsHeader from 'components/Header/NFTsHeader'
@@ -62,14 +63,17 @@ const Nftproduct = () => {
 
   let open = error?.hasError ? true : false
   const param: RouterParam = useParams()
-  const accountId = useUserDoc()?.ehAddress
+
   const nftId = parseInt(param.id)
   const dispatch = useDispatch()
+  const accountId = useUserDoc()?.ethAddress
 
-  
+
+
   useEffect(() => {
     dispatch(clearError())
-  },[]);
+  }, [])
+
 
 
   const showScroll = (res: boolean) => {
@@ -139,10 +143,14 @@ const Nftproduct = () => {
                 Cost : <span>180 ETH</span>
               </p>
             </BuyCost>
-            <BuyButtons>
-              <img src={Path} />
-
-              <button onClick={() => dispatch(updateUserWishList({ accountId, nftId }))}>Wishlist</button>
+            <BuyButtons  opacity={useUserWhishListItem(nftId)}>
+              <img src={Path}  />
+              <button
+                disabled={useUserWhishListItem(nftId)}
+                onClick={() => dispatch(updateUserWishList({ accountId, nftId }))}
+              >
+                Wishlist
+              </button>
               <button onClick={() => addToAuction(auctionItem)}>Make an offer</button>
             </BuyButtons>
             <BuyNow>

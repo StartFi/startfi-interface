@@ -3,6 +3,7 @@ import Path from '../../assets/svg/Path.svg'
 import { Media, CardImg, Card, Price, Text, Actions, Bid, WhiteList, ImageIcon } from './nftcard.styles'
 import { NftButton } from '../Button/index'
 import { NFT } from 'state/nfts/reducer'
+import { useUserWhishListItem } from 'state/user/hooks'
 
 export interface NftCardProps {
   cardContent: NFT
@@ -10,12 +11,11 @@ export interface NftCardProps {
   addToWishList: (clickedCard: NFT) => void
   placeBid: (clickedCard: NFT) => void
 }
-
+// disabled={useUserWhishListItem(cardContent.id)}
 const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWishList, placeBid }) => {
   return (
     <Card>
       <div onClick={() => navigateToCard(cardContent)}>
-        
         <Media>
           <CardImg src={cardContent.image} />
         </Media>
@@ -34,9 +34,14 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWis
         </div>
       </div>
       <Actions>
+        {/* */}
         <WhiteList>
-          <ImageIcon src={Path} />
-          <NftButton onClick={() => addToWishList(cardContent)} color='#000000'>
+          <ImageIcon src={Path} opacity={useUserWhishListItem(cardContent.id)}/>
+          <NftButton
+            disabled={useUserWhishListItem(cardContent.id)}
+            onClick={() => addToWishList(cardContent)}
+            // color='#000000'
+          >
             WISHLIST
           </NftButton>
         </WhiteList>

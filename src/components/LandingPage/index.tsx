@@ -88,7 +88,7 @@ const InnerHeader = styled.div`
 
 export const LandingPage = () => {
   const { account } = useActiveWeb3React()
-  const user: UserDoc = { ehAddress: account }
+  const user: UserDoc = { ethAddress: account }
   useAddUserDoc(user, account)
   return (
     <PageWrapper>

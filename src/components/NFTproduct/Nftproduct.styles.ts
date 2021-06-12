@@ -152,15 +152,16 @@ export const BuyCost = styled.div`
   }
 `
 
-export const BuyButtons = styled.div`
+export const BuyButtons = styled('div')<{opacity?:any}>`
   display: flex;
   position: relative;
   top: 29px;
-  & img {
-    position: absolute;
+& img{
+  position: absolute;
     top: 37%;
     left: 30px;
-  }
+    opacity:${({ opacity}) => opacity?'50%':''};
+}
 
   & button {
     width: 175px;
@@ -170,7 +171,16 @@ export const BuyButtons = styled.div`
     border-radius: 8px;
     cursor: pointer;
     margin-right: 28px;
+
   }
+`
+
+export const ImageIcon = styled('img')<{opacity?:boolean}>`
+   position: absolute;
+    top: 37%;
+    left: 30px;
+    opacity:${({ opacity}) => opacity?'50%':''};
+
 `
 
 export const BuyNow = styled.div`
