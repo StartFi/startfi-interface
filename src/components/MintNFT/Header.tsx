@@ -5,6 +5,7 @@ import Logo from './../../assets/icons/logo.svg'
 import Arrow from './../../assets/icons/backarrow.svg'
 import { LinkMarketplace } from 'components/Link'
 import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router'
 
 const Container = styled.div`
   display: flex;
@@ -19,6 +20,7 @@ const Left = styled.div`
   align-items: center;
   font-weight: 500;
   font-size: 1.125rem;
+  cursor: pointer;
   img {
     margin-right: 1vw;
   }
@@ -35,10 +37,12 @@ const Right = styled.div`
 const Header: React.FC = () => {
   const { t } = useTranslation()
 
+  const history = useHistory()
+
   return (
     <Container>
-      <Left>
-        <img src={Logo} alt="Logo" />
+      <Left onClick={() => history.push('/')}>
+        <img src={Logo} alt="Logo"/>
         <div>Startfi</div>
       </Left>
       <Right>
