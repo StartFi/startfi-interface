@@ -106,6 +106,7 @@ const NFTsHeader: React.FC = () => {
             onClick={() => {
               setCategory(c)
               getNFTs({ category: c })
+              history.push('nfts')
             }}
           >
             <Img src={TabIcons[c]} alt={c} />
