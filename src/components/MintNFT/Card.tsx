@@ -82,7 +82,7 @@ const Card: React.FC = () => {
 
   const [missing, setMissing] = useState<string[]>([])
 
-  const [step, setStep] = useState<number>(1)
+  const [step, setStep] = useState<number>(2)
 
   const handleChange = useCallback(
     (e: any) => {
@@ -120,7 +120,7 @@ const Card: React.FC = () => {
           setMissing([])
           if (account) {
             addNft(getNFT(account))
-            history.push('/mintednft')
+            history.push('/')
           } else history.push('/')
         }
         break
@@ -172,7 +172,7 @@ const Card: React.FC = () => {
         >
           {t('saveDraft')}
         </ButtonDraft>
-        <ButtonMint onClick={() => next()}>{t('next')}</ButtonMint>
+        <ButtonMint onClick={() => next()}>{t(step === 1 ? 'next' : 'submit')}</ButtonMint>
       </Footer>
     </Container>
   )
