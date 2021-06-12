@@ -39,7 +39,12 @@ export interface User {
   whitelists?: Array<string>
 }
 
-export type Document = User | NFT
+export interface Draft {
+  user: string
+  drafts: NFT[]
+}
+
+export type Document = User | NFT | Draft
 
 export const get = async (entity: string, key: string): Promise<Document> => {
   return (
