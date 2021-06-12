@@ -31,12 +31,13 @@ import {
   BuyNow,
   DescriptionCard,
   DescriptionTitle,
-  DescriptionText,
-
+  DescriptionText
 } from './Nftproduct.styles'
 import ReadMore from '../ReadMore/readmore'
 import NFTsHeader from 'components/Header/NFTsHeader'
 import Modal from 'components/Modal'
+import { LoadingView } from 'components/ModalViews'
+
 // for testing only
 const auctionItem: AuctionItem = {
   listingPrice: faker.random.number(),
@@ -58,6 +59,8 @@ type RouterParam = {
 }
 const Nftproduct = () => {
   const [isReadMore, setIsReadMore] = useState('')
+  const [loading, setIsLoading] = useState(false)
+  const [wishListItem, setWhishListItem] = useState(false)
 
   const error = useUserError()
 
@@ -68,13 +71,13 @@ const Nftproduct = () => {
   const dispatch = useDispatch()
   const accountId = useUserDoc()?.ethAddress
 
+  const userWishListItem = useUserWhishListItem(nftId)
 
 
   useEffect(() => {
     dispatch(clearError())
+    setWhishListItem(userWishListItem)
   }, [])
-
-
 
   const showScroll = (res: boolean) => {
     res ? setIsReadMore('scroll') : setIsReadMore('')
@@ -88,8 +91,21 @@ const Nftproduct = () => {
 
   // for testing only
   const addToAuction = (item: AuctionItem) => {
+    setIsLoading(true)
     dispatch(addAuctionItem(item))
   }
+
+  const loadingDismiss = () => {
+    setIsLoading(false)
+  }
+  if (loading) {
+    return (
+      <LoadingView onDismiss={loadingDismiss}>
+        <div>loading...</div>
+      </LoadingView>
+    )
+  }
+
   return (
     <Container>
       <Modal isOpen={open} onDismiss={onDismiss} maxHeight={150}>
@@ -143,15 +159,15 @@ const Nftproduct = () => {
                 Cost : <span>180 ETH</span>
               </p>
             </BuyCost>
-            <BuyButtons  opacity={useUserWhishListItem(nftId)}>
-              <img src={Path}  />
-              <button
-                disabled={useUserWhishListItem(nftId)}
-                onClick={() => dispatch(updateUserWishList({ accountId, nftId }))}
-              >
+            <BuyButtons opacity={wishListItem}>
+              <img src={Path} />
+              <button disabled={wishListItem} onClick={() => dispatch(updateUserWishList({ accountId, nftId }))}>
                 Wishlist
               </button>
-              <button onClick={() => addToAuction(auctionItem)}>Make an offer</button>
+
+              <button onClick={() => addToAuction(auctionItem)}>
+                Make an offer
+              </button>
             </BuyButtons>
             <BuyNow>
               <button>BUY NOW</button>

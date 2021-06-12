@@ -225,10 +225,10 @@ export const useGetUserDoc = (account:any) => {
 export const useUserDoc = () => {
   return useSelector((state: AppState) => state.user.user)
 }
-export const useUserWhishListItem = (id:number) => {
+export const useUserWhishListItem = (id:number):boolean => {
   const user =useSelector((state: AppState) => state.user.user)
   const userWishList =user?.wishlist
- return userWishList?.includes(id)
+ return userWishList?.includes(id)?true:false
 }
 
 export const useUserError =()=>{

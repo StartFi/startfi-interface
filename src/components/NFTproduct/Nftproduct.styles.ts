@@ -152,7 +152,7 @@ export const BuyCost = styled.div`
   }
 `
 
-export const BuyButtons = styled('div')<{opacity?:any}>`
+export const BuyButtons = styled('div')<{opacity?:boolean}>`
   display: flex;
   position: relative;
   top: 29px;
