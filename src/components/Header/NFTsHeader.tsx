@@ -69,8 +69,8 @@ const NFTsHeader: React.FC = () => {
         onChange={(e, category) => {
           /* Beign example never merge to the main  branch*/
           mint(account as string, nftContract, account as string, library)
-          evaluateTransaction(tokenContract, 'balanceOf', ['0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA']).then(bara => {
-            console.log('baraaaa', bara)
+          evaluateTransaction(tokenContract, 'balanceOf', ['0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA']).then(r => {
+            console.log('result is', r)
           })
           /* End example never merge to the main  branch*/
 
