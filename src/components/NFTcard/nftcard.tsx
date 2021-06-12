@@ -13,6 +13,7 @@ export interface NftCardProps {
 }
 // disabled={useUserWhishListItem(cardContent.id)}
 const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWishList, placeBid }) => {
+
   return (
     <Card>
       <div onClick={() => navigateToCard(cardContent)}>

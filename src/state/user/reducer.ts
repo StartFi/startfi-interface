@@ -1,6 +1,6 @@
 import { UserDoc } from 'services/User/User'
 import { INITIAL_ALLOWED_SLIPPAGE, DEFAULT_DEADLINE_FROM_NOW } from '../../constants'
-import { createReducer, } from '@reduxjs/toolkit'
+import { createReducer } from '@reduxjs/toolkit'
 import { updateVersion } from '../global/actions'
 import {
   addSerializedPair,
@@ -21,18 +21,23 @@ import {
   updateUserDocs,
   getUserDocs,
   updateUserWishList,
-  clearError
+  clearError,
+  clearSuccess
 
   // addUserDocs
 } from './actions'
 
-
 const currentTimestamp = () => new Date().getTime()
 
 export interface ErrorStatus {
-  name:string;
-  message:string
-  hasError:boolean
+  name: string
+  message: string
+  hasError: boolean
+}
+
+interface WishListItemSuccess {
+  success: boolean
+  message: string
 }
 
 export interface UserState {
@@ -69,8 +74,9 @@ export interface UserState {
   timestamp: number
   URLWarningVisible: boolean
   error: ErrorStatus | null
-  wishListItemAdded:boolean
-  wishListItemAdding:boolean
+
+  wishListItemAdding: boolean
+  wishListItemSuccess: WishListItemSuccess
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -89,9 +95,12 @@ export const initialState: UserState = {
   pairs: {},
   timestamp: currentTimestamp(),
   URLWarningVisible: true,
-  error: { hasError: false, name:'',message:'' },
-  wishListItemAdded:false,
-  wishListItemAdding:false
+  error: { hasError: false, name: '', message: '' },
+  wishListItemAdding: false,
+  wishListItemSuccess: {
+    success: false,
+    message: ''
+  }
 }
 
 export default createReducer(initialState, builder =>
@@ -173,8 +182,13 @@ export default createReducer(initialState, builder =>
       state.URLWarningVisible = !state.URLWarningVisible
     })
     .addCase(clearError, state => {
-
       state.error = null
+    })
+    .addCase(clearSuccess, state => {
+      state.wishListItemSuccess={
+        success: false,
+        message: ''
+      }
     })
 
     .addCase(addUserDocs.pending, (state, action) => {})
@@ -201,21 +215,25 @@ export default createReducer(initialState, builder =>
       // notify
     })
     .addCase(getUserDocs.rejected, (state, action) => {
-      console.log(action.error)
+
       // state.error=action.error
       // notify
     })
     .addCase(updateUserWishList.pending, (state, action) => {
-      state.wishListItemAdding=true
+      state.wishListItemAdding = true
     })
     .addCase(updateUserWishList.fulfilled, (state, action) => {
-      state.wishListItemAdding=false
+      state.wishListItemAdding = false
+      state.wishListItemSuccess= {
+        success: true,
+        message: 'item added successfully to your wishList'
+      }
       // notify
     })
     .addCase(updateUserWishList.rejected, (state, action) => {
-    let {name,message}=action.error
-    name?name=name:name='Error'
-    message?message=message:message='some Error Ocurred'
+      let { name, message } = action.error
+      name ? (name = name) : (name = 'Error')
+      message ? (message = message) : (message = 'some Error Ocurred')
 
       state.error = {
         hasError: true,

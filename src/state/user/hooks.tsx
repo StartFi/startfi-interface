@@ -226,6 +226,8 @@ export const useUserDoc = () => {
   return useSelector((state: AppState) => state.user.user)
 }
 export const useUserWhishListItem = (id:number):boolean => {
+  // const dispatch = useDispatch()
+  // dispatch(getUserDocs(account))
   const user =useSelector((state: AppState) => state.user.user)
   const userWishList =user?.wishlist
  return userWishList?.includes(id)?true:false
@@ -238,6 +240,10 @@ export const useUserError =()=>{
 
 export const useWishListLoading=()=>{
   return useSelector((state: AppState) => state.user.wishListItemAdding)
+}
+
+export const useWishListAddingSuccess=()=>{
+  return useSelector((state: AppState) => state.user.wishListItemSuccess)
 }
 
 

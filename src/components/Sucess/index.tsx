@@ -1,9 +1,12 @@
+
+
 import React from 'react';
 import styled from 'styled-components';
 
-interface ErrorProps
+
+interface SuccessProps
 {
-    message:string|undefined
+    message:string|undefined;
 }
 
 const Container=styled.div`
@@ -11,7 +14,7 @@ width: 60vW;
 height: 150px;
 border-radius:3px;
 text-align:center;
-background: rgba(255, 0, 0, 0.05);
+
 
 `
 
@@ -26,20 +29,20 @@ justify-content:center;
 
 
 & p{
-    color:#BA0404;
+    color:#000000;
 
 }
 
 `
-const ErrorDialogue: React.FC<ErrorProps> =({message})=> {
+const  SuccessDialogue: React.FC<SuccessProps> =({message})=> {
     return (
         <Container>
         <Header>
-        <p>Error</p>
+        <p>Success</p>
         </Header>
         <p>{message}</p>
         </Container>
     );
 }
 
-export default ErrorDialogue;
+export default SuccessDialogue;

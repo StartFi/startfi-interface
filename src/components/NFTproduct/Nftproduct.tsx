@@ -7,8 +7,14 @@ import { AuctionItem } from 'services/Storage/Auction'
 import { useDispatch } from 'react-redux'
 import { addAuctionItem } from 'state/auction/actions'
 import { useParams } from 'react-router-dom'
-import { clearError, updateUserWishList } from 'state/user/actions'
-import { useUserDoc, useUserError, useUserWhishListItem, useWishListLoading } from 'state/user/hooks'
+import { clearError, clearSuccess, getUserDocs, updateUserWishList } from 'state/user/actions'
+import {
+  useUserDoc,
+  useUserError,
+  useUserWhishListItem,
+  useWishListAddingSuccess,
+  useWishListLoading
+} from 'state/user/hooks'
 import ErrorDialogue from '../Error/index'
 
 // type comProps={}
@@ -39,6 +45,7 @@ import NFTsHeader from 'components/Header/NFTsHeader'
 import Modal from 'components/Modal'
 // import { LoadingView } from 'components/ModalViews'
 import Loader from 'components/Loader'
+import SuccessDialogue from 'components/Sucess'
 
 // for testing only
 const auctionItem: AuctionItem = {
@@ -66,7 +73,6 @@ const Nftproduct = () => {
 
   const error = useUserError()
 
-  let open = error?.hasError ? true : false
   const param: RouterParam = useParams()
 
   const nftId = parseInt(param.id)
@@ -74,14 +80,16 @@ const Nftproduct = () => {
   const accountId = useUserDoc()?.ethAddress
 
   const userWishListItem = useUserWhishListItem(nftId)
-  const wishListAdding =useWishListLoading()
-
+  const wishListAdding = useWishListLoading()
+  const wishListAddingSuccess = useWishListAddingSuccess()
+  let open = error?.hasError || wishListAddingSuccess?.success ? true : false
 
   useEffect(() => {
     dispatch(clearError())
     setWhishListItem(userWishListItem)
     setIsLoading(wishListAdding)
-  }, [wishListAdding])
+    dispatch(getUserDocs(accountId))
+  }, [wishListAdding, wishListAddingSuccess])
 
   const showScroll = (res: boolean) => {
     res ? setIsReadMore('scroll') : setIsReadMore('')
@@ -89,39 +97,33 @@ const Nftproduct = () => {
 
   // clear error state + close Error dialogue
   const onDismiss = () => {
-    console.log('change')
-    dispatch(clearError())
+    error ? dispatch(clearError()) : dispatch(clearSuccess())
   }
 
   // for testing only
   const addToAuction = (item: AuctionItem) => {
-    setIsLoading(true)
     dispatch(addAuctionItem(item))
   }
 
-  // const loadingDismiss = () => {
-  //   setIsLoading(false)
-  // }
-  // if (loading) {
-  //   return (
-
-  //       <div>loading...</div>
-  //     </Loader>
-  //   )
-  // }
+  let dialogue
+  if (error) {
+    dialogue = <ErrorDialogue message={error?.message} />
+  } else {
+    dialogue = <SuccessDialogue message={wishListAddingSuccess?.message} />
+  }
 
   return (
-
-
     <Container opacity={loading}>
       <Modal isOpen={open} onDismiss={onDismiss} maxHeight={150}>
-        <ErrorDialogue message={error?.message} />
+        {/* <ErrorDialogue message={error?.message} /> */}
+        {dialogue}
       </Modal>
+
       <NFTsHeader />
       <Grid>
-      <LoadingDiv display={loading} >
-      <Loader size="40px"></Loader>
-      </LoadingDiv>
+        <LoadingDiv display={loading}>
+          <Loader size='40px'></Loader>
+        </LoadingDiv>
         <LeftGrid>
           <ImgCard>
             <img src={Rectangle} />
@@ -168,15 +170,16 @@ const Nftproduct = () => {
                 Cost : <span>180 ETH</span>
               </p>
             </BuyCost>
-            <BuyButtons opacity={wishListItem}>
+            <BuyButtons opacity={wishListItem || wishListAdding}>
               <img src={Path} />
-              <button disabled={wishListItem} onClick={() => dispatch(updateUserWishList({ accountId, nftId }))}>
+              <button
+                disabled={wishListItem || wishListAdding}
+                onClick={() => dispatch(updateUserWishList({ accountId, nftId }))}
+              >
                 Wishlist
               </button>
 
-              <button onClick={() => addToAuction(auctionItem)}>
-                Make an offer
-              </button>
+              <button onClick={() => addToAuction(auctionItem)}>Make an offer</button>
             </BuyButtons>
             <BuyNow>
               <button>BUY NOW</button>

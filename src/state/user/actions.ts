@@ -34,6 +34,7 @@ export const removeSerializedPair = createAction<{ chainId: number; tokenAAddres
 export const toggleURLWarning = createAction<void>('app/toggleURLWarning')
 
 export const clearError =createAction<void>('user/clearError')
+export const clearSuccess =createAction<void>('user/clearSuccess')
 
 // export const whitelistNFT = createAsyncThunk('nfts/getNFTs', addToWhitelist)
 
