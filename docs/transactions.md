@@ -2,27 +2,21 @@
 
 ## Evaluate transaction (Read from the blockchain)
 
-- Call hook from services
+```
+import { useStartFiContract } from 'services/blockchain/useStartfiContracts' hook to get account, provider and smart contract
+import { evaluateTransaction } from 'services/blockchain/useEvaluateTransaction' // service to read from blockchain
+```
+
+- Use `useStartFiContract`
 
 ```
-import { useEvaluateTransaction } from 'src/services/blockchain/useEvaluateTransaction.ts'
+  const { contract: tokenContract } = useStartFiContract('token', false) // contract name could be token, nft or marketplace
 ```
 
-`useEvaluateTransaction` are called statically you can trigger event using it
-creating a reusable one is still in progress.
-
-- Use `useEvaluateTransaction` to get startfi erc20 token balance
+- Use `evaluateTransaction` which takes contract object from `useStartFiContract`, method name, and array of arguments
 
 ```
-import { useEvaluateTransaction } from 'src/services/blockchain/useEvaluateTransaction.ts'
-import { useStartFiToken } from 'src/hooks/useContract'
-
-export function BalanceOfStartfiToken(address?: string): any {
-  const { account } = useActiveWeb3React()
-  const chekedAddress = address ? address : account?.toString()
-  const result = useEvaluateTransaction(useStartFiToken, 'balanceOf', [chekedAddress as string])
-  return result
-}
+evaluateTransaction(tokenContract, 'balanceOf', ['0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA']) // need to use await or .then 
 ```
 
 ## Submit transaction (Write on the blockchain)
