@@ -5,7 +5,6 @@ import { Bid } from 'services/models/Bid'
 import { Draft } from 'services/models/Draft'
 import { NFT } from 'services/models/NFT'
 import { User } from 'services/models/User'
-import { NFTS } from 'state/marektplace/reducer'
 import { sortByKey } from 'utils'
 import { NFTQUERY } from 'services/Marektplace'
 
@@ -66,7 +65,7 @@ export const getDocumentsByChild = async (entity: string, child: string, value: 
   ).val()
 }
 
-export const getNFTS = async ({ search, category, sort }: NFTQUERY): Promise<NFTS> => {
+export const getNFTS = async ({ search, category, sort }: NFTQUERY): Promise<NFT[]> => {
   var ref: any = firebase.database().ref('nfts')
   if (search) ref = ref.orderByChild('name').equalTo(search)
   else if (category && category !== 'all') ref = ref.orderByChild('category').equalTo(category)
