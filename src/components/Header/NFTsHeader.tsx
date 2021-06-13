@@ -20,7 +20,7 @@ import { CATEGORIES, Dictionary } from './../../constants'
 /* Beign example never merge to the main  branch*/
 import { useStartFiContract } from 'services/Blockchain/useStartfiContracts'
 import { useMint } from 'hooks/startfiNft'
-//import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
+import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 /* End example never merge to the main  branch*/
 
 const Categories = ['All', ...CATEGORIES]
@@ -44,7 +44,7 @@ const NFTsHeader: React.FC = () => {
   /* Beign example never merge to the main  branch*/
   const mint = useMint()
   const { account, library, contract: nftContract } = useStartFiContract('nftRoyality')
-  // const { contract: tokenContract } = useStartFiContract('token', false)
+  const { contract: tokenContract } = useStartFiContract('token', false)
   /* End example never merge to the main  branch*/
 
   const [search, setSearch] = useState('')
@@ -69,9 +69,9 @@ const NFTsHeader: React.FC = () => {
         onChange={(e, category) => {
           /* Beign example never merge to the main  branch*/
           mint(account as string, 'ipfsHash', nftContract, account as string, library, true, '1', '10')
-          /* evaluateTransaction(tokenContract, 'balanceOf', ['0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA']).then(r => {
+          evaluateTransaction(tokenContract, 'balanceOf', ['0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA']).then(r => {
             console.log('result is', r)
-          }) */
+          })
           /* End example never merge to the main  branch*/
 
           getNFTs({ category: Categories[category] })
