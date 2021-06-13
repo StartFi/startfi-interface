@@ -1,5 +1,5 @@
 import { useActiveWeb3React } from 'hooks'
-import { useStartFiNft, useStartFiToken, useStartFiMarketplace } from 'hooks/useContract'
+import { useStartFiNft, useStartFiToken, useStartFiMarketplace, useStartFiRoyality } from 'hooks/useContract'
 
 /**
  *
@@ -16,6 +16,7 @@ export const useStartFiContract = (contractName: string, signer = true) => {
   const nft = useStartFiNft(signer)
   const token = useStartFiToken(signer)
   const marketplace = useStartFiMarketplace(signer)
+  const nftRoyality = useStartFiRoyality(signer)
   const contract =
     contractName === 'nft'
       ? nft
@@ -23,6 +24,8 @@ export const useStartFiContract = (contractName: string, signer = true) => {
       ? token
       : contractName === 'marketplace'
       ? marketplace
+      : contractName === 'nftRoyality'
+      ? nftRoyality
       : null
   return { account, library, contract }
 }

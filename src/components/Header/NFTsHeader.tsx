@@ -18,9 +18,9 @@ import { useGetNFTs } from 'state/nfts/hooks'
 import { useHistory } from 'react-router'
 import { CATEGORIES, Dictionary } from './../../constants'
 /* Beign example never merge to the main  branch*/
-import { useStartFiContract } from 'services/blockchain/useStartfiContracts'
+import { useStartFiContract } from 'services/Blockchain/useStartfiContracts'
 import { useMint } from 'hooks/startfiNft'
-import { evaluateTransaction } from 'services/blockchain/useEvaluateTransaction'
+//import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 /* End example never merge to the main  branch*/
 
 const Categories = ['All', ...CATEGORIES]
@@ -43,8 +43,8 @@ const NFTsHeader: React.FC = () => {
   const history = useHistory()
   /* Beign example never merge to the main  branch*/
   const mint = useMint()
-  const { account, library, contract: nftContract } = useStartFiContract('nft')
-  const { contract: tokenContract } = useStartFiContract('token', false)
+  const { account, library, contract: nftContract } = useStartFiContract('nftRoyality')
+  // const { contract: tokenContract } = useStartFiContract('token', false)
   /* End example never merge to the main  branch*/
 
   const [search, setSearch] = useState('')
@@ -68,10 +68,10 @@ const NFTsHeader: React.FC = () => {
         value={category}
         onChange={(e, category) => {
           /* Beign example never merge to the main  branch*/
-          mint(account as string, nftContract, account as string, library)
-          evaluateTransaction(tokenContract, 'balanceOf', ['0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA']).then(r => {
+          mint(account as string, 'ipfsHash', nftContract, account as string, library, true, '1', '10')
+          /* evaluateTransaction(tokenContract, 'balanceOf', ['0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA']).then(r => {
             console.log('result is', r)
-          })
+          }) */
           /* End example never merge to the main  branch*/
 
           getNFTs({ category: Categories[category] })
