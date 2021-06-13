@@ -7,6 +7,7 @@ import styled from 'styled-components';
 interface SuccessProps
 {
     message:string|undefined;
+    dismiss:()=>void
 }
 
 const Container=styled.div`
@@ -34,9 +35,9 @@ justify-content:center;
 }
 
 `
-const  SuccessDialogue: React.FC<SuccessProps> =({message})=> {
+const  SuccessDialogue: React.FC<SuccessProps> =({message,   dismiss})=> {
     return (
-        <Container>
+        <Container onClick={dismiss}>
         <Header>
         <p>Success</p>
         </Header>

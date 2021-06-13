@@ -21,9 +21,8 @@ import {
   // whitelistNFT,
   addUserDocs,
   updateUserDocs,
-  getUserDocs,
+  getUserDocs
   // updateUserWhiteList
-
 } from './actions'
 
 // export const useWhitelistNFT = (): ((nft: NFT) => void) => {
@@ -214,37 +213,37 @@ export const useAddUserDoc = (user: UserDoc, account: any) => {
 }
 
 // add user docs
-export const useGetUserDoc = (account:any) => {
+export const useGetUserDoc = (account: any) => {
   const dispatch = useDispatch()
   return useEffect(() => {
     dispatch(getUserDocs(account))
-  }, [dispatch,account])
+  }, [dispatch, account])
 }
-
 
 export const useUserDoc = () => {
   return useSelector((state: AppState) => state.user.user)
 }
-export const useUserWhishListItem = (id:number):boolean => {
-  // const dispatch = useDispatch()
-  // dispatch(getUserDocs(account))
-  const user =useSelector((state: AppState) => state.user.user)
-  const userWishList =user?.wishlist
- return userWishList?.includes(id)?true:false
+
+// get user wishList Item
+export const useUserWhishListItem = (id: number): boolean => {
+  const user = useSelector((state: AppState) => state.user.user)
+  if(!user) return false
+  const userWishList = user?.wishlist
+  return userWishList?.includes(id) ? true : false
 }
 
-export const useUserError =()=>{
+
+// get user error
+export const useUserError = () => {
   return useSelector((state: AppState) => state.user.error)
-
 }
 
-export const useWishListLoading=()=>{
+// get loading state
+export const useWishListLoading = () => {
   return useSelector((state: AppState) => state.user.wishListItemAdding)
 }
 
-export const useWishListAddingSuccess=()=>{
+// get wishList success
+export const useWishListAddingSuccess = () => {
   return useSelector((state: AppState) => state.user.wishListItemSuccess)
 }
-
-
-

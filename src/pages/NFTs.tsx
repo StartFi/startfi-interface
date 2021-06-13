@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   useGetNFTs,
   useLoadNFTs,
@@ -9,17 +9,31 @@ import {
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { useHistory } from 'react-router'
-import { useUserDoc,} from 'state/user/hooks'
+import { useUserDoc, useUserError, useWishListAddingSuccess, useWishListLoading } from 'state/user/hooks'
 import { NFT } from 'state/nfts/reducer'
 import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
-import { updateUserWishList } from 'state/user/actions'
+import { clearError, clearSuccess, getUserDocs, updateUserWishList } from 'state/user/actions'
+import ErrorDialogue from 'components/Error'
+import SuccessDialogue from 'components/Success'
+import Modal from 'components/Modal'
+import Loader from 'components/Loader'
 
+const LoadingDiv = styled('div')<{ display?: boolean }>`
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 100;
+
+  display: ${({ display }) => (display ? 'block' : 'none')};
+  opacity: 1;
+`
 const NFTS = styled.div`
   padding: 4vh 3.2vw;
   width: 100%;
+  z-index: 1;
 `
 
 const Header = styled.div`
@@ -56,9 +70,12 @@ const NFTs: React.FC = () => {
   const dispatch = useDispatch()
 
   const [sort, setSort] = useState(SORTBY[0])
+  const [loading, setIsLoading] = useState(false)
+  // const [wishListItem, setWhishListItem] = useState(false)
+  const [open, setOpen] = useState(false)
 
   useLoadNFTs()
-  const {t}=useTranslation()
+  const { t } = useTranslation()
 
   const nfts = useNFTs()
 
@@ -66,15 +83,23 @@ const NFTs: React.FC = () => {
 
   const getNFTs = useGetNFTs()
 
-
   const userId = useUserDoc()?.ethAddress
 
+  const error = useUserError()
 
+  // adding wishList Item
+  const wishListAdding = useWishListLoading()
+  // wishList Item adding success
+  const wishListAddingSuccess = useWishListAddingSuccess()
+  useEffect(() => {
+    error?.hasError || wishListAddingSuccess?.success ? setOpen(true) : setOpen(false)
 
+    setIsLoading(wishListAdding)
 
+    dispatch(getUserDocs(userId))
+  }, [wishListAdding, wishListAddingSuccess, error])
   // add Nft Id Tto user white list
-  const addToWishList = ( nftId:number, accountId: any) => {
-
+  const addToWishList = (nftId: number, accountId: any) => {
     let payLoad = {
       accountId,
       nftId
@@ -82,6 +107,29 @@ const NFTs: React.FC = () => {
     dispatch(updateUserWishList(payLoad))
   }
 
+  // clear error state + close Error dialogue
+  const onDismiss = () => {
+    if (error) {
+      dispatch(clearError())
+    }
+    if (wishListAddingSuccess.success) {
+      dispatch(clearSuccess())
+    }
+  }
+
+   // clear any dialogue if user leave the page with out closing
+   setTimeout(() => {
+    onDismiss()
+  }, 1500)
+
+  let dialogue;
+  if (error) {
+    dialogue = <ErrorDialogue message={error?.message} />
+  }
+
+  if (wishListAddingSuccess.success) {
+    dialogue = <SuccessDialogue dismiss={onDismiss} message={wishListAddingSuccess?.message} />
+  }
   return (
     <NFTS>
       <NFTsHeader />
@@ -92,7 +140,7 @@ const NFTs: React.FC = () => {
           </Results>
           <DropDownSort
             boxshadow
-            name="sort"
+            name='sort'
             options={SORTBY}
             value={sort}
             onChange={(e: any) => {
@@ -101,7 +149,14 @@ const NFTs: React.FC = () => {
             }}
           />
         </Header>
+
+        <Modal isOpen={open} onDismiss={onDismiss} maxHeight={150}>
+          {dialogue}
+        </Modal>
         <NFTList>
+          <LoadingDiv display={loading}>
+            <Loader size='40px'></Loader>
+          </LoadingDiv>
           {nfts.map(nft => (
             <Nft key={nft.id}>
               <NTFCard

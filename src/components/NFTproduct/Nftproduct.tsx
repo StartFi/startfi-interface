@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Rectangle from '../../assets/images/Rectangle.png'
 import Path from '../../assets/svg/Path.svg'
-
 import * as faker from 'faker'
 import { AuctionItem } from 'services/Storage/Auction'
 import { useDispatch } from 'react-redux'
@@ -16,8 +15,12 @@ import {
   useWishListLoading
 } from 'state/user/hooks'
 import ErrorDialogue from '../Error/index'
+import ReadMore from '../ReadMore/readmore'
+import NFTsHeader from 'components/Header/NFTsHeader'
+import Modal from 'components/Modal'
 
-// type comProps={}
+import Loader from 'components/Loader'
+import SuccessDialogue from 'components/Success'
 
 import {
   Grid,
@@ -40,12 +43,7 @@ import {
   DescriptionText,
   LoadingDiv
 } from './Nftproduct.styles'
-import ReadMore from '../ReadMore/readmore'
-import NFTsHeader from 'components/Header/NFTsHeader'
-import Modal from 'components/Modal'
-// import { LoadingView } from 'components/ModalViews'
-import Loader from 'components/Loader'
-import SuccessDialogue from 'components/Sucess'
+
 
 // for testing only
 const auctionItem: AuctionItem = {
@@ -70,6 +68,7 @@ const Nftproduct = () => {
   const [isReadMore, setIsReadMore] = useState('')
   const [loading, setIsLoading] = useState(false)
   const [wishListItem, setWhishListItem] = useState(false)
+  const [open, setOpen] = useState(false)
 
   const error = useUserError()
 
@@ -78,18 +77,20 @@ const Nftproduct = () => {
   const nftId = parseInt(param.id)
   const dispatch = useDispatch()
   const accountId = useUserDoc()?.ethAddress
-
+  // get user wish list item
   const userWishListItem = useUserWhishListItem(nftId)
+
+  // adding wishList Item
   const wishListAdding = useWishListLoading()
+  // wishList Item adding success
   const wishListAddingSuccess = useWishListAddingSuccess()
-  let open = error?.hasError || wishListAddingSuccess?.success ? true : false
 
   useEffect(() => {
-    dispatch(clearError())
+    error?.hasError || wishListAddingSuccess?.success ? setOpen(true) : setOpen(false)
     setWhishListItem(userWishListItem)
     setIsLoading(wishListAdding)
     dispatch(getUserDocs(accountId))
-  }, [wishListAdding, wishListAddingSuccess])
+  }, [wishListAdding, wishListAddingSuccess, error])
 
   const showScroll = (res: boolean) => {
     res ? setIsReadMore('scroll') : setIsReadMore('')
@@ -97,9 +98,18 @@ const Nftproduct = () => {
 
   // clear error state + close Error dialogue
   const onDismiss = () => {
-    error ? dispatch(clearError()) : dispatch(clearSuccess())
+    if (error) {
+      dispatch(clearError())
+    }
+    if (wishListAddingSuccess.success) {
+      dispatch(clearSuccess())
+    }
   }
 
+  // clear any dialogue if user leave the page with out closing
+  setTimeout(() => {
+    onDismiss()
+  }, 1500)
   // for testing only
   const addToAuction = (item: AuctionItem) => {
     dispatch(addAuctionItem(item))
@@ -108,14 +118,15 @@ const Nftproduct = () => {
   let dialogue
   if (error) {
     dialogue = <ErrorDialogue message={error?.message} />
-  } else {
-    dialogue = <SuccessDialogue message={wishListAddingSuccess?.message} />
+  }
+
+  if (wishListAddingSuccess.success) {
+    dialogue = <SuccessDialogue dismiss={onDismiss} message={wishListAddingSuccess?.message} />
   }
 
   return (
-    <Container opacity={loading}>
+    <Container>
       <Modal isOpen={open} onDismiss={onDismiss} maxHeight={150}>
-        {/* <ErrorDialogue message={error?.message} /> */}
         {dialogue}
       </Modal>
 

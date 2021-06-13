@@ -11,15 +11,15 @@ export interface NftCardProps {
   addToWishList: (clickedCard: NFT) => void
   placeBid: (clickedCard: NFT) => void
 }
-// disabled={useUserWhishListItem(cardContent.id)}
-const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWishList, placeBid }) => {
 
+const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWishList, placeBid }) => {
   return (
     <Card>
       <div onClick={() => navigateToCard(cardContent)}>
         <Media>
           <CardImg src={cardContent.image} />
         </Media>
+
         <div>
           <Price>
             <Text fontFamily='Roboto' FontWight='700' fontSize='1.125rem'>
@@ -37,7 +37,7 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWis
       <Actions>
         {/* */}
         <WhiteList>
-          <ImageIcon src={Path} opacity={useUserWhishListItem(cardContent.id)}/>
+          <ImageIcon src={Path} opacity={useUserWhishListItem(cardContent.id)} />
           <NftButton
             disabled={useUserWhishListItem(cardContent.id)}
             onClick={() => addToWishList(cardContent)}

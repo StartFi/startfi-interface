@@ -33,6 +33,7 @@ export interface ErrorStatus {
   name: string
   message: string
   hasError: boolean
+ 
 }
 
 interface WishListItemSuccess {
@@ -185,7 +186,7 @@ export default createReducer(initialState, builder =>
       state.error = null
     })
     .addCase(clearSuccess, state => {
-      state.wishListItemSuccess={
+      state.wishListItemSuccess = {
         success: false,
         message: ''
       }
@@ -215,7 +216,6 @@ export default createReducer(initialState, builder =>
       // notify
     })
     .addCase(getUserDocs.rejected, (state, action) => {
-
       // state.error=action.error
       // notify
     })
@@ -224,13 +224,14 @@ export default createReducer(initialState, builder =>
     })
     .addCase(updateUserWishList.fulfilled, (state, action) => {
       state.wishListItemAdding = false
-      state.wishListItemSuccess= {
+      state.wishListItemSuccess = {
         success: true,
         message: 'item added successfully to your wishList'
       }
       // notify
     })
     .addCase(updateUserWishList.rejected, (state, action) => {
+      state.wishListItemAdding = false
       let { name, message } = action.error
       name ? (name = name) : (name = 'Error')
       message ? (message = message) : (message = 'some Error Ocurred')
@@ -240,6 +241,7 @@ export default createReducer(initialState, builder =>
         name,
         message
       }
+      console.log(state.error)
 
       // notify
     })
