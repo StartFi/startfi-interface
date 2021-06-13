@@ -22,6 +22,8 @@ import Menu from '../Menu'
 import Row, { RowFixed } from '../Row'
 import Web3Status from '../Web3Status'
 
+
+
 const HeaderFrame = styled.div`
   display: grid;
   grid-template-columns: 1fr 120px;
@@ -234,6 +236,9 @@ const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
+
+
+
 
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
   // const [isDark] = useDarkModeManager()

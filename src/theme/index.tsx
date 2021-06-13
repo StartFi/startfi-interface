@@ -268,6 +268,18 @@ html {
   font-feature-settings: 'ss01' on, 'ss02' on, 'cv01' on, 'cv03' on;
 
 }
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 `
 
 export const ThemedGlobalStyle = createGlobalStyle`

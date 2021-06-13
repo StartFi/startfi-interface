@@ -5,8 +5,6 @@ import Heart from '../../assets/icons/heart.svg'
 import { ButtonSearch } from 'components/Button'
 import { LinkCreateNFT } from 'components/Link'
 import { InputSearch } from 'components/Input'
-import { Box, Grid, Link, styled } from '@material-ui/core'
-import { TabCategory, TabsCategory } from 'components/Tabs'
 import Books from '../../assets/icons/bookstab.svg'
 import Videos from '../../assets/icons/videostab.svg'
 import Art from '../../assets/icons/arttab.svg'
@@ -17,66 +15,91 @@ import Images from '../../assets/icons/imagestab.svg'
 import { useGetNFTs } from 'state/marketplace/hooks'
 import { useHistory } from 'react-router'
 import { CATEGORIES, Dictionary } from './../../constants'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+import { Row } from 'theme/components'
 
-const Categories = ['All', ...CATEGORIES]
+const Categories = ['all', ...CATEGORIES]
 
 const TabIcons: Dictionary = {
-  Books: Books,
-  Videos: Videos,
-  Art: Art,
-  Games: Games,
-  All: All,
-  Music: Music,
-  Images: Images
+  books: Books,
+  videos: Videos,
+  art: Art,
+  games: Games,
+  all: All,
+  music: Music,
+  images: Images
 }
 
-const FullWidth = styled(Box)({
-  width: '100%'
-})
+const Img = styled.img`
+  margin-right: 1vw;
+`
+
+const Search = styled(Row)`
+  align-items: stretch;
+  height: 6vh;
+`
+
+const TabsCategory = styled(Row)`
+  margin: 4vh 0;
+  padding: 3vh 0;
+  padding-right: 10vw;
+  border-bottom: 1px solid #efefef;
+`
+
+interface TabProps {
+  readonly selected: boolean
+}
+
+const Tab = styled(Row)<TabProps>`
+  cursor: pointer;
+  padding-bottom: 1vh;
+  border-bottom: ${props => (props.selected ? '2px solid #000000;' : 'none;')};
+`
 
 const NFTsHeader: React.FC = () => {
   const history = useHistory()
 
+  const { t } = useTranslation()
+
   const [search, setSearch] = useState('')
 
-  const [category, setCategory] = useState(0)
+  const [category, setCategory] = useState('all')
 
   const getNFTs = useGetNFTs()
 
   return (
-    <FullWidth>
-      <Grid container direction="row" justify="space-between" alignItems="center">
+    <React.Fragment>
+      <Row>
         <img src={Logo} alt="Logo" onClick={() => history.push('/')} />
-        <Grid>
-          <InputSearch value={search} onChange={(e: any) => setSearch(e.target.value)} />
-          <ButtonSearch onClick={() => getNFTs({ search })}>Search</ButtonSearch>
-        </Grid>
-        <Link onClick={() => history.push('whitelist')} underline="none">
+        <Search>
+          <InputSearch placeholder={t('searchNFTS')} value={search} onChange={(e: any) => setSearch(e.target.value)} />
+          <ButtonSearch onClick={() => {getNFTs({ search });history.push('nfts')}}>{t('search')}</ButtonSearch>
+        </Search>
+        <Link to="" onClick={() => history.push('whitelist')}>
           <img src={Heart} alt="Whitelist" />
         </Link>
-        <LinkCreateNFT to="mintnft">Start Earning</LinkCreateNFT>
+        <LinkCreateNFT to="mintnft">{t('mintNFT')}</LinkCreateNFT>
         <Wallet />
-      </Grid>
-      <TabsCategory
-        value={category}
-        onChange={(e, category) => {
-          setCategory(category)
-          getNFTs({ category: Categories[category] })
-        }}
-      >
-        {Categories.map(category => (
-          <TabCategory
-            key={category}
-            label={
-              <Grid container direction="row" justify="center" alignItems="center">
-                <img src={TabIcons[category]} style={{ marginRight: '1vw' }} alt={category} />
-                {category}
-              </Grid>
-            }
-          />
+      </Row>
+      <TabsCategory>
+        {Categories.map(c => (
+          <Tab
+            key={c}
+            selected={category === c}
+            onClick={() => {
+              setCategory(c)
+              getNFTs({ category: c })
+              history.push('nfts')
+            }}
+          >
+            <Img src={TabIcons[c]} alt={c} />
+            {t(c)}
+          </Tab>
         ))}
       </TabsCategory>
-    </FullWidth>
+    </React.Fragment>
   )
 }
 

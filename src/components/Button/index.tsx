@@ -250,7 +250,6 @@ export const NftButton = styled(Base)<{ color?: string; border?: string }>`
   border: none;
   border: none;
   border: ${({ border }) => border};
-
   color: ${({ color }) => color};
 `
 
@@ -351,7 +350,7 @@ export function ButtonRadio({ active, ...rest }: { active?: boolean } & ButtonPr
 }
 
 export const ButtonBase = styled.button`
-  box-sizing: border;
+  box-sizing: border-box;
   text-transform: none;
   border-radius: 4px;
   border: none;
@@ -369,7 +368,6 @@ export const ButtonPrimary = styled(ButtonBase)`
 
 export const ButtonSearch = styled(ButtonPrimary)`
   width: 8.5vw;
-  height: 6vh;
   border-radius: 0px 4px 4px 0px;
   font-size: 1.125rem;
 `
@@ -391,4 +389,8 @@ export const ButtonDraft = styled(ButtonMint)`
     background-color: ${({ theme }) => theme.white};
     color: #929292;
   }
+`
+export const ButtonMintBack = styled(ButtonDraft)`
+  color: #3f3f3f;
+  margin-right: 0;
 `
