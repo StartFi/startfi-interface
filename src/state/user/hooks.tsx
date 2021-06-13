@@ -3,6 +3,7 @@ import {  Pair, Token } from '@uniswap/sdk'
 import { useCallback, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { NFT } from 'services/models/NFT'
+import { useETHBalances } from 'state/wallet/hooks'
 import {ChainId} from '../../constants/supportedChains'
 import { useActiveWeb3React } from '../../hooks'
 import { AppDispatch, AppState } from '../index'
@@ -194,6 +195,13 @@ export function useURLWarningToggle(): () => void {
   return useCallback(() => dispatch(toggleURLWarning()), [dispatch])
 }
 
+export const useUserBalance = (): string | undefined => {
+  const { account } = useActiveWeb3React()
+
+  const balance = useETHBalances(account ? [account] : [])?.[account ?? '']
+
+  return balance?.toSignificant(5)
+}
 
 export const useUserAddress = () => {
   const { account } = useActiveWeb3React()

@@ -15,6 +15,7 @@ import NFTs from './NFTs'
 import { LandingPage } from 'components/LandingPage'
 import Nftproduct from 'components/NFTproduct/Nftproduct'
 import MintingCongrats from 'components/MintingCongrats/mintingCongrats'
+import NFTConfirm from 'components/NFTConfirm'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -61,6 +62,7 @@ export default function App() {
               <Route exact path="/" component={LandingPage} />
               <Route exact path="/nfts" component={NFTs} />
               <Route exact path="/nft" component={Nftproduct} />
+              <Route path="/nftconfirm" component={NFTConfirm} />
               <Route exact path="/mintnft" component={MintNFT} />
               <Route exact path="/mintednft" component={MintingCongrats} />
             </Switch>
