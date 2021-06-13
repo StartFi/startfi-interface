@@ -33,7 +33,7 @@ export interface ErrorStatus {
   name: string
   message: string
   hasError: boolean
- 
+
 }
 
 interface WishListItemSuccess {
@@ -231,6 +231,7 @@ export default createReducer(initialState, builder =>
       // notify
     })
     .addCase(updateUserWishList.rejected, (state, action) => {
+      console.log(action.error)
       state.wishListItemAdding = false
       let { name, message } = action.error
       name ? (name = name) : (name = 'Error')

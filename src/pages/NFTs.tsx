@@ -93,7 +93,6 @@ const NFTs: React.FC = () => {
   const wishListAddingSuccess = useWishListAddingSuccess()
   useEffect(() => {
     error?.hasError || wishListAddingSuccess?.success ? setOpen(true) : setOpen(false)
-
     setIsLoading(wishListAdding)
 
     dispatch(getUserDocs(userId))
@@ -117,12 +116,12 @@ const NFTs: React.FC = () => {
     }
   }
 
-   // clear any dialogue if user leave the page with out closing
-   setTimeout(() => {
+  // clear any dialogue if user leave the page with out closing
+  setTimeout(() => {
     onDismiss()
   }, 1500)
 
-  let dialogue;
+  let dialogue
   if (error) {
     dialogue = <ErrorDialogue message={error?.message} />
   }
