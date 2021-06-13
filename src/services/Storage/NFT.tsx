@@ -100,6 +100,6 @@ export const getAll = async (query?: NFTQUERY) => {
 
 export const mint = async (nft: NFT) => {
   nft.id = 7
-  var data = await add('nfts', nft.id, nft)
-  return {data}
+  const data = await add('nfts', nft.id, nft)
+  return { data }
 }
