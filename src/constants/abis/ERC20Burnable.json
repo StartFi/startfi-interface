@@ -1895,7 +1895,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-06-13T10:18:13.695Z",
+  "updatedAt": "2021-06-13T12:10:06.209Z",
   "devdoc": {
     "details": "Extension of {ERC20} that allows token holders to destroy both their own tokens and those that they have an allowance for, in a way that can be recognized off-chain (via event analysis).",
     "kind": "dev",
