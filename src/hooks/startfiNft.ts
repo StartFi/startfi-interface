@@ -8,7 +8,7 @@ export const useMint = (): ((
   contract: Contract | null,
   account: string | null,
   library: any,
-  withLoyality: boolean,
+  withRoyality: boolean,
   share?: string,
   base?: string
 ) => void) => {
@@ -20,11 +20,11 @@ export const useMint = (): ((
       contract: Contract | null,
       account: string | null,
       library: any,
-      withLoyality: boolean,
+      withRoyality: boolean,
       share?: string,
       base?: string
     ) => {
-      withLoyality
+      withRoyality
         ? mint('mint', [address, ipfsHash], contract, account, library)
         : mint('mint', [address, ipfsHash, share as string, base as string], contract, account, library)
     },
