@@ -221,6 +221,7 @@ export default createReducer(initialState, builder =>
     })
     .addCase(updateUserWishList.pending, (state, action) => {
       state.wishListItemAdding = true
+
     })
     .addCase(updateUserWishList.fulfilled, (state, action) => {
       state.wishListItemAdding = false

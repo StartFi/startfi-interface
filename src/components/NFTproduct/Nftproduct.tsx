@@ -132,7 +132,7 @@ const Nftproduct = () => {
 
       <NFTsHeader />
       <Grid>
-        <LoadingDiv display={loading}>
+        <LoadingDiv $display={loading}>
           <Loader size='40px'></Loader>
         </LoadingDiv>
         <LeftGrid>
@@ -181,7 +181,7 @@ const Nftproduct = () => {
                 Cost : <span>180 ETH</span>
               </p>
             </BuyCost>
-            <BuyButtons opacity={wishListItem || wishListAdding}>
+            <BuyButtons $opacity={wishListItem || wishListAdding}>
               <img src={Path} />
               <button
                 disabled={wishListItem || wishListAdding}

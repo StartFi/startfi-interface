@@ -21,13 +21,13 @@ import SuccessDialogue from 'components/Success'
 import Modal from 'components/Modal'
 import Loader from 'components/Loader'
 
-const LoadingDiv = styled('div')<{ display?: boolean }>`
+const LoadingDiv = styled('div')<{ $display?: boolean }>`
   position: fixed;
   left: 50%;
   top: 50%;
   z-index: 100;
 
-  display: ${({ display }) => (display ? 'block' : 'none')};
+  display: ${({ $display }) => ($display ? 'block' : 'none')};
   opacity: 1;
 `
 const NFTS = styled.div`
@@ -153,7 +153,7 @@ const NFTs: React.FC = () => {
           {dialogue}
         </Modal>
         <NFTList>
-          <LoadingDiv display={loading}>
+          <LoadingDiv $display={loading}>
             <Loader size='40px'></Loader>
           </LoadingDiv>
           {nfts.map(nft => (

@@ -37,7 +37,7 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWis
       <Actions>
         {/* */}
         <WhiteList>
-          <ImageIcon src={Path} opacity={useUserWhishListItem(cardContent.id)} />
+          <ImageIcon src={Path} $opacity={useUserWhishListItem(cardContent.id)} />
           <NftButton
             disabled={useUserWhishListItem(cardContent.id)}
             onClick={() => addToWishList(cardContent)}

@@ -62,9 +62,9 @@ export const Bid = styled.div`
   border-radius: 0px 0px 8px 0px;
 `
 
-export const ImageIcon = styled('img')<{opacity?:boolean}>`
+export const ImageIcon = styled('img')<{$opacity?:boolean}>`
   position: relative;
   left: 29px;
-  opacity:${({ opacity}) => opacity?'50%':''};
+  opacity:${({ $opacity}) => $opacity?'50%':''};
 
 `
