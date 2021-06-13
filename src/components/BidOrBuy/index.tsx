@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
 import { useBidOrBuyValue, useSetBidOrBuy } from 'state/marketplace/hooks'
@@ -141,9 +141,9 @@ const BidOrBuy: React.FunctionComponent<BidOrBuyProps> = ({ bidOrBuy, isOpen, cl
 
   const balance = useUserBalance()
 
-  const value = useBidOrBuyValue()
+  const setBidOrBuy = useSetBidOrBuy()
 
-  const setValue = useSetBidOrBuy()
+  const [value, setValue] = useState(useBidOrBuyValue())
 
   if (!isOpen) return null
 
@@ -166,7 +166,7 @@ const BidOrBuy: React.FunctionComponent<BidOrBuyProps> = ({ bidOrBuy, isOpen, cl
           </Balance>
           <InputContainer>
             <STFI>STFI</STFI>
-            <Input type="number" value={value} onChange={(e: any) => setValue(bidOrBuy, e.target.value)} />
+            <Input type="number" value={value} onChange={(e: any) => setValue(e.target.value)} />
             <USD>
               <USDPrice type="number" value={usd()} onChange={() => {}} />
               <USDWord>USD</USDWord>
@@ -177,7 +177,10 @@ const BidOrBuy: React.FunctionComponent<BidOrBuyProps> = ({ bidOrBuy, isOpen, cl
             <ButtonBidOrBuyGetBalance>{t('getBalance')}</ButtonBidOrBuyGetBalance>
             <ButtonBidOrBuySetBidding
               onClick={() => {
-                if (value !== 0) history.push('/nftconfirm')
+                if (value !== 0) {
+                  setBidOrBuy(bidOrBuy, value)
+                  history.push('/nftconfirm')
+                }
               }}
             >
               {t(button)}
