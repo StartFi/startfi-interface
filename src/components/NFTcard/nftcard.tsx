@@ -16,7 +16,7 @@ export interface NftCardProps {
 const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhiteList, placeBid }) => {
   const { t } = useTranslation()
 
-  const imgUrl = uriToHttp(`${process.env.REACT_APP_IPFS_URL}${cardContent.image}`)[0]
+  const imgUrl = uriToHttp(`${cardContent.image}`)[0]
 
   return (
     <div>
