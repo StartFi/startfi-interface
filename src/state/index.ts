@@ -1,7 +1,7 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { save, load } from 'redux-localstorage-simple'
 
-import nfts from './nfts/reducer'
+import marketplace from './marketplace/reducer'
 import application from './application/reducer'
 import { updateVersion } from './global/actions'
 import user from './user/reducer'
@@ -13,7 +13,7 @@ const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists']
 
 const store = configureStore({
   reducer: {
-    nfts,
+    marketplace,
     application,
     user,
     transactions,

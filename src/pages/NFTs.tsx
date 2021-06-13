@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import { useGetNFTs, useLoadNFTs, useLoadTime, useNFTs } from 'state/nfts/hooks'
+import { useGetNFTs, useLoadNFTs, useLoadTime, useNFTs } from 'state/marketplace/hooks'
 import { styled, Box, Grid } from '@material-ui/core/'
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { COLORS } from 'theme'
 import { useHistory } from 'react-router'
 import { useWhitelistNFT } from 'state/user/hooks'
-import { NFT } from 'state/nfts/reducer'
 import NFTsHeader from 'components/Header/NFTsHeader'
+import { NFT } from 'services/models/NFT'
 
 const NFTS = styled(Grid)({
   padding: '4vh 3.2vw',

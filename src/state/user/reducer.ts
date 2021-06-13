@@ -15,8 +15,10 @@ import {
   updateUserDeadline,
   toggleURLWarning,
   updateUserSingleHopOnly,
-  whitelistNFT
+  whitelistNFT,
+  saveDraftAction
 } from './actions'
+import { fulfilledHandler } from 'utils'
 
 const currentTimestamp = () => new Date().getTime()
 
@@ -156,4 +158,9 @@ export default createReducer(initialState, builder =>
     .addCase(whitelistNFT.rejected, (state, action) => {
       //notify
     })
+    .addCase(saveDraftAction.pending, (state, action) => {})
+    .addCase(saveDraftAction.fulfilled, (state, action) => {
+      fulfilledHandler(action.payload, 'Draft saved')
+    })
+    .addCase(saveDraftAction.rejected, (state, action) => {})
 )

@@ -3,7 +3,7 @@ import Card from '@material-ui/core/Card'
 import Path from '../../assets/svg/Path.svg'
 import { useStyles } from './nftcard.styles'
 import { NftButton } from '../Button/index'
-import { NFT } from 'state/nfts/reducer'
+import { NFT } from 'services/models/NFT'
 
 export interface NftCardProps {
   cardContent: NFT

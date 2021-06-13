@@ -2,7 +2,7 @@
 import {  Pair, Token } from '@uniswap/sdk'
 import { useCallback, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { NFT } from 'state/nfts/reducer'
+import { NFT } from 'services/models/NFT'
 import {ChainId} from '../../constants/supportedChains'
 import { useActiveWeb3React } from '../../hooks'
 import { AppDispatch, AppState } from '../index'
@@ -18,7 +18,8 @@ import {
   updateUserSlippageTolerance,
   toggleURLWarning,
   updateUserSingleHopOnly,
-  whitelistNFT
+  whitelistNFT,
+  saveDraftAction
 } from './actions'
 
 export const useWhitelistNFT = (): ((nft: NFT) => void) => {
@@ -191,4 +192,22 @@ export function useURLWarningVisible(): boolean {
 export function useURLWarningToggle(): () => void {
   const dispatch = useDispatch()
   return useCallback(() => dispatch(toggleURLWarning()), [dispatch])
+}
+
+
+export const useUserAddress = () => {
+  const { account } = useActiveWeb3React()
+  return account
+}
+
+export const useSaveDraft = () => {
+  const dispatch = useDispatch()
+  const user = useUserAddress()
+  return useCallback(
+    (draft: NFT) => {
+      const drafts = [draft]
+      if (user) dispatch(saveDraftAction({ user, drafts }))
+    },
+    [user, dispatch]
+  )
 }

@@ -14,7 +14,7 @@ import Games from '../../assets/icons/gamestab.svg'
 import All from '../../assets/icons/alltab.svg'
 import Music from '../../assets/icons/musictab.svg'
 import Images from '../../assets/icons/imagestab.svg'
-import { useGetNFTs } from 'state/nfts/hooks'
+import { useGetNFTs } from 'state/marketplace/hooks'
 import { useHistory } from 'react-router'
 import { CATEGORIES, Dictionary } from './../../constants'
 
