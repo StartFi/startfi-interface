@@ -28,7 +28,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
   useEffect(() => {
     if (hashes.length > 0 && filename) {
       var { fileName, hash } = hashes[hashes.length - 1]
-      if (fileName === filename) handleChange({ target: { name: 'image', value: hash } })
+      if (fileName === filename) handleChange({ target: { name: 'image', value: 'ipfs://'+hash } })
     }
   }, [filename, hashes, handleChange])
 
