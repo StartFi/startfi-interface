@@ -1,5 +1,5 @@
 import { addDocument, editDocument, getDocument, getNFTS } from 'services/database/Database'
-import { NFTQUERY } from 'services/Marektplace'
+import { NFTQUERY } from 'services/Marketplace'
 import { NFT } from 'services/models/NFT'
 
 const ENTITY = 'nfts'
