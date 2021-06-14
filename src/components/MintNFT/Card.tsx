@@ -88,7 +88,7 @@ const Card: React.FC = () => {
       if (e.persist) e.persist()
       if (e.target.value)
         setMissing(missing => {
-          var newMissing = [...missing]
+          const newMissing = [...missing]
           newMissing.splice(newMissing.indexOf(e.target.name), 1)
           return newMissing
         })
@@ -105,7 +105,7 @@ const Card: React.FC = () => {
   )
 
   const next = () => {
-    var newMissing: string[] = []
+    const newMissing: string[] = []
     Object.keys(nft).forEach((key: string) => (nft[key] ? null : newMissing.push(key)))
     switch (step) {
       case 1:

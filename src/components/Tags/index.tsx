@@ -82,7 +82,7 @@ const Tags: React.FC<TagsProps> = ({ name, max, value, onChange }) => {
               src={Close}
               alt="Close"
               onClick={() => {
-                var newtags = [...tags]
+                const newtags = [...tags]
                 newtags.splice(i, 1)
                 setTags(newtags)
               }}
