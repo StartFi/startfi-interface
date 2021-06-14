@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useIpfsHash, useIpfsProgress, useUploadToIpfs } from 'state/ipfs/hooks'
 
-
 const DropDown = styled.div`
   margin: 10vh 0;
 `
@@ -19,6 +18,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
   const [filename, setFilename] = useState(state.image)
 
   const { t } = useTranslation()
+
   const upload = useUploadToIpfs()
 
   const progress = useIpfsProgress()

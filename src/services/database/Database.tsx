@@ -6,7 +6,7 @@ import { Draft } from 'services/models/Draft'
 import { NFT } from 'services/models/NFT'
 import { User } from 'services/models/User'
 import { sortByKey } from 'utils'
-import { NFTQUERY } from 'services/Marektplace'
+import { NFTQUERY } from 'services/Marketplace'
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
