@@ -1,6 +1,6 @@
 // NOTICE: Kindly keep the old sdk unite we remove the code dependant on it in this file
 import { Pair, Token } from '@uniswap/sdk'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { NFT } from 'services/models/NFT'
 import { useETHBalances } from 'state/wallet/hooks'
