@@ -126,7 +126,7 @@ const NFTs: React.FC = () => {
     dialogue = <ErrorDialogue message={error?.message} />
   }
 
-  if (wishListAddingSuccess.success) {
+  if (wishListAddingSuccess?.success) {
     dialogue = <SuccessDialogue dismiss={onDismiss} message={wishListAddingSuccess?.message} />
   }
   return (
