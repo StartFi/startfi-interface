@@ -1,6 +1,8 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { saveDraft } from 'services/User'
 import { addToWhitelist } from 'services/User/User'
+import { addUserDoc, updateUserDoc } from 'services/firebase/firebaseStore'
+import { addDraft, getDrafts } from 'services/Storage/Draft'
 
 export interface SerializedToken {
   chainId: number

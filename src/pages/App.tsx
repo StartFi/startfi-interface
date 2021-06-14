@@ -48,6 +48,7 @@ const Marginer = styled.div`
 `
 
 export default function App() {
+
   return (
     <Suspense fallback={null}>
       <Route component={GoogleAnalyticsReporter} />

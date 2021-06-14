@@ -4,7 +4,8 @@ import { InputFile, LabelBlack, LabelWithCheck } from 'components/Input'
 import { CATEGORIES, StepProps } from '../../constants'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { useIpfsHashes, useIpfsProgress, useUploadToIpfs } from 'state/ipfs/hooks'
+import { useIpfsHash, useIpfsProgress, useUploadToIpfs } from 'state/ipfs/hooks'
+
 
 const DropDown = styled.div`
   margin: 10vh 0;
@@ -18,19 +19,17 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
   const [filename, setFilename] = useState(state.image)
 
   const { t } = useTranslation()
-
   const upload = useUploadToIpfs()
 
   const progress = useIpfsProgress()
 
-  const hashes = useIpfsHashes()
+  const hash = useIpfsHash()
 
   useEffect(() => {
-    if (hashes.length > 0 && filename) {
-      var { fileName, hash } = hashes[hashes.length - 1]
-      if (fileName === filename) handleChange({ target: { name: 'image', value: 'ipfs://' + hash } })
+    if (hash !== '' && filename) {
+      handleChange({ target: { name: 'image', value: 'ipfs://' + hash } })
     }
-  }, [filename, hashes, handleChange])
+  }, [filename, hash, handleChange])
 
   return (
     <React.Fragment>
