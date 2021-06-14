@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NFTQUERY } from 'services/Marektplace'
+import { NFTQUERY } from 'services/Marketplace'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { Bid } from 'services/models/Bid'
 import { NFT } from 'services/models/NFT'
