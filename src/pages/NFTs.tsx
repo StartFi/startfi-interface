@@ -111,7 +111,7 @@ const NFTs: React.FC = () => {
     if (error) {
       dispatch(clearError())
     }
-    if (wishListAddingSuccess.success) {
+    if (wishListAddingSuccess && wishListAddingSuccess.success) {
       dispatch(clearSuccess())
     }
   }
