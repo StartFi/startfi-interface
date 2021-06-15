@@ -15,9 +15,6 @@ import NFTs from './NFTs'
 import { LandingPage } from 'components/LandingPage'
 import Nftproduct from 'components/NFTproduct/Nftproduct'
 import MintingCongrats from 'components/MintingCongrats/mintingCongrats'
-import { useActiveWeb3React } from 'hooks'
-import { useAddUserDoc, useGetUserDoc } from 'state/user/hooks'
-import { UserDoc } from 'services/User/User'
 import NFTConfirm from 'components/NFTConfirm'
 
 const AppWrapper = styled.div`
@@ -51,10 +48,6 @@ const Marginer = styled.div`
 `
 
 export default function App() {
-  const { account } = useActiveWeb3React()
-  const user:UserDoc ={ethAddress:account}
-  useAddUserDoc(user,account)
-  useGetUserDoc(account)
 
   return (
     <Suspense fallback={null}>

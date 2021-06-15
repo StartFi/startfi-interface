@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import {
-  useGetNFTs,
-  useLoadNFTs,
-  useLoadTime,
-  useNFTs
-  // useAddNFT
-} from 'state/nfts/hooks'
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { useHistory } from 'react-router'
 import { useUserDoc, useUserError, useWishListAddingSuccess, useWishListLoading } from 'state/user/hooks'
-import { NFT } from 'state/nfts/reducer'
 import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -21,16 +13,7 @@ import SuccessDialogue from 'components/Success'
 import Modal from 'components/Modal'
 import Loader from 'components/Loader'
 import { NFT } from 'services/models/NFT'
-import React, { useState } from 'react'
 import { useGetAuctionNFT, useGetNFTs, useLoadNFTs, useLoadTime, useNFTs } from 'state/marketplace/hooks'
-import { DropDownSort } from 'components/DropDown'
-import NTFCard from '../components/NFTcard/nftcard'
-import { useHistory } from 'react-router'
-import { useWhitelistNFT } from 'state/user/hooks'
-import NFTsHeader from 'components/Header/NFTsHeader'
-import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
-import { NFT } from 'services/models/NFT'
 import { Row } from 'theme/components'
 
 const LoadingDiv = styled('div')<{ $display?: boolean }>`
@@ -91,8 +74,6 @@ const NFTs: React.FC = () => {
   const getNFTs = useGetNFTs()
 
   const getAuctionNFT = useGetAuctionNFT()
-
-  const whitelistNFT = useWhitelistNFT()
 
   const userId = useUserDoc()?.ethAddress
 

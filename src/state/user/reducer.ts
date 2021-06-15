@@ -22,9 +22,7 @@ import {
   getUserDocs,
   updateUserWishList,
   clearError,
-  clearSuccess
-
-  // addUserDocs
+  clearSuccess,
   saveDraftAction
 } from './actions'
 import { fulfilledHandler } from 'utils'

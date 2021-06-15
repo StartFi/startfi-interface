@@ -1,8 +1,7 @@
 // NOTICE: Kindly keep the old sdk unite we remove the code dependant on it in this file
 import { Pair, Token } from '@uniswap/sdk'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { UserDoc } from 'services/User/User'
 import { NFT } from 'services/models/NFT'
 import { useETHBalances } from 'state/wallet/hooks'
 import {ChainId} from '../../constants/supportedChains'
@@ -20,11 +19,7 @@ import {
   updateUserSlippageTolerance,
   toggleURLWarning,
   updateUserSingleHopOnly,
-  // whitelistNFT,
-  addUserDocs,
-  updateUserDocs,
-  getUserDocs
-  // updateUserWhiteList
+  getUserDocs,
   saveDraftAction
 } from './actions'
 

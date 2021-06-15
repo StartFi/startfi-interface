@@ -1,10 +1,6 @@
-import { NFT, NFTS } from 'state/nfts/reducer'
-import firebase from './firebaseConfig'
+import { NFT } from 'services/models/NFT'
 
-
-
-
-
+const firebase: any = {};
 
 // add/update NFT
 export const addNft = async (nft: NFT): Promise<void> => {
@@ -13,7 +9,7 @@ export const addNft = async (nft: NFT): Promise<void> => {
 }
 
 // get NFTS
-export const getNfts = async (query?: any): Promise<NFTS> => {
+export const getNfts = async (query?: any): Promise<NFT[]> => {
   const nfts = await (
     await firebase
       .database()

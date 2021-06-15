@@ -12,7 +12,7 @@ export interface NftCardProps {
   placeBid: (clickedCard: NFT) => void
 }
 
-const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhiteList, placeBid }) => {
+const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWishList, placeBid }) => {
   const { t } = useTranslation()
 
   return (
@@ -38,7 +38,7 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhi
         <Actions>
           <WhiteList>
             <ImageIcon src={Path} />
-            <NftButton onClick={() => addToWhiteList(cardContent)} color='#000000'>
+            <NftButton onClick={() => addToWishList(cardContent)} color='#000000'>
               {t('whishList')}
             </NftButton>
           </WhiteList>
@@ -49,8 +49,8 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhi
             </NftButton>
           </Bid>
         </Actions>
+        </div>
       </Card>
-    </div>
   )
 }
 

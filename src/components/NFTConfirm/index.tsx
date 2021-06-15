@@ -12,7 +12,7 @@ import {
   usePlaceBid,
   useSetConfirmationLoading
 } from 'state/marketplace/hooks'
-import { useUserBalance, useWhitelistNFT } from 'state/user/hooks'
+import { useUserBalance } from 'state/user/hooks'
 import styled from 'styled-components'
 import { shortenAddress } from 'utils'
 import uriToHttp from 'utils/uriToHttp'
@@ -160,8 +160,6 @@ const NFTConfirm: React.FunctionComponent = () => {
 
   const history = useHistory()
 
-  const whitelistNFT = useWhitelistNFT()
-
   const balance = useUserBalance()
 
   const auctionNFT = useAuctionNFT()
@@ -274,7 +272,7 @@ const NFTConfirm: React.FunctionComponent = () => {
             <Bold>{total(value, service())} STFI</Bold>
           </SpaceBetween>
           <ButtonBlack onClick={() => confirm()}>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</ButtonBlack>
-          <ButtonTransparentBorder onClick={() => whitelistNFT(nft)}>{t('addToWhitelist')}</ButtonTransparentBorder>
+          <ButtonTransparentBorder onClick={() => {}}>{t('addToWhitelist')}</ButtonTransparentBorder>
           <ButtonTransparent onClick={() => history.goBack()}>
             {t(bidOrBuy ? 'cancelBidding' : 'cancelPayment')}
           </ButtonTransparent>

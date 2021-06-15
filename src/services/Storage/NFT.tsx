@@ -1,6 +1,6 @@
 import { add } from 'services/firebase/Firebase'
+import { NFT } from 'services/models/NFT'
 import { getNfts } from '../firebase/firebaseStore'
-import { NFT } from 'state/nfts/reducer'
 
 export const array = [
   {

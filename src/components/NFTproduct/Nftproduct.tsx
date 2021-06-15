@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Rectangle from '../../assets/images/Rectangle.png'
 import Path from '../../assets/svg/Path.svg'
-import * as faker from 'faker'
-import { AuctionItem } from 'services/Storage/Auction'
 import { useDispatch } from 'react-redux'
-import { addAuctionItem } from 'state/auction/actions'
 import { useParams } from 'react-router-dom'
 import { clearError, clearSuccess, getUserDocs, updateUserWishList } from 'state/user/actions'
 import {
@@ -15,8 +12,6 @@ import {
   useWishListLoading
 } from 'state/user/hooks'
 import ErrorDialogue from '../Error/index'
-import ReadMore from '../ReadMore/readmore'
-import NFTsHeader from 'components/Header/NFTsHeader'
 import Modal from 'components/Modal'
 
 import Loader from 'components/Loader'
@@ -47,23 +42,6 @@ import ReadMore from '../ReadMore/readmore'
 import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import BidOrBuy from 'components/BidOrBuy'
-
-
-// for testing only
-const auctionItem: AuctionItem = {
-  listingPrice: faker.random.number(),
-  seller: faker.random.word(),
-  buyer: faker.random.word(),
-  isForSale: faker.random.boolean(),
-  isForBid: faker.random.boolean(),
-  bids: [4],
-  listTime: faker.random.word(),
-  purchaseTime: faker.random.word(),
-  expireTimestamp: faker.random.word(),
-  listingTxt: faker.random.word(),
-  purchaseTxt: faker.random.word(),
-  soldPrice: faker.random.number()
-}
 
 type RouterParam = {
   id: string
@@ -116,10 +94,6 @@ const Nftproduct = () => {
     onDismiss()
   }, 1500)
   // for testing only
-  const addToAuction = (item: AuctionItem) => {
-    dispatch(addAuctionItem(item))
-  }
-
   let dialogue
   if (error) {
     dialogue = <ErrorDialogue message={error?.message} />
