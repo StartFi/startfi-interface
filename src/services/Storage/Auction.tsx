@@ -1,6 +1,6 @@
-import { AddAuctionItem } from "services/firebase/auctionStore"
+import { AddAuctionItem } from 'services/firebase/auctionStore'
 
-export type AuctionItem={
+export type AuctionItem = {
   listingPrice: number
   seller: string
   buyer: string
@@ -15,4 +15,7 @@ export type AuctionItem={
   soldPrice: number
 }
 
-export const addToAuction = async(auctionItem:AuctionItem) => await AddAuctionItem(auctionItem)
+export const addToAuction = async (auctionItem: AuctionItem) => {
+  const data = await AddAuctionItem(auctionItem)
+  return { data }
+}

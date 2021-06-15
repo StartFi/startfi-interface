@@ -1,5 +1,5 @@
-import { add} from 'services/firebase/Firebase'
-import {getNfts} from '../firebase/firebaseStore'
+import { add } from 'services/firebase/Firebase'
+import { getNfts } from '../firebase/firebaseStore'
 import { NFT } from 'state/nfts/reducer'
 
 export const array = [
@@ -99,7 +99,8 @@ export const getAll = async (query?: NFTQUERY) => {
   return { nfts, loadtime: Math.round(t1 - t0), ...query }
 }
 
-export const mint = async (nft: NFT): Promise<string | void> => {
+export const mint = async (nft: NFT) => {
   nft.id = 7
-  return add('nfts', nft.id, nft)
+  const data = await add('nfts', nft.id, nft)
+  return { data }
 }
