@@ -20,6 +20,18 @@ import ErrorDialogue from 'components/Error'
 import SuccessDialogue from 'components/Success'
 import Modal from 'components/Modal'
 import Loader from 'components/Loader'
+import { NFT } from 'services/models/NFT'
+import React, { useState } from 'react'
+import { useGetAuctionNFT, useGetNFTs, useLoadNFTs, useLoadTime, useNFTs } from 'state/marketplace/hooks'
+import { DropDownSort } from 'components/DropDown'
+import NTFCard from '../components/NFTcard/nftcard'
+import { useHistory } from 'react-router'
+import { useWhitelistNFT } from 'state/user/hooks'
+import NFTsHeader from 'components/Header/NFTsHeader'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import { NFT } from 'services/models/NFT'
+import { Row } from 'theme/components'
 
 const LoadingDiv = styled('div')<{ $display?: boolean }>`
   position: fixed;
@@ -30,17 +42,14 @@ const LoadingDiv = styled('div')<{ $display?: boolean }>`
   display: ${({ $display }) => ($display ? 'block' : 'none')};
   opacity: 1;
 `
+
 const NFTS = styled.div`
   padding: 4vh 3.2vw;
   width: 100%;
   z-index: 1;
 `
 
-const Header = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
+const Header = styled(Row)`
   padding-bottom: 6vh;
 `
 
@@ -48,10 +57,8 @@ const Results = styled.div`
   color: #2c2c2c;
 `
 
-const NFTList = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
+const NFTList = styled(Row)`
+  flex-wrap: wrap;
 `
 
 const Nft = styled.div`
@@ -82,6 +89,10 @@ const NFTs: React.FC = () => {
   const loadtime = useLoadTime()
 
   const getNFTs = useGetNFTs()
+
+  const getAuctionNFT = useGetAuctionNFT()
+
+  const whitelistNFT = useWhitelistNFT()
 
   const userId = useUserDoc()?.ethAddress
 
@@ -129,6 +140,7 @@ const NFTs: React.FC = () => {
   if (wishListAddingSuccess?.success) {
     dialogue = <SuccessDialogue dismiss={onDismiss} message={wishListAddingSuccess?.message} />
   }
+
   return (
     <NFTS>
       <NFTsHeader />
@@ -156,13 +168,13 @@ const NFTs: React.FC = () => {
           <LoadingDiv $display={loading}>
             <Loader size='40px'></Loader>
           </LoadingDiv>
-          {nfts.map(nft => (
+          {nfts.map((nft: NFT) => (
             <Nft key={nft.id}>
               <NTFCard
                 cardContent={nft}
-                navigateToCard={(Nft: NFT) => history.push(`NFT/${Nft.id}`)}
+                navigateToCard={(Nft: NFT) => {getAuctionNFT(Nft);history.push(`NFT/${Nft.id}`)}}
                 addToWishList={(Nft: NFT) => addToWishList(Nft.id, userId)}
-                placeBid={(Nft: NFT) => history.push('NFT', Nft)}
+                placeBid={(Nft: NFT) => {getAuctionNFT(Nft);history.push('NFT', Nft)}}
               ></NTFCard>
             </Nft>
           ))}

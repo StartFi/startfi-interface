@@ -1,8 +1,6 @@
 import { addUser, updateUser,getUserData, updateWhishList,} from './../../services/User/User';
-import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-
-
-
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
+import { saveDraft } from 'services/User'
 
 export interface SerializedToken {
   chainId: number
@@ -53,3 +51,4 @@ export const updateUserWishList =createAsyncThunk('user/updateWhiteList',updateW
 
 
 
+export const saveDraftAction = createAsyncThunk('user/saveDraftAction', saveDraft)

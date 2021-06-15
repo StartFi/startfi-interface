@@ -2,8 +2,8 @@ import React from 'react'
 import Path from '../../assets/svg/Path.svg'
 import { Media, CardImg, Card, Price, Text, Actions, Bid, WhiteList, ImageIcon } from './nftcard.styles'
 import { NftButton } from '../Button/index'
-import { NFT } from 'state/nfts/reducer'
-import { useUserWhishListItem } from 'state/user/hooks'
+import { useTranslation } from 'react-i18next'
+import { NFT } from 'services/models/NFT'
 
 export interface NftCardProps {
   cardContent: NFT
@@ -12,7 +12,9 @@ export interface NftCardProps {
   placeBid: (clickedCard: NFT) => void
 }
 
-const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWishList, placeBid }) => {
+const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhiteList, placeBid }) => {
+  const { t } = useTranslation()
+
   return (
     <Card>
       <div onClick={() => navigateToCard(cardContent)}>
@@ -33,27 +35,22 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWis
             </Text>
           </Price>
         </div>
-      </div>
-      <Actions>
-        {/* */}
-        <WhiteList>
-          <ImageIcon src={Path} $opacity={useUserWhishListItem(cardContent.id)} />
-          <NftButton
-            disabled={useUserWhishListItem(cardContent.id)}
-            onClick={() => addToWishList(cardContent)}
-            // color='#000000'
-          >
-            WISHLIST
-          </NftButton>
-        </WhiteList>
-        <Bid>
-          <NftButton onClick={() => placeBid(cardContent)} color='#ffffff'>
-            {' '}
-            place a bid
-          </NftButton>
-        </Bid>
-      </Actions>
-    </Card>
+        <Actions>
+          <WhiteList>
+            <ImageIcon src={Path} />
+            <NftButton onClick={() => addToWhiteList(cardContent)} color='#000000'>
+              {t('whishList')}
+            </NftButton>
+          </WhiteList>
+          <Bid>
+            <NftButton onClick={() => placeBid(cardContent)} color='#ffffff'>
+              {t('placeBid')}
+
+            </NftButton>
+          </Bid>
+        </Actions>
+      </Card>
+    </div>
   )
 }
 

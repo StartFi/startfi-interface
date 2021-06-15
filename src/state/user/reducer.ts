@@ -25,7 +25,9 @@ import {
   clearSuccess
 
   // addUserDocs
+  saveDraftAction
 } from './actions'
+import { fulfilledHandler } from 'utils'
 
 const currentTimestamp = () => new Date().getTime()
 
@@ -247,4 +249,9 @@ export default createReducer(initialState, builder =>
 
       // notify
     })
+    .addCase(saveDraftAction.pending, (state, action) => {})
+    .addCase(saveDraftAction.fulfilled, (state, action) => {
+      fulfilledHandler(action.payload, 'Draft saved')
+    })
+    .addCase(saveDraftAction.rejected, (state, action) => {})
 )

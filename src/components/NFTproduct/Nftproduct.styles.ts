@@ -98,6 +98,7 @@ export const CreatedText = styled.div`
 
 export const RightTitle = styled.div`
   margin-top: 30px;
+  margin-left: 2px;
   margin-bottom: 12px;
   font-family: Roboto;
   font-weight: 700;
@@ -108,6 +109,7 @@ export const RightTitle = styled.div`
 export const RightSubTitle = styled.div`
   width: 445px;
   font-family: Roboto;
+  margin-left: 2px;
   font-weight: 400;
   font-size: 1rem;
   margin-bottom: 17px;

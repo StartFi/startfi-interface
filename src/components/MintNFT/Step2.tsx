@@ -22,7 +22,7 @@ const Step2: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
         error={missing.includes('name')}
         underline
       />
-      <Tags name="tags" max={10} onChange={handleChange} />
+      <Tags name="tags" max={10} onChange={handleChange} value={state.tags} />
       <Input
         name="description"
         label="NFTdescription"

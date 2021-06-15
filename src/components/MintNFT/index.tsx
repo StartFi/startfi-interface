@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Card from './Card'
 import Header from './Header'
 import Questions from './Questions'
+import { Row } from 'theme/components'
 
 const Container = styled.div`
   width: 100%;
@@ -10,10 +11,8 @@ const Container = styled.div`
   padding: 4vh 3.2vw;
 `
 
-const Body = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
+const Body = styled(Row)`
+  align-items: stretch;
   margin-top: 5vh;
 `
 

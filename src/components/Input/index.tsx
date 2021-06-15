@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Check from './../../assets/icons/check.svg'
 import Upload from './../../assets/icons/upload.svg'
 import Decrement from './../../assets/icons/decrement.svg'
@@ -54,14 +54,22 @@ const FileInput = styled.div<FileInputProps>`
   min-width: ${props => props.minWidth || 'none'};
 `
 
-const LabelContainer = styled.div`
+interface LabelContainerProps {
+  readonly error?: boolean
+  readonly underline?: boolean
+}
+
+const LabelContainer = styled.div<LabelContainerProps>`
+  width: 100%;
   display: flex;
   flex-flow: row nowrap;
   align-items: baseline;
+  padding-bottom: 2vh;
+  border-bottom: ${props => (props.underline ? '1px solid' : 'none')} ${props => (props.error ? '#FF0000' : '#dddddd')};
 `
 
-export const LabelWithCheck = ({ Label, text, verified, error }: any) => (
-  <LabelContainer>
+export const LabelWithCheck = ({ Label, text, verified, error, underline }: any) => (
+  <LabelContainer underline={underline} error={error}>
     <Label>{text}</Label>
     {verified ? <img src={Check} alt="Verified" /> : error ? <Missed>Missed</Missed> : null}
   </LabelContainer>
@@ -83,17 +91,36 @@ export const InputFile = ({ name, label, value, onChange, error, progress, filen
 
   const ref = useRef<HTMLInputElement>(null)
 
+  const [file, setFile] = useState('')
+
   return (
     <div>
       <InputFileHeader>
         <LabelWithCheck text={label} Label={LabelBlack} error={error} />
         {filename && (
-          <ButtonFile onClick={() => onChange({ target: { files: [null] }, name: 'file' })}>{t('Delete')}</ButtonFile>
+          <ButtonFile
+            onClick={() => {
+              setFile('')
+              onChange({ target: { files: [null] }, name: 'image' })
+            }}
+          >
+            {t('Delete')}
+          </ButtonFile>
         )}
       </InputFileHeader>
       <InputFileFooter>
         <FileInput onClick={() => ref.current?.click()} minWidth="11vw" error={error}>
-          <input type="file" name={name} ref={ref} style={{ display: 'none' }} onChange={onChange} />
+          <input
+            type="file"
+            name={name}
+            ref={ref}
+            style={{ display: 'none' }}
+            value={file}
+            onChange={(e: any) => {
+              setFile(e.target.value)
+              onChange(e)
+            }}
+          />
           <div>{t(progress > 0 ? 'Uploading' : 'Upload')}</div>
           <img src={Upload} alt="Upload file" />
         </FileInput>
@@ -111,11 +138,11 @@ export const InputFile = ({ name, label, value, onChange, error, progress, filen
 const InputUnderline = styled.input`
   width: 100%;
   border: none;
-  border-bottom: 1px solid #dddddd;
   outline: none;
-  padding: 2vh 0;
+  padding-bottom: 1vh;
   font-size: 1rem;
   color: #0b0b0b;
+  border-bottom: 1px solid #dddddd;
 `
 
 const InputOutline = styled.textarea`
@@ -123,8 +150,6 @@ const InputOutline = styled.textarea`
   background: #ffffff;
   border: none;
   resize: none;
-  line-height: 28px;
-  letter-spacing: 0.04em;
 `
 
 const Label = styled.div`
@@ -151,7 +176,6 @@ const Outline = styled.div<OultineProps>`
   border: 1px solid ${props => (props.error ? '#FF0000' : '#dddddd')};
   border-radius: 8px;
   padding: 1.5vh 1.2vw;
-  margin-top: 2vh;
   height: ${props => props.height};
 `
 
@@ -218,6 +242,10 @@ export const Input = ({
 }: any) => {
   const { t } = useTranslation()
 
+  const ref = useRef<HTMLInputElement>(null)
+
+  const [underlineClick, setUnderlineClick] = useState(underline && !value)
+
   const [count, setCount] = useState(0)
 
   const handleChange = (e: any) => {
@@ -227,17 +255,23 @@ export const Input = ({
     onChange(e)
   }
 
+  useEffect(() => {
+    if (!underlineClick && ref && ref.current) ref.current.focus()
+  }, [underlineClick])
+
   return (
     <InputContainer direction={number ? 'row' : 'column'} align={number ? 'center' : 'flex-start'}>
       {number ? (
         label ? (
           <LabelBlack>{t(label)}</LabelBlack>
         ) : null
-      ) : value || textarea ? (
-        <LabelWithCheck text={t(label)} Label={LabelGrey} verified={value} error={error} />
+      ) : value || textarea || underline ? (
+        <div onClick={() => (underline ? setUnderlineClick(false) : null)} style={{ width: '100%' }}>
+          <LabelWithCheck text={t(label)} Label={LabelGrey} verified={value} error={error} underline={underlineClick} />
+        </div>
       ) : null}
-      {underline && (
-        <InputUnderline type="text" name={name} placeholder={t(label)} value={value} onChange={handleChange} />
+      {underline && !underlineClick && (
+        <InputUnderline ref={ref} type="text" name={name} value={value} onChange={handleChange} /> //placeholder={t(label)}
       )}
       {textarea && (
         <Outline height={height} error={error}>
@@ -255,7 +289,7 @@ export const Input = ({
       )}
       {number && (
         <OutlineNumber>
-          <InputNumber name={name} type="number" onChange={handleChange} />
+          <InputNumber name={name} type="number" onChange={handleChange} value={value} />
           {currency ? currency : 'STFI'}
         </OutlineNumber>
       )}

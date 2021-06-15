@@ -5,12 +5,9 @@ import { StepProps } from '../../constants'
 import PriceArrows from './../../assets/icons/pricearrows.svg'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import { Row } from 'theme/components'
 
-const Row = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
+const Price = styled(Row)`
   width: 70%;
   margin: 5vh 0;
 `
@@ -19,11 +16,7 @@ const BidOffers = styled.div`
   margin-bottom: 2vh;
 `
 
-const Radios = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
+const Radios = styled(Row)`
   width: 35%;
 `
 
@@ -31,11 +24,7 @@ const MinBid = styled.div`
   margin: 3vh 0;
 `
 
-const OpenFor = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
+const OpenFor = styled(Row)`
   width: 60%;
 `
 
@@ -50,11 +39,11 @@ const Step3: React.FC<StepProps> = ({ state, handleChange }: StepProps) => {
 
   return (
     <React.Fragment>
-      <Row>
+      <Price>
         <Input name="price" label="NFTprice" value={state.price} onChange={handleChange} number />
         <img src={PriceArrows} alt="Currency conversion" />
         <Input name="usd" currency="USD" value={state.price} onChange={() => {}} number />
-      </Row>
+      </Price>
       <BidOffers>{t('bidsOffers')}</BidOffers>
       <Radios>
         <div>

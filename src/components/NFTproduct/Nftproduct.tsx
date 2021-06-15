@@ -43,6 +43,10 @@ import {
   DescriptionText,
   LoadingDiv
 } from './Nftproduct.styles'
+import ReadMore from '../ReadMore/readmore'
+import NFTsHeader from 'components/Header/NFTsHeader'
+import { useTranslation } from 'react-i18next'
+import BidOrBuy from 'components/BidOrBuy'
 
 
 // for testing only
@@ -65,6 +69,7 @@ type RouterParam = {
   id: string
 }
 const Nftproduct = () => {
+  const { t } = useTranslation()
   const [isReadMore, setIsReadMore] = useState('')
   const [loading, setIsLoading] = useState(false)
   const [wishListItem, setWhishListItem] = useState(false)
@@ -92,8 +97,8 @@ const Nftproduct = () => {
     dispatch(getUserDocs(accountId))
   }, [wishListAdding, wishListAddingSuccess, error])
 
-  const showScroll = (res: boolean) => {
-    res ? setIsReadMore('scroll') : setIsReadMore('')
+  const showScroll = (readMore: boolean) => {
+    readMore ? setIsReadMore('scroll') : setIsReadMore('')
   }
 
   // clear error state + close Error dialogue
@@ -124,12 +129,16 @@ const Nftproduct = () => {
     dialogue = <SuccessDialogue dismiss={onDismiss} message={wishListAddingSuccess?.message} />
   }
 
+  const [isOpen, setIsOpen] = useState(false)
+
+  const [bidOrBuy, setBidOrBuy] = useState(false)
+
   return (
     <Container>
+      <BidOrBuy bidOrBuy={bidOrBuy} isOpen={isOpen} close={() => setIsOpen(false)} />
       <Modal isOpen={open} onDismiss={onDismiss} maxHeight={150}>
         {dialogue}
       </Modal>
-
       <NFTsHeader />
       <Grid>
         <LoadingDiv $display={loading}>
@@ -138,15 +147,17 @@ const Nftproduct = () => {
         <LeftGrid>
           <ImgCard>
             <img src={Rectangle} />
-            <p>1234 Views</p>
+            <p>1234 {t('views')}</p>
           </ImgCard>
           <LeftTextCard>
             <CreatedTitle>
               <p>
-                Details created By<span>Muhammed Amin</span>
+                {t('createdBy')}
+                <span>Muhammed Amin</span>
               </p>
             </CreatedTitle>
             <CreatedText>
+              {/* text created by user */}
               <p>
                 Put your NFT assets up as collateral for a loan, or offer loans to other users on their non-fungible
                 tokens Put your NFT assets up as collateral for a loan, or offer loans to other users on their
@@ -157,28 +168,29 @@ const Nftproduct = () => {
         </LeftGrid>
         <RightGrid>
           <RightTitle>
+            {/* text created by user */}
             <p>Apple Watch Series 4 GPS</p>
           </RightTitle>
-          <RightSubTitle>Prediction: Round 11 (Bronze) - Only 100 Available</RightSubTitle>
-          <PublisherCard height='91px'>
+          <RightSubTitle>{t('prediction')}: Round 11 (Bronze) - Only 100 Available</RightSubTitle>
+          <PublisherCard height="91px">
             <div>
               <p>
-                Publisher :<span>Muhammed Amin</span>
+                {t('publisher')} :<span>Muhammed Amin</span>
               </p>
-              <p>8% Percentage on each reselling transaction</p>
+              <p>8% {t('resellingPercentage')}</p>
             </div>
           </PublisherCard>
-          <PublisherCard height='60px'>
+          <PublisherCard height="60px">
             <div>
               <p>
-                Owner :<span>Mohamed Mounier El - King</span>
+                {t('owner')} :<span>Mohamed Mounier El - King</span>
               </p>
             </div>
           </PublisherCard>
           <BuyCard>
             <BuyCost>
               <p>
-                Cost : <span>180 ETH</span>
+                {t('cost')} : <span>180 ETH</span>
               </p>
             </BuyCost>
             <BuyButtons $opacity={wishListItem || wishListAdding}>
@@ -190,10 +202,25 @@ const Nftproduct = () => {
                 Wishlist
               </button>
 
-              <button onClick={() => addToAuction(auctionItem)}>Make an offer</button>
+              <button>{t('wishlist')}</button>
+              <button
+                onClick={() => {
+                  setBidOrBuy(true)
+                  setIsOpen(true)
+                }}
+              >
+                {t('offer')}
+              </button>
             </BuyButtons>
             <BuyNow>
-              <button>BUY NOW</button>
+              <button
+                onClick={() => {
+                  setBidOrBuy(false)
+                  setIsOpen(true)
+                }}
+              >
+                {t('buy')}
+              </button>
             </BuyNow>
           </BuyCard>
           <DescriptionCard overflowY={isReadMore}>

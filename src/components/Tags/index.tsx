@@ -1,13 +1,8 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-
-const Header = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
-`
+import { Row } from 'theme/components'
+import Close from '../../assets/icons/close.svg'
 
 const Title = styled.div`
   color: #7e7e7e;
@@ -31,13 +26,19 @@ const Outline = styled.div`
   padding: 1vh 1vw 2vh 1vw;
 `
 
-const Tag = styled.div`
+const Tag = styled(Row)`
   background: #f4f4f4;
   border-radius: 4px;
   color: #0b0b0b;
   padding: 1vh 1vw;
   margin-right: 0.6vw;
   margin-top: 1vh;
+`
+
+const Img = styled.img`
+  background-color: white;
+  padding: 0.5vh 0.5vw;
+  margin-left: 1vw;
 `
 
 const Input = styled.input`
@@ -54,37 +55,49 @@ const Input = styled.input`
 interface TagsProps {
   name: string
   max: number
+  value: string[]
   onChange: (e: any) => void
 }
 
-const Tags: React.FC<TagsProps> = ({ name, max, onChange }) => {
+const Tags: React.FC<TagsProps> = ({ name, max, value, onChange }) => {
   const { t } = useTranslation()
 
-  const [tags, setTags] = useState<string[]>([])
+  const [tags, setTags] = useState<string[]>(value)
 
-  const [value, setvalue] = useState('')
+  const [word, setWord] = useState('')
 
   return (
     <div>
-      <Header>
+      <Row>
         <Title>{t('tags')}</Title>
         <Count>
           {max} {t('tagsMax')}
         </Count>
-      </Header>
+      </Row>
       <Outline>
-        {tags.map((t: string) => (
-          <Tag key={t}>{t}</Tag>
+        {tags.map((t, i) => (
+          <Tag key={t}>
+            {t}
+            <Img
+              src={Close}
+              alt="Close"
+              onClick={() => {
+                const newtags = [...tags]
+                newtags.splice(i, 1)
+                setTags(newtags)
+              }}
+            />
+          </Tag>
         ))}
         <Input
           placeholder={tags.length === 0 ? t('writeKeyword') : ''}
-          value={value}
-          onChange={(e: any) => setvalue(e.target.value)}
+          value={word}
+          onChange={(e: any) => setWord(e.target.value)}
           onKeyDown={e => {
-            if (e.key === 'Enter') {
-              onChange({ target: { name, value: [...tags, value] } })
-              setTags([...tags, value])
-              setvalue('')
+            if (e.key === 'Enter' || e.key === ' ') {
+              onChange({ target: { name, value: [...tags, word] } })
+              setTags([...tags, word])
+              setWord('')
             }
           }}
         />

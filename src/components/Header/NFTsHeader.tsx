@@ -12,12 +12,13 @@ import Games from '../../assets/icons/gamestab.svg'
 import All from '../../assets/icons/alltab.svg'
 import Music from '../../assets/icons/musictab.svg'
 import Images from '../../assets/icons/imagestab.svg'
-import { useGetNFTs } from 'state/nfts/hooks'
+import { useGetNFTs } from 'state/marketplace/hooks'
 import { useHistory } from 'react-router'
 import { CATEGORIES, Dictionary } from './../../constants'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { Row } from 'theme/components'
 
 const Categories = ['all', ...CATEGORIES]
 
@@ -31,46 +32,30 @@ const TabIcons: Dictionary = {
   images: Images
 }
 
-const Container = styled.div``
-
-const Header = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
+const Img = styled.img`
+  margin-right: 1vw;
 `
 
-const TabsCategory = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
+const Search = styled(Row)`
+  align-items: stretch;
+  height: 6vh;
+`
+
+const TabsCategory = styled(Row)`
   margin: 4vh 0;
   padding: 3vh 0;
-  border-bottom: 1px solid #efefef;
   padding-right: 10vw;
+  border-bottom: 1px solid #efefef;
 `
 
 interface TabProps {
   readonly selected: boolean
 }
 
-const Tab = styled.div<TabProps>`
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  padding-bottom: 1vh;
+const Tab = styled(Row)<TabProps>`
   cursor: pointer;
+  padding-bottom: 1vh;
   border-bottom: ${props => (props.selected ? '2px solid #000000;' : 'none;')};
-`
-const Img = styled.img`
-  margin-right: 1vw;
-`
-
-const Search = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: stretch;
-  height: 6vh;
 `
 
 const NFTsHeader: React.FC = () => {
@@ -85,19 +70,19 @@ const NFTsHeader: React.FC = () => {
   const getNFTs = useGetNFTs()
 
   return (
-    <Container>
-      <Header>
+    <React.Fragment>
+      <Row>
         <img src={Logo} alt="Logo" onClick={() => history.push('/')} />
         <Search>
           <InputSearch placeholder={t('searchNFTS')} value={search} onChange={(e: any) => setSearch(e.target.value)} />
-          <ButtonSearch onClick={() => getNFTs({ search })}>{t('search')}</ButtonSearch>
+          <ButtonSearch onClick={() => {getNFTs({ search });history.push('nfts')}}>{t('search')}</ButtonSearch>
         </Search>
         <Link to="" onClick={() => history.push('whitelist')}>
           <img src={Heart} alt="Whitelist" />
         </Link>
         <LinkCreateNFT to="mintnft">{t('mintNFT')}</LinkCreateNFT>
         <Wallet />
-      </Header>
+      </Row>
       <TabsCategory>
         {Categories.map(c => (
           <Tab
@@ -106,6 +91,7 @@ const NFTsHeader: React.FC = () => {
             onClick={() => {
               setCategory(c)
               getNFTs({ category: c })
+              history.push('nfts')
             }}
           >
             <Img src={TabIcons[c]} alt={c} />
@@ -113,7 +99,7 @@ const NFTsHeader: React.FC = () => {
           </Tab>
         ))}
       </TabsCategory>
-    </Container>
+    </React.Fragment>
   )
 }
 

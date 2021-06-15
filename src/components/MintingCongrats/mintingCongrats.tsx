@@ -1,11 +1,14 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {  Container,Header,Text} from './mintingCongrats.styles'
 function MintingCongrats() {
 
+    const { t } = useTranslation()
+
     return (
         <Container>
-            <Header>Congratulations </Header>
-           <Text> Your NFT Product will be reviewd by <span>Startfi</span> NFT Publishing team and will be Published in 48 hours</Text>
+            <Header>   {t('congratulations')}</Header>
+           <Text> {t('nftReviewedBy')} <span>Startfi</span> {t('nftPublishing')}</Text>
 
         </Container>
     );

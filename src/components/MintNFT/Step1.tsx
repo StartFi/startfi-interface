@@ -4,7 +4,8 @@ import { InputFile, LabelBlack, LabelWithCheck } from 'components/Input'
 import { CATEGORIES, StepProps } from '../../constants'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { useIpfsHashes, useIpfsProgress, useUploadToIpfs } from 'state/ipfs/hooks'
+import { useIpfsHash, useIpfsProgress, useIpfsStatus, useUploadToIpfs } from 'state/ipfs/hooks'
+import { ipfsEnumStatus } from 'state/ipfs/actions'
 
 const DropDown = styled.div`
   margin: 10vh 0;
@@ -15,7 +16,7 @@ const Label = styled.div`
 `
 
 const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
-  const [filename, setFilename] = useState('')
+  const [filename, setFilename] = useState(state.image)
 
   const { t } = useTranslation()
 
@@ -23,16 +24,15 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
 
   const progress = useIpfsProgress()
 
-  const hashes = useIpfsHashes()
+  const hash = useIpfsHash()
+
+  const status = useIpfsStatus()
 
   useEffect(() => {
-    console.log(hashes)
-    console.log(filename)
-    if (hashes.length > 0 && filename) {
-      var { fileName, hash } = hashes[hashes.length - 1]
-      if (fileName === filename) handleChange({ target: { name: 'file', value: hash } })
+    if (status === ipfsEnumStatus.DONE && filename !== '') {
+      handleChange({ target: { name: 'image', value: 'ipfs://' + hash } })
     }
-  }, [filename, hashes, handleChange])
+  }, [status, hash, handleChange])
 
   return (
     <React.Fragment>
@@ -54,21 +54,21 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
         />
       </DropDown>
       <InputFile
-        name="file"
+        name="image"
         label={t('uploadNFT')}
-        value={state.file}
+        value={state.imaghe}
         onChange={(e: any) => {
           if (e.target.files[0] === null) {
             setFilename('')
-            handleChange({ target: { name: 'file', value: '' } })
+            handleChange({ target: { name: 'image', value: '' } })
           } else {
-            upload({ path: e.target.files[0].name, content: e.target.files[0] })
             setFilename(e.target.files[0].name)
+            upload({ path: e.target.files[0].name, content: e.target.files[0] })
           }
         }}
         progress={progress}
         filename={filename}
-        error={missing.includes('file')}
+        error={missing.includes('image')}
       />
     </React.Fragment>
   )

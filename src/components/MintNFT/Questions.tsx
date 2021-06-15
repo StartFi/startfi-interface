@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import ArrowDown from './../../assets/icons/qaarrowdown.svg'
 import ArrowUp from './../../assets/icons/qaarrowup.svg'
+import { Row } from 'theme/components'
 
 const QAS = 7
 
@@ -24,15 +25,9 @@ const Underline = styled.hr`
   background-color: ${({ theme }) => theme.black};
 `
 
-const Row = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
+const Question = styled(Row)`
   height: 100px;
 `
-
-// const Question = styled.div`
 
 const Answer = styled.div`
   font-size: 14px;
@@ -61,10 +56,10 @@ const Questions: React.FC = () => {
       <Underline />
       {_.times(QAS, (i: number) => (
         <QA key={i} onClick={() => setSelected(selected === i ? -1 : i)}>
-          <Row>
+          <Question>
             <div>{t('needHelpQ' + i)}</div>
             <Img src={selected === i ? ArrowUp : ArrowDown} alt="Arrow" />
-          </Row>
+          </Question>
           {selected === i && <Answer>{t('needHelpA' + i)}</Answer>}
         </QA>
       ))}

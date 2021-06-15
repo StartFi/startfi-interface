@@ -5,6 +5,16 @@ import styled, { keyframes } from 'styled-components'
 import { darken } from 'polished'
 import { ArrowLeft, X, ExternalLink as LinkIconFeather, Trash } from 'react-feather'
 
+export const Flex = styled.div`
+  display: flex;
+`
+
+export const Row = styled(Flex)`
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+`
+
 export const ButtonText = styled.button`
   outline: none;
   border: none;

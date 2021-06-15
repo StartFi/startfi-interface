@@ -1,9 +1,11 @@
 // NOTICE: Kindly keep the old sdk unite we remove the code dependant on it in this file
 import { Pair, Token } from '@uniswap/sdk'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { UserDoc } from 'services/User/User'
-import { ChainId } from '../../constants/supportedChains'
+import { NFT } from 'services/models/NFT'
+import { useETHBalances } from 'state/wallet/hooks'
+import {ChainId} from '../../constants/supportedChains'
 import { useActiveWeb3React } from '../../hooks'
 import { AppDispatch, AppState } from '../index'
 import {
@@ -23,6 +25,7 @@ import {
   updateUserDocs,
   getUserDocs
   // updateUserWhiteList
+  saveDraftAction
 } from './actions'
 
 // export const useWhitelistNFT = (): ((nft: NFT) => void) => {
@@ -196,20 +199,30 @@ export function useURLWarningToggle(): () => void {
   const dispatch = useDispatch()
   return useCallback(() => dispatch(toggleURLWarning()), [dispatch])
 }
-// Edit user docs
-export const useEditUserDoc = (user: UserDoc) => {
-  const dispatch = useDispatch()
-  return useEffect(() => {
-    dispatch(updateUserDocs(user))
-  }, [dispatch])
+
+export const useUserBalance = (): string | undefined => {
+  const { account } = useActiveWeb3React()
+
+  const balance = useETHBalances(account ? [account] : [])?.[account ?? '']
+
+  return balance?.toSignificant(5)
 }
 
-// add user docs
-export const useAddUserDoc = (user: UserDoc, account: any) => {
+export const useUserAddress = () => {
+  const { account } = useActiveWeb3React()
+  return account
+}
+
+export const useSaveDraft = () => {
   const dispatch = useDispatch()
-  return useEffect(() => {
-    dispatch(addUserDocs(user))
-  }, [dispatch, account])
+  const user = useUserAddress()
+  return useCallback(
+    (draft: NFT) => {
+      const drafts = [draft]
+      if (user) dispatch(saveDraftAction({ user, drafts }))
+    },
+    [user, dispatch]
+  )
 }
 
 // add user docs

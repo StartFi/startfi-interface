@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import SelectIcon from './../../assets/icons/select.svg'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { Row } from 'theme/components'
 
 interface DropDownProps {
   name: string
@@ -23,14 +24,10 @@ const Container = styled.div<WidthProps>`
   z-index: 9999;
 `
 
-const Row = styled.div`
+const LabelRow = styled(Row)`
   border: 1px solid #dddddd;
   box-sizing: border-box;
   border-radius: 8px;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
   padding: 2vh 2vw;
   cursor: pointer;
 `
@@ -99,10 +96,10 @@ export const DropDown: React.FunctionComponent<DropDownProps> = ({
     <React.Fragment>
       {open && <BlurLayer onClick={() => setOpen(false)} />}
       <Container width={width || '10vh'}>
-        <Row onBlur={() => setOpen(false)} onClick={() => setOpen(!open)}>
+        <LabelRow onBlur={() => setOpen(false)} onClick={() => setOpen(!open)}>
           <Label>{t(selected) || t(label)}</Label>
           <img src={SelectIcon} alt="Select" />
-        </Row>
+        </LabelRow>
         {open && (
           <Items width={width || '10vh'}>
             {options.map((o, i) => (

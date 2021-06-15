@@ -18,6 +18,7 @@ import MintingCongrats from 'components/MintingCongrats/mintingCongrats'
 import { useActiveWeb3React } from 'hooks'
 import { useAddUserDoc, useGetUserDoc } from 'state/user/hooks'
 import { UserDoc } from 'services/User/User'
+import NFTConfirm from 'components/NFTConfirm'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -69,6 +70,7 @@ export default function App() {
               <Route exact path="/" component={LandingPage} />
               <Route exact path="/nfts" component={NFTs} />
               <Route exact path="/nft/:id" component={Nftproduct} />
+              <Route path="/nftconfirm" component={NFTConfirm} />
               <Route exact path="/mintnft" component={MintNFT} />
               <Route exact path="/mintednft" component={MintingCongrats} />
             </Switch>

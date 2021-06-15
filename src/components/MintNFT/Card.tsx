@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Dictionary } from '../../constants'
+import React, { useCallback, useState } from 'react'
 import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
 import styled from 'styled-components'
 import Step1 from './Step1'
@@ -10,9 +9,11 @@ import Step1Icon from './../../assets/icons/step1.svg'
 import Step2Icon from './../../assets/icons/step2.svg'
 import Step3Icon from './../../assets/icons/step3.svg'
 import { useTranslation } from 'react-i18next'
-import { useAddNFT } from 'state/nfts/hooks'
-import { useIpfsHashes, useUploadToIpfs } from 'state/ipfs/hooks'
+import { useAddNFT } from 'state/marketplace/hooks'
 import { useActiveWeb3React } from 'hooks'
+import { useSaveDraft } from 'state/user/hooks'
+import { NFT } from 'services/models/NFT'
+import { Row } from 'theme/components'
 
 const Container = styled.div`
   display: flex;
@@ -20,10 +21,7 @@ const Container = styled.div`
   height: 100%;
 `
 
-const Header = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
+const Header = styled(Row)`
   align-items: flex-start;
 `
 
@@ -50,115 +48,82 @@ const Card: React.FC = () => {
 
   const { account } = useActiveWeb3React()
 
-  console.log(account)
-
   const { t } = useTranslation()
 
   const addNft = useAddNFT()
 
-  const [state, setState] = useState<Dictionary>({
-    category: '',
-    file: '',
+  const saveDraft = useSaveDraft()
+
+  const [nft, setNFT] = useState<NFT>({
+    id: 0,
     name: '',
-    tags: '',
     description: '',
+    category: '',
+    owner: '',
+    onAuction: false,
+    issuer: '',
+    issueDate: new Date(),
+    image: '',
     price: 0,
-    bidsOffers: 'false',
-    minBid: 0,
-    openFor: 0,
-    type: 'Day'
+    txtHash: '',
+    tags: [],
+    royalty: 0
   })
+
+  const getNFT = (account: string): NFT => {
+    return {
+      ...nft,
+      owner: account,
+      issuer: account,
+      issueDate: new Date()
+    }
+  }
 
   const [missing, setMissing] = useState<string[]>([])
 
   const [step, setStep] = useState<number>(1)
 
-  const [nft, setNft] = useState({
-    id: 0,
-    owner: '',
-    issuer: '',
-    issueDate: new Date(),
-    onAuction: false,
-    name: '',
-    image: '',
-    price: 0,
-    category: '',
-    description: '',
-    hash: '',
-    tags: []
-  })
-
-  const [nftPath, setNftPath] = useState('')
-
   const handleChange = useCallback(
     (e: any) => {
       if (e.persist) e.persist()
-      setState(state => {
-        return { ...state, [e.target.name]: e.target.value }
+      if (e.target.value)
+        setMissing(missing => {
+          const newMissing = [...missing]
+          newMissing.splice(newMissing.indexOf(e.target.name), 1)
+          return newMissing
+        })
+      else
+        setMissing(missing => {
+          if (missing.includes(e.target.name)) return missing
+          return [...missing, e.target.name]
+        })
+      setNFT(nft => {
+        return { ...nft, [e.target.name]: e.target.value }
       })
     },
-    [setState]
+    [setNFT]
   )
 
-  const upload = useUploadToIpfs()
-
-  const hashes = useIpfsHashes()
-
-  useEffect(() => {
-    console.log(hashes)
-    if (hashes.length > 0 && nftPath) {
-      var { fileName, hash } = hashes[hashes.length - 1]
-      if (fileName === nftPath)
-        setNft(nft => {
-          return { ...nft, hash }
-        })
-    }
-  }, [nftPath, hashes, setNft])
-
-  useEffect(() => {
-    console.log(nft)
-    if (nft.hash) {
-      addNft(nft)
-      history.push('/mintednft')
-    }
-  }, [nft, addNft])
-
   const next = () => {
-    var newMissing: string[] = []
-    Object.keys(state).forEach((key: string) => (state[key] ? null : newMissing.push(key)))
+    const newMissing: string[] = []
+    Object.keys(nft).forEach((key: string) => (nft[key] ? null : newMissing.push(key)))
     switch (step) {
       case 1:
-        if (['category', 'file'].filter(f => newMissing.includes(f)).length === 0) {
+        if (['category', 'image'].filter(f => newMissing.includes(f)).length === 0) {
           setMissing([])
           return setStep(2)
         }
         break
       case 2:
-        if (['name', 'tags', 'description'].filter(f => newMissing.includes(f)).length === 0) {
+        if (['name', 'description'].filter(f => newMissing.includes(f)).length === 0) {
           setMissing([])
-          return setStep(3)
+          if (account) {
+            addNft(getNFT(account))
+            history.push('/')
+          } else alert('Connect wallet')
         }
         break
       case 3:
-        if (account) {
-          var nft = {
-            id: 0,
-            owner: account,
-            issuer: account,
-            issueDate: new Date(),
-            onAuction: state.bidsOffers === 'true',
-            name: state.name,
-            image: state.file,
-            price: parseInt(state.price),
-            category: state.category,
-            description: state.description,
-            hash: '',
-            tags: state.tags
-          }
-          setNft(nft)
-          setNftPath('id.js')
-          upload({ path: 'id.js', content: JSON.stringify(nft) })
-        } else history.push('/')
         break
       default:
     }
@@ -188,16 +153,27 @@ const Card: React.FC = () => {
         <img src={StepIcon()} alt="Step" />
       </Header>
       {step === 1 ? (
-        <Step1 state={state} handleChange={handleChange} missing={missing} />
+        <Step1 state={nft} handleChange={handleChange} missing={missing} />
       ) : step === 2 ? (
-        <Step2 state={state} handleChange={handleChange} missing={missing} />
+        <Step2 state={nft} handleChange={handleChange} missing={missing} />
       ) : (
-        <Step3 state={state} handleChange={handleChange} missing={missing} />
+        <Step3 state={nft} handleChange={handleChange} missing={missing} />
       )}
       <Footer>
-        <ButtonMintBack>{t('back')}</ButtonMintBack>
-        <ButtonDraft>{t('saveDraft')}</ButtonDraft>
-        <ButtonMint onClick={() => next()}>{t('next')}</ButtonMint>
+        <ButtonMintBack onClick={() => (step > 1 ? setStep(step - 1) : null)}>{t('back')}</ButtonMintBack>
+        <ButtonDraft
+          onClick={() => {
+            if (account) {
+              if (nft.category || nft.image || nft.name || nft.description) {
+                saveDraft(getNFT(account))
+                history.push('/')  
+              } else alert('No data entered to save')
+            } else alert('Connect wallet')
+          }}
+        >
+          {t('saveDraft')}
+        </ButtonDraft>
+        <ButtonMint onClick={() => next()}>{t(step === 1 ? 'next' : 'submit')}</ButtonMint>
       </Footer>
     </Container>
   )

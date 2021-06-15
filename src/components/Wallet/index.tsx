@@ -13,6 +13,8 @@ const HeaderElement = styled.div`
   display: flex;
   align-items: center;
 
+  background-color: white;
+
   /* addresses safari's lack of support for "gap" */
   & > *:not(:first-child) {
     margin-left: 8px;
@@ -28,7 +30,8 @@ const AccountElement = styled.div<{ active: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: ${({ theme, active }) => (!active ? theme.bg1 : theme.bg3)};
+  /* background-color: ${({ theme, active }) => (!active ? theme.bg1 : theme.bg3)}; */
+  background-color: #F9F9F9;
   border-radius: 12px;
   white-space: nowrap;
   width: 100%;
@@ -59,6 +62,9 @@ const NetworkCard = styled(YellowCard)`
 `
 
 const BalanceText = styled(Text)`
+  background-color: white;
+  border-radius: 100px 8px 8px 100px;
+  padding: 0.5vh 0.5vw;
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     display: none;
   `};
