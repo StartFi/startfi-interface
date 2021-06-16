@@ -1,4 +1,3 @@
-import { UserDoc } from 'services/User/User'
 import { INITIAL_ALLOWED_SLIPPAGE, DEFAULT_DEADLINE_FROM_NOW } from '../../constants'
 import { createReducer } from '@reduxjs/toolkit'
 import { updateVersion } from '../global/actions'
@@ -16,16 +15,14 @@ import {
   updateUserDeadline,
   toggleURLWarning,
   updateUserSingleHopOnly,
-  // whitelistNFT,
-  addUserDocs,
-  updateUserDocs,
-  getUserDocs,
-  updateUserWishList,
   clearError,
   clearSuccess,
-  saveDraftAction
+  saveDraftAction,
+  loginAction,
+  addToWishlistAction
 } from './actions'
 import { fulfilledHandler } from 'utils'
+import { User } from 'services/models/User'
 
 const currentTimestamp = () => new Date().getTime()
 
@@ -57,7 +54,8 @@ export interface UserState {
 
   // deadline set by user in minutes, used in all txns
   userDeadline: number
-  user: UserDoc
+
+  user: User | null
 
   tokens: {
     [chainId: number]: {
@@ -78,6 +76,8 @@ export interface UserState {
 
   wishListItemAdding: boolean
   wishListItemSuccess: WishListItemSuccess
+
+  addedToWishlist: string
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -92,7 +92,7 @@ export const initialState: UserState = {
   userSlippageTolerance: INITIAL_ALLOWED_SLIPPAGE,
   userDeadline: DEFAULT_DEADLINE_FROM_NOW,
   tokens: {},
-  user: { ethAddress: null },
+  user: null,
   pairs: {},
   timestamp: currentTimestamp(),
   URLWarningVisible: true,
@@ -101,7 +101,8 @@ export const initialState: UserState = {
   wishListItemSuccess: {
     success: false,
     message: ''
-  }
+  },
+  addedToWishlist: ''
 }
 
 export default createReducer(initialState, builder =>
@@ -192,60 +193,35 @@ export default createReducer(initialState, builder =>
       }
     })
 
-    .addCase(addUserDocs.pending, (state, action) => {})
-    .addCase(addUserDocs.fulfilled, (state, action) => {
-      // notify
-    })
-
-    .addCase(addUserDocs.rejected, (state, action) => {
-      console.log(action.error)
-      // notify
-    })
-    .addCase(updateUserDocs.pending, (state, action) => {})
-    .addCase(updateUserDocs.fulfilled, (state, action) => {
-      // notify
-    })
-
-    .addCase(updateUserDocs.rejected, (state, action) => {
-      // notify
-    })
-    .addCase(getUserDocs.pending, (state, action) => {})
-    .addCase(getUserDocs.fulfilled, (state, action) => {
+    .addCase(loginAction.pending, (state, action) => {})
+    .addCase(loginAction.fulfilled, (state, action) => {
       state.user = action.payload
-
-      // notify
     })
-    .addCase(getUserDocs.rejected, (state, action) => {
-      // state.error=action.error
-      // notify
-    })
-    .addCase(updateUserWishList.pending, (state, action) => {
+    .addCase(loginAction.rejected, (state, action) => {})
+    .addCase(addToWishlistAction.pending, (state, action) => {
       state.wishListItemAdding = true
-
     })
-    .addCase(updateUserWishList.fulfilled, (state, action) => {
-      state.wishListItemAdding = false
-      state.wishListItemSuccess = {
-        success: true,
-        message: 'item added successfully to your wishList'
-      }
-      // notify
+    .addCase(addToWishlistAction.fulfilled, (state, action) => {
+      state.addedToWishlist = action.payload.addedToWishlist
+      // state.wishListItemAdding = false
+      // state.wishListItemSuccess = {
+      //   success: true,
+      //   message: 'item added successfully to your wishList'
+      // }
     })
-    .addCase(updateUserWishList.rejected, (state, action) => {
-      console.log(action.error)
-      state.wishListItemAdding = false
-      let { name, message } = action.error
-      name ? (name = name) : (name = 'Error')
-      message ? (message = message) : (message = 'some Error Ocurred')
+    .addCase(addToWishlistAction.rejected, (state, action) => {
+      // console.log(action.error)
+      // state.wishListItemAdding = false
+      // let { name, message } = action.error
+      // name ? (name = name) : (name = 'Error')
+      // message ? (message = message) : (message = 'some Error Ocurred')
 
-      state.error = {
-        hasError: true,
-        name,
-        message
-      }
-      console.log(state.error)
-
-      // notify
+      // state.error = {
+      //   hasError: true,
+      //   name,
+      //   message
+      // }
+      // console.log(state.error)
     })
     .addCase(saveDraftAction.pending, (state, action) => {})
     .addCase(saveDraftAction.fulfilled, (state, action) => {

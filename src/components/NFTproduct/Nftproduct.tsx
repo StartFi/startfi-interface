@@ -1,21 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Rectangle from '../../assets/images/Rectangle.png'
 import Path from '../../assets/svg/Path.svg'
-import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { clearError, clearSuccess, getUserDocs, updateUserWishList } from 'state/user/actions'
 import {
-  useUserDoc,
-  useUserError,
-  useUserWhishListItem,
-  useWishListAddingSuccess,
-  useWishListLoading
+  useAddToWishlist, useIsNFTWishlist,
 } from 'state/user/hooks'
-import ErrorDialogue from '../Error/index'
-import Modal from 'components/Modal'
-
-import Loader from 'components/Loader'
-import SuccessDialogue from 'components/Success'
 
 import {
   Grid,
@@ -36,7 +25,6 @@ import {
   DescriptionCard,
   DescriptionTitle,
   DescriptionText,
-  LoadingDiv
 } from './Nftproduct.styles'
 import ReadMore from '../ReadMore/readmore'
 import NFTsHeader from 'components/Header/NFTsHeader'
@@ -49,78 +37,31 @@ type RouterParam = {
 const Nftproduct = () => {
   const { t } = useTranslation()
   const [isReadMore, setIsReadMore] = useState('')
-  const [loading, setIsLoading] = useState(false)
-  const [wishListItem, setWhishListItem] = useState(false)
-  const [open, setOpen] = useState(false)
-
-  const error = useUserError()
 
   const param: RouterParam = useParams()
 
   const nftId = parseInt(param.id)
-  const dispatch = useDispatch()
-  const accountId = useUserDoc()?.ethAddress
-  // get user wish list item
-  const userWishListItem = useUserWhishListItem(nftId)
-
-  // adding wishList Item
-  const wishListAdding = useWishListLoading()
-  // wishList Item adding success
-  const wishListAddingSuccess = useWishListAddingSuccess()
-
-  useEffect(() => {
-    error?.hasError || wishListAddingSuccess?.success ? setOpen(true) : setOpen(false)
-    setWhishListItem(userWishListItem)
-    setIsLoading(wishListAdding)
-    dispatch(getUserDocs(accountId))
-  }, [wishListAdding, wishListAddingSuccess, error])
 
   const showScroll = (readMore: boolean) => {
     readMore ? setIsReadMore('scroll') : setIsReadMore('')
-  }
-
-  // clear error state + close Error dialogue
-  const onDismiss = () => {
-    if (error) {
-      dispatch(clearError())
-    }
-    if (wishListAddingSuccess.success) {
-      dispatch(clearSuccess())
-    }
-  }
-
-  // clear any dialogue if user leave the page with out closing
-  setTimeout(() => {
-    onDismiss()
-  }, 1500)
-  // for testing only
-  let dialogue
-  if (error) {
-    dialogue = <ErrorDialogue message={error?.message} />
-  }
-
-  if (wishListAddingSuccess.success) {
-    dialogue = <SuccessDialogue dismiss={onDismiss} message={wishListAddingSuccess?.message} />
   }
 
   const [isOpen, setIsOpen] = useState(false)
 
   const [bidOrBuy, setBidOrBuy] = useState(false)
 
+  const addtoWishlist = useAddToWishlist()
+
+  const isWishlst = useIsNFTWishlist(nftId)
+
   return (
     <Container>
       <BidOrBuy bidOrBuy={bidOrBuy} isOpen={isOpen} close={() => setIsOpen(false)} />
-      <Modal isOpen={open} onDismiss={onDismiss} maxHeight={150}>
-        {dialogue}
-      </Modal>
       <NFTsHeader />
       <Grid>
-        <LoadingDiv $display={loading}>
-          <Loader size='40px'></Loader>
-        </LoadingDiv>
         <LeftGrid>
           <ImgCard>
-            <img src={Rectangle} />
+            <img src={Rectangle} alt="NFT"/>
             <p>1234 {t('views')}</p>
           </ImgCard>
           <LeftTextCard>
@@ -167,16 +108,14 @@ const Nftproduct = () => {
                 {t('cost')} : <span>180 ETH</span>
               </p>
             </BuyCost>
-            <BuyButtons $opacity={wishListItem || wishListAdding}>
-              <img src={Path} />
+            <BuyButtons $opacity={isWishlst}>
+              <img src={Path} alt="Add to Wishlist"/>
               <button
-                disabled={wishListItem || wishListAdding}
-                onClick={() => dispatch(updateUserWishList({ accountId, nftId }))}
+                disabled={isWishlst}
+                onClick={() => addtoWishlist(nftId)}
               >
-                Wishlist
+                {t('wishlist')}
               </button>
-
-              <button>{t('wishlist')}</button>
               <button
                 onClick={() => {
                   setBidOrBuy(true)

@@ -1,13 +1,22 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { usePopup } from 'state/application/hooks'
 import { AppDispatch } from '../index'
 import { updateMatchesDarkMode } from './actions'
+import { useAddedToWishlist } from './hooks'
 
 export default function Updater(): null {
   const dispatch = useDispatch<AppDispatch>()
 
+  const addedToWishlist = useAddedToWishlist()
+
+  const popup = usePopup()
+
   // keep dark mode in sync with the system
   useEffect(() => {
+
+    if (addedToWishlist) popup(true, addedToWishlist)
+
     const darkHandler = (match: MediaQueryListEvent) => {
       dispatch(updateMatchesDarkMode({ matchesDarkMode: match.matches }))
     }
@@ -28,7 +37,7 @@ export default function Updater(): null {
         match?.removeEventListener('change', darkHandler)
       }
     }
-  }, [dispatch])
+  }, [addedToWishlist, popup, dispatch])
 
   return null
 }

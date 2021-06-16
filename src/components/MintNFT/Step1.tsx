@@ -32,7 +32,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
     if (status === ipfsEnumStatus.DONE && filename !== '') {
       handleChange({ target: { name: 'image', value: 'ipfs://' + hash } })
     }
-  }, [status, hash, handleChange])
+  }, [filename, status, hash, handleChange])
 
   return (
     <React.Fragment>

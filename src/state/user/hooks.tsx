@@ -3,8 +3,9 @@ import { Pair, Token } from '@uniswap/sdk'
 import { useCallback, useEffect, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { NFT } from 'services/models/NFT'
+import { User } from 'services/models/User'
 import { useETHBalances } from 'state/wallet/hooks'
-import {ChainId} from '../../constants/supportedChains'
+import { ChainId } from '../../constants/supportedChains'
 import { useActiveWeb3React } from '../../hooks'
 import { AppDispatch, AppState } from '../index'
 import {
@@ -19,15 +20,11 @@ import {
   updateUserSlippageTolerance,
   toggleURLWarning,
   updateUserSingleHopOnly,
-  getUserDocs,
-  saveDraftAction
+  saveDraftAction,
+  loginAction,
+  addToWishlistAction
 } from './actions'
 
-// export const useWhitelistNFT = (): ((nft: NFT) => void) => {
-//   const dispatch = useDispatch()
-//   const user = ''
-//   return useCallback((nft: NFT) => dispatch(whitelistNFT({ user, nft })), [dispatch])
-// }
 function serializeToken(token: Token): SerializedToken {
   return {
     chainId: token.chainId,
@@ -203,9 +200,18 @@ export const useUserBalance = (): string | undefined => {
   return balance?.toSignificant(5)
 }
 
+export const useUser = (): User | null => {
+  return useSelector((state: AppState) => state.user.user)
+}
+
 export const useUserAddress = () => {
+  const user = useUser()
+  return useMemo(() => user?.ethAddress, [user])
+}
+
+export const useWalletAddress = () => {
   const { account } = useActiveWeb3React()
-  return account
+  return useMemo(() => account, [account])
 }
 
 export const useSaveDraft = () => {
@@ -220,26 +226,42 @@ export const useSaveDraft = () => {
   )
 }
 
-// add user docs
-export const useGetUserDoc = (account: any) => {
+export const useLogin = () => {
+  const account = useWalletAddress()
   const dispatch = useDispatch()
   return useEffect(() => {
-    dispatch(getUserDocs(account))
+    if (account) dispatch(loginAction(account))
   }, [dispatch, account])
 }
 
-export const useUserDoc = () => {
-  return useSelector((state: AppState) => state.user.user)
+export const useAddToWishlist = (): ((nftId: number) => void) => {
+  const dispatch = useDispatch()
+  const userId = useUserAddress()
+  return useCallback(
+    (nftId: number) => {
+      if (userId) dispatch(addToWishlistAction({userId, nftId}))
+    },
+    [userId, dispatch]
+  )
+}
+
+
+export const useAddedToWishlist = (): string => {
+  return useSelector((state: AppState) => state.user.addedToWishlist)
+}
+
+export const useIsNFTWishlist = (nftId: number): boolean => {
+  const user = useUser()
+  return useMemo(() => user && user.wishlist ? user.wishlist.includes(nftId) : false, [user])
 }
 
 // get user wishList Item
 export const useUserWhishListItem = (id: number): boolean => {
   const user = useSelector((state: AppState) => state.user.user)
-  if(!user) return false
+  if (!user) return false
   const userWishList = user?.wishlist
   return userWishList?.includes(id) ? true : false
 }
-
 
 // get user error
 export const useUserError = () => {

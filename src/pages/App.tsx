@@ -2,13 +2,10 @@ import React, { Suspense } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
-// import Header from '../components/Header'
 import Polling from '../components/Header/Polling'
 import URLWarning from '../components/Header/URLWarning'
 import Popups from '../components/Popups'
 import Web3ReactManager from '../components/Web3ReactManager'
-// import { ApplicationModal } from '../state/application/actions'
-// import { useModalOpen, useToggleModal } from '../state/application/hooks'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
 import MintNFT from '../components/MintNFT'
 import NFTs from './NFTs'
@@ -16,6 +13,7 @@ import { LandingPage } from 'components/LandingPage'
 import Nftproduct from 'components/NFTproduct/Nftproduct'
 import MintingCongrats from 'components/MintingCongrats/mintingCongrats'
 import NFTConfirm from 'components/NFTConfirm'
+import { useLogin } from 'state/user/hooks'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -49,6 +47,8 @@ const Marginer = styled.div`
 
 export default function App() {
 
+  useLogin()
+  
   return (
     <Suspense fallback={null}>
       <Route component={GoogleAnalyticsReporter} />
