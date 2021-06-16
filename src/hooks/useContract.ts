@@ -24,6 +24,7 @@ import ERC721_ABI from '../constants/abis/erc721.json'
 import { networks as STARTFI_TOKEN_NETWORK, abi as STARTFI_TOKEN_ABI } from '../constants/abis/StartFiToken.json'
 
 import { networks as STARTFI_NFT_NETWORK, abi as STARTFI_NFT_ABI } from '../constants/abis/StartfiNFT.json'
+import { networks as STARTFI_RoyaltyNFT, abi as STARTFI_RoyaltyNFTI } from '../constants/abis/StartfiRoyaltyNFT.json'
 import {
   networks as STARTFI_MARKET_PLACE_NETWORK,
   abi as STARTFI_MARKET_PLACE_ABI
@@ -129,9 +130,15 @@ export const useStartFiToken = (withSignerIfPossible?: boolean): Contract | null
 }
 
 export const useStartFiNft = (withSignerIfPossible?: boolean): Contract | null => {
+  /*   const { chainId } = useActiveWeb3React()
+  const networkId = chainId ? chainId : '3'
+  console.log('network id', networkId) */
   return useContract(STARTFI_NFT_NETWORK['3'].address, STARTFI_NFT_ABI, withSignerIfPossible)
 }
 
 export const useStartFiMarketplace = (withSignerIfPossible?: boolean): Contract | null => {
   return useContract(STARTFI_MARKET_PLACE_NETWORK[3].address, STARTFI_MARKET_PLACE_ABI, withSignerIfPossible)
+}
+export const useStartFiRoyality = (withSignerIfPossible?: boolean): Contract | null => {
+  return useContract(STARTFI_RoyaltyNFT[3].address, STARTFI_RoyaltyNFTI, withSignerIfPossible)
 }
