@@ -2,7 +2,13 @@ import { useActiveWeb3React } from 'hooks'
 import { useStartFiNft, useStartFiToken, useStartFiMarketplace, useStartFiRoyality } from 'hooks/useContract'
 import { useEffect, useMemo } from 'react'
 import { useWalletModalToggle } from 'state/application/hooks'
-
+/* 
+const enum ContractNames {
+  'nft',
+  'nftRoyality',
+  'marketplace',
+  'token'
+} */
 /**
  *
  * @param contractName Name of the smart contract that we are going to use
