@@ -1,4 +1,5 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
+import { getUserDrafts } from 'services/database/Draft'
 import { saveDraft } from 'services/User'
 import { addToWhitelist } from 'services/User/User'
 
@@ -34,3 +35,6 @@ export const toggleURLWarning = createAction<void>('app/toggleURLWarning')
 export const whitelistNFT = createAsyncThunk('nfts/getNFTs', addToWhitelist)
 
 export const saveDraftAction = createAsyncThunk('user/saveDraftAction', saveDraft)
+
+
+export const getUserDraftsAction =createAsyncThunk('user/getDraftsAction',getUserDrafts)
