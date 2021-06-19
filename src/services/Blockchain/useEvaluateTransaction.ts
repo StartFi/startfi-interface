@@ -5,9 +5,14 @@ export function useEvaluateTransaction(
   contract: Contract | null,
   methodName: string,
   args: Array<string> | undefined
-): CallState | boolean {
-  const call = useSingleCallResult(contract, methodName, args, NEVER_RELOAD)
-  return call?.result?.[0] ?? false
+): CallState | boolean | undefined {
+  try {
+    const call = useSingleCallResult(contract, methodName, args, NEVER_RELOAD)
+    return call?.result?.[0] ?? false
+  } catch (e) {
+    console.log(e)
+    return e
+  }
 }
 
 export async function evaluateTransaction(
@@ -15,7 +20,12 @@ export async function evaluateTransaction(
   methodName: string,
   args: Array<string>
 ): Promise<any> {
-  const methods = await contract?.callStatic
-  const balance = await methods?.[methodName](...args)
-  return balance
+  try {
+    const methods = await contract?.callStatic
+    const balance = await methods?.[methodName](...args)
+    return balance
+  } catch (e) {
+    console.log(e)
+    return e
+  }
 }

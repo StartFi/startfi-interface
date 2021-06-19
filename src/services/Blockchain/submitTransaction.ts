@@ -16,12 +16,16 @@ export const useSubmitTransaction = (): ((
       account: string | null,
       library: any
     ) => {
-      const callData = contract?.interface.encodeFunctionData(methodsName, args)
-      return library?.getSigner().sendTransaction({
-        from: account ? account : undefined,
-        to: contract?.address,
-        data: callData
-      })
+      try {
+        const callData = contract?.interface.encodeFunctionData(methodsName, args)
+        return library?.getSigner().sendTransaction({
+          from: account ? account : undefined,
+          to: contract?.address,
+          data: callData
+        })
+      } catch (e) {
+        console.log(e)
+      }
     },
     []
   )
