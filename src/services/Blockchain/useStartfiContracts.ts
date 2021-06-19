@@ -1,6 +1,7 @@
 import { useActiveWeb3React } from 'hooks'
 import { useStartFiNft, useStartFiToken, useStartFiMarketplace, useStartFiRoyality } from 'hooks/useContract'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
+import { useWalletModalToggle } from 'state/application/hooks'
 
 /**
  *
@@ -14,10 +15,16 @@ import { useMemo } from 'react'
  */
 export const useStartFiContract = (contractName: string, signer = true) => {
   const { account, library } = useActiveWeb3React()
+  const toggleWalletModal = useWalletModalToggle()
   const nft = useStartFiNft(signer)
   const token = useStartFiToken(signer)
   const marketplace = useStartFiMarketplace(signer)
   const nftRoyality = useStartFiRoyality(signer)
+  useEffect(() => {
+    if (!account) {
+      toggleWalletModal()
+    }
+  }, [])
   return useMemo(() => {
     const contract =
       contractName === 'nft'
