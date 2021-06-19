@@ -44,18 +44,15 @@ export const useMint = (): ((address: string, contract: any, account: any, libra
 - use mint function
 
 ```
-import { useStartFiContract } from 'services/blockchain/useStartfiContracts'
-import { useMint } from 'hooks/startfiNft'
 import { useMint } from 'hooks/startfiNft'
 
 
 // Inside Component
 const mint = useMint()
-const { account, library, contract: nftContract } = useStartFiContract('nftRoyality')
 
 // Inside JSX
  onChange={() => {
-     mint(account as string, '<ipfsHash>', nftContract, account as string, library, true, '1', '10') // call function
+     mint(account as string, '<ipfsHash>', true, '1', '10') // call function
         }}
 ```
 
