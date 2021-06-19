@@ -47,11 +47,11 @@ function useContract(address: string | undefined, ABI: any, withSignerIfPossible
   }, [address, ABI, library, withSignerIfPossible, account])
 }
 
-// left as a reference to follow when consuming startfi contract 
+// left as a reference to follow when consuming startfi contract
 export function useWETHContract(withSignerIfPossible?: boolean): Contract | null {
   const { chainId } = useActiveWeb3React()
   console.log(chainId,WETH,'chainId');
-  
+
   return useContract(chainId ? WETH[chainId].address : undefined, WETH_ABI, withSignerIfPossible)
 }
 export const useERC721= (address: string | undefined,withSignerIfPossible?: boolean): Contract | null => {
@@ -100,13 +100,13 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
 
 export function useMulticallContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
-  
+
   return useContract(chainId && MULTICALL_NETWORKS[chainId], MULTICALL_ABI, false)
 }
 
 
- 
- 
- 
 
- 
+
+
+
+
