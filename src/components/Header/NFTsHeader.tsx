@@ -19,7 +19,15 @@ import { useHistory } from 'react-router'
 import { CATEGORIES, Dictionary } from './../../constants'
 /* Beign example never merge to the main  branch*/
 //
-import { useMint, useNftInfo } from 'hooks/startfiNft'
+import {
+  useMint,
+  useNftInfo,
+  useGetTokenURI,
+  useGetNftOwner,
+  useNftBalance,
+  useGetApproverAddress
+} from 'hooks/startfiNft'
+import { useTokenBalance, useTokneInfo, useTransfer } from 'hooks/startfiToken'
 /* End example never merge to the main  branch*/
 
 const Categories = ['All', ...CATEGORIES]
@@ -41,8 +49,20 @@ const FullWidth = styled(Box)({
 const NFTsHeader: React.FC = () => {
   const history = useHistory()
   /* Beign example never merge to the main  branch*/
+  /*Start NFT tests */
   const mint = useMint()
   const nftInfo = useNftInfo()
+  const getTokenUri = useGetTokenURI()
+  const getNftOwner = useGetNftOwner()
+  const getNftBalance = useNftBalance()
+  const getApproverAddress = useGetApproverAddress()
+  /*End NFT tests */
+  /*Start Token tests */
+  const transfer = useTransfer()
+  const getTokenInfo = useTokneInfo()
+  const getTokenBalance = useTokenBalance()
+  /*end Token tests */
+
   /* End example never merge to the main  branch*/
 
   const [search, setSearch] = useState('')
@@ -66,9 +86,34 @@ const NFTsHeader: React.FC = () => {
         value={category}
         onChange={(e, category) => {
           /* Beign example never merge to the main  branch*/
-          mint('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', 'ipfsHash', true, '1', '10')
+          //==================NFT==================
+          mint('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', 'ipfsHash', true, '1', '10').then((result: any) => {
+            console.log('nft mint', result)
+          })
           nftInfo().then(result => {
-            console.log('result', result)
+            console.log('nft info', result)
+          })
+          getTokenUri('001').then((result: any) => {
+            console.log('nft uri', result)
+          })
+          getNftOwner('001').then((result: any) => {
+            console.log('nft owner', result)
+          })
+          getNftBalance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
+            console.log('nft balance', result)
+          })
+          getApproverAddress('001').then((result: any) => {
+            console.log('nft addrress', result)
+          })
+          //==================Token==================
+          transfer('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '1').then((result: any) => {
+            console.log('token transfer', result)
+          })
+          getTokenInfo().then(result => {
+            console.log('token info', result)
+          })
+          getTokenBalance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
+            console.log('token balance', result)
           })
           /* End example never merge to the main  branch*/
 
