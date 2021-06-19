@@ -1,11 +1,12 @@
+import { useStartFiToken } from './useContract'
 import { useCallback } from 'react'
 import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
-import { useStartFiContract } from 'services/Blockchain/useStartfiContracts'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
+import { useActiveWeb3React } from 'hooks'
 
 export const useTokneInfo = () => {
-  const { contract } = useStartFiContract('token', false)
+  const contract = useStartFiToken(false)
   return useCallback(() => {
     const getInfo = async () => {
       const name = await evaluateTransaction(contract, 'name', [])
@@ -24,7 +25,7 @@ export const useTokneInfo = () => {
 }
 
 export const useTokenBalance = (): ((address: string) => any) => {
-  const { contract } = useStartFiContract('token', false)
+  const contract = useStartFiToken(false)
   return useCallback(
     (address: string) => {
       const getBalance = async () => {
@@ -38,8 +39,9 @@ export const useTokenBalance = (): ((address: string) => any) => {
 }
 
 export const useTransfer = (): ((address: string, amount: string) => any) => {
+  const contract = useStartFiToken(true)
   const transfer = useSubmitTransaction()
-  const { account, library, contract } = useStartFiContract('token')
+  const { account, library } = useActiveWeb3React()
   const toggleWalletModal = useWalletModalToggle()
   return useCallback(
     (address: string, amount: string) => {

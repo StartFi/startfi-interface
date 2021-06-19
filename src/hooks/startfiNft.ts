@@ -1,11 +1,12 @@
 import { useCallback } from 'react'
 import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
-import { useStartFiContract } from 'services/Blockchain/useStartfiContracts'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
+import { useActiveWeb3React } from 'hooks'
+import { useStartFiRoyality } from './useContract'
 
 export const useNftInfo = () => {
-  const { contract } = useStartFiContract('nftRoyality', false)
+  const contract = useStartFiRoyality(false)
   return useCallback(() => {
     const getInfo = async () => {
       const name = await evaluateTransaction(contract, 'name', [])
@@ -26,8 +27,9 @@ export const useMint = (): ((
   share?: string,
   base?: string
 ) => any) => {
+  const { account, library } = useActiveWeb3React()
+  const contract = useStartFiRoyality(true)
   const mint = useSubmitTransaction()
-  const { account, library, contract } = useStartFiContract('nftRoyality')
   const toggleWalletModal = useWalletModalToggle()
   return useCallback(
     (address: string, ipfsHash: string, withRoyality: boolean, share?: string, base?: string) => {
@@ -46,7 +48,7 @@ export const useMint = (): ((
 }
 
 export const useGetTokenURI = (): ((tokenId: string) => any) => {
-  const { contract } = useStartFiContract('nftRoyality', false)
+  const contract = useStartFiRoyality(false)
   return useCallback(
     (tokenId: string) => {
       const getUri = async () => {
@@ -60,7 +62,7 @@ export const useGetTokenURI = (): ((tokenId: string) => any) => {
 }
 
 export const useGetNftOwner = (): ((tokenId: string) => any) => {
-  const { contract } = useStartFiContract('nftRoyality', false)
+  const contract = useStartFiRoyality(false)
   return useCallback(
     (tokenId: string) => {
       const getUri = async () => {
@@ -74,7 +76,7 @@ export const useGetNftOwner = (): ((tokenId: string) => any) => {
 }
 
 export const useNftBalance = (): ((address: string) => any) => {
-  const { contract } = useStartFiContract('nftRoyality', false)
+  const contract = useStartFiRoyality(false)
   return useCallback(
     (address: string) => {
       const getBalance = async () => {
@@ -88,7 +90,7 @@ export const useNftBalance = (): ((address: string) => any) => {
 }
 
 export const useGetApproverAddress = (): ((tokenId: string) => any) => {
-  const { contract } = useStartFiContract('nftRoyality', false)
+  const contract = useStartFiRoyality(false)
   return useCallback(
     (tokenId: string) => {
       const getAddress = async () => {
