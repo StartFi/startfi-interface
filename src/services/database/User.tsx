@@ -1,4 +1,5 @@
 import { editDocument, getDocument } from 'services/database/Database'
+// import { getNFTsOnAuction } from 'services/Marketplace'
 import { User } from 'services/models/User'
 
 const ENTITY = 'users'
@@ -39,3 +40,5 @@ export const removeNFTFromUser = async (userId: string, nftId: number): Promise<
   }
   return 'No user'
 }
+
+

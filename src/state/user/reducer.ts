@@ -1,4 +1,5 @@
-import { NFT } from '../../services/models/NFT'
+
+
 
 import { INITIAL_ALLOWED_SLIPPAGE, DEFAULT_DEADLINE_FROM_NOW } from '../../constants'
 import { createReducer } from '@reduxjs/toolkit'
@@ -20,9 +21,11 @@ import {
   whitelistNFT,
   saveDraftAction,
   getUserDraftsAction,
-  getUserInMarketInventoryAction
+
+  getUserInventory
 } from './actions'
 import { fulfilledHandler } from 'utils'
+import { Inventory } from 'services/models/Inventory'
 // import { Draft } from 'services/models/Draft'
 
 const currentTimestamp = () => new Date().getTime()
@@ -59,7 +62,7 @@ export interface UserState {
 
   timestamp: number
   URLWarningVisible: boolean
-  inventory: NFT[] | []
+  inventory:Inventory[]
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -173,14 +176,15 @@ export default createReducer(initialState, builder =>
     .addCase(getUserDraftsAction.pending, (state, action) => {})
     .addCase(getUserDraftsAction.fulfilled, (state, action) => {
       // state.userDraft = []
-      state.inventory = action.payload.userDrafts?.drafts
+      // state.inventory = action.payload.userDrafts?.drafts
     })
     .addCase(getUserDraftsAction.rejected, (state, action) => {})
-    .addCase(getUserInMarketInventoryAction.pending, (state, action) => {})
-    .addCase(getUserInMarketInventoryAction.fulfilled, (state, action) => {
+    .addCase(getUserInventory.pending, (state, action) => {})
+    .addCase(getUserInventory.fulfilled, (state, action) => {
       // state.userDraft = []
-      state.inventory = action.payload.nfts
+      state.inventory = action.payload
       // console.log(action.payload)
     })
-    .addCase(getUserInMarketInventoryAction.rejected, (state, action) => {})
+    .addCase(getUserInventory.rejected, (state, action) => {})
+
 )

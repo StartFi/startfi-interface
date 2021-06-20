@@ -1,4 +1,5 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
+import { getInventory } from 'services/Inventory'
 import { getNFTsOnAuction } from 'services/Marketplace'
 
 import { getDrafts, saveDraft } from 'services/User'
@@ -41,3 +42,4 @@ export const saveDraftAction = createAsyncThunk('user/saveDraftAction', saveDraf
 
 export const getUserDraftsAction =createAsyncThunk('user/getDraftsAction',getDrafts)
 export const getUserInMarketInventoryAction =createAsyncThunk('user/getInMarketInventoryAction',getNFTsOnAuction )
+export const getUserInventory =createAsyncThunk('user/getInventory',getInventory )

@@ -19,5 +19,4 @@ export const addDraft = async (draft: Draft): Promise<string> => {
 export const getUserDrafts = async (ethAddress:string):Promise<Draft>=> {
   const userDraft = (await getDocument(ENTITY, ethAddress)) as Draft
   return userDraft
-
 }

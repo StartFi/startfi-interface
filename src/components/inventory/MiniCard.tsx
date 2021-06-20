@@ -14,14 +14,11 @@ const Card = styled.div`
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.135216);
   border-radius: 8px;
   cursor: pointer;
-  &:hover {
-    flex: 2;
-    /* align-self: flex-start; */
-    align-items: flex-start;
+  transition: transform 0.5s;
 
-    zoom: 105%;
-    transition: ease-in-out 0.3s all;
-    z-index: 100;
+  &:hover {
+    flex-grow: 0;
+    transform: scale(1.1);
   }
 `
 
@@ -56,10 +53,10 @@ const ButtonContainer = styled.div`
   }
 `
 
-interface MiniCardContent{
+interface MiniCardContent {
   cardContent: NFT
 }
-const MiniCard: React.FC<MiniCardContent>  = ({cardContent}) => {
+const MiniCard: React.FC<MiniCardContent> = ({ cardContent }) => {
   // console.log(usreDraftts)
   const imgUrl = uriToHttp(`${cardContent.image}`)[0]
   return (
@@ -71,7 +68,7 @@ const MiniCard: React.FC<MiniCardContent>  = ({cardContent}) => {
             {cardContent.name}
           </Text>
           <Text fontFamily='Roboto' fontSize='0.75rem' color='#000000' margin='-1px 0'>
-           { cardContent.description}
+            {cardContent.description}
           </Text>
           <ButtonContainer>
             <button>Starbuks</button>

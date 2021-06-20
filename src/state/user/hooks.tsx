@@ -23,7 +23,8 @@ import {
   whitelistNFT,
   saveDraftAction,
   getUserDraftsAction,
-  getUserInMarketInventoryAction
+  getUserInMarketInventoryAction,
+  getUserInventory
 } from './actions'
 
 export const useWhitelistNFT = (): ((nft: NFT) => void) => {
@@ -239,6 +240,25 @@ export const useGetUseDrafts = (type:string) => {
   }, [user, dispatch,type])
 }
 
-export const useInventory =()=>{
-  return useSelector((state: AppState) => state.user.inventory)
+export const  useGetInventory=()=>{
+  const dispatch = useDispatch()
+  const user = useUserAddress()
+  console.log('dispatch')
+  return useCallback(()=>{
+    if(user)  dispatch(getUserInventory(user))
+  },[user])
+
+
+}
+
+export const useInventory =(type:string)=>{
+
+  return useSelector((state: AppState) =>{
+   let selectedInv= state.user.inventory.filter(e=>e.type===type)
+   console.log(selectedInv)
+   return selectedInv.length>0?selectedInv[0].NFTs:[]
+
+  }
+
+  )
 }
