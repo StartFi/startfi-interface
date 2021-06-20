@@ -18,7 +18,8 @@ import {
   saveDraftAction,
   loginAction,
   addToWishlistAction,
-  clearUserPopup
+  clearUserPopup,
+  logoutAction
 } from './actions'
 import { User } from 'services/models/User'
 
@@ -164,6 +165,9 @@ export default createReducer(initialState, builder =>
       state.user = action.payload
     })
     .addCase(loginAction.rejected, (state, action) => {})
+    .addCase(logoutAction, (state, action) => {
+      state.user = null
+    })
     .addCase(addToWishlistAction.pending, (state, action) => {
     })
     .addCase(addToWishlistAction.fulfilled, (state, action) => {

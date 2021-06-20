@@ -24,7 +24,8 @@ import {
   saveDraftAction,
   loginAction,
   addToWishlistAction,
-  clearUserPopup
+  clearUserPopup,
+  logoutAction
 } from './actions'
 
 function serializeToken(token: Token): SerializedToken {
@@ -233,7 +234,8 @@ export const useLogin = () => {
   const dispatch = useDispatch()
   return useEffect(() => {
     if (account) dispatch(loginAction(account))
-  }, [dispatch, account])
+    else dispatch(logoutAction())
+  }, [account, dispatch])
 }
 
 export const useAddToWishlist = (nftId: number) => {
