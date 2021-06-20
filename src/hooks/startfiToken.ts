@@ -44,13 +44,18 @@ export const useTransfer = (): ((address: string, amount: string) => any) => {
   const { account, library } = useActiveWeb3React()
   const toggleWalletModal = useWalletModalToggle()
   return useCallback(
-    (address: string, amount: string) => {
+    async (address: string, amount: string) => {
       if (!account) {
         toggleWalletModal()
-        return
+        return `account: ${account} is not connected`
       }
-      return transfer('transfer', [address, amount], contract, account, library)
+      try {
+        return await transfer('transfer', [address, amount], contract, account, library)
+      } catch (e) {
+        console.log('error', e)
+        return e
+      }
     },
-    [transfer]
+    [transfer, account, contract, library, toggleWalletModal]
   )
 }

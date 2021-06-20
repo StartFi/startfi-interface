@@ -7,16 +7,13 @@ import { useStartFiRoyality } from './useContract'
 
 export const useNftInfo = () => {
   const contract = useStartFiRoyality(false)
-  return useCallback(() => {
-    const getInfo = async () => {
-      const name = await evaluateTransaction(contract, 'name', [])
-      const symbol = await evaluateTransaction(contract, 'symbol', [])
-      return {
-        name,
-        symbol
-      }
+  return useCallback(async () => {
+    const name = await evaluateTransaction(contract, 'name', [])
+    const symbol = await evaluateTransaction(contract, 'symbol', [])
+    return {
+      name,
+      symbol
     }
-    return getInfo()
   }, [contract])
 }
 
@@ -32,18 +29,29 @@ export const useMint = (): ((
   const mint = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   return useCallback(
-    (address: string, ipfsHash: string, withRoyality: boolean, share?: string, base?: string) => {
+    async (address: string, ipfsHash: string, withRoyality: boolean, share?: string, base?: string) => {
       if (!account) {
         toggleWalletModal()
-        return
+        return `account: ${account} is not connected`
       }
-      if (withRoyality) {
-        return mint('mintWithRoyalty', [address, ipfsHash, share as string, base as string], contract, account, library)
-      } else {
-        return mint('mint', [address, ipfsHash], contract, account, library)
+      try {
+        if (withRoyality) {
+          return await mint(
+            'mintWithRoyalty',
+            [address, ipfsHash, share as string, base as string],
+            contract,
+            account,
+            library
+          )
+        } else {
+          return await mint('mint', [address, ipfsHash], contract, account, library)
+        }
+      } catch (e) {
+        console.log('error', e)
+        return e
       }
     },
-    [mint]
+    [account, contract, library, mint, toggleWalletModal]
   )
 }
 

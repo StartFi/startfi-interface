@@ -87,12 +87,10 @@ const NFTsHeader: React.FC = () => {
         onChange={(e, category) => {
           /* Beign example never merge to the main  branch*/
           //==================NFT==================
-          mint('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', 'ipfsHash', true, '1', '10').then((result: any) => {
-            console.log('nft mint', result)
-          })
-          nftInfo().then(result => {
-            console.log('nft info', result)
-          })
+          const mintTransaction = mint('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', 'ipfsHash', true, '1', '10')
+          console.log('x is', mintTransaction)
+          const info = nftInfo()
+          console.log('info', info)
           getTokenUri('001').then((result: any) => {
             console.log('nft uri', result)
           })
@@ -106,9 +104,8 @@ const NFTsHeader: React.FC = () => {
             console.log('nft addrress', result)
           })
           //==================Token==================
-          transfer('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '1').then((result: any) => {
-            console.log('token transfer', result)
-          })
+          const transferTransaction = transfer('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '1')
+          console.log('transferTransaction', transferTransaction)
           getTokenInfo().then(result => {
             console.log('token info', result)
           })
