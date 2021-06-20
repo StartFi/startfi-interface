@@ -14,10 +14,12 @@ const Card = styled.div`
   cursor: pointer;
   &:hover {
     flex: 2;
+    /* align-self: flex-start; */
+    align-items: flex-start;
 
-    zoom:120%;
+    zoom: 105%;
     transition: ease-in-out 0.3s all;
-    z-index:100;
+    z-index: 100;
   }
 `
 
@@ -53,6 +55,7 @@ const ButtonContainer = styled.div`
 `
 
 const MiniCard = () => {
+  // console.log(usreDraftts)
   return (
     <Card>
       <CardContent>

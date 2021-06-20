@@ -1,7 +1,9 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { getUserDrafts } from 'services/database/Draft'
-import { saveDraft } from 'services/User'
+import { getNFTsOnAuction } from 'services/Marketplace'
+
+import { getDrafts, saveDraft } from 'services/User'
 import { addToWhitelist } from 'services/User/User'
+
 
 export interface SerializedToken {
   chainId: number
@@ -37,4 +39,5 @@ export const whitelistNFT = createAsyncThunk('nfts/getNFTs', addToWhitelist)
 export const saveDraftAction = createAsyncThunk('user/saveDraftAction', saveDraft)
 
 
-export const getUserDraftsAction =createAsyncThunk('user/getDraftsAction',getUserDrafts)
+export const getUserDraftsAction =createAsyncThunk('user/getDraftsAction',getDrafts)
+export const getUserInMarketInventoryAction =createAsyncThunk('user/getInMarketInventoryAction',getNFTsOnAuction )

@@ -1,6 +1,7 @@
+
 import { addDocument, editDocument, getDocument } from 'services/database/Database'
 import { Draft } from 'services/models/Draft'
-import { Document } from './Database'
+
 
 const ENTITY = 'drafts'
 
@@ -15,11 +16,8 @@ export const addDraft = async (draft: Draft): Promise<string> => {
 }
 
 // get user draft
-export const getUserDrafts = async (
-  ethAddress: string
-): Promise<{
-  userDrafts: Document | null
-}> => {
-  let userDrafts = await getDocument(ENTITY, ethAddress)
-  return { userDrafts }
+export const getUserDrafts = async (ethAddress:string):Promise<Draft|null>=> {
+  const userDraft= (await getDocument(ENTITY, ethAddress)) as Draft
+  return userDraft
+
 }

@@ -1,8 +1,10 @@
 // import Column from 'components/Column'
 import Row from 'components/Row'
-import React from 'react'
+import React, { useState } from 'react'
+import { NFT } from 'services/models/NFT'
+import { useDrafts, useGetUseDrafts } from 'state/user/hooks'
 import styled from 'styled-components'
-import CardHeader from './CardHeader'
+import CardHeader, { InventoryOptions } from './CardHeader'
 import Header from './Header'
 import MiniCard from './MiniCard'
 
@@ -36,16 +38,27 @@ const Container = styled.div`
 // const CardContentContainer = styled.div``
 
 const Inventory = () => {
+  const [inventoryOption,setInventoryOption]=useState(InventoryOptions.Draft)
+
+  useGetUseDrafts(inventoryOption)
+  let inventoryItems=useDrafts()
+  console.log('items',inventoryItems)
+
+
+
   return (
     <Container>
       <Header></Header>
-      <CardHeader></CardHeader>
+      <CardHeader getType={(t)=>{setInventoryOption(t)}} ></CardHeader>
       <InventoryCard>
-        <Row padding='20px'>
+        <Row padding='20px' align="flex-start">
+          {inventoryItems?.map((nft: NFT)=>(
+            <MiniCard key={nft.id} />
+          ))}
+
+          {/* <MiniCard />
           <MiniCard />
-          <MiniCard />
-          <MiniCard />
-          <MiniCard />
+          <MiniCard /> */}
            {/* <MiniCard /> */}
         </Row>
       </InventoryCard>

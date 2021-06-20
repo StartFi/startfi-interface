@@ -1,10 +1,11 @@
 // NOTICE: Kindly keep the old sdk unite we remove the code dependant on it in this file
 import { Pair, Token } from '@uniswap/sdk'
-import { useCallback, useMemo } from 'react'
+import { InventoryOptions } from 'components/inventory/CardHeader'
+import { useCallback, useEffect, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { NFT } from 'services/models/NFT'
 import { useETHBalances } from 'state/wallet/hooks'
-import {ChainId} from '../../constants/supportedChains'
+import { ChainId } from '../../constants/supportedChains'
 import { useActiveWeb3React } from '../../hooks'
 import { AppDispatch, AppState } from '../index'
 import {
@@ -20,7 +21,9 @@ import {
   toggleURLWarning,
   updateUserSingleHopOnly,
   whitelistNFT,
-  saveDraftAction
+  saveDraftAction,
+  getUserDraftsAction,
+  getUserInMarketInventoryAction
 } from './actions'
 
 export const useWhitelistNFT = (): ((nft: NFT) => void) => {
@@ -218,4 +221,27 @@ export const useSaveDraft = () => {
     },
     [user, dispatch]
   )
+}
+
+export const useGetUseDrafts = (type:string) => {
+  const dispatch = useDispatch()
+  const user = useUserAddress()
+
+  return useEffect(() => {
+    if (user&&type===InventoryOptions.Draft){
+      dispatch(getUserDraftsAction(user))
+    }
+
+    if (user&&type===InventoryOptions.inMarketPlace){
+      console.log(type)
+      dispatch(getUserInMarketInventoryAction())
+    }
+    // else{
+    //   return[]
+    // }
+  }, [user, dispatch,type])
+}
+
+export const useDrafts =()=>{
+  return useSelector((state: AppState) => state.user.userDraft)
 }

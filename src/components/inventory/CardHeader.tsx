@@ -19,6 +19,11 @@ const TabsCategory = styled.div`
   margin-left: -40px;
 `
 
+export enum InventoryOptions {
+  Draft = 'Draft',
+  inMarketPlace = 'In marketplace',
+  offMarketPlace = 'off market place'
+}
 interface TabProps {
   readonly selected: boolean
 }
@@ -32,9 +37,15 @@ const Tab = styled.div<TabProps>`
   transition: ease-in-out 0.3s all;
 `
 
-const inventoryTypes: Array<string> = ['Draft', 'In marketplace', 'off market place']
-
-const CardHeader = () => {
+export const inventoryTypes: Array<InventoryOptions> = [
+  InventoryOptions.Draft,
+  InventoryOptions.inMarketPlace,
+  InventoryOptions.offMarketPlace
+]
+interface CardHeaderProps {
+  getType: (type: InventoryOptions) => void
+}
+const CardHeader: React.FC<CardHeaderProps> = ({ getType }) => {
   const [inventoryType, setInventoryType] = useState(inventoryTypes[0])
   const { t } = useTranslation()
 
@@ -47,6 +58,7 @@ const CardHeader = () => {
             selected={inventoryType === type}
             onClick={() => {
               setInventoryType(type)
+              getType(type)
             }}
           >
             {t(type)}
