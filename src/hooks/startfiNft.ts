@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import { EventType } from '@ethersproject/abstract-provider'
 import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
@@ -17,25 +18,19 @@ export const useNftInfo = () => {
   }, [contract])
 }
 
-export const useMint = (): ((
-  address: string,
-  ipfsHash: string,
-  withRoyality: boolean,
-  share?: string,
-  base?: string
-) => any) => {
+export const useMint = (): ((address: string, ipfsHash: string, share?: string, base?: string) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiRoyality(true)
   const mint = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   return useCallback(
-    async (address: string, ipfsHash: string, withRoyality: boolean, share?: string, base?: string) => {
+    async (address: string, ipfsHash: string, share?: string, base?: string) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
       }
       try {
-        if (withRoyality) {
+        if (share && base) {
           return await mint(
             'mintWithRoyalty',
             [address, ipfsHash, share as string, base as string],
@@ -123,4 +118,13 @@ export const useRoyaltyInfo = (): ((tokenId: string, value: string) => any) => {
     },
     [contract]
   )
+}
+
+export const useTransferNFtLogs = () => {
+  const { account, library } = useActiveWeb3React()
+  const tokenContract = useStartFiRoyality(false)
+  const fromMe = tokenContract?.filters?.Transfer(account)
+  library?.on(fromMe as EventType, (from, to, amount, event) => {
+    console.log('NFT lisining Transfer|sent', { from, to, amount, event })
+  })
 }

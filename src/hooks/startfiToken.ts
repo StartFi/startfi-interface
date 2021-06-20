@@ -4,6 +4,7 @@ import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
+import { EventType } from '@ethersproject/abstract-provider'
 
 export const useTokneInfo = () => {
   const contract = useStartFiToken(false)
@@ -82,4 +83,13 @@ export const useBurn = (): ((amount: string, from?: string) => any) => {
     },
     [transfer, account, contract, library, toggleWalletModal]
   )
+}
+
+export const useTransferLogs = () => {
+  const { account, library } = useActiveWeb3React()
+  const tokenContract = useStartFiToken(false)
+  const fromMe = tokenContract?.filters?.Transfer(account)
+  library?.on(fromMe as EventType, (from, to, amount, event) => {
+    console.log('ERC20 lisining  Transfer|sent', { from, to, amount, event })
+  })
 }

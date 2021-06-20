@@ -26,9 +26,10 @@ import {
   useGetNftOwner,
   useNftBalance,
   useGetApproverAddress,
-  useRoyaltyInfo
+  useRoyaltyInfo,
+  useTransferNFtLogs
 } from 'hooks/startfiNft'
-import { useBurn, useTokenBalance, useTokneInfo, useTransfer } from 'hooks/startfiToken'
+import { useBurn, useTokenBalance, useTokneInfo, useTransfer, useTransferLogs } from 'hooks/startfiToken'
 /* End example never merge to the main  branch*/
 
 const Categories = ['All', ...CATEGORIES]
@@ -58,13 +59,14 @@ const NFTsHeader: React.FC = () => {
   const getNftBalance = useNftBalance()
   const getApproverAddress = useGetApproverAddress()
   const getRoyalityInfo = useRoyaltyInfo()
-
+  useTransferNFtLogs()
   /*End NFT tests */
   /*Start Token tests */
   const transfer = useTransfer()
   const burn = useBurn()
   const getTokenInfo = useTokneInfo()
   const getTokenBalance = useTokenBalance()
+  useTransferLogs()
   /*end Token tests */
 
   /* End example never merge to the main  branch*/
@@ -91,8 +93,11 @@ const NFTsHeader: React.FC = () => {
         onChange={(e, category) => {
           /* Beign example never merge to the main  branch*/
           //==================NFT==================
-          mint('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', 'ipfsHash', true, '1', '10').then(mintTransaction => {
-            console.log('x is', mintTransaction)
+          mint('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', 'ipfsHash').then(mintTransaction => {
+            console.log('mint without royality', mintTransaction)
+          })
+          mint('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', 'ipfsHash', '1', '10').then(mintTransaction => {
+            console.log('mint with royality', mintTransaction)
           })
           nftInfo().then(info => {
             console.log('info', info)
@@ -119,9 +124,9 @@ const NFTsHeader: React.FC = () => {
           getTokenInfo().then(result => {
             console.log('token info', result)
           })
-          burn('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '0x1c').then(burnFromTransaction => {
+          /*   burn('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '0x1c').then(burnFromTransaction => {
             console.log('burn from', burnFromTransaction)
-          })
+          }) */
           burn('0x1c').then(burnTransaction => {
             console.log('burn token', burnTransaction)
           })
