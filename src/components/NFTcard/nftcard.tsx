@@ -4,15 +4,15 @@ import { Media, CardImg, Card, Price, Text, Actions, Bid, WhiteList, ImageIcon }
 import { NftButton } from '../Button/index'
 import { useTranslation } from 'react-i18next'
 import { NFT } from 'services/models/NFT'
+import ButtonWishlist from 'components/Button/ButtonWishlist'
 
 export interface NftCardProps {
   cardContent: NFT
   navigateToCard: (clickedCard: NFT) => void
-  addToWishList: (clickedCard: NFT) => void
   placeBid: (clickedCard: NFT) => void
 }
 
-const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWishList, placeBid }) => {
+const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, placeBid }) => {
   const { t } = useTranslation()
 
   return (
@@ -38,14 +38,11 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWis
         <Actions>
           <WhiteList>
             <ImageIcon src={Path} />
-            <NftButton onClick={() => addToWishList(cardContent)} color='#000000'>
-              {t('whishList')}
-            </NftButton>
+            <ButtonWishlist nftId={cardContent.id} type="NFTCard"/>
           </WhiteList>
           <Bid>
             <NftButton onClick={() => placeBid(cardContent)} color='#ffffff'>
               {t('placeBid')}
-
             </NftButton>
           </Bid>
         </Actions>

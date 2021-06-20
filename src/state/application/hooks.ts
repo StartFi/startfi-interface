@@ -1,8 +1,9 @@
+import { PopupContent } from './../../constants'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useActiveWeb3React } from '../../hooks'
 import { AppDispatch, AppState } from '../index'
-import { addPopup, ApplicationModal, PopupContent, removePopup, setOpenModal } from './actions'
+import { addPopup, ApplicationModal, PopupContent as PC, removePopup, setOpenModal } from './actions'
 
 export function useBlockNumber(): number | undefined {
   const { chainId } = useActiveWeb3React()
@@ -60,24 +61,24 @@ export function useToggleVoteModal(): () => void {
 }
 
 // returns a function that allows adding a popup
-export function useAddPopup(): (content: PopupContent, key?: string) => void {
+export function useAddPopup(): (content: PC, key?: string) => void {
   const dispatch = useDispatch()
 
   return useCallback(
-    (content: PopupContent, key?: string) => {
+    (content: PC, key?: string) => {
       dispatch(addPopup({ content, key }))
     },
     [dispatch]
   )
 }
 
-export const usePopup = (): ((success: boolean, summary: string) => void) => {
+export const usePopup = (): ((popupContent: PopupContent) => void) => {
   const popup = useAddPopup()
-  return useCallback((success: boolean, summary: string)=>{
-    const content:PopupContent = {txn:{
+  return useCallback((popupContent: PopupContent)=>{
+    const content:PC = {txn:{
       hash: '',
-      success,
-      summary
+      success: popupContent.success,
+      summary: popupContent.message
     }}  
     popup(content)
   },[popup])

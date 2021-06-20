@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { useHistory } from 'react-router'
-import { useAddToWishlist } from 'state/user/hooks'
 import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { NFT } from 'services/models/NFT'
-import { useGetAuctionNFT, useGetNFTs, useLoadNFTs, useLoadTime, useNFTs } from 'state/marketplace/hooks'
+import { useAuctionNFT, useGetAuctionNFT, useGetNFTs, useLoadNFTs, useLoadTime, useNFTs } from 'state/marketplace/hooks'
 import { Row } from 'theme/components'
 
 const NFTS = styled.div`
@@ -55,7 +54,11 @@ const NFTs: React.FC = () => {
 
   const getAuctionNFT = useGetAuctionNFT()
 
-  const addtoWishlist = useAddToWishlist()
+  const auctionNFT = useAuctionNFT()
+
+  useEffect(()=>{
+    if (auctionNFT) history.push('/nft')
+  },[auctionNFT, history])
 
   return (
     <NFTS>
@@ -76,15 +79,13 @@ const NFTs: React.FC = () => {
             }}
           />
         </Header>
-
         <NFTList>
           {nfts.map((nft: NFT) => (
             <Nft key={nft.id}>
               <NTFCard
                 cardContent={nft}
-                navigateToCard={(Nft: NFT) => {getAuctionNFT(Nft);history.push(`NFT/${Nft.id}`)}}
-                addToWishList={(Nft: NFT) => addtoWishlist(Nft.id)}
-                placeBid={(Nft: NFT) => {getAuctionNFT(Nft);history.push('NFT', Nft)}}
+                navigateToCard={(Nft: NFT) => getAuctionNFT(Nft)}
+                placeBid={(Nft: NFT) => getAuctionNFT(Nft)}
               ></NTFCard>
             </Nft>
           ))}

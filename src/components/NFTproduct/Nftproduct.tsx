@@ -1,10 +1,5 @@
 import React, { useState } from 'react'
 import Rectangle from '../../assets/images/Rectangle.png'
-import Path from '../../assets/svg/Path.svg'
-import { useParams } from 'react-router-dom'
-import {
-  useAddToWishlist, useIsNFTWishlist,
-} from 'state/user/hooks'
 
 import {
   Grid,
@@ -30,29 +25,36 @@ import ReadMore from '../ReadMore/readmore'
 import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import BidOrBuy from 'components/BidOrBuy'
+import ButtonWishlist from 'components/Button/ButtonWishlist'
+import { useAuctionNFT } from 'state/marketplace/hooks'
+import { usePopup } from 'state/application/hooks'
+import { useHistory } from 'react-router-dom'
 
-type RouterParam = {
-  id: string
-}
 const Nftproduct = () => {
   const { t } = useTranslation()
   const [isReadMore, setIsReadMore] = useState('')
-
-  const param: RouterParam = useParams()
-
-  const nftId = parseInt(param.id)
-
-  const showScroll = (readMore: boolean) => {
-    readMore ? setIsReadMore('scroll') : setIsReadMore('')
-  }
 
   const [isOpen, setIsOpen] = useState(false)
 
   const [bidOrBuy, setBidOrBuy] = useState(false)
 
-  const addtoWishlist = useAddToWishlist()
+  const auctionNFT = useAuctionNFT()
+  
+  const popup = usePopup()
 
-  const isWishlst = useIsNFTWishlist(nftId)
+  const history = useHistory()
+
+  if (!auctionNFT) {
+    popup({success:false,message:'No nft selected'})
+    history.goBack()
+    return null
+  }
+  
+  const nftId = auctionNFT.nft.id
+
+  const showScroll = (readMore: boolean) => {
+    readMore ? setIsReadMore('scroll') : setIsReadMore('')
+  }
 
   return (
     <Container>
@@ -108,14 +110,8 @@ const Nftproduct = () => {
                 {t('cost')} : <span>180 ETH</span>
               </p>
             </BuyCost>
-            <BuyButtons $opacity={isWishlst}>
-              <img src={Path} alt="Add to Wishlist"/>
-              <button
-                disabled={isWishlst}
-                onClick={() => addtoWishlist(nftId)}
-              >
-                {t('wishlist')}
-              </button>
+            <BuyButtons $opacity={false}>
+              <ButtonWishlist nftId={nftId} type="NFTProduct"/>
               <button
                 onClick={() => {
                   setBidOrBuy(true)

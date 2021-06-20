@@ -1,4 +1,4 @@
-import { INITIAL_ALLOWED_SLIPPAGE, DEFAULT_DEADLINE_FROM_NOW } from '../../constants'
+import { INITIAL_ALLOWED_SLIPPAGE, DEFAULT_DEADLINE_FROM_NOW, PopupContent } from '../../constants'
 import { createReducer } from '@reduxjs/toolkit'
 import { updateVersion } from '../global/actions'
 import {
@@ -15,28 +15,14 @@ import {
   updateUserDeadline,
   toggleURLWarning,
   updateUserSingleHopOnly,
-  clearError,
-  clearSuccess,
   saveDraftAction,
   loginAction,
-  addToWishlistAction
+  addToWishlistAction,
+  clearUserPopup
 } from './actions'
-import { fulfilledHandler } from 'utils'
 import { User } from 'services/models/User'
 
 const currentTimestamp = () => new Date().getTime()
-
-export interface ErrorStatus {
-  name: string
-  message: string
-  hasError: boolean
-
-}
-
-interface WishListItemSuccess {
-  success: boolean
-  message: string
-}
 
 export interface UserState {
   // the timestamp of the last updateVersion action
@@ -72,12 +58,8 @@ export interface UserState {
 
   timestamp: number
   URLWarningVisible: boolean
-  error: ErrorStatus | null
 
-  wishListItemAdding: boolean
-  wishListItemSuccess: WishListItemSuccess
-
-  addedToWishlist: string
+  popup: PopupContent | null
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -96,13 +78,7 @@ export const initialState: UserState = {
   pairs: {},
   timestamp: currentTimestamp(),
   URLWarningVisible: true,
-  error: { hasError: false, name: '', message: '' },
-  wishListItemAdding: false,
-  wishListItemSuccess: {
-    success: false,
-    message: ''
-  },
-  addedToWishlist: ''
+  popup: null
 }
 
 export default createReducer(initialState, builder =>
@@ -183,49 +159,29 @@ export default createReducer(initialState, builder =>
     .addCase(toggleURLWarning, state => {
       state.URLWarningVisible = !state.URLWarningVisible
     })
-    .addCase(clearError, state => {
-      state.error = null
-    })
-    .addCase(clearSuccess, state => {
-      state.wishListItemSuccess = {
-        success: false,
-        message: ''
-      }
-    })
-
     .addCase(loginAction.pending, (state, action) => {})
     .addCase(loginAction.fulfilled, (state, action) => {
       state.user = action.payload
     })
     .addCase(loginAction.rejected, (state, action) => {})
     .addCase(addToWishlistAction.pending, (state, action) => {
-      state.wishListItemAdding = true
     })
     .addCase(addToWishlistAction.fulfilled, (state, action) => {
-      state.addedToWishlist = action.payload.addedToWishlist
-      // state.wishListItemAdding = false
-      // state.wishListItemSuccess = {
-      //   success: true,
-      //   message: 'item added successfully to your wishList'
-      // }
+      const success = action.payload.addedToWishlist === "success"
+      state.popup = {success, message: success ? "NFT added to wishlist successfully" : action.payload.addedToWishlist}
     })
     .addCase(addToWishlistAction.rejected, (state, action) => {
-      // console.log(action.error)
-      // state.wishListItemAdding = false
-      // let { name, message } = action.error
-      // name ? (name = name) : (name = 'Error')
-      // message ? (message = message) : (message = 'some Error Ocurred')
-
-      // state.error = {
-      //   hasError: true,
-      //   name,
-      //   message
-      // }
-      // console.log(state.error)
+      state.popup = {success: false, message: action.error.message || "Error occured while adding NFT to wishlist"}
     })
     .addCase(saveDraftAction.pending, (state, action) => {})
     .addCase(saveDraftAction.fulfilled, (state, action) => {
-      fulfilledHandler(action.payload, 'Draft saved')
+      const success = action.payload.status === "success"
+      state.popup = {success, message: success ? "Draft saved successfully" : action.payload.draftAdded}
     })
-    .addCase(saveDraftAction.rejected, (state, action) => {})
+    .addCase(saveDraftAction.rejected, (state, action) => {
+      state.popup = {success: false, message: action.error.message || "Error occured while saving NFT to drafts"}
+    })
+    .addCase(clearUserPopup, (state, action) => {
+      state.popup = null
+    })
 )

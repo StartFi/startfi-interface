@@ -38,3 +38,5 @@ export const loginAction = createAsyncThunk('user/loginAction', login)
 export const addToWishlistAction = createAsyncThunk('user/addToWishlistAction', addToWishlist)
 
 export const saveDraftAction = createAsyncThunk('user/saveDraftAction', saveDraft)
+
+export const clearUserPopup = createAction<void>('user/clearUserPopup')

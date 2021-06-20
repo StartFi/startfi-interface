@@ -15,3 +15,4 @@ export const setBidOrBuy = createAction<{ bidOrBuy: boolean; value: number }>('m
 
 export const setConfirmationLoading = createAction<{ isOpen: boolean }>('marketplace/setConfirmationLoading')
 
+export const clearMarketplacePopup = createAction<void>('marketplace/clearMarketplacePopup')

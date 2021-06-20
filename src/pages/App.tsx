@@ -62,8 +62,8 @@ export default function App() {
             <Switch>
               <Route exact path="/" component={LandingPage} />
               <Route exact path="/nfts" component={NFTs} />
-              <Route exact path="/nft/:id" component={Nftproduct} />
-              <Route path="/nftconfirm" component={NFTConfirm} />
+              <Route exact path="/nft" component={Nftproduct} />
+              <Route exact path="/nftconfirm" component={NFTConfirm} />
               <Route exact path="/mintnft" component={MintNFT} />
               <Route exact path="/mintednft" component={MintingCongrats} />
             </Switch>

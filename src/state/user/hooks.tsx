@@ -1,5 +1,6 @@
 // NOTICE: Kindly keep the old sdk unite we remove the code dependant on it in this file
 import { Pair, Token } from '@uniswap/sdk'
+import { PopupContent } from './../../constants'
 import { useCallback, useEffect, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { NFT } from 'services/models/NFT'
@@ -22,7 +23,8 @@ import {
   updateUserSingleHopOnly,
   saveDraftAction,
   loginAction,
-  addToWishlistAction
+  addToWishlistAction,
+  clearUserPopup
 } from './actions'
 
 function serializeToken(token: Token): SerializedToken {
@@ -234,46 +236,38 @@ export const useLogin = () => {
   }, [dispatch, account])
 }
 
-export const useAddToWishlist = (): ((nftId: number) => void) => {
+export const useAddToWishlist = (nftId: number) => {
   const dispatch = useDispatch()
   const userId = useUserAddress()
   return useCallback(
-    (nftId: number) => {
+    () => {
       if (userId) dispatch(addToWishlistAction({userId, nftId}))
     },
-    [userId, dispatch]
+    [nftId, userId, dispatch]
   )
 }
 
+export const useUserPopup = (): PopupContent | null => {
+  return useSelector((state: AppState) => state.user.popup)
+}
 
-export const useAddedToWishlist = (): string => {
-  return useSelector((state: AppState) => state.user.addedToWishlist)
+export const useClearUserPopup = () => {
+  const dispatch = useDispatch()
+  return useCallback(
+    () => {
+      dispatch(clearUserPopup())
+    },
+    [dispatch]
+  )
 }
 
 export const useIsNFTWishlist = (nftId: number): boolean => {
   const user = useUser()
-  return useMemo(() => user && user.wishlist ? user.wishlist.includes(nftId) : false, [user])
+  return useMemo(() => user && user.wishlist ? user.wishlist.includes(nftId) : false, [nftId, user])
 }
 
-// get user wishList Item
-export const useUserWhishListItem = (id: number): boolean => {
-  const user = useSelector((state: AppState) => state.user.user)
-  if (!user) return false
-  const userWishList = user?.wishlist
-  return userWishList?.includes(id) ? true : false
-}
-
-// get user error
-export const useUserError = () => {
-  return useSelector((state: AppState) => state.user.error)
-}
-
-// get loading state
-export const useWishListLoading = () => {
-  return useSelector((state: AppState) => state.user.wishListItemAdding)
-}
-
-// get wishList success
-export const useWishListAddingSuccess = () => {
-  return useSelector((state: AppState) => state.user.wishListItemSuccess)
+export const useWishlist = (nftId: number) => {
+  const addToWishlist = useAddToWishlist(nftId)
+  const isWishlist = useIsNFTWishlist(nftId)
+  return useMemo(()=>{ return { addToWishlist, isWishlist } }, [addToWishlist, isWishlist])
 }
