@@ -21,8 +21,8 @@ export async function evaluateTransaction(
 ): Promise<any> {
   try {
     const methods = await contract?.callStatic
-    const balance = await methods?.[methodName](...args)
-    return balance
+    const result = await methods?.[methodName](...args)
+    return result
   } catch (e) {
     console.log(e)
     return e
