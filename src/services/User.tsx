@@ -8,9 +8,7 @@ export const saveDraft = async (draft: Draft) => {
   return { status, draftAdded }
 }
 
-export const getDrafts = async (ethAddress: string):Promise<{
-  userDrafts: Draft | null;
-}> => {
+export const getDrafts = async (ethAddress: string) => {
   const userDrafts = await getUserDrafts(ethAddress)
-  return { userDrafts }
+  return  { userDrafts }
 }

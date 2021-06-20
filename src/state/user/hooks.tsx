@@ -232,16 +232,13 @@ export const useGetUseDrafts = (type:string) => {
       dispatch(getUserDraftsAction(user))
     }
 
-    if (user&&type===InventoryOptions.inMarketPlace){
-      console.log(type)
+    if (user&&type === InventoryOptions.inMarketPlace){
       dispatch(getUserInMarketInventoryAction())
     }
-    // else{
-    //   return[]
-    // }
+
   }, [user, dispatch,type])
 }
 
-export const useDrafts =()=>{
-  return useSelector((state: AppState) => state.user.userDraft)
+export const useInventory =()=>{
+  return useSelector((state: AppState) => state.user.inventory)
 }

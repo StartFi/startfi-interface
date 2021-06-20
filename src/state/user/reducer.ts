@@ -59,7 +59,7 @@ export interface UserState {
 
   timestamp: number
   URLWarningVisible: boolean
-  userDraft:NFT[]|undefined
+  inventory: NFT[] | []
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -77,7 +77,7 @@ export const initialState: UserState = {
   pairs: {},
   timestamp: currentTimestamp(),
   URLWarningVisible: true,
-  userDraft: []
+  inventory: []
 }
 
 export default createReducer(initialState, builder =>
@@ -172,19 +172,15 @@ export default createReducer(initialState, builder =>
     .addCase(saveDraftAction.rejected, (state, action) => {})
     .addCase(getUserDraftsAction.pending, (state, action) => {})
     .addCase(getUserDraftsAction.fulfilled, (state, action) => {
-                // state.userDraft = []
-      state.userDraft = action.payload.userDrafts?.drafts
-
-
+      // state.userDraft = []
+      state.inventory = action.payload.userDrafts?.drafts
     })
     .addCase(getUserDraftsAction.rejected, (state, action) => {})
     .addCase(getUserInMarketInventoryAction.pending, (state, action) => {})
     .addCase(getUserInMarketInventoryAction.fulfilled, (state, action) => {
-                // state.userDraft = []
-     state.userDraft = action.payload.nfts
+      // state.userDraft = []
+      state.inventory = action.payload.nfts
       // console.log(action.payload)
-
-
     })
     .addCase(getUserInMarketInventoryAction.rejected, (state, action) => {})
 )

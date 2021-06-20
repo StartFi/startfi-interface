@@ -1,6 +1,8 @@
 import React from 'react'
+import { NFT } from 'services/models/NFT'
 import styled from 'styled-components'
-import Rectangle from '../../assets/images/Rectangle.png'
+import uriToHttp from 'utils/uriToHttp'
+
 import Text from '../Text'
 
 const Card = styled.div`
@@ -54,18 +56,22 @@ const ButtonContainer = styled.div`
   }
 `
 
-const MiniCard = () => {
+interface MiniCardContent{
+  cardContent: NFT
+}
+const MiniCard: React.FC<MiniCardContent>  = ({cardContent}) => {
   // console.log(usreDraftts)
+  const imgUrl = uriToHttp(`${cardContent.image}`)[0]
   return (
     <Card>
       <CardContent>
-        <Image src={Rectangle}></Image>
+        <Image src={imgUrl}></Image>
         <TextContainer>
           <Text fontFamily='Roboto' fontSize='1rem' color='#000000' margin='-1px 0'>
-            Apple Watch Series 4 GPS
+            {cardContent.name}
           </Text>
           <Text fontFamily='Roboto' fontSize='0.75rem' color='#000000' margin='-1px 0'>
-            Redesigned from scratch and completely revised.
+           { cardContent.description}
           </Text>
           <ButtonContainer>
             <button>Starbuks</button>
