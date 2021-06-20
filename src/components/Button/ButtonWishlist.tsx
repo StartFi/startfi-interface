@@ -1,9 +1,10 @@
+import { ImageIcon, WhishList } from 'components/NFTcard/nftcard.styles'
 import { ButtonTransparentBorder } from 'components/NFTConfirm'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWishlist } from 'state/user/hooks'
 import { NftButton } from '.'
-import Path from '../../assets/svg/Path.svg'
+import Heart from '../../assets/svg/Path.svg'
 
 interface ButtonWishlistProps {
   nftId: number
@@ -18,7 +19,7 @@ const ButtonWishlist: React.FC<ButtonWishlistProps> = ({ nftId, type }: ButtonWi
   if (type === 'NFTProduct')
     return (
       <React.Fragment>
-        <img src={Path} alt="Add to Wishlist" />
+        <img src={Heart} alt="Add to Wishlist" />
         <button disabled={isWishlist} onClick={() => addToWishlist()}>
           {t('wishlist')}
         </button>
@@ -27,9 +28,12 @@ const ButtonWishlist: React.FC<ButtonWishlistProps> = ({ nftId, type }: ButtonWi
 
   if (type === 'NFTCard')
     return (
+      <WhishList>
+      <ImageIcon src={Heart}  $opacity={isWishlist}/>
       <NftButton disabled={isWishlist} onClick={() => addToWishlist()} color="#000000">
         {t('whishList')}
       </NftButton>
+      </WhishList>
     )
 
   if (type === 'NFTConfirm')

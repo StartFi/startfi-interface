@@ -3,8 +3,8 @@ import { Media, CardImg, Card, Price, Text, Actions, Bid } from './nftcard.style
 import { useTranslation } from 'react-i18next'
 import { NFT } from 'services/models/NFT'
 import ButtonWishlist from 'components/Button/ButtonWishlist'
+import { NftButton } from 'components/Button'
 
-import { useIsNFTWishlist } from 'state/user/hooks'
 export interface NftCardProps {
   cardContent: NFT
   navigateToCard: (clickedCard: NFT) => void
