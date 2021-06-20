@@ -9,6 +9,8 @@ export const CATEGORIES = ['music', 'books', 'videos', 'art', 'images', 'games']
 
 export type Dictionary = { [index: string]: any }
 
+
+export const NFTQUERYLIMIT = 4
 export interface StepProps {
   state: Dictionary
   handleChange: (e: any) => void

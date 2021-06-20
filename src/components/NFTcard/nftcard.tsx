@@ -1,11 +1,10 @@
 import React from 'react'
-import Path from '../../assets/svg/Path.svg'
-import { Media, CardImg, Card, Price, Text, Actions, Bid, WhiteList, ImageIcon } from './nftcard.styles'
-import { NftButton } from '../Button/index'
+import { Media, CardImg, Card, Price, Text, Actions, Bid } from './nftcard.styles'
 import { useTranslation } from 'react-i18next'
 import { NFT } from 'services/models/NFT'
 import ButtonWishlist from 'components/Button/ButtonWishlist'
 
+import { useIsNFTWishlist } from 'state/user/hooks'
 export interface NftCardProps {
   cardContent: NFT
   navigateToCard: (clickedCard: NFT) => void
@@ -21,7 +20,6 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, placeBid
         <Media>
           <CardImg src={cardContent.image} />
         </Media>
-
         <div>
           <Price>
             <Text fontFamily='Roboto' FontWight='700' fontSize='1.125rem'>
@@ -35,19 +33,17 @@ const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, placeBid
             </Text>
           </Price>
         </div>
-        <Actions>
-          <WhiteList>
-            <ImageIcon src={Path} />
-            <ButtonWishlist nftId={cardContent.id} type="NFTCard"/>
-          </WhiteList>
-          <Bid>
-            <NftButton onClick={() => placeBid(cardContent)} color='#ffffff'>
-              {t('placeBid')}
-            </NftButton>
-          </Bid>
-        </Actions>
-        </div>
-      </Card>
+      </div>
+      <Actions>
+        {/* */}
+          <ButtonWishlist nftId={cardContent.id} type="NFTCard"/>
+        <Bid>
+          <NftButton onClick={() => placeBid(cardContent)} color='#ffffff'>
+            {t('placeBid')}
+          </NftButton>
+        </Bid>
+      </Actions>
+    </Card>
   )
 }
 

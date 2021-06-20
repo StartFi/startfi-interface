@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+
 export const Card = styled.div`
   display: flex;
   flex-direction: column;
@@ -48,7 +49,7 @@ export const Actions = styled.div`
   height: 45px;
 `
 
-export const WhiteList = styled.div`
+export const WhishList = styled.div`
   display: flex;
   align-items: center;
   background-color: #ededed;

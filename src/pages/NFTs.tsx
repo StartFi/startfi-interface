@@ -25,6 +25,7 @@ const Results = styled.div`
 
 const NFTList = styled(Row)`
   flex-wrap: wrap;
+ 
 `
 
 const Nft = styled.div`
