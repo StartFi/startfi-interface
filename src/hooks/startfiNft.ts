@@ -110,3 +110,17 @@ export const useGetApproverAddress = (): ((tokenId: string) => any) => {
     [contract]
   )
 }
+
+export const useRoyaltyInfo = (): ((tokenId: string, value: string) => any) => {
+  const contract = useStartFiRoyality(false)
+  return useCallback(
+    (tokenId: string, value: string) => {
+      const getAddress = async () => {
+        const address = await evaluateTransaction(contract, 'royaltyInfo', [tokenId, value])
+        return address
+      }
+      return getAddress()
+    },
+    [contract]
+  )
+}

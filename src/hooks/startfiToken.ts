@@ -59,3 +59,27 @@ export const useTransfer = (): ((address: string, amount: string) => any) => {
     [transfer, account, contract, library, toggleWalletModal]
   )
 }
+export const useBurn = (): ((amount: string, from?: string) => any) => {
+  const contract = useStartFiToken(true)
+  const transfer = useSubmitTransaction()
+  const { account, library } = useActiveWeb3React()
+  const toggleWalletModal = useWalletModalToggle()
+  return useCallback(
+    async (amount: string, from?: string) => {
+      if (!account) {
+        toggleWalletModal()
+        return `account: ${account} is not connected`
+      }
+      try {
+        if (from) {
+          return await transfer('burnFrom', [from, amount], contract, account, library)
+        }
+        return await transfer('burn', [amount], contract, account, library)
+      } catch (e) {
+        console.log('error', e)
+        return e
+      }
+    },
+    [transfer, account, contract, library, toggleWalletModal]
+  )
+}

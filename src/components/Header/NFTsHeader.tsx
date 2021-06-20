@@ -25,9 +25,10 @@ import {
   useGetTokenURI,
   useGetNftOwner,
   useNftBalance,
-  useGetApproverAddress
+  useGetApproverAddress,
+  useRoyaltyInfo
 } from 'hooks/startfiNft'
-import { useTokenBalance, useTokneInfo, useTransfer } from 'hooks/startfiToken'
+import { useBurn, useTokenBalance, useTokneInfo, useTransfer } from 'hooks/startfiToken'
 /* End example never merge to the main  branch*/
 
 const Categories = ['All', ...CATEGORIES]
@@ -56,9 +57,12 @@ const NFTsHeader: React.FC = () => {
   const getNftOwner = useGetNftOwner()
   const getNftBalance = useNftBalance()
   const getApproverAddress = useGetApproverAddress()
+  const getRoyalityInfo = useRoyaltyInfo()
+
   /*End NFT tests */
   /*Start Token tests */
   const transfer = useTransfer()
+  const burn = useBurn()
   const getTokenInfo = useTokneInfo()
   const getTokenBalance = useTokenBalance()
   /*end Token tests */
@@ -87,10 +91,12 @@ const NFTsHeader: React.FC = () => {
         onChange={(e, category) => {
           /* Beign example never merge to the main  branch*/
           //==================NFT==================
-          const mintTransaction = mint('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', 'ipfsHash', true, '1', '10')
-          console.log('x is', mintTransaction)
-          const info = nftInfo()
-          console.log('info', info)
+          mint('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', 'ipfsHash', true, '1', '10').then(mintTransaction => {
+            console.log('x is', mintTransaction)
+          })
+          nftInfo().then(info => {
+            console.log('info', info)
+          })
           getTokenUri('001').then((result: any) => {
             console.log('nft uri', result)
           })
@@ -103,11 +109,21 @@ const NFTsHeader: React.FC = () => {
           getApproverAddress('001').then((result: any) => {
             console.log('nft addrress', result)
           })
+          getRoyalityInfo('001', '1').then((result: any) => {
+            console.log('royality info', result)
+          })
           //==================Token==================
-          const transferTransaction = transfer('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '1')
-          console.log('transferTransaction', transferTransaction)
+          transfer('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '1').then(transferTransaction => {
+            console.log('transferTransaction', transferTransaction)
+          })
           getTokenInfo().then(result => {
             console.log('token info', result)
+          })
+          burn('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '0x1c').then(burnFromTransaction => {
+            console.log('burn from', burnFromTransaction)
+          })
+          burn('0x1c').then(burnTransaction => {
+            console.log('burn token', burnTransaction)
           })
           getTokenBalance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
             console.log('token balance', result)
