@@ -5,6 +5,7 @@ import { NftButton } from '../Button/index'
 import { useTranslation } from 'react-i18next'
 import { NFT } from 'services/models/NFT'
 
+
 export interface NftCardProps {
   cardContent: NFT
   navigateToCard: (clickedCard: NFT) => void

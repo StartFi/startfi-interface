@@ -1,4 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
+// import { getNFTS } from 'services/database/Database'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { NFT } from 'services/models/NFT'
 import { fulfilledHandler } from 'utils'
@@ -6,6 +7,7 @@ import {
   addNFTAction,
   buyNFTAction,
   getAuctionNFTAction,
+  getNFTDetailsAction,
   getNFTsAction,
   placeBidAction,
   setBidOrBuy,
@@ -21,6 +23,7 @@ export interface MarketplaceState {
   bidOrBuy: boolean
   bidOrBuyValue: number
   confirmationLoading: boolean
+  NftDetails: NFT | null
 }
 
 const initialState: MarketplaceState = {
@@ -31,7 +34,8 @@ const initialState: MarketplaceState = {
   auctionNFT: null,
   bidOrBuy: false,
   bidOrBuyValue: 0,
-  confirmationLoading: false
+  confirmationLoading: false,
+  NftDetails: null
 }
 
 export default createReducer(initialState, builder =>
@@ -75,4 +79,9 @@ export default createReducer(initialState, builder =>
     .addCase(setConfirmationLoading, (state, { payload: { isOpen } }) => {
       state.confirmationLoading = isOpen
     })
+    .addCase(getNFTDetailsAction.pending, (state, action) => {})
+    .addCase(getNFTDetailsAction.fulfilled, (state, action) => {
+      state.NftDetails = action.payload
+    })
+    .addCase(getNFTDetailsAction.rejected, (state, action) => {})
 )

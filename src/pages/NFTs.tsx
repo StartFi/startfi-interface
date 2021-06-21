@@ -1,5 +1,12 @@
 import React, { useState } from 'react'
-import { useGetAuctionNFT, useGetNFTs, useLoadNFTs, useLoadTime, useNFTs } from 'state/marketplace/hooks'
+import {
+  useGetAuctionNFT,
+
+  useGetNFTs,
+  useLoadNFTs,
+  useLoadTime,
+  useNFTs
+} from 'state/marketplace/hooks'
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { useHistory } from 'react-router'
@@ -66,7 +73,7 @@ const NFTs: React.FC = () => {
           </Results>
           <DropDownSort
             boxshadow
-            name="sort"
+            name='sort'
             options={SORTBY}
             value={sort}
             onChange={(e: any) => {
@@ -80,7 +87,7 @@ const NFTs: React.FC = () => {
             <Nft key={nft.id}>
               <NTFCard
                 cardContent={nft}
-                navigateToCard={(Nft: NFT) => history.push('NFT', Nft)}
+                navigateToCard={(Nft: NFT) => history.push(`NFT/${Nft.id}`, Nft)}
                 addToWhiteList={(Nft: NFT) => whitelistNFT(Nft)}
                 placeBid={(Nft: NFT) => {
                   getAuctionNFT(Nft)

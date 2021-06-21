@@ -10,6 +10,7 @@ import {
   addNFTAction,
   buyNFTAction,
   getAuctionNFTAction,
+  getNFTDetailsAction,
   getNFTsAction,
   placeBidAction,
   setBidOrBuy,
@@ -126,4 +127,17 @@ export const useBuyNFT = (): (() => void) => {
       dispatch(buyNFTAction({ nftId, auctionId, owner, buyer, soldPrice }))
     }
   }, [soldPrice, auctionNFT, buyer, dispatch])
+}
+
+// fetch NFT detail
+export const useGetNftDetails = (nftId: number) => {
+  const dispatch = useDispatch()
+  return useEffect(() => {
+    dispatch(getNFTDetailsAction(nftId))
+  }, [dispatch, nftId])
+}
+
+
+export const useNFTDetails =()=>{
+  return useSelector((state: AppState) => state.marketplace.NftDetails)
 }

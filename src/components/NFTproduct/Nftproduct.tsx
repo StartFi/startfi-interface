@@ -26,6 +26,15 @@ import ReadMore from '../ReadMore/readmore'
 import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import BidOrBuy from 'components/BidOrBuy'
+import {  useParams } from 'react-router-dom'
+import { useGetNftDetails, useNFTDetails } from 'state/marketplace/hooks'
+// import { NFT } from 'services/models/NFT'
+
+
+
+type RouterParam = {
+  id: string
+}
 
 const Nftproduct = () => {
   const { t } = useTranslation()
@@ -38,6 +47,13 @@ const Nftproduct = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const [bidOrBuy, setBidOrBuy] = useState(false)
+  const param: RouterParam = useParams()
+
+  const nftId = parseInt(param.id)
+useGetNftDetails(nftId)
+const NFTDetails=useNFTDetails()
+
+
 
   return (
     <Container>
@@ -53,7 +69,7 @@ const Nftproduct = () => {
             <CreatedTitle>
               <p>
                 {t('createdBy')}
-                <span>Muhammed Amin</span>
+                <span>{NFTDetails?.name}</span>
               </p>
             </CreatedTitle>
             <CreatedText>

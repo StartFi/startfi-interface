@@ -35,6 +35,7 @@ export const addDocument = async (entity: string, key: string | number, document
 }
 
 export const getDocument = async (entity: string, key: string | number): Promise<Document | null> => {
+  
   return (
     await firebase
       .database()
