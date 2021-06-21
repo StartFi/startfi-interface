@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Rectangle from '../../assets/images/Rectangle.png'
+
 import Path from '../../assets/svg/Path.svg'
 
 import {
@@ -28,6 +28,8 @@ import { useTranslation } from 'react-i18next'
 import BidOrBuy from 'components/BidOrBuy'
 import {  useParams } from 'react-router-dom'
 import { useGetNftDetails, useNFTDetails } from 'state/marketplace/hooks'
+import uriToHttp from 'utils/uriToHttp'
+import { NFT } from 'services/models/NFT'
 // import { NFT } from 'services/models/NFT'
 
 
@@ -51,7 +53,8 @@ const Nftproduct = () => {
 
   const nftId = parseInt(param.id)
 useGetNftDetails(nftId)
-const NFTDetails=useNFTDetails()
+const NFTDetails :NFT|null=useNFTDetails()
+const imgUrl = uriToHttp(`${NFTDetails?.image}`)[0]
 
 
 
@@ -62,7 +65,7 @@ const NFTDetails=useNFTDetails()
       <Grid>
         <LeftGrid>
           <ImgCard>
-            <img src={Rectangle} />
+            <img src={imgUrl} />
             <p>1234 {t('views')}</p>
           </ImgCard>
           <LeftTextCard>
@@ -99,14 +102,14 @@ const NFTDetails=useNFTDetails()
           <PublisherCard height="60px">
             <div>
               <p>
-                {t('owner')} :<span>Mohamed Mounier El - King</span>
+                {t('owner')} <span>{NFTDetails?.owner}</span>
               </p>
             </div>
           </PublisherCard>
           <BuyCard>
             <BuyCost>
               <p>
-                {t('cost')} : <span>180 ETH</span>
+                {t('cost')} : <span>{NFTDetails?.price} ETH</span>
               </p>
             </BuyCost>
             <BuyButtons>
@@ -140,13 +143,14 @@ const NFTDetails=useNFTDetails()
             <DescriptionText>
               <ReadMore showScroll={showScroll}>
                 <p>
-                  he biggest fight of the year is set for May 8 at AT&T Stadium in Arlington, Texas, as WBA, WBC and
+                   {/* he biggest fight of the year is set for May 8 at AT&T Stadium in Arlington, Texas, as WBA, WBC and
                   Ring Magazine champion and the number one pound-for-pound fighter in the world, Canelo Alvarez, meets
                   Billy Joe Saunders, the holder of the WBO belt, in a battle for super middleweight supremacy. This
                   stunning collection of. he biggest fight of the year is set for May 8 at AT&T Stadium in Arlington,
                   Texas, as WBA, WBC and Ring Magazine champion and the number one pound-for-pound fighter in the world,
                   Canelo Alvarez, meets Billy Joe Saunders, the holder of the WBO belt, in a battle for super
-                  middleweight supremacy. This stunning collection of
+                  middleweight supremacy. This stunning collection of */}
+                   {NFTDetails?.description}
                 </p>
               </ReadMore>
             </DescriptionText>
