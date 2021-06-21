@@ -127,18 +127,18 @@ export function useMulticallContract(): Contract | null {
 
 export const useStartFiToken = (withSignerIfPossible?: boolean): Contract | null => {
   const { chainId } = useActiveWeb3React()
-  return useContract(chainId && STARTFI_TOKEN_NETWORK[chainId].address, STARTFI_TOKEN_ABI, withSignerIfPossible)
+  return useContract(chainId && STARTFI_TOKEN_NETWORK[chainId]?.address, STARTFI_TOKEN_ABI, withSignerIfPossible)
 }
 
 export const useStartFiNft = (withSignerIfPossible?: boolean): Contract | null => {
   const { chainId } = useActiveWeb3React()
-  return useContract(chainId && STARTFI_NFT_NETWORK[chainId].address, STARTFI_NFT_ABI, withSignerIfPossible)
+  return useContract(chainId && STARTFI_NFT_NETWORK[chainId]?.address, STARTFI_NFT_ABI, withSignerIfPossible)
 }
 
 export const useStartFiMarketplace = (withSignerIfPossible?: boolean): Contract | null => {
   const { chainId } = useActiveWeb3React()
   return useContract(
-    chainId && STARTFI_MARKET_PLACE_NETWORK[chainId].address,
+    chainId && STARTFI_MARKET_PLACE_NETWORK[chainId]?.address,
     STARTFI_MARKET_PLACE_ABI,
     withSignerIfPossible
   )
@@ -146,5 +146,5 @@ export const useStartFiMarketplace = (withSignerIfPossible?: boolean): Contract 
 
 export const useStartFiRoyality = (withSignerIfPossible?: boolean): Contract | null => {
   const { chainId } = useActiveWeb3React()
-  return useContract(chainId && STARTFI_RoyaltyNFT[chainId].address, STARTFI_RoyaltyNFTI, withSignerIfPossible)
+  return useContract(chainId && STARTFI_RoyaltyNFT[chainId]?.address, STARTFI_RoyaltyNFTI, withSignerIfPossible)
 }

@@ -38,7 +38,27 @@ export const useTokenBalance = (): ((address: string) => any) => {
     [contract]
   )
 }
-
+export const useAproveToken = (): ((address: string, tokenId: string) => any) => {
+  const { account, library } = useActiveWeb3React()
+  const contract = useStartFiToken(true)
+  const approve = useSubmitTransaction()
+  const toggleWalletModal = useWalletModalToggle()
+  return useCallback(
+    async (address: string, tokenId: string) => {
+      if (!account) {
+        toggleWalletModal()
+        return `account: ${account} is not connected`
+      }
+      try {
+        return await approve('approve', [address, tokenId], contract, account, library)
+      } catch (e) {
+        console.log('error', e)
+        return e
+      }
+    },
+    [account, contract, library, approve, toggleWalletModal]
+  )
+}
 export const useTransfer = (): ((address: string, amount: string) => any) => {
   const contract = useStartFiToken(true)
   const transfer = useSubmitTransaction()

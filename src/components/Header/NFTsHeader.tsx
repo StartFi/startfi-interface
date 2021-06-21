@@ -27,9 +27,9 @@ import {
   useNftBalance,
   useGetApproverAddress,
   useRoyaltyInfo,
-  useTransferNFtLogs
+  useAproveNft
 } from 'hooks/startfiNft'
-import { useBurn, useTokenBalance, useTokneInfo, useTransfer, useTransferLogs } from 'hooks/startfiToken'
+import { useBurn, useTokenBalance, useTokneInfo, useTransfer, useAproveToken } from 'hooks/startfiToken'
 /* End example never merge to the main  branch*/
 
 const Categories = ['All', ...CATEGORIES]
@@ -59,14 +59,16 @@ const NFTsHeader: React.FC = () => {
   const getNftBalance = useNftBalance()
   const getApproverAddress = useGetApproverAddress()
   const getRoyalityInfo = useRoyaltyInfo()
-  useTransferNFtLogs()
+  const approveNft = useAproveNft()
+
   /*End NFT tests */
   /*Start Token tests */
   const transfer = useTransfer()
   const burn = useBurn()
   const getTokenInfo = useTokneInfo()
   const getTokenBalance = useTokenBalance()
-  useTransferLogs()
+  const approveToken = useAproveToken()
+  //useTransferLogs()
   /*end Token tests */
 
   /* End example never merge to the main  branch*/
@@ -117,6 +119,9 @@ const NFTsHeader: React.FC = () => {
           getRoyalityInfo('001', '1').then((result: any) => {
             console.log('royality info', result)
           })
+          approveNft('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA','001').then((result: any) => {
+            console.log('approve nft', result)
+          })
           //==================Token==================
           transfer('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '1').then(transferTransaction => {
             console.log('transferTransaction', transferTransaction)
@@ -132,6 +137,9 @@ const NFTsHeader: React.FC = () => {
           })
           getTokenBalance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
             console.log('token balance', result)
+          })
+          approveToken('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA','001').then((result: any) => {
+            console.log('approve token', result)
           })
           /* End example never merge to the main  branch*/
 

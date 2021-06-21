@@ -25,7 +25,7 @@ export const useMint = (): ((address: string, ipfsHash: string, share?: string, 
   const toggleWalletModal = useWalletModalToggle()
   return useCallback(
     async (address: string, ipfsHash: string, share?: string, base?: string) => {
-      if (!account) {
+      if (!account || !address) {
         toggleWalletModal()
         return `account: ${account} is not connected`
       }
@@ -92,6 +92,27 @@ export const useNftBalance = (): ((address: string) => any) => {
   )
 }
 
+export const useAproveNft = (): ((address: string, tokenId: string) => any) => {
+  const { account, library } = useActiveWeb3React()
+  const contract = useStartFiRoyality(true)
+  const approve = useSubmitTransaction()
+  const toggleWalletModal = useWalletModalToggle()
+  return useCallback(
+    async (address: string, tokenId: string) => {
+      if (!account) {
+        toggleWalletModal()
+        return `account: ${account} is not connected`
+      }
+      try {
+        return await approve('approve', [address, tokenId], contract, account, library)
+      } catch (e) {
+        console.log('error', e)
+        return e
+      }
+    },
+    [account, contract, library, approve, toggleWalletModal]
+  )
+}
 export const useGetApproverAddress = (): ((tokenId: string) => any) => {
   const contract = useStartFiRoyality(false)
   return useCallback(
