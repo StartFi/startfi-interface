@@ -12,14 +12,14 @@ import {
   buyNFTAction,
   clearMarketplacePopup,
   getAuctionNFTAction,
-  getNFTsAction,
+  getMarketplaceAction,
   placeBidAction,
   setBidOrBuy,
   setConfirmationLoading
 } from './actions'
 
-export const useNFTs = (): NFT[] => {
-  return useSelector((state: AppState) => state.marketplace.nfts)
+export const useMarketplace = (): AuctionNFT[] => {
+  return useSelector((state: AppState) => state.marketplace.marketplace)
 }
 
 export const useLoadTime = (): number => {
@@ -74,7 +74,7 @@ export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
       let q = query || {}
       // if (!q.search && search) q.search = search
       // if (!q.category && category) q.category = category
-      dispatch(getNFTsAction(q))
+      dispatch(getMarketplaceAction(q))
     },
     [dispatch]
   ) //search, category,
@@ -84,7 +84,7 @@ export const useLoadNFTs = (): void => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getNFTsAction())
+    dispatch(getMarketplaceAction())
   }, [dispatch])
 }
 
@@ -93,9 +93,9 @@ export const useAddNFT = (): ((nft: NFT) => void) => {
   return useCallback((nft: NFT) => dispatch(addNFTAction(nft)), [dispatch])
 }
 
-export const useGetAuctionNFT = (): ((nft: NFT) => void) => {
+export const useGetAuctionNFT = (): ((auctionNFT: AuctionNFT) => void) => {
   const dispatch = useDispatch()
-  return useCallback((nft: NFT) => dispatch(getAuctionNFTAction(nft)), [dispatch])
+  return useCallback((auctionNFT: AuctionNFT) => dispatch(getAuctionNFTAction(auctionNFT)), [dispatch])
 }
 
 export const usePlaceBid = (): (() => void) => {
@@ -107,7 +107,7 @@ export const usePlaceBid = (): (() => void) => {
     if (bidder && auctionNFT) {
       const auctionId = auctionNFT.auction.id
       const bid: Bid = {
-        id: 0,
+        id: '0',
         nft: auctionNFT.nft.id,
         bidPrice,
         bidder,

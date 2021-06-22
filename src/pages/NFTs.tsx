@@ -5,9 +5,9 @@ import { useHistory } from 'react-router'
 import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { NFT } from 'services/models/NFT'
-import { useAuctionNFT, useGetAuctionNFT, useGetNFTs, useLoadNFTs, useLoadTime, useNFTs } from 'state/marketplace/hooks'
+import { useAuctionNFT, useGetAuctionNFT, useGetNFTs, useLoadNFTs, useLoadTime, useMarketplace } from 'state/marketplace/hooks'
 import { Row } from 'theme/components'
+import { AuctionNFT } from 'services/models/AuctionNFT'
 
 const NFTS = styled.div`
   padding: 4vh 3.2vw;
@@ -47,7 +47,7 @@ const NFTs: React.FC = () => {
 
   const { t } = useTranslation()
 
-  const nfts = useNFTs()
+  const onMarket = useMarketplace()
 
   const loadtime = useLoadTime()
 
@@ -67,7 +67,7 @@ const NFTs: React.FC = () => {
       <Padding>
         <Header>
           <Results>
-            {nfts.length} {t('NFTSResults')} {loadtime}ms
+            {onMarket.length} {t('NFTSResults')} {loadtime}ms
           </Results>
           <DropDownSort
             boxshadow
@@ -81,12 +81,12 @@ const NFTs: React.FC = () => {
           />
         </Header>
         <NFTList>
-          {nfts.map((nft: NFT) => (
-            <Nft key={nft.id}>
+          {onMarket.map((auctionNFT: AuctionNFT) => (
+            <Nft key={auctionNFT.nft.id}>
               <NTFCard
-                cardContent={nft}
-                navigateToCard={(Nft: NFT) => getAuctionNFT(Nft)}
-                placeBid={(Nft: NFT) => getAuctionNFT(Nft)}
+                auctionNFT={auctionNFT}
+                navigateToCard={(auctionNFT: AuctionNFT) => getAuctionNFT(auctionNFT)}
+                placeBid={(auctionNFT: AuctionNFT) => getAuctionNFT(auctionNFT)}
               ></NTFCard>
             </Nft>
           ))}

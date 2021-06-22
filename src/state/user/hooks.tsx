@@ -25,8 +25,11 @@ import {
   loginAction,
   addToWishlistAction,
   clearUserPopup,
-  logoutAction
+  logoutAction,
+  getDraftsAction,
+  getUserNFTsAction
 } from './actions'
+import { usePopup } from 'state/application/hooks'
 
 function serializeToken(token: Token): SerializedToken {
   return {
@@ -253,6 +256,18 @@ export const useUserPopup = (): PopupContent | null => {
   return useSelector((state: AppState) => state.user.popup)
 }
 
+export const useDrafts = (): NFT[] => {
+  return useSelector((state: AppState) => state.user.drafts)
+}
+
+export const useOnMarket = (): NFT[] => {
+  return useSelector((state: AppState) => state.user.onMarket)
+}
+
+export const useOffMarket = (): NFT[] => {
+  return useSelector((state: AppState) => state.user.offMarket)
+}
+
 export const useClearUserPopup = () => {
   const dispatch = useDispatch()
   return useCallback(
@@ -272,4 +287,18 @@ export const useWishlist = (nftId: number) => {
   const addToWishlist = useAddToWishlist(nftId)
   const isWishlist = useIsNFTWishlist(nftId)
   return useMemo(()=>{ return { addToWishlist, isWishlist } }, [addToWishlist, isWishlist])
+}
+
+export const useGetDrafts = () => {
+  const dispatch = useDispatch()
+  const user = useUserAddress()
+  const popup = usePopup()
+  return useCallback(()=> user ? dispatch(getDraftsAction(user)) : popup({success:false,message:'Connect wallet'}),[user, popup, dispatch])
+}
+
+export const useGetUserNFTs = () => {
+  const dispatch = useDispatch()
+  const user = useUserAddress()
+  const popup = usePopup()
+  return useCallback(()=> user ? dispatch(getUserNFTsAction(user)) : popup({success:false,message:'Connect wallet'}),[user, popup, dispatch])
 }

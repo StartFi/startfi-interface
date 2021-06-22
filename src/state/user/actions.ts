@@ -1,5 +1,5 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { addToWishlist, login, saveDraft } from 'services/User'
+import { addToWishlist, getDrafts, getUserNFTs, login, saveDraft } from 'services/User'
 
 export interface SerializedToken {
   chainId: number
@@ -42,3 +42,7 @@ export const addToWishlistAction = createAsyncThunk('user/addToWishlistAction', 
 export const saveDraftAction = createAsyncThunk('user/saveDraftAction', saveDraft)
 
 export const clearUserPopup = createAction<void>('user/clearUserPopup')
+
+export const getDraftsAction = createAsyncThunk('marketplace/getDraftsAction', getDrafts)
+
+export const getUserNFTsAction = createAsyncThunk('marketplace/getUserNFTsAction', getUserNFTs)

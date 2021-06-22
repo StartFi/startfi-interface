@@ -1,20 +1,19 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { PopupContent } from './../../constants'
 import { AuctionNFT } from 'services/models/AuctionNFT'
-import { NFT } from 'services/models/NFT'
 import {
   addNFTAction,
   buyNFTAction,
   clearMarketplacePopup,
   getAuctionNFTAction,
-  getNFTsAction,
+  getMarketplaceAction,
   placeBidAction,
   setBidOrBuy,
   setConfirmationLoading
 } from './actions'
 
 export interface MarketplaceState {
-  nfts: NFT[]
+  marketplace: AuctionNFT[]
   loadtime: number
   search: string
   category: string
@@ -26,7 +25,7 @@ export interface MarketplaceState {
 }
 
 const initialState: MarketplaceState = {
-  nfts: [],
+  marketplace: [],
   loadtime: 0,
   search: '',
   category: 'all',
@@ -39,17 +38,17 @@ const initialState: MarketplaceState = {
 
 export default createReducer(initialState, builder =>
   builder
-    .addCase(getNFTsAction.pending, (state, action) => {})
-    .addCase(getNFTsAction.fulfilled, (state, action) => {
+    .addCase(getMarketplaceAction.pending, (state, action) => {})
+    .addCase(getMarketplaceAction.fulfilled, (state, action) => {
       state.auctionNFT = null
-      state.nfts = action.payload.nfts
+      state.marketplace = action.payload.onMarket
       state.loadtime = action.payload.loadtime
       if (action.payload.search) state.search = action.payload.search
       else state.search = ''
       if (action.payload.category) state.category = action.payload.category
       else state.category = ''
     })
-    .addCase(getNFTsAction.rejected, (state, action) => {
+    .addCase(getMarketplaceAction.rejected, (state, action) => {
       state.popup = {success: false, message: action.error.message || "Error occured while getting marketplace NFTs"}
     })
     .addCase(addNFTAction.pending, (state, action) => {})

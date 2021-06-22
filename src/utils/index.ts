@@ -9,10 +9,19 @@ import { ROUTER_ADDRESS } from '../constants'
 import { Percent } from '@uniswap/sdk-core'
 import { ChainId } from '../constants/supportedChains'
 
-export const sortByKey = (array: any, key: string, desc?: boolean) => {
+export const sortMarketplaceHelper = (sort: string) => {
+  switch(sort) {
+    case "Highest price": return { parentKey: 'auction', childKey: 'listingPrice', desc: true }
+    case "Lowest price": return { parentKey: 'auction', childKey: 'listingPrice', desc: false }
+    default: return { parentKey: 'auction', childKey: 'listingPrice', desc: false }
+  }
+}
+
+export const sortMarketplace = (array: any, sort: string) => {
+  const { parentKey , childKey , desc } = sortMarketplaceHelper(sort)
   const sorted = array.sort((a: any, b: any) => {
-    const x = a[key]
-    const y = b[key]
+    const x = a[parentKey][childKey]
+    const y = b[parentKey][childKey]
     return x < y ? -1 : x > y ? 1 : 0
   })
   if (desc) return sorted.reverse()
