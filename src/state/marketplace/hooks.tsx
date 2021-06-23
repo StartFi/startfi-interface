@@ -86,6 +86,7 @@ export const useGetAuctionNFT = (nftId: number, auctionId: string) => {
   useEffect(() => {
     const AuctionNFT = nfts.filter(nft => nft.nft.id === nftId)[0]
     dispatch(getAuctionNFTAction({ nftId, auctionId, AuctionNFT }))
+    return ()=>{}
   }, [nftId, auctionId, nfts, dispatch])
 }
 
