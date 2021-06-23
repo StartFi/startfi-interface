@@ -179,7 +179,7 @@ const BidOrBuy: React.FunctionComponent<BidOrBuyProps> = ({ bidOrBuy, isOpen, cl
               onClick={() => {
                 if (value !== 0) {
                   setBidOrBuy(bidOrBuy, value)
-                  history.push('/nftconfirm')
+                  history.push('/marketplace/buyorbid')
                 }
               }}
             >
