@@ -8,6 +8,7 @@ export default function Updater(): null {
 
   // keep dark mode in sync with the system
   useEffect(() => {
+
     const darkHandler = (match: MediaQueryListEvent) => {
       dispatch(updateMatchesDarkMode({ matchesDarkMode: match.matches }))
     }

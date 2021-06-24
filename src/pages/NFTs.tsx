@@ -1,18 +1,18 @@
-import React, { useState } from 'react'
-import { useGetAuctionNFT, useGetNFTs, useLoadNFTs, useLoadTime, useNFTs } from 'state/marketplace/hooks'
+import React, { useEffect, useState } from 'react'
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { useHistory } from 'react-router'
-import { useWhitelistNFT } from 'state/user/hooks'
 import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { NFT } from 'services/models/NFT'
+import { useAuctionNFT, useGetAuctionNFT, useGetNFTs, useLoadNFTs, useLoadTime, useNFTs } from 'state/marketplace/hooks'
 import { Row } from 'theme/components'
 
 const NFTS = styled.div`
   padding: 4vh 3.2vw;
   width: 100%;
+  z-index: 1;
 `
 
 const Header = styled(Row)`
@@ -25,6 +25,7 @@ const Results = styled.div`
 
 const NFTList = styled(Row)`
   flex-wrap: wrap;
+ 
 `
 
 const Nft = styled.div`
@@ -38,13 +39,13 @@ const Padding = styled.div`
 const SORTBY = ['With Bids', 'Lowest price', 'Highest price']
 
 const NFTs: React.FC = () => {
-  const history = useHistory()
+  useLoadNFTs()
 
-  const { t } = useTranslation()
+  const history = useHistory()
 
   const [sort, setSort] = useState(SORTBY[0])
 
-  useLoadNFTs()
+  const { t } = useTranslation()
 
   const nfts = useNFTs()
 
@@ -54,7 +55,11 @@ const NFTs: React.FC = () => {
 
   const getAuctionNFT = useGetAuctionNFT()
 
-  const whitelistNFT = useWhitelistNFT()
+  const auctionNFT = useAuctionNFT()
+
+  useEffect(()=>{
+    if (auctionNFT) history.push('/nft')
+  },[auctionNFT, history])
 
   return (
     <NFTS>
@@ -66,7 +71,7 @@ const NFTs: React.FC = () => {
           </Results>
           <DropDownSort
             boxshadow
-            name="sort"
+            name='sort'
             options={SORTBY}
             value={sort}
             onChange={(e: any) => {
@@ -80,12 +85,8 @@ const NFTs: React.FC = () => {
             <Nft key={nft.id}>
               <NTFCard
                 cardContent={nft}
-                navigateToCard={(Nft: NFT) => history.push('NFT', Nft)}
-                addToWhiteList={(Nft: NFT) => whitelistNFT(Nft)}
-                placeBid={(Nft: NFT) => {
-                  getAuctionNFT(Nft)
-                  history.push('NFT', { Nft })
-                }}
+                navigateToCard={(Nft: NFT) => getAuctionNFT(Nft)}
+                placeBid={(Nft: NFT) => getAuctionNFT(Nft)}
               ></NTFCard>
             </Nft>
           ))}
