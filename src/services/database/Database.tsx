@@ -54,12 +54,12 @@ export const editDocument = async (entity: string, key: string | number, documen
 }
 
 export const getDocumentsByChild = async (entity: string, child: string, value: any): Promise<Document[]> => {
-  return (
+  return Object.values((
     await firebase
       .database()
       .ref(`/${entity}`)
       .orderByChild(child)
       .equalTo(value)
       .once('value')
-  ).val()
+  ).val())
 }
