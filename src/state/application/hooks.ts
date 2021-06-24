@@ -70,7 +70,7 @@ export function useAddPopup(): (content: PC, key?: string) => void {
   )
 }
 
-// returns a function that allows adding a popup
+
 export const usePopup = (): ((popupContent: PopupContent) => void) => {
   const popup = useAddPopup()
   return useCallback((popupContent: PopupContent)=>{
@@ -78,10 +78,14 @@ export const usePopup = (): ((popupContent: PopupContent) => void) => {
       hash: '',
       success: popupContent.success,
       summary: popupContent.message
-    }}
+
+
+    }}  
     popup(content)
   },[popup])
 }
+
+
 // returns a function that allows removing a popup via its key
 export function useRemovePopup(): (key: string) => void {
   const dispatch = useDispatch()

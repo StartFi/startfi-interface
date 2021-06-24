@@ -17,10 +17,15 @@ import {
   updateUserSingleHopOnly,
   saveDraftAction,
   getDraftsAction,
-  getUserNFTsAction
+  getUserNFTsAction,
+  loginAction,
+  addToWishlistAction,
+  clearUserPopup,
+  logoutAction
 } from './actions'
 import { User } from 'services/models/User'
 import { NFT } from 'services/models/NFT'
+
 
 const currentTimestamp = () => new Date().getTime()
 
@@ -41,6 +46,8 @@ export interface UserState {
   // deadline set by user in minutes, used in all txns
   userDeadline: number
 
+  user: User | null
+
   tokens: {
     [chainId: number]: {
       [address: string]: SerializedToken
@@ -57,11 +64,13 @@ export interface UserState {
   timestamp: number
   URLWarningVisible: boolean
 
-  user: User | null
+
+ user: User | null
   popup: PopupContent | null
   drafts: NFT[]
   onMarket: NFT[]
   offMarket: NFT[]
+
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -83,7 +92,8 @@ export const initialState: UserState = {
   popup: null,
   drafts: [],
   onMarket: [],
-  offMarket: []
+  offMarket: [] 
+
 }
 
 export default createReducer(initialState, builder =>
@@ -164,6 +174,7 @@ export default createReducer(initialState, builder =>
     .addCase(toggleURLWarning, state => {
       state.URLWarningVisible = !state.URLWarningVisible
     })
+
     .addCase(saveDraftAction.pending, (state, action) => {})
     .addCase(saveDraftAction.fulfilled, (state, action) => {
       const success = action.payload.status === 'success'
@@ -187,5 +198,26 @@ export default createReducer(initialState, builder =>
     })
     .addCase(getUserNFTsAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
+
+    .addCase(loginAction.pending, (state, action) => {})
+    .addCase(loginAction.fulfilled, (state, action) => {
+      state.user = action.payload
+    })
+    .addCase(loginAction.rejected, (state, action) => {})
+    .addCase(logoutAction, (state, action) => {
+      state.user = null
+    })
+    .addCase(addToWishlistAction.pending, (state, action) => {
+    })
+    .addCase(addToWishlistAction.fulfilled, (state, action) => {
+      const success = action.payload.addedToWishlist === "success"
+      state.popup = {success, message: success ? "NFT added to wishlist successfully" : action.payload.addedToWishlist}
+    })
+    .addCase(addToWishlistAction.rejected, (state, action) => {
+      state.popup = {success: false, message: action.error.message || "Error occured while adding NFT to wishlist"}
+    })   
+    .addCase(clearUserPopup, (state, action) => {
+      state.popup = null
+
     })
 )

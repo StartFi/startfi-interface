@@ -1,8 +1,15 @@
-import { editDocument, getDocument } from 'services/database/Database'
+
 // import { getNFTsOnAuction } from 'services/Marketplace'
+
+import { addDocument, editDocument, getDocument } from 'services/database/Database'
+
 import { User } from 'services/models/User'
 
 const ENTITY = 'users'
+
+export const addUser = async (user: User) => {
+  return addDocument(ENTITY, user.ethAddress, user)
+}
 
 export const getUser = async (ethAddress: string): Promise<User> => {
   return (await getDocument(ENTITY, ethAddress)) as User

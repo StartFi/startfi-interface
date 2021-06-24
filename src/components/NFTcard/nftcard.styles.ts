@@ -1,15 +1,16 @@
 import styled from 'styled-components'
 
+
 export const Card = styled.div`
-display:flex;
-flex-direction:column;
+  display: flex;
+  flex-direction: column;
   width: 310px;
   height: 378px;
   border-radius: 8px;
   background-color: #ffffff;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.135216);
   position: relative;
-
+  cursor: pointer;
 `
 export const Media = styled.div`
   height: 176px;
@@ -37,20 +38,18 @@ export const Text = styled('p')<{ fontFamily?: string; FontWight?: string; fontS
   font-family: ${({ fontFamily }) => fontFamily};
   font-weight: ${({ FontWight }) => FontWight};
   font-size: ${({ fontSize }) => fontSize};
-  width:90%;
+  width: 90%;
   overflow: hidden;
-    text-overflow: ellipsis;
-
+  text-overflow: ellipsis;
 `
 
 export const Actions = styled.div`
   display: flex;
-  margin-top:auto;
+  margin-top: auto;
   height: 45px;
-
 `
 
-export const WhiteList = styled.div`
+export const WhishList = styled.div`
   display: flex;
   align-items: center;
   background-color: #ededed;
@@ -64,7 +63,9 @@ export const Bid = styled.div`
   border-radius: 0px 0px 8px 0px;
 `
 
-export const ImageIcon = styled.img`
+export const ImageIcon = styled('img')<{$opacity?:boolean}>`
   position: relative;
   left: 29px;
+  opacity:${({ $opacity}) => $opacity?'50%':''};
+
 `

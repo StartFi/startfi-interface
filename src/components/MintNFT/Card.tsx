@@ -14,6 +14,7 @@ import { useActiveWeb3React } from 'hooks'
 import { useSaveDraft } from 'state/user/hooks'
 import { NFT } from 'services/models/NFT'
 import { Row } from 'theme/components'
+import { usePopup } from 'state/application/hooks'
 
 const Container = styled.div`
   display: flex;
@@ -83,6 +84,8 @@ const Card: React.FC = () => {
 
   const [step, setStep] = useState<number>(1)
 
+  const popup = usePopup()
+
   const handleChange = useCallback(
     (e: any) => {
       if (e.persist) e.persist()
@@ -120,7 +123,7 @@ const Card: React.FC = () => {
           if (account) {
             addNft(getNFT(account))
             history.push('/')
-          } else alert('Connect wallet')
+          } else popup({success:false,message:'Connect wallet'})
         }
         break
       case 3:
@@ -167,8 +170,8 @@ const Card: React.FC = () => {
               if (nft.category || nft.image || nft.name || nft.description) {
                 saveDraft(getNFT(account))
                 history.push('/')  
-              } else alert('No data entered to save')
-            } else alert('Connect wallet')
+              } else popup({success:false,message:'No data entered to save'})
+            } else popup({success:false,message:'Connect wallet'})
           }}
         >
           {t('saveDraft')}
