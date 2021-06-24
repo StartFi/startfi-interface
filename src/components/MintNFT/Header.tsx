@@ -1,10 +1,11 @@
-import { Box } from '@material-ui/core'
 import React from 'react'
 import styled from 'styled-components'
 import Wallet from 'components/Wallet'
 import Logo from './../../assets/icons/logo.svg'
 import Arrow from './../../assets/icons/backarrow.svg'
 import { LinkMarketplace } from 'components/Link'
+import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router'
 
 const Container = styled.div`
   display: flex;
@@ -19,6 +20,7 @@ const Left = styled.div`
   align-items: center;
   font-weight: 500;
   font-size: 1.125rem;
+  cursor: pointer;
   img {
     margin-right: 1vw;
   }
@@ -33,17 +35,21 @@ const Right = styled.div`
 `
 
 const Header: React.FC = () => {
+  const { t } = useTranslation()
+
+  const history = useHistory()
+
   return (
     <Container>
-      <Left>
+      <Left onClick={() => history.push('/')}>
         <img src={Logo} alt="Logo" />
-        <Box>Startfi</Box>
+        <div>Startfi</div>
       </Left>
       <Right>
-        <Box>
-          <LinkMarketplace to="nfts">Back to Marketplace</LinkMarketplace>
+        <div>
+          <LinkMarketplace to="nfts">{t('backToMarketplace')}</LinkMarketplace>
           <img src={Arrow} alt="Back" />
-        </Box>
+        </div>
         <Wallet />
       </Right>
     </Container>

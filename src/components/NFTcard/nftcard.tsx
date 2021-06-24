@@ -1,53 +1,52 @@
 import React from 'react'
-import Card from '@material-ui/core/Card'
-import Path from '../../assets/svg/Path.svg'
-import { useStyles } from './nftcard.styles'
-import { NftButton } from '../Button/index'
-import { NFT } from 'state/nfts/reducer'
+import { Media, CardImg, Card, Price, Text, Actions, Bid } from './nftcard.styles'
+import { useTranslation } from 'react-i18next'
+import ButtonWishlist from 'components/Button/ButtonWishlist'
+import { NftButton } from 'components/Button'
+import { AuctionNFT } from 'services/models/AuctionNFT'
 
 export interface NftCardProps {
-  cardContent: NFT
-  navigateToCard: (clickedCard: NFT) => void
-  addToWhiteList: (clickedCard: NFT) => void
-  placeBid: (clickedCard: NFT) => void
+  auctionNFT: AuctionNFT
+  navigateToCard: (clickedCard: AuctionNFT) => void
+  placeBid: (clickedCard: AuctionNFT) => void
 }
 
-const NTFCard: React.FC<NftCardProps> = ({ cardContent, navigateToCard, addToWhiteList, placeBid }) => {
-  const classes = useStyles()
+const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid }) => {
+  const { t } = useTranslation()
+
+  const cardContent = auctionNFT.nft
+
   return (
-    <div>
-      <Card className={classes.card}>
-        <div className={classes.media}>
-          <img src={cardContent.image} />
+    <Card>
+      <div onClick={() => navigateToCard(auctionNFT)}>
+        <Media>
+          <CardImg src={cardContent.dataHash} />
+        </Media>
+        <div>
+          <Price>
+            <Text fontFamily='Roboto' FontWight='700' fontSize='1.125rem'>
+              {auctionNFT.auction.listingPrice} ETH
+            </Text>
+            <Text fontFamily='Roboto' FontWight='400' fontSize='1.0rem'>
+              {cardContent.name}
+            </Text>
+            <Text fontFamily='Roboto' FontWight='400' fontSize='0.74rem'>
+              {cardContent.description}
+            </Text>
+          </Price>
         </div>
-
-        <div onClick={() => navigateToCard(cardContent)}>
-          <div className={classes.price}>
-            <p>{cardContent.price} ETH</p>
-          </div>
-          <div>
-            <p className={classes.title}>{cardContent.name}</p>
-            <p className={classes.description}> {cardContent.description}</p>
-          </div>
-        </div>
-
-        <div className={classes.action}>
-          <div className={classes.whiteList}>
-            <img className={classes.icon} src={Path} />
-            <NftButton onClick={() => addToWhiteList(cardContent)} color='#000000'>
-              WHITELIST
-            </NftButton>
-          </div>
-          <div className={classes.bid}>
-            <NftButton onClick={() => placeBid(cardContent)} color='#ffffff'>
-              {' '}
-              place a bid
-            </NftButton>
-          </div>
-        </div>
-      </Card>
-    </div>
+      </div>
+      <Actions>
+        {/* */}
+          <ButtonWishlist nftId={cardContent.id} type="NFTCard"/>
+        <Bid>
+          <NftButton onClick={() => placeBid(auctionNFT)} color='#ffffff'>
+            {t('placeBid')}
+          </NftButton>
+        </Bid>
+      </Actions>
+    </Card>
   )
 }
 
-export default NTFCard;
+export default NTFCard

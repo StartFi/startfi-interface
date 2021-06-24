@@ -1,76 +1,97 @@
-import React, { useState } from 'react'
-import { useGetNFTs, useLoadNFTs, useLoadTime, useNFTs } from 'state/nfts/hooks'
-import { styled, Box, Grid } from '@material-ui/core/'
+import React, { useEffect, useState } from 'react'
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
-import { COLORS } from 'theme'
 import { useHistory } from 'react-router'
-import { useWhitelistNFT } from 'state/user/hooks'
-import { NFT } from 'state/nfts/reducer'
 import NFTsHeader from 'components/Header/NFTsHeader'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import { useAuctionNFT, useGetAuctionNFT, useGetNFTs, useLoadNFTs, useLoadTime, useMarketplace } from 'state/marketplace/hooks'
+import { Row } from 'theme/components'
+import { AuctionNFT } from 'services/models/AuctionNFT'
 
-const NFTS = styled(Grid)({
-  padding: '4vh 3.2vw',
-  width: '100%'
-})
+const NFTS = styled.div`
+  padding: 4vh 3.2vw;
+  width: 100%;
+  z-index: 1;
+`
 
-const Header = styled(Grid)({
-  paddingBottom: '6vh'
-})
+const Header = styled(Row)`
+  padding-bottom: 6vh;
+`
 
-const Results = styled(Box)({
-  fontSize: '1rem',
-  color: COLORS.black2
-})
+const Results = styled.div`
+  color: #2c2c2c;
+`
 
-const SORTBY = ['With Bids', 'b']
+const NFTList = styled(Row)`
+  flex-wrap: wrap;
+ 
+`
+
+const Nft = styled.div`
+  margin-bottom: 8vh;
+`
+
+const Padding = styled.div`
+  padding: 0 2vw;
+`
+
+const SORTBY = ['With Bids', 'Lowest price', 'Highest price']
 
 const NFTs: React.FC = () => {
+  useLoadNFTs()
+
   const history = useHistory()
 
   const [sort, setSort] = useState(SORTBY[0])
 
-  useLoadNFTs()
+  const { t } = useTranslation()
 
-  const nfts = useNFTs()
+  const onMarket = useMarketplace()
 
   const loadtime = useLoadTime()
 
   const getNFTs = useGetNFTs()
 
-  const whitelistNFT = useWhitelistNFT()
+  const getAuctionNFT = useGetAuctionNFT()
+
+  const auctionNFT = useAuctionNFT()
+
+  useEffect(()=>{
+    if (auctionNFT) history.push('/nft')
+  },[auctionNFT, history])
 
   return (
-    <NFTS container direction="column">
-      <NFTsHeader/>
-      <Header container direction="row" justify="space-between" alignContent="space-between" alignItems="center">
-        <Results>
-          {nfts.length} results found in {loadtime}ms
-        </Results>
-        <DropDownSort
-          boxshadow
-          name="sort"
-          options={SORTBY}
-          value={sort}
-          onChange={(e: any) => {
-            console.log(e.target.value)
-            setSort(e.target.value)
-            getNFTs({ sort: e.target.value })
-          }}
-        />
-      </Header>
-      <Grid container direction="row" justify="space-between" spacing={10}>
-        {nfts.map(nft => (
-          <Grid key={nft.id} item>
-            <NTFCard
-              cardContent={nft}
-              navigateToCard={(Nft: NFT) => history.push('NFT', Nft)}
-              addToWhiteList={(Nft: NFT) => whitelistNFT(Nft)}
-              placeBid={(Nft: NFT) => history.push('NFT', Nft)}
-            ></NTFCard>
-          </Grid>
-        ))}
-      </Grid>
+    <NFTS>
+      <NFTsHeader />
+      <Padding>
+        <Header>
+          <Results>
+            {onMarket.length} {t('NFTSResults')} {loadtime}ms
+          </Results>
+          <DropDownSort
+            boxshadow
+            name='sort'
+            options={SORTBY}
+            value={sort}
+            onChange={(e: any) => {
+              setSort(e.target.value)
+              getNFTs({ sort: e.target.value })
+            }}
+          />
+        </Header>
+        <NFTList>
+          {onMarket.map((auctionNFT: AuctionNFT) => (
+            <Nft key={auctionNFT.nft.id}>
+              <NTFCard
+                auctionNFT={auctionNFT}
+                navigateToCard={(auctionNFT: AuctionNFT) => getAuctionNFT(auctionNFT)}
+                placeBid={(auctionNFT: AuctionNFT) => getAuctionNFT(auctionNFT)}
+              ></NTFCard>
+            </Nft>
+          ))}
+        </NFTList>
+      </Padding>
     </NFTS>
   )
 }

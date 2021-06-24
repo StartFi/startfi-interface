@@ -9,10 +9,19 @@ import { ROUTER_ADDRESS } from '../constants'
 import { Percent } from '@uniswap/sdk-core'
 import { ChainId } from '../constants/supportedChains'
 
-export const sortByKey = (array: any, key: string, desc?: boolean) => {
-  var sorted = array.sort((a: any, b: any) => {
-    var x = a[key]
-    var y = b[key]
+export const sortMarketplaceHelper = (sort: string) => {
+  switch(sort) {
+    case "Highest price": return { parentKey: 'auction', childKey: 'listingPrice', desc: true }
+    case "Lowest price": return { parentKey: 'auction', childKey: 'listingPrice', desc: false }
+    default: return { parentKey: 'auction', childKey: 'listingPrice', desc: false }
+  }
+}
+
+export const sortMarketplace = (array: any, sort: string) => {
+  const { parentKey , childKey , desc } = sortMarketplaceHelper(sort)
+  const sorted = array.sort((a: any, b: any) => {
+    const x = a[parentKey][childKey]
+    const y = b[parentKey][childKey]
     return x < y ? -1 : x > y ? 1 : 0
   })
   if (desc) return sorted.reverse()
@@ -23,11 +32,6 @@ export const isSuccess = (input: string) => input === 'success'
 
 export const checkSuccess = (object: any) =>
   Object.keys(object).filter(key => !isSuccess(object[key])).length === 0 ? 'success' : 'failure'
-
-export const fulfilledHandler = (payload: any, message: string) => {
-  if (payload.status === 'success') alert(message)
-  else console.log(payload)
-}
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {

@@ -1,6 +1,7 @@
 import { LinkCreateNFT } from 'components/Link'
 import Wallet from 'components/Wallet'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import StartFi from '../../assets/svg/StartFi-c 1.svg'
@@ -84,29 +85,29 @@ const InnerHeader = styled.div`
 `
 
 export const LandingPage = () => {
+  const { t } = useTranslation()
+
   return (
     <PageWrapper>
       <Header>
         <InnerHeader>
-          <LinkCreateNFT to="mintnft">Start Earning</LinkCreateNFT>
+          <LinkCreateNFT to='mintnft'>{t('mintNFT')}</LinkCreateNFT>
           <Wallet />
         </InnerHeader>
       </Header>
-      {/* <h2>landing page</h2> */}
+
       <Logo src={StartFi} />
       <MainText>
         <p>
-          <MainSpan>Startfi</MainSpan> marketplace and lunchpad for NFT collateralised loans
+          <MainSpan>Startfi</MainSpan> {t('landHead')}
         </p>
       </MainText>
       <SubText>
-        <p>
-          Put your NFT assets up as collateral for a loan, or offer loans to other users on their non-fungible tokens
-        </p>
+        <p>{t('landSubText')}</p>
       </SubText>
       <LinkContainer>
-        <PageLink to="nfts">Marketplace</PageLink>
-        <PageLink to="">Launchpad</PageLink>
+        <PageLink to='nfts'>{t('marketPlace')}</PageLink>
+        <PageLink to=''>{t('launchpad')}</PageLink>
       </LinkContainer>
     </PageWrapper>
   )

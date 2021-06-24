@@ -4,10 +4,23 @@ import useDebounce from '../../hooks/useDebounce'
 import useIsWindowVisible from '../../hooks/useIsWindowVisible'
 import { updateBlockNumber } from './actions'
 import { useDispatch } from 'react-redux'
+import { useClearUserPopup, useUserPopup } from 'state/user/hooks'
+import { usePopup } from './hooks'
+import { useClearMarketplacePopup, useMarketplacePopup } from 'state/marketplace/hooks'
 
 export default function Updater(): null {
   const { library, chainId } = useActiveWeb3React()
   const dispatch = useDispatch()
+
+  const userPopup = useUserPopup()
+
+  const clearUserPopup = useClearUserPopup()
+
+  const marketplacePopup = useMarketplacePopup()
+
+  const clearMarketplacePoup = useClearMarketplacePopup()
+
+  const popup = usePopup()
 
   const windowVisible = useIsWindowVisible()
 
@@ -28,6 +41,20 @@ export default function Updater(): null {
     },
     [chainId, setState]
   )
+
+  useEffect(()=>{
+    if (userPopup) {
+      popup(userPopup)
+      clearUserPopup()
+    }
+  },[userPopup, popup, clearUserPopup, dispatch])
+
+  useEffect(()=>{
+    if (marketplacePopup) {
+      popup(marketplacePopup)
+      clearMarketplacePoup()
+    }
+  },[marketplacePopup, popup, clearMarketplacePoup, dispatch])
 
   // attach/detach listeners
   useEffect(() => {
