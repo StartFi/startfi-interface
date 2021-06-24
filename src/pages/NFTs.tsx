@@ -10,25 +10,9 @@ import styled from 'styled-components'
 import { NFT } from 'services/models/NFT'
 import { Row } from 'theme/components'
 import { LinkBase } from '../components/Link/index'
-import { addAuction } from 'services/database/Auction'
-import { Auction } from 'services/models/Auction'
 
-const trial:Auction = {
-  id: 9878,
-  nft: 0,
-  listingPrice: 2455,
-  seller: 'lolo',
-  expireTimestamp: 2528,
 
-  isForSale: true,
-  isForBid: false,
-  bids: ['25', '25'],
-  listTime: 2525,
 
-  listingTxt: '1415',
-
-  status: 'open'
-}
 const NFTS = styled.div`
   padding: 4vh 3.2vw;
   width: 100%;
@@ -75,7 +59,7 @@ const NFTs: React.FC = () => {
 
   const whitelistNFT = useWhitelistNFT()
 
-  addAuction(trial)
+
 
   return (
     <NFTS>
