@@ -3,9 +3,7 @@ import { Auction } from 'services/models/Auction'
 
 const ENTITY = 'auctions'
 
-export const addAuction = async (auction: Auction): Promise<string> => {
-  return addDocument(ENTITY, auction.id, auction)
-}
+
 
 export const getAuctionByNFT = async (nftId: number): Promise<Auction> => {
   const auctions = (await getDocumentsByChild(ENTITY, 'nft', nftId)) as Auction[]

@@ -97,11 +97,11 @@ export const placeBid = async ({ auctionId, bid }: PlaceBid) => {
   bid.id = '0'
 
   bid.expireTimestamp = 0
-  bid.txtHash = hash
+  bid.txtHash =txtHash
   const bidAdded = await addBid(bid)
   const bidAddedToAuction = await addBidToAuction(auctionId.toString(), bid.id)
   const status = checkSuccess({ bidAdded, bidAddedToAuction })
 
-  return { status, bidAdded, bidAddedToAuction, hash }
+  return { status, bidAdded, bidAddedToAuction,txtHash }
 }
 

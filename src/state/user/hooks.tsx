@@ -30,10 +30,13 @@ import {
   getUserNFTsAction,
   getDraftsAction,
      saveDraftAction,
-  loginAction,
-  addToWishlistAction,
-  clearUserPopup,
-  logoutAction
+     loginAction,
+     logoutAction,
+     addToWishlistAction,
+     clearUserPopup,
+
+  // clearUserPopup,
+  // logoutAction
 
 } from './actions'
 

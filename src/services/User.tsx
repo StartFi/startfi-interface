@@ -10,7 +10,7 @@ import { Draft } from './models/Draft'
 import { NFT } from './models/NFT'
 
 
-import { addNFTToWishlist, addUser, getUser } from './database/User'
+import {  addNFTToWishlist, addUser, getUser } from './database/User'
 
 import { User } from './models/User'
 

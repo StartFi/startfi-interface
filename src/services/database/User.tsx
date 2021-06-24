@@ -49,3 +49,15 @@ export const removeNFTFromUser = async (userId: string, nftId: number): Promise<
 }
 
 
+export const addNFTToWishlist = async (userId: string, nftId: number) => {
+  const oldUser = (await getDocument(ENTITY, userId)) as User
+  if (oldUser) {
+    const newUser = { ...oldUser }
+    if (newUser.wishlist) {
+      if (newUser.wishlist.includes(nftId)) return "NFT already exist is user's wishlist"
+      else newUser.wishlist.push(nftId)
+    } else newUser.wishlist = [nftId]
+    return editDocument(ENTITY, newUser.ethAddress, newUser)
+  }
+  return 'No user'
+}
