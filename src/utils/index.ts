@@ -9,6 +9,26 @@ import { ROUTER_ADDRESS } from '../constants'
 import { Percent } from '@uniswap/sdk-core'
 import { ChainId } from '../constants/supportedChains'
 
+export const sortByKey = (array: any, key: string, desc?: boolean) => {
+  var sorted = array.sort((a: any, b: any) => {
+    var x = a[key]
+    var y = b[key]
+    return x < y ? -1 : x > y ? 1 : 0
+  })
+  if (desc) return sorted.reverse()
+  else return sorted
+}
+
+export const isSuccess = (input: string) => input === 'success'
+
+export const checkSuccess = (object: any) =>
+  Object.keys(object).filter(key => !isSuccess(object[key])).length === 0 ? 'success' : 'failure'
+
+export const fulfilledHandler = (payload: any, message: string) => {
+  if (payload.status === 'success') alert(message)
+  else console.log(payload)
+}
+
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
   try {
@@ -72,8 +92,6 @@ export function basisPointsToPercent(num: number): Percent {
   return new Percent(JSBI.BigInt(num), JSBI.BigInt(10000))
 }
 
- 
-
 // account is not optional
 export function getSigner(library: Web3Provider, account: string): JsonRpcSigner {
   return library.getSigner(account).connectUnchecked()
@@ -101,5 +119,3 @@ export function getRouterContract(_: number, library: Web3Provider, account?: st
 export function escapeRegExp(string: string): string {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // $& means the whole matched string
 }
-
- 
