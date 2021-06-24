@@ -10,9 +10,9 @@ import { Percent } from '@uniswap/sdk-core'
 import { ChainId } from '../constants/supportedChains'
 
 export const sortByKey = (array: any, key: string, desc?: boolean) => {
-  var sorted = array.sort((a: any, b: any) => {
-    var x = a[key]
-    var y = b[key]
+  const sorted = array.sort((a: any, b: any) => {
+    const x = a[key]
+    const y = b[key]
     return x < y ? -1 : x > y ? 1 : 0
   })
   if (desc) return sorted.reverse()

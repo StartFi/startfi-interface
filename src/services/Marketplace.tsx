@@ -27,7 +27,7 @@ export type NFTQUERY = {
 
 export const getNFTsOnAuction = async (query?: NFTQUERY) => {
   const t0 = performance.now()
-  let nfts = await getNFTS(query || {})
+  const nfts = await getNFTS(query || {})
   const t1 = performance.now()
   const loadtime = Math.round(t1 - t0)
   return { nfts, loadtime, ...query }

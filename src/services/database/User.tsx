@@ -19,7 +19,7 @@ export const editUser = async (user: any): Promise<string> => {
 export const addNFTToUser = async (userId: string, nftId: number): Promise<string> => {
   const oldUser = (await getDocument(ENTITY, userId)) as User
   if (oldUser) {
-    var newUser = { ...oldUser }
+    const newUser = { ...oldUser }
     if (newUser.nfts) newUser.nfts.push(nftId)
     else newUser.nfts = [nftId]
     return editDocument(ENTITY, newUser.ethAddress, newUser)
@@ -30,7 +30,7 @@ export const addNFTToUser = async (userId: string, nftId: number): Promise<strin
 export const removeNFTFromUser = async (userId: string, nftId: number): Promise<string> => {
   const oldUser = (await getDocument(ENTITY, userId)) as User
   if (oldUser) {
-    var newUser = { ...oldUser }
+    const newUser = { ...oldUser }
     if (newUser.nfts) {
       const index = newUser.nfts.indexOf(nftId)
       if (index !== -1) newUser.nfts.splice(index, 1)

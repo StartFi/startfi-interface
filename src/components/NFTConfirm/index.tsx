@@ -72,6 +72,7 @@ const Bold = styled.div`
   letter-spacing: 0.04em;
   font-size: 18px;
   color: #000000;
+  text-transform: capitalize;
 `
 
 const MarginRight = styled(Bold)`
@@ -102,6 +103,7 @@ const SemiBold = styled.div`
   font-size: 16px;
   letter-spacing: 0.04em;
   color: #000000;
+  text-transform: capitalize;
 `
 
 const Border = styled.div`

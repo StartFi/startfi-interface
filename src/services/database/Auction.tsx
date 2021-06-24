@@ -21,7 +21,7 @@ export const editAuction = async (auction: any): Promise<string> => {
 export const addBidToAuction = async (auctionId: number, bidId: number): Promise<string> => {
   const oldAuction = (await getDocument(ENTITY, auctionId)) as Auction
   if (oldAuction) {
-    var newAuction = { ...oldAuction }
+    const newAuction = { ...oldAuction }
     if (newAuction.bids) newAuction.bids.push(bidId)
     else newAuction.bids = [bidId]
     return editDocument(ENTITY, newAuction.id, newAuction)
