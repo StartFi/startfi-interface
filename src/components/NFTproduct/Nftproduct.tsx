@@ -6,7 +6,6 @@ import {
   LeftGrid,
   RightGrid,
   ImgCard,
-  Container,
   LeftTextCard,
   CreatedTitle,
   CreatedText,
@@ -19,16 +18,20 @@ import {
   BuyNow,
   DescriptionCard,
   DescriptionTitle,
-  DescriptionText,
+  DescriptionText
 } from './Nftproduct.styles'
 import ReadMore from '../ReadMore/readmore'
-import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import BidOrBuy from 'components/BidOrBuy'
 import ButtonWishlist from 'components/Button/ButtonWishlist'
-import { useAuctionNFT } from 'state/marketplace/hooks'
 import { usePopup } from 'state/application/hooks'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
+import { useGetAuctionNFT } from 'state/marketplace/hooks'
+
+interface NFTParams {
+  nft: string
+  auction: string
+}
 
 const Nftproduct = () => {
   const { t } = useTranslation()
@@ -38,121 +41,120 @@ const Nftproduct = () => {
 
   const [bidOrBuy, setBidOrBuy] = useState(false)
 
-  const auctionNFT = useAuctionNFT()
-  
+  const { nft, auction }: NFTParams = useParams()
+
+  useGetAuctionNFT(parseInt(nft), auction)
+
   const popup = usePopup()
 
   const history = useHistory()
 
-  if (!auctionNFT) {
-    popup({success:false,message:'No nft selected'})
+  if (!nft || !auction) {
+    popup({ success: false, message: 'No nft selected' })
     history.goBack()
     return null
   }
-  
-  const nftId = auctionNFT.nft.id
+
+  const nftId = parseInt(nft)
 
   const showScroll = (readMore: boolean) => {
     readMore ? setIsReadMore('scroll') : setIsReadMore('')
   }
 
   return (
-    <Container>
+    <Grid>
       <BidOrBuy bidOrBuy={bidOrBuy} isOpen={isOpen} close={() => setIsOpen(false)} />
-      <NFTsHeader />
-      <Grid>
-        <LeftGrid>
-          <ImgCard>
-            <img src={Rectangle} alt="NFT"/>
-            <p>1234 {t('views')}</p>
-          </ImgCard>
-          <LeftTextCard>
-            <CreatedTitle>
-              <p>
-                {t('createdBy')}
-                <span>Muhammed Amin</span>
-              </p>
-            </CreatedTitle>
-            <CreatedText>
-              {/* text created by user */}
-              <p>
-                Put your NFT assets up as collateral for a loan, or offer loans to other users on their non-fungible
-                tokens Put your NFT assets up as collateral for a loan, or offer loans to other users on their
-                non-fungible tokens
-              </p>
-            </CreatedText>
-          </LeftTextCard>
-        </LeftGrid>
-        <RightGrid>
-          <RightTitle>
+      <LeftGrid>
+        <ImgCard>
+          <img src={Rectangle} alt="NFT" />
+          <p>1234 {t('views')}</p>
+        </ImgCard>
+        <LeftTextCard>
+          <CreatedTitle>
+            <p>
+              {t('createdBy')}
+              <span>Muhammed Amin</span>
+            </p>
+          </CreatedTitle>
+          <CreatedText>
             {/* text created by user */}
-            <p>Apple Watch Series 4 GPS</p>
-          </RightTitle>
-          <RightSubTitle>{t('prediction')}: Round 11 (Bronze) - Only 100 Available</RightSubTitle>
-          <PublisherCard height="91px">
-            <div>
+            <p>
+              Put your NFT assets up as collateral for a loan, or offer loans to other users on their non-fungible
+              tokens Put your NFT assets up as collateral for a loan, or offer loans to other users on their
+              non-fungible tokens
+            </p>
+          </CreatedText>
+        </LeftTextCard>
+      </LeftGrid>
+      <RightGrid>
+        <RightTitle>
+          {/* text created by user */}
+          <p>Apple Watch Series 4 GPS</p>
+        </RightTitle>
+        <RightSubTitle>{t('prediction')}: Round 11 (Bronze) - Only 100 Available</RightSubTitle>
+        <PublisherCard height="91px">
+          <div>
+            <p>
+              {t('publisher')} :<span>Muhammed Amin</span>
+            </p>
+            <p>8% {t('resellingPercentage')}</p>
+          </div>
+        </PublisherCard>
+        <PublisherCard height="60px">
+          <div>
+            <p>
+              {t('owner')} :<span>Mohamed Mounier El - King</span>
+            </p>
+          </div>
+        </PublisherCard>
+        <BuyCard>
+          <BuyCost>
+            <p>
+              {t('cost')} : <span>180 ETH</span>
+            </p>
+          </BuyCost>
+          <BuyButtons $opacity={false}>
+            <ButtonWishlist nftId={nftId} type="NFTProduct" />
+            <button
+              onClick={() => {
+                setBidOrBuy(true)
+                setIsOpen(true)
+              }}
+            >
+              {t('offer')}
+            </button>
+          </BuyButtons>
+          <BuyNow>
+            <button
+              onClick={() => {
+                setBidOrBuy(false)
+                setIsOpen(true)
+              }}
+            >
+              {t('buy')}
+            </button>
+          </BuyNow>
+        </BuyCard>
+        <DescriptionCard overflowY={isReadMore}>
+          <DescriptionTitle>
+            <p>About Apple Watch Series 4 GPS</p>
+          </DescriptionTitle>
+          <DescriptionText>
+            <ReadMore showScroll={showScroll}>
               <p>
-                {t('publisher')} :<span>Muhammed Amin</span>
+                he biggest fight of the year is set for May 8 at AT&T Stadium in Arlington, Texas, as WBA, WBC and Ring
+                Magazine champion and the number one pound-for-pound fighter in the world, Canelo Alvarez, meets Billy
+                Joe Saunders, the holder of the WBO belt, in a battle for super middleweight supremacy. This stunning
+                collection of. he biggest fight of the year is set for May 8 at AT&T Stadium in Arlington, Texas, as
+                WBA, WBC and Ring Magazine champion and the number one pound-for-pound fighter in the world, Canelo
+                Alvarez, meets Billy Joe Saunders, the holder of the WBO belt, in a battle for super middleweight
+                supremacy. This stunning collection of
               </p>
-              <p>8% {t('resellingPercentage')}</p>
-            </div>
-          </PublisherCard>
-          <PublisherCard height="60px">
-            <div>
-              <p>
-                {t('owner')} :<span>Mohamed Mounier El - King</span>
-              </p>
-            </div>
-          </PublisherCard>
-          <BuyCard>
-            <BuyCost>
-              <p>
-                {t('cost')} : <span>180 ETH</span>
-              </p>
-            </BuyCost>
-            <BuyButtons $opacity={false}>
-              <ButtonWishlist nftId={nftId} type="NFTProduct"/>
-              <button
-                onClick={() => {
-                  setBidOrBuy(true)
-                  setIsOpen(true)
-                }}
-              >
-                {t('offer')}
-              </button>
-            </BuyButtons>
-            <BuyNow>
-              <button
-                onClick={() => {
-                  setBidOrBuy(false)
-                  setIsOpen(true)
-                }}
-              >
-                {t('buy')}
-              </button>
-            </BuyNow>
-          </BuyCard>
-          <DescriptionCard overflowY={isReadMore}>
-            <DescriptionTitle>
-              <p>About Apple Watch Series 4 GPS</p>
-            </DescriptionTitle>
-            <DescriptionText>
-              <ReadMore showScroll={showScroll}>
-                <p>
-                  he biggest fight of the year is set for May 8 at AT&T Stadium in Arlington, Texas, as WBA, WBC and
-                  Ring Magazine champion and the number one pound-for-pound fighter in the world, Canelo Alvarez, meets
-                  Billy Joe Saunders, the holder of the WBO belt, in a battle for super middleweight supremacy. This
-                  stunning collection of. he biggest fight of the year is set for May 8 at AT&T Stadium in Arlington,
-                  Texas, as WBA, WBC and Ring Magazine champion and the number one pound-for-pound fighter in the world,
-                  Canelo Alvarez, meets Billy Joe Saunders, the holder of the WBO belt, in a battle for super
-                  middleweight supremacy. This stunning collection of
-                </p>
-              </ReadMore>
-            </DescriptionText>
-          </DescriptionCard>
-        </RightGrid>
-      </Grid>
-    </Container>
+            </ReadMore>
+          </DescriptionText>
+        </DescriptionCard>
+      </RightGrid>
+    </Grid>
   )
 }
 

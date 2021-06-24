@@ -1,12 +1,5 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
-  position: absolute;
-  padding: 4vh 3.2vw;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-`
 export const LoadingDiv = styled('div')<{ $display?: boolean }>`
   position: absolute;
   z-index: 100;

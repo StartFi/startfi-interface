@@ -47,7 +47,7 @@ const Header: React.FC = () => {
       </Left>
       <Right>
         <div>
-          <LinkMarketplace to="nfts">{t('backToMarketplace')}</LinkMarketplace>
+          <LinkMarketplace to="/marketplace/nfts">{t('backToMarketplace')}</LinkMarketplace>
           <img src={Arrow} alt="Back" />
         </div>
         <Wallet />
