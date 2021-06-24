@@ -16,7 +16,6 @@ export const addDraft = async (draft: Draft): Promise<string> => {
 }
 
 // get user draft
-export const getUserDrafts = async (ethAddress:string):Promise<Draft>=> {
-  const userDraft = (await getDocument(ENTITY, ethAddress)) as Draft
-  return userDraft
+export const getDraft = async (user: string): Promise<Draft> => {
+  return (await getDocument(ENTITY, user)) as Draft
 }

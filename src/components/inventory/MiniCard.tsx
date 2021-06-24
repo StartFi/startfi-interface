@@ -57,7 +57,8 @@ interface MiniCardContent {
   cardContent: NFT
 }
 const MiniCard: React.FC<MiniCardContent> = ({ cardContent }) => {
-  // console.log(usreDraftts)
+  let tags: string[] = []
+  if (cardContent?.tags) tags = [...cardContent?.tags].splice(0, 2)
   const imgUrl = uriToHttp(`${cardContent.image}`)[0]
   return (
     <Card>
@@ -65,14 +66,17 @@ const MiniCard: React.FC<MiniCardContent> = ({ cardContent }) => {
         <Image src={imgUrl}></Image>
         <TextContainer>
           <Text fontFamily='Roboto' fontSize='1rem' color='#000000' margin='-1px 0'>
-            {cardContent.name}
+            {cardContent?.name ? cardContent.name : 'No Data Available'}
           </Text>
           <Text fontFamily='Roboto' fontSize='0.75rem' color='#000000' margin='-1px 0'>
-            {cardContent.description}
+            {cardContent?.description ? cardContent.description : 'No Data Available'}
           </Text>
           <ButtonContainer>
-            <button>Starbuks</button>
-            <button>others</button>
+            {tags?.map(e => (
+              <button key={e}>{e}</button>
+            ))}
+
+            {/* <button>others</button> */}
           </ButtonContainer>
         </TextContainer>
       </CardContent>

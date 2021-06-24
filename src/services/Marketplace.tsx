@@ -92,12 +92,12 @@ interface PlaceBid {
 
 export const placeBid = async ({ auctionId, bid }: PlaceBid) => {
   //to get from blockchain or compute
-  const txtHash = ''
-  bid.id = 1
+  const txtHash  = ''
+  bid.id = '0'
   bid.expireTimestamp = 0
   bid.txtHash = txtHash
   const bidAdded = await addBid(bid)
-  const bidAddedToAuction = await addBidToAuction(auctionId, bid.id)
+  const bidAddedToAuction = await addBidToAuction(auctionId.toString(), bid.id)
   const status = checkSuccess({ bidAdded, bidAddedToAuction })
   return { status, bidAdded, bidAddedToAuction, txtHash }
 }

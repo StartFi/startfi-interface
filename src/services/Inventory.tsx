@@ -1,8 +1,8 @@
-import { InventoryOptions } from 'components/inventory/CardHeader'
 
-import { getUserDrafts } from './database/Draft'
-import { getNFTsOnAuction } from './Marketplace'
-import { Inventory } from './models/Inventory'
+
+
+import { getNFTsOnAuction } from './Marketplace';
+
 
 import { NFT } from './models/NFT'
 
@@ -13,19 +13,19 @@ export const getInventoryInMarketPlace = async (ethAddress: string): Promise<NFT
 }
 
 // get user Drafts
-export const getInventoryDraft = async (ethAddress: string): Promise<NFT[]> => {
-  const userDrafts = await getUserDrafts(ethAddress)
-  return userDrafts.drafts
-}
+// export const getInventoryDraft = async (ethAddress: string): Promise<NFT[]> => {
+//   const userDrafts = await getUserDrafts(ethAddress)
+//   return userDrafts.drafts
+// }
 
-export const getInventory = async (thAddress: string): Promise<Inventory[]> => {
-  let inventory: Inventory[] = []
+// export const getInventory = async (thAddress: string): Promise<Inventory[]> => {
+//   let inventory: Inventory[] = []
 
-  const invInMarket = await getInventoryInMarketPlace(thAddress)
-  const userDrafts = await getInventoryDraft(thAddress)
+//   const invInMarket = await getInventoryInMarketPlace(thAddress)
+//   const userDrafts = await getInventoryDraft(thAddress)
 
-  inventory=inventory.concat({ type: InventoryOptions.Draft, NFTs: userDrafts })
-  inventory=inventory.concat({ type: InventoryOptions.inMarketPlace, NFTs: invInMarket })
-  
-  return inventory
-}
+//   inventory=inventory.concat({ type: InventoryOptions.Draft, NFTs: userDrafts })
+//   inventory=inventory.concat({ type: InventoryOptions.inMarketPlace, NFTs: invInMarket })
+
+//   return inventory
+// }

@@ -1,7 +1,7 @@
 // NOTICE: Kindly keep the old sdk unite we remove the code dependant on it in this file
 import { Pair, Token } from '@uniswap/sdk'
 import { InventoryOptions } from 'components/inventory/CardHeader'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { NFT } from 'services/models/NFT'
 import { useETHBalances } from 'state/wallet/hooks'
@@ -22,10 +22,12 @@ import {
   updateUserSingleHopOnly,
   whitelistNFT,
   saveDraftAction,
-  getUserDraftsAction,
-  getUserInMarketInventoryAction,
-  getUserInventory
+  getUserNFTsAction,
+  getDraftsAction,
+
 } from './actions'
+
+import { usePopup } from 'state/application/hooks'
 
 export const useWhitelistNFT = (): ((nft: NFT) => void) => {
   const dispatch = useDispatch()
@@ -224,41 +226,69 @@ export const useSaveDraft = () => {
   )
 }
 
-export const useGetUseDrafts = (type:string) => {
+// export const useGetUseDrafts = (type: string) => {
+//   const dispatch = useDispatch()
+//   const user = useUserAddress()
+
+//   return useEffect(() => {
+//     // if (user&&type===InventoryOptions.Draft){
+//     //   dispatch(getUserDraftsAction(user))
+//     // }
+//     // if (user&&type === InventoryOptions.inMarketPlace){
+//     //   dispatch(getUserInMarketInventoryAction())
+//     // }
+//   }, [user, dispatch, type])
+// }
+
+// export const useGetDrafts = () => {
+//   const dispatch = useDispatch()
+//   const user = useUserAddress()
+//   const popup = usePopup()
+//   console.log('getDraft Action')
+//   return useCallback(
+//     () => (user ? dispatch(getDraftsAction(user)) : popup({ success: false, message: 'Connect wallet' })),
+//     [user, popup, dispatch]
+//   )
+// }
+
+// export const useGetUserNFTs = () => {
+//   const dispatch = useDispatch()
+//   const user = useUserAddress()
+//   const popup = usePopup()
+//   return useCallback(
+//     () => (user ? dispatch(getUserNFTsAction(user)) : popup({ success: false, message: 'Connect wallet' })),
+//     [user, popup, dispatch]
+//   )
+// }
+
+export const useGetInventory = () => {
   const dispatch = useDispatch()
   const user = useUserAddress()
-
-  return useEffect(() => {
-    if (user&&type===InventoryOptions.Draft){
-      dispatch(getUserDraftsAction(user))
-    }
-
-    if (user&&type === InventoryOptions.inMarketPlace){
-      dispatch(getUserInMarketInventoryAction())
-    }
-
-  }, [user, dispatch,type])
-}
-
-export const  useGetInventory=()=>{
-  const dispatch = useDispatch()
-  const user = useUserAddress()
-  console.log('dispatch')
-  return useCallback(()=>{
-    if(user)  dispatch(getUserInventory(user))
-  },[user])
-
-
-}
-
-export const useInventory =(type:string)=>{
-
-  return useSelector((state: AppState) =>{
-   let selectedInv= state.user.inventory.filter(e=>e.type===type)
-   console.log(selectedInv)
-   return selectedInv.length>0?selectedInv[0].NFTs:[]
-
-  }
-
+  const popup = usePopup()
+  return useCallback(
+    () => (user ? (dispatch(getUserNFTsAction(user)),dispatch(getDraftsAction(user))): popup({ success: false, message: 'Connect wallet' })),
+    [user, popup, dispatch]
   )
+}
+
+
+// return inventory  item according to selected type
+export const useInventory = (type: string) => {
+  return useSelector((state: AppState) => {
+    let selectedInventory
+    if (type === InventoryOptions.Draft) {
+      selectedInventory = state.user.drafts
+    }
+
+    if (type === InventoryOptions.inMarketPlace) {
+      selectedInventory = state.user.onMarket
+    }
+    if (type === InventoryOptions.offMarketPlace) {
+      selectedInventory = state.user.offMarket;
+    }
+
+    return selectedInventory
+  })
+
+
 }

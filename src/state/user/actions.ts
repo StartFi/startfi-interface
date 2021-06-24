@@ -1,8 +1,5 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { getInventory } from 'services/Inventory'
-import { getNFTsOnAuction } from 'services/Marketplace'
-
-import { getDrafts, saveDraft } from 'services/User'
+import { getDrafts, getUserNFTs, saveDraft } from 'services/User'
 import { addToWhitelist } from 'services/User/User'
 
 
@@ -40,6 +37,8 @@ export const whitelistNFT = createAsyncThunk('nfts/getNFTs', addToWhitelist)
 export const saveDraftAction = createAsyncThunk('user/saveDraftAction', saveDraft)
 
 
-export const getUserDraftsAction =createAsyncThunk('user/getDraftsAction',getDrafts)
-export const getUserInMarketInventoryAction =createAsyncThunk('user/getInMarketInventoryAction',getNFTsOnAuction )
-export const getUserInventory =createAsyncThunk('user/getInventory',getInventory )
+export const getDraftsAction = createAsyncThunk('marketplace/getDraftsAction', getDrafts)
+
+export const getUserNFTsAction = createAsyncThunk('marketplace/getUserNFTsAction', getUserNFTs)
+// export const getUserTrialsAction = createAsyncThunk('marketplace/getTrial', getInventory)
+
