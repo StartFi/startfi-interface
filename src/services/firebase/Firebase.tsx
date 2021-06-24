@@ -1,6 +1,6 @@
 import firebase from 'firebase'
 import { NFTQUERY } from 'services/Storage/NFT'
-import { NFTS } from 'state/nfts/reducer'
+import { NFT, NFTS } from 'state/nfts/reducer'
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -19,7 +19,7 @@ export const add = async (entity: string, key: any, object: any): Promise<string
   if (!entity) return 'No entity provided'
   if (!key) return 'No key provided'
   if (!object) return 'No object provided'
-  const ref = firebase.database().ref('/nfts/' + key)
+  const ref = firebase.database().ref(`/${entity}/${key}`)
   return ref.update(object)
 }
 
@@ -31,7 +31,7 @@ export const update = async (entity: string, key: string, object: any): Promise<
   return ref.update(object)
 }
 
-interface User {
+export interface User {
   ethAddress: string
   name?: string
   email?: string
@@ -39,7 +39,7 @@ interface User {
   whitelists?: Array<string>
 }
 
-type Document = User
+export type Document = User | NFT
 
 export const get = async (entity: string, key: string): Promise<Document> => {
   return (

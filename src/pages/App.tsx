@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Route, BrowserRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 // import Header from '../components/Header'
@@ -10,6 +10,7 @@ import Web3ReactManager from '../components/Web3ReactManager'
 // import { ApplicationModal } from '../state/application/actions'
 // import { useModalOpen, useToggleModal } from '../state/application/hooks'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
+import NFTConfirm from 'components/NFTConfirm'
 import MintNFT from '../components/MintNFT'
 import NFTs from './NFTs'
 import { LandingPage } from 'components/LandingPage'
@@ -58,13 +59,14 @@ export default function App() {
           <Popups />
           <Polling />
           <Web3ReactManager>
-            <Switch>
+            <BrowserRouter>
               <Route exact path="/" component={LandingPage} />
               <Route exact path="/nfts" component={NFTs} />
               <Route exact path="/nft" component={Nftproduct} />
+              <Route path="/nftconfirm" component={NFTConfirm} />
               <Route exact path="/mintnft" component={MintNFT} />
               <Route exact path="/mintednft" component={MintingCongrats} />
-            </Switch>
+            </BrowserRouter>
           </Web3ReactManager>
           <Marginer />
         </BodyWrapper>

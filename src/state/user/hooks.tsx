@@ -2,9 +2,10 @@
 import { Pair, Token } from '@uniswap/sdk'
 import { useCallback, useEffect, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { NFT } from 'state/nfts/reducer'
+import { useETHBalances } from 'state/wallet/hooks'
 import { UserDoc } from 'services/firebase/firebaseStore'
 
-import { NFT } from 'state/nfts/reducer'
 import { ChainId } from '../../constants/supportedChains'
 import { useActiveWeb3React } from '../../hooks'
 import { AppDispatch, AppState } from '../index'
@@ -22,7 +23,8 @@ import {
   updateUserSingleHopOnly,
   whitelistNFT,
   addUserDocs,
-  updateUserDocs
+  updateUserDocs,
+  saveDraft
 } from './actions'
 
 export const useWhitelistNFT = (): ((nft: NFT) => void) => {
@@ -196,6 +198,15 @@ export function useURLWarningToggle(): () => void {
   const dispatch = useDispatch()
   return useCallback(() => dispatch(toggleURLWarning()), [dispatch])
 }
+
+
+export const useUserBalance = (): string | undefined => {
+  const { account } = useActiveWeb3React()
+
+  const balance = useETHBalances(account ? [account] : [])?.[account ?? '']
+
+  return balance?.toSignificant(5)
+}
 // Edit user docs
 export const useEditUserDoc = (user: UserDoc) => {
   const dispatch = useDispatch()
@@ -210,4 +221,23 @@ export const useAddUserDoc = (user: UserDoc, account: any) => {
   return useEffect(() => {
     dispatch(addUserDocs(user))
   }, [dispatch, account])
+}
+
+export const useUserAddress = () => {
+  const { account } = useActiveWeb3React()
+
+  return account
+}
+
+export const useSaveDraft = () => {
+  const dispatch = useDispatch()
+
+  const user = useUserAddress()
+
+  return useCallback(
+    (draft: NFT) => {
+      if (user) dispatch(saveDraft({ user, draft }))
+    },
+    [dispatch]
+  )
 }
