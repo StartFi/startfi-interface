@@ -58,25 +58,12 @@ export const getUserNFTs = async (user: string) => {
 
   modifiedUserAuctions.forEach(e => {
     const NftID = e.nft
-   const status = e.status
-    // let loop = true
-
-    if(status==='open'){
+    const status = e.status
+    if (status === 'open') {
       const auctionNft = NftArray.filter(nft => nft.id === NftID)
       onMarket.push(auctionNft[0])
       offMarket = [...offMarket.filter(nft => nft.id !== NftID)]
     }
-
-
-    // NftArray.forEach(nft => {
-    //   if (status === 'open' && loop) {
-    //     const auctionNft = NftArray.filter(e => e.id === NftID)
-    //     onMarket.push(auctionNft[0])
-    //     offMarket = [...offMarket.filter(e => e.id !== NftID)]
-    //     loop = false
-    //   }
-
-    // })
   })
 
   return { onMarket, offMarket }

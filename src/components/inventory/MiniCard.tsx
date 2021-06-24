@@ -75,8 +75,6 @@ const MiniCard: React.FC<MiniCardContent> = ({ cardContent }) => {
             {tags?.map(e => (
               <button key={e}>{e}</button>
             ))}
-
-            {/* <button>others</button> */}
           </ButtonContainer>
         </TextContainer>
       </CardContent>
