@@ -35,6 +35,8 @@ export const clearSuccess = createAction<void>('user/clearSuccess')
 
 export const loginAction = createAsyncThunk('user/loginAction', login)
 
+export const logoutAction = createAction<void>('user/logoutAction')
+
 export const addToWishlistAction = createAsyncThunk('user/addToWishlistAction', addToWishlist)
 
 export const saveDraftAction = createAsyncThunk('user/saveDraftAction', saveDraft)
