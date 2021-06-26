@@ -1,11 +1,45 @@
-import { useCallback } from 'react'
-import { EventType } from '@ethersproject/abstract-provider'
+import { useCallback, useEffect } from 'react'
 import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
 import { useStartFiRoyality } from './useContract'
+import { Contract, EventFilter } from 'ethers'
+import { useDispatch } from 'react-redux'
+import { addNewEvent } from 'state/blockchainEvents/actions'
 
+export const useTransferNftLogs = (contract: Contract | null) => {
+  const { library } = useActiveWeb3React()
+  const transferEvent = contract?.filters.Transfer()
+  const dispatch = useDispatch()
+  useEffect(() => {
+    library?.on(transferEvent as EventFilter, result => {
+      const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
+      const args = eventLogs?.args
+      const eventValue = args && { sender: args[0], recipient: args[1], amount: args[2].toNumber() }
+      dispatch(addNewEvent({ eventName: 'TransferNft', eventValue }))
+    })
+    return () => {
+      library?.removeAllListeners(transferEvent as EventFilter)
+    }
+  }, [transferEvent])
+}
+export const useApprovalNftLogs = (contract: Contract | null) => {
+  const { library } = useActiveWeb3React()
+  const ApprovalEvent = contract?.filters.Approval()
+  const dispatch = useDispatch()
+  useEffect(() => {
+    library?.on(ApprovalEvent as EventFilter, result => {
+      const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
+      const args = eventLogs?.args
+      const eventValue = args && { sender: args[0], recipient: args[1], amount: args[2].toNumber() }
+      dispatch(addNewEvent({ eventName: 'ApprovalNft', eventValue }))
+    })
+    return () => {
+      library?.removeAllListeners(ApprovalEvent as EventFilter)
+    }
+  }, [ApprovalEvent])
+}
 export const useNftInfo = () => {
   const contract = useStartFiRoyality(false)
   return useCallback(async () => {
@@ -97,6 +131,7 @@ export const useAproveNft = (): ((address: string, tokenId: string) => any) => {
   const contract = useStartFiRoyality(true)
   const approve = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
+  useApprovalNftLogs(contract)
   return useCallback(
     async (address: string, tokenId: string) => {
       if (!account) {
@@ -139,13 +174,4 @@ export const useRoyaltyInfo = (): ((tokenId: string, value: string) => any) => {
     },
     [contract]
   )
-}
-
-export const useTransferNFtLogs = () => {
-  const { account, library } = useActiveWeb3React()
-  const tokenContract = useStartFiRoyality(false)
-  const fromMe = tokenContract?.filters?.Transfer(account)
-  library?.on(fromMe as EventType, (from, to, amount, event) => {
-    console.log('NFT lisining Transfer|sent', { from, to, amount, event })
-  })
 }

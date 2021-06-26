@@ -15,7 +15,8 @@ export const useTransferTokenLogs = (contract: Contract | null) => {
   useEffect(() => {
     library?.on(transferEvent as EventFilter, result => {
       const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
-      const eventValue = eventLogs?.args
+      const args = eventLogs?.args
+      const eventValue = args && { sender: args[0], recipient: args[1], amount: args[2].toNumber() }
       dispatch(addNewEvent({ eventName: 'trasnferToken', eventValue }))
     })
     return () => {
@@ -30,7 +31,8 @@ export const useApprovalTokenLogs = (contract: Contract | null) => {
   useEffect(() => {
     library?.on(ApprovalEvent as EventFilter, result => {
       const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
-      const eventValue = eventLogs?.args
+      const args = eventLogs?.args
+      const eventValue = args && { sender: args[0], recipient: args[1], amount: args[2].toNumber() }
       dispatch(addNewEvent({ eventName: 'ApprovalToken', eventValue }))
     })
     return () => {
