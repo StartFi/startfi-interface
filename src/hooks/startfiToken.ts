@@ -1,11 +1,43 @@
+import { useDispatch } from 'react-redux'
+import { Contract, EventFilter } from 'ethers'
 import { useStartFiToken } from './useContract'
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
-import { EventType } from '@ethersproject/abstract-provider'
+import { addNewEvent } from '../state/blockchainEvents/actions'
 
+export const useTransferTokenLogs = (contract: Contract | null) => {
+  const { library } = useActiveWeb3React()
+  const transferEvent = contract?.filters.Transfer()
+  const dispatch = useDispatch()
+  useEffect(() => {
+    library?.on(transferEvent as EventFilter, result => {
+      const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
+      const eventValue = eventLogs?.args
+      dispatch(addNewEvent({ eventName: 'trasnferToken', eventValue }))
+    })
+    return () => {
+      library?.removeAllListeners(transferEvent as EventFilter)
+    }
+  }, [transferEvent])
+}
+export const useApprovalTokenLogs = (contract: Contract | null) => {
+  const { library } = useActiveWeb3React()
+  const ApprovalEvent = contract?.filters.Approval()
+  const dispatch = useDispatch()
+  useEffect(() => {
+    library?.on(ApprovalEvent as EventFilter, result => {
+      const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
+      const eventValue = eventLogs?.args
+      dispatch(addNewEvent({ eventName: 'ApprovalToken', eventValue }))
+    })
+    return () => {
+      library?.removeAllListeners(ApprovalEvent as EventFilter)
+    }
+  }, [ApprovalEvent])
+}
 export const useTokneInfo = () => {
   const contract = useStartFiToken(false)
   return useCallback(() => {
@@ -57,6 +89,7 @@ export const useAproveToken = (): ((address: string, tokenId: string) => any) =>
   const contract = useStartFiToken(true)
   const approve = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
+  useApprovalTokenLogs(contract)
   return useCallback(
     async (address: string, tokenId: string) => {
       if (!account) {
@@ -118,6 +151,7 @@ export const useDecreaseAllowance = (): ((spender: string, substractedValue: str
 }
 export const useTransfer = (): ((address: string, amount: string) => any) => {
   const contract = useStartFiToken(true)
+  useTransferTokenLogs(contract)
   const transfer = useSubmitTransaction()
   const { account, library } = useActiveWeb3React()
   const toggleWalletModal = useWalletModalToggle()
@@ -160,13 +194,4 @@ export const useBurn = (): ((amount: string, from?: string) => any) => {
     },
     [transfer, account, contract, library, toggleWalletModal]
   )
-}
-
-export const useTransferLogs = () => {
-  const { account, library } = useActiveWeb3React()
-  const tokenContract = useStartFiToken(false)
-  const fromMe = tokenContract?.filters?.Transfer(account)
-  library?.on(fromMe as EventType, (from, to, amount, event) => {
-    console.log('ERC20 lisining  Transfer|sent', { from, to, amount, event })
-  })
 }

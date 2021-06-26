@@ -29,16 +29,7 @@ import {
   useRoyaltyInfo,
   useAproveNft
 } from 'hooks/startfiNft'
-import {
-  useBurn,
-  useTokenBalance,
-  useTokneInfo,
-  useTransfer,
-  useAproveToken,
-  useGetAllowance,
-  useIncreaseAllowance,
-  useDecreaseAllowance
-} from 'hooks/startfiToken'
+import { useBurn, useTokenBalance, useTokneInfo, useTransfer, useAproveToken } from 'hooks/startfiToken'
 /* End example never merge to the main  branch*/
 
 const Categories = ['All', ...CATEGORIES]
@@ -73,13 +64,9 @@ const NFTsHeader: React.FC = () => {
   /*End NFT tests */
   /*Start Token tests */
   const transfer = useTransfer()
-  const burn = useBurn()
   const getTokenInfo = useTokneInfo()
   const getTokenBalance = useTokenBalance()
   const approveToken = useAproveToken()
-  const getAllowance = useGetAllowance()
-  const increaseAllowance = useIncreaseAllowance()
-  const decreaeAllowance = useDecreaseAllowance()
   //useTransferLogs()
   /*end Token tests */
 
@@ -141,28 +128,11 @@ const NFTsHeader: React.FC = () => {
           getTokenInfo().then(result => {
             console.log('token info', result)
           })
-          /*   burn('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '0x1c').then(burnFromTransaction => {
-            console.log('burn from', burnFromTransaction)
-          }) */
-          burn('0x1c').then(burnTransaction => {
-            console.log('burn token', burnTransaction)
-          })
           getTokenBalance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
             console.log('token balance', result)
           })
           approveToken('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '001').then((result: any) => {
             console.log('approve token', result)
-          })
-          getAllowance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then(
-            (result: any) => {
-              console.log('get token allowance', result)
-            }
-          )
-          increaseAllowance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '1').then((result: any) => {
-            console.log('increase token allowance', result)
-          })
-          decreaeAllowance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '1').then((result: any) => {
-            console.log('decrease token allowance', result)
           })
           /* End example never merge to the main  branch*/
 
