@@ -38,6 +38,20 @@ export const useTokenBalance = (): ((address: string) => any) => {
     [contract]
   )
 }
+export const useGetAllowance = (): ((owner: string, spender: string) => any) => {
+  const contract = useStartFiToken(false)
+  return useCallback(
+    (owner: string, spender: string) => {
+      const getAllowance = async () => {
+        const allowance = await evaluateTransaction(contract, 'allowance', [owner, spender])
+        return allowance
+      }
+      return getAllowance()
+    },
+    [contract]
+  )
+}
+
 export const useAproveToken = (): ((address: string, tokenId: string) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiToken(true)
@@ -51,6 +65,49 @@ export const useAproveToken = (): ((address: string, tokenId: string) => any) =>
       }
       try {
         return await approve('approve', [address, tokenId], contract, account, library)
+      } catch (e) {
+        console.log('error', e)
+        return e
+      }
+    },
+    [account, contract, library, approve, toggleWalletModal]
+  )
+}
+export const useIncreaseAllowance = (): ((spender: string, addedValue: string) => any) => {
+  const { account, library } = useActiveWeb3React()
+  const contract = useStartFiToken(true)
+  const approve = useSubmitTransaction()
+  const toggleWalletModal = useWalletModalToggle()
+  return useCallback(
+    async (spender: string, addedValue: string) => {
+      if (!account) {
+        toggleWalletModal()
+        return `account: ${account} is not connected`
+      }
+      try {
+        return await approve('increaseAllowance', [spender, addedValue], contract, account, library)
+      } catch (e) {
+        console.log('error', e)
+        return e
+      }
+    },
+    [account, contract, library, approve, toggleWalletModal]
+  )
+}
+
+export const useDecreaseAllowance = (): ((spender: string, substractedValue: string) => any) => {
+  const { account, library } = useActiveWeb3React()
+  const contract = useStartFiToken(true)
+  const approve = useSubmitTransaction()
+  const toggleWalletModal = useWalletModalToggle()
+  return useCallback(
+    async (spender: string, substractedValue: string) => {
+      if (!account) {
+        toggleWalletModal()
+        return `account: ${account} is not connected`
+      }
+      try {
+        return await approve('decreaseAllowance', [spender, substractedValue], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
