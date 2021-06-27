@@ -3,7 +3,7 @@ import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
-import { useStartFiRoyality } from './useContract'
+import { useStartFiRoyality, useStartFiPayment } from './useContract'
 import { Contract, EventFilter } from 'ethers'
 import { useDispatch } from 'react-redux'
 import { addNewEvent } from 'state/blockchainEvents/actions'
@@ -59,7 +59,7 @@ export const useNftInfo = () => {
 
 export const useMint = (): ((address: string, ipfsHash: string, share?: string, base?: string) => any) => {
   const { account, library } = useActiveWeb3React()
-  const contract = useStartFiRoyality(true)
+  const contract = useStartFiPayment(true)
   const mint = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   return useCallback(
@@ -71,14 +71,14 @@ export const useMint = (): ((address: string, ipfsHash: string, share?: string, 
       try {
         if (share && base) {
           return await mint(
-            'mintWithRoyalty',
+            'MintNFTWithRoyalty',
             [address, ipfsHash, share as string, base as string],
             contract,
             account,
             library
           )
         } else {
-          return await mint('mint', [address, ipfsHash], contract, account, library)
+          return await mint('MintNFTWithoutRoyalty', [address, ipfsHash], contract, account, library)
         }
       } catch (e) {
         console.log('error', e)
@@ -178,5 +178,82 @@ export const useRoyaltyInfo = (): ((tokenId: string, value: string) => any) => {
       return getAddress()
     },
     [contract]
+  )
+}
+
+export const useNftPaymentInfo = (): (() => any) => {
+  const contract = useStartFiPayment(false)
+  return useCallback(() => {
+    const getInfo = async () => {
+      const info = await evaluateTransaction(contract, 'info', [])
+      return info
+    }
+    return getInfo()
+  }, [contract])
+}
+// NFT Payment Owner Transactions
+export const useChangeFeesNftPayment = (): ((newFees: string) => any) => {
+  const { account, library } = useActiveWeb3React()
+  const contract = useStartFiPayment(true)
+  const changeFees = useSubmitTransaction()
+  const toggleWalletModal = useWalletModalToggle()
+  return useCallback(
+    async (newFees: string) => {
+      if (!account) {
+        toggleWalletModal()
+        return `account: ${account} is not connected`
+      }
+      try {
+        return await changeFees('changeFees', [newFees], contract, account, library)
+      } catch (e) {
+        console.log('error', e)
+        return e
+      }
+    },
+    [account, contract, library, changeFees, toggleWalletModal]
+  )
+}
+
+export const useChangeNftContractNftPayment = (): ((nftAddress: string) => any) => {
+  const { account, library } = useActiveWeb3React()
+  const contract = useStartFiPayment(true)
+  const changeNftContract = useSubmitTransaction()
+  const toggleWalletModal = useWalletModalToggle()
+  return useCallback(
+    async (nftAddress: string) => {
+      if (!account) {
+        toggleWalletModal()
+        return `account: ${account} is not connected`
+      }
+      try {
+        return await changeNftContract('changeNftContract', [nftAddress], contract, account, library)
+      } catch (e) {
+        console.log('error', e)
+        return e
+      }
+    },
+    [account, contract, library, changeNftContract, toggleWalletModal]
+  )
+}
+
+export const useChangeTokenContractNftPayment = (): ((tokenAddress: string) => any) => {
+  const { account, library } = useActiveWeb3React()
+  const contract = useStartFiPayment(true)
+  const changeTokenContract = useSubmitTransaction()
+  const toggleWalletModal = useWalletModalToggle()
+  return useCallback(
+    async (nftAddress: string) => {
+      if (!account) {
+        toggleWalletModal()
+        return `account: ${account} is not connected`
+      }
+      try {
+        return await changeTokenContract('changeTokenContract', [nftAddress], contract, account, library)
+      } catch (e) {
+        console.log('error', e)
+        return e
+      }
+    },
+    [account, contract, library, changeTokenContract, toggleWalletModal]
   )
 }

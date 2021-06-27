@@ -28,7 +28,14 @@ import {
   networks as STARTFI_MARKET_PLACE_NETWORK,
   abi as STARTFI_MARKET_PLACE_ABI
 } from '../constants/abis/StartfiMarketPlace.json'
-import { networks as STARTFI_RoyaltyNFT, abi as STARTFI_RoyaltyNFTI } from '../constants/abis/StartfiRoyaltyNFT.json'
+import {
+  networks as STARTFI_RoyaltyNFT_NETWORK,
+  abi as STARTFI_RoyaltyNFT_ABI
+} from '../constants/abis/StartfiRoyaltyNFT.json'
+import {
+  networks as STARTFI_NFT_PAYMENT_NETWORK,
+  abi as STARTFI_NFT_PAYMENT_ABI
+} from '../constants/abis/StartFiNFTPayment.json'
 // returns null on errors
 declare type WETH_Only = {
   [chainId in ChainId]: Token
@@ -146,5 +153,18 @@ export const useStartFiMarketplace = (withSignerIfPossible?: boolean): Contract 
 
 export const useStartFiRoyality = (withSignerIfPossible?: boolean): Contract | null => {
   const { chainId } = useActiveWeb3React()
-  return useContract(chainId && STARTFI_RoyaltyNFT[chainId]?.address, STARTFI_RoyaltyNFTI, withSignerIfPossible)
+  return useContract(
+    chainId && STARTFI_RoyaltyNFT_NETWORK[chainId]?.address,
+    STARTFI_RoyaltyNFT_ABI,
+    withSignerIfPossible
+  )
+}
+
+export const useStartFiPayment = (withSignerIfPossible?: boolean): Contract | null => {
+  const { chainId } = useActiveWeb3React()
+  return useContract(
+    chainId && STARTFI_NFT_PAYMENT_NETWORK[chainId]?.address,
+    STARTFI_NFT_PAYMENT_ABI,
+    withSignerIfPossible
+  )
 }

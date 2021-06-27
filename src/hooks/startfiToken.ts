@@ -90,20 +90,20 @@ export const useGetAllowance = (): ((owner: string, spender: string) => any) => 
   )
 }
 
-export const useAproveToken = (): ((address: string, tokenId: string) => any) => {
+export const useAproveToken = (): ((address: string, amount: string) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiToken(true)
   const approve = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   useApprovalTokenLogs(contract)
   return useCallback(
-    async (address: string, tokenId: string) => {
+    async (address: string, amount: string) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
       }
       try {
-        return await approve('approve', [address, tokenId], contract, account, library)
+        return await approve('approve', [address, amount], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
