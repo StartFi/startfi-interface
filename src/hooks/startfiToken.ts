@@ -13,12 +13,14 @@ export const useTransferTokenLogs = (contract: Contract | null) => {
   const transferEvent = contract?.filters.Transfer()
   const dispatch = useDispatch()
   useEffect(() => {
-    library?.on(transferEvent as EventFilter, result => {
-      const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
-      const args = eventLogs?.args
-      const eventValue = args && { sender: args[0], recipient: args[1], amount: args[2].toNumber() }
-      dispatch(addNewEvent({ eventName: 'trasnferToken', eventValue }))
-    })
+    if (transferEvent) {
+      library?.on(transferEvent as EventFilter, result => {
+        const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
+        const args = eventLogs?.args
+        const eventValue = args && { sender: args[0], recipient: args[1], amount: args[2].toNumber() }
+        dispatch(addNewEvent({ eventName: 'trasnferToken', eventValue }))
+      })
+    }
     return () => {
       library?.removeAllListeners(transferEvent as EventFilter)
     }
@@ -29,12 +31,14 @@ export const useApprovalTokenLogs = (contract: Contract | null) => {
   const ApprovalEvent = contract?.filters.Approval()
   const dispatch = useDispatch()
   useEffect(() => {
-    library?.on(ApprovalEvent as EventFilter, result => {
-      const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
-      const args = eventLogs?.args
-      const eventValue = args && { sender: args[0], recipient: args[1], amount: args[2].toNumber() }
-      dispatch(addNewEvent({ eventName: 'ApprovalToken', eventValue }))
-    })
+    if (ApprovalEvent) {
+      library?.on(ApprovalEvent as EventFilter, result => {
+        const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
+        const args = eventLogs?.args
+        const eventValue = args && { sender: args[0], recipient: args[1], amount: args[2].toNumber() }
+        dispatch(addNewEvent({ eventName: 'ApprovalToken', eventValue }))
+      })
+    }
     return () => {
       library?.removeAllListeners(ApprovalEvent as EventFilter)
     }
