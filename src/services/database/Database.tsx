@@ -1,12 +1,6 @@
+import { Dictionary } from './../../constants'
 import firebase from 'firebase'
-import { NFTQUERY } from 'services/Marketplace'
-import { Auction } from 'services/models/Auction'
-import { AuctionNFT } from 'services/models/AuctionNFT'
-import { Bid } from 'services/models/Bid'
-import { Draft } from 'services/models/Draft'
-import { NFT } from 'services/models/NFT'
-import { User } from 'services/models/User'
-import { sortMarketplace } from 'utils'
+import { Document } from 'services/models/Document'
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -22,8 +16,6 @@ const config = {
 firebase.initializeApp(config)
 
 const DB = firebase.firestore()
-
-export type Document = User | NFT | Auction | Bid | Draft
 
 export const addDocument = async (collection: string, key: string | number, document: Document): Promise<string> => {
   if (!collection) return 'No entity provided'
@@ -56,49 +48,21 @@ export const editDocument = async (collection: string, key: string | number, doc
   return 'No document'
 }
 
-export const getDocumentsByChild = async (collection: string, child: string, value: any): Promise<Document[]> => {
-  const array = await DB.collection(collection)
-    .where(child, '==', value)
-    .get()
-  return firestoreToArray(array)
+export const getDocuments = async (
+  collection: string,
+  filters?: Dictionary,
+  orders?: Dictionary
+): Promise<Document[]> => {
+  var query: any = DB.collection(collection)
+  if (filters) Object.keys(filters).forEach(key => (query = query.where(key, '==', filters[key])))
+  if (orders) Object.keys(orders).forEach(key => (query = query.orderBy(key, orders[key])))
+  return snapshotToArray(await query.get().catch((err: any) => console.log(err)))
 }
 
-export const getNFTs = async ({ search, category, sort }: NFTQUERY) => {
-  var nftsQuery: any = DB.collection('nfts')
-  if (search) nftsQuery = nftsQuery.where('name', '==', search)
-  if (category && category !== 'all') nftsQuery = nftsQuery.where('category', '==', category)
-  const nfts = firestoreToArray(await nftsQuery.get()) as NFT[]
-  var auctionsQuery = await DB.collection('auctions')
-    .where('status', '==', 'open')
-  if (!sort) sort = 'Lowest price'
-  // auctionsQuery = auctionsQuery.orderBy('listingPrice', sort === 'Lowest price' ? 'asc' : 'desc')
-  const auctions = firestoreToArray(await auctionsQuery.get()) as Auction[]
-  console.log(nfts)
-  console.log(auctions)
-  const onMarket: AuctionNFT[] = []
-  nfts.forEach((nft: NFT) => {
-    const auction = auctions.filter((auction: Auction) => nft.id === auction.nft)[0]
-    if (auction)
-      onMarket.push({
-        nft,
-        auction,
-        ownername: '',
-        issuername: '',
-        ownerdetails: ''
-      })
-  })
-  console.log(onMarket)
-  const sorted = sortMarketplace(onMarket, sort)
-  console.log(sorted)
-  return sorted
-}
-
-const firestoreToArray = (
-  firebaseObject: firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData>
+const snapshotToArray = (
+  snapshot: firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData> | void
 ): Document[] => {
   const result: Document[] = []
-  firebaseObject.forEach(doc => result.push(doc.data() as Document))
+  if (snapshot) snapshot.forEach(doc => result.push(doc.data() as Document))
   return result
 }
-
-getNFTs({ search: '', category: '', sort: '' })

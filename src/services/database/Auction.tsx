@@ -1,4 +1,5 @@
-import { addDocument, editDocument, getDocument, getDocumentsByChild } from 'services/database/Database'
+import { Dictionary } from './../../constants'
+import { addDocument, editDocument, getDocument, getDocuments } from 'services/database/Database'
 import { Auction } from 'services/models/Auction'
 
 const COLLECTION = 'auctions'
@@ -15,12 +16,8 @@ export const editAuction = async (auction: any): Promise<string> => {
   return editDocument(COLLECTION, auction.id, auction)
 }
 
-export const getOpenAuctions = async (): Promise<Auction[]> => {
-  return (await getDocumentsByChild(COLLECTION, 'status', 'open')) as Auction[]
-}
-
-export const getNFTAuctions = async (nftId: number): Promise<Auction[]> => {
-  return (await getDocumentsByChild(COLLECTION, 'nft', nftId)) as Auction[]
+export const getAuctions = async (filters?: Dictionary, orders?: Dictionary): Promise<Auction[]> => {
+  return (await getDocuments(COLLECTION, filters, orders)) as Auction[]
 }
 
 export const addBidToAuction = async (auctionId: string, bidId: string): Promise<string> => {

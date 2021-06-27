@@ -11,7 +11,6 @@ import {
   useBuyNFT,
   useConfirmationLoading,
   usePlaceBid,
-  useSetConfirmationLoading
 } from 'state/marketplace/hooks'
 import { useUserBalance } from 'state/user/hooks'
 import styled from 'styled-components'
@@ -172,8 +171,6 @@ const NFTConfirm: React.FunctionComponent = () => {
 
   const confimration = useConfirmationLoading()
 
-  const setConfirmation = useSetConfirmationLoading()
-
   const popup = usePopup()
 
   if (!auctionNFT) {
@@ -197,7 +194,6 @@ const NFTConfirm: React.FunctionComponent = () => {
   }
 
   const confirm = () => {
-    setConfirmation(true)
     if (bidOrBuy) placebid()
     else buynft()
   }

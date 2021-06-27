@@ -1,12 +1,13 @@
 import { Bid } from './models/Bid'
 import { NFT } from './models/NFT'
-import { addBidToAuction, editAuction, getAuction, getOpenAuctions } from './database/Auction'
+import { addBidToAuction, editAuction, getAuction, getAuctions } from './database/Auction'
 import { getUser } from './database/User'
-import { addNFT, editNFT, getNFT } from './database/NFT'
+import { addNFT, editNFT, getNFT, getNFTs } from './database/NFT'
 import { addBid } from './database/Bid'
 import { AuctionNFT } from './models/AuctionNFT'
-import { checkSuccess, sortMarketplace } from 'utils'
+import { checkSuccess, sortHelper } from 'utils'
 import { Auction } from './models/Auction'
+import { DEFAULTSORT } from './../constants'
 
 export const mintNFT = async (nft: NFT) => {
   //get from blockchain or compute
@@ -26,24 +27,28 @@ export type NFTQUERY = {
 
 export const getMarketplace = async (query?: NFTQUERY) => {
   const t0 = performance.now()
-  const auctions = await getOpenAuctions()
-  const nfts = await Promise.all(auctions.map(auction => getNFT(auction.nft)))
-  var onMarket: AuctionNFT[] = []
-  auctions.forEach(auction =>
-    onMarket.push({
-      nft: nfts.filter((nft: NFT) => nft.id === auction.nft)[0],
-      auction,
-      ownername: '',
-      issuername: '',
-      ownerdetails: ''
-    })
-  )
-  if (query) {
-    const { search, category, sort } = query
-    if (category && category !== 'all') onMarket = onMarket.filter(auctionNFT => auctionNFT.nft.category === category)
-    if (search) onMarket = onMarket.filter(auctionNFT => auctionNFT.nft.name.includes(search))
-    if (sort) onMarket = sortMarketplace(onMarket, sort)
-  }
+
+  if (!query) query = {}
+  const { search, category, sort } = query
+  const nftsQuery: NFTQUERY = {}
+  if (search) nftsQuery.search = search
+  if (category && category !== 'all') nftsQuery.category = category
+  const auctionSort = sort ? sort : DEFAULTSORT
+  const nfts = await getNFTs(nftsQuery)
+  const auctions = await getAuctions({ status: 'open' }, sortHelper(auctionSort))
+  const onMarket: AuctionNFT[] = []
+  auctions.forEach((auction: Auction) => {
+    const nft = nfts.filter((nft: NFT) => nft.id === auction.nft)[0]
+    if (nft)
+      onMarket.push({
+        nft,
+        auction,
+        ownername: '',
+        issuername: '',
+        ownerdetails: ''
+      })
+  })
+
   const t1 = performance.now()
   const loadtime = Math.round(t1 - t0)
   return { onMarket, loadtime, ...query }

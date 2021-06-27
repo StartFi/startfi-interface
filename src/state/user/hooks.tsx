@@ -223,12 +223,14 @@ export const useWalletAddress = () => {
 export const useSaveDraft = () => {
   const dispatch = useDispatch()
   const user = useUserAddress()
+  const popup = usePopup()
   return useCallback(
     (draft: NFT) => {
       const drafts = [draft]
       if (user) dispatch(saveDraftAction({ user, drafts }))
+      else popup({success:false,message:'Connect wallet'})
     },
-    [user, dispatch]
+    [user, popup, dispatch]
   )
 }
 
