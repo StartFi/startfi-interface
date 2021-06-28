@@ -24,11 +24,6 @@ export const isSuccess = (input: string) => input === 'success'
 export const checkSuccess = (object: any) =>
   Object.keys(object).filter(key => !isSuccess(object[key])).length === 0 ? 'success' : 'failure'
 
-export const fulfilledHandler = (payload: any, message: string) => {
-  if (payload.status === 'success') alert(message)
-  else console.log(payload)
-}
-
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
   try {

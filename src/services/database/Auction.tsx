@@ -1,7 +1,9 @@
-import { editDocument, getDocument, getDocumentsByChild } from 'services/database/Database'
+import { addDocument, editDocument, getDocument, getDocumentsByChild } from 'services/database/Database'
 import { Auction } from 'services/models/Auction'
 
 const ENTITY = 'auctions'
+
+
 
 export const getAuctionByNFT = async (nftId: number): Promise<Auction> => {
   const auctions = (await getDocumentsByChild(ENTITY, 'nft', nftId)) as Auction[]
@@ -9,16 +11,23 @@ export const getAuctionByNFT = async (nftId: number): Promise<Auction> => {
   return auctions[auctions.length - 1]
 }
 
-export const editAuction = async (auction: any): Promise<string> => {
-  const oldAuction = await getDocument(ENTITY, auction.id)
-  if (oldAuction) {
-    const newAuction = { ...oldAuction, ...auction }
-    return editDocument(ENTITY, newAuction.id, newAuction)
-  }
-  return 'No auction'
+export const addAuction = async (auction: Auction): Promise<string> => {
+  return addDocument(ENTITY, auction.id, auction)
 }
 
-export const addBidToAuction = async (auctionId: number, bidId: number): Promise<string> => {
+export const editAuction = async (auction: any): Promise<string> => {
+  return editDocument(ENTITY, auction.id, auction)
+}
+
+export const getOpenAuctions = async (): Promise<Auction[]> => {
+  return (await getDocumentsByChild(ENTITY, 'status', 'open')) as Auction[]
+}
+
+export const getNFTAuctions = async (nftId: number): Promise<Auction[]> => {
+  return (await getDocumentsByChild(ENTITY, 'nft', nftId)) as Array<Auction>
+}
+
+export const addBidToAuction = async (auctionId: string, bidId: string): Promise<string> => {
   const oldAuction = (await getDocument(ENTITY, auctionId)) as Auction
   if (oldAuction) {
     const newAuction = { ...oldAuction }

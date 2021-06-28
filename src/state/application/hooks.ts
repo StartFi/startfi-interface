@@ -1,12 +1,12 @@
+import { PopupContent } from './../../constants'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useActiveWeb3React } from '../../hooks'
 import { AppDispatch, AppState } from '../index'
-import { addPopup, ApplicationModal, PopupContent, removePopup, setOpenModal } from './actions'
+import { addPopup, ApplicationModal, PopupContent as PC, removePopup, setOpenModal } from './actions'
 
 export function useBlockNumber(): number | undefined {
   const { chainId } = useActiveWeb3React()
-
   return useSelector((state: AppState) => state.application.blockNumber[chainId ?? -1])
 }
 
@@ -60,16 +60,31 @@ export function useToggleVoteModal(): () => void {
 }
 
 // returns a function that allows adding a popup
-export function useAddPopup(): (content: PopupContent, key?: string) => void {
+export function useAddPopup(): (content: PC, key?: string) => void {
   const dispatch = useDispatch()
-
   return useCallback(
-    (content: PopupContent, key?: string) => {
+    (content: PC, key?: string) => {
       dispatch(addPopup({ content, key }))
     },
     [dispatch]
   )
 }
+
+
+export const usePopup = (): ((popupContent: PopupContent) => void) => {
+  const popup = useAddPopup()
+  return useCallback((popupContent: PopupContent)=>{
+    const content:PC = {txn:{
+      hash: '',
+      success: popupContent.success,
+      summary: popupContent.message
+
+
+    }}  
+    popup(content)
+  },[popup])
+}
+
 
 // returns a function that allows removing a popup via its key
 export function useRemovePopup(): (key: string) => void {

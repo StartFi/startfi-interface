@@ -1,5 +1,7 @@
+
 import { addDocument, editDocument, getDocument } from 'services/database/Database'
 import { Draft } from 'services/models/Draft'
+
 
 const ENTITY = 'drafts'
 
@@ -11,4 +13,9 @@ export const addDraft = async (draft: Draft): Promise<string> => {
     return editDocument(ENTITY, newUserDrafts.user, newUserDrafts)
   }
   return addDocument(ENTITY, draft.user, draft)
+}
+
+// get user draft
+export const getDraft = async (user: string): Promise<Draft> => {
+  return (await getDocument(ENTITY, user)) as Draft
 }

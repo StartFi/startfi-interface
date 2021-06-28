@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Row } from 'theme/components'
+import { useWalletAddress } from 'state/user/hooks'
 
 const Categories = ['all', ...CATEGORIES]
 
@@ -42,7 +43,8 @@ const Search = styled(Row)`
 `
 
 const TabsCategory = styled(Row)`
-  margin: 4vh 0;
+  /* margin-top: 1vh; */
+  margin-bottom: 4vh;
   padding: 3vh 0;
   padding-right: 10vw;
   border-bottom: 1px solid #efefef;
@@ -58,7 +60,25 @@ const Tab = styled(Row)<TabProps>`
   border-bottom: ${props => (props.selected ? '2px solid #000000;' : 'none;')};
 `
 
+const FirstRow = styled(Row)`
+  margin-bottom: 4vh;
+`
+
+const ConnectWallet = styled.div`
+  width: 100%;
+  text-align: center;
+  background: rgba(255, 0, 0, 0.05);
+  border: 1px solid rgba(228, 0, 0, 0.1);
+  border-radius: 4px;
+  text-transform: capitalize;
+  color: #ba0404;
+  padding: 1vh 0;
+  margin-bottom: 2vh;
+`
+
 const NFTsHeader: React.FC = () => {
+  const address = useWalletAddress()
+
   const history = useHistory()
 
   const { t } = useTranslation()
@@ -71,18 +91,26 @@ const NFTsHeader: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Row>
+      <FirstRow>
         <img src={Logo} alt="Logo" onClick={() => history.push('/')} />
         <Search>
           <InputSearch placeholder={t('searchNFTS')} value={search} onChange={(e: any) => setSearch(e.target.value)} />
-          <ButtonSearch onClick={() => {getNFTs({ search });history.push('nfts')}}>{t('search')}</ButtonSearch>
+          <ButtonSearch
+            onClick={() => {
+              getNFTs({ search })
+              history.push('nfts')
+            }}
+          >
+            {t('search')}
+          </ButtonSearch>
         </Search>
         <Link to="" onClick={() => history.push('whitelist')}>
           <img src={Heart} alt="Whitelist" />
         </Link>
         <LinkCreateNFT to="mintnft">{t('mintNFT')}</LinkCreateNFT>
         <Wallet />
-      </Row>
+      </FirstRow>
+      {!address && <ConnectWallet>{t('marketplaceConnectWallet')}</ConnectWallet>}
       <TabsCategory>
         {Categories.map(c => (
           <Tab

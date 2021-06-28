@@ -10,13 +10,13 @@ import { checkSuccess } from 'utils'
 
 export const mintNFT = async (nft: NFT) => {
   //get from blockchain or compute
-  const txtHash = ''
+  const hash = ''
   nft.id = 0
-  nft.txtHash = txtHash
+  nft.txtHash = hash
   const nftAdded = await addNFT(nft)
   const nftAddedToOwner = await addNFTToUser(nft.issuer, nft.id)
   const status = checkSuccess({ nftAddedToOwner, nftAdded })
-  return { status, nftAddedToOwner, nftAdded, txtHash }
+  return { status, nftAddedToOwner, nftAdded, hash }
 }
 
 export type NFTQUERY = {
@@ -60,7 +60,7 @@ interface BuyNFT {
 
 export const buyNFT = async ({ nftId, auctionId, owner, buyer, soldPrice }: BuyNFT) => {
   //get from blockchain
-  const purchaseTxt = ''
+  const hash = ''
   const nftChange = {
     id: nftId,
     owner: buyer,
@@ -74,7 +74,7 @@ export const buyNFT = async ({ nftId, auctionId, owner, buyer, soldPrice }: BuyN
     isForSale: false,
     isForBid: false,
     purchaseTime: new Date(),
-    purchaseTxt,
+    purchaseTxt: hash,
     soldPrice
   }
   const nftRemovedFromSeller = await removeNFTFromUser(owner, nftId)
@@ -82,7 +82,7 @@ export const buyNFT = async ({ nftId, auctionId, owner, buyer, soldPrice }: BuyN
   const nftEdited = await editNft(nftChange)
   const auctionEdited = await editAuction(auctionChange)
   const status = checkSuccess({ nftRemovedFromSeller, nftAddedToBuyer, nftEdited, auctionEdited })
-  return { status, nftRemovedFromSeller, nftAddedToBuyer, nftEdited, auctionEdited, purchaseTxt }
+  return { status, nftRemovedFromSeller, nftAddedToBuyer, nftEdited, auctionEdited, hash }
 }
 
 interface PlaceBid {
@@ -92,18 +92,23 @@ interface PlaceBid {
 
 export const placeBid = async ({ auctionId, bid }: PlaceBid) => {
   //to get from blockchain or compute
-  const txtHash = ''
-  bid.id = 1
+
+  const txtHash  = ''
+  bid.id = '0'
+
   bid.expireTimestamp = 0
-  bid.txtHash = txtHash
+  bid.txtHash =txtHash
   const bidAdded = await addBid(bid)
-  const bidAddedToAuction = await addBidToAuction(auctionId, bid.id)
+  const bidAddedToAuction = await addBidToAuction(auctionId.toString(), bid.id)
   const status = checkSuccess({ bidAdded, bidAddedToAuction })
-  return { status, bidAdded, bidAddedToAuction, txtHash }
+
+  return { status, bidAdded, bidAddedToAuction,txtHash }
 }
+
 
 
 // get NFT details
 export const getNft = async (nftId: number) => {
   return await getNfDetails(nftId)
 }
+

@@ -1,4 +1,4 @@
-import { addDocument, editDocument, getDocument, getNFTS } from 'services/database/Database'
+import { addDocument, editDocument, getDocument, getDocumentsByChild, getNFTS } from 'services/database/Database'
 import { NFTQUERY } from 'services/Marketplace'
 import { NFT } from 'services/models/NFT'
 
@@ -26,3 +26,8 @@ export const getNfDetails= async(nftId:number):Promise<NFT>=>{
   return (await getDocument(ENTITY, nftId)) as NFT
 
 }
+
+export const getOwnerNFTs = async (owner: string): Promise<NFT[]> => {
+  return (await getDocumentsByChild(ENTITY, 'owner', owner)) as NFT[]
+}
+

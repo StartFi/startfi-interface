@@ -1,3 +1,4 @@
+import { PopupContent } from './../../constants'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NFTQUERY } from 'services/Marketplace'
@@ -9,6 +10,7 @@ import { useUserAddress } from 'state/user/hooks'
 import {
   addNFTAction,
   buyNFTAction,
+  clearMarketplacePopup,
   getAuctionNFTAction,
   getNFTDetailsAction,
   getNFTsAction,
@@ -47,6 +49,10 @@ export const useBidOrBuyValue = (): number => {
 
 export const useConfirmationLoading = (): boolean => {
   return useSelector((state: AppState) => state.marketplace.confirmationLoading)
+}
+
+export const useMarketplacePopup = (): PopupContent | null => {
+  return useSelector((state: AppState) => state.marketplace.popup)
 }
 
 export const useSetBidOrBuy = (): ((bidOrBuy: boolean, value: number) => void) => {
@@ -102,7 +108,7 @@ export const usePlaceBid = (): (() => void) => {
     if (bidder && auctionNFT) {
       const auctionId = auctionNFT.auction.id
       const bid: Bid = {
-        id: 0,
+        id: '0',
         nft: auctionNFT.nft.id,
         bidPrice,
         bidder,
@@ -129,6 +135,7 @@ export const useBuyNFT = (): (() => void) => {
   }, [soldPrice, auctionNFT, buyer, dispatch])
 }
 
+
 // fetch NFT detail
 export const useGetNftDetails = (nftId: number) => {
   const dispatch = useDispatch()
@@ -140,4 +147,14 @@ export const useGetNftDetails = (nftId: number) => {
 
 export const useNFTDetails =()=>{
   return useSelector((state: AppState) => state.marketplace.NftDetails)
+
+export const useClearMarketplacePopup = () => {
+  const dispatch = useDispatch()
+  return useCallback(
+    () => {
+      dispatch(clearMarketplacePopup())
+    },
+    [dispatch]
+  )
+
 }

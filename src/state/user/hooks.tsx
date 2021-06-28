@@ -1,10 +1,17 @@
 // NOTICE: Kindly keep the old sdk unite we remove the code dependant on it in this file
 import { Pair, Token } from '@uniswap/sdk'
-import { useCallback, useMemo } from 'react'
+
+import { InventoryOptions } from 'components/inventory/CardHeader'
+
+
+import { PopupContent } from './../../constants'
+import { useCallback, useEffect, useMemo } from 'react'
+
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { NFT } from 'services/models/NFT'
+import { User } from 'services/models/User'
 import { useETHBalances } from 'state/wallet/hooks'
-import {ChainId} from '../../constants/supportedChains'
+import { ChainId } from '../../constants/supportedChains'
 import { useActiveWeb3React } from '../../hooks'
 import { AppDispatch, AppState } from '../index'
 import {
@@ -19,15 +26,26 @@ import {
   updateUserSlippageTolerance,
   toggleURLWarning,
   updateUserSingleHopOnly,
-  whitelistNFT,
-  saveDraftAction
+
+  getUserNFTsAction,
+  getDraftsAction,
+     saveDraftAction,
+     loginAction,
+     logoutAction,
+     addToWishlistAction,
+     clearUserPopup,
+
+  // clearUserPopup,
+  // logoutAction
+
 } from './actions'
 
-export const useWhitelistNFT = (): ((nft: NFT) => void) => {
-  const dispatch = useDispatch()
-  const user = ''
-  return useCallback((nft: NFT) => dispatch(whitelistNFT({ user, nft })), [dispatch])
-}
+import { usePopup } from 'state/application/hooks'
+
+
+
+
+
 function serializeToken(token: Token): SerializedToken {
   return {
     chainId: token.chainId,
@@ -203,9 +221,18 @@ export const useUserBalance = (): string | undefined => {
   return balance?.toSignificant(5)
 }
 
+export const useUser = (): User | null => {
+  return useSelector((state: AppState) => state.user.user)
+}
+
 export const useUserAddress = () => {
+  const user = useUser()
+  return useMemo(() => user?.ethAddress, [user])
+}
+
+export const useWalletAddress = () => {
   const { account } = useActiveWeb3React()
-  return account
+  return useMemo(() => account, [account])
 }
 
 export const useSaveDraft = () => {
@@ -219,3 +246,117 @@ export const useSaveDraft = () => {
     [user, dispatch]
   )
 }
+
+
+// export const useGetUseDrafts = (type: string) => {
+//   const dispatch = useDispatch()
+//   const user = useUserAddress()
+
+//   return useEffect(() => {
+//     // if (user&&type===InventoryOptions.Draft){
+//     //   dispatch(getUserDraftsAction(user))
+//     // }
+//     // if (user&&type === InventoryOptions.inMarketPlace){
+//     //   dispatch(getUserInMarketInventoryAction())
+//     // }
+//   }, [user, dispatch, type])
+// }
+
+// export const useGetDrafts = () => {
+//   const dispatch = useDispatch()
+//   const user = useUserAddress()
+//   const popup = usePopup()
+//   console.log('getDraft Action')
+//   return useCallback(
+//     () => (user ? dispatch(getDraftsAction(user)) : popup({ success: false, message: 'Connect wallet' })),
+//     [user, popup, dispatch]
+//   )
+// }
+
+// export const useGetUserNFTs = () => {
+//   const dispatch = useDispatch()
+//   const user = useUserAddress()
+//   const popup = usePopup()
+//   return useCallback(
+//     () => (user ? dispatch(getUserNFTsAction(user)) : popup({ success: false, message: 'Connect wallet' })),
+//     [user, popup, dispatch]
+//   )
+// }
+
+export const useGetInventory = () => {
+  const dispatch = useDispatch()
+  const user = useUserAddress()
+  const popup = usePopup()
+  return useCallback(
+    () => (user ? (dispatch(getUserNFTsAction(user)),dispatch(getDraftsAction(user))): popup({ success: false, message: 'Connect wallet' })),
+    [user, popup, dispatch]
+  )
+}
+
+
+// return inventory  item according to selected type
+export const useInventory = (type: string) => {
+  return useSelector((state: AppState) => {
+    let selectedInventory
+    if (type === InventoryOptions.Draft) {
+      selectedInventory = state.user.drafts
+    }
+
+    if (type === InventoryOptions.inMarketPlace) {
+      selectedInventory = state.user.onMarket
+    }
+    if (type === InventoryOptions.offMarketPlace) {
+      selectedInventory = state.user.offMarket;
+    }
+
+    return selectedInventory
+  })
+
+
+}
+
+export const useLogin = () => {
+  const account = useWalletAddress()
+  const dispatch = useDispatch()
+  return useEffect(() => {
+    if (account) dispatch(loginAction(account))
+    else dispatch(logoutAction())
+  }, [account, dispatch])
+}
+
+export const useAddToWishlist = (nftId: number) => {
+  const dispatch = useDispatch()
+  const userId = useUserAddress()
+  return useCallback(
+    () => {
+      if (userId) dispatch(addToWishlistAction({userId, nftId}))
+    },
+    [nftId, userId, dispatch]
+  )
+}
+
+export const useUserPopup = (): PopupContent | null => {
+  return useSelector((state: AppState) => state.user.popup)
+}
+
+export const useClearUserPopup = () => {
+  const dispatch = useDispatch()
+  return useCallback(
+    () => {
+      dispatch(clearUserPopup())
+    },
+    [dispatch]
+  )
+}
+
+export const useIsNFTWishlist = (nftId: number): boolean => {
+  const user = useUser()
+  return useMemo(() => user && user.wishlist ? user.wishlist.includes(nftId) : false, [nftId, user])
+}
+
+export const useWishlist = (nftId: number) => {
+  const addToWishlist = useAddToWishlist(nftId)
+  const isWishlist = useIsNFTWishlist(nftId)
+  return useMemo(()=>{ return { addToWishlist, isWishlist } }, [addToWishlist, isWishlist])
+}
+

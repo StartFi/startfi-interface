@@ -1,8 +1,10 @@
+import ButtonWishlist from 'components/Button/ButtonWishlist'
 import NFTsHeader from 'components/Header/NFTsHeader'
 import WaitingConfirmation from 'components/WaitingConfirmation'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
+import { usePopup } from 'state/application/hooks'
 import {
   useAuctionNFT,
   useBidOrBuy,
@@ -12,7 +14,7 @@ import {
   usePlaceBid,
   useSetConfirmationLoading
 } from 'state/marketplace/hooks'
-import { useUserBalance, useWhitelistNFT } from 'state/user/hooks'
+import { useUserBalance } from 'state/user/hooks'
 import styled from 'styled-components'
 import { shortenAddress } from 'utils'
 import uriToHttp from 'utils/uriToHttp'
@@ -146,7 +148,7 @@ const ButtonTransparent = styled(ButtonConfirmBid)`
   background-color: transparent;
 `
 
-const ButtonTransparentBorder = styled(ButtonTransparent)`
+export const ButtonTransparentBorder = styled(ButtonTransparent)`
   border: 1px solid #000000;
 `
 
@@ -159,8 +161,6 @@ const NFTConfirm: React.FunctionComponent = () => {
   const { t } = useTranslation()
 
   const history = useHistory()
-
-  const whitelistNFT = useWhitelistNFT()
 
   const balance = useUserBalance()
 
@@ -180,14 +180,16 @@ const NFTConfirm: React.FunctionComponent = () => {
 
   const setConfirmation = useSetConfirmationLoading()
 
+  const popup = usePopup()
+
   if (!auctionNFT) {
-    alert('No nft selected')
+    popup({success:false,message:'No nft selected'})
     history.goBack()
     return null
   }
 
   if (value === 0) {
-    alert('No value')
+    popup({success:false,message:'No value'})
     history.goBack()
     return null
   }
@@ -274,7 +276,7 @@ const NFTConfirm: React.FunctionComponent = () => {
             <Bold>{total(value, service())} STFI</Bold>
           </SpaceBetween>
           <ButtonBlack onClick={() => confirm()}>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</ButtonBlack>
-          <ButtonTransparentBorder onClick={() => whitelistNFT(nft)}>{t('addToWhitelist')}</ButtonTransparentBorder>
+          <ButtonWishlist nftId={nft.id} type="NFTConfirm" />
           <ButtonTransparent onClick={() => history.goBack()}>
             {t(bidOrBuy ? 'cancelBidding' : 'cancelPayment')}
           </ButtonTransparent>
