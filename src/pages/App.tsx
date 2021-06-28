@@ -13,7 +13,11 @@ import { LandingPage } from 'components/LandingPage'
 import Nftproduct from 'components/NFTproduct/Nftproduct'
 import MintingCongrats from 'components/MintingCongrats/mintingCongrats'
 import NFTConfirm from 'components/NFTConfirm'
+
+import Inventory from 'components/inventory'
+
 import { useLogin } from 'state/user/hooks'
+
 
 const AppWrapper = styled.div`
   display: flex;
@@ -66,6 +70,7 @@ export default function App() {
               <Route exact path="/nftconfirm" component={NFTConfirm} />
               <Route exact path="/mintnft" component={MintNFT} />
               <Route exact path="/mintednft" component={MintingCongrats} />
+              <Route exact path="/inventory" component={Inventory}  />
             </Switch>
           </Web3ReactManager>
           <Marginer />

@@ -107,7 +107,7 @@ export const usePlaceBid = (): (() => void) => {
     if (bidder && auctionNFT) {
       const auctionId = auctionNFT.auction.id
       const bid: Bid = {
-        id: 0,
+        id: '0',
         nft: auctionNFT.nft.id,
         bidPrice,
         bidder,

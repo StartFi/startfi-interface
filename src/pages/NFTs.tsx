@@ -2,12 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { useHistory } from 'react-router'
+
+import { useGetInventory} from 'state/user/hooks'
+
+
 import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { NFT } from 'services/models/NFT'
 import { useAuctionNFT, useGetAuctionNFT, useGetNFTs, useLoadNFTs, useLoadTime, useNFTs } from 'state/marketplace/hooks'
 import { Row } from 'theme/components'
+import { LinkBase } from '../components/Link/index'
+
+
 
 const NFTS = styled.div`
   padding: 4vh 3.2vw;
@@ -61,6 +68,8 @@ const NFTs: React.FC = () => {
     if (auctionNFT) history.push('/nft')
   },[auctionNFT, history])
 
+
+
   return (
     <NFTS>
       <NFTsHeader />
@@ -80,6 +89,9 @@ const NFTs: React.FC = () => {
             }}
           />
         </Header>
+        <LinkBase to='/inventory' onClick={useGetInventory()}>
+          Inventory
+        </LinkBase>
         <NFTList>
           {nfts.map((nft: NFT) => (
             <Nft key={nft.id}>

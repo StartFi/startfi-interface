@@ -1,4 +1,8 @@
+
+// import { getNFTsOnAuction } from 'services/Marketplace'
+
 import { addDocument, editDocument, getDocument } from 'services/database/Database'
+
 import { User } from 'services/models/User'
 
 const ENTITY = 'users'
@@ -43,6 +47,7 @@ export const removeNFTFromUser = async (userId: string, nftId: number): Promise<
   }
   return 'No user'
 }
+
 
 export const addNFTToWishlist = async (userId: string, nftId: number) => {
   const oldUser = (await getDocument(ENTITY, userId)) as User

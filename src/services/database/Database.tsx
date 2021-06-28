@@ -63,6 +63,7 @@ export const getDocumentsByChild = async (entity: string, child: string, value: 
       .equalTo(value)
       .once('value')
   ).val()
+
 }
 
 export const getNFTS = async ({ search, category, sort }: NFTQUERY): Promise<NFT[]> => {

@@ -1,5 +1,5 @@
 export interface Bid {
-  id: number
+  id: string
   nft: number
   bidPrice: number
   bidder: string
