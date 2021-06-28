@@ -60,7 +60,7 @@ const NFTs: React.FC = () => {
           }}
         />
       </Header>
-      <NFTList>
+      {onMarket.length > 0 ? <NFTList>
         {onMarket.map((auctionNFT: AuctionNFT) => (
           <Nft key={auctionNFT.nft.id}>
             <NTFCard
@@ -74,7 +74,8 @@ const NFTs: React.FC = () => {
             ></NTFCard>
           </Nft>
         ))}
-      </NFTList>
+      </NFTList> :
+      <div>No results</div>}
     </Padding>
   )
 }
