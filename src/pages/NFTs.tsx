@@ -1,13 +1,6 @@
 
-import React, { useState } from 'react'
-import {
-  useGetAuctionNFT,
+import React, { useEffect, useState } from 'react'
 
-  useGetNFTs,
-  useLoadNFTs,
-  useLoadTime,
-  useNFTs
-} from 'state/marketplace/hooks'
 
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
@@ -42,7 +35,7 @@ const Results = styled.div`
 
 const NFTList = styled(Row)`
   flex-wrap: wrap;
- 
+
 `
 
 const Nft = styled.div`

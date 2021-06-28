@@ -146,7 +146,7 @@ export const useGetNftDetails = (nftId: number) => {
 
 
 export const useNFTDetails =()=>{
-  return useSelector((state: AppState) => state.marketplace.NftDetails)
+  return useSelector((state: AppState) => state.marketplace.NftDetails)}
 
 export const useClearMarketplacePopup = () => {
   const dispatch = useDispatch()

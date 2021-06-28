@@ -44,7 +44,7 @@ const initialState: MarketplaceState = {
   bidOrBuyValue: 0,
   confirmationLoading: false,
 
-  NftDetails: null
+  NftDetails: null,
 
   popup: null
 
