@@ -51,7 +51,7 @@ const Nftproduct = () => {
   const [bidOrBuy, setBidOrBuy] = useState(false)
   const param: RouterParam = useParams()
 
-
+  const nftId = parseInt(param.id)
 
   useGetNftDetails(nftId)
   const NFTDetails: NFT | null = useNFTDetails()
@@ -69,7 +69,7 @@ const Nftproduct = () => {
     return null
   }
 
-  const nftId = auctionNFT.nft.id
+
 
   const showScroll = (readMore: boolean) => {
     readMore ? setIsReadMore('scroll') : setIsReadMore('')
