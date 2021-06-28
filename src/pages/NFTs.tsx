@@ -100,9 +100,7 @@ const NFTs: React.FC = () => {
             <Nft key={nft.id}>
               <NTFCard
                 cardContent={nft}
-
                 navigateToCard={(Nft: NFT) => history.push(`NFT/${Nft.id}`, Nft)}
-                addToWhiteList={(Nft: NFT) => whitelistNFT(Nft)}
                 placeBid={(Nft: NFT) => {
                   getAuctionNFT(Nft)
                   history.push('NFT', { Nft })

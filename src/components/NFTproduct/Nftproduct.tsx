@@ -34,9 +34,9 @@ import uriToHttp from 'utils/uriToHttp'
 import { NFT } from 'services/models/NFT'
 // import { NFT } from 'services/models/NFT'
 import ButtonWishlist from 'components/Button/ButtonWishlist'
-import { useAuctionNFT } from 'state/marketplace/hooks'
-import { usePopup } from 'state/application/hooks'
-import { useHistory } from 'react-router-dom'
+// import { useAuctionNFT } from 'state/marketplace/hooks'
+// import { usePopup } from 'state/application/hooks'
+// import { useHistory } from 'react-router-dom'
 
 type RouterParam = {
   id: string
@@ -57,17 +57,17 @@ const Nftproduct = () => {
   const NFTDetails: NFT | null = useNFTDetails()
   const imgUrl = uriToHttp(`${NFTDetails?.image}`)[0]
 
-  const auctionNFT = useAuctionNFT()
+  // const auctionNFT = useAuctionNFT()
 
-  const popup = usePopup()
+  // const popup = usePopup()
 
-  const history = useHistory()
+  // const history = useHistory()
 
-  if (!auctionNFT) {
-    popup({ success: false, message: 'No nft selected' })
-    history.goBack()
-    return null
-  }
+  // if (!auctionNFT) {
+  //   popup({ success: false, message: 'No nft selected' })
+  //   history.goBack()
+  //   return null
+  // }
 
 
 
