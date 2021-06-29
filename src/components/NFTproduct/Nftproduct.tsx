@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
-import Rectangle from '../../assets/images/Rectangle.png'
+
+// import Path from '../../assets/svg/Path.svg'
+
+// import Rectangle from '../../assets/images/Rectangle.png'
 
 import {
   Grid,
@@ -19,16 +22,25 @@ import {
   BuyNow,
   DescriptionCard,
   DescriptionTitle,
-  DescriptionText,
+  DescriptionText
 } from './Nftproduct.styles'
 import ReadMore from '../ReadMore/readmore'
 import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import BidOrBuy from 'components/BidOrBuy'
+import { useParams } from 'react-router-dom'
+import { useGetNftDetails, useNFTDetails } from 'state/marketplace/hooks'
+import uriToHttp from 'utils/uriToHttp'
+import { NFT } from 'services/models/NFT'
+// import { NFT } from 'services/models/NFT'
 import ButtonWishlist from 'components/Button/ButtonWishlist'
-import { useAuctionNFT } from 'state/marketplace/hooks'
-import { usePopup } from 'state/application/hooks'
-import { useHistory } from 'react-router-dom'
+// import { useAuctionNFT } from 'state/marketplace/hooks'
+// import { usePopup } from 'state/application/hooks'
+// import { useHistory } from 'react-router-dom'
+
+type RouterParam = {
+  id: string
+}
 
 const Nftproduct = () => {
   const { t } = useTranslation()
@@ -37,20 +49,27 @@ const Nftproduct = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const [bidOrBuy, setBidOrBuy] = useState(false)
+  const param: RouterParam = useParams()
 
-  const auctionNFT = useAuctionNFT()
-  
-  const popup = usePopup()
+  const nftId = parseInt(param.id)
 
-  const history = useHistory()
+  useGetNftDetails(nftId)
+  const NFTDetails: NFT | null = useNFTDetails()
+  const imgUrl = uriToHttp(`${NFTDetails?.image}`)[0]
 
-  if (!auctionNFT) {
-    popup({success:false,message:'No nft selected'})
-    history.goBack()
-    return null
-  }
-  
-  const nftId = auctionNFT.nft.id
+  // const auctionNFT = useAuctionNFT()
+
+  // const popup = usePopup()
+
+  // const history = useHistory()
+
+  // if (!auctionNFT) {
+  //   popup({ success: false, message: 'No nft selected' })
+  //   history.goBack()
+  //   return null
+  // }
+
+
 
   const showScroll = (readMore: boolean) => {
     readMore ? setIsReadMore('scroll') : setIsReadMore('')
@@ -63,14 +82,15 @@ const Nftproduct = () => {
       <Grid>
         <LeftGrid>
           <ImgCard>
-            <img src={Rectangle} alt="NFT"/>
+            <img src={imgUrl} />
+
             <p>1234 {t('views')}</p>
           </ImgCard>
           <LeftTextCard>
             <CreatedTitle>
               <p>
                 {t('createdBy')}
-                <span>Muhammed Amin</span>
+                <span>{NFTDetails?.name}</span>
               </p>
             </CreatedTitle>
             <CreatedText>
@@ -89,7 +109,7 @@ const Nftproduct = () => {
             <p>Apple Watch Series 4 GPS</p>
           </RightTitle>
           <RightSubTitle>{t('prediction')}: Round 11 (Bronze) - Only 100 Available</RightSubTitle>
-          <PublisherCard height="91px">
+          <PublisherCard height='91px'>
             <div>
               <p>
                 {t('publisher')} :<span>Muhammed Amin</span>
@@ -97,21 +117,21 @@ const Nftproduct = () => {
               <p>8% {t('resellingPercentage')}</p>
             </div>
           </PublisherCard>
-          <PublisherCard height="60px">
+          <PublisherCard height='60px'>
             <div>
               <p>
-                {t('owner')} :<span>Mohamed Mounier El - King</span>
+                {t('owner')} <span>{NFTDetails?.owner}</span>
               </p>
             </div>
           </PublisherCard>
           <BuyCard>
             <BuyCost>
               <p>
-                {t('cost')} : <span>180 ETH</span>
+                {t('cost')} : <span>{NFTDetails?.price} ETH</span>
               </p>
             </BuyCost>
             <BuyButtons $opacity={false}>
-              <ButtonWishlist nftId={nftId} type="NFTProduct"/>
+              <ButtonWishlist nftId={nftId} type='NFTProduct' />
               <button
                 onClick={() => {
                   setBidOrBuy(true)
@@ -139,13 +159,14 @@ const Nftproduct = () => {
             <DescriptionText>
               <ReadMore showScroll={showScroll}>
                 <p>
-                  he biggest fight of the year is set for May 8 at AT&T Stadium in Arlington, Texas, as WBA, WBC and
+                  {/* he biggest fight of the year is set for May 8 at AT&T Stadium in Arlington, Texas, as WBA, WBC and
                   Ring Magazine champion and the number one pound-for-pound fighter in the world, Canelo Alvarez, meets
                   Billy Joe Saunders, the holder of the WBO belt, in a battle for super middleweight supremacy. This
                   stunning collection of. he biggest fight of the year is set for May 8 at AT&T Stadium in Arlington,
                   Texas, as WBA, WBC and Ring Magazine champion and the number one pound-for-pound fighter in the world,
                   Canelo Alvarez, meets Billy Joe Saunders, the holder of the WBO belt, in a battle for super
-                  middleweight supremacy. This stunning collection of
+                  middleweight supremacy. This stunning collection of */}
+                  {NFTDetails?.description}
                 </p>
               </ReadMore>
             </DescriptionText>

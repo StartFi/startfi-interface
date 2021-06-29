@@ -1,5 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit'
+
+// import { getNFTS } from 'services/database/Database'
+
 import { PopupContent } from './../../constants'
+
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { NFT } from 'services/models/NFT'
 import {
@@ -7,6 +11,7 @@ import {
   buyNFTAction,
   clearMarketplacePopup,
   getAuctionNFTAction,
+  getNFTDetailsAction,
   getNFTsAction,
   placeBidAction,
   setBidOrBuy,
@@ -22,7 +27,11 @@ export interface MarketplaceState {
   bidOrBuy: boolean
   bidOrBuyValue: number
   confirmationLoading: boolean
+
+  NftDetails: NFT | null
+
   popup: PopupContent | null
+
 }
 
 const initialState: MarketplaceState = {
@@ -34,7 +43,11 @@ const initialState: MarketplaceState = {
   bidOrBuy: false,
   bidOrBuyValue: 0,
   confirmationLoading: false,
+
+  NftDetails: null,
+
   popup: null
+
 }
 
 export default createReducer(initialState, builder =>
@@ -92,9 +105,17 @@ export default createReducer(initialState, builder =>
     .addCase(setConfirmationLoading, (state, { payload: { isOpen } }) => {
       state.confirmationLoading = isOpen
     })
+
+    .addCase(getNFTDetailsAction.pending, (state, action) => {})
+    .addCase(getNFTDetailsAction.fulfilled, (state, action) => {
+      state.NftDetails = action.payload
+    })
+    .addCase(getNFTDetailsAction.rejected, (state, action) => {})
+
     .addCase(clearMarketplacePopup, (state, action) => {
       state.popup = null
     })
+
 )
 
 const getFirstError = (object: any): string => {

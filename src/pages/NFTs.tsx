@@ -1,4 +1,7 @@
+
 import React, { useEffect, useState } from 'react'
+
+
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { useHistory } from 'react-router'
@@ -32,7 +35,7 @@ const Results = styled.div`
 
 const NFTList = styled(Row)`
   flex-wrap: wrap;
- 
+
 `
 
 const Nft = styled.div`
@@ -97,8 +100,12 @@ const NFTs: React.FC = () => {
             <Nft key={nft.id}>
               <NTFCard
                 cardContent={nft}
-                navigateToCard={(Nft: NFT) => getAuctionNFT(Nft)}
-                placeBid={(Nft: NFT) => getAuctionNFT(Nft)}
+                navigateToCard={(Nft: NFT) => history.push(`NFT/${Nft.id}`, Nft)}
+                placeBid={(Nft: NFT) => {
+                  getAuctionNFT(Nft)
+                  history.push('NFT', { Nft })
+                }}
+
               ></NTFCard>
             </Nft>
           ))}

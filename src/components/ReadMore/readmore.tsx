@@ -15,12 +15,20 @@ const ReadMore: React.FC<ReadMoreProps> = ({ children, showScroll }) => {
     setIsReadMore(!isReadMore)
     showScroll(isReadMore)
   }
+
+  const textLength = text?.length
+
   return (
     <p className='text'>
       {isReadMore ? text?.slice(0, 360) : text}
-      <span onClick={toggleReadMore} className='read-or-hide' style={{ fontWeight: 700, cursor: 'pointer' }}>
-        {isReadMore ?  `...${t('readMore')}` : ` ...${t('showLess')}`}
-      </span>
+
+      {textLength > 350 ? (
+        <span onClick={toggleReadMore} className='read-or-hide' style={{ fontWeight: 700, cursor: 'pointer' }}>
+          {isReadMore ? `...${t('readMore')}` : ` ...${t('showLess')}`}
+        </span>
+      ) : (
+        <span></span>
+      )}
     </p>
   )
 }

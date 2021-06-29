@@ -5,6 +5,7 @@ import { NFT } from 'services/models/NFT'
 import ButtonWishlist from 'components/Button/ButtonWishlist'
 import { NftButton } from 'components/Button'
 
+
 export interface NftCardProps {
   cardContent: NFT
   navigateToCard: (clickedCard: NFT) => void
