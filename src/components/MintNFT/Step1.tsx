@@ -16,7 +16,7 @@ const Label = styled.div`
 `
 
 const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
-  const [filename, setFilename] = useState(state.image)
+  const [filename, setFilename] = useState(state.dataHash)
 
   const { t } = useTranslation()
 
@@ -30,7 +30,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
 
   useEffect(() => {
     if (status === ipfsEnumStatus.DONE && filename !== '') {
-      handleChange({ target: { name: 'image', value: 'ipfs://' + hash } })
+      handleChange({ target: { name: 'dataHash', value: 'ipfs://' + hash } })
     }
   }, [filename, status, hash, handleChange])
 
@@ -54,13 +54,13 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
         />
       </DropDown>
       <InputFile
-        name="image"
+        name="dataHash"
         label={t('uploadNFT')}
         value={state.imaghe}
         onChange={(e: any) => {
           if (e.target.files[0] === null) {
             setFilename('')
-            handleChange({ target: { name: 'image', value: '' } })
+            handleChange({ target: { name: 'dataHash', value: '' } })
           } else {
             setFilename(e.target.files[0].name)
             upload({ path: e.target.files[0].name, content: e.target.files[0] })
@@ -68,7 +68,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
         }}
         progress={progress}
         filename={filename}
-        error={missing.includes('image')}
+        error={missing.includes('dataHash')}
       />
     </React.Fragment>
   )

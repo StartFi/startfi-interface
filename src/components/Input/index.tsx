@@ -101,7 +101,7 @@ export const InputFile = ({ name, label, value, onChange, error, progress, filen
           <ButtonFile
             onClick={() => {
               setFile('')
-              onChange({ target: { files: [null] }, name: 'image' })
+              onChange({ target: { files: [null] }, name: 'dataHash' })
             }}
           >
             {t('Delete')}
