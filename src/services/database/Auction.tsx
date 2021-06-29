@@ -5,10 +5,8 @@ const ENTITY = 'auctions'
 
 
 
-export const getAuctionByNFT = async (nftId: number): Promise<Auction> => {
-  const auctions = (await getDocumentsByChild(ENTITY, 'nft', nftId)) as Auction[]
-  //Logic
-  return auctions[auctions.length - 1]
+export const getAuction = async (auctionId: string): Promise<Auction> => {
+  return (await getDocument(ENTITY, auctionId)) as Auction
 }
 
 export const addAuction = async (auction: Auction): Promise<string> => {
@@ -24,7 +22,10 @@ export const getOpenAuctions = async (): Promise<Auction[]> => {
 }
 
 export const getNFTAuctions = async (nftId: number): Promise<Auction[]> => {
+
   return (await getDocumentsByChild(ENTITY, 'nft', nftId)) as Array<Auction>
+
+ 
 }
 
 export const addBidToAuction = async (auctionId: string, bidId: string): Promise<string> => {

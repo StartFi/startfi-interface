@@ -1,5 +1,5 @@
 export interface Auction {
-  id: number
+  id: string
   nft: number
   listingPrice: number
   seller: string

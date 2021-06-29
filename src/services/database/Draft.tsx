@@ -15,7 +15,8 @@ export const addDraft = async (draft: Draft): Promise<string> => {
   return addDocument(ENTITY, draft.user, draft)
 }
 
-// get user draft
+
 export const getDraft = async (user: string): Promise<Draft> => {
   return (await getDocument(ENTITY, user)) as Draft
 }
+

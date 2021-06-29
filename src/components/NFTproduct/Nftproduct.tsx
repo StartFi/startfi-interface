@@ -9,7 +9,6 @@ import {
   LeftGrid,
   RightGrid,
   ImgCard,
-  Container,
   LeftTextCard,
   CreatedTitle,
   CreatedText,
@@ -25,7 +24,6 @@ import {
   DescriptionText
 } from './Nftproduct.styles'
 import ReadMore from '../ReadMore/readmore'
-import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import BidOrBuy from 'components/BidOrBuy'
 import { useParams } from 'react-router-dom'
@@ -34,12 +32,15 @@ import uriToHttp from 'utils/uriToHttp'
 import { NFT } from 'services/models/NFT'
 // import { NFT } from 'services/models/NFT'
 import ButtonWishlist from 'components/Button/ButtonWishlist'
-// import { useAuctionNFT } from 'state/marketplace/hooks'
-// import { usePopup } from 'state/application/hooks'
-// import { useHistory } from 'react-router-dom'
 
-type RouterParam = {
-  id: string
+
+import { usePopup } from 'state/application/hooks'
+import { useHistory, useParams } from 'react-router-dom'
+import { useGetAuctionNFT } from 'state/marketplace/hooks'
+
+interface NFTParams {
+  nft: string
+  auction: string
 }
 
 const Nftproduct = () => {
@@ -51,24 +52,31 @@ const Nftproduct = () => {
   const [bidOrBuy, setBidOrBuy] = useState(false)
   const param: RouterParam = useParams()
 
-  const nftId = parseInt(param.id)
+
+  
 
   useGetNftDetails(nftId)
   const NFTDetails: NFT | null = useNFTDetails()
   const imgUrl = uriToHttp(`${NFTDetails?.image}`)[0]
 
-  // const auctionNFT = useAuctionNFT()
 
-  // const popup = usePopup()
+  const { nft, auction }: NFTParams = useParams()
 
-  // const history = useHistory()
+  useGetAuctionNFT(parseInt(nft), auction)
 
-  // if (!auctionNFT) {
-  //   popup({ success: false, message: 'No nft selected' })
-  //   history.goBack()
-  //   return null
-  // }
+  const popup = usePopup()
 
+
+
+
+
+  if (!nft || !auction) {
+    popup({ success: false, message: 'No nft selected' })
+    history.goBack()
+    return null
+  }
+
+  const nftId = parseInt(nft)
 
 
   const showScroll = (readMore: boolean) => {
@@ -76,8 +84,9 @@ const Nftproduct = () => {
   }
 
   return (
-    <Container>
+    <Grid>
       <BidOrBuy bidOrBuy={bidOrBuy} isOpen={isOpen} close={() => setIsOpen(false)} />
+
       <NFTsHeader />
       <Grid>
         <LeftGrid>
@@ -174,6 +183,7 @@ const Nftproduct = () => {
         </RightGrid>
       </Grid>
     </Container>
+
   )
 }
 

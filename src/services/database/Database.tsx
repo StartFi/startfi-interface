@@ -1,12 +1,9 @@
-import { NFTQUERYLIMIT } from '../../constants'
 import firebase from 'firebase'
 import { Auction } from 'services/models/Auction'
 import { Bid } from 'services/models/Bid'
 import { Draft } from 'services/models/Draft'
 import { NFT } from 'services/models/NFT'
 import { User } from 'services/models/User'
-import { sortByKey } from 'utils'
-import { NFTQUERY } from 'services/Marketplace'
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -48,41 +45,23 @@ export const editDocument = async (entity: string, key: string | number, documen
   if (!entity) return 'No entity provided'
   if (!key && key !== 0) return 'No key provided'
   if (!document) return 'No object provided'
-  await firebase
-    .database()
-    .ref(`/${entity}/${key}`)
-    .update(document)
-  return 'success'
+  const oldDocument = await getDocument(entity, key)
+  if (oldDocument) {
+    const newDocument = { ...oldDocument, ...document }
+    await addDocument(entity, key, newDocument)
+    return 'success'
+  }
+  return 'No document'
 }
 
 export const getDocumentsByChild = async (entity: string, child: string, value: any): Promise<Document[]> => {
-  return (
+  return Object.values((
     await firebase
       .database()
       .ref(`/${entity}`)
       .orderByChild(child)
       .equalTo(value)
       .once('value')
-  ).val()
+  ).val())
 
-}
-
-export const getNFTS = async ({ search, category, sort }: NFTQUERY): Promise<NFT[]> => {
-  var ref: any = firebase.database().ref('nfts')
-  if (search) ref = ref.orderByChild('name').equalTo(search)
-  else if (category && category !== 'all') ref = ref.orderByChild('category').equalTo(category)
-  else if (sort) {
-    switch (sort) {
-      case 'Lowest price':
-        ref = ref.orderByChild('price').limitToFirst(NFTQUERYLIMIT)
-        break
-      case 'Highest price':
-        ref = ref.orderByChild('price').limitToLast(NFTQUERYLIMIT)
-        break
-      default:
-    }
-  }
-  const nfts = await (await ref.once('value')).val()
-  if (!nfts) return []
-  return sortByKey(Object.values(nfts), 'price', sort === 'Highest price')
 }

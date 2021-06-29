@@ -91,7 +91,7 @@ export const LandingPage = () => {
     <PageWrapper>
       <Header>
         <InnerHeader>
-          <LinkCreateNFT to='mintnft'>{t('mintNFT')}</LinkCreateNFT>
+          <LinkCreateNFT to="/mint/minting">{t('mintNFT')}</LinkCreateNFT>
           <Wallet />
         </InnerHeader>
       </Header>
@@ -106,8 +106,8 @@ export const LandingPage = () => {
         <p>{t('landSubText')}</p>
       </SubText>
       <LinkContainer>
-        <PageLink to='nfts'>{t('marketPlace')}</PageLink>
-        <PageLink to=''>{t('launchpad')}</PageLink>
+        <PageLink to="/marketplace/nfts">{t('marketPlace')}</PageLink>
+        <PageLink to="">{t('launchpad')}</PageLink>
       </LinkContainer>
     </PageWrapper>
   )

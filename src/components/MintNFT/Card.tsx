@@ -57,17 +57,15 @@ const Card: React.FC = () => {
 
   const [nft, setNFT] = useState<NFT>({
     id: 0,
-    name: '',
-    description: '',
     category: '',
+    dataHash: '',
+    name: '',
+    tags: [],
+    description: '',
     owner: '',
-    onAuction: false,
     issuer: '',
     issueDate: new Date(),
-    image: '',
-    price: 0,
     txtHash: '',
-    tags: [],
     royalty: 0
   })
 

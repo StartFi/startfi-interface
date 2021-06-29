@@ -2,10 +2,23 @@ import { Web3Provider } from '@ethersproject/providers'
 import { ChainId } from '../constants/supportedChains'
 import { useWeb3React as useWeb3ReactCore } from '@web3-react/core'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import { injected } from '../connectors'
-import { NetworkContextName } from '../constants'
+import { Dictionary, NetworkContextName } from '../constants'
+import { useLocation } from 'react-router-dom'
+
+export const useSearch = () => {
+  const location = useLocation()
+  return useMemo(() => {
+    const json: Dictionary = {}
+    location.search
+      .substring(1, location.search.length)
+      .split('&')
+      .forEach(pair => (json[pair.split('=')[0]] = pair.split('=')[1]))
+    return { ...json }
+  }, [location])
+}
 
 export function useActiveWeb3React(): Web3ReactContextInterface<Web3Provider> & { chainId?: ChainId } {
   const context = useWeb3ReactCore<Web3Provider>()

@@ -7,17 +7,14 @@ import URLWarning from '../components/Header/URLWarning'
 import Popups from '../components/Popups'
 import Web3ReactManager from '../components/Web3ReactManager'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
-import MintNFT from '../components/MintNFT'
-import NFTs from './NFTs'
 import { LandingPage } from 'components/LandingPage'
 import Nftproduct from 'components/NFTproduct/Nftproduct'
 import MintingCongrats from 'components/MintingCongrats/mintingCongrats'
 import NFTConfirm from 'components/NFTConfirm'
-
-
 import Inventory from 'components/inventory'
-
 import { useLogin } from 'state/user/hooks'
+import Mint from './Mint'
+import Marketplace from './Marketplace'
 
 
 
@@ -52,9 +49,8 @@ const Marginer = styled.div`
 `
 
 export default function App() {
-
   useLogin()
-  
+
   return (
     <Suspense fallback={null}>
       <Route component={GoogleAnalyticsReporter} />
@@ -67,14 +63,18 @@ export default function App() {
           <Web3ReactManager>
             <Switch>
               <Route exact path="/" component={LandingPage} />
-              <Route exact path="/nfts" component={NFTs} />
+
+              
 
               <Route exact path="/nft/:id" component={Nftproduct} />
               <Route path="/nftconfirm" component={NFTConfirm} />
-
-              <Route exact path="/mintnft" component={MintNFT} />
+        
               <Route exact path="/mintednft" component={MintingCongrats} />
               <Route exact path="/inventory" component={Inventory}  />
+
+              <Route path="/marketplace" component={Marketplace} />
+              <Route path="/mint" component={Mint} />
+
             </Switch>
           </Web3ReactManager>
           <Marginer />
