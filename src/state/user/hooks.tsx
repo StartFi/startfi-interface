@@ -246,9 +246,11 @@ export const useLogin = () => {
 export const useAddToWishlist = (nftId: number) => {
   const dispatch = useDispatch()
   const userId = useUserAddress()
+  const popup = usePopup()
   return useCallback(
     () => {
       if (userId) dispatch(addToWishlistAction({userId, nftId}))
+      else popup({success:false,message:'Connect wallet'})
     },
     [nftId, userId, dispatch]
   )

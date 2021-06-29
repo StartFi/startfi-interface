@@ -25,7 +25,8 @@ interface AddToWishList {
 
 export const addToWishlist = async ({ userId, nftId }: AddToWishList) => {
   const addedToWishlist = await addNFTToWishlist(userId, nftId)
-  return { addedToWishlist }
+  const user = await login(userId)
+  return { addedToWishlist, user }
 }
 
 export const saveDraft = async (draft: Draft) => {

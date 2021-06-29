@@ -17,6 +17,7 @@ const Results = styled.div`
 `
 
 const NFTList = styled(Row)`
+  justify-content: space-evenly;
   flex-wrap: wrap;
 `
 
