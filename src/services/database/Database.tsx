@@ -1,9 +1,6 @@
+import { Dictionary } from './../../constants'
 import firebase from 'firebase'
-import { Auction } from 'services/models/Auction'
-import { Bid } from 'services/models/Bid'
-import { Draft } from 'services/models/Draft'
-import { NFT } from 'services/models/NFT'
-import { User } from 'services/models/User'
+import { Document } from 'services/models/Document'
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -18,50 +15,54 @@ const config = {
 
 firebase.initializeApp(config)
 
-export type Document = User | NFT | Auction | Bid | Draft
+const DB = firebase.firestore()
 
-export const addDocument = async (entity: string, key: string | number, document: Document): Promise<string> => {
-  if (!entity) return 'No entity provided'
+export const addDocument = async (collection: string, key: string | number, document: Document): Promise<string> => {
+  if (!collection) return 'No entity provided'
   if (!key && key !== 0) return 'No key provided'
   if (!document) return 'No object provided'
-  await firebase
-    .database()
-    .ref(`/${entity}/${key}`)
-    .update(document)
+  await DB.collection(collection)
+    .doc(key.toString())
+    .set(document)
   return 'success'
 }
 
-export const getDocument = async (entity: string, key: string | number): Promise<Document | null> => {
-  
-  return (
-    await firebase
-      .database()
-      .ref(`/${entity}/${key}`)
-      .once('value')
-  ).val()
+export const getDocument = async (collection: string, key: string | number): Promise<Document | undefined> => {
+  return (await (
+    await DB.collection(collection)
+      .doc(key.toString())
+      .get()
+  ).data()) as Document
 }
 
-export const editDocument = async (entity: string, key: string | number, document: Document): Promise<string> => {
-  if (!entity) return 'No entity provided'
+export const editDocument = async (collection: string, key: string | number, document: Document): Promise<string> => {
+  if (!collection) return 'No entity provided'
   if (!key && key !== 0) return 'No key provided'
   if (!document) return 'No object provided'
-  const oldDocument = await getDocument(entity, key)
+  const oldDocument = await getDocument(collection, key)
   if (oldDocument) {
     const newDocument = { ...oldDocument, ...document }
-    await addDocument(entity, key, newDocument)
+    await addDocument(collection, key, newDocument)
     return 'success'
   }
   return 'No document'
 }
 
-export const getDocumentsByChild = async (entity: string, child: string, value: any): Promise<Document[]> => {
-  return Object.values((
-    await firebase
-      .database()
-      .ref(`/${entity}`)
-      .orderByChild(child)
-      .equalTo(value)
-      .once('value')
-  ).val())
+export const getDocuments = async (
+  collection: string,
+  filters?: Dictionary,
+  orders?: Dictionary
+): Promise<Document[]> => {
+  var query: any = DB.collection(collection)
+  if (filters) Object.keys(filters).forEach(key => (query = query.where(key, '==', filters[key])))
+  if (orders) Object.keys(orders).forEach(key => (query = query.orderBy(key, orders[key])))
+  return snapshotToArray(await query.get().catch((err: any) => console.log(err)))
+}
 
+const snapshotToArray = (
+  snapshot: firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData> | void
+): Document[] => {
+  const result: Document[] = []
+  if (snapshot) snapshot.forEach(doc => result.push(doc.data() as Document))
+  return result
 }

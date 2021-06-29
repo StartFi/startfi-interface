@@ -5,7 +5,7 @@ import { Draft } from './models/Draft'
 import { NFT } from './models/NFT'
 import { getNFTAuctions } from './database/Auction'
 import { addDraft, getDraft } from './database/Draft'
-import { getOwnerNFTs } from './database/NFT'
+import { getNFTs } from './database/NFT'
 import { addNFTToWishlist, addUser, getUser } from './database/User'
 import { Draft } from './models/Draft'
 import { NFT } from './models/NFT'
@@ -30,7 +30,8 @@ interface AddToWishList {
 
 export const addToWishlist = async ({ userId, nftId }: AddToWishList) => {
   const addedToWishlist = await addNFTToWishlist(userId, nftId)
-  return { addedToWishlist }
+  const user = await login(userId)
+  return { addedToWishlist, user }
 }
 
 
@@ -44,7 +45,6 @@ export const getDrafts = async (user: string) => {
   const drafts = (await getDraft(user)).drafts
   return { drafts }
 }
-
 
 // export const getUserNFTs = async (user: string) => {
 // const userNFTs = await getOwnerNFTs(user)
@@ -92,8 +92,5 @@ export const getUserNFTs = async (user: string) => {
       offMarket = [...offMarket.filter(nft => nft.id !== NftID)]
     }
   })
-
-
-
   return { onMarket, offMarket }
 }

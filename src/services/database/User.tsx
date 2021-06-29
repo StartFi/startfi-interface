@@ -5,30 +5,30 @@ import { addDocument, editDocument, getDocument } from 'services/database/Databa
 
 import { User } from 'services/models/User'
 
-const ENTITY = 'users'
+const COLLECTION = 'users'
 
 export const addUser = async (user: User) => {
-  return addDocument(ENTITY, user.ethAddress, user)
+  return addDocument(COLLECTION, user.ethAddress, user)
 }
 
 export const getUser = async (ethAddress: string): Promise<User> => {
-  return (await getDocument(ENTITY, ethAddress)) as User
+  return (await getDocument(COLLECTION, ethAddress)) as User
 }
 
 export const editUser = async (user: any): Promise<string> => {
-  return editDocument(ENTITY, user.ethAddress, user)
+  return editDocument(COLLECTION, user.ethAddress, user)
 }
 
 
 export const addNFTToWishlist = async (userId: string, nftId: number) => {
-  const oldUser = (await getDocument(ENTITY, userId)) as User
+  const oldUser = (await getDocument(COLLECTION, userId)) as User
   if (oldUser) {
     const newUser = { ...oldUser }
     if (newUser.wishlist) {
       if (newUser.wishlist.includes(nftId)) return "NFT already exist is user's wishlist"
       else newUser.wishlist.push(nftId)
     } else newUser.wishlist = [nftId]
-    return editDocument(ENTITY, newUser.ethAddress, newUser)
+    return editDocument(COLLECTION, newUser.ethAddress, newUser)
   }
   return 'No user'
 }

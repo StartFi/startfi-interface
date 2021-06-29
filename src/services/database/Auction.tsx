@@ -1,12 +1,15 @@
-import { addDocument, editDocument, getDocument, getDocumentsByChild } from 'services/database/Database'
+import { Dictionary } from './../../constants'
+import { addDocument, editDocument, getDocument, getDocuments } from 'services/database/Database'
 import { Auction } from 'services/models/Auction'
 
-const ENTITY = 'auctions'
+const COLLECTION = 'auctions'
 
-
+export const addAuction = async (auction: Auction): Promise<string> => {
+  return addDocument(COLLECTION, auction.id, auction)
+}
 
 export const getAuction = async (auctionId: string): Promise<Auction> => {
-  return (await getDocument(ENTITY, auctionId)) as Auction
+  return (await getDocument(COLLECTION, auctionId)) as Auction
 }
 
 export const addAuction = async (auction: Auction): Promise<string> => {
@@ -14,27 +17,20 @@ export const addAuction = async (auction: Auction): Promise<string> => {
 }
 
 export const editAuction = async (auction: any): Promise<string> => {
-  return editDocument(ENTITY, auction.id, auction)
+  return editDocument(COLLECTION, auction.id, auction)
 }
 
-export const getOpenAuctions = async (): Promise<Auction[]> => {
-  return (await getDocumentsByChild(ENTITY, 'status', 'open')) as Auction[]
-}
-
-export const getNFTAuctions = async (nftId: number): Promise<Auction[]> => {
-
-  return (await getDocumentsByChild(ENTITY, 'nft', nftId)) as Array<Auction>
-
- 
+export const getAuctions = async (filters?: Dictionary, orders?: Dictionary): Promise<Auction[]> => {
+  return (await getDocuments(COLLECTION, filters, orders)) as Auction[]
 }
 
 export const addBidToAuction = async (auctionId: string, bidId: string): Promise<string> => {
-  const oldAuction = (await getDocument(ENTITY, auctionId)) as Auction
+  const oldAuction = (await getDocument(COLLECTION, auctionId)) as Auction
   if (oldAuction) {
     const newAuction = { ...oldAuction }
     if (newAuction.bids) newAuction.bids.push(bidId)
     else newAuction.bids = [bidId]
-    return editDocument(ENTITY, newAuction.id, newAuction)
+    return editDocument(COLLECTION, newAuction.id, newAuction)
   }
   return 'No auction'
 }

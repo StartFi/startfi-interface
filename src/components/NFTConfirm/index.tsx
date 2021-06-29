@@ -11,7 +11,6 @@ import {
   useBuyNFT,
   useConfirmationLoading,
   usePlaceBid,
-  useSetConfirmationLoading
 } from 'state/marketplace/hooks'
 import { useUserBalance } from 'state/user/hooks'
 import styled from 'styled-components'
@@ -172,8 +171,6 @@ const NFTConfirm: React.FunctionComponent = () => {
 
   const confimration = useConfirmationLoading()
 
-  const setConfirmation = useSetConfirmationLoading()
-
   const popup = usePopup()
 
   if (!auctionNFT) {
@@ -197,7 +194,6 @@ const NFTConfirm: React.FunctionComponent = () => {
   }
 
   const confirm = () => {
-    setConfirmation(true)
     if (bidOrBuy) placebid()
     else buynft()
   }
@@ -207,7 +203,7 @@ const NFTConfirm: React.FunctionComponent = () => {
       <WaitingConfirmation isOpen={confimration} bidOrBuy={bidOrBuy} owner={nft.owner} ownername={ownername} />
       <Left>
         <Rows>
-          <Img src={uriToHttp(nft.image)[1]} />
+          <Img src={uriToHttp(nft.dataHash)[1]} />
           <Column>
             <Bold>{nft.name}</Bold>
             <Text>Prediction: Round 12 (Bronze) - Only 100 Available</Text>

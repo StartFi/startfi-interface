@@ -219,6 +219,7 @@ export default createReducer(initialState, builder =>
         success,
         message: success ? 'NFT added to wishlist successfully' : action.payload.addedToWishlist
       }
+      state.user = action.payload.user
     })
     .addCase(addToWishlistAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while adding NFT to wishlist' }

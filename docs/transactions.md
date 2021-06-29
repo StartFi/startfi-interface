@@ -10,7 +10,7 @@ import { evaluateTransaction } from 'services/blockchain/useEvaluateTransaction'
 - Use `useStartFiContract`
 
 ```
-  const { contract: tokenContract } = useStartFiContract('token', false) // contract name could be token, nft or marketplace
+  const { contract: tokenContract } = useStartFiContract('token', false) // contract name could be token, nft, marketplace or nftRoyality
 ```
 
 - Use `evaluateTransaction` which takes contract object from `useStartFiContract`, method name, and array of arguments
@@ -44,18 +44,15 @@ export const useMint = (): ((address: string, contract: any, account: any, libra
 - use mint function
 
 ```
-import { useStartFiContract } from 'services/blockchain/useStartfiContracts'
-import { useMint } from 'hooks/startfiNft'
 import { useMint } from 'hooks/startfiNft'
 
 
 // Inside Component
 const mint = useMint()
-const { contract, account, library } = useStartFiContract('nft)
 
 // Inside JSX
  onChange={() => {
-          mint(account as string, contract, account, library) // call function
+     mint(account as string, '<ipfsHash>', true, '1', '10') // call function
         }}
 ```
 

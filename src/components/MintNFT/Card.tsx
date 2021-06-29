@@ -4,13 +4,11 @@ import styled from 'styled-components'
 import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
-import { useHistory } from 'react-router'
 import Step1Icon from './../../assets/icons/step1.svg'
 import Step2Icon from './../../assets/icons/step2.svg'
 import Step3Icon from './../../assets/icons/step3.svg'
 import { useTranslation } from 'react-i18next'
-import { useAddNFT } from 'state/marketplace/hooks'
-import { useActiveWeb3React } from 'hooks'
+import { useMintNFT } from 'state/marketplace/hooks'
 import { useSaveDraft } from 'state/user/hooks'
 import { NFT } from 'services/models/NFT'
 import { Row } from 'theme/components'
@@ -45,13 +43,9 @@ const Footer = styled.div`
 `
 
 const Card: React.FC = () => {
-  const history = useHistory()
-
-  const { account } = useActiveWeb3React()
-
   const { t } = useTranslation()
 
-  const addNft = useAddNFT()
+  const mintNFT = useMintNFT()
 
   const saveDraft = useSaveDraft()
 
@@ -68,15 +62,6 @@ const Card: React.FC = () => {
     txtHash: '',
     royalty: 0
   })
-
-  const getNFT = (account: string): NFT => {
-    return {
-      ...nft,
-      owner: account,
-      issuer: account,
-      issueDate: new Date()
-    }
-  }
 
   const [missing, setMissing] = useState<string[]>([])
 
@@ -118,10 +103,7 @@ const Card: React.FC = () => {
       case 2:
         if (['name', 'description'].filter(f => newMissing.includes(f)).length === 0) {
           setMissing([])
-          if (account) {
-            addNft(getNFT(account))
-            history.push('/')
-          } else popup({success:false,message:'Connect wallet'})
+          mintNFT(nft)
         }
         break
       case 3:
@@ -163,14 +145,8 @@ const Card: React.FC = () => {
       <Footer>
         <ButtonMintBack onClick={() => (step > 1 ? setStep(step - 1) : null)}>{t('back')}</ButtonMintBack>
         <ButtonDraft
-          onClick={() => {
-            if (account) {
-              if (nft.category || nft.image || nft.name || nft.description) {
-                saveDraft(getNFT(account))
-                history.push('/')  
-              } else popup({success:false,message:'No data entered to save'})
-            } else popup({success:false,message:'Connect wallet'})
-          }}
+          onClick={() => (nft.category || nft.image || nft.name || nft.description) ?
+                saveDraft(nft) : popup({success:false,message:'No data entered to save'})}
         >
           {t('saveDraft')}
         </ButtonDraft>

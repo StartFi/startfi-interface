@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import ButtonWishlist from 'components/Button/ButtonWishlist'
 import { NftButton } from 'components/Button'
 import { AuctionNFT } from 'services/models/AuctionNFT'
+import uriToHttp from 'utils/uriToHttp'
 
 
 export interface NftCardProps {
@@ -21,7 +22,7 @@ const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid 
     <Card>
       <div onClick={() => navigateToCard(auctionNFT)}>
         <Media>
-          <CardImg src={cardContent.dataHash} />
+          <CardImg src={uriToHttp(auctionNFT.nft.dataHash)[1]} />
         </Media>
         <div>
           <Price>
