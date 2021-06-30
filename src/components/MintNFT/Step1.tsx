@@ -22,7 +22,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
 
   const upload = useUploadToIpfs()
 
-  const progress = parseInt(useIpfsProgress())
+  const progress = useIpfsProgress()
 
   const hash = useIpfsHash()
 

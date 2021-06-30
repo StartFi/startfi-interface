@@ -128,7 +128,7 @@ export const InputFile = ({ name, label, value, onChange, error, progress, filen
         {filename && (
           <FileInput minWidth="28vw">
             <div>{filename.substring(0, 20)}</div>
-            <div>{progress}</div>
+            <div>{progress} %</div>
           </FileInput>
         )}
       </InputFileFooter>
