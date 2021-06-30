@@ -20,6 +20,7 @@ export interface StepProps {
 export interface PopupContent {
   success: boolean
   message: string
+  type?: string
 }
 
 export const DEFAULTSORT = 'Lowest price'

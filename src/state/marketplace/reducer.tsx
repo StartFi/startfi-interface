@@ -45,7 +45,7 @@ export default createReducer(initialState, builder =>
     .addCase(mintNFTAction.pending, (state, action) => {})
     .addCase(mintNFTAction.fulfilled, (state, action) => {
       const success = action.payload.status === 'success'
-      state.popup = { success, message: success ? 'NFT minted successfully' : getFirstError(action.payload) }
+      state.popup = { success, type: 'MintNFT', message: success ? 'NFT minted successfully' : getFirstError(action.payload) }
     })
     .addCase(mintNFTAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while minting NFT' }

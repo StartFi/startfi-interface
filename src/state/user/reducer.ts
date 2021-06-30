@@ -191,7 +191,7 @@ export default createReducer(initialState, builder =>
     .addCase(saveDraftAction.pending, (state, action) => {})
     .addCase(saveDraftAction.fulfilled, (state, action) => {
       const success = action.payload.status === 'success'
-      state.popup = { success, message: success ? 'Draft saved successfully' : action.payload.draftAdded }
+      state.popup = { success, type: 'SaveDraft', message: success ? 'Draft saved successfully' : action.payload.draftAdded }
     })
     .addCase(saveDraftAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
