@@ -44,6 +44,7 @@ const Inventory = () => {
   // useGetInventory()
 
   let inventoryItems:NFT[]|undefined=useInventory(inventoryOption)
+  console.log('option =>',inventoryOption)
 
 
 

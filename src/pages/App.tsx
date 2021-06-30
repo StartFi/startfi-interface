@@ -11,6 +11,7 @@ import { LandingPage } from 'components/LandingPage'
 import { useLogin } from 'state/user/hooks'
 import Mint from './Mint'
 import Marketplace from './Marketplace'
+import Inventory from 'components/inventory'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -59,6 +60,7 @@ export default function App() {
               <Route exact path="/" component={LandingPage} />
               <Route path="/marketplace" component={Marketplace} />
               <Route path="/mint" component={Mint} />
+              <Route exact path="/inventory" component={Inventory}  />
             </Switch>
           </Web3ReactManager>
           <Marginer />

@@ -60,7 +60,6 @@ export interface UserState {
 
   timestamp: number
   URLWarningVisible: boolean
-
   user: User | null
   popup: PopupContent | null
   drafts: NFT[]

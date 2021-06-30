@@ -7,6 +7,8 @@ import styled from 'styled-components'
 import { useGetNFTs, useLoadTime, useMarketplace } from 'state/marketplace/hooks'
 import { Row } from 'theme/components'
 import { AuctionNFT } from 'services/models/AuctionNFT'
+import { LinkBase } from 'components/Link'
+import { useGetInventory } from 'state/user/hooks'
 
 const Header = styled(Row)`
   padding-bottom: 6vh;
@@ -61,6 +63,9 @@ const NFTs: React.FC = () => {
           }}
         />
       </Header>
+      <LinkBase to='/inventory' onClick={useGetInventory()}>
+          Inventory
+        </LinkBase>
       {onMarket.length > 0 ? <NFTList>
         {onMarket.map((auctionNFT: AuctionNFT) => (
           <Nft key={auctionNFT.nft.id}>
