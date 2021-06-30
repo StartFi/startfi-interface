@@ -27,7 +27,6 @@ export type NFTQUERY = {
 
 export const getMarketplace = async (query?: NFTQUERY) => {
   const t0 = performance.now()
-
   if (!query) query = {}
   const { search, category, sort } = query
   const nftsQuery: NFTQUERY = {}
@@ -48,7 +47,6 @@ export const getMarketplace = async (query?: NFTQUERY) => {
         ownerdetails: ''
       })
   })
-
   const t1 = performance.now()
   const loadtime = Math.round(t1 - t0)
   return { onMarket, loadtime, ...query }
