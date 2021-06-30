@@ -7,6 +7,8 @@ const Mint: React.FC = () => {
   return (
     <React.Fragment>
       <Route path="/mint/minting" component={MintNFT} />
+      <Route path="/mint/:draft" component={MintNFT} />
+
       <Route path="/mint/minted" component={MintingCongrats} />
     </React.Fragment>
   )

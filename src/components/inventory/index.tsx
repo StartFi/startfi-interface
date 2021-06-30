@@ -1,10 +1,10 @@
 // import Column from 'components/Column'
 import Row from 'components/Row'
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
-import { useInventory } from 'state/user/hooks'
-// import { NFT } from 'services/models/NFT'
-// import { useInventory,} from 'state/user/hooks'
+import { useDrafts, useOffMarket, useOnMarket } from 'state/user/hooks'
+
 import styled from 'styled-components'
 import CardHeader, { InventoryOptions } from './CardHeader'
 import Header from './Header'
@@ -40,36 +40,48 @@ const Container = styled.div`
 // const CardContentContainer = styled.div``
 
 const Inventory = () => {
-  const [inventoryOption,setInventoryOption]=useState(InventoryOptions.Draft)
+  const [inventoryOption, setInventoryOption] = useState(InventoryOptions.Draft)
   // useGetInventory()
+  const history = useHistory()
+  const drafts: NFT[] | undefined = useDrafts()
+  const onMarketNFT: NFT[] | undefined = useOnMarket()
+  const offMarketNFT: NFT[] | undefined = useOffMarket()
 
-  let inventoryItems:NFT[]|undefined=useInventory(inventoryOption)
-  console.log('option =>',inventoryOption)
+  let inventoryItems
 
+  if (inventoryOption === InventoryOptions.Draft) {
+    inventoryItems = [...drafts]
+  } else if (inventoryOption === InventoryOptions.inMarketPlace) {
+    inventoryItems = [...onMarketNFT]
+  } else {
+    inventoryItems = [...offMarketNFT]
+  }
 
-
-
-
+  const navigate = (id: number) => {
+    if (inventoryOption === InventoryOptions.Draft) history.push(`/mint/${id}`)
+  }
 
   return (
     <Container>
       <Header></Header>
-      <CardHeader getType={(t)=>{setInventoryOption(t)}} ></CardHeader>
+      <CardHeader
+        getType={t => {
+          setInventoryOption(t)
+        }}
+      ></CardHeader>
       <InventoryCard>
-        <Row padding='20px' align="start">
-
-
-          {inventoryItems?inventoryItems?.map((nft: NFT)=>(
-            <MiniCard key={nft.id}  cardContent={nft}/>
-          )):<p>no item</p>}
-
-
-
-
+        <Row padding='20px' align='start'>
+          {inventoryItems ? (
+            inventoryItems?.map((nft: NFT) => (
+              <MiniCard key={nft.id} cardContent={nft} navigate={() => navigate(nft.id)} />
+            ))
+          ) : (
+            <p>no item</p>
+          )}
         </Row>
       </InventoryCard>
     </Container>
   )
 }
 
-export default Inventory;
+export default Inventory

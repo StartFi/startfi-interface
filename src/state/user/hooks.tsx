@@ -30,7 +30,7 @@ import {
   getUserNFTsAction
 } from './actions'
 import { usePopup } from 'state/application/hooks'
-import { InventoryOptions } from 'components/inventory/CardHeader'
+
 
 function serializeToken(token: Token): SerializedToken {
   return {
@@ -318,23 +318,3 @@ export const useGetInventory = () => {
   )
 }
 
-// return inventory  item according to selected type
-export const useInventory = (type: string) => {
-  return useSelector((state: AppState) => {
-    let selectedInventory
-    if (type === InventoryOptions.Draft) {
-      selectedInventory = state.user.drafts
-    }
-
-    if (type === InventoryOptions.inMarketPlace) {
-      selectedInventory = state.user.onMarket
-    }
-    if (type === InventoryOptions.offMarketPlace) {
-      selectedInventory = state.user.offMarket;
-    }
-
-    return selectedInventory
-  })
-
-
-}
