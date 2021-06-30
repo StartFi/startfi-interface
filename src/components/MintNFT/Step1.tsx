@@ -36,9 +36,9 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
     }
   }, [filename, status, hash, handleChange])
 
-  useEffect(()=>{
+  useEffect(() => {
     setProgress(ipfsProgress)
-  },[ipfsProgress, setProgress])
+  }, [ipfsProgress, setProgress])
 
   return (
     <React.Fragment>

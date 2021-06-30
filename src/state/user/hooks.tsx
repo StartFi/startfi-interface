@@ -284,7 +284,7 @@ export const useClearUserPopup = () => {
 
 export const useIsNFTWishlist = (nftId: number): boolean => {
   const user = useUser()
-  return useMemo(() => user && user.wishlist ? user.wishlist.includes(nftId) : false, [nftId, user])
+  return useMemo(() => user?.wishlist?.includes(nftId) || false, [nftId, user])
 }
 
 export const useWishlist = (nftId: number) => {

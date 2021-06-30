@@ -257,7 +257,7 @@ export const Input = ({
   }
 
   useEffect(() => {
-    if (!underlineClick && ref && ref.current) ref.current.focus()
+    if (!underlineClick) ref?.current?.focus()
   }, [underlineClick])
 
   return (
