@@ -8,6 +8,7 @@ import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUnisw
 import { ROUTER_ADDRESS } from '../constants'
 import { Percent } from '@uniswap/sdk-core'
 import { ChainId } from '../constants/supportedChains'
+import { AuctionNFT } from 'services/models/AuctionNFT'
 
 export const sortMarketplaceHelper = (sort: string) => {
   switch(sort) {
@@ -17,7 +18,15 @@ export const sortMarketplaceHelper = (sort: string) => {
   }
 }
 
-export const sortMarketplace = (array: any, sort: string) => {
+export const sortHelper = (sort: string) => {
+  switch(sort.toLocaleLowerCase()) {
+    case "lowest price": return {listingPrice:'asc'}
+    case "highest price": return {listingPrice:'desc'}
+    default: return {listingPrice:'asc'}
+  }
+}
+
+export const sortMarketplace = (array: AuctionNFT[], sort: string): AuctionNFT[] => {
   const { parentKey , childKey , desc } = sortMarketplaceHelper(sort)
   const sorted = array.sort((a: any, b: any) => {
     const x = a[parentKey][childKey]

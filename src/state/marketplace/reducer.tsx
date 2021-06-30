@@ -2,14 +2,13 @@ import { createReducer } from '@reduxjs/toolkit'
 import { PopupContent } from './../../constants'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import {
-  addNFTAction,
+  mintNFTAction,
   buyNFTAction,
   clearMarketplacePopup,
   getAuctionNFTAction,
   getMarketplaceAction,
   placeBidAction,
   setBidOrBuy,
-  setConfirmationLoading
 } from './actions'
 
 export interface MarketplaceState {
@@ -43,12 +42,12 @@ export default createReducer(initialState, builder =>
     .addCase(getMarketplaceAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while getting marketplace NFTs' }
     })
-    .addCase(addNFTAction.pending, (state, action) => {})
-    .addCase(addNFTAction.fulfilled, (state, action) => {
+    .addCase(mintNFTAction.pending, (state, action) => {})
+    .addCase(mintNFTAction.fulfilled, (state, action) => {
       const success = action.payload.status === 'success'
       state.popup = { success, message: success ? 'NFT minted successfully' : getFirstError(action.payload) }
     })
-    .addCase(addNFTAction.rejected, (state, action) => {
+    .addCase(mintNFTAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while minting NFT' }
     })
     .addCase(getAuctionNFTAction.pending, (state, action) => {})
@@ -58,7 +57,9 @@ export default createReducer(initialState, builder =>
     .addCase(getAuctionNFTAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while getting NFT' }
     })
-    .addCase(placeBidAction.pending, (state, action) => {})
+    .addCase(placeBidAction.pending, (state, action) => {
+      state.confirmationLoading = true
+    })
     .addCase(placeBidAction.fulfilled, (state, action) => {
       state.confirmationLoading = false
       const success = action.payload.status === 'success'
@@ -67,7 +68,9 @@ export default createReducer(initialState, builder =>
     .addCase(placeBidAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while placing bid' }
     })
-    .addCase(buyNFTAction.pending, (state, action) => {})
+    .addCase(buyNFTAction.pending, (state, action) => {
+      state.confirmationLoading = true
+    })
     .addCase(buyNFTAction.fulfilled, (state, action) => {
       state.confirmationLoading = false
       const success = action.payload.status === 'success'
@@ -79,9 +82,6 @@ export default createReducer(initialState, builder =>
     .addCase(setBidOrBuy, (state, { payload: { bidOrBuy, value } }) => {
       state.bidOrBuy = bidOrBuy
       state.bidOrBuyValue = value
-    })
-    .addCase(setConfirmationLoading, (state, { payload: { isOpen } }) => {
-      state.confirmationLoading = isOpen
     })
     .addCase(clearMarketplacePopup, (state, action) => {
       state.popup = null
