@@ -115,16 +115,20 @@ const NFTsHeader: React.FC = () => {
         onChange={(e, category) => {
           /* Beign example never merge to the main  branch*/
           //==================NFT==================
-          /*    approveToken('0x596a88087736E4666D6878934AF9036D832205Df', '3000000000').then((result: any) => {
+          approveToken('9000000000').then((result: any) => {
             console.log('approve token', result)
-          }) */
-          /*          getNftPaymentInfo().then((result: any) => {
-            console.log('nft paymentinfo', result)
           })
-          increaseAllowance('0x596a88087736E4666D6878934AF9036D832205Df', '30').then((result: any) => {
+          increaseAllowance('3000000').then((result: any) => {
             console.log('increase token allowance', result)
           })
- */
+          getAllowance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '0x5Dcb54E7F22E8f46d2026FE080f74426D5841c08').then(
+            (result: any) => {
+              console.log('get token allowance', result)
+            }
+          )
+          getNftPaymentInfo().then((result: any) => {
+            console.log('nft paymentinfo', result)
+          })
 
           mint('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', 'ipfsHash').then(mintTransaction => {
             console.log('mint without royality', mintTransaction)

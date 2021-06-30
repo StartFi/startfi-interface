@@ -7,6 +7,7 @@ import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
 import { addNewEvent } from '../state/blockchainEvents/actions'
+import { STARTFI_NFT_PAYMENT_NETWORK } from 'constants/index'
 
 export const useTransferTokenLogs = (contract: Contract | null) => {
   const { library } = useActiveWeb3React()
@@ -90,20 +91,21 @@ export const useGetAllowance = (): ((owner: string, spender: string) => any) => 
   )
 }
 
-export const useApproveToken = (): ((address: string, amount: string) => any) => {
+export const useApproveToken = (): ((amount: string) => any) => {
   const { account, library } = useActiveWeb3React()
+  const spender = STARTFI_NFT_PAYMENT_NETWORK
   const contract = useStartFiToken(true)
   const approve = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   useApprovalTokenLogs(contract)
   return useCallback(
-    async (address: string, amount: string) => {
+    async (amount: string) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
       }
       try {
-        return await approve('approve', [address, amount], contract, account, library)
+        return await approve('approve', [spender, amount], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
@@ -112,13 +114,14 @@ export const useApproveToken = (): ((address: string, amount: string) => any) =>
     [account, contract, library, approve, toggleWalletModal]
   )
 }
-export const useIncreaseAllowance = (): ((spender: string, addedValue: string) => any) => {
+export const useIncreaseAllowance = (): ((addedValue: string) => any) => {
   const { account, library } = useActiveWeb3React()
+  const spender = STARTFI_NFT_PAYMENT_NETWORK
   const contract = useStartFiToken(true)
   const approve = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   return useCallback(
-    async (spender: string, addedValue: string) => {
+    async (addedValue: string) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`

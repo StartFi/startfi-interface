@@ -24,7 +24,7 @@ import ERC721_ABI from '../constants/abis/erc721.json'
 import { abi as STARTFI_TOKEN_ABI } from '../constants/abis/StartFiToken.json'
 
 import { abi as STARTFI_NFT_ABI } from '../constants/abis/StartfiNFT.json'
-import { abi as STARTFI_MARKET_PLACE_ABI } from '../constants/abis/StartfiMarketPlace.json'
+import { abi as STARTFI_MARKET_PLACE_ABI } from '../constants/abis/StartFiMarketPlace.json'
 import { abi as STARTFI_NFT_PAYMENT_ABI } from '../constants/abis/StartFiNFTPayment.json'
 import { STARTFI_TOKEN_NETWORK } from 'constants/index'
 import { STARTFI_MARKET_PLACE_NETWORK } from 'constants/index'
