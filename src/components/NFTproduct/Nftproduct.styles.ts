@@ -122,11 +122,15 @@ export const PublisherCard = styled('div')<{ height?: string }>`
     font-weight: 400;
     font-size: 1rem;
     color: #323232;
+
     & span {
       font-weight: 500;
-      font-size: 1.125rem;
+      font-size: 1.12rem;
       color: #000000;
       margin-left: 7px;
+      /* line-height: 2rem;
+      max-height: 4rem; */
+      overflow-wrap: break-word;
     }
   }
 `
@@ -239,5 +243,35 @@ export const DescriptionText = styled.div`
     color: #000000;
     text-align: justify;
     letter-spacing: 0.04em;
+  }
+`
+
+export const OwnerText = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  & p {
+    font-family: Roboto;
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+    color: #323232;
+    width: 25%;
+  }
+
+  & span {
+    color: #000000;
+    width: 60%;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.188;
+    max-height: 2rem;
+    /* -webkit-box-orient: vertical;
+      display: block;
+      display: -webkit-box; */
+    overflow-wrap: break-word;
+    /* overflow: hidden !important; */
+    /* text-overflow: ellipsis;
+      -webkit-line-clamp: 4px; */
   }
 `
