@@ -14,7 +14,7 @@ import Music from '../../assets/icons/musictab.svg'
 import Images from '../../assets/icons/imagestab.svg'
 import { useGetNFTs } from 'state/marketplace/hooks'
 import { useHistory } from 'react-router'
-import { CATEGORIES, Dictionary } from './../../constants'
+import { CATEGORIES, DEFAULTSORT, Dictionary } from './../../constants'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
@@ -92,7 +92,7 @@ const NFTsHeader: React.FC = () => {
 
   if (!category) category = 'all'
 
-  useEffect(() => getNFTs({ category, search }), [category, search, getNFTs])
+  useEffect(() => getNFTs({ category, search, sort: DEFAULTSORT }), [category, search, getNFTs])
 
   return (
     <React.Fragment>

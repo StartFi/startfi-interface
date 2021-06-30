@@ -1,7 +1,7 @@
 import { checkSuccess } from 'utils'
-import { getNFTAuctions } from './database/Auction'
+import { getAuctions } from './database/Auction'
 import { addDraft, getDraft } from './database/Draft'
-import { getOwnerNFTs } from './database/NFT'
+import { getNFTs } from './database/NFT'
 import { addNFTToWishlist, addUser, getUser } from './database/User'
 import { Draft } from './models/Draft'
 import { NFT } from './models/NFT'
@@ -39,12 +39,12 @@ export const getDrafts = async (user: string) => {
   return { drafts }
 }
 
-export const getUserNFTs = async (user: string) => {
-  const userNFTs = await getOwnerNFTs(user)
+export const getUserNFTs = async (owner: string) => {
+  const userNFTs = await getNFTs({ owner })
   const onMarket: NFT[] = []
   const offMarket: NFT[] = []
   for (var i in userNFTs) {
-    const auctions = await getNFTAuctions(userNFTs[i].id)
+    const auctions = await getAuctions({ nft: userNFTs[i].id })
     if (auctions.filter(auction => auction.status === 'open').length > 0) onMarket.push(userNFTs[i])
     else offMarket.push(userNFTs[i])
   }
