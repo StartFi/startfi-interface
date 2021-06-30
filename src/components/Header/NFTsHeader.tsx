@@ -27,17 +27,18 @@ import {
   useNftBalance,
   useGetApproverAddress,
   useRoyaltyInfo,
-  useAproveNft,
+  useApproveNft,
   useChangeFeesNftPayment,
   useChangeTokenContractNftPayment,
   useChangeNftContractNftPayment,
-  useNftPaymentInfo
+  useNftPaymentInfo,
+  useGrantRoleNft
 } from 'hooks/startfiNft'
 import {
   useTokenBalance,
   useTokneInfo,
   useTransfer,
-  useAproveToken,
+  useApproveToken,
   useGetAllowance,
   useIncreaseAllowance,
   useDecreaseAllowance
@@ -71,18 +72,19 @@ const NFTsHeader: React.FC = () => {
   const getNftBalance = useNftBalance()
   const getApproverAddress = useGetApproverAddress()
   const getRoyalityInfo = useRoyaltyInfo()
-  const approveNft = useAproveNft()
+  const approveNft = useApproveNft()
   const changeFees = useChangeFeesNftPayment()
   const changeNftContract = useChangeNftContractNftPayment()
   const changeTokenContract = useChangeTokenContractNftPayment()
   const getNftPaymentInfo = useNftPaymentInfo()
+  const grantRole = useGrantRoleNft()
 
   /*End NFT tests */
   /*Start Token tests */
   const transfer = useTransfer()
   const getTokenInfo = useTokneInfo()
   const getTokenBalance = useTokenBalance()
-  const approveToken = useAproveToken()
+  const approveToken = useApproveToken()
   const getAllowance = useGetAllowance()
   const increaseAllowance = useIncreaseAllowance()
   const decreaeAllowance = useDecreaseAllowance()
@@ -113,7 +115,47 @@ const NFTsHeader: React.FC = () => {
         onChange={(e, category) => {
           /* Beign example never merge to the main  branch*/
           //==================NFT==================
-          mint('0xAE28A0663785F20f43dAa79599110560C8dEfb19', 'ipfsHash').then(mintTransaction => {
+          /*    approveToken('0x596a88087736E4666D6878934AF9036D832205Df', '3000000000').then((result: any) => {
+            console.log('approve token', result)
+          }) */
+          /*          getNftPaymentInfo().then((result: any) => {
+            console.log('nft paymentinfo', result)
+          })
+          increaseAllowance('0x596a88087736E4666D6878934AF9036D832205Df', '30').then((result: any) => {
+            console.log('increase token allowance', result)
+          })
+ */
+
+          mint('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', 'ipfsHash').then(mintTransaction => {
+            console.log('mint without royality', mintTransaction)
+          })
+          mint('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', 'ipfsHash', '1', '10').then(mintTransaction => {
+            console.log('mint with royality', mintTransaction)
+          })
+          /*   increaseAllowance('0x24f9F55D4A20f94bA04c709A257c790fd1327b94', '1000000000').then((result: any) => {
+            console.log('increase token allowance', result)
+          }) 
+          getAllowance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '0x24f9F55D4A20f94bA04c709A257c790fd1327b94').then(
+            (result: any) => {
+              console.log('get token allowance', result)
+            }
+          ) */
+          /* approveToken('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '3000000000').then((result: any) => {
+            console.log('approve token', result)
+          })
+          getTokenBalance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
+            console.log('token balance', result)
+          }) */
+          /*    mint('0xAE28A0663785F20f43dAa79599110560C8dEfb19', 'ipfsHash').then(mintTransaction => {
+            console.log('mint without royality', mintTransaction)
+          })
+          mint('0xAE28A0663785F20f43dAa79599110560C8dEfb19', 'ipfsHash', '1', '10').then(mintTransaction => {
+            console.log('mint with royality', mintTransaction)
+          }) */
+          /*  grantRole().then(roles => {
+            console.log('grant role', roles)
+          }) */
+          /*  mint('0xAE28A0663785F20f43dAa79599110560C8dEfb19', 'ipfsHash').then(mintTransaction => {
             console.log('mint without royality', mintTransaction)
           })
           mint('0xAE28A0663785F20f43dAa79599110560C8dEfb19', 'ipfsHash', '1', '10').then(mintTransaction => {
@@ -160,9 +202,9 @@ const NFTsHeader: React.FC = () => {
           })
           approveNft('0xAE28A0663785F20f43dAa79599110560C8dEfb19', '001').then((result: any) => {
             console.log('approve nft', result)
-          })
+          }) */
           //==================Token==================
-          transfer('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '1').then(transferTransaction => {
+          /*   transfer('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '1').then(transferTransaction => {
             console.log('transferTransaction', transferTransaction)
           })
           getTokenInfo().then(result => {
@@ -184,7 +226,7 @@ const NFTsHeader: React.FC = () => {
           })
           decreaeAllowance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '1').then((result: any) => {
             console.log('decrease token allowance', result)
-          })
+          }) */
           /* End example never merge to the main  branch*/
 
           getNFTs({ category: Categories[category] })

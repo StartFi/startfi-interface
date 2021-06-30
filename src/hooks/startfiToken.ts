@@ -90,7 +90,7 @@ export const useGetAllowance = (): ((owner: string, spender: string) => any) => 
   )
 }
 
-export const useAproveToken = (): ((address: string, amount: string) => any) => {
+export const useApproveToken = (): ((address: string, amount: string) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiToken(true)
   const approve = useSubmitTransaction()

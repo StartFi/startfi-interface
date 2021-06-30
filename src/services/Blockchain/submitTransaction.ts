@@ -23,14 +23,13 @@ export const useSubmitTransaction = (): ((
         const estimatedGas = await library?.estimateGas(contract?.interface.encodeFunctionData(methodsName, args))
         const gasPrice = await (await library?.getGasPrice())?.toNumber()
 
-        console.log('estimatedGas', estimatedGas)
         const callData = contract?.interface.encodeFunctionData(methodsName, args)
         return library?.getSigner().sendTransaction({
           from: account ? account : undefined,
           to: contract?.address,
-          data: callData,
-          gasLimit: calculateGasMargin(estimatedGas), // or library?._lastBlockNumber
-          gasPrice: gasPrice
+          data: callData
+       /*    gasLimit: calculateGasMargin(estimatedGas), // or library?._lastBlockNumber
+          gasPrice: gasPrice */
         })
       } catch (e) {
         console.log(e)

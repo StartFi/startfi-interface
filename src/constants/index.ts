@@ -1,6 +1,6 @@
-import {  Percent, Token, WETH9 } from '@uniswap/sdk-core'
-import JSBI from 'jsbi';
-import {ChainId} from '../constants/supportedChains'
+import { Percent, Token, WETH9 } from '@uniswap/sdk-core'
+import JSBI from 'jsbi'
+import { ChainId } from '../constants/supportedChains'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 
 import { fortmatic, injected, portis, walletconnect, walletlink } from '../connectors'
@@ -45,7 +45,6 @@ export const GOVERNANCE_ADDRESS = '0x5e4be8Bc9637f0EAA1A755019e06A68ce081D58F'
 export const TIMELOCK_ADDRESS = '0x1a9C8182C09F50C8318d769245beA52c32BE35BC'
 
 const UNI_ADDRESS = '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984'
-
 
 export const COMMON_CONTRACT_NAMES: { [address: string]: string } = {
   [UNI_ADDRESS]: 'UNI',
@@ -236,3 +235,9 @@ export const BLOCKED_ADDRESSES: string[] = [
   '0xA7e5d5A720f06526557c513402f2e6B5fA20b008',
   '0x8576aCC5C05D6Ce88f4e49bf65BdF0C62F91353C'
 ]
+
+export const STARTFI_TOKEN_NETWORK = '0x24f9F55D4A20f94bA04c709A257c790fd1327b94'
+export const STARTFI_NFT_NETWORK = '0xFDD7968b6A4363A7D5fB52188897c04ffdcE6Df6'
+export const STARTFI_MARKET_PLACE_NETWORK = '0x3559D5B1BaBAF8F89472fB64bb5D9352A9D45247'
+export const STARTFI_NFT_PAYMENT_NETWORK = '0x596a88087736E4666D6878934AF9036D832205Df'
+export const STARTFI_STAKES_NETWORK = '0x8892fadBBc744bc8E68fA0Da3C22429b38E14B6b'

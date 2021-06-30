@@ -21,21 +21,15 @@ import WETH_ABI from '../constants/abis/weth.json'
 import ERC20_ABI from '../constants/abis/erc20.json'
 import ERC721_ABI from '../constants/abis/erc721.json'
 
-import { networks as STARTFI_TOKEN_NETWORK, abi as STARTFI_TOKEN_ABI } from '../constants/abis/StartFiToken.json'
+import { abi as STARTFI_TOKEN_ABI } from '../constants/abis/StartFiToken.json'
 
-import { networks as STARTFI_NFT_NETWORK, abi as STARTFI_NFT_ABI } from '../constants/abis/StartfiNFT.json'
-import {
-  networks as STARTFI_MARKET_PLACE_NETWORK,
-  abi as STARTFI_MARKET_PLACE_ABI
-} from '../constants/abis/StartfiMarketPlace.json'
-import {
-  networks as STARTFI_RoyaltyNFT_NETWORK,
-  abi as STARTFI_RoyaltyNFT_ABI
-} from '../constants/abis/StartfiRoyaltyNFT.json'
-import {
-  networks as STARTFI_NFT_PAYMENT_NETWORK,
-  abi as STARTFI_NFT_PAYMENT_ABI
-} from '../constants/abis/StartFiNFTPayment.json'
+import { abi as STARTFI_NFT_ABI } from '../constants/abis/StartfiNFT.json'
+import { abi as STARTFI_MARKET_PLACE_ABI } from '../constants/abis/StartfiMarketPlace.json'
+import { abi as STARTFI_NFT_PAYMENT_ABI } from '../constants/abis/StartFiNFTPayment.json'
+import { STARTFI_TOKEN_NETWORK } from 'constants/index'
+import { STARTFI_MARKET_PLACE_NETWORK } from 'constants/index'
+import { STARTFI_NFT_PAYMENT_NETWORK } from 'constants/index'
+import { STARTFI_NFT_NETWORK } from 'constants/index'
 // returns null on errors
 declare type WETH_Only = {
   [chainId in ChainId]: Token
@@ -134,37 +128,20 @@ export function useMulticallContract(): Contract | null {
 
 export const useStartFiToken = (withSignerIfPossible?: boolean): Contract | null => {
   const { chainId } = useActiveWeb3React()
-  return useContract(chainId && STARTFI_TOKEN_NETWORK[chainId]?.address, STARTFI_TOKEN_ABI, withSignerIfPossible)
+  return useContract(chainId && STARTFI_TOKEN_NETWORK, STARTFI_TOKEN_ABI, withSignerIfPossible)
 }
 
 export const useStartFiNft = (withSignerIfPossible?: boolean): Contract | null => {
   const { chainId } = useActiveWeb3React()
-  return useContract(chainId && STARTFI_NFT_NETWORK[chainId]?.address, STARTFI_NFT_ABI, withSignerIfPossible)
+  return useContract(STARTFI_NFT_NETWORK, STARTFI_NFT_ABI, withSignerIfPossible)
 }
 
 export const useStartFiMarketplace = (withSignerIfPossible?: boolean): Contract | null => {
   const { chainId } = useActiveWeb3React()
-  return useContract(
-    chainId && STARTFI_MARKET_PLACE_NETWORK[chainId]?.address,
-    STARTFI_MARKET_PLACE_ABI,
-    withSignerIfPossible
-  )
-}
-
-export const useStartFiRoyality = (withSignerIfPossible?: boolean): Contract | null => {
-  const { chainId } = useActiveWeb3React()
-  return useContract(
-    chainId && STARTFI_RoyaltyNFT_NETWORK[chainId]?.address,
-    STARTFI_RoyaltyNFT_ABI,
-    withSignerIfPossible
-  )
+  return useContract(chainId && STARTFI_MARKET_PLACE_NETWORK, STARTFI_MARKET_PLACE_ABI, withSignerIfPossible)
 }
 
 export const useStartFiPayment = (withSignerIfPossible?: boolean): Contract | null => {
   const { chainId } = useActiveWeb3React()
-  return useContract(
-    chainId && STARTFI_NFT_PAYMENT_NETWORK[chainId]?.address,
-    STARTFI_NFT_PAYMENT_ABI,
-    withSignerIfPossible
-  )
+  return useContract(STARTFI_NFT_PAYMENT_NETWORK, STARTFI_NFT_PAYMENT_ABI, withSignerIfPossible)
 }
