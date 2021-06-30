@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Wallet from 'components/Wallet'
 import Logo from '../../assets/icons/logo.svg'
 import Heart from '../../assets/icons/heart.svg'
@@ -20,6 +20,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Row } from 'theme/components'
 import { useWalletAddress } from 'state/user/hooks'
+import { useSearch } from 'hooks'
 
 const Categories = ['all', ...CATEGORIES]
 
@@ -83,45 +84,36 @@ const NFTsHeader: React.FC = () => {
 
   const { t } = useTranslation()
 
-  const [search, setSearch] = useState('')
-
-  const [category, setCategory] = useState('all')
+  const [input, setInput] = useState('')
 
   const getNFTs = useGetNFTs()
+
+  var { category, search } = useSearch()
+
+  if (!category) category = 'all'
+
+  useEffect(() => getNFTs({ category, search }), [category, search, getNFTs])
 
   return (
     <React.Fragment>
       <FirstRow>
         <img src={Logo} alt="Logo" onClick={() => history.push('/')} />
         <Search>
-          <InputSearch placeholder={t('searchNFTS')} value={search} onChange={(e: any) => setSearch(e.target.value)} />
-          <ButtonSearch
-            onClick={() => {
-              getNFTs({ search })
-              history.push('nfts')
-            }}
-          >
+          <InputSearch placeholder={t('searchNFTS')} value={input} onChange={(e: any) => setInput(e.target.value)} />
+          <ButtonSearch onClick={() => history.push(`/marketplace/nfts/?category=${category}&search=${input}`)}>
             {t('search')}
           </ButtonSearch>
         </Search>
         <Link to="" onClick={() => history.push('whitelist')}>
           <img src={Heart} alt="Whitelist" />
         </Link>
-        <LinkCreateNFT to="mintnft">{t('mintNFT')}</LinkCreateNFT>
+        <LinkCreateNFT to="/mint/minting">{t('mintNFT')}</LinkCreateNFT>
         <Wallet />
       </FirstRow>
       {!address && <ConnectWallet>{t('marketplaceConnectWallet')}</ConnectWallet>}
       <TabsCategory>
         {Categories.map(c => (
-          <Tab
-            key={c}
-            selected={category === c}
-            onClick={() => {
-              setCategory(c)
-              getNFTs({ category: c })
-              history.push('nfts')
-            }}
-          >
+          <Tab key={c} selected={category === c} onClick={() => history.push(`/marketplace/nfts?category=${c}`)}>
             <Img src={TabIcons[c]} alt={c} />
             {t(c)}
           </Tab>

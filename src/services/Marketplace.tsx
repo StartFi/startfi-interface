@@ -1,11 +1,12 @@
 import { Bid } from './models/Bid'
 import { NFT } from './models/NFT'
-import { addBidToAuction, editAuction, getOpenAuctions } from './database/Auction'
+import { addBidToAuction, editAuction, getAuction, getOpenAuctions } from './database/Auction'
 import { getUser } from './database/User'
 import { addNFT, editNFT, getNFT } from './database/NFT'
 import { addBid } from './database/Bid'
 import { AuctionNFT } from './models/AuctionNFT'
 import { checkSuccess, sortMarketplace } from 'utils'
+import { Auction } from './models/Auction'
 
 export const mintNFT = async (nft: NFT) => {
   //get from blockchain or compute
@@ -39,8 +40,8 @@ export const getMarketplace = async (query?: NFTQUERY) => {
   )
   if (query) {
     const { search, category, sort } = query
-    if (category && category !== 'all') onMarket = onMarket.filter(auctionNFT=>auctionNFT.nft.category === category)
-    if (search) onMarket = onMarket.filter(auctionNFT=>auctionNFT.nft.name.includes(search))
+    if (category && category !== 'all') onMarket = onMarket.filter(auctionNFT => auctionNFT.nft.category === category)
+    if (search) onMarket = onMarket.filter(auctionNFT => auctionNFT.nft.name.includes(search))
     if (sort) onMarket = sortMarketplace(onMarket, sort)
   }
   const t1 = performance.now()
@@ -48,7 +49,22 @@ export const getMarketplace = async (query?: NFTQUERY) => {
   return { onMarket, loadtime, ...query }
 }
 
-export const getAuctionNFT = async ({ nft, auction }: AuctionNFT) => {
+interface GetAuctionNFT {
+  nftId: number
+  auctionId: string
+  AuctionNFT?: AuctionNFT
+}
+
+export const getAuctionNFT = async ({ nftId, auctionId, AuctionNFT }: GetAuctionNFT) => {
+  var nft: NFT
+  var auction: Auction
+  if (AuctionNFT) {
+    nft = AuctionNFT.nft
+    auction = AuctionNFT.auction
+  } else {
+    nft = await getNFT(nftId)
+    auction = await getAuction(auctionId)
+  }
   const owner = await getUser(nft.owner)
   const issuer = await getUser(nft.issuer)
   const ownerdetails = owner.details || 'No details'
