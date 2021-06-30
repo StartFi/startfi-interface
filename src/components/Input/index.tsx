@@ -3,6 +3,7 @@ import Check from './../../assets/icons/check.svg'
 import Upload from './../../assets/icons/upload.svg'
 import Decrement from './../../assets/icons/decrement.svg'
 import Increment from './../../assets/icons/increment.svg'
+import Pause from './../../assets/icons/pause.svg'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 
@@ -121,8 +122,8 @@ export const InputFile = ({ name, label, value, onChange, error, progress, filen
               onChange(e)
             }}
           />
-          <div>{t(progress > 0 ? 'Uploading' : 'Upload')}</div>
-          <img src={Upload} alt="Upload file" />
+          <div>{t(progress === 0 ? 'upload' : (progress === 100 ? 'uploaded' : 'uploading'))}</div>
+          <img src={progress === 0 ? Upload : (progress === 100 ? Check : Pause)} alt="Upload file" />
         </FileInput>
         {filename && (
           <FileInput minWidth="28vw">

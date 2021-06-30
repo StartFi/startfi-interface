@@ -22,7 +22,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
 
   const upload = useUploadToIpfs()
 
-  const progress = useIpfsProgress()
+  const progress = parseInt(useIpfsProgress())
 
   const hash = useIpfsHash()
 
@@ -56,7 +56,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
       <InputFile
         name="dataHash"
         label={t('uploadNFT')}
-        value={state.imaghe}
+        value={state.dataHash}
         onChange={(e: any) => {
           if (e.target.files[0] === null) {
             setFilename('')
