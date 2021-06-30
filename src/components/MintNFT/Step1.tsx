@@ -18,11 +18,13 @@ const Label = styled.div`
 const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
   const [filename, setFilename] = useState(state.dataHash)
 
+  const [progress, setProgress] = useState(0)
+
   const { t } = useTranslation()
 
   const upload = useUploadToIpfs()
 
-  const progress = useIpfsProgress()
+  const ipfsProgress = useIpfsProgress()
 
   const hash = useIpfsHash()
 
@@ -33,6 +35,10 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
       handleChange({ target: { name: 'dataHash', value: 'ipfs://' + hash } })
     }
   }, [filename, status, hash, handleChange])
+
+  useEffect(()=>{
+    setProgress(ipfsProgress)
+  },[ipfsProgress, setProgress])
 
   return (
     <React.Fragment>
@@ -61,6 +67,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
           if (e.target.files[0] === null) {
             setFilename('')
             handleChange({ target: { name: 'dataHash', value: '' } })
+            setProgress(0)
           } else {
             setFilename(e.target.files[0].name)
             upload({ path: e.target.files[0].name, content: e.target.files[0] })

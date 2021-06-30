@@ -110,7 +110,7 @@ export const InputFile = ({ name, label, value, onChange, error, progress, filen
         )}
       </InputFileHeader>
       <InputFileFooter>
-        <FileInput onClick={() => ref.current?.click()} minWidth="11vw" error={error}>
+        <FileInput onClick={() => progress === 0 ? ref.current?.click() : null} minWidth="11vw" error={error}>
           <input
             type="file"
             name={name}
