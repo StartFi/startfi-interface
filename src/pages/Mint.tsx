@@ -6,7 +6,8 @@ import { Route } from 'react-router-dom'
 const Mint: React.FC = () => {
   return (
     <React.Fragment>
-      <Route path="/mint/minting" component={MintNFT} />
+      <Route  path="/mint/minting" component={MintNFT} />
+      <Route  path="/mint/draft/:draftId" component={MintNFT} />
       <Route path="/mint/minted" component={MintingCongrats} />
     </React.Fragment>
   )

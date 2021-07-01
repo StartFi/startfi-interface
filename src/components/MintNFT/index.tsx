@@ -4,6 +4,9 @@ import Card from './Card'
 import Header from './Header'
 import Questions from './Questions'
 import { Row } from 'theme/components'
+import { useParams } from 'react-router-dom'
+import { NFT } from 'services/models/NFT'
+import { useDraft } from 'state/user/hooks'
 
 const Container = styled.div`
   width: 100%;
@@ -35,8 +38,15 @@ const Left = styled(CardBase)`
 const Right = styled(CardBase)`
   width: 60%;
 `
+interface DraftParams {
+  draftId: string
 
+}
 const MintNFT: React.FC = () => {
+
+  const {draftId}: DraftParams = useParams()
+  const draft:NFT=useDraft(parseInt(draftId));
+ 
   return (
     <Container>
       <Header />
@@ -45,7 +55,7 @@ const MintNFT: React.FC = () => {
           <Questions />
         </Left>
         <Right>
-          <Card />
+          <Card draft={draft} />
         </Right>
       </Body>
     </Container>

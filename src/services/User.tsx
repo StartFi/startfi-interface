@@ -40,8 +40,10 @@ export const getDrafts = async (user: string) => {
   return { drafts }
 }
 
+
+// get user inMarket offMarket
 export const getUserNFTs = async (owner: string) => {
-  const userNFTs = await getNFTs({ owner })
+    const userNFTs = await getNFTs({ owner })
   const onMarket: NFT[] = []
   const offMarket: NFT[] = []
   for (var i in userNFTs) {
