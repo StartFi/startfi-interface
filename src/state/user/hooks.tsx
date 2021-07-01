@@ -252,7 +252,7 @@ export const useAddToWishlist = (nftId: number) => {
       if (userId) dispatch(addToWishlistAction({userId, nftId}))
       else popup({success:false,message:'Connect wallet'})
     },
-    [nftId, userId, dispatch]
+    [nftId, userId, popup, dispatch]
   )
 }
 
