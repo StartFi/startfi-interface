@@ -265,6 +265,13 @@ export const useDrafts = (): NFT[] => {
   return useSelector((state: AppState) => state.user.drafts)
 }
 
+
+// get single draft
+export const useDraft=(draftId:number):NFT=>{
+  const userDrafts:NFT[]=useDrafts()
+  return useMemo(()=>userDrafts.filter(draft=>draft.id===draftId)[0],[draftId,userDrafts])
+}
+
 export const useOnMarket = (): NFT[] => {
   return useSelector((state: AppState) => state.user.onMarket)
 }

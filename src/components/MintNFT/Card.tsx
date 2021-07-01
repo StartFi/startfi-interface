@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
 import styled from 'styled-components'
 import Step1 from './Step1'
@@ -13,6 +13,9 @@ import { useSaveDraft } from 'state/user/hooks'
 import { NFT } from 'services/models/NFT'
 import { Row } from 'theme/components'
 import { usePopup } from 'state/application/hooks'
+// import uriToHttp from 'utils/uriToHttp'
+import * as faker from 'faker';
+
 
 const Container = styled.div`
   display: flex;
@@ -42,7 +45,12 @@ const Footer = styled.div`
   margin-top: auto;
 `
 
-const Card: React.FC = () => {
+interface MintCardProps {
+  draft: NFT
+}
+
+const Card: React.FC<MintCardProps> = ({ draft }) => {
+  console.log('card draft', draft)
   const { t } = useTranslation()
 
   const mintNFT = useMintNFT()
@@ -50,7 +58,7 @@ const Card: React.FC = () => {
   const saveDraft = useSaveDraft()
 
   const [nft, setNFT] = useState<NFT>({
-    id: 0,
+    id: faker.random.number(),
     category: '',
     dataHash: '',
     name: '',
@@ -62,6 +70,8 @@ const Card: React.FC = () => {
     txtHash: '',
     royalty: 0
   })
+
+  // const [imgUrl,setImgUrl]=useState('')
 
   const [missing, setMissing] = useState<string[]>([])
 
@@ -126,6 +136,16 @@ const Card: React.FC = () => {
     return Step1Icon
   }
 
+  useEffect(() => {
+    if (draft) {
+      setNFT(draft)
+
+      // setImgUrl(uriToHttp(`${nft.image}`)[0])
+    }
+
+  }, [draft])
+  console.log('nft',nft);
+
   return (
     <Container>
       <Header>
@@ -133,10 +153,11 @@ const Card: React.FC = () => {
           <Title>{t('mintNFTTitle')}</Title>
           <Underline />
         </div>
-        <img src={StepIcon()} alt="Step" />
+        <img src={StepIcon()} alt='Step' />
       </Header>
+
       {step === 1 ? (
-        <Step1 state={nft} handleChange={handleChange} missing={missing} />
+        <Step1 state={nft}  draft={draft} handleChange={handleChange} missing={missing} />
       ) : step === 2 ? (
         <Step2 state={nft} handleChange={handleChange} missing={missing} />
       ) : (
@@ -144,12 +165,19 @@ const Card: React.FC = () => {
       )}
       <Footer>
         <ButtonMintBack onClick={() => (step > 1 ? setStep(step - 1) : null)}>{t('back')}</ButtonMintBack>
-        <ButtonDraft
-          onClick={() => (nft.category || nft.image || nft.name || nft.description) ?
-                saveDraft(nft) : popup({success:false,message:'No data entered to save'})}
-        >
-          {t('saveDraft')}
-        </ButtonDraft>
+        {!draft?(
+           <ButtonDraft
+           onClick={() =>
+             nft.category || nft.image || nft.name || nft.description
+               ? saveDraft(nft)
+               : popup({ success: false, message: 'No data entered to save' })
+           }
+         >
+           {t('saveDraft')}
+         </ButtonDraft>
+
+        ):null}
+
         <ButtonMint onClick={() => next()}>{t(step === 1 ? 'next' : 'submit')}</ButtonMint>
       </Footer>
     </Container>
