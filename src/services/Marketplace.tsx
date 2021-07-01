@@ -19,10 +19,11 @@ export const mintNFT = async (nft: NFT) => {
   return { status, nftAdded, hash }
 }
 
-export type NFTQUERY = {
+export interface NFTQUERY {
   search?: string
   category?: string
   sort?: string
+  name?: string
 }
 
 export const getMarketplace = async (query?: NFTQUERY) => {
@@ -30,7 +31,7 @@ export const getMarketplace = async (query?: NFTQUERY) => {
   if (!query) query = {}
   const { search, category, sort } = query
   const nftsQuery: NFTQUERY = {}
-  if (search) nftsQuery.search = search
+  if (search) nftsQuery.name = search
   if (category && category !== 'all') nftsQuery.category = category
   const auctionSort = sort ? sort : DEFAULTSORT
   const nfts = await getNFTs(nftsQuery)

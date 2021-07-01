@@ -95,7 +95,7 @@ const Card: React.FC = () => {
     Object.keys(nft).forEach((key: string) => (nft[key] ? null : newMissing.push(key)))
     switch (step) {
       case 1:
-        if (['category', 'image'].filter(f => newMissing.includes(f)).length === 0) {
+        if (['category', 'dataHash'].filter(f => newMissing.includes(f)).length === 0) {
           setMissing([])
           return setStep(2)
         }
@@ -145,7 +145,7 @@ const Card: React.FC = () => {
       <Footer>
         <ButtonMintBack onClick={() => (step > 1 ? setStep(step - 1) : null)}>{t('back')}</ButtonMintBack>
         <ButtonDraft
-          onClick={() => (nft.category || nft.image || nft.name || nft.description) ?
+          onClick={() => (nft.category || nft.dataHash || nft.name || nft.description) ?
                 saveDraft(nft) : popup({success:false,message:'No data entered to save'})}
         >
           {t('saveDraft')}

@@ -4,13 +4,13 @@ import { uploadedToIpfs, ipfsStatus, ipfsEnumStatus, ipfsProgress } from './acti
 export interface IpfsState {
   ipfsHash: string
   ipfsStatus: ipfsEnumStatus | null
-  ipfsProgress: string
+  ipfsProgress: number
 }
 
 const initialState: IpfsState = {
   ipfsHash: '',
   ipfsStatus: ipfsEnumStatus['INIT'],
-  ipfsProgress: '0%'
+  ipfsProgress: 0
 }
 
 export default createReducer(initialState, builder =>

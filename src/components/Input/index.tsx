@@ -3,6 +3,7 @@ import Check from './../../assets/icons/check.svg'
 import Upload from './../../assets/icons/upload.svg'
 import Decrement from './../../assets/icons/decrement.svg'
 import Increment from './../../assets/icons/increment.svg'
+import Pause from './../../assets/icons/pause.svg'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 
@@ -101,7 +102,7 @@ export const InputFile = ({ name, label, value, onChange, error, progress, filen
           <ButtonFile
             onClick={() => {
               setFile('')
-              onChange({ target: { files: [null] }, name: 'image' })
+              onChange({ target: { files: [null] }, name: 'dataHash' })
             }}
           >
             {t('Delete')}
@@ -109,7 +110,7 @@ export const InputFile = ({ name, label, value, onChange, error, progress, filen
         )}
       </InputFileHeader>
       <InputFileFooter>
-        <FileInput onClick={() => ref.current?.click()} minWidth="11vw" error={error}>
+        <FileInput onClick={() => progress === 0 ? ref.current?.click() : null} minWidth="11vw" error={error}>
           <input
             type="file"
             name={name}
@@ -121,13 +122,13 @@ export const InputFile = ({ name, label, value, onChange, error, progress, filen
               onChange(e)
             }}
           />
-          <div>{t(progress > 0 ? 'Uploading' : 'Upload')}</div>
-          <img src={Upload} alt="Upload file" />
+          <div>{t(progress === 0 ? 'upload' : (progress === 100 ? 'uploaded' : 'uploading'))}</div>
+          <img src={progress === 0 ? Upload : (progress === 100 ? Check : Pause)} alt="Upload file" />
         </FileInput>
         {filename && (
           <FileInput minWidth="28vw">
             <div>{filename.substring(0, 20)}</div>
-            <div>{progress}</div>
+            <div>{progress} %</div>
           </FileInput>
         )}
       </InputFileFooter>
@@ -256,7 +257,7 @@ export const Input = ({
   }
 
   useEffect(() => {
-    if (!underlineClick && ref && ref.current) ref.current.focus()
+    if (!underlineClick) ref?.current?.focus()
   }, [underlineClick])
 
   return (

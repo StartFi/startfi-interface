@@ -66,10 +66,10 @@ ReactDOM.render(
       <Web3ProviderNetwork getLibrary={getLibrary}>
         <Blocklist>
           <Provider store={store}>
-            <Updaters />
             <ThemeProvider>
               <ThemedGlobalStyle />
               <BrowserRouter>
+              <Updaters />
                 <App />
               </BrowserRouter>
             </ThemeProvider>
