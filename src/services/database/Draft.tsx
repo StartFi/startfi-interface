@@ -1,3 +1,4 @@
+
 import { addDocument, editDocument, getDocument } from 'services/database/Database'
 import { Draft } from 'services/models/Draft'
 
@@ -13,6 +14,8 @@ export const addDraft = async (draft: Draft): Promise<string> => {
   return addDocument(COLLECTION, draft.user, draft)
 }
 
+
 export const getDraft = async (user: string): Promise<Draft> => {
   return (await getDocument(COLLECTION, user)) as Draft
 }
+

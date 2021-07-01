@@ -17,6 +17,9 @@ const ReadMore: React.FC<ReadMoreProps> = ({ children, showScroll }) => {
     setIsReadMore(!isReadMore)
     showScroll(isReadMore)
   }
+
+  const textLength = text?.length
+
   return (
     <p className='text'>
       {isReadMore ? text?.slice(0, 360) : text}

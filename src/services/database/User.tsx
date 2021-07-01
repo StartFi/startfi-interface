@@ -1,4 +1,8 @@
+
+// import { getNFTsOnAuction } from 'services/Marketplace'
+
 import { addDocument, editDocument, getDocument } from 'services/database/Database'
+
 import { User } from 'services/models/User'
 
 const COLLECTION = 'users'
@@ -14,6 +18,7 @@ export const getUser = async (ethAddress: string): Promise<User> => {
 export const editUser = async (user: any): Promise<string> => {
   return editDocument(COLLECTION, user.ethAddress, user)
 }
+
 
 export const addNFTToWishlist = async (userId: string, nftId: number) => {
   const oldUser = (await getDocument(COLLECTION, userId)) as User

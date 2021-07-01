@@ -1,8 +1,10 @@
+
 import Row from 'components/Row'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
 import { useDrafts, useOffMarket, useOnMarket } from 'state/user/hooks'
+
 import styled from 'styled-components'
 import CardHeader, { InventoryOptions } from './CardHeader'
 import Header from './Header'
@@ -37,6 +39,13 @@ const Container = styled.div`
 
 
 
+
+
+
+
+
+
+
 const Inventory = () => {
   const [inventoryOption, setInventoryOption] = useState(InventoryOptions.Draft)
   const history = useHistory()
@@ -58,9 +67,16 @@ const Inventory = () => {
     if (inventoryOption === InventoryOptions.Draft) history.push(`/mint/draft/${id}`)
   }
 
+
   return (
     <Container>
       <Header></Header>
+
+
+
+
+
+
       <CardHeader
         getType={t => {
           setInventoryOption(t)
@@ -75,10 +91,13 @@ const Inventory = () => {
           ) : (
             <p>no item</p>
           )}
+
         </Row>
       </InventoryCard>
     </Container>
   )
 }
 
+
 export default Inventory
+

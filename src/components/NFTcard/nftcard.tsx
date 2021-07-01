@@ -6,6 +6,7 @@ import { NftButton } from 'components/Button'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import uriToHttp from 'utils/uriToHttp'
 
+
 export interface NftCardProps {
   auctionNFT: AuctionNFT
   navigateToCard: (clickedCard: AuctionNFT) => void

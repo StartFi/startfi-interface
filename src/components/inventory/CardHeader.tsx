@@ -21,7 +21,9 @@ const TabsCategory = styled.div`
 
 export enum InventoryOptions {
   Draft = 'Draft',
-  inMarketPlace = 'In market place',
+
+  inMarketPlace = 'In marketplace',
+
   offMarketPlace = 'off market place'
 }
 interface TabProps {

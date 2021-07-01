@@ -1,14 +1,33 @@
-import React, { useState } from 'react'
+
+
+import React, { useEffect, useState } from 'react'
+
+
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { useHistory } from 'react-router'
+
+import { useGetInventory} from 'state/user/hooks'
+
+
+import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useGetNFTs, useLoadTime, useMarketplace } from 'state/marketplace/hooks'
 import { Row } from 'theme/components'
+import { LinkBase } from '../components/Link/index'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { LinkBase } from 'components/Link'
 import { useGetInventory } from 'state/user/hooks'
+
+const NFTS = styled.div`
+  padding: 4vh 3.2vw;
+  width: 100%;
+  z-index: 1;
+`
+
+
+
 
 const Header = styled(Row)`
   padding-bottom: 6vh;
@@ -21,6 +40,7 @@ const Results = styled.div`
 const NFTList = styled(Row)`
   justify-content: space-evenly;
   flex-wrap: wrap;
+
 `
 
 const Nft = styled.div`
@@ -45,6 +65,7 @@ const NFTs: React.FC = () => {
   const loadtime = useLoadTime()
 
   const getNFTs = useGetNFTs()
+
 
   return (
     <Padding>
@@ -83,6 +104,7 @@ const NFTs: React.FC = () => {
       </NFTList> :
       <div>No results</div>}
     </Padding>
+
   )
 }
 

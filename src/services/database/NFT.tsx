@@ -1,5 +1,6 @@
+
 import { Dictionary } from './../../constants'
-import { addDocument, editDocument, getDocument, getDocuments } from 'services/database/Database'
+import { addDocument, editDocument, getDocument, getDocuments, getNFTS } from 'services/database/Database'
 import { NFT } from 'services/models/NFT'
 
 const COLLECTION = 'nfts'
@@ -20,3 +21,14 @@ export const getNFTs = async (filters?: Dictionary): Promise<NFT[]> => {
   console.log(filters)
   return (await getDocuments(COLLECTION, filters)) as NFT[]
 }
+
+// get single NFT details
+export const getNfDetails= async(nftId:number):Promise<NFT>=>{
+  return (await getDocument(ENTITY, nftId)) as NFT
+
+}
+
+export const getOwnerNFTs = async (owner: string): Promise<NFT[]> => {
+  return (await getDocumentsByChild(ENTITY, 'owner', owner)) as NFT[]
+}
+
