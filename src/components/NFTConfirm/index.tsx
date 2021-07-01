@@ -203,7 +203,7 @@ const NFTConfirm: React.FunctionComponent = () => {
       <WaitingConfirmation isOpen={confimration} bidOrBuy={bidOrBuy} owner={nft.owner} ownername={ownername} />
       <Left>
         <Rows>
-          <Img src={uriToHttp(nft.image)[1]} />
+          <Img src={uriToHttp(nft.dataHash)[1]} />
           <Column>
             <Bold>{nft.name}</Bold>
             <Text>Prediction: Round 12 (Bronze) - Only 100 Available</Text>
