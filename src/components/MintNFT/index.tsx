@@ -46,7 +46,7 @@ const MintNFT: React.FC = () => {
 
   const {draftId}: DraftParams = useParams()
   const draft:NFT=useDraft(parseInt(draftId));
-  console.log("draft (1)=>",draft)
+ 
   return (
     <Container>
       <Header />

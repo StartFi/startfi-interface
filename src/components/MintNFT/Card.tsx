@@ -14,8 +14,7 @@ import { NFT } from 'services/models/NFT'
 import { Row } from 'theme/components'
 import { usePopup } from 'state/application/hooks'
 // import uriToHttp from 'utils/uriToHttp'
-import * as faker from 'faker';
-
+import * as faker from 'faker'
 
 const Container = styled.div`
   display: flex;
@@ -70,8 +69,6 @@ const Card: React.FC<MintCardProps> = ({ draft }) => {
     txtHash: '',
     royalty: 0
   })
-
-  // const [imgUrl,setImgUrl]=useState('')
 
   const [missing, setMissing] = useState<string[]>([])
 
@@ -139,12 +136,8 @@ const Card: React.FC<MintCardProps> = ({ draft }) => {
   useEffect(() => {
     if (draft) {
       setNFT(draft)
-
-      // setImgUrl(uriToHttp(`${nft.image}`)[0])
     }
-
   }, [draft])
-  console.log('nft',nft);
 
   return (
     <Container>
@@ -157,7 +150,7 @@ const Card: React.FC<MintCardProps> = ({ draft }) => {
       </Header>
 
       {step === 1 ? (
-        <Step1 state={nft}  draft={draft} handleChange={handleChange} missing={missing} />
+        <Step1 state={nft} draft={draft} handleChange={handleChange} missing={missing} />
       ) : step === 2 ? (
         <Step2 state={nft} handleChange={handleChange} missing={missing} />
       ) : (
@@ -165,18 +158,17 @@ const Card: React.FC<MintCardProps> = ({ draft }) => {
       )}
       <Footer>
         <ButtonMintBack onClick={() => (step > 1 ? setStep(step - 1) : null)}>{t('back')}</ButtonMintBack>
-        {!draft?(
-           <ButtonDraft
-           onClick={() =>
-             nft.category || nft.image || nft.name || nft.description
-               ? saveDraft(nft)
-               : popup({ success: false, message: 'No data entered to save' })
-           }
-         >
-           {t('saveDraft')}
-         </ButtonDraft>
-
-        ):null}
+        {!draft ? (
+          <ButtonDraft
+            onClick={() =>
+              nft.category || nft.image || nft.name || nft.description
+                ? saveDraft(nft)
+                : popup({ success: false, message: 'No data entered to save' })
+            }
+          >
+            {t('saveDraft')}
+          </ButtonDraft>
+        ) : null}
 
         <ButtonMint onClick={() => next()}>{t(step === 1 ? 'next' : 'submit')}</ButtonMint>
       </Footer>

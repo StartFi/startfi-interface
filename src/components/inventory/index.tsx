@@ -35,11 +35,10 @@ const Container = styled.div`
   padding: 4vh 3.2vw;
 `
 
-// const CardContentContainer = styled.div``
+
 
 const Inventory = () => {
   const [inventoryOption, setInventoryOption] = useState(InventoryOptions.Draft)
-  // useGetInventory()
   const history = useHistory()
   const drafts: NFT[] | undefined = useDrafts()
   const onMarketNFT: NFT[] | undefined = useOnMarket()
