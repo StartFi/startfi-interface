@@ -18,7 +18,6 @@ const ReadMore: React.FC<ReadMoreProps> = ({ children, showScroll }) => {
     showScroll(isReadMore)
   }
 
-  const textLength = text?.length
 
   return (
     <p className='text'>

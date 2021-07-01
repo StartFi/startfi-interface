@@ -16,22 +16,12 @@ import {
   toggleURLWarning,
   updateUserSingleHopOnly,
   saveDraftAction,
-  getDraftsAction,
-  getUserNFTsAction,
+  loginAction,
   addToWishlistAction,
   clearUserPopup,
-
-  loginAction,
- 
-  // loginAction,
-  // addToWishlistAction,
-  // clearUserPopup,
-  // logoutAction
-
   logoutAction,
   getDraftsAction,
   getUserNFTsAction
-
 } from './actions'
 import { User } from 'services/models/User'
 import { NFT } from 'services/models/NFT'
@@ -70,6 +60,7 @@ export interface UserState {
 
   timestamp: number
   URLWarningVisible: boolean
+
   user: User | null
   popup: PopupContent | null
   drafts: NFT[]
@@ -177,32 +168,6 @@ export default createReducer(initialState, builder =>
     .addCase(toggleURLWarning, state => {
       state.URLWarningVisible = !state.URLWarningVisible
     })
-
-    .addCase(saveDraftAction.pending, (state, action) => {})
-    .addCase(saveDraftAction.fulfilled, (state, action) => {
-      const success = action.payload.status === 'success'
-      state.popup = { success, message: success ? 'Draft saved successfully' : action.payload.draftAdded }
-    })
-    .addCase(saveDraftAction.rejected, (state, action) => {
-      state.popup = { success: false, message: action.error.message || 'Error occurred while saving NFT to drafts' }
-    })
-
-    .addCase(getDraftsAction.pending, (state, action) => {})
-    .addCase(getDraftsAction.fulfilled, (state, action) => {
-      state.drafts = action.payload.drafts
-    })
-    .addCase(getDraftsAction.rejected, (state, action) => {
-      state.popup = { success: false, message: action.error.message || 'Error occurred while saving NFT to drafts' }
-    })
-    .addCase(getUserNFTsAction.pending, (state, action) => {})
-    .addCase(getUserNFTsAction.fulfilled, (state, action) => {
-      state.onMarket = action.payload.onMarket
-      state.offMarket = action.payload.offMarket
-    })
-    .addCase(getUserNFTsAction.rejected, (state, action) => {
-      state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
-    })
-
     .addCase(loginAction.pending, (state, action) => {})
     .addCase(loginAction.fulfilled, (state, action) => {
       state.user = action.payload
@@ -222,8 +187,6 @@ export default createReducer(initialState, builder =>
     })
     .addCase(addToWishlistAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while adding NFT to wishlist' }
-
-
     })
     .addCase(saveDraftAction.pending, (state, action) => {})
     .addCase(saveDraftAction.fulfilled, (state, action) => {
@@ -232,7 +195,6 @@ export default createReducer(initialState, builder =>
     })
     .addCase(saveDraftAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
-
     })
     .addCase(clearUserPopup, (state, action) => {
       state.popup = null

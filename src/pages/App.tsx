@@ -15,7 +15,7 @@ import Inventory from 'components/inventory'
 import { useLogin } from 'state/user/hooks'
 import Mint from './Mint'
 import Marketplace from './Marketplace'
-import Inventory from 'components/inventory'
+
 
 
 
@@ -65,11 +65,11 @@ export default function App() {
             <Switch>
               <Route exact path="/" component={LandingPage} />
 
-              
+
 
               <Route exact path="/nft/:id" component={Nftproduct} />
               <Route path="/nftconfirm" component={NFTConfirm} />
-        
+
               <Route exact path="/mintednft" component={MintingCongrats} />
               <Route exact path="/inventory" component={Inventory}  />
 

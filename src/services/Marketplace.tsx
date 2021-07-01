@@ -124,27 +124,12 @@ interface PlaceBid {
 
 export const placeBid = async ({ auctionId, bid }: PlaceBid) => {
   //to get from blockchain or compute
-
-
-
-
-
   const hash = ''
   bid.id = '0'
-
   bid.expireTimestamp = 0
-  bid.txtHash =txtHash
+  bid.txtHash = hash
   const bidAdded = await addBid(bid)
-  const bidAddedToAuction = await addBidToAuction(auctionId.toString(), bid.id)
+  const bidAddedToAuction = await addBidToAuction(auctionId, bid.id)
   const status = checkSuccess({ bidAdded, bidAddedToAuction })
-
-  return { status, bidAdded, bidAddedToAuction,txtHash }
+  return { status, bidAdded, bidAddedToAuction, hash }
 }
-
-
-
-// get NFT details
-export const getNft = async (nftId: number) => {
-  return await getNfDetails(nftId)
-}
-

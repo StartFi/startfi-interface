@@ -1,15 +1,10 @@
 import { checkSuccess } from 'utils'
-import { getOwnerNFTs } from './database/NFT'
-import { Auction } from './models/Auction'
 import { Draft } from './models/Draft'
 import { NFT } from './models/NFT'
-import { getNFTAuctions } from './database/Auction'
+import { getAuctions,} from './database/Auction'
 import { addDraft, getDraft } from './database/Draft'
 import { getNFTs } from './database/NFT'
 import { addNFTToWishlist, addUser, getUser } from './database/User'
-import { Draft } from './models/Draft'
-import { NFT } from './models/NFT'
-
 import { User } from './models/User'
 
 export const login = async (ethAddress: string): Promise<User> => {

@@ -12,10 +12,6 @@ import {
   buyNFTAction,
   clearMarketplacePopup,
   getAuctionNFTAction,
-
-  getNFTDetailsAction,
-  getNFTsAction,
-
   getMarketplaceAction,
 
   placeBidAction,
@@ -141,13 +137,7 @@ export const useBuyNFT = (): (() => void) => {
 }
 
 
-// fetch NFT detail
-export const useGetNftDetails = (nftId: number) => {
-  const dispatch = useDispatch()
-  return useEffect(() => {
-    dispatch(getNFTDetailsAction(nftId))
-  }, [dispatch, nftId])
-}
+
 
 
 export const useNFTDetails =()=>{

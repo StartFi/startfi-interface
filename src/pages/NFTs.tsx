@@ -1,33 +1,23 @@
-
-
-import React, { useEffect, useState } from 'react'
-
+import React, { useState } from 'react'
 
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { useHistory } from 'react-router'
 
-import { useGetInventory} from 'state/user/hooks'
-
-
-import NFTsHeader from 'components/Header/NFTsHeader'
+import { useGetInventory } from 'state/user/hooks'
+// import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useGetNFTs, useLoadTime, useMarketplace } from 'state/marketplace/hooks'
 import { Row } from 'theme/components'
 import { LinkBase } from '../components/Link/index'
 import { AuctionNFT } from 'services/models/AuctionNFT'
-import { LinkBase } from 'components/Link'
-import { useGetInventory } from 'state/user/hooks'
 
-const NFTS = styled.div`
-  padding: 4vh 3.2vw;
-  width: 100%;
-  z-index: 1;
-`
-
-
-
+// const NFTS = styled.div`
+//   padding: 4vh 3.2vw;
+//   width: 100%;
+//   z-index: 1;
+// `
 
 const Header = styled(Row)`
   padding-bottom: 6vh;
@@ -40,7 +30,6 @@ const Results = styled.div`
 const NFTList = styled(Row)`
   justify-content: space-evenly;
   flex-wrap: wrap;
-
 `
 
 const Nft = styled.div`
@@ -66,7 +55,6 @@ const NFTs: React.FC = () => {
 
   const getNFTs = useGetNFTs()
 
-
   return (
     <Padding>
       <Header>
@@ -75,7 +63,7 @@ const NFTs: React.FC = () => {
         </Results>
         <DropDownSort
           boxshadow
-          name="sort"
+          name='sort'
           options={SORTBY}
           value={sort}
           onChange={(e: any) => {
@@ -85,26 +73,28 @@ const NFTs: React.FC = () => {
         />
       </Header>
       <LinkBase to='/inventory' onClick={useGetInventory()}>
-          Inventory
-        </LinkBase>
-      {onMarket.length > 0 ? <NFTList>
-        {onMarket.map((auctionNFT: AuctionNFT) => (
-          <Nft key={auctionNFT.nft.id}>
-            <NTFCard
-              auctionNFT={auctionNFT}
-              navigateToCard={(auctionNFT: AuctionNFT) =>
-                history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
-              }
-              placeBid={(auctionNFT: AuctionNFT) =>
-                history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
-              }
-            ></NTFCard>
-          </Nft>
-        ))}
-      </NFTList> :
-      <div>No results</div>}
+        Inventory
+      </LinkBase>
+      {onMarket.length > 0 ? (
+        <NFTList>
+          {onMarket.map((auctionNFT: AuctionNFT) => (
+            <Nft key={auctionNFT.nft.id}>
+              <NTFCard
+                auctionNFT={auctionNFT}
+                navigateToCard={(auctionNFT: AuctionNFT) =>
+                  history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
+                }
+                placeBid={(auctionNFT: AuctionNFT) =>
+                  history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
+                }
+              ></NTFCard>
+            </Nft>
+          ))}
+        </NFTList>
+      ) : (
+        <div>No results</div>
+      )}
     </Padding>
-
   )
 }
 

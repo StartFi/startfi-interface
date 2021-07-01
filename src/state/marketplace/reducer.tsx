@@ -10,12 +10,11 @@ import {
   buyNFTAction,
   clearMarketplacePopup,
   getAuctionNFTAction,
-
   getMarketplaceAction,
-
   placeBidAction,
-  setBidOrBuy,
+  setBidOrBuy
 } from './actions'
+import { NFT } from 'services/models/NFT'
 
 export interface MarketplaceState {
   marketplace: AuctionNFT[]
@@ -24,11 +23,8 @@ export interface MarketplaceState {
   bidOrBuy: boolean
   bidOrBuyValue: number
   confirmationLoading: boolean
-
   NftDetails: NFT | null
-
   popup: PopupContent | null
-
 }
 
 const initialState: MarketplaceState = {
@@ -42,7 +38,6 @@ const initialState: MarketplaceState = {
   NftDetails: null,
 
   popup: null
-
 }
 
 export default createReducer(initialState, builder =>
@@ -97,15 +92,10 @@ export default createReducer(initialState, builder =>
       state.bidOrBuy = bidOrBuy
       state.bidOrBuyValue = value
     })
-    .addCase(getNFTDetailsAction.pending, (state, action) => {})
-    .addCase(getNFTDetailsAction.fulfilled, (state, action) => {
-      state.NftDetails = action.payload
-    })
-    .addCase(getNFTDetailsAction.rejected, (state, action) => {})
+
     .addCase(clearMarketplacePopup, (state, action) => {
       state.popup = null
     })
-
 )
 
 const getFirstError = (object: any): string => {
