@@ -46,51 +46,18 @@ export const getDrafts = async (user: string) => {
   return { drafts }
 }
 
-// export const getUserNFTs = async (user: string) => {
-// const userNFTs = await getOwnerNFTs(user)
-// console.log('user NFT', userNFTs)
-//  const onMarket: NFT[] = []
-//   const offMarket: NFT[] = []
 
-// for (var i in userNFTs) {
-// console.log('i=>', i)
-// const auctions = await getNFTAuctions(user)
-// console.log('auctions=>', auctions)
-// if (auctions.filter(auction => auction.status === 'open').length > 0) onMarket = onMarket.concat(userNFTs[i])
-// else offMarket.push(userNFTs[i])
-// console.log('onMarket=>', onMarket)
-// }
 
-// return { onMarket, offMarket }
-// }
+// get user inMarket offMarket
+export const getUserNFTs = async (owner: string) => {
+    const userNFTs = await getNFTs({ owner })
+  const onMarket: NFT[] = []
+  const offMarket: NFT[] = []
+  for (var i in userNFTs) {
+    const auctions = await getAuctions({ nft: userNFTs[i].id })
+    if (auctions.filter(auction => auction.status === 'open').length > 0) onMarket.push(userNFTs[i])
+    else offMarket.push(userNFTs[i])
+  }
 
-// get onMarket offMarket NFT
-export const getUserNFTs = async (user: string) => {
-  const userNFTs = await getOwnerNFTs(user)
-  const NftArray: NFT[] = [...Object.values(userNFTs)]
-  const auctions: any = []
-  let onMarket: NFT[] = []
-  let offMarket: NFT[] = [...NftArray]
-  NftArray.forEach(async e => {
-    await auctions.push(getNFTAuctions(e.id))
-  })
-
-  const userAuctions = await Promise.all(Object.values(auctions))
-  const trueUserAuctions = userAuctions.filter(e => e) as Auction[]
-  let modifiedUserAuctions = [] as Auction[]
-  trueUserAuctions.forEach((e: any) => {
-    let auctionItem = Object.values(e) as Auction[]
-    modifiedUserAuctions.push(auctionItem[0])
-  })
-
-  modifiedUserAuctions.forEach(e => {
-    const NftID = e.nft
-    const status = e.status
-    if (status === 'open') {
-      const auctionNft = NftArray.filter(nft => nft.id === NftID)
-      onMarket.push(auctionNft[0])
-      offMarket = [...offMarket.filter(nft => nft.id !== NftID)]
-    }
-  })
   return { onMarket, offMarket }
 }

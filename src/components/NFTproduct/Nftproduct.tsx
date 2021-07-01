@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 
-// import Path from '../../assets/svg/Path.svg'
 
-// import Rectangle from '../../assets/images/Rectangle.png'
 
 import {
   Grid,
@@ -21,7 +19,8 @@ import {
   BuyNow,
   DescriptionCard,
   DescriptionTitle,
-  DescriptionText
+  DescriptionText,
+  OwnerText
 } from './Nftproduct.styles'
 import ReadMore from '../ReadMore/readmore'
 import { useTranslation } from 'react-i18next'
@@ -36,7 +35,10 @@ import ButtonWishlist from 'components/Button/ButtonWishlist'
 
 import { usePopup } from 'state/application/hooks'
 import { useHistory, useParams } from 'react-router-dom'
-import { useGetAuctionNFT } from 'state/marketplace/hooks'
+import { useAuctionNFT, useGetAuctionNFT } from 'state/marketplace/hooks'
+
+import uriToHttp from 'utils/uriToHttp'
+import { AuctionNFT } from 'services/models/AuctionNFT'
 
 interface NFTParams {
   nft: string
@@ -63,6 +65,7 @@ const Nftproduct = () => {
   const { nft, auction }: NFTParams = useParams()
 
   useGetAuctionNFT(parseInt(nft), auction)
+  const auctionNFT: AuctionNFT | null = useAuctionNFT()
 
   const popup = usePopup()
 
@@ -79,6 +82,10 @@ const Nftproduct = () => {
   const nftId = parseInt(nft)
 
 
+
+  const imgUrl = uriToHttp(`${auctionNFT?.nft.image}`)[0]
+
+
   const showScroll = (readMore: boolean) => {
     readMore ? setIsReadMore('scroll') : setIsReadMore('')
   }
@@ -86,6 +93,7 @@ const Nftproduct = () => {
   return (
     <Grid>
       <BidOrBuy bidOrBuy={bidOrBuy} isOpen={isOpen} close={() => setIsOpen(false)} />
+
 
       <NFTsHeader />
       <Grid>
@@ -184,7 +192,8 @@ const Nftproduct = () => {
       </Grid>
     </Container>
 
-  )
+)
+  
 }
 
 export default Nftproduct

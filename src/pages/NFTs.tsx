@@ -17,6 +17,8 @@ import { useGetNFTs, useLoadTime, useMarketplace } from 'state/marketplace/hooks
 import { Row } from 'theme/components'
 import { LinkBase } from '../components/Link/index'
 import { AuctionNFT } from 'services/models/AuctionNFT'
+import { LinkBase } from 'components/Link'
+import { useGetInventory } from 'state/user/hooks'
 
 const NFTS = styled.div`
   padding: 4vh 3.2vw;
@@ -82,6 +84,9 @@ const NFTs: React.FC = () => {
           }}
         />
       </Header>
+      <LinkBase to='/inventory' onClick={useGetInventory()}>
+          Inventory
+        </LinkBase>
       {onMarket.length > 0 ? <NFTList>
         {onMarket.map((auctionNFT: AuctionNFT) => (
           <Nft key={auctionNFT.nft.id}>

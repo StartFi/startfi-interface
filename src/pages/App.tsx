@@ -15,6 +15,7 @@ import Inventory from 'components/inventory'
 import { useLogin } from 'state/user/hooks'
 import Mint from './Mint'
 import Marketplace from './Marketplace'
+import Inventory from 'components/inventory'
 
 
 
@@ -74,6 +75,9 @@ export default function App() {
 
               <Route path="/marketplace" component={Marketplace} />
               <Route path="/mint" component={Mint} />
+
+
+              <Route exact path="/inventory" component={Inventory}  />
 
             </Switch>
           </Web3ReactManager>

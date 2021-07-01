@@ -41,7 +41,8 @@ import {
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 
-import { usePopup } from 'state/application/hooks'
+
+
 
 
 
@@ -348,6 +349,13 @@ export const useDrafts = (): NFT[] => {
   return useSelector((state: AppState) => state.user.drafts)
 }
 
+
+// get single draft
+export const useDraft=(draftId:number):NFT=>{
+  const userDrafts:NFT[]=useDrafts()
+  return useMemo(()=>userDrafts.filter(draft=>draft.id===draftId)[0],[draftId,userDrafts])
+}
+
 export const useOnMarket = (): NFT[] => {
   return useSelector((state: AppState) => state.user.onMarket)
 }
@@ -391,4 +399,6 @@ export const useGetUserNFTs = () => {
   const popup = usePopup()
   return useCallback(()=> user ? dispatch(getUserNFTsAction(user)) : popup({success:false,message:'Connect wallet'}),[user, popup, dispatch])
 }
+
+
 

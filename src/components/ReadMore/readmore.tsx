@@ -11,6 +11,8 @@ const ReadMore: React.FC<ReadMoreProps> = ({ children, showScroll }) => {
   const { t } = useTranslation()
 
   const [isReadMore, setIsReadMore] = useState(true)
+  const textLength = text?.length
+
   const toggleReadMore = () => {
     setIsReadMore(!isReadMore)
     showScroll(isReadMore)

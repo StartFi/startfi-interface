@@ -55,13 +55,20 @@ const ButtonContainer = styled.div`
 
 interface MiniCardContent {
   cardContent: NFT
+
+
+  navigate: () => void
+
 }
-const MiniCard: React.FC<MiniCardContent> = ({ cardContent }) => {
+const MiniCard: React.FC<MiniCardContent> = ({ cardContent ,navigate}) => {
+
   let tags: string[] = []
   if (cardContent?.tags) tags = [...cardContent?.tags].splice(0, 2)
   const imgUrl = uriToHttp(`${cardContent.image}`)[0]
   return (
-    <Card>
+
+    <Card onClick={navigate}>
+
       <CardContent>
         <Image src={imgUrl}></Image>
         <TextContainer>
