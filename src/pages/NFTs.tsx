@@ -72,7 +72,7 @@ const NFTs: React.FC = () => {
           }}
         />
       </Header>
-      <LinkBase to='/inventory' onClick={useGetInventory()}>
+      <LinkBase to='/inventory/home' onClick={useGetInventory()}>
         Inventory
       </LinkBase>
       {onMarket.length > 0 ? (

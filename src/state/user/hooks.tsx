@@ -1,7 +1,7 @@
 // NOTICE: Kindly keep the old sdk unite we remove the code dependant on it in this file
 import { Pair, Token } from '@uniswap/sdk'
 
-import { InventoryOptions } from 'components/inventory/CardHeader'
+import { InventoryOptions } from 'components/invHome/CardHeader'
 
 import { PopupContent } from './../../constants'
 import { useCallback, useEffect, useMemo } from 'react'

@@ -54,7 +54,7 @@ const ButtonContainer = styled.div`
 `
 
 interface MiniCardContent {
-  cardContent: NFT
+    cardContent: NFT
 
 
   navigate: () => void
