@@ -39,14 +39,13 @@ const Right = styled(CardBase)`
   width: 60%;
 `
 interface DraftParams {
-  draftId: string
-
+  draftId: string;
 }
 const MintNFT: React.FC = () => {
 
   const {draftId}: DraftParams = useParams()
   const draft:NFT=useDraft(parseInt(draftId));
- 
+
   return (
     <Container>
       <Header />

@@ -342,6 +342,12 @@ export const useOnMarket = (): NFT[] => {
   return useSelector((state: AppState) => state.user.onMarket)
 }
 
+export const useOnMarketItem = (nftId: number): NFT => {
+  const onMarket:NFT[]= useOnMarket()
+  return  useMemo(() => onMarket.filter(nft=>nft.id===nftId)[0],[onMarket,nftId])
+}
+
+
 export const useOffMarket = (): NFT[] => {
   return useSelector((state: AppState) => state.user.offMarket)
 }

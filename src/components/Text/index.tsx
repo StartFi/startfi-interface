@@ -3,7 +3,7 @@ import styled from 'styled-components'
 const Text = styled('p')<{
   width?: string
   fontFamily?: string
-  FontWight?: string
+  FontWeight?: string
   fontSize?: string
   margin?:string
   color?:string
@@ -11,7 +11,7 @@ const Text = styled('p')<{
   textOverflow?: string
 }>`
   font-family: ${({ fontFamily }) => fontFamily};
-  font-weight: ${({ FontWight }) => FontWight};
+  font-weight: ${({ FontWeight }) => FontWeight};
   font-size: ${({ fontSize }) => fontSize};
   width: ${({ width }) => width};
   color: ${({ color }) => color};

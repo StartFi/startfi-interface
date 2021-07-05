@@ -3,29 +3,11 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
 import { useDrafts, useOffMarket, useOnMarket } from 'state/user/hooks'
-import styled from 'styled-components'
 import CardHeader, { InventoryOptions } from './CardHeader'
+import { InventoryCard } from './InvHome.styles'
 import MiniCard from './MiniCard'
 
-const InventoryCard = styled.div`
-  height: 500px;
-  width: 92%;
-  margin: 0px auto 0px auto;
-  background-color: #ffffff;
-  border: 1px solid #e3e3e3;
-  box-shadow: 0px 0px 20px rgba(239, 239, 239, 0.25);
-  overflow-y: auto;
-  &::-webkit-scrollbar {
-    width: 15px;
-    border: 1px solid #e3e3e3;
-    background-color: #efefef;
-    border-radius: 100px;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 100px;
-    background-color: #b5b5b5;
-  }
-`
+
 
 
 

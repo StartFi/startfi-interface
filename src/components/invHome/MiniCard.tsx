@@ -2,7 +2,6 @@ import React from 'react'
 import { NFT } from 'services/models/NFT'
 import styled from 'styled-components'
 import uriToHttp from 'utils/uriToHttp'
-
 import Text from '../Text'
 
 const Card = styled.div`
