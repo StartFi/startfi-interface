@@ -3,19 +3,26 @@ import styled from 'styled-components'
 import { CardProps, Text } from 'rebass'
 import { Box } from 'rebass/styled-components'
 
-const Card = styled(Box)<{ width?: string; height?:string;padding?: string; border?: string;
- borderRadius?: string;background?:string }>`
+const Card = styled(Box)<{
+  width?: string
+  height?: string
+  padding?: string
+  border?: string
+  borderRadius?: string
+  background?: string
+  marginTop?: string
+}>`
   width: ${({ width }) => width ?? '100%'};
   height: ${({ height }) => height};
   border-radius: 16px;
-  padding: 1.25rem;
+ 
   padding: ${({ padding }) => padding};
   border: ${({ border }) => border};
   border-radius: ${({ borderRadius }) => borderRadius};
-  background-color:${({ background }) => background};
-
-
-
+  background-color: ${({ background }) => background};
+  margin-top: ${({ marginTop }) => marginTop};
+  display: flex;
+  align-items: center;
 `
 export default Card
 
@@ -58,7 +65,7 @@ const BlueCardStyled = styled(Card)`
 export const BlueCard = ({ children, ...rest }: CardProps) => {
   return (
     <BlueCardStyled {...rest}>
-      <Text fontWeight={500} color="#2172E5">
+      <Text fontWeight={500} color='#2172E5'>
         {children}
       </Text>
     </BlueCardStyled>

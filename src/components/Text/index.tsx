@@ -9,6 +9,9 @@ const Text = styled('p')<{
   color?:string
   overflow?: string
   textOverflow?: string
+  marginLeft?:string
+  marginRight?:string
+  spanWeight?: string
 }>`
   font-family: ${({ fontFamily }) => fontFamily};
   font-weight: ${({ FontWeight }) => FontWeight};
@@ -18,6 +21,12 @@ const Text = styled('p')<{
   overflow: ${({ overflow }) => overflow};
   text-overflow: ${({ textOverflow }) => textOverflow};
   margin:${({ margin }) => margin};
+  
+
+  & span{
+    margin-left:${({ marginLeft }) => marginLeft};
+    font-weight: ${({ spanWeight }) => spanWeight};
+  }
 `
 
 export default Text;
