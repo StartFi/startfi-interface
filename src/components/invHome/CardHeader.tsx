@@ -18,18 +18,6 @@ const TabsCategory = styled.div`
   flex-flow: row nowrap;
   margin-left: -40px;
 `
-
-export enum InventoryOptions {
-  Draft = 'Draft',
-
-  inMarketPlace = 'In marketplace',
-
-  offMarketPlace = 'off market place'
-}
-interface TabProps {
-  readonly selected: boolean
-}
-
 const Tab = styled.div<TabProps>`
   margin-left: 80px;
   padding-bottom: 1vh;
@@ -38,6 +26,18 @@ const Tab = styled.div<TabProps>`
   color: ${props => (props.selected ? ' #000000;' : '#919191;')};
   transition: ease-in-out 0.3s all;
 `
+
+
+export enum InventoryOptions {
+  Draft = 'Draft',
+  inMarketPlace = 'In marketplace',
+  offMarketPlace = 'off market place'
+}
+interface TabProps {
+  readonly selected: boolean
+}
+
+
 
 export const inventoryTypes: Array<InventoryOptions> = [
   InventoryOptions.Draft,
