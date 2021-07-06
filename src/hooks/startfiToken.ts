@@ -19,7 +19,7 @@ export const useTransferTokenLogs = (contract: Contract | null) => {
         const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
         const eventValue = args && { sender: args[0], recipient: args[1], amount: args[2].toNumber() }
-        dispatch(addNewEvent({ eventName: 'trasnferToken', eventValue }))
+        dispatch(addNewEvent({ eventName: 'transferToken', eventValue }))
       })
     }
     return () => {
@@ -45,7 +45,7 @@ export const useApprovalTokenLogs = (contract: Contract | null) => {
     }
   }, [ApprovalEvent])
 }
-export const useTokneInfo = () => {
+export const useTokenInfo = () => {
   const contract = useStartFiToken(false)
   return useCallback(() => {
     const getInfo = async () => {
@@ -91,7 +91,7 @@ export const useGetAllowance = (): ((owner: string, spender: string) => any) => 
   )
 }
 
-export const useApproveToken = (): ((amount: string) => any) => {
+export const useApproveNftPaymentToken = (): ((amount: string) => any) => {
   const { account, library } = useActiveWeb3React()
   const spender = STARTFI_NFT_PAYMENT_NETWORK
   const contract = useStartFiToken(true)
@@ -143,13 +143,13 @@ export const useDecreaseAllowance = (): ((spender: string, substractedValue: str
   const approve = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   return useCallback(
-    async (spender: string, substractedValue: string) => {
+    async (spender: string, subtractedValue: string) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
       }
       try {
-        return await approve('decreaseAllowance', [spender, substractedValue], contract, account, library)
+        return await approve('decreaseAllowance', [spender, subtractedValue], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
