@@ -11,6 +11,8 @@ import { ImageContainer, Divider, TextContainer, TagRow } from 'components/InMar
 import { Footer, TopTitle } from './OffMarket.styles'
 import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
 import { useTranslation } from 'react-i18next'
+import Vector from '../../assets/images/Vector.png'
+import StringModifier from 'utils/StringSplice'
 
 interface offMarketParams {
   id: string
@@ -34,7 +36,11 @@ const OffMarket = () => {
     <InventoryCard borderRadius='8px' marginTop='54px'>
         <TopTitle>
             <span>Inventory</span>
+            <img src={Vector}/>
             <span>offMarketPlace</span>
+            <img src={Vector}/>
+            <span>{StringModifier(nft.owner)}</span>
+
             </TopTitle>
       <Row padding='20px' align='start'>
         <Text fontFamily='Roboto' FontWeight='500' fontSize='1rem' color='#000000' margin='0 0 3px 8px'>
