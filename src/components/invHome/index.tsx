@@ -31,6 +31,7 @@ const InventoryHome = () => {
   const navigate = (id: number) => {
     if (inventoryOption === InventoryOptions.Draft) history.push(`/mint/draft/${id}`)
     if (inventoryOption === InventoryOptions.inMarketPlace) history.push(`/inventory/in-market/${id}`)
+    if (inventoryOption === InventoryOptions.offMarketPlace) history.push(`/inventory/off-market/${id}`)
   }
 
   return (
