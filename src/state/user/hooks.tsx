@@ -282,6 +282,12 @@ export const useClearUserPopup = () => {
   )
 }
 
+
+// get onMarket state
+// export const useUserWishList = (): NFT[] => {
+//   const user=useUser()
+//   useMemo(() => user?user.wishlist:null, [ user])
+// }
 export const useIsNFTWishlist = (nftId: number): boolean => {
   const user = useUser()
   return useMemo(() => user?.wishlist?.includes(nftId) || false, [nftId, user])
