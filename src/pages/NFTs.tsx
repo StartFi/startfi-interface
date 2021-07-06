@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { useGetNFTs, useLoadTime, useMarketplace } from 'state/marketplace/hooks'
 import { Row } from 'theme/components'
 import { AuctionNFT } from 'services/models/AuctionNFT'
+import { LinkBase } from 'components/Link'
 
 const Header = styled(Row)`
   padding-bottom: 6vh;
@@ -47,6 +48,7 @@ const NFTs: React.FC = () => {
   return (
     <Padding>
       <Header>
+
         <Results>
           {onMarket.length} {t('NFTSResults')} {loadtime}ms
         </Results>
@@ -61,6 +63,10 @@ const NFTs: React.FC = () => {
           }}
         />
       </Header>
+       <LinkBase to='/marketplace/wishList'>
+        Wish List
+      </LinkBase>
+
       {onMarket.length > 0 ? <NFTList>
         {onMarket.map((auctionNFT: AuctionNFT) => (
           <Nft key={auctionNFT.nft.id}>
