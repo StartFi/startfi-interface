@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -47,9 +48,32 @@ export const inventoryTypes: Array<InventoryOptions> = [
 interface CardHeaderProps {
   getType: (type: InventoryOptions) => void
 }
+
+interface InvParams {
+  offMarket: string
+}
+
 const CardHeader: React.FC<CardHeaderProps> = ({ getType }) => {
   const [inventoryType, setInventoryType] = useState(inventoryTypes[0])
   const { t } = useTranslation()
+  const { offMarket }:  InvParams = useParams()
+
+  console.log(offMarket)
+
+
+  useEffect(()=>{
+    if(offMarket==='offMarket'){
+      setInventoryType(inventoryTypes[3])
+      console.log(inventoryType)
+
+    }
+    else{
+      setInventoryType(inventoryTypes[0])
+    }
+
+
+
+  },[])
 
   return (
     <Container>

@@ -2,7 +2,7 @@ import { InventoryCard, TagContainer } from 'components/invHome/InvHome.styles'
 import React, { useEffect, useState } from 'react'
 import Row from 'components/Row'
 import Text from '../Text'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
 import uriToHttp from 'utils/uriToHttp'
 import { useOffMarketItem } from 'state/user/hooks'
@@ -21,11 +21,13 @@ interface offMarketParams {
 const OffMarket = () => {
   const { t } = useTranslation()
   const { id }: offMarketParams = useParams()
+  const history = useHistory()
   const nft: NFT = useOffMarketItem(parseInt(id))
   const imgUrl = uriToHttp(`${nft.image}`)[0]
+
   const [tagsState, setTagsState] = useState(false)
 
-  console.log(tagsState)
+
   useEffect(() => {
     if (nft?.tags) {
       if (nft.tags.length > 0) setTagsState(true)
@@ -124,7 +126,7 @@ const OffMarket = () => {
         </Card>
       </Row>
       <Footer>
-        <ButtonMintBack>{t('back')}</ButtonMintBack>
+        <ButtonMintBack onClick={()=>history.push('/inventory/home/:offMarket')}>{t('back')}</ButtonMintBack>
         <ButtonDraft width="15vw">Save at off Marketplace</ButtonDraft>
         <ButtonMint width="16vw">Add to marketplace</ButtonMint>
       </Footer>
