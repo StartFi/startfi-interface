@@ -122,7 +122,9 @@
       "utils"
     ],
     "testEnvironment": "jsdom",
-    "modulePaths": ["src/"],
+    "modulePaths": [
+      "src/"
+    ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
@@ -154,6 +156,7 @@
     "ipfs-http-client": "^50.1.2",
     "it-all": "^1.0.5",
     "lodash": "^4.17.21",
+    "react-on-screen": "^2.1.1",
     "uint8arrays": "^2.1.5"
   }
 }

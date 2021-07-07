@@ -246,6 +246,7 @@ export const useLogin = () => {
   }, [account, dispatch])
 }
 
+// get user Wishlist AuctionNft
 export const useUserWishList = (): AuctionNFT[]=> {
   const user = useUser()
   const marketPlace = useMarketplace()
@@ -266,6 +267,8 @@ export const useAddToWishlist = (nftId: number) => {
   }, [nftId, userId, popup, dispatch])
 }
 
+
+// remove item from wishlist
 export const useRemoveWishlistItem = (nftId: number) => {
   const dispatch = useDispatch()
   const userId = useUserAddress()

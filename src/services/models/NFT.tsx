@@ -9,7 +9,7 @@ export interface NFT extends Dictionary {
   owner: string
   txtHash: string
   issuer: string
-  issueDate: Date
+  issueDate?: Date
   tags?: []
   royalty: number
 }

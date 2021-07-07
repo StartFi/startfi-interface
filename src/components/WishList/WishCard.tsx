@@ -6,12 +6,14 @@ import Text from '../Text'
 import { useRemoveWishlistItem } from 'state/user/hooks'
 import { RemoveWishList } from 'components/Button'
 import Remove from '../../assets/images/Remove.png'
+import Close from '../../assets/images/Close.png'
 
 interface MiniCardContent {
   cardContent: AuctionNFT
+  isVisible: boolean
 }
 
-const WishCard: React.FC<MiniCardContent> = ({ cardContent }) => {
+const WishCard: React.FC<MiniCardContent> = ({ cardContent, isVisible }) => {
   const [tagsState, setTagsState] = useState(false)
 
   const remove = useRemoveWishlistItem(cardContent.nft.id)
@@ -26,16 +28,17 @@ const WishCard: React.FC<MiniCardContent> = ({ cardContent }) => {
     <WishListCard>
       <img src={uriToHttp(`${cardContent.nft.image}`)[0]} />
       <TextContainer>
-        <RemoveContainer>
-          {' '}
+        <RemoveContainer opacity={!isVisible}>
           <Text fontFamily='Roboto' fontSize='1rem' color='#000000' margin='-1px 0'>
             {cardContent.nft.name}
           </Text>
           <div>
-            <img src={Remove}/>
-            <RemoveWishList onClick={remove}>Remove from WishList</RemoveWishList>
+            <img src={Close} />
+            <img src={Remove} />
+            <RemoveWishList disabled={!isVisible} onClick={remove}>
+              Remove from WishList
+            </RemoveWishList>
           </div>
-
         </RemoveContainer>
         <Text>236 STFI</Text>
         <TagRow>

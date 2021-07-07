@@ -8,18 +8,12 @@ export const WishListCard = styled.div`
   background-color: #ffffff;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.135216);
   border-radius: 8px;
-  cursor: pointer;
-  transition: transform 0.5s;
   & img {
     width: 128px;
     height: 103px;
     border-radius: 4px;
     margin: 26px 25px 28px 27px;
   }
-  /* &:hover {
-    flex-grow: 0;
-    transform: scale(1.1);
-  } */
 `
 
 export const CardContent = styled.div`
@@ -31,7 +25,6 @@ export const TagRow = styled.div`
   align-items: center;
   margin: 10px 0;
   & span {
-    /* margin-left: 7rem; */
     font-weight: 500;
   }
 `
@@ -64,14 +57,12 @@ export const TextContainer = styled.div`
   justify-content: space-between;
 `
 
-export const RemoveContainer = styled.div`
-  /* width:100%auto; */
+export const RemoveContainer = styled('div')<{ opacity?: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: -30px;
-  margin-top:-5px;
-
+  margin-top: -5px;
   & div {
     display: flex;
     justify-content: start;
@@ -80,15 +71,22 @@ export const RemoveContainer = styled.div`
       height: 20px;
       width: 20px;
       position: relative;
+      z-index: 4;
       left: 35px;
       margin-top: 30px;
+      opacity: ${({ opacity }) => (opacity ? '50%' : '')};
+    }
+    & :nth-child(1) {
+      height: 15px;
+      width: 15px;
+      padding: 2px;
+      left: 105px;
     }
   }
 `
 
 export const NoListContainer = styled.div`
   margin-top: 12.438rem;
-
   display: flex;
   flex-direction: column;
   align-items: center;

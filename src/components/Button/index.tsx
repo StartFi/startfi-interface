@@ -398,9 +398,21 @@ export const ButtonMintBack = styled(ButtonDraft)`
   color: #3f3f3f;
   margin-right: 0;
 `
-export const RemoveWishList = styled(ButtonDraft)`
+export const RemoveWishList = styled(ButtonMint )`
+  background-color: white;
   width: 15vw;
   color: #000000;
   font-weight: 500;
   font-size: 16px;
+  cursor:pointer;
+  border: none;
+  box-shadow: none;
+  &:hover {
+    background-color: white;
+    color: #000000;
+  }
+  &:disabled {
+    opacity:50%;
+    cursor: auto;
+  }
 `

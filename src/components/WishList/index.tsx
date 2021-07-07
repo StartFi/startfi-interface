@@ -7,13 +7,11 @@ import { useUserWishList } from 'state/user/hooks'
 import Text from '../Text'
 import WishCard from './WishCard'
 import { NoListContainer } from './WishList.styles'
+import TrackVisibility from 'react-on-screen'
 
 const WishList = () => {
-  // const dispatch=useDispatch()
-  // dispatch(getUserWishListNFTsAction([0,1]))
   const history = useHistory()
   const userWishList: AuctionNFT[] = useUserWishList()
-
 
   return (
     <ContainerCard height='703px' width='100%' borderRadius='8px 8px 0 0' id='ui'>
@@ -22,13 +20,17 @@ const WishList = () => {
       </Text>
 
       {userWishList.length > 0 ? (
-        userWishList.map((auction: AuctionNFT) => <WishCard cardContent={auction}></WishCard>)
+        userWishList.map((auction: AuctionNFT) => (
+          <TrackVisibility>
+            <WishCard isVisible cardContent={auction}></WishCard>
+          </TrackVisibility>
+        ))
       ) : (
         <NoListContainer>
           <Text fontFamily='Roboto' fontSize='1.125rem' color='#010101' FontWeight='500' margin='0px 0px 30px 0px'>
             There Are No Assets Added to your wishlist
           </Text>
-          <ButtonOutlined onClick={()=>history.push("/marketplace/nfts")} >Explore</ButtonOutlined>
+          <ButtonOutlined onClick={() => history.push('/marketplace/nfts')}>Explore</ButtonOutlined>
         </NoListContainer>
       )}
     </ContainerCard>
