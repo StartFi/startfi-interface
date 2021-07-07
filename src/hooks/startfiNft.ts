@@ -7,6 +7,7 @@ import { useStartFiPayment, useStartFiNft } from './useContract'
 import { Contract, EventFilter } from 'ethers'
 import { useDispatch } from 'react-redux'
 import { addNewEvent } from 'state/blockchainEvents/actions'
+import { STARTFI_MARKET_PLACE_NETWORK } from 'constants/index'
 export const useTransferNftLogs = (contract: Contract | null) => {
   const { library } = useActiveWeb3React()
   const transferEvent = contract?.filters.Transfer()
@@ -158,20 +159,24 @@ export const useGrantRoleNft = (): (() => any) => {
   }, [account, contract, library, grantRole, toggleWalletModal])
 }
 
-export const useApproveNft = (): ((address: string, tokenId: string) => any) => {
+export const useApproveNft = (): ((approvedContract: string, tokenId: string) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiNft(true)
   const approve = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   useApprovalNftLogs(contract)
   return useCallback(
-    async (address: string, tokenId: string) => {
+    async (approvedContract: string, tokenId: string) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
       }
       try {
-        return await approve('approve', [address, tokenId], contract, account, library)
+        let spender = ''
+        if (approvedContract === 'marketplace') {
+          spender = STARTFI_MARKET_PLACE_NETWORK
+        }
+        return await approve('approve', [spender, tokenId], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
@@ -262,7 +267,7 @@ export const useChangeNftContractNftPayment = (): ((nftAddress: string) => any) 
     [account, contract, library, changeNftContract, toggleWalletModal]
   )
 }
-
+/*Transaction may be removed */
 export const useChangeTokenContractNftPayment = (): ((tokenAddress: string) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiPayment(true)

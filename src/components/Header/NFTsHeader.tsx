@@ -36,13 +36,28 @@ import {
 } from 'hooks/startfiNft'
 import {
   useTokenBalance,
-  useTokneInfo,
+  useTokenInfo,
   useTransfer,
   useApproveToken,
   useGetAllowance,
   useIncreaseAllowance,
   useDecreaseAllowance
 } from 'hooks/startfiToken'
+import {
+  useBid,
+  useBuyNow,
+  useCreateAuction,
+  useDeList,
+  useDisputeAuction,
+  useFreeReserves,
+  useFullfilBid,
+  useGetAuctionBidDetails,
+  useGetListingDetails,
+  useGetServiceFee,
+  useGetUserReserved,
+  useListOnMarketplace,
+  useWinnerBid
+} from 'hooks/startfiMarketPlace'
 /* End example never merge to the main  branch*/
 
 const Categories = ['All', ...CATEGORIES]
@@ -82,7 +97,7 @@ const NFTsHeader: React.FC = () => {
   /*End NFT tests */
   /*Start Token tests */
   const transfer = useTransfer()
-  const getTokenInfo = useTokneInfo()
+  const getTokenInfo = useTokenInfo()
   const getTokenBalance = useTokenBalance()
   const approveToken = useApproveToken()
   const getAllowance = useGetAllowance()
@@ -90,6 +105,23 @@ const NFTsHeader: React.FC = () => {
   const decreaeAllowance = useDecreaseAllowance()
   //useTransferLogs()
   /*end Token tests */
+  /*Start Marketplace tests */
+  const listMarketplace = useListOnMarketplace()
+  const createAuction = useCreateAuction()
+  const bid = useBid()
+  const fullfilBid = useFullfilBid()
+  const delist = useDeList()
+  const buyNow = useBuyNow()
+  const disputeAuction = useDisputeAuction()
+  const freeReserves = useFreeReserves()
+
+  const winnerBid = useWinnerBid()
+  const serviceFee = useGetServiceFee()
+  const getuserReserved = useGetUserReserved()
+  const getListingDetails = useGetListingDetails()
+  const getAuctionBidDetails = useGetAuctionBidDetails()
+
+  /*end Marketplace tests */
 
   /* End example never merge to the main  branch*/
 
@@ -115,10 +147,10 @@ const NFTsHeader: React.FC = () => {
         onChange={(e, category) => {
           /* Beign example never merge to the main  branch*/
           //==================NFT==================
-          approveToken('9000000000').then((result: any) => {
+          approveToken('marketplace', '9000000000').then((result: any) => {
             console.log('approve token', result)
           })
-          increaseAllowance('3000000').then((result: any) => {
+          increaseAllowance('payment', '3000000').then((result: any) => {
             console.log('increase token allowance', result)
           })
           getAllowance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '0x5Dcb54E7F22E8f46d2026FE080f74426D5841c08').then(
@@ -136,42 +168,20 @@ const NFTsHeader: React.FC = () => {
           mint('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', 'ipfsHash', '1', '10').then(mintTransaction => {
             console.log('mint with royality', mintTransaction)
           })
-          /*   increaseAllowance('0x24f9F55D4A20f94bA04c709A257c790fd1327b94', '1000000000').then((result: any) => {
-            console.log('increase token allowance', result)
-          }) 
+
           getAllowance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '0x24f9F55D4A20f94bA04c709A257c790fd1327b94').then(
             (result: any) => {
               console.log('get token allowance', result)
             }
-          ) */
-          /* approveToken('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '3000000000').then((result: any) => {
-            console.log('approve token', result)
-          })
+          )
           getTokenBalance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
             console.log('token balance', result)
-          }) */
-          /*    mint('0xAE28A0663785F20f43dAa79599110560C8dEfb19', 'ipfsHash').then(mintTransaction => {
-            console.log('mint without royality', mintTransaction)
-          })
-          mint('0xAE28A0663785F20f43dAa79599110560C8dEfb19', 'ipfsHash', '1', '10').then(mintTransaction => {
-            console.log('mint with royality', mintTransaction)
-          }) */
-          /*  grantRole().then(roles => {
-            console.log('grant role', roles)
-          }) */
-          /*  mint('0xAE28A0663785F20f43dAa79599110560C8dEfb19', 'ipfsHash').then(mintTransaction => {
-            console.log('mint without royality', mintTransaction)
-          })
-          mint('0xAE28A0663785F20f43dAa79599110560C8dEfb19', 'ipfsHash', '1', '10').then(mintTransaction => {
-            console.log('mint with royality', mintTransaction)
           })
 
-          approveNft('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '001').then((result: any) => {
+          approveNft('marketplace', '001').then((result: any) => {
             console.log('approve nft', result)
           })
-          increaseAllowance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '30').then((result: any) => {
-            console.log('increase token allowance', result)
-          })
+
           changeFees('0').then((result: any) => {
             console.log('change fees', result)
           })
@@ -206,9 +216,9 @@ const NFTsHeader: React.FC = () => {
           })
           approveNft('0xAE28A0663785F20f43dAa79599110560C8dEfb19', '001').then((result: any) => {
             console.log('approve nft', result)
-          }) */
+          })
           //==================Token==================
-          /*   transfer('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '1').then(transferTransaction => {
+          transfer('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '1').then(transferTransaction => {
             console.log('transferTransaction', transferTransaction)
           })
           getTokenInfo().then(result => {
@@ -225,13 +235,58 @@ const NFTsHeader: React.FC = () => {
               console.log('get token allowance', result)
             }
           )
-          increaseAllowance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '10').then((result: any) => {
-            console.log('increase token allowance', result)
-          })
-          decreaeAllowance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '1').then((result: any) => {
+          decreaeAllowance('payment', '0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
             console.log('decrease token allowance', result)
-          }) */
+          })
           /* End example never merge to the main  branch*/
+          /*=======================MARKETPLACE=======================*/
+          listMarketplace('0x5364640aDAfe4266c29816733BD8E926DF8F9cF2', '001', '1').then((result: any) => {
+            console.log('listMarketplace', result)
+          })
+          createAuction(
+            '0x5364640aDAfe4266c29816733BD8E926DF8F9cF2',
+            '001',
+            '1',
+            '1',
+            'true',
+            '1',
+            '10000000000000'
+          ).then((result: any) => {
+            console.log('createAuction', result)
+          })
+          bid('001', '0xFc2c66E1b6151D4282A94f17847f2aE1702A0785', '001', '1').then((result: any) => {
+            console.log('create Bid', result)
+          })
+          fullfilBid('001').then((result: any) => {
+            console.log('fullfilBid', result)
+          })
+          delist('001').then((result: any) => {
+            console.log('delist', result)
+          })
+          buyNow('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '1').then((result: any) => {
+            console.log('buy now', result)
+          })
+          disputeAuction('1').then((result: any) => {
+            console.log('disputeAuction', result)
+          })
+          freeReserves('1').then((result: any) => {
+            console.log('freeReserves', result)
+          })
+          winnerBid('001').then((result: any) => {
+            console.log('winner bid', result)
+          })
+          serviceFee().then((result: any) => {
+            console.log('service fee', result)
+          })
+          getuserReserved('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
+            console.log('user reserved', result)
+          })
+          getListingDetails('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
+            console.log('getListingDetails', result)
+          })
+          getAuctionBidDetails('001', '0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
+            console.log('getAuctionBidDetails', result)
+          })
 
           getNFTs({ category: Categories[category] })
           setCategory(category)

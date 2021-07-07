@@ -7,7 +7,7 @@ import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
 import { addNewEvent } from '../state/blockchainEvents/actions'
-import { STARTFI_NFT_PAYMENT_NETWORK } from 'constants/index'
+import { STARTFI_MARKET_PLACE_NETWORK, STARTFI_NFT_PAYMENT_NETWORK } from 'constants/index'
 
 export const useTransferTokenLogs = (contract: Contract | null) => {
   const { library } = useActiveWeb3React()
@@ -19,7 +19,7 @@ export const useTransferTokenLogs = (contract: Contract | null) => {
         const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
         const eventValue = args && { sender: args[0], recipient: args[1], amount: args[2].toNumber() }
-        dispatch(addNewEvent({ eventName: 'trasnferToken', eventValue }))
+        dispatch(addNewEvent({ eventName: 'transferToken', eventValue }))
       })
     }
     return () => {
@@ -45,7 +45,7 @@ export const useApprovalTokenLogs = (contract: Contract | null) => {
     }
   }, [ApprovalEvent])
 }
-export const useTokneInfo = () => {
+export const useTokenInfo = () => {
   const contract = useStartFiToken(false)
   return useCallback(() => {
     const getInfo = async () => {
@@ -91,20 +91,25 @@ export const useGetAllowance = (): ((owner: string, spender: string) => any) => 
   )
 }
 
-export const useApproveToken = (): ((amount: string) => any) => {
+export const useApproveToken = (): ((approvedContract: string, amount: string) => any) => {
   const { account, library } = useActiveWeb3React()
-  const spender = STARTFI_NFT_PAYMENT_NETWORK
   const contract = useStartFiToken(true)
   const approve = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   useApprovalTokenLogs(contract)
   return useCallback(
-    async (amount: string) => {
+    async (approvedContract: string, amount: string) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
       }
       try {
+        let spender = ''
+        if (approvedContract === 'payment') {
+          spender = STARTFI_NFT_PAYMENT_NETWORK
+        } else if (approvedContract === 'marketplace') {
+          spender = STARTFI_MARKET_PLACE_NETWORK
+        }
         return await approve('approve', [spender, amount], contract, account, library)
       } catch (e) {
         console.log('error', e)
@@ -114,19 +119,26 @@ export const useApproveToken = (): ((amount: string) => any) => {
     [account, contract, library, approve, toggleWalletModal]
   )
 }
-export const useIncreaseAllowance = (): ((addedValue: string) => any) => {
+export const useIncreaseAllowance = (): ((approvedContract: string, addedValue: string) => any) => {
   const { account, library } = useActiveWeb3React()
   const spender = STARTFI_NFT_PAYMENT_NETWORK
   const contract = useStartFiToken(true)
   const approve = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   return useCallback(
-    async (addedValue: string) => {
+    async (approvedContract: string, addedValue: string) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
       }
       try {
+        let spender = ''
+        if (approvedContract === 'payment') {
+          spender = STARTFI_NFT_PAYMENT_NETWORK
+        } else if (approvedContract === 'marketplace') {
+          spender = STARTFI_MARKET_PLACE_NETWORK
+        }
+        alert('spender ' + spender)
         return await approve('increaseAllowance', [spender, addedValue], contract, account, library)
       } catch (e) {
         console.log('error', e)
@@ -137,19 +149,26 @@ export const useIncreaseAllowance = (): ((addedValue: string) => any) => {
   )
 }
 
-export const useDecreaseAllowance = (): ((spender: string, substractedValue: string) => any) => {
+export const useDecreaseAllowance = (): ((approvedContract: string, substractedValue: string) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiToken(true)
   const approve = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   return useCallback(
-    async (spender: string, substractedValue: string) => {
+    async (approvedContract: string, subtractedValue: string) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
       }
       try {
-        return await approve('decreaseAllowance', [spender, substractedValue], contract, account, library)
+        let spender = ''
+        if (approvedContract === 'payment') {
+          spender = STARTFI_NFT_PAYMENT_NETWORK
+        } else if (approvedContract === 'marketplace') {
+          spender = STARTFI_MARKET_PLACE_NETWORK
+        }
+        alert('spender ' + spender)
+        return await approve('decreaseAllowance', [spender, subtractedValue], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
