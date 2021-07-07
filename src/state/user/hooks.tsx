@@ -27,7 +27,8 @@ import {
   clearUserPopup,
   logoutAction,
   getDraftsAction,
-  getUserNFTsAction
+  getUserNFTsAction,
+  removeWishListItemAction
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { useMarketplace } from 'state/marketplace/hooks'
@@ -264,6 +265,20 @@ export const useAddToWishlist = (nftId: number) => {
     else popup({ success: false, message: 'Connect wallet' })
   }, [nftId, userId, popup, dispatch])
 }
+
+export const useRemoveWishlistItem = (nftId: number) => {
+  const dispatch = useDispatch()
+  const userId = useUserAddress()
+  const popup = usePopup()
+  return useCallback(() => {
+    if (userId) dispatch(removeWishListItemAction({ userId, nftId }))
+    else popup({ success: false, message: 'Connect wallet' })
+  }, [nftId, userId, popup, dispatch])
+}
+
+
+
+
 
 export const useUserPopup = (): PopupContent | null => {
   return useSelector((state: AppState) => state.user.popup)
