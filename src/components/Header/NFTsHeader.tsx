@@ -16,15 +16,11 @@ import Music from '../../assets/icons/musictab.svg'
 import Images from '../../assets/icons/imagestab.svg'
 import { useGetNFTs } from 'state/nfts/hooks'
 import { useHistory } from 'react-router'
-import {
-  CATEGORIES,
-  Dictionary,
-  STARTFI_MARKET_PLACE_ADDRESS,
-  STARTFI_NFT_PAYMENT_ADDRESS,
-  STARTFI_STAKES_ADDRESS
-} from './../../constants'
-/* Beign example never merge to the main  branch*/
-//
+import { CATEGORIES, Dictionary } from './../../constants'
+/* Begin example never merge to the main  branch*/
+import { address as STARTFI_MARKET_PLACE_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
+import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../../constants/abis/StartFiNFTPayment.json'
+import { address as STARTFI_STAKES_ADDRESS } from '../../constants/abis/StartfiStakes.json'
 import {
   useMint,
   useNftInfo,
@@ -35,7 +31,6 @@ import {
   useRoyaltyInfo,
   useApproveNft,
   useChangeFeesNftPayment,
-  useChangeTokenContractNftPayment,
   useChangeNftContractNftPayment,
   useNftPaymentInfo,
   useGrantRoleNft
@@ -96,7 +91,6 @@ const NFTsHeader: React.FC = () => {
   const approveNft = useApproveNft()
   const changeFees = useChangeFeesNftPayment()
   const changeNftContract = useChangeNftContractNftPayment()
-  const changeTokenContract = useChangeTokenContractNftPayment()
   const getNftPaymentInfo = useNftPaymentInfo()
   const grantRole = useGrantRoleNft()
 
@@ -204,9 +198,7 @@ const NFTsHeader: React.FC = () => {
           changeNftContract('0x1697c0505d48B21a0Ce519BBafCfC42cEc4eFAEC').then((result: any) => {
             console.log('change NFT', result)
           })
-          changeTokenContract('0x2f0378Ca5fcCEF61cD4A71a21982E9C91D3aFEBE').then((result: any) => {
-            console.log('changes token', result)
-          })
+
           getNftPaymentInfo().then((result: any) => {
             console.log('nft paymentinfo', result)
           })

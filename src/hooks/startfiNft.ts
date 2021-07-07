@@ -267,25 +267,3 @@ export const useChangeNftContractNftPayment = (): ((nftAddress: string) => any) 
     [account, contract, library, changeNftContract, toggleWalletModal]
   )
 }
-/*Transaction may be removed */
-export const useChangeTokenContractNftPayment = (): ((tokenAddress: string) => any) => {
-  const { account, library } = useActiveWeb3React()
-  const contract = useStartFiPayment(true)
-  const changeTokenContract = useSubmitTransaction()
-  const toggleWalletModal = useWalletModalToggle()
-  return useCallback(
-    async (nftAddress: string) => {
-      if (!account) {
-        toggleWalletModal()
-        return `account: ${account} is not connected`
-      }
-      try {
-        return await changeTokenContract('changeTokenContract', [nftAddress], contract, account, library)
-      } catch (e) {
-        console.log('error', e)
-        return e
-      }
-    },
-    [account, contract, library, changeTokenContract, toggleWalletModal]
-  )
-}

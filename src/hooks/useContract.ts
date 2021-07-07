@@ -21,15 +21,21 @@ import WETH_ABI from '../constants/abis/weth.json'
 import ERC20_ABI from '../constants/abis/erc20.json'
 import ERC721_ABI from '../constants/abis/erc721.json'
 
-import { abi as STARTFI_TOKEN_ABI } from '../constants/abis/StartFiToken.json'
+import { abi as STARTFI_TOKEN_ABI, address as STARTFI_TOKEN_ADDRESS } from '../constants/abis/StartFiToken.json'
 
-import { abi as STARTFI_NFT_ABI } from '../constants/abis/StartfiNFT.json'
-import { abi as STARTFI_MARKET_PLACE_ABI } from '../constants/abis/StartFiMarketPlace.json'
-import { abi as STARTFI_NFT_PAYMENT_ABI } from '../constants/abis/StartFiNFTPayment.json'
-import { STARTFI_TOKEN_ADDRESS } from 'constants/index'
-import { STARTFI_MARKET_PLACE_ADDRESS } from 'constants/index'
-import { STARTFI_NFT_PAYMENT_ADDRESS } from 'constants/index'
-import { STARTFI_NFT_ADDRESS } from 'constants/index'
+import { abi as STARTFI_NFT_ABI, address as STARTFI_NFT_ADDRESS } from '../constants/abis/StartfiRoyaltyNFT.json'
+import {
+  abi as STARTFI_MARKET_PLACE_ABI,
+  address as STARTFI_MARKET_PLACE_ADDRESS
+} from '../constants/abis/StartFiMarketPlace.json'
+import {
+  abi as STARTFI_NFT_PAYMENT_ABI,
+  address as STARTFI_NFT_PAYMENT_ADDRESS
+} from '../constants/abis/StartFiNFTPayment.json'
+import {
+  abi as STARTFI_STAKES_PAYMENT_ABI,
+  address as STARTFI_STAKES_ADDRESS
+} from '../constants/abis/StartfiStakes.json'
 // returns null on errors
 declare type WETH_Only = {
   [chainId in ChainId]: Token
@@ -144,4 +150,8 @@ export const useStartFiMarketplace = (withSignerIfPossible?: boolean): Contract 
 export const useStartFiPayment = (withSignerIfPossible?: boolean): Contract | null => {
   const { chainId } = useActiveWeb3React()
   return useContract(STARTFI_NFT_PAYMENT_ADDRESS, STARTFI_NFT_PAYMENT_ABI, withSignerIfPossible)
+}
+export const useStartFiStakes = (withSignerIfPossible?: boolean): Contract | null => {
+  const { chainId } = useActiveWeb3React()
+  return useContract(STARTFI_STAKES_ADDRESS, STARTFI_STAKES_PAYMENT_ABI, withSignerIfPossible)
 }
