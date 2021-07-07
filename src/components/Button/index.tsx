@@ -181,9 +181,12 @@ export const ButtonUNIGradient = styled(ButtonPrimaryy)`
 `
 
 export const ButtonOutlined = styled(Base)`
-  border: 1px solid ${({ theme }) => theme.bg2};
+  border: 1px solid ${({ theme }) => theme.black};
   background-color: transparent;
   color: ${({ theme }) => theme.text1};
+  width: 189px;
+ height: 50px;
+ border-radius:8px;
 
   &:focus {
     box-shadow: 0 0 0 1px ${({ theme }) => theme.bg4};

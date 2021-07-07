@@ -1,16 +1,19 @@
+import { ButtonOutlined } from 'components/Button'
 import { ContainerCard } from 'components/Card'
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { useUserWishList } from 'state/user/hooks'
 import Text from '../Text'
 import WishCard from './WishCard'
-
+import { NoListContainer } from './WishList.styles'
 
 const WishList = () => {
   // const dispatch=useDispatch()
   // dispatch(getUserWishListNFTsAction([0,1]))
+  const history = useHistory()
   const userWishList: AuctionNFT[] = useUserWishList()
-  console.log(userWishList)
+
 
   return (
     <ContainerCard height='703px' width='100%' borderRadius='8px 8px 0 0' id='ui'>
@@ -18,9 +21,16 @@ const WishList = () => {
         WishList
       </Text>
 
-      {userWishList ? userWishList.map((auction:AuctionNFT) =>
-      <WishCard cardContent={auction}></WishCard>
-     ) : <p>no wish</p>}
+      {userWishList.length > 0 ? (
+        userWishList.map((auction: AuctionNFT) => <WishCard cardContent={auction}></WishCard>)
+      ) : (
+        <NoListContainer>
+          <Text fontFamily='Roboto' fontSize='1.125rem' color='#010101' FontWeight='500' margin='0px 0px 30px 0px'>
+            There Are No Assets Added to your wishlist
+          </Text>
+          <ButtonOutlined onClick={()=>history.push("/marketplace/nfts")} >Explore</ButtonOutlined>
+        </NoListContainer>
+      )}
     </ContainerCard>
   )
 }

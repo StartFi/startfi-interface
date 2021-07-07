@@ -68,6 +68,8 @@ export const ContainerCard= styled('div')<{
   height?:string;
   width:string
 }>`
+
+
 height: ${({height})=>height};
 width: ${({width})=>width};;
 margin: 0px auto 0px auto;

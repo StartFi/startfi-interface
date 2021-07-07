@@ -69,7 +69,8 @@ export const RemoveContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: -20px;
+  margin-bottom: -30px;
+  margin-top:-5px;
 
   & div {
     display: flex;
@@ -83,4 +84,12 @@ export const RemoveContainer = styled.div`
       margin-top: 30px;
     }
   }
+`
+
+export const NoListContainer = styled.div`
+  margin-top: 12.438rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
