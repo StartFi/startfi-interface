@@ -21,7 +21,8 @@ import {
   clearUserPopup,
   logoutAction,
   getDraftsAction,
-  getUserNFTsAction
+  getUserNFTsAction,
+
 } from './actions'
 import { User } from 'services/models/User'
 import { NFT } from 'services/models/NFT'
@@ -214,4 +215,5 @@ export default createReducer(initialState, builder =>
     .addCase(getUserNFTsAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
     })
+   
 )

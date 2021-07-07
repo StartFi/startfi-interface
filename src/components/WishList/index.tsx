@@ -1,32 +1,28 @@
-import { ContainerCard } from 'components/Card';
-import React from 'react';
-import { getUserWishListNfts } from 'services/User';
+import { ContainerCard } from 'components/Card'
+import React from 'react'
+import { AuctionNFT } from 'services/models/AuctionNFT'
+import { useUserWishList } from 'state/user/hooks'
 import Text from '../Text'
-
-const WishList =()=> {
-
+import WishCard from './WishCard'
 
 
- getUserWishListNfts([0,1])
+const WishList = () => {
+  // const dispatch=useDispatch()
+  // dispatch(getUserWishListNFTsAction([0,1]))
+  const userWishList: AuctionNFT[] = useUserWishList()
+  console.log(userWishList)
 
+  return (
+    <ContainerCard height='703px' width='100%' borderRadius='8px 8px 0 0' id='ui'>
+      <Text fontFamily='Roboto' fontSize='1rem' color='#000000' FontWeight='500' margin='1.875rem 0 0 3.5rem'>
+        WishList
+      </Text>
 
-
-
-
-    return (
-
-       <ContainerCard height="703px" width="100%" borderRadius="8px 8px 0 0" id="ui">
-          <Text fontFamily='Roboto' fontSize='1rem' color='#000000' FontWeight="500"  margin='1.875rem 0 0 2.5rem'>
-          WishList
-
-          </Text>
-
-       </ContainerCard>
-
-
-
-
-    );
+      {userWishList ? userWishList.map((auction:AuctionNFT) =>
+      <WishCard cardContent={auction}></WishCard>
+     ) : <p>no wish</p>}
+    </ContainerCard>
+  )
 }
 
-export default WishList ;
+export default WishList

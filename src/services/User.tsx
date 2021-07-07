@@ -1,7 +1,7 @@
 import { checkSuccess } from 'utils'
 import { getAuctions } from './database/Auction'
 import { addDraft, getDraft } from './database/Draft'
-import { getNFT, getNFTs } from './database/NFT'
+import {  getNFTs } from './database/NFT'
 import { addNFTToWishlist, addUser, getUser } from './database/User'
 import { Draft } from './models/Draft'
 import { NFT } from './models/NFT'
@@ -52,18 +52,4 @@ export const getUserNFTs = async (owner: string) => {
   return { onMarket, offMarket }
 }
 
-export const getUserWishListNfts=async (nftIds:number[])=>{
-let NFTSWishlist:NFT[]=[]
-nftIds.forEach(async id=>{
-  let nft =await getNFT(id)
-  console.log(nft)
-  NFTSWishlist.push(nft)
 
-})
-
- const wish= await Promise.all(NFTSWishlist)
-
-console.log('wias=>',wish)
-
-
-}
