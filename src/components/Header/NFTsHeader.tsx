@@ -16,7 +16,13 @@ import Music from '../../assets/icons/musictab.svg'
 import Images from '../../assets/icons/imagestab.svg'
 import { useGetNFTs } from 'state/nfts/hooks'
 import { useHistory } from 'react-router'
-import { CATEGORIES, Dictionary } from './../../constants'
+import {
+  CATEGORIES,
+  Dictionary,
+  STARTFI_MARKET_PLACE_ADDRESS,
+  STARTFI_NFT_PAYMENT_ADDRESS,
+  STARTFI_STAKES_ADDRESS
+} from './../../constants'
 /* Beign example never merge to the main  branch*/
 //
 import {
@@ -147,10 +153,19 @@ const NFTsHeader: React.FC = () => {
         onChange={(e, category) => {
           /* Beign example never merge to the main  branch*/
           //==================NFT==================
-          approveToken('marketplace', '9000000000').then((result: any) => {
+          approveToken(STARTFI_MARKET_PLACE_ADDRESS, '9000000000').then((result: any) => {
             console.log('approve token', result)
           })
-          increaseAllowance('payment', '3000000').then((result: any) => {
+          approveToken(STARTFI_NFT_PAYMENT_ADDRESS, '9000000000').then((result: any) => {
+            console.log('approve token', result)
+          })
+          approveToken(STARTFI_STAKES_ADDRESS, '9000000000').then((result: any) => {
+            console.log('approve token', result)
+          })
+          increaseAllowance(STARTFI_NFT_PAYMENT_ADDRESS, '3000000').then((result: any) => {
+            console.log('increase token allowance', result)
+          })
+          increaseAllowance(STARTFI_MARKET_PLACE_ADDRESS, '3000000').then((result: any) => {
             console.log('increase token allowance', result)
           })
           getAllowance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '0x5Dcb54E7F22E8f46d2026FE080f74426D5841c08').then(
@@ -227,15 +242,13 @@ const NFTsHeader: React.FC = () => {
           getTokenBalance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
             console.log('token balance', result)
           })
-          approveToken('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '001').then((result: any) => {
-            console.log('approve token', result)
-          })
+
           getAllowance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then(
             (result: any) => {
               console.log('get token allowance', result)
             }
           )
-          decreaeAllowance('payment', '0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
+          decreaeAllowance(STARTFI_MARKET_PLACE_ADDRESS, '1000').then((result: any) => {
             console.log('decrease token allowance', result)
           })
           /* End example never merge to the main  branch*/

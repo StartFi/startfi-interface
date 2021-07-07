@@ -7,7 +7,7 @@ import { useStartFiPayment, useStartFiNft } from './useContract'
 import { Contract, EventFilter } from 'ethers'
 import { useDispatch } from 'react-redux'
 import { addNewEvent } from 'state/blockchainEvents/actions'
-import { STARTFI_MARKET_PLACE_NETWORK } from 'constants/index'
+import { STARTFI_MARKET_PLACE_ADDRESS } from 'constants/index'
 export const useTransferNftLogs = (contract: Contract | null) => {
   const { library } = useActiveWeb3React()
   const transferEvent = contract?.filters.Transfer()
@@ -174,7 +174,7 @@ export const useApproveNft = (): ((approvedContract: string, tokenId: string) =>
       try {
         let spender = ''
         if (approvedContract === 'marketplace') {
-          spender = STARTFI_MARKET_PLACE_NETWORK
+          spender = STARTFI_MARKET_PLACE_ADDRESS
         }
         return await approve('approve', [spender, tokenId], contract, account, library)
       } catch (e) {
