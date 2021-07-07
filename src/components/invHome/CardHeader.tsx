@@ -28,7 +28,6 @@ const Tab = styled.div<TabProps>`
   transition: ease-in-out 0.3s all;
 `
 
-
 export enum InventoryOptions {
   Draft = 'Draft',
   inMarketPlace = 'In marketplace',
@@ -38,42 +37,32 @@ interface TabProps {
   readonly selected: boolean
 }
 
+interface CardHeaderProps {
+  getType: (type: InventoryOptions) => void
+}
 
+interface InvParams {
+  id: string
+}
 
 export const inventoryTypes: Array<InventoryOptions> = [
   InventoryOptions.Draft,
   InventoryOptions.inMarketPlace,
   InventoryOptions.offMarketPlace
 ]
-interface CardHeaderProps {
-  getType: (type: InventoryOptions) => void
-}
-
-interface InvParams {
-  offMarket: string
-}
 
 const CardHeader: React.FC<CardHeaderProps> = ({ getType }) => {
-  const [inventoryType, setInventoryType] = useState(inventoryTypes[0])
+  const [inventoryType, setInventoryType] = useState(InventoryOptions.Draft)
   const { t } = useTranslation()
-  const { offMarket }:  InvParams = useParams()
-
-  console.log(offMarket)
+  const { id }: InvParams = useParams()
 
 
-  useEffect(()=>{
-    if(offMarket==='offMarket'){
-      setInventoryType(inventoryTypes[3])
-      console.log(inventoryType)
 
+  useEffect(() => {
+    if (id === 'offMarket') {
+      setInventoryType(InventoryOptions.offMarketPlace)
     }
-    else{
-      setInventoryType(inventoryTypes[0])
-    }
-
-
-
-  },[])
+  }, [])
 
   return (
     <Container>

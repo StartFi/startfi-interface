@@ -126,7 +126,7 @@ const OffMarket = () => {
         </Card>
       </Row>
       <Footer>
-        <ButtonMintBack onClick={()=>history.push('/inventory/home/:offMarket')}>{t('back')}</ButtonMintBack>
+        <ButtonMintBack onClick={()=>history.push('/inventory/home/offMarket')}>{t('back')}</ButtonMintBack>
         <ButtonDraft width="15vw">Save at off Marketplace</ButtonDraft>
         <ButtonMint width="16vw">Add to marketplace</ButtonMint>
       </Footer>

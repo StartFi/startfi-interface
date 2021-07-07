@@ -19,7 +19,7 @@ const Inventory=()=> {
              {/* <Route  path="/inventory/home" component={InventoryHome}  /> */}
             <Route path="/inventory/in-market/:id" component={InMarket} />
             <Route path="/inventory/off-market/:id" component={OffMarket} />
-            <Route  path="/inventory/home/:offMarket" component={InventoryHome}  />
+            <Route  path="/inventory/home/:id" component={InventoryHome}  />
         </Container>
     );
 }
