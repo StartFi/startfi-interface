@@ -59,6 +59,9 @@ import {
   useListOnMarketplace,
   useWinnerBid
 } from 'hooks/startfiMarketPlace'
+
+import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
+import { useActiveWeb3React } from 'hooks'
 /* End example never merge to the main  branch*/
 
 const Categories = ['All', ...CATEGORIES]
@@ -80,6 +83,7 @@ const FullWidth = styled(Box)({
 const NFTsHeader: React.FC = () => {
   const history = useHistory()
   /* Beign example never merge to the main  branch*/
+  const { account } = useActiveWeb3React() // get user address from metamask wallet
   /*Start NFT tests */
   const mint = useMint()
   const nftInfo = useNftInfo()
@@ -103,7 +107,6 @@ const NFTsHeader: React.FC = () => {
   const getAllowance = useGetAllowance()
   const increaseAllowance = useIncreaseAllowance()
   const decreaeAllowance = useDecreaseAllowance()
-  //useTransferLogs()
   /*end Token tests */
   /*Start Marketplace tests */
   const listMarketplace = useListOnMarketplace()
@@ -122,7 +125,10 @@ const NFTsHeader: React.FC = () => {
   const getAuctionBidDetails = useGetAuctionBidDetails()
 
   /*end Marketplace tests */
-
+  /*Start Stakes tests */
+  const depositStakes = useDeposit()
+  const getReserveStakes = useGetReserves()
+  /*end Stakes tests */
   /* End example never merge to the main  branch*/
 
   const [search, setSearch] = useState('')
@@ -156,34 +162,33 @@ const NFTsHeader: React.FC = () => {
           approveToken(STARTFI_STAKES_ADDRESS, '9000000000').then((result: any) => {
             console.log('approve token', result)
           })
+          approveToken(STARTFI_STAKES_ADDRESS, '9000000000').then((result: any) => {
+            console.log('approve token', result)
+          })
           increaseAllowance(STARTFI_NFT_PAYMENT_ADDRESS, '3000000').then((result: any) => {
             console.log('increase token allowance', result)
           })
           increaseAllowance(STARTFI_MARKET_PLACE_ADDRESS, '3000000').then((result: any) => {
             console.log('increase token allowance', result)
           })
-          getAllowance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '0x5Dcb54E7F22E8f46d2026FE080f74426D5841c08').then(
-            (result: any) => {
-              console.log('get token allowance', result)
-            }
-          )
+          getAllowance(account as string, STARTFI_NFT_PAYMENT_ADDRESS).then((result: any) => {
+            console.log('get token allowance', result)
+          })
           getNftPaymentInfo().then((result: any) => {
             console.log('nft paymentinfo', result)
           })
 
-          mint('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', 'ipfsHash').then(mintTransaction => {
+          mint(account as string, 'ipfsHash').then(mintTransaction => {
             console.log('mint without royality', mintTransaction)
           })
-          mint('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', 'ipfsHash', '1', '10').then(mintTransaction => {
+          mint(account as string, 'ipfsHash', '1', '10').then(mintTransaction => {
             console.log('mint with royality', mintTransaction)
           })
 
-          getAllowance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '0x24f9F55D4A20f94bA04c709A257c790fd1327b94').then(
-            (result: any) => {
-              console.log('get token allowance', result)
-            }
-          )
-          getTokenBalance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
+          getAllowance(account as string, STARTFI_STAKES_ADDRESS).then((result: any) => {
+            console.log('get token allowance', result)
+          })
+          getTokenBalance(account as string).then((result: any) => {
             console.log('token balance', result)
           })
 
@@ -212,7 +217,7 @@ const NFTsHeader: React.FC = () => {
           getNftOwner('001').then((result: any) => {
             console.log('nft owner', result)
           })
-          getNftBalance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
+          getNftBalance(account as string).then((result: any) => {
             console.log('nft balance', result)
           })
           getApproverAddress('001').then((result: any) => {
@@ -225,21 +230,19 @@ const NFTsHeader: React.FC = () => {
             console.log('approve nft', result)
           })
           //==================Token==================
-          transfer('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '1').then(transferTransaction => {
+          transfer(account as string, '1').then(transferTransaction => {
             console.log('transferTransaction', transferTransaction)
           })
           getTokenInfo().then(result => {
             console.log('token info', result)
           })
-          getTokenBalance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
+          getTokenBalance(account as string).then((result: any) => {
             console.log('token balance', result)
           })
 
-          getAllowance('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then(
-            (result: any) => {
-              console.log('get token allowance', result)
-            }
-          )
+          getAllowance(account as string, STARTFI_MARKET_PLACE_ADDRESS).then((result: any) => {
+            console.log('get token allowance', result)
+          })
           decreaeAllowance(STARTFI_MARKET_PLACE_ADDRESS, '1000').then((result: any) => {
             console.log('decrease token allowance', result)
           })
@@ -268,7 +271,7 @@ const NFTsHeader: React.FC = () => {
           delist('001').then((result: any) => {
             console.log('delist', result)
           })
-          buyNow('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA', '1').then((result: any) => {
+          buyNow(account as string, '1').then((result: any) => {
             console.log('buy now', result)
           })
           disputeAuction('1').then((result: any) => {
@@ -283,16 +286,22 @@ const NFTsHeader: React.FC = () => {
           serviceFee().then((result: any) => {
             console.log('service fee', result)
           })
-          getuserReserved('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
+          getuserReserved(account as string).then((result: any) => {
             console.log('user reserved', result)
           })
-          getListingDetails('0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
+          getListingDetails(account as string).then((result: any) => {
             console.log('getListingDetails', result)
           })
-          getAuctionBidDetails('001', '0xe092b1fa25DF5786D151246E492Eed3d15EA4dAA').then((result: any) => {
+          getAuctionBidDetails('001', account as string).then((result: any) => {
             console.log('getAuctionBidDetails', result)
           })
-
+          /*=======================Stakes=======================*/
+          depositStakes(account as string, '22').then((result: any) => {
+            console.log('Deposit stakes', result)
+          })
+          getReserveStakes(account as string).then((result: any) => {
+            console.log('get reserved stakes', result)
+          })
           getNFTs({ category: Categories[category] })
           setCategory(category)
         }}
