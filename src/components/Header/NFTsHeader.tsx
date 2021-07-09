@@ -17,6 +17,10 @@ import Images from '../../assets/icons/imagestab.svg'
 import { useGetNFTs } from 'state/nfts/hooks'
 import { useHistory } from 'react-router'
 import { CATEGORIES, Dictionary } from './../../constants'
+/* Begin example never merge to the main  branch*/
+import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
+import { useActiveWeb3React } from 'hooks'
+/* End example never merge to the main  branch*/
 
 const Categories = ['All', ...CATEGORIES]
 
@@ -36,6 +40,13 @@ const FullWidth = styled(Box)({
 
 const NFTsHeader: React.FC = () => {
   const history = useHistory()
+  /* Beign example never merge to the main  branch*/
+  const { account } = useActiveWeb3React() // get user address from metamask wallet
+  /*Start Stakes tests */
+  const depositStakes = useDeposit()
+  const getReserveStakes = useGetReserves()
+  /*end Stakes tests */
+  /*Start Marketplace tests */
 
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState(0)
@@ -57,6 +68,13 @@ const NFTsHeader: React.FC = () => {
       <TabsCategory
         value={category}
         onChange={(e, category) => {
+          /*=======================Stakes=======================*/
+          depositStakes(account as string, '22').then((result: any) => {
+            console.log('Deposit stakes', result)
+          })
+          getReserveStakes(account as string).then((result: any) => {
+            console.log('get reserved stakes', result)
+          })
           getNFTs({ category: Categories[category] })
           setCategory(category)
         }}
