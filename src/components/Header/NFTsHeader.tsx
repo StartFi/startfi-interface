@@ -250,56 +250,33 @@ const NFTsHeader: React.FC = () => {
           approveNft('0xAE28A0663785F20f43dAa79599110560C8dEfb19', '001').then((result: any) => {
             console.log('approve nft', result)
           })
- */
+ 
           /*=======================MARKETPLACE=======================*/
-          /*  approveToken(STARTFI_MARKET_PLACE_ADDRESS, '9000000000').then((result: any) => {
-            console.log('approve marketplace token', result)
+
+          approveNft(STARTFI_MARKET_PLACE_ADDRESS, '2').then((result: any) => {
+            console.log('approve royalty nft', result)
           })
-          approveToken(STARTFI_NFT_ADDRESS, '9000000000').then((result: any) => {
-            console.log('approve nft royalty token', result)
+          listMarketplace(STARTFI_NFT_ADDRESS, '2', '100').then((result: any) => {
+            console.log('listMarketplace', result)
           })
-          approveToken(STARTFI_NFT_PAYMENT_ADDRESS, '9000000000').then((result: any) => {
-            console.log('approve n ft paymenttoken', result)
-          }) */
-          /*   grantRole().then(result => {
-            console.log('grant role', result)
-          }) */
-          // mint(account as string, 'ipfsHash').then(mintTransaction => {
-          //   console.log('mint without royality', mintTransaction)
-          // })
-          // mint(account as string, 'ipfsHash', '1', '10').then(mintTransaction => {
-          //   console.log('mint with royality', mintTransaction)
-          // })
-          // approveNft(STARTFI_NFT_ADDRESS, '001').then((result: any) => {
-          //   console.log('approve royalty nft', result)
-          // })
-          // approveNft(STARTFI_NFT_PAYMENT_ADDRESS, '001').then((result: any) => {
-          //   console.log('approve payment nft', result)
-          // })
-          // listMarketplace(STARTFI_NFT_PAYMENT_ADDRESS, '001', '1').then((result: any) => {
-          //   console.log('listMarketplace', result)
-          // })
-          /*   createAuction(
-            '0x5364640aDAfe4266c29816733BD8E926DF8F9cF2',
-            '001',
-            '1',
-            '1',
-            'true',
-            '1',
-            '10000000000000'
-          ).then((result: any) => {
+          approveNft(STARTFI_MARKET_PLACE_ADDRESS, '0').then((result: any) => {
+            console.log('approve royalty nft', result)
+          })
+          createAuction(STARTFI_NFT_ADDRESS, '0', '1', '11', 'true', '1', '10000000000000').then((result: any) => {
             console.log('createAuction', result)
           })
-          bid('001', '0xFc2c66E1b6151D4282A94f17847f2aE1702A0785', '001', '1').then((result: any) => {
+          bid('001', STARTFI_STAKES_ADDRESS, '0', '1').then((result: any) => {
             console.log('create Bid', result)
           })
           fullfilBid('001').then((result: any) => {
             console.log('fullfilBid', result)
           })
+
           delist('001').then((result: any) => {
             console.log('delist', result)
           })
-          buyNow(account as string, '1').then((result: any) => {
+
+          buyNow('001', '1').then((result: any) => {
             console.log('buy now', result)
           })
           disputeAuction('1').then((result: any) => {
@@ -317,19 +294,19 @@ const NFTsHeader: React.FC = () => {
           getuserReserved(account as string).then((result: any) => {
             console.log('user reserved', result)
           })
-          getListingDetails(account as string).then((result: any) => {
+          getListingDetails('1').then((result: any) => {
             console.log('getListingDetails', result)
           })
           getAuctionBidDetails('001', account as string).then((result: any) => {
             console.log('getAuctionBidDetails', result)
-          }) */
+          })
           /*=======================Stakes=======================*/
-          /*    depositStakes(account as string, '22').then((result: any) => {
+          depositStakes(account as string, '22').then((result: any) => {
             console.log('Deposit stakes', result)
           })
           getReserveStakes(account as string).then((result: any) => {
             console.log('get reserved stakes', result)
-          }) */
+          })
           /* End example never merge to the main  branch*/
           getNFTs({ category: Categories[category] })
           setCategory(category)

@@ -1,13 +1,13 @@
 import { useDispatch } from 'react-redux'
 import { Contract, EventFilter } from 'ethers'
-import { useStartFiMarketplace } from './useContract'
+import { parseBigNumber, useStartFiMarketplace } from './useContract'
 import { useCallback, useEffect } from 'react'
 import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
 import { addNewEvent } from '../state/blockchainEvents/actions'
-
+import { formatBytes32String } from 'ethers/lib/utils'
 export const useListOnMarketplaceLogs = (contract: Contract | null) => {
   const { library } = useActiveWeb3React()
   const listOnMarketplaceEvent = contract?.filters.ListOnMarketplace()
@@ -17,7 +17,7 @@ export const useListOnMarketplaceLogs = (contract: Contract | null) => {
       library?.on(listOnMarketplaceEvent as EventFilter, result => {
         const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
-        const eventValue = args
+        const eventValue = parseBigNumber(args)
         dispatch(addNewEvent({ eventName: 'ListOnMarketplace', eventValue }))
       })
     }
@@ -35,7 +35,7 @@ export const useDeListOffMarketplaceLogs = (contract: Contract | null) => {
       library?.on(deListOffMarketplaceEvent as EventFilter, result => {
         const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
-        const eventValue = args
+        const eventValue = parseBigNumber(args)
         dispatch(addNewEvent({ eventName: 'DeListOffMarketplace', eventValue }))
       })
     }
@@ -53,7 +53,7 @@ export const useCreateAuctionLogs = (contract: Contract | null) => {
       library?.on(createAuctionEvent as EventFilter, result => {
         const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
-        const eventValue = args
+        const eventValue = parseBigNumber(args)
         dispatch(addNewEvent({ eventName: 'CreateAuction', eventValue }))
       })
     }
@@ -71,7 +71,7 @@ export const useBidOnAuctionLogs = (contract: Contract | null) => {
       library?.on(bidOnAuctionEvent as EventFilter, result => {
         const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
-        const eventValue = args
+        const eventValue = parseBigNumber(args)
         dispatch(addNewEvent({ eventName: 'BidOnAuction', eventValue }))
       })
     }
@@ -89,8 +89,8 @@ export const useFullfilBidLogs = (contract: Contract | null) => {
       library?.on(fullfilBidEvent as EventFilter, result => {
         const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
-        const eventValue = args
-        dispatch(addNewEvent({ eventName: 'FullfilBid', eventValue }))
+        const eventValue = parseBigNumber(args)
+        dispatch(addNewEvent({ eventName: 'fullfilBid', eventValue }))
       })
     }
     return () => {
@@ -107,7 +107,7 @@ export const useDisputeAuctionLogs = (contract: Contract | null) => {
       library?.on(disputeAuctionEvent as EventFilter, result => {
         const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
-        const eventValue = args
+        const eventValue = parseBigNumber(args)
         dispatch(addNewEvent({ eventName: 'DisputeAuction', eventValue }))
       })
     }
@@ -125,7 +125,7 @@ export const useBuyNowLogs = (contract: Contract | null) => {
       library?.on(buyNowEvent as EventFilter, result => {
         const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
-        const eventValue = args
+        const eventValue = parseBigNumber(args)
         dispatch(addNewEvent({ eventName: 'BuyNow', eventValue }))
       })
     }
@@ -143,7 +143,7 @@ export const useUserReservesFreeLogs = (contract: Contract | null) => {
       library?.on(userReservesFreeEvent as EventFilter, result => {
         const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
-        const eventValue = args
+        const eventValue = parseBigNumber(args)
         dispatch(addNewEvent({ eventName: 'UserReservesFree', eventValue }))
       })
     }
@@ -239,7 +239,13 @@ export const useBid = (): ((listingId: string, tokenAddress: string, tokenId: st
         return `account: ${account} is not connected`
       }
       try {
-        return await bid('bid', [listingId, tokenAddress, tokenId, bidPrice], contract, account, library)
+        return await bid(
+          'bid',
+          [formatBytes32String(listingId), tokenAddress, tokenId, bidPrice],
+          contract,
+          account,
+          library
+        )
       } catch (e) {
         console.log('error', e)
         return e
@@ -262,7 +268,7 @@ export const useFullfilBid = (): ((listingId: string) => any) => {
         return `account: ${account} is not connected`
       }
       try {
-        return await fullfilBid('FullfilBid', [listingId], contract, account, library)
+        return await fullfilBid('fullfillBid', [formatBytes32String(listingId)], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
@@ -285,7 +291,7 @@ export const useDeList = (): ((listingId: string) => any) => {
         return `account: ${account} is not connected`
       }
       try {
-        return await delist('deList', [listingId], contract, account, library)
+        return await delist('deList', [formatBytes32String(listingId)], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
@@ -308,7 +314,7 @@ export const useBuyNow = (): ((listingId: string, price: string) => any) => {
         return `account: ${account} is not connected`
       }
       try {
-        return await delist('buyNow', [listingId, price], contract, account, library)
+        return await delist('buyNow', [formatBytes32String(listingId), price], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
@@ -331,7 +337,7 @@ export const useDisputeAuction = (): ((listingId: string) => any) => {
         return `account: ${account} is not connected`
       }
       try {
-        return await disputeAuction('disputeAuction', [listingId], contract, account, library)
+        return await disputeAuction('disputeAuction', [formatBytes32String(listingId)], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
@@ -354,7 +360,7 @@ export const useFreeReserves = (): ((listingId: string) => any) => {
         return `account: ${account} is not connected`
       }
       try {
-        return await freeReserves('disputeAuction', [listingId], contract, account, library)
+        return await freeReserves('disputeAuction', [formatBytes32String(listingId)], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
@@ -392,7 +398,7 @@ export const useWinnerBid = (): ((listingId: string) => any) => {
   const contract = useStartFiMarketplace(false)
   return useCallback(
     async (listingId: string) => {
-      const userReserved = await evaluateTransaction(contract, 'winnerBid', [listingId])
+      const userReserved = await evaluateTransaction(contract, 'winnerBid', [formatBytes32String(listingId)])
       return {
         userReserved
       }
@@ -405,7 +411,10 @@ export const useGetAuctionBidDetails = (): ((listingId: string, bidder: string) 
   const contract = useStartFiMarketplace(false)
   return useCallback(
     async (listingId: string, bidder: string) => {
-      const userReserved = await evaluateTransaction(contract, 'getAuctionBidDetails', [listingId, bidder])
+      const userReserved = await evaluateTransaction(contract, 'getAuctionBidDetails', [
+        formatBytes32String(listingId),
+        bidder
+      ])
       return {
         userReserved
       }
