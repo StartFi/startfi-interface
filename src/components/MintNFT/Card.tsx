@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
+import {datatype as faker} from 'faker'
 import styled from 'styled-components'
 import Step1 from './Step1'
 import Step2 from './Step2'
@@ -50,7 +51,8 @@ const Card: React.FC = () => {
   const saveDraft = useSaveDraft()
 
   const [nft, setNFT] = useState<NFT>({
-    id: 0,
+    id: faker.number({'min': 5,'max': 5}),
+    uuid: faker.uuid(),
     category: '',
     dataHash: '',
     name: '',
@@ -103,6 +105,8 @@ const Card: React.FC = () => {
       case 2:
         if (['name', 'description'].filter(f => newMissing.includes(f)).length === 0) {
           setMissing([])
+          console.log(nft);
+          
           mintNFT(nft)
         }
         break
