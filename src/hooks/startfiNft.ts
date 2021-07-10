@@ -7,7 +7,8 @@ import { useStartFiPayment, useStartFiNft } from './useContract'
 import { Contract, EventFilter } from 'ethers'
 import { useDispatch } from 'react-redux'
 import { addNewEvent } from 'state/blockchainEvents/actions'
-import { STARTFI_MARKET_PLACE_ADDRESS } from 'constants/index'
+import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../constants/abis/StartFiNFTPayment.json'
+
 export const useTransferNftLogs = (contract: Contract | null) => {
   const { library } = useActiveWeb3React()
   const transferEvent = contract?.filters.Transfer()
@@ -146,7 +147,7 @@ export const useGrantRoleNft = (): (() => any) => {
         'grantRole',
         [
           '0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6',
-          '0xE7C92b5c869f980a616EaEdd3D9f85261aEB65ce'
+          '0x1994668A2708323218285421E45FB2d2b74e0bd2'
         ],
         contract,
         account,
@@ -159,23 +160,19 @@ export const useGrantRoleNft = (): (() => any) => {
   }, [account, contract, library, grantRole, toggleWalletModal])
 }
 
-export const useApproveNft = (): ((approvedContract: string, tokenId: string) => any) => {
+export const useApproveNft = (): ((spender: string, tokenId: string) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiNft(true)
   const approve = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   useApprovalNftLogs(contract)
   return useCallback(
-    async (approvedContract: string, tokenId: string) => {
+    async (spender: string, tokenId: string) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
       }
       try {
-        let spender = ''
-        if (approvedContract === 'marketplace') {
-          spender = STARTFI_MARKET_PLACE_ADDRESS
-        }
         return await approve('approve', [spender, tokenId], contract, account, library)
       } catch (e) {
         console.log('error', e)

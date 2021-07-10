@@ -7,7 +7,6 @@ import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
 import { addNewEvent } from '../state/blockchainEvents/actions'
-import { STARTFI_MARKET_PLACE_ADDRESS, STARTFI_NFT_PAYMENT_ADDRESS } from 'constants/index'
 
 export const useTransferTokenLogs = (contract: Contract | null) => {
   const { library } = useActiveWeb3React()

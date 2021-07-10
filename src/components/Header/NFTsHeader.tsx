@@ -21,6 +21,8 @@ import { CATEGORIES, Dictionary } from './../../constants'
 import { address as STARTFI_MARKET_PLACE_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
 import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../../constants/abis/StartFiNFTPayment.json'
 import { address as STARTFI_STAKES_ADDRESS } from '../../constants/abis/StartfiStakes.json'
+import { address as STARTFI_NFT_ADDRESS } from '../../constants/abis/StartfiRoyaltyNFT.json'
+
 import {
   useMint,
   useNftInfo,
@@ -152,14 +154,8 @@ const NFTsHeader: React.FC = () => {
         value={category}
         onChange={(e, category) => {
           /* Beign example never merge to the main  branch*/
-          //==================NFT==================
-          approveToken(STARTFI_MARKET_PLACE_ADDRESS, '9000000000').then((result: any) => {
-            console.log('approve token', result)
-          })
-          approveToken(STARTFI_NFT_PAYMENT_ADDRESS, '9000000000').then((result: any) => {
-            console.log('approve token', result)
-          })
-          approveToken(STARTFI_STAKES_ADDRESS, '9000000000').then((result: any) => {
+          //==================Token==================
+          /*        approveToken(STARTFI_NFT_PAYMENT_ADDRESS, '9000000000').then((result: any) => {
             console.log('approve token', result)
           })
           approveToken(STARTFI_STAKES_ADDRESS, '9000000000').then((result: any) => {
@@ -174,10 +170,29 @@ const NFTsHeader: React.FC = () => {
           getAllowance(account as string, STARTFI_NFT_PAYMENT_ADDRESS).then((result: any) => {
             console.log('get token allowance', result)
           })
-          getNftPaymentInfo().then((result: any) => {
-            console.log('nft paymentinfo', result)
+          getAllowance(account as string, STARTFI_STAKES_ADDRESS).then((result: any) => {
+            console.log('get token allowance', result)
+          })
+          transfer(account as string, '1').then(transferTransaction => {
+            console.log('transferTransaction', transferTransaction)
+          })
+          getTokenInfo().then(result => {
+            console.log('token info', result)
+          })
+          getTokenBalance(account as string).then((result: any) => {
+            console.log('token balance', result)
           })
 
+          getAllowance(account as string, STARTFI_MARKET_PLACE_ADDRESS).then((result: any) => {
+            console.log('get token allowance', result)
+          })
+          decreaeAllowance(STARTFI_MARKET_PLACE_ADDRESS, '1000').then((result: any) => {
+            console.log('decrease token allowance', result)
+          }) */
+          //==================NFT==================
+          /*  getNftPaymentInfo().then((result: any) => {
+            console.log('nft paymentinfo', result)
+          })
           mint(account as string, 'ipfsHash').then(mintTransaction => {
             console.log('mint without royality', mintTransaction)
           })
@@ -185,15 +200,8 @@ const NFTsHeader: React.FC = () => {
             console.log('mint with royality', mintTransaction)
           })
 
-          getAllowance(account as string, STARTFI_STAKES_ADDRESS).then((result: any) => {
-            console.log('get token allowance', result)
-          })
           getTokenBalance(account as string).then((result: any) => {
             console.log('token balance', result)
-          })
-
-          approveNft('marketplace', '001').then((result: any) => {
-            console.log('approve nft', result)
           })
 
           changeFees('0').then((result: any) => {
@@ -229,29 +237,36 @@ const NFTsHeader: React.FC = () => {
           approveNft('0xAE28A0663785F20f43dAa79599110560C8dEfb19', '001').then((result: any) => {
             console.log('approve nft', result)
           })
-          //==================Token==================
-          transfer(account as string, '1').then(transferTransaction => {
-            console.log('transferTransaction', transferTransaction)
-          })
-          getTokenInfo().then(result => {
-            console.log('token info', result)
-          })
-          getTokenBalance(account as string).then((result: any) => {
-            console.log('token balance', result)
-          })
-
-          getAllowance(account as string, STARTFI_MARKET_PLACE_ADDRESS).then((result: any) => {
-            console.log('get token allowance', result)
-          })
-          decreaeAllowance(STARTFI_MARKET_PLACE_ADDRESS, '1000').then((result: any) => {
-            console.log('decrease token allowance', result)
-          })
-          /* End example never merge to the main  branch*/
+ */
           /*=======================MARKETPLACE=======================*/
-          listMarketplace('0x5364640aDAfe4266c29816733BD8E926DF8F9cF2', '001', '1').then((result: any) => {
+          /*  approveToken(STARTFI_MARKET_PLACE_ADDRESS, '9000000000').then((result: any) => {
+            console.log('approve marketplace token', result)
+          })
+          approveToken(STARTFI_NFT_ADDRESS, '9000000000').then((result: any) => {
+            console.log('approve nft royalty token', result)
+          })
+          approveToken(STARTFI_NFT_PAYMENT_ADDRESS, '9000000000').then((result: any) => {
+            console.log('approve n ft paymenttoken', result)
+          }) */
+          /*   grantRole().then(result => {
+            console.log('grant role', result)
+          }) */
+          mint(account as string, 'ipfsHash').then(mintTransaction => {
+            console.log('mint without royality', mintTransaction)
+          })
+          mint(account as string, 'ipfsHash', '1', '10').then(mintTransaction => {
+            console.log('mint with royality', mintTransaction)
+          })
+          approveNft(STARTFI_NFT_ADDRESS, '001').then((result: any) => {
+            console.log('approve royalty nft', result)
+          })
+          approveNft(STARTFI_NFT_PAYMENT_ADDRESS, '001').then((result: any) => {
+            console.log('approve payment nft', result)
+          })
+          listMarketplace(STARTFI_NFT_PAYMENT_ADDRESS, '001', '1').then((result: any) => {
             console.log('listMarketplace', result)
           })
-          createAuction(
+          /*   createAuction(
             '0x5364640aDAfe4266c29816733BD8E926DF8F9cF2',
             '001',
             '1',
@@ -294,14 +309,15 @@ const NFTsHeader: React.FC = () => {
           })
           getAuctionBidDetails('001', account as string).then((result: any) => {
             console.log('getAuctionBidDetails', result)
-          })
+          }) */
           /*=======================Stakes=======================*/
-          depositStakes(account as string, '22').then((result: any) => {
+          /*    depositStakes(account as string, '22').then((result: any) => {
             console.log('Deposit stakes', result)
           })
           getReserveStakes(account as string).then((result: any) => {
             console.log('get reserved stakes', result)
-          })
+          }) */
+          /* End example never merge to the main  branch*/
           getNFTs({ category: Categories[category] })
           setCategory(category)
         }}
