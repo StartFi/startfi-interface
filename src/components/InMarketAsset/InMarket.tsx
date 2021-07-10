@@ -5,9 +5,10 @@ import Text from '../Text'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
-import { useOnMarketItem } from 'state/user/hooks'
+import { useAuctionItem, useOnMarketItem } from 'state/user/hooks'
 import uriToHttp from 'utils/uriToHttp'
 import { Divider, ImageContainer, TextContainer, TagRow } from './InMarket.styles'
+import { Auction } from 'services/models/Auction'
 
 interface onMarketParams {
   id: string
@@ -16,6 +17,7 @@ interface onMarketParams {
 const InMarket = () => {
   const { id }: onMarketParams = useParams()
   const nft: NFT = useOnMarketItem(parseInt(id))
+  const auction:Auction=useAuctionItem(parseInt(id))
   const imgUrl = uriToHttp(`${nft.image}`)[0]
   const [tagsState, setTagsState] = useState(false)
 
@@ -25,7 +27,8 @@ const InMarket = () => {
     }
   }, [])
 
-  
+  console.log(auction)
+
   return (
     <InventoryCard borderRadius='8px' marginTop='54px'>
       <Row padding='20px' align='start'>
@@ -108,7 +111,7 @@ const InMarket = () => {
             <div>
               <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
                 Pricing
-                <span>{} STFI ~ 253 USD</span>
+                <span>{auction.listingPrice} STFI ~ 253 USD</span>
               </Text>
             </div>
             <Divider width='95%'></Divider>
