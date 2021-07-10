@@ -25,7 +25,7 @@ const InMarket = () => {
     }
   }, [])
 
-  console.log('tags=>', nft.tags?.length)
+  
   return (
     <InventoryCard borderRadius='8px' marginTop='54px'>
       <Row padding='20px' align='start'>
@@ -108,7 +108,7 @@ const InMarket = () => {
             <div>
               <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
                 Pricing
-                <span>1298 STFI ~ 253 USD</span>
+                <span>{} STFI ~ 253 USD</span>
               </Text>
             </div>
             <Divider width='95%'></Divider>
