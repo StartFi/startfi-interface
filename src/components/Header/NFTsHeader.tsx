@@ -152,13 +152,26 @@ const NFTsHeader: React.FC = () => {
       </Grid>
       <TabsCategory
         value={category}
-        onChange={(e, category) => {
+        onChange={async (e, category) => {
           /* Beign example never merge to the main  branch*/
           //==================Token==================
-          /*        approveToken(STARTFI_NFT_PAYMENT_ADDRESS, '9000000000').then((result: any) => {
-            console.log('approve token', result)
-          })
-          approveToken(STARTFI_STAKES_ADDRESS, '9000000000').then((result: any) => {
+           
+          
+        const result= await   approveToken(STARTFI_NFT_PAYMENT_ADDRESS, '900')
+        console.log('approve token', result)
+        const _getAllowance= await  getAllowance(account as string, STARTFI_NFT_PAYMENT_ADDRESS);
+        console.log('get token allowance', _getAllowance)
+
+         const _getNftPaymentInfo= await  getNftPaymentInfo();
+         console.log('nft paymentinfo', _getNftPaymentInfo)
+
+          
+         const mintTransaction=await  mint(account as string, 'ipfsHash', '1', '10');
+         console.log('mint with royality', mintTransaction)
+          const balance=await getTokenBalance(account as string);
+          console.log(balance,'balance');
+          
+       /*      approveToken(STARTFI_STAKES_ADDRESS, '9000000000').then((result: any) => {
             console.log('approve token', result)
           })
           increaseAllowance(STARTFI_NFT_PAYMENT_ADDRESS, '3000000').then((result: any) => {
@@ -251,21 +264,21 @@ const NFTsHeader: React.FC = () => {
           /*   grantRole().then(result => {
             console.log('grant role', result)
           }) */
-          mint(account as string, 'ipfsHash').then(mintTransaction => {
-            console.log('mint without royality', mintTransaction)
-          })
-          mint(account as string, 'ipfsHash', '1', '10').then(mintTransaction => {
-            console.log('mint with royality', mintTransaction)
-          })
-          approveNft(STARTFI_NFT_ADDRESS, '001').then((result: any) => {
-            console.log('approve royalty nft', result)
-          })
-          approveNft(STARTFI_NFT_PAYMENT_ADDRESS, '001').then((result: any) => {
-            console.log('approve payment nft', result)
-          })
-          listMarketplace(STARTFI_NFT_PAYMENT_ADDRESS, '001', '1').then((result: any) => {
-            console.log('listMarketplace', result)
-          })
+          // mint(account as string, 'ipfsHash').then(mintTransaction => {
+          //   console.log('mint without royality', mintTransaction)
+          // })
+          // mint(account as string, 'ipfsHash', '1', '10').then(mintTransaction => {
+          //   console.log('mint with royality', mintTransaction)
+          // })
+          // approveNft(STARTFI_NFT_ADDRESS, '001').then((result: any) => {
+          //   console.log('approve royalty nft', result)
+          // })
+          // approveNft(STARTFI_NFT_PAYMENT_ADDRESS, '001').then((result: any) => {
+          //   console.log('approve payment nft', result)
+          // })
+          // listMarketplace(STARTFI_NFT_PAYMENT_ADDRESS, '001', '1').then((result: any) => {
+          //   console.log('listMarketplace', result)
+          // })
           /*   createAuction(
             '0x5364640aDAfe4266c29816733BD8E926DF8F9cF2',
             '001',
