@@ -27,9 +27,12 @@ import {
   clearUserPopup,
   logoutAction,
   getDraftsAction,
-  getUserNFTsAction
+  getUserNFTsAction,
+  removeWishListItemAction
 } from './actions'
 import { usePopup } from 'state/application/hooks'
+import { useMarketplace } from 'state/marketplace/hooks'
+import { AuctionNFT } from 'services/models/AuctionNFT'
 
 function serializeToken(token: Token): SerializedToken {
   return {
@@ -228,7 +231,7 @@ export const useSaveDraft = () => {
     (draft: NFT) => {
       const drafts = [draft]
       if (user) dispatch(saveDraftAction({ user, drafts }))
-      else popup({success:false,message:'Connect wallet'})
+      else popup({ success: false, message: 'Connect wallet' })
     },
     [user, popup, dispatch]
   )
@@ -243,18 +246,42 @@ export const useLogin = () => {
   }, [account, dispatch])
 }
 
+// get user Wishlist AuctionNft
+export const useUserWishList = (): AuctionNFT[]=> {
+  const user = useUser()
+  const marketPlace = useMarketplace()
+  return useMemo(() => {
+    return marketPlace.filter(e => {
+      return user?.wishlist.includes(e.nft.id)
+    })
+  }, [user, marketPlace])
+}
+
 export const useAddToWishlist = (nftId: number) => {
   const dispatch = useDispatch()
   const userId = useUserAddress()
   const popup = usePopup()
-  return useCallback(
-    () => {
-      if (userId) dispatch(addToWishlistAction({userId, nftId}))
-      else popup({success:false,message:'Connect wallet'})
-    },
-    [nftId, userId, popup, dispatch]
-  )
+  return useCallback(() => {
+    if (userId) dispatch(addToWishlistAction({ userId, nftId }))
+    else popup({ success: false, message: 'Connect wallet' })
+  }, [nftId, userId, popup, dispatch])
 }
+
+
+// remove item from wishlist
+export const useRemoveWishlistItem = (nftId: number) => {
+  const dispatch = useDispatch()
+  const userId = useUserAddress()
+  const popup = usePopup()
+  return useCallback(() => {
+    if (userId) dispatch(removeWishListItemAction({ userId, nftId }))
+    else popup({ success: false, message: 'Connect wallet' })
+  }, [nftId, userId, popup, dispatch])
+}
+
+
+
+
 
 export const useUserPopup = (): PopupContent | null => {
   return useSelector((state: AppState) => state.user.popup)
@@ -274,14 +301,16 @@ export const useOffMarket = (): NFT[] => {
 
 export const useClearUserPopup = () => {
   const dispatch = useDispatch()
-  return useCallback(
-    () => {
-      dispatch(clearUserPopup())
-    },
-    [dispatch]
-  )
+  return useCallback(() => {
+    dispatch(clearUserPopup())
+  }, [dispatch])
 }
 
+// get onMarket state
+// export const useUserWishList = (): NFT[] => {
+//   const user=useUser()
+//   useMemo(() => user?user.wishlist:null, [ user])
+// }
 export const useIsNFTWishlist = (nftId: number): boolean => {
   const user = useUser()
   return useMemo(() => user?.wishlist?.includes(nftId) || false, [nftId, user])
@@ -290,19 +319,27 @@ export const useIsNFTWishlist = (nftId: number): boolean => {
 export const useWishlist = (nftId: number) => {
   const addToWishlist = useAddToWishlist(nftId)
   const isWishlist = useIsNFTWishlist(nftId)
-  return useMemo(()=>{ return { addToWishlist, isWishlist } }, [addToWishlist, isWishlist])
+  return useMemo(() => {
+    return { addToWishlist, isWishlist }
+  }, [addToWishlist, isWishlist])
 }
 
 export const useGetDrafts = () => {
   const dispatch = useDispatch()
   const user = useUserAddress()
   const popup = usePopup()
-  return useCallback(()=> user ? dispatch(getDraftsAction(user)) : popup({success:false,message:'Connect wallet'}),[user, popup, dispatch])
+  return useCallback(
+    () => (user ? dispatch(getDraftsAction(user)) : popup({ success: false, message: 'Connect wallet' })),
+    [user, popup, dispatch]
+  )
 }
 
 export const useGetUserNFTs = () => {
   const dispatch = useDispatch()
   const user = useUserAddress()
   const popup = usePopup()
-  return useCallback(()=> user ? dispatch(getUserNFTsAction(user)) : popup({success:false,message:'Connect wallet'}),[user, popup, dispatch])
+  return useCallback(
+    () => (user ? dispatch(getUserNFTsAction(user)) : popup({ success: false, message: 'Connect wallet' })),
+    [user, popup, dispatch]
+  )
 }
