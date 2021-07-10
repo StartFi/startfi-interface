@@ -18,7 +18,8 @@ import { useGetNFTs } from 'state/nfts/hooks'
 import { useHistory } from 'react-router'
 import { CATEGORIES, Dictionary } from './../../constants'
 /* Begin example never merge to the main  branch*/
-import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../../constants/abis/StartFiNFTPayment.json'
+import { address as STARTFI_MARKET_PLACE_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
+import { address as STARTFI_STAKES_ADDRESS } from '../../constants/abis/StartfiStakes.json'
 import { address as STARTFI_NFT_ADDRESS } from '../../constants/abis/StartfiRoyaltyNFT.json'
 
 import {
@@ -44,8 +45,25 @@ import {
   useIncreaseAllowance,
   useDecreaseAllowance
 } from 'hooks/startfiToken'
+import {
+  useBid,
+  useBuyNow,
+  useCreateAuction,
+  useDeList,
+  useDisputeAuction,
+  useFreeReserves,
+  useFullfilBid,
+  useGetAuctionBidDetails,
+  useGetListingDetails,
+  useGetServiceFee,
+  useGetUserReserved,
+  useListOnMarketplace,
+  useWinnerBid
+} from 'hooks/startfiMarketPlace'
+
 import { useActiveWeb3React } from 'hooks'
 /* End example never merge to the main  branch*/
+
 const Categories = ['All', ...CATEGORIES]
 
 const TabIcons: Dictionary = {
@@ -79,7 +97,6 @@ const NFTsHeader: React.FC = () => {
   const changeNftContract = useChangeNftContractNftPayment()
   const getNftPaymentInfo = useNftPaymentInfo()
   const grantRole = useGrantRoleNft()
-  const changePaymentContract = useChangeNftContractNftPayment()
 
   /*End NFT tests */
   /*Start Token tests */
@@ -89,8 +106,26 @@ const NFTsHeader: React.FC = () => {
   const approveToken = useApproveToken()
   const getAllowance = useGetAllowance()
   const increaseAllowance = useIncreaseAllowance()
-  const decreaseAllowance = useDecreaseAllowance()
+  const decreaeAllowance = useDecreaseAllowance()
   /*end Token tests */
+  /*Start Marketplace tests */
+  const listMarketplace = useListOnMarketplace()
+  const createAuction = useCreateAuction()
+  const bid = useBid()
+  const fullfilBid = useFullfilBid()
+  const delist = useDeList()
+  const buyNow = useBuyNow()
+  const disputeAuction = useDisputeAuction()
+  const freeReserves = useFreeReserves()
+  const winnerBid = useWinnerBid()
+  const serviceFee = useGetServiceFee()
+  const getuserReserved = useGetUserReserved()
+  const getListingDetails = useGetListingDetails()
+  const getAuctionBidDetails = useGetAuctionBidDetails()
+
+  /*end Marketplace tests */
+  /* End example never merge to the main  branch*/
+
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState(0)
   const getNFTs = useGetNFTs()
@@ -112,76 +147,57 @@ const NFTsHeader: React.FC = () => {
         value={category}
         onChange={(e, category) => {
           /* Beign example never merge to the main  branch*/
-          //==================Token==================
-          approveToken(STARTFI_NFT_PAYMENT_ADDRESS, '9000000000').then((result: any) => {
-            console.log('approve token', result)
+
+          /*=======================MARKETPLACE=======================*/
+
+          approveNft(STARTFI_MARKET_PLACE_ADDRESS, '0').then((result: any) => {
+            console.log('approve royalty nft', result)
           })
-          increaseAllowance(STARTFI_NFT_PAYMENT_ADDRESS, '3000000').then((result: any) => {
-            console.log('increase token allowance', result)
+          listMarketplace(STARTFI_NFT_ADDRESS, '0', '100').then((result: any) => {
+            console.log('listMarketplace', result)
           })
-          decreaseAllowance(STARTFI_NFT_PAYMENT_ADDRESS, '10').then((result: any) => {
-            console.log('increase token allowance', result)
+          approveNft(STARTFI_MARKET_PLACE_ADDRESS, '0').then((result: any) => {
+            console.log('approve royalty nft', result)
           })
-          transfer(account as string, '1').then(transferTransaction => {
-            console.log('transferTransaction', transferTransaction)
+          createAuction(STARTFI_NFT_ADDRESS, '0', '1', '11', 'true', '1', '10000000000000').then((result: any) => {
+            console.log('createAuction', result)
           })
-          getTokenInfo().then(result => {
-            console.log('token info', result)
+          bid('001', STARTFI_STAKES_ADDRESS, '0', '1').then((result: any) => {
+            console.log('create Bid', result)
           })
-          getTokenBalance(account as string).then((result: any) => {
-            console.log('token balance', result)
-          })
-          //==================NFT==================
-          getNftPaymentInfo().then((result: any) => {
-            console.log('nft paymentinfo', result)
-          })
-          mint(account as string, 'ipfsHash').then(mintTransaction => {
-            console.log('mint without royalty', mintTransaction)
-          })
-          mint(account as string, 'ipfsHash', '1', '10').then(mintTransaction => {
-            console.log('mint with royalty', mintTransaction)
+          fullfilBid('001').then((result: any) => {
+            console.log('fullfilBid', result)
           })
 
-          getTokenBalance(account as string).then((result: any) => {
-            console.log('token balance', result)
-          })
-          changeFees('2').then((result: any) => {
-            console.log('change fees', result)
+          delist('001').then((result: any) => {
+            console.log('delist', result)
           })
 
-          changeNftContract('0xdC0AC0d84358E43d4cB6D1201f359D5BDb5293E4').then((result: any) => {
-            console.log('change NFT', result)
+          buyNow('001', '1').then((result: any) => {
+            console.log('buy now', result)
           })
-          changePaymentContract('0xC80423A1C434b7EE5cF4a31B2Da2DB15D4844Da2').then((result: any) => {
-            console.log('change payment', result)
+          disputeAuction('1').then((result: any) => {
+            console.log('disputeAuction', result)
           })
-
-          getNftPaymentInfo().then((result: any) => {
-            console.log('nft paymentinfo', result)
+          freeReserves('1').then((result: any) => {
+            console.log('freeReserves', result)
           })
-
-          nftInfo().then(info => {
-            console.log('info', info)
+          winnerBid('001').then((result: any) => {
+            console.log('winner bid', result)
           })
-          getTokenUri('001').then((result: any) => {
-            console.log('nft uri', result)
+          serviceFee().then((result: any) => {
+            console.log('service fee', result)
           })
-          getNftOwner('001').then((result: any) => {
-            console.log('nft owner', result)
+          getuserReserved(account as string).then((result: any) => {
+            console.log('user reserved', result)
           })
-          getNftBalance(account as string).then((result: any) => {
-            console.log('nft balance', result)
+          getListingDetails('1').then((result: any) => {
+            console.log('getListingDetails', result)
           })
-          getApproverAddress('001').then((result: any) => {
-            console.log('nft addrress', result)
+          getAuctionBidDetails('001', account as string).then((result: any) => {
+            console.log('getAuctionBidDetails', result)
           })
-          getRoyalityInfo('001', '1').then((result: any) => {
-            console.log('royality info', result)
-          })
-          approveNft(STARTFI_NFT_PAYMENT_ADDRESS, '0').then((result: any) => {
-            console.log('approve nft', result)
-          })
-
+          /* End example never merge to the main  branch*/
           getNFTs({ category: Categories[category] })
           setCategory(category)
         }}

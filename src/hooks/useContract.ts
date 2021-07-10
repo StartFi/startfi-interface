@@ -1,3 +1,4 @@
+import { BigNumber } from '@ethersproject/bignumber'
 /* eslint-disable @typescript-eslint/camelcase */
 import { Contract } from '@ethersproject/contracts'
 import { Token, WETH9 } from '@uniswap/sdk-core'
@@ -94,7 +95,6 @@ export function useArgentWalletDetectorContract(): Contract | null {
     false
   )
 }
-
 export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contract | null {
   const { chainId } = useActiveWeb3React()
   let address: string | undefined
@@ -154,4 +154,12 @@ export const useStartFiPayment = (withSignerIfPossible?: boolean): Contract | nu
 export const useStartFiStakes = (withSignerIfPossible?: boolean): Contract | null => {
   const { chainId } = useActiveWeb3React()
   return useContract(STARTFI_STAKES_ADDRESS, STARTFI_STAKES_PAYMENT_ABI, withSignerIfPossible)
+}
+export function parseBigNumber(logs: any): any {
+  return logs.map(log => {
+    if (BigNumber.isBigNumber(log)) {
+      return log.toHexString()
+    }
+    return log
+  })
 }
