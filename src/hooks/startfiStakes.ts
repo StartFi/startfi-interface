@@ -37,6 +37,7 @@ export const useGetReserves = (): ((owner: string) => any) => {
         return reserved
       } catch (e) {
         console.log(e)
+        return e
       }
     },
     [contract]
