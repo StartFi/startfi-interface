@@ -3,7 +3,7 @@ import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
-import { useStartFiPayment, useStartFiNft } from './useContract'
+import { useStartFiPayment, useStartFiNft, parseBigNumber } from './useContract'
 import { Contract, EventFilter } from 'ethers'
 import { useDispatch } from 'react-redux'
 import { addNewEvent } from 'state/blockchainEvents/actions'
@@ -124,7 +124,7 @@ export const useNftBalance = (): ((address: string) => any) => {
     (address: string) => {
       const getBalance = async () => {
         const balance = await evaluateTransaction(contract, 'balanceOf', [address])
-        return balance
+        return balance.toHexString()
       }
       return getBalance()
     },
@@ -200,11 +200,11 @@ export const useRoyaltyInfo = (): ((tokenId: string, value: string) => any) => {
   const contract = useStartFiNft(false)
   return useCallback(
     (tokenId: string, value: string) => {
-      const getAddress = async () => {
-        const address = await evaluateTransaction(contract, 'royaltyInfo', [tokenId, value])
-        return address
+      const getInfo = async () => {
+        const info = await evaluateTransaction(contract, 'royaltyInfo', [tokenId, value])
+        return parseBigNumber(info)
       }
-      return getAddress()
+      return getInfo()
     },
     [contract]
   )
@@ -215,7 +215,7 @@ export const useNftPaymentInfo = (): (() => any) => {
   return useCallback(() => {
     const getInfo = async () => {
       const info = await evaluateTransaction(contract, 'info', [])
-      return info
+      return parseBigNumber(info)
     }
     return getInfo()
   }, [contract])

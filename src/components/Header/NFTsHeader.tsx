@@ -116,6 +116,9 @@ const NFTsHeader: React.FC = () => {
           approveToken(STARTFI_NFT_PAYMENT_ADDRESS, '9000000000').then((result: any) => {
             console.log('approve token', result)
           })
+          getAllowance(account as string, STARTFI_NFT_PAYMENT_ADDRESS).then((result: any) => {
+            console.log('get allowance', result)
+          })
           increaseAllowance(STARTFI_NFT_PAYMENT_ADDRESS, '3000000').then((result: any) => {
             console.log('increase token allowance', result)
           })

@@ -52,11 +52,12 @@ export const useTokenInfo = () => {
       const symbol = await evaluateTransaction(contract, 'symbol', [])
       const decimals = await evaluateTransaction(contract, 'decimals', [])
       const totalSupply = await evaluateTransaction(contract, 'totalSupply', [])
+      const totalSupplyHex = totalSupply.toHexString()
       return {
         name,
         symbol,
         decimals,
-        totalSupply
+        totalSupplyHex
       }
     }
     return getInfo()
@@ -69,7 +70,7 @@ export const useTokenBalance = (): ((address: string) => any) => {
     (address: string) => {
       const getBalance = async () => {
         const balance = await evaluateTransaction(contract, 'balanceOf', [address])
-        return balance
+        return balance.toHexString()
       }
       return getBalance()
     },
@@ -82,7 +83,7 @@ export const useGetAllowance = (): ((owner: string, spender: string) => any) => 
     (owner: string, spender: string) => {
       const getAllowance = async () => {
         const allowance = await evaluateTransaction(contract, 'allowance', [owner, spender])
-        return allowance
+        return allowance.toHexString()
       }
       return getAllowance()
     },
