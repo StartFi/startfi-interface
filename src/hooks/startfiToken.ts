@@ -48,16 +48,21 @@ export const useTokenInfo = () => {
   const contract = useStartFiToken(false)
   return useCallback(() => {
     const getInfo = async () => {
-      const name = await evaluateTransaction(contract, 'name', [])
-      const symbol = await evaluateTransaction(contract, 'symbol', [])
-      const decimals = await evaluateTransaction(contract, 'decimals', [])
-      const totalSupply = await evaluateTransaction(contract, 'totalSupply', [])
-      const totalSupplyHex = totalSupply.toHexString()
-      return {
-        name,
-        symbol,
-        decimals,
-        totalSupplyHex
+      try {
+        const name = await evaluateTransaction(contract, 'name', [])
+        const symbol = await evaluateTransaction(contract, 'symbol', [])
+        const decimals = await evaluateTransaction(contract, 'decimals', [])
+        const totalSupply = await evaluateTransaction(contract, 'totalSupply', [])
+        const totalSupplyHex = totalSupply.toHexString()
+        return {
+          name,
+          symbol,
+          decimals,
+          totalSupplyHex
+        }
+      } catch (e) {
+        console.log(e)
+        return e
       }
     }
     return getInfo()
@@ -69,8 +74,12 @@ export const useTokenBalance = (): ((address: string) => any) => {
   return useCallback(
     (address: string) => {
       const getBalance = async () => {
-        const balance = await evaluateTransaction(contract, 'balanceOf', [address])
-        return balance.toHexString()
+        try {
+          const balance = await evaluateTransaction(contract, 'balanceOf', [address])
+          return balance.toHexString()
+        } catch (e) {
+          console.log(e)
+        }
       }
       return getBalance()
     },
@@ -82,8 +91,12 @@ export const useGetAllowance = (): ((owner: string, spender: string) => any) => 
   return useCallback(
     (owner: string, spender: string) => {
       const getAllowance = async () => {
-        const allowance = await evaluateTransaction(contract, 'allowance', [owner, spender])
-        return allowance.toHexString()
+        try {
+          const allowance = await evaluateTransaction(contract, 'allowance', [owner, spender])
+          return allowance.toHexString()
+        } catch (e) {
+          console.log(e)
+        }
       }
       return getAllowance()
     },

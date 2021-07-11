@@ -49,11 +49,16 @@ export const useApprovalNftLogs = (contract: Contract | null) => {
 export const useNftInfo = () => {
   const contract = useStartFiNft(false)
   return useCallback(async () => {
-    const name = await evaluateTransaction(contract, 'name', [])
-    const symbol = await evaluateTransaction(contract, 'symbol', [])
-    return {
-      name,
-      symbol
+    try {
+      const name = await evaluateTransaction(contract, 'name', [])
+      const symbol = await evaluateTransaction(contract, 'symbol', [])
+      return {
+        name,
+        symbol
+      }
+    } catch (e) {
+      console.log(e)
+      return e
     }
   }, [contract])
 }
@@ -109,8 +114,13 @@ export const useGetNftOwner = (): ((tokenId: string) => any) => {
   return useCallback(
     (tokenId: string) => {
       const getUri = async () => {
-        const uri = await evaluateTransaction(contract, 'ownerOf', [tokenId])
-        return uri
+        try {
+          const uri = await evaluateTransaction(contract, 'ownerOf', [tokenId])
+          return uri
+        } catch (e) {
+          console.log(e)
+          return e
+        }
       }
       return getUri()
     },
@@ -123,8 +133,13 @@ export const useNftBalance = (): ((address: string) => any) => {
   return useCallback(
     (address: string) => {
       const getBalance = async () => {
-        const balance = await evaluateTransaction(contract, 'balanceOf', [address])
-        return balance.toHexString()
+        try {
+          const balance = await evaluateTransaction(contract, 'balanceOf', [address])
+          return balance.toHexString()
+        } catch (e) {
+          console.log(e)
+          return e
+        }
       }
       return getBalance()
     },
@@ -187,8 +202,13 @@ export const useGetApproverAddress = (): ((tokenId: string) => any) => {
   return useCallback(
     (tokenId: string) => {
       const getAddress = async () => {
-        const address = await evaluateTransaction(contract, 'getApproved', [tokenId])
-        return address
+        try {
+          const address = await evaluateTransaction(contract, 'getApproved', [tokenId])
+          return address
+        } catch (e) {
+          console.log(e)
+          return e
+        }
       }
       return getAddress()
     },
@@ -201,8 +221,13 @@ export const useRoyaltyInfo = (): ((tokenId: string, value: string) => any) => {
   return useCallback(
     (tokenId: string, value: string) => {
       const getInfo = async () => {
-        const info = await evaluateTransaction(contract, 'royaltyInfo', [tokenId, value])
-        return parseBigNumber(info)
+        try {
+          const info = await evaluateTransaction(contract, 'royaltyInfo', [tokenId, value])
+          return parseBigNumber(info)
+        } catch (e) {
+          console.log(e)
+          return e
+        }
       }
       return getInfo()
     },
@@ -214,8 +239,12 @@ export const useNftPaymentInfo = (): (() => any) => {
   const contract = useStartFiPayment(false)
   return useCallback(() => {
     const getInfo = async () => {
-      const info = await evaluateTransaction(contract, 'info', [])
-      return parseBigNumber(info)
+      try {
+        const info = await evaluateTransaction(contract, 'info', [])
+        return parseBigNumber(info)
+      } catch (e) {
+        console.log(e)
+      }
     }
     return getInfo()
   }, [contract])
