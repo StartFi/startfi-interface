@@ -381,6 +381,7 @@ export const useGetUserReserved = (): ((userAddress: string) => any) => {
         return reserved
       } catch (e) {
         console.log(e)
+        return e
       }
     },
     [contract]
@@ -395,6 +396,7 @@ export const useGetServiceFee = () => {
       return userReserved.toHexString()
     } catch (e) {
       console.log(e)
+      return e
     }
   }, [contract])
 }
@@ -422,6 +424,7 @@ export const useGetAuctionBidDetails = (): ((listingId: string, bidder: string) 
         return parseBigNumber(auctionBidDetails)
       } catch (e) {
         console.log(e)
+        return e
       }
     },
     [contract]
@@ -436,6 +439,7 @@ export const useGetListingDetails = (): ((listingId: string) => any) => {
         return parseBigNumber(listingDetails)
       } catch (e) {
         console.log(e)
+        return e
       }
     },
     [contract]

@@ -156,6 +156,9 @@ export const useStartFiStakes = (withSignerIfPossible?: boolean): Contract | nul
   return useContract(STARTFI_STAKES_ADDRESS, STARTFI_STAKES_PAYMENT_ABI, withSignerIfPossible)
 }
 export function parseBigNumber(logs: any): any {
+  if (!logs.length) {
+    return logs
+  }
   return logs.map(log => {
     if (BigNumber.isBigNumber(log)) {
       return log.toHexString()
