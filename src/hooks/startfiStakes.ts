@@ -31,10 +31,12 @@ export const useGetReserves = (): ((owner: string) => any) => {
   const contract = useStartFiStakes(false)
   return useCallback(
     async (owner: string) => {
-      const userReserved = await evaluateTransaction(contract, 'getReserves', [owner])
-      const reserved = userReserved.toHexString()
-      return {
-        reserved
+      try {
+        const userReserved = await evaluateTransaction(contract, 'getReserves', [owner])
+        const reserved = userReserved.toHexString()
+        return reserved
+      } catch (e) {
+        console.log(e)
       }
     },
     [contract]
