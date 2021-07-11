@@ -32,8 +32,9 @@ export const useGetReserves = (): ((owner: string) => any) => {
   return useCallback(
     async (owner: string) => {
       const userReserved = await evaluateTransaction(contract, 'getReserves', [owner])
+      const reserved = userReserved.toHexString()
       return {
-        userReserved
+        reserved
       }
     },
     [contract]
