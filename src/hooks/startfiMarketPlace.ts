@@ -375,9 +375,12 @@ export const useGetUserReserved = (): ((userAddress: string) => any) => {
   const contract = useStartFiMarketplace(false)
   return useCallback(
     async (userAddress: string) => {
-      const userReserved = await evaluateTransaction(contract, 'getUserReserved', [userAddress])
-      return {
-        userReserved
+      try {
+        const userReserved = await evaluateTransaction(contract, 'getUserReserved', [userAddress])
+        const reserved = userReserved.toHexString()
+        return reserved
+      } catch (e) {
+        console.log(e)
       }
     },
     [contract]
@@ -387,9 +390,11 @@ export const useGetUserReserved = (): ((userAddress: string) => any) => {
 export const useGetServiceFee = () => {
   const contract = useStartFiMarketplace(false)
   return useCallback(async () => {
-    const userReserved = await evaluateTransaction(contract, 'getServiceFee', [])
-    return {
-      userReserved
+    try {
+      const userReserved = await evaluateTransaction(contract, 'getServiceFee', [])
+      return userReserved.toHexString()
+    } catch (e) {
+      console.log(e)
     }
   }, [contract])
 }
@@ -398,10 +403,8 @@ export const useWinnerBid = (): ((listingId: string) => any) => {
   const contract = useStartFiMarketplace(false)
   return useCallback(
     async (listingId: string) => {
-      const userReserved = await evaluateTransaction(contract, 'winnerBid', [formatBytes32String(listingId)])
-      return {
-        userReserved
-      }
+      const bidWinner = await evaluateTransaction(contract, 'winnerBid', [formatBytes32String(listingId)])
+      return bidWinner
     },
     [contract]
   )
@@ -411,12 +414,14 @@ export const useGetAuctionBidDetails = (): ((listingId: string, bidder: string) 
   const contract = useStartFiMarketplace(false)
   return useCallback(
     async (listingId: string, bidder: string) => {
-      const userReserved = await evaluateTransaction(contract, 'getAuctionBidDetails', [
-        formatBytes32String(listingId),
-        bidder
-      ])
-      return {
-        userReserved
+      try {
+        const auctionBidDetails = await evaluateTransaction(contract, 'getAuctionBidDetails', [
+          formatBytes32String(listingId),
+          bidder
+        ])
+        return parseBigNumber(auctionBidDetails)
+      } catch (e) {
+        console.log(e)
       }
     },
     [contract]
@@ -426,9 +431,11 @@ export const useGetListingDetails = (): ((listingId: string) => any) => {
   const contract = useStartFiMarketplace(false)
   return useCallback(
     async (listingId: string) => {
-      const userReserved = await evaluateTransaction(contract, 'getListingDetails', [listingId])
-      return {
-        userReserved
+      try {
+        const listingDetails = await evaluateTransaction(contract, 'getListingDetails', [listingId])
+        return parseBigNumber(listingDetails)
+      } catch (e) {
+        console.log(e)
       }
     },
     [contract]
