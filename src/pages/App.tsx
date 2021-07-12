@@ -11,6 +11,7 @@ import { LandingPage } from 'components/LandingPage'
 import { useLogin } from 'state/user/hooks'
 import Mint from './Mint'
 import Marketplace from './Marketplace'
+import WaitingConfirmation from 'components/WaitingConfirmation'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -50,6 +51,7 @@ export default function App() {
       <Route component={GoogleAnalyticsReporter} />
       <Route component={DarkModeQueryParamReader} />
       <AppWrapper>
+        <WaitingConfirmation />
         <URLWarning />
         <BodyWrapper>
           <Popups />

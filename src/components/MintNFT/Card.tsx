@@ -8,11 +8,12 @@ import Step1Icon from './../../assets/icons/step1.svg'
 import Step2Icon from './../../assets/icons/step2.svg'
 import Step3Icon from './../../assets/icons/step3.svg'
 import { useTranslation } from 'react-i18next'
-import { useMintNFT } from 'state/marketplace/hooks'
 import { useSaveDraft } from 'state/user/hooks'
 import { NFT } from 'services/models/NFT'
 import { Row } from 'theme/components'
 import { usePopup } from 'state/application/hooks'
+import { useHistory } from 'react-router-dom'
+import { useNFT, useSaveNFT } from 'state/marketplace/hooks'
 
 const Container = styled.div`
   display: flex;
@@ -41,37 +42,47 @@ const Footer = styled.div`
   align-self: flex-end;
   margin-top: auto;
 `
+interface CardProps {
+  currentStep?: number
+}
 
-const Card: React.FC = () => {
+const Card: React.FC<CardProps> = ({ currentStep }) => {
   const { t } = useTranslation()
 
-  const mintNFT = useMintNFT()
+  const history = useHistory()
 
   const saveDraft = useSaveDraft()
 
-  const [nft, setNFT] = useState<NFT>({
-    id: 0,
-    category: '',
-    dataHash: '',
-    name: '',
-    tags: [],
-    description: '',
-    owner: '',
-    issuer: '',
-    issueDate: new Date(),
-    txtHash: '',
-    royalty: 0
-  })
+  const saveNFT = useSaveNFT()
+
+  const Nft = useNFT()
+
+  const [nft, setNFT] = useState<NFT>(
+    Nft || {
+      id: 0,
+      category: '',
+      dataHash: '',
+      name: '',
+      tags: [],
+      description: '',
+      owner: '',
+      issuer: '',
+      issueDate: new Date(),
+      txtHash: '',
+      royalty: 0
+    }
+  )
 
   const [missing, setMissing] = useState<string[]>([])
 
-  const [step, setStep] = useState<number>(1)
+  const [step, setStep] = useState<number>(currentStep || 1)
 
   const popup = usePopup()
 
   const handleChange = useCallback(
     (e: any) => {
       if (e.persist) e.persist()
+      if (e.target.name === 'royalty' && parseInt(e.target.value) > 100) return
       if (e.target.value)
         setMissing(missing => {
           const newMissing = [...missing]
@@ -103,11 +114,17 @@ const Card: React.FC = () => {
       case 2:
         if (['name', 'description'].filter(f => newMissing.includes(f)).length === 0) {
           setMissing([])
-          mintNFT(nft)
+          return setStep(3)
         }
         break
       case 3:
-        break
+        if (nft.royaltyShare === 'true' && !newMissing.includes('royalty')) {
+          setMissing([])
+          saveNFT(nft)
+          return history.push('summary')
+        }
+        return history.push('summary')
+      // break
       default:
     }
     setMissing(newMissing)
@@ -126,6 +143,19 @@ const Card: React.FC = () => {
     return Step1Icon
   }
 
+  const Step = () => {
+    switch (step) {
+      case 1:
+        return <Step1 state={nft} handleChange={handleChange} missing={missing} />
+      case 2:
+        return <Step2 state={nft} handleChange={handleChange} missing={missing} />
+      case 3:
+        return <Step3 state={nft} handleChange={handleChange} missing={missing} />
+      default:
+        return null
+    }
+  }
+
   return (
     <Container>
       <Header>
@@ -135,22 +165,19 @@ const Card: React.FC = () => {
         </div>
         <img src={StepIcon()} alt="Step" />
       </Header>
-      {step === 1 ? (
-        <Step1 state={nft} handleChange={handleChange} missing={missing} />
-      ) : step === 2 ? (
-        <Step2 state={nft} handleChange={handleChange} missing={missing} />
-      ) : (
-        <Step3 state={nft} handleChange={handleChange} missing={missing} />
-      )}
+      {Step()}
       <Footer>
         <ButtonMintBack onClick={() => (step > 1 ? setStep(step - 1) : null)}>{t('back')}</ButtonMintBack>
         <ButtonDraft
-          onClick={() => (nft.category || nft.dataHash || nft.name || nft.description) ?
-                saveDraft(nft) : popup({success:false,message:'No data entered to save'})}
+          onClick={() =>
+            nft.category || nft.dataHash || nft.name || nft.description
+              ? saveDraft(nft)
+              : popup({ success: false, message: 'No data entered to save' })
+          }
         >
           {t('saveDraft')}
         </ButtonDraft>
-        <ButtonMint onClick={() => next()}>{t(step === 1 ? 'next' : 'submit')}</ButtonMint>
+        <ButtonMint onClick={() => next()}>{t(step < 3 ? 'next' : 'submit')}</ButtonMint>
       </Footer>
     </Container>
   )

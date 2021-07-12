@@ -15,6 +15,7 @@ import {
   getMarketplaceAction,
   placeBidAction,
   setBidOrBuy,
+  saveNFT
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 
@@ -38,12 +39,20 @@ export const useBidOrBuyValue = (): number => {
   return useSelector((state: AppState) => state.marketplace.bidOrBuyValue)
 }
 
-export const useConfirmationLoading = (): boolean => {
-  return useSelector((state: AppState) => state.marketplace.confirmationLoading)
+export const useWalletConfirmation = (): string | null => {
+  return useSelector((state: AppState) => state.marketplace.walletConfirmation)
 }
 
 export const useMarketplacePopup = (): PopupContent | null => {
   return useSelector((state: AppState) => state.marketplace.popup)
+}
+
+export const useMinted = (): boolean => {
+  return useSelector((state: AppState) => state.marketplace.minted)
+}
+
+export const useNFT = (): NFT | null => {
+  return useSelector((state: AppState) => state.marketplace.nft)
 }
 
 export const useSetBidOrBuy = (): ((bidOrBuy: boolean, value: number) => void) => {
@@ -51,11 +60,16 @@ export const useSetBidOrBuy = (): ((bidOrBuy: boolean, value: number) => void) =
   return useCallback((bidOrBuy: boolean, value: number) => dispatch(setBidOrBuy({ bidOrBuy, value })), [dispatch])
 }
 
+export const useSaveNFT = (): ((nft: NFT) => void) => {
+  const dispatch = useDispatch()
+  return useCallback((nft: NFT) => dispatch(saveNFT({ nft })), [dispatch])
+}
+
 export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
   const dispatch = useDispatch()
   return useCallback(
     (query?: NFTQUERY) => {
-      let q = query || { sort: DEFAULTSORT}
+      let q = query || { sort: DEFAULTSORT }
       dispatch(getMarketplaceAction(q))
     },
     [dispatch]
@@ -70,16 +84,17 @@ export const useLoadNFTs = (): void => {
   }, [dispatch])
 }
 
-export const useMintNFT = (): ((nft: NFT) => void) => {
+export const useMintNFT = (): (() => void) => {
   const dispatch = useDispatch()
   const owner = useUserAddress()
   const popup = usePopup()
-  return useCallback((nft: NFT) => {
-    if (owner) {
-      dispatch(mintNFTAction({...nft, owner, issuer: owner, issueDate: new Date() }))
-    }
-    else popup({success:false,message:'Connect wallet'})
-  }, [owner, popup, dispatch])
+  const nft = useNFT()
+
+  return useCallback(() => {
+    if (owner && nft) {
+      dispatch(mintNFTAction({ ...nft, owner, issuer: owner, issueDate: new Date() }))
+    } else popup({ success: false, message: 'Connect wallet or no NFT data' })
+  }, [nft, owner, popup, dispatch])
 }
 
 export const useGetAuctionNFT = (nftId: number, auctionId: string) => {
@@ -88,7 +103,7 @@ export const useGetAuctionNFT = (nftId: number, auctionId: string) => {
   useEffect(() => {
     const AuctionNFT = nfts.filter(nft => nft.nft.id === nftId)[0]
     dispatch(getAuctionNFTAction({ nftId, auctionId, AuctionNFT }))
-    return ()=>{}
+    return () => {}
   }, [nftId, auctionId, nfts, dispatch])
 }
 
@@ -110,8 +125,7 @@ export const usePlaceBid = (): (() => void) => {
         txtHash: ''
       }
       dispatch(placeBidAction({ auctionId, bid }))
-    }
-    else popup({success:false,message:'Connect wallet'})
+    } else popup({ success: false, message: 'Connect wallet' })
   }, [bidPrice, auctionNFT, bidder, popup, dispatch])
 }
 
@@ -127,8 +141,7 @@ export const useBuyNFT = (): (() => void) => {
       const auctionId = auctionNFT.auction.id
       const owner = auctionNFT.nft.owner
       dispatch(buyNFTAction({ nftId, auctionId, owner, buyer, soldPrice }))
-    }
-    else popup({success:false,message:'Connect wallet'})
+    } else popup({ success: false, message: 'Connect wallet' })
   }, [soldPrice, auctionNFT, buyer, popup, dispatch])
 }
 

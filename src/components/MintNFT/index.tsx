@@ -1,14 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import Card from './Card'
-import Header from './Header'
 import Questions from './Questions'
 import { Row } from 'theme/components'
+import { useLocation } from 'react-router-dom'
 
 const Container = styled.div`
   width: 100%;
-  background-color: #fafafa;
-  padding: 4vh 3.2vw;
 `
 
 const Body = styled(Row)`
@@ -36,16 +34,21 @@ const Right = styled(CardBase)`
   width: 60%;
 `
 
+interface LocationState {
+  step?: number
+}
+
 const MintNFT: React.FC = () => {
+  const location = useLocation<LocationState>()
+
   return (
     <Container>
-      <Header />
       <Body>
         <Left>
           <Questions />
         </Left>
         <Right>
-          <Card />
+          <Card currentStep={location.state?.step} />
         </Right>
       </Body>
     </Container>

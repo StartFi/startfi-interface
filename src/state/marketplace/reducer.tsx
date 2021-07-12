@@ -9,7 +9,9 @@ import {
   getMarketplaceAction,
   placeBidAction,
   setBidOrBuy,
+  saveNFT
 } from './actions'
+import { NFT } from 'services/models/NFT'
 
 export interface MarketplaceState {
   marketplace: AuctionNFT[]
@@ -17,8 +19,10 @@ export interface MarketplaceState {
   auctionNFT: AuctionNFT | null
   bidOrBuy: boolean
   bidOrBuyValue: number
-  confirmationLoading: boolean
+  walletConfirmation: string | null
   popup: PopupContent | null
+  minted: boolean
+  nft: NFT | null
 }
 
 const initialState: MarketplaceState = {
@@ -27,8 +31,10 @@ const initialState: MarketplaceState = {
   auctionNFT: null,
   bidOrBuy: false,
   bidOrBuyValue: 0,
-  confirmationLoading: false,
-  popup: null
+  walletConfirmation: null,
+  popup: null,
+  minted: false,
+  nft: null
 }
 
 export default createReducer(initialState, builder =>
@@ -42,10 +48,19 @@ export default createReducer(initialState, builder =>
     .addCase(getMarketplaceAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while getting marketplace NFTs' }
     })
-    .addCase(mintNFTAction.pending, (state, action) => {})
+    .addCase(mintNFTAction.pending, (state, action) => {
+      state.walletConfirmation = 'Bidding'
+      state.minted = false
+    })
     .addCase(mintNFTAction.fulfilled, (state, action) => {
+      state.walletConfirmation = null
+      state.minted = true
       const success = action.payload.status === 'success'
-      state.popup = { success, type: 'MintNFT', message: success ? 'NFT minted successfully' : getFirstError(action.payload) }
+      state.popup = {
+        success,
+        type: 'MintNFT',
+        message: success ? 'NFT minted successfully' : getFirstError(action.payload)
+      }
     })
     .addCase(mintNFTAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while minting NFT' }
@@ -58,10 +73,10 @@ export default createReducer(initialState, builder =>
       state.popup = { success: false, message: action.error.message || 'Error occured while getting NFT' }
     })
     .addCase(placeBidAction.pending, (state, action) => {
-      state.confirmationLoading = true
+      state.walletConfirmation = 'Bidding'
     })
     .addCase(placeBidAction.fulfilled, (state, action) => {
-      state.confirmationLoading = false
+      state.walletConfirmation = null
       const success = action.payload.status === 'success'
       state.popup = { success, message: success ? 'Bid placed successfully' : getFirstError(action.payload) }
     })
@@ -69,10 +84,10 @@ export default createReducer(initialState, builder =>
       state.popup = { success: false, message: action.error.message || 'Error occured while placing bid' }
     })
     .addCase(buyNFTAction.pending, (state, action) => {
-      state.confirmationLoading = true
+      state.walletConfirmation = 'Payment'
     })
     .addCase(buyNFTAction.fulfilled, (state, action) => {
-      state.confirmationLoading = false
+      state.walletConfirmation = null
       const success = action.payload.status === 'success'
       state.popup = { success, message: success ? 'NFT bought successfully' : getFirstError(action.payload) }
     })
@@ -85,6 +100,10 @@ export default createReducer(initialState, builder =>
     })
     .addCase(clearMarketplacePopup, (state, action) => {
       state.popup = null
+    })
+    .addCase(saveNFT, (state, action) => {
+      state.nft = action.payload.nft
+      state.minted = false
     })
 )
 
