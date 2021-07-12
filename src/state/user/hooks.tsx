@@ -1,7 +1,7 @@
 // NOTICE: Kindly keep the old sdk unite we remove the code dependant on it in this file
 import { Pair, Token } from '@uniswap/sdk'
 
-import { InventoryOptions } from 'components/inventory/CardHeader'
+import { InventoryOptions } from 'components/invHome/CardHeader'
 
 import { PopupContent } from './../../constants'
 import { useCallback, useEffect, useMemo } from 'react'
@@ -338,14 +338,27 @@ export const useDraft = (draftId: number): NFT => {
   return useMemo(() => userDrafts.filter(draft => draft.id === draftId)[0], [draftId, userDrafts])
 }
 
+// get onMarket state
 export const useOnMarket = (): NFT[] => {
   return useSelector((state: AppState) => state.user.onMarket)
 }
 
+// get onMarket single item
+export const useOnMarketItem = (nftId: number): NFT => {
+  const onMarket:NFT[]= useOnMarket()
+  return  useMemo(() => onMarket.filter(nft=>nft.id===nftId)[0],[onMarket,nftId])
+}
+
+// get offMarket state
 export const useOffMarket = (): NFT[] => {
   return useSelector((state: AppState) => state.user.offMarket)
 }
 
+// get single offMarket item
+export const useOffMarketItem = (nftId: number): NFT => {
+  const offMarket:NFT[]= useOffMarket()
+  return  useMemo(() => offMarket.filter(nft=>nft.id===nftId)[0],[offMarket,nftId])
+}
 export const useClearUserPopup = () => {
   const dispatch = useDispatch()
   return useCallback(() => {

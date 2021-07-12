@@ -33,7 +33,7 @@ const Right = styled.div`
   justify-content: flex-end;
 `
 
-const Header = () => {
+const InvHeader = () => {
 
 
   const history = useHistory()
@@ -52,4 +52,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default InvHeader

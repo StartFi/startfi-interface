@@ -1,57 +1,25 @@
-
 import Row from 'components/Row'
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
 import { useDrafts, useOffMarket, useOnMarket } from 'state/user/hooks'
-
-import styled from 'styled-components'
 import CardHeader, { InventoryOptions } from './CardHeader'
-import Header from './Header'
+import { InventoryCard } from './InvHome.styles'
 import MiniCard from './MiniCard'
 
 
-const InventoryCard = styled.div`
-  height: 500px;
-  width: 92%;
-  margin: 0px auto 0px auto;
-  background-color: #ffffff;
-  border: 1px solid #e3e3e3;
-  box-shadow: 0px 0px 20px rgba(239, 239, 239, 0.25);
-  overflow-y: auto;
-  &::-webkit-scrollbar {
-    width: 15px;
-    border: 1px solid #e3e3e3;
-    background-color: #efefef;
-    border-radius: 100px;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 100px;
-    background-color: #b5b5b5;
-  }
-`
-
-const Container = styled.div`
-  width: 100%;
-  background-color: #fafafa;
-  padding: 4vh 3.2vw;
-`
 
 
-
-
-
-
-
-
-
-
-const Inventory = () => {
+const InventoryHome = () => {
   const [inventoryOption, setInventoryOption] = useState(InventoryOptions.Draft)
   const history = useHistory()
   const drafts: NFT[] | undefined = useDrafts()
   const onMarketNFT: NFT[] | undefined = useOnMarket()
   const offMarketNFT: NFT[] | undefined = useOffMarket()
+
+
+
+
 
   let inventoryItems
 
@@ -65,18 +33,12 @@ const Inventory = () => {
 
   const navigate = (id: number) => {
     if (inventoryOption === InventoryOptions.Draft) history.push(`/mint/draft/${id}`)
+    if (inventoryOption === InventoryOptions.inMarketPlace) history.push(`/inventory/in-market/${id}`)
+    if (inventoryOption === InventoryOptions.offMarketPlace) history.push(`/inventory/off-market/${id}`)
   }
 
-
   return (
-    <Container>
-      <Header></Header>
-
-
-
-
-
-
+    <div>
       <CardHeader
         getType={t => {
           setInventoryOption(t)
@@ -91,13 +53,10 @@ const Inventory = () => {
           ) : (
             <p>no item</p>
           )}
-
         </Row>
       </InventoryCard>
-    </Container>
+    </div>
   )
 }
 
-
-export default Inventory
-
+export default InventoryHome

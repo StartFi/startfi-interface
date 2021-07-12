@@ -66,7 +66,6 @@ export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
 
 export const useLoadNFTs = (): void => {
   const dispatch = useDispatch()
-
   useEffect(() => {
     dispatch(getMarketplaceAction())
   }, [dispatch])
