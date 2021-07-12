@@ -13,6 +13,7 @@ export const Row = styled(Flex)`
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 `
 
 export const ButtonText = styled.button`

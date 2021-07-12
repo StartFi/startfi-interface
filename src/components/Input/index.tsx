@@ -189,13 +189,13 @@ const Character = styled.div`
 export const InputNumber = styled.input`
   border: none;
   outline: none;
-  width: 7vw;
+  width: 3vw;
 `
 
 export const OutlineNumber = styled.div`
   display: flex;
   flex-flow: row nowrap;
-  width: 12vw;
+  width: 6vw;
   height: 7vh;
   background-color: #ffffff;
   border: 1px solid #dddddd;

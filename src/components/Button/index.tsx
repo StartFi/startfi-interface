@@ -373,10 +373,18 @@ export const ButtonSearch = styled(ButtonPrimary)`
   font-size: 1.125rem;
 `
 
-export const ButtonMint = styled(ButtonPrimary)`
+interface ButtonMintProps {
+  readonly disabled?: boolean
+}
+
+export const ButtonMint = styled(ButtonPrimary)<ButtonMintProps>`
   width: 10vw;
   height: 6vh;
   font-size: 1rem;
+  background-color: ${({ disabled }) => (disabled ? '#C2C2C2' : 'black')};
+  :hover {
+    background-color: ${({ disabled }) => (disabled ? '#C2C2C2' : 'black')};
+  }
 `
 
 export const ButtonDraft = styled(ButtonMint)`

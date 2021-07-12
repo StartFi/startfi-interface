@@ -1,17 +1,9 @@
 import ButtonWishlist from 'components/Button/ButtonWishlist'
-import WaitingConfirmation from 'components/WaitingConfirmation'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import { usePopup } from 'state/application/hooks'
-import {
-  useAuctionNFT,
-  useBidOrBuy,
-  useBidOrBuyValue,
-  useBuyNFT,
-  useConfirmationLoading,
-  usePlaceBid,
-} from 'state/marketplace/hooks'
+import { useAuctionNFT, useBidOrBuy, useBidOrBuyValue, useBuyNFT, usePlaceBid } from 'state/marketplace/hooks'
 import { useUserBalance } from 'state/user/hooks'
 import styled from 'styled-components'
 import { shortenAddress } from 'utils'
@@ -29,13 +21,17 @@ const Left = styled.div`
   padding-right: 4vw;
 `
 
-const Right = styled.div`
+interface PaymentCardProps {
+  readonly minHeight: string
+}
+
+export const Right = styled.div<PaymentCardProps>`
   width: 28vw;
   margin-left: 4vw;
   padding: 3vh 2vw;
   background-color: #fafafa;
   border-radius: 8px;
-  min-height: 74vh;
+  min-height: ${({ minHeight }) => minHeight};
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
@@ -50,7 +46,7 @@ const Rows = styled(Row)`
   margin-bottom: 5vh;
 `
 
-const SpaceBetween = styled(Row)`
+export const SpaceBetween = styled(Row)`
   justify-content: space-between;
   align-items: baseline;
 `
@@ -67,7 +63,7 @@ const Column = styled.div`
   width: 100%;
 `
 
-const Bold = styled.div`
+export const Bold = styled.div`
   font-weight: bold;
   letter-spacing: 0.04em;
   font-size: 18px;
@@ -98,7 +94,7 @@ const TextBlack = styled(Text)`
   line-height: 28px;
 `
 
-const SemiBold = styled.div`
+export const SemiBold = styled.div`
   font-weight: 500;
   font-size: 16px;
   letter-spacing: 0.04em;
@@ -106,7 +102,7 @@ const SemiBold = styled.div`
   text-transform: capitalize;
 `
 
-const Border = styled.div`
+export const Border = styled.div`
   border-bottom: 1px solid #eeeeee;
   width: 100%;
 `
@@ -138,11 +134,11 @@ const ButtonConfirmBid = styled.button`
   width: 24vw;
   height: 6vh;
 `
-const ButtonBlack = styled(ButtonConfirmBid)`
+export const ButtonBlack = styled(ButtonConfirmBid)`
   background-color: #000000;
   color: #ffffff;
 `
-const ButtonTransparent = styled(ButtonConfirmBid)`
+export const ButtonTransparent = styled(ButtonConfirmBid)`
   background-color: transparent;
 `
 
@@ -168,8 +164,6 @@ const NFTConfirm: React.FunctionComponent = () => {
   const v: any = useBidOrBuyValue()
 
   const value = parseFloat(v)
-
-  const confimration = useConfirmationLoading()
 
   const popup = usePopup()
 
@@ -200,7 +194,6 @@ const NFTConfirm: React.FunctionComponent = () => {
 
   return (
     <Container>
-      <WaitingConfirmation isOpen={confimration} bidOrBuy={bidOrBuy} owner={nft.owner} ownername={ownername} />
       <Left>
         <Rows>
           <Img src={uriToHttp(nft.dataHash)[1]} />
@@ -238,7 +231,7 @@ const NFTConfirm: React.FunctionComponent = () => {
         </MarginBottom>
         <TextBlack>{ownerdetails}</TextBlack>
       </Left>
-      <Right>
+      <Right minHeight="74vh">
         <Bold>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</Bold>
         <TextBlack>{t('bidDesc', { ownername, owner: shortenAddress(nft.owner, 6) })}</TextBlack>
         <SpaceBetween>

@@ -20,6 +20,21 @@ export const useSearch = () => {
   }, [location])
 }
 
+export const useSTFItoUSD = (amount: number): number => {
+  const [USD, setUSD] = useState<number>(amount)
+
+  useEffect(() => {
+    setUSD(amount * 100)
+  }, [amount, setUSD])
+
+  return USD
+}
+
+export const useDigitizingFees = (): number => {
+  const fees = 0.5
+  return fees
+}
+
 export function useActiveWeb3React(): Web3ReactContextInterface<Web3Provider> & { chainId?: ChainId } {
   const context = useWeb3ReactCore<Web3Provider>()
   const contextNetwork = useWeb3ReactCore<Web3Provider>(NetworkContextName)

@@ -1,5 +1,6 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { buyNFT, getAuctionNFT, getMarketplace, mintNFT, placeBid } from 'services/Marketplace'
+import { NFT } from 'services/models/NFT'
 
 export const getMarketplaceAction = createAsyncThunk('marketplace/getMarketplaceAction', getMarketplace)
 
@@ -14,3 +15,5 @@ export const buyNFTAction = createAsyncThunk('marketplace/buyNFTAction', buyNFT)
 export const setBidOrBuy = createAction<{ bidOrBuy: boolean; value: number }>('marketplace/setBidOrBuy')
 
 export const clearMarketplacePopup = createAction<void>('marketplace/clearMarketplacePopup')
+
+export const saveNFT = createAction<{ nft: NFT }>('marketplace/saveNFT')

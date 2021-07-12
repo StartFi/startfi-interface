@@ -58,7 +58,6 @@ export default function Updater(): null {
     if (marketplacePopup) {
       popup(marketplacePopup)
       clearMarketplacePoup()
-      if (marketplacePopup.type === 'MintNFT' && marketplacePopup.success) history.push('/')
     }
   },[marketplacePopup, history, popup, clearMarketplacePoup, dispatch])
 
