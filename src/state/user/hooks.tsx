@@ -339,16 +339,18 @@ export const useDraft = (draftId: number): NFT => {
   return useMemo(() => userDrafts.filter(draft => draft.id === draftId)[0], [draftId, userDrafts])
 }
 
+// get onMarket state
 export const useOnMarket = (): NFT[] => {
   return useSelector((state: AppState) => state.user.onMarket)
 }
 
+// get onMarket single item
 export const useOnMarketItem = (nftId: number): NFT => {
   const onMarket:NFT[]= useOnMarket()
   return  useMemo(() => onMarket.filter(nft=>nft.id===nftId)[0],[onMarket,nftId])
 }
 
-
+// get offMarket state
 export const useOffMarket = (): NFT[] => {
   return useSelector((state: AppState) => state.user.offMarket)
 }
@@ -364,6 +366,7 @@ export const useAuctionItem = (nftId: number): Auction => {
   const userAuctions:Auction[]= useUserAuctions()
   return  useMemo(() => userAuctions.filter(auction=>auction.nft===nftId)[0],[userAuctions,nftId])
 }
+
 
 export const useClearUserPopup = () => {
   const dispatch = useDispatch()

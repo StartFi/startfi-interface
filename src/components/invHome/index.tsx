@@ -1,12 +1,11 @@
 import Row from 'components/Row'
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
 import { useDrafts, useOffMarket, useOnMarket } from 'state/user/hooks'
 import CardHeader, { InventoryOptions } from './CardHeader'
 import { InventoryCard } from './InvHome.styles'
 import MiniCard from './MiniCard'
-
 
 
 
@@ -17,6 +16,10 @@ const InventoryHome = () => {
   const drafts: NFT[] | undefined = useDrafts()
   const onMarketNFT: NFT[] | undefined = useOnMarket()
   const offMarketNFT: NFT[] | undefined = useOffMarket()
+
+
+
+
 
   let inventoryItems
 
@@ -31,6 +34,7 @@ const InventoryHome = () => {
   const navigate = (id: number) => {
     if (inventoryOption === InventoryOptions.Draft) history.push(`/mint/draft/${id}`)
     if (inventoryOption === InventoryOptions.inMarketPlace) history.push(`/inventory/in-market/${id}`)
+    if (inventoryOption === InventoryOptions.offMarketPlace) history.push(`/inventory/off-market/${id}`)
   }
 
   return (

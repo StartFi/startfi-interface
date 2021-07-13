@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -27,7 +28,6 @@ const Tab = styled.div<TabProps>`
   transition: ease-in-out 0.3s all;
 `
 
-
 export enum InventoryOptions {
   Draft = 'Draft',
   inMarketPlace = 'In marketplace',
@@ -37,19 +37,32 @@ interface TabProps {
   readonly selected: boolean
 }
 
+interface CardHeaderProps {
+  getType: (type: InventoryOptions) => void
+}
 
+interface InvParams {
+  id: string
+}
 
 export const inventoryTypes: Array<InventoryOptions> = [
   InventoryOptions.Draft,
   InventoryOptions.inMarketPlace,
   InventoryOptions.offMarketPlace
 ]
-interface CardHeaderProps {
-  getType: (type: InventoryOptions) => void
-}
+
 const CardHeader: React.FC<CardHeaderProps> = ({ getType }) => {
-  const [inventoryType, setInventoryType] = useState(inventoryTypes[0])
+  const [inventoryType, setInventoryType] = useState(InventoryOptions.Draft)
   const { t } = useTranslation()
+  const { id }: InvParams = useParams()
+
+
+
+  useEffect(() => {
+    if (id === 'offMarket') {
+      setInventoryType(InventoryOptions.offMarketPlace)
+    }
+  }, [])
 
   return (
     <Container>
