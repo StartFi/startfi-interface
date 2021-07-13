@@ -118,13 +118,12 @@ const Card: React.FC<CardProps> = ({ currentStep }) => {
         }
         break
       case 3:
-        if (nft.royaltyShare === 'true' && !newMissing.includes('royalty')) {
+        if ((nft.royaltyShare === 'true' && !newMissing.includes('royalty')) || nft.royaltyShare === 'false') {
           setMissing([])
           saveNFT(nft)
           return history.push('summary')
         }
-        return history.push('summary')
-      // break
+      break
       default:
     }
     setMissing(newMissing)
