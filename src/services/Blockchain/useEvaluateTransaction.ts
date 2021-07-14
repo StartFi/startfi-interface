@@ -18,12 +18,12 @@ export function useEvaluateTransaction(
 export async function evaluateTransaction(
   contract: Contract | null,
   methodName: string,
-  args: Array<string>
+  args: Array<any>
 ): Promise<any> {
   try {
     const methods = await contract?.callStatic
-    const evaluateTransaction = await methods?.[methodName](...args)
-    return evaluateTransaction
+    const balance = await methods?.[methodName](...args)
+    return balance
   } catch (e) {
     console.log(e)
     return e
