@@ -117,7 +117,7 @@ const NFTsHeader: React.FC = () => {
           console.log('stfi token is', stfiToken)
           const balance = await getTokenBalance(account as string)
           if (balance === '0x00') {
-            new Error('Need to stake some STFI')
+            new Error('User need some STFI token')
           }
 
           // check if user allowed the smart contract to spend token
