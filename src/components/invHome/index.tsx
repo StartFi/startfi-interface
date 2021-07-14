@@ -24,8 +24,11 @@ const InventoryHome = () => {
   let inventoryItems:NFT[];
 
   if (inventoryOption === InventoryOptions.Draft) {
-    if(drafts?.length>0)inventoryItems = [...drafts]
-    inventoryItems = []
+    console.log('drafts',drafts?.length)
+   drafts?.length>0?inventoryItems = [...drafts] :inventoryItems = []
+
+
+
 
 
   } else if (inventoryOption === InventoryOptions.inMarketPlace) {
