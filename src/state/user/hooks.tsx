@@ -401,6 +401,7 @@ export const useGetDrafts = () => {
     [user, popup, dispatch]
   )
 }
+
 export const useGetUserNFTs = () => {
   const dispatch = useDispatch()
   const user = useUserAddress()

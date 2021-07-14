@@ -11,7 +11,7 @@ interface MiniCardContent {
 const MiniCard: React.FC<MiniCardContent> = ({ cardContent, navigate }) => {
   let tags: string[] = []
   if (cardContent?.tags) tags = [...cardContent?.tags].splice(0, 2)
-  const imgUrl = uriToHttp(`${cardContent.image}`)[0]
+  const imgUrl = uriToHttp(`${cardContent.dataHash}`)[1]
   return (
     <MiniInvCard onClick={navigate}>
       <CardContent>
