@@ -42,7 +42,9 @@ const Minted: React.FC = () => {
           </SemiBold>
         </SidePadding>
         <MintedBorder />
-        <MintedButtonBlack onClick={() => history.push('/')}>{t('addAssetToMarketplace')}</MintedButtonBlack>
+        <MintedButtonBlack onClick={() => history.push('/mint/steps', { step: 7 })}>
+          {t('addAssetToMarketplace')}
+        </MintedButtonBlack>
         <MintedButtonWhite onClick={() => history.push('/')}>{t('seeInInventory')}</MintedButtonWhite>
       </WalletConfirmationContainer>{' '}
     </React.Fragment>

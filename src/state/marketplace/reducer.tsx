@@ -9,9 +9,12 @@ import {
   getMarketplaceAction,
   placeBidAction,
   setBidOrBuy,
-  saveNFT
+  saveNFT,
+  saveAuction,
+  addToMarketplaceAction
 } from './actions'
 import { NFT } from 'services/models/NFT'
+import { Auction } from 'services/models/Auction'
 
 export interface MarketplaceState {
   marketplace: AuctionNFT[]
@@ -23,6 +26,7 @@ export interface MarketplaceState {
   popup: PopupContent | null
   minted: boolean
   nft: NFT | null
+  auction: Auction | null
 }
 
 const initialState: MarketplaceState = {
@@ -34,7 +38,8 @@ const initialState: MarketplaceState = {
   walletConfirmation: null,
   popup: null,
   minted: false,
-  nft: null
+  nft: null,
+  auction: null
 }
 
 export default createReducer(initialState, builder =>
@@ -64,6 +69,23 @@ export default createReducer(initialState, builder =>
     })
     .addCase(mintNFTAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while minting NFT' }
+    })
+    .addCase(addToMarketplaceAction.pending, (state, action) => {
+      state.walletConfirmation = 'Bidding'
+    })
+    .addCase(addToMarketplaceAction.fulfilled, (state, action) => {
+      state.walletConfirmation = null
+      state.nft = null
+      state.auction = null
+      const success = action.payload.status === 'success'
+      state.popup = {
+        success,
+        type: 'AddToMarketplace',
+        message: success ? 'NFT added to Marketplace successfully' : getFirstError(action.payload)
+      }
+    })
+    .addCase(addToMarketplaceAction.rejected, (state, action) => {
+      state.popup = { success: false, message: action.error.message || 'Error occured while Adding NFT to Marketplace' }
     })
     .addCase(getAuctionNFTAction.pending, (state, action) => {})
     .addCase(getAuctionNFTAction.fulfilled, (state, action) => {
@@ -103,6 +125,10 @@ export default createReducer(initialState, builder =>
     })
     .addCase(saveNFT, (state, action) => {
       state.nft = action.payload.nft
+      state.minted = false
+    })
+    .addCase(saveAuction, (state, action) => {
+      state.auction = action.payload.auction
       state.minted = false
     })
 )

@@ -2,6 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAuctionNFT, useWalletConfirmation } from 'state/marketplace/hooks'
 import styled from 'styled-components'
+import { Center } from 'theme'
 import { shortenAddress } from 'utils'
 import Loading from './../../assets/icons/loading.svg'
 
@@ -15,17 +16,16 @@ export const WhiteShadow = styled.div`
   z-index: 999;
 `
 
-export const WalletConfirmationContainer = styled.div`
+export const Modal = styled(Center)`
+  z-index: 9999;
+  border-radius: 8px;
+`
+
+export const WalletConfirmationContainer = styled(Modal)`
   width: 32vw;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background: #ffffff;
   border: 1px solid #f2f2f2;
   box-shadow: 0px 4px 30px 3px rgba(0, 0, 0, 0.21);
-  border-radius: 8px;
-  z-index: 9999;
   text-align: center;
   padding: 3vh 0;
 `
