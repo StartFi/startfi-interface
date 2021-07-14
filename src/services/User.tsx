@@ -5,8 +5,6 @@ import { getAuctions } from './database/Auction'
 import { addDraft, getDraft } from './database/Draft'
 import {  getNFTs } from './database/NFT'
 import { addNFTToWishlist, addUser, getUser, removeNFTWishlist } from './database/User'
-import { Draft } from './models/Draft'
-import { NFT } from './models/NFT'
 import { User } from './models/User'
 import { Auction } from './models/Auction'
 

@@ -15,7 +15,7 @@ import { NFT } from 'services/models/NFT'
 import { Row } from 'theme/components'
 import { usePopup } from 'state/application/hooks'
 // import uriToHttp from 'utils/uriToHttp'
-import * as faker from 'faker'
+
 
 const Container = styled.div`
   display: flex;
@@ -116,7 +116,7 @@ const Card: React.FC<MintCardProps> = ({ draft }) => {
         if (['name', 'description'].filter(f => newMissing.includes(f)).length === 0) {
           setMissing([])
           console.log(nft);
-          
+
           mintNFT(nft)
         }
         break
@@ -172,6 +172,7 @@ const Card: React.FC<MintCardProps> = ({ draft }) => {
                 saveDraft(nft) : popup({success:false,message:'No data entered to save'})}
         >
           {t('saveDraft')}
+        </ButtonDraft>
 
         <ButtonMint onClick={() => next()}>{t(step === 1 ? 'next' : 'submit')}</ButtonMint>
       </Footer>
