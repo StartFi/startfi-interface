@@ -144,7 +144,7 @@ const Card: React.FC<CardProps> = ({ currentStep }) => {
         saveNFT(nft)
         return history.push('summary')
       case 7:
-        if (true) {
+        if (auction.isForSale || auction.isForBid) {
           saveAuction(auction)
           return history.push('summary')
         }

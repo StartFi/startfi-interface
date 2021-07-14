@@ -169,6 +169,7 @@ const NFTSummary: React.FC = () => {
     if (days) string += days + ' days'
     if (months) string += months + ' months'
     if (years) string += years + ' years'
+    if (days < 0) return '0 days'
     return string
   }
 
