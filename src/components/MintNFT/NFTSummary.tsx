@@ -52,8 +52,11 @@ import {
   Approx
 } from './NFTSummary.styles'
 import { WhiteShadow } from 'components/WaitingConfirmation'
+import { useHistory } from 'react-router-dom'
 
 const NFTSummary: React.FC = () => {
+  const history = useHistory()
+
   const nft = useNFT()
 
   const auction = useAuction()
@@ -232,7 +235,7 @@ const NFTSummary: React.FC = () => {
               ? nft.category || nft.dataHash || nft.name || nft.description
                 ? saveDraft(nft)
                 : popup({ success: false, message: 'No data entered to save' })
-              : null
+              : history.push('/inventory/off-market/' + nft.id)
           }
         >
           {t(step === 4 ? 'saveDraft' : 'saveAtOffMarketplace')}
@@ -268,7 +271,7 @@ const NFTSummary: React.FC = () => {
       <ButtonBlack onClick={next}>
         {t(step === 6 ? 'saveToBlockchain' : step === 10 ? 'addToMarketplace' : 'allowPayment')}
       </ButtonBlack>
-      <ButtonTransparentBorder onClick={() => (nft.step < 4 ? saveDraft(nft) : null)}>
+      <ButtonTransparentBorder onClick={() => (nft.step < 4 ? saveDraft(nft) : history.push('/inventory/off-market/' + nft.id))}>
         {t('cancelAndSaveAsDraft')}
       </ButtonTransparentBorder>
     </Right>

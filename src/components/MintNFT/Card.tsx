@@ -202,7 +202,7 @@ const Card: React.FC<CardProps> = ({ currentStep }) => {
             (nft.category || nft.dataHash || nft.name || nft.description
               ? saveDraft(nft)
               : popup({ success: false, message: 'No data entered to save' }))
-              : null
+              : history.push('/inventory/off-market/' + nft.id)
           }
         >
           {t(step === 7 ? 'saveAtOffMarketplace' : 'saveDraft')}
