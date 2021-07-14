@@ -63,7 +63,7 @@ const OffMarket = () => {
               <div>
                 <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='3.40rem'>
                   File Name
-                  <span>lolollp</span>
+                  <span></span>
                 </Text>
               </div>
             </TextContainer>
@@ -111,14 +111,14 @@ const OffMarket = () => {
             <div>
               <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
                 Token ID
-                <span>{nft.txtHash}</span>
+                <span>{nft.id}</span>
               </Text>
             </div>
             <Divider width='95%'></Divider>
             <div>
               <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='5.0rem'>
                 Contact address attribute
-                <span>0x75F9250C6e8b8b528607F4219f095597b73cA574</span>
+                <span></span>
               </Text>
             </div>
           </TextContainer>

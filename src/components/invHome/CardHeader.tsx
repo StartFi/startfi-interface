@@ -1,39 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
-import styled from 'styled-components'
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  width: 92%;
-  margin: 38px auto 0px auto;
-  height: 94px;
-  background-color: #ffffff;
-  border: 1px solid #e3e3e3;
-  border-radius: 8px 8px 0px 0px;
-`
-
-const TabsCategory = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  margin-left: -40px;
-`
-const Tab = styled.div<TabProps>`
-  margin-left: 80px;
-  padding-bottom: 1vh;
-  cursor: pointer;
-  border-bottom: ${props => (props.selected ? '2px solid #000000;' : 'none;')};
-  color: ${props => (props.selected ? ' #000000;' : '#919191;')};
-  transition: ease-in-out 0.3s all;
-`
+import { HeaderContainer, InvTab, InvTabsCategory } from './InvHome.styles'
 
 export enum InventoryOptions {
   Draft = 'Draft',
   inMarketPlace = 'In marketplace',
   offMarketPlace = 'off market place'
 }
-interface TabProps {
+export interface TabProps {
   readonly selected: boolean
 }
 
@@ -56,8 +31,6 @@ const CardHeader: React.FC<CardHeaderProps> = ({ getType }) => {
   const { t } = useTranslation()
   const { id }: InvParams = useParams()
 
-
-
   useEffect(() => {
     if (id === 'offMarket') {
       setInventoryType(InventoryOptions.offMarketPlace)
@@ -65,10 +38,10 @@ const CardHeader: React.FC<CardHeaderProps> = ({ getType }) => {
   }, [])
 
   return (
-    <Container>
-      <TabsCategory>
+    <HeaderContainer>
+      <InvTabsCategory>
         {inventoryTypes.map(type => (
-          <Tab
+          <InvTab
             key={type}
             selected={inventoryType === type}
             onClick={() => {
@@ -77,10 +50,10 @@ const CardHeader: React.FC<CardHeaderProps> = ({ getType }) => {
             }}
           >
             {t(type)}
-          </Tab>
+          </InvTab>
         ))}
-      </TabsCategory>
-    </Container>
+      </InvTabsCategory>
+    </HeaderContainer>
   )
 }
 

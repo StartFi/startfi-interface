@@ -1,4 +1,36 @@
 import styled from "styled-components";
+import { TabProps } from "./CardHeader";
+
+export const InvPageContainer = styled.div`
+  width: 100%;
+  background-color: #fafafa;
+  padding: 4vh 3.2vw;
+`
+
+export const HeaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 92%;
+  margin: 38px auto 0px auto;
+  height: 94px;
+  background-color: #ffffff;
+  border: 1px solid #e3e3e3;
+  border-radius: 8px 8px 0px 0px;
+`
+
+export const InvTabsCategory = styled.div`
+display: flex;
+flex-flow: row nowrap;
+margin-left: -40px;
+`
+export const InvTab = styled.div<TabProps>`
+margin-left: 80px;
+padding-bottom: 1vh;
+cursor: pointer;
+border-bottom: ${props => (props.selected ? '2px solid #000000;' : 'none;')};
+color: ${props => (props.selected ? ' #000000;' : '#919191;')};
+transition: ease-in-out 0.3s all;
+`
 
 export const InventoryCard = styled('div')<{borderRadius?:string;marginTop?:string}>`
   height: 500px;
