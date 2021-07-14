@@ -9,25 +9,6 @@ import { useDispatch } from 'react-redux'
 import { addNewEvent } from 'state/blockchainEvents/actions'
 import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../constants/abis/StartFiNFTPayment.json'
 
-export const useTransferNftLogs = (contract: Contract | null) => {
-  const { library } = useActiveWeb3React()
-  const transferEvent = contract?.filters.Transfer()
-  const dispatch = useDispatch()
-  useEffect(() => {
-    if (transferEvent) {
-      library?.on(transferEvent as EventFilter, result => {
-        const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
-        const args = eventLogs?.args
-        const eventValue = args && { sender: args[0], recipient: args[1], amount: args[2].toNumber() }
-        dispatch(addNewEvent({ eventName: 'TransferNft', eventValue }))
-      })
-    }
-
-    return () => {
-      library?.removeAllListeners(transferEvent as EventFilter)
-    }
-  }, [transferEvent])
-}
 export const useApprovalNftLogs = (contract: Contract | null) => {
   const { library } = useActiveWeb3React()
   const ApprovalEvent = contract?.filters.Approval()
@@ -63,28 +44,38 @@ export const useNftInfo = () => {
   }, [contract])
 }
 
-export const useMint = (): ((address: string, ipfsHash: string, share?: string, base?: string) => any) => {
+export const useMint = (): ((
+  address: string,
+  ipfsHash: string,
+  share?: string | number,
+  base?: string | number
+) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiPayment(true)
   const mint = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   return useCallback(
-    async (address: string, ipfsHash: string, share?: string, base?: string) => {
+    async (address: string, ipfsHash: string, share?: string | number, base?: string | number) => {
       if (!account || !address) {
         toggleWalletModal()
         return `account: ${account} is not connected`
       }
       try {
         if (share && base) {
-          return await mint(
+          const mintedNFT = await mint(
             'MintNFTWithRoyalty',
-            [address, ipfsHash, share as string, base as string],
+            [address, ipfsHash, share, base],
             contract,
             account,
             library
           )
+          console.log('royalty', mintedNFT)
+          return (mintedNFT as any).value.toNumber()
         } else {
-          return await mint('MintNFTWithoutRoyalty', [address, ipfsHash], contract, account, library)
+          const mintedNFT = await mint('MintNFTWithoutRoyalty', [address, ipfsHash], contract, account, library)
+          console.log('no royalty', mintedNFT)
+
+          return (mintedNFT as any).value.toNumber()
         }
       } catch (e) {
         console.log('error', e)
@@ -95,10 +86,10 @@ export const useMint = (): ((address: string, ipfsHash: string, share?: string, 
   )
 }
 
-export const useGetTokenURI = (): ((tokenId: string) => any) => {
+export const useGetTokenURI = (): ((tokenId: string | number) => any) => {
   const contract = useStartFiNft(false)
   return useCallback(
-    (tokenId: string) => {
+    (tokenId: string | number) => {
       const getUri = async () => {
         const uri = await evaluateTransaction(contract, 'tokenURI', [tokenId])
         return uri
@@ -109,10 +100,10 @@ export const useGetTokenURI = (): ((tokenId: string) => any) => {
   )
 }
 
-export const useGetNftOwner = (): ((tokenId: string) => any) => {
+export const useGetNftOwner = (): ((tokenId: string | number) => any) => {
   const contract = useStartFiNft(false)
   return useCallback(
-    (tokenId: string) => {
+    (tokenId: string | number) => {
       const getUri = async () => {
         try {
           const uri = await evaluateTransaction(contract, 'ownerOf', [tokenId])
@@ -146,43 +137,43 @@ export const useNftBalance = (): ((address: string) => any) => {
     [contract]
   )
 }
-export const useGrantRoleNft = (): (() => any) => {
+export const useGrantRoleNft = (): ((user: string) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiNft(true)
   const grantRole = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   useApprovalNftLogs(contract)
-  return useCallback(async () => {
-    if (!account) {
-      toggleWalletModal()
-      return `account: ${account} is not connected`
-    }
-    try {
-      return await grantRole(
-        'grantRole',
-        [
-          '0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6',
-          '0x1994668A2708323218285421E45FB2d2b74e0bd2'
-        ],
-        contract,
-        account,
-        library
-      )
-    } catch (e) {
-      console.log('error', e)
-      return e
-    }
-  }, [account, contract, library, grantRole, toggleWalletModal])
+  return useCallback(
+    async (user: string) => {
+      if (!account) {
+        toggleWalletModal()
+        return `account: ${account} is not connected`
+      }
+      try {
+        return await grantRole(
+          'grantRole',
+          ['0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6', user],
+          contract,
+          account,
+          library
+        )
+      } catch (e) {
+        console.log('error', e)
+        return e
+      }
+    },
+    [account, contract, library, grantRole, toggleWalletModal]
+  )
 }
 
-export const useApproveNft = (): ((spender: string, tokenId: string) => any) => {
+export const useApproveNft = (): ((spender: string, tokenId: string | number) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiNft(true)
   const approve = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   useApprovalNftLogs(contract)
   return useCallback(
-    async (spender: string, tokenId: string) => {
+    async (spender: string, tokenId: string | number) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
@@ -197,10 +188,10 @@ export const useApproveNft = (): ((spender: string, tokenId: string) => any) => 
     [account, contract, library, approve, toggleWalletModal]
   )
 }
-export const useGetApproverAddress = (): ((tokenId: string) => any) => {
+export const useGetApproverAddress = (): ((tokenId: string | number) => any) => {
   const contract = useStartFiNft(false)
   return useCallback(
-    (tokenId: string) => {
+    (tokenId: string | number) => {
       const getAddress = async () => {
         try {
           const address = await evaluateTransaction(contract, 'getApproved', [tokenId])
@@ -216,10 +207,10 @@ export const useGetApproverAddress = (): ((tokenId: string) => any) => {
   )
 }
 
-export const useRoyaltyInfo = (): ((tokenId: string, value: string) => any) => {
+export const useRoyaltyInfo = (): ((tokenId: string | number, value: string | number) => any) => {
   const contract = useStartFiNft(false)
   return useCallback(
-    (tokenId: string, value: string) => {
+    (tokenId: string | number, value: string | number) => {
       const getInfo = async () => {
         try {
           const info = await evaluateTransaction(contract, 'royaltyInfo', [tokenId, value])
@@ -250,13 +241,13 @@ export const useNftPaymentInfo = (): (() => any) => {
   }, [contract])
 }
 // NFT Payment Owner Transactions
-export const useChangeFeesNftPayment = (): ((newFees: string) => any) => {
+export const useChangeFeesNftPayment = (): ((newFees: string | number) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiPayment(true)
   const changeFees = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   return useCallback(
-    async (newFees: string) => {
+    async (newFees: string | number) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`

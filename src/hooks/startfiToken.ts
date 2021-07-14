@@ -104,14 +104,14 @@ export const useGetAllowance = (): ((owner: string, spender: string) => any) => 
   )
 }
 
-export const useApproveToken = (): ((spender: string, amount: string) => any) => {
+export const useApproveToken = (): ((spender: string, amount: string | number) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiToken(true)
   const approve = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   useApprovalTokenLogs(contract)
   return useCallback(
-    async (spender: string, amount: string) => {
+    async (spender: string, amount: string | number) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
@@ -126,13 +126,13 @@ export const useApproveToken = (): ((spender: string, amount: string) => any) =>
     [account, contract, library, approve, toggleWalletModal]
   )
 }
-export const useIncreaseAllowance = (): ((spender: string, addedValue: string) => any) => {
+export const useIncreaseAllowance = (): ((spender: string, addedValue: string | number) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiToken(true)
   const approve = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   return useCallback(
-    async (spender: string, addedValue: string) => {
+    async (spender: string, addedValue: string | number) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
@@ -148,13 +148,13 @@ export const useIncreaseAllowance = (): ((spender: string, addedValue: string) =
   )
 }
 
-export const useDecreaseAllowance = (): ((spender: string, substractedValue: string) => any) => {
+export const useDecreaseAllowance = (): ((spender: string, subtractedValue: string | number) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiToken(true)
   const approve = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   return useCallback(
-    async (spender: string, subtractedValue: string) => {
+    async (spender: string, subtractedValue: string | number) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
@@ -169,14 +169,14 @@ export const useDecreaseAllowance = (): ((spender: string, substractedValue: str
     [account, contract, library, approve, toggleWalletModal]
   )
 }
-export const useTransfer = (): ((address: string, amount: string) => any) => {
+export const useTransfer = (): ((address: string, amount: string | number) => any) => {
   const contract = useStartFiToken(true)
   useTransferTokenLogs(contract)
   const transfer = useSubmitTransaction()
   const { account, library } = useActiveWeb3React()
   const toggleWalletModal = useWalletModalToggle()
   return useCallback(
-    async (address: string, amount: string) => {
+    async (address: string, amount: string | number) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
@@ -191,13 +191,13 @@ export const useTransfer = (): ((address: string, amount: string) => any) => {
     [transfer, account, contract, library, toggleWalletModal]
   )
 }
-export const useBurn = (): ((amount: string, from?: string) => any) => {
+export const useBurn = (): ((amount: string | number, from?: string) => any) => {
   const contract = useStartFiToken(true)
   const transfer = useSubmitTransaction()
   const { account, library } = useActiveWeb3React()
   const toggleWalletModal = useWalletModalToggle()
   return useCallback(
-    async (amount: string, from?: string) => {
+    async (amount: string | number, from?: string) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`

@@ -6,7 +6,7 @@ import { calculateGasMargin } from 'utils'
 
 export const useSubmitTransaction = (): ((
   methodsName: string,
-  args: Array<string> | undefined,
+  args: Array<any> | undefined,
   contract: Contract | null,
   account: string | null,
   library: Web3Provider | undefined
@@ -14,7 +14,7 @@ export const useSubmitTransaction = (): ((
   return useCallback(
     async (
       methodsName: string,
-      args: Array<string> | undefined,
+      args: Array<any> | undefined,
       contract: Contract | null,
       account: string | null,
       library: any
