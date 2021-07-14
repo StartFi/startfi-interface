@@ -23,7 +23,7 @@ const OffMarket = () => {
   const { id }: offMarketParams = useParams()
   const history = useHistory()
   const nft: NFT = useOffMarketItem(parseInt(id))
-  const imgUrl = uriToHttp(`${nft.image}`)[0]
+  const imgUrl = uriToHttp(`${nft.dataHash}`)[1]
 
   const [tagsState, setTagsState] = useState(false)
 
@@ -42,7 +42,6 @@ const OffMarket = () => {
             <span>offMarketPlace</span>
             <img src={Vector}/>
             <span>{StringModifier(nft.owner)}</span>
-
             </TopTitle>
       <Row padding='20px' align='start'>
         <Text fontFamily='Roboto' FontWeight='500' fontSize='1rem' color='#000000' margin='0 0 3px 8px'>

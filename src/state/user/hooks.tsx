@@ -355,7 +355,11 @@ export const useOffMarket = (): NFT[] => {
   return useSelector((state: AppState) => state.user.offMarket)
 }
 
-
+// get single offMarket item
+export const useOffMarketItem = (nftId: number): NFT => {
+  const offMarket:NFT[]= useOffMarket()
+  return  useMemo(() => offMarket.filter(nft=>nft.id===nftId)[0],[offMarket,nftId])
+}
 // get userAuctions
 export const useUserAuctions = (): Auction[] => {
   return useSelector((state: AppState) => state.user.userAuctions)
