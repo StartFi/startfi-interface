@@ -181,9 +181,12 @@ export const ButtonUNIGradient = styled(ButtonPrimaryy)`
 `
 
 export const ButtonOutlined = styled(Base)`
-  border: 1px solid ${({ theme }) => theme.bg2};
+  border: 1px solid ${({ theme }) => theme.black};
   background-color: transparent;
   color: ${({ theme }) => theme.text1};
+  width: 189px;
+ height: 50px;
+ border-radius:8px;
 
   &:focus {
     box-shadow: 0 0 0 1px ${({ theme }) => theme.bg4};
@@ -396,4 +399,22 @@ export const ButtonDraft = styled(ButtonMint)<{ width?: string }>`
 export const ButtonMintBack = styled(ButtonDraft)`
   color: #3f3f3f;
   margin-right: 0;
+`
+export const RemoveWishList = styled(ButtonMint )`
+  background-color: white;
+  width: 15vw;
+  color: #000000;
+  font-weight: 500;
+  font-size: 16px;
+  cursor:pointer;
+  border: none;
+  box-shadow: none;
+  &:hover {
+    background-color: white;
+    color: #000000;
+  }
+  &:disabled {
+    opacity:50%;
+    cursor: auto;
+  }
 `

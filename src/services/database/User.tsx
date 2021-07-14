@@ -31,4 +31,17 @@ export const addNFTToWishlist = async (userId: string, nftId: number) => {
     return editDocument(COLLECTION, newUser.ethAddress, newUser)
   }
   return 'No user'
+
 }
+
+export const removeNFTWishlist = async (userId: string, nftId: number) => {
+  const oldUser = (await getDocument(COLLECTION, userId)) as User
+  if (oldUser) {
+    const newUser = { ...oldUser }
+    const wishLisIndex = newUser.wishlist.indexOf(nftId)
+    newUser.wishlist.splice(wishLisIndex, 1)
+    return editDocument(COLLECTION, newUser.ethAddress, newUser)
+  }
+  return 'No user'
+}
+

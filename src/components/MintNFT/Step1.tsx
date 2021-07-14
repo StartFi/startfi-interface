@@ -16,20 +16,18 @@ const Label = styled.div`
   margin-bottom: 2vh;
 `
 
-const DraftImg = styled.img`
-  width: 70px;
-  height: 70px;
-  border-radius: 4px;
-`
 
-const Step1: React.FC<StepProps> = ({ state, draft, handleChange, missing }: StepProps) => {
-  const [filename, setFilename] = useState(state.image)
+const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
+  const [filename, setFilename] = useState(state.dataHash)
+
+  const [progress, setProgress] = useState(0)
+
 
   const { t } = useTranslation()
 
   const upload = useUploadToIpfs()
 
-  const progress = useIpfsProgress()
+  const ipfsProgress = useIpfsProgress()
 
   const hash = useIpfsHash()
 
@@ -39,12 +37,16 @@ const Step1: React.FC<StepProps> = ({ state, draft, handleChange, missing }: Ste
 
   useEffect(() => {
     if (status === ipfsEnumStatus.DONE && filename !== '') {
-      handleChange({ target: { name: 'image', value: 'ipfs://' + hash } })
+      handleChange({ target: { name: 'dataHash', value: 'ipfs://' + hash } })
     }
   }, [filename, status, hash, handleChange])
 
 
-  const imgUrl = uriToHttp(`${state.image}`)[0]
+
+  useEffect(() => {
+    setProgress(ipfsProgress)
+  }, [ipfsProgress, setProgress])
+
 
   return (
     <React.Fragment>
@@ -66,27 +68,24 @@ const Step1: React.FC<StepProps> = ({ state, draft, handleChange, missing }: Ste
         />
       </DropDown>
 
-      {draft ? <DraftImg src={imgUrl}></DraftImg> : null}
-
-      {!draft ? (
-        <InputFile
-          name='image'
-          label={t('uploadNFT')}
-          value={state.imaghe}
-          onChange={(e: any) => {
-            if (e.target.files[0] === null) {
-              setFilename('')
-              handleChange({ target: { name: 'image', value: '' } })
-            } else {
-              setFilename(e.target.files[0].name)
-              upload({ path: e.target.files[0].name, content: e.target.files[0] })
-            }
-          }}
-          progress={progress}
-          filename={filename}
-          error={missing.includes('image')}
-        />
-      ) : null}
+      <InputFile
+        name="dataHash"
+        label={t('uploadNFT')}
+        value={state.dataHash}
+        onChange={(e: any) => {
+          if (e.target.files[0] === null) {
+            setFilename('')
+            handleChange({ target: { name: 'dataHash', value: '' } })
+            setProgress(0)
+          } else {
+            setFilename(e.target.files[0].name)
+            upload({ path: e.target.files[0].name, content: e.target.files[0] })
+          }
+        }}
+        progress={progress}
+        filename={filename}
+        error={missing.includes('dataHash')}
+      />
     </React.Fragment>
   )
 }

@@ -31,10 +31,16 @@ import {
   clearUserPopup,
   logoutAction,
   getDraftsAction,
-  getUserNFTsAction
+  getUserNFTsAction,
+  removeWishListItemAction
 } from './actions'
 import { usePopup } from 'state/application/hooks'
+
 import { Auction } from 'services/models/Auction'
+
+import { useMarketplace } from 'state/marketplace/hooks'
+import { AuctionNFT } from 'services/models/AuctionNFT'
+
 
 function serializeToken(token: Token): SerializedToken {
   return {
@@ -315,6 +321,17 @@ export const useLogin = () => {
   }, [account, dispatch])
 }
 
+// get user Wishlist AuctionNft
+export const useUserWishList = (): AuctionNFT[]=> {
+  const user = useUser()
+  const marketPlace = useMarketplace()
+  return useMemo(() => {
+    return marketPlace.filter(e => {
+      return user?.wishlist.includes(e.nft.id)
+    })
+  }, [user, marketPlace])
+}
+
 export const useAddToWishlist = (nftId: number) => {
   const dispatch = useDispatch()
   const userId = useUserAddress()
@@ -324,6 +341,22 @@ export const useAddToWishlist = (nftId: number) => {
     else popup({ success: false, message: 'Connect wallet' })
   }, [nftId, userId, popup, dispatch])
 }
+
+
+// remove item from wishlist
+export const useRemoveWishlistItem = (nftId: number) => {
+  const dispatch = useDispatch()
+  const userId = useUserAddress()
+  const popup = usePopup()
+  return useCallback(() => {
+    if (userId) dispatch(removeWishListItemAction({ userId, nftId }))
+    else popup({ success: false, message: 'Connect wallet' })
+  }, [nftId, userId, popup, dispatch])
+}
+
+
+
+
 
 export const useUserPopup = (): PopupContent | null => {
   return useSelector((state: AppState) => state.user.popup)
@@ -379,9 +412,16 @@ export const useClearUserPopup = () => {
   }, [dispatch])
 }
 
+// get onMarket state
+// export const useUserWishList = (): NFT[] => {
+//   const user=useUser()
+//   useMemo(() => user?user.wishlist:null, [ user])
+// }
 export const useIsNFTWishlist = (nftId: number): boolean => {
   const user = useUser()
+
   return useMemo(() => (user && user.wishlist ? user.wishlist.includes(nftId) : false), [nftId, user])
+
 }
 
 export const useWishlist = (nftId: number) => {

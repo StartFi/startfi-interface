@@ -18,7 +18,6 @@ export const editNFT = async (nft: any): Promise<string> => {
 }
 
 export const getNFTs = async (filters?: Dictionary): Promise<NFT[]> => {
-  console.log(filters)
   return (await getDocuments(COLLECTION, filters)) as NFT[]
 }
 
