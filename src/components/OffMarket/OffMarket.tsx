@@ -111,7 +111,7 @@ const OffMarket = () => {
             <div>
               <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
                 Token ID
-                <span>{nft.dataHash}</span>
+                <span>{nft.txtHash}</span>
               </Text>
             </div>
             <Divider width='95%'></Divider>
