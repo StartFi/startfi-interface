@@ -1,5 +1,46 @@
 import styled from 'styled-components'
 
+export const TextContainer = styled.div`
+  width: 100%;
+  display: flex;
+  margin: 18px 25px 25px 10px;
+  flex-direction: column;
+  justify-content: space-between;
+`
+export const RemoveContainer = styled('div')<{ opacity?: boolean }>`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: -10px;
+  /* margin-top: -5px; */
+
+  & div {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    opacity: 50%;
+    & img {
+      height: 20px;
+      width: 20px;
+      position: relative;
+      left: 10px;
+      /* margin-top: 30px; */
+    }
+  }
+`
+export const ImgDIV = styled.div`
+  width: 128px;
+  height: 103px;
+  border-radius: 4px;
+
+  margin: 26px 25px 28px 27px;
+  & img {
+    width: 128px;
+    height: 103px;
+    border-radius: 4px;
+
+  }
+`
 export const WishListCard = styled.div`
   display: flex;
   width: 90%;
@@ -8,11 +49,19 @@ export const WishListCard = styled.div`
   background-color: #ffffff;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.135216);
   border-radius: 8px;
-  & img {
+  /* & img {
     width: 128px;
     height: 103px;
     border-radius: 4px;
     margin: 26px 25px 28px 27px;
+  } */
+
+  &:hover {
+    ${RemoveContainer} {
+      & div {
+        opacity: 100%;
+      }
+    }
   }
 `
 
@@ -46,42 +95,6 @@ export const TagContainer = styled('div')<{ marginLeft?: string; lastChildWidth?
 
   & :last-child {
     width: ${({ lastChildWidth }) => lastChildWidth ?? '87px'};
-  }
-`
-
-export const TextContainer = styled.div`
-  width: 100%;
-  display: flex;
-  margin: 0px 25px 25px 25px;
-  flex-direction: column;
-  justify-content: space-between;
-`
-
-export const RemoveContainer = styled('div')<{ opacity?: boolean }>`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: -30px;
-  margin-top: -5px;
-  & div {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    & img {
-      height: 20px;
-      width: 20px;
-      position: relative;
-      z-index: 4;
-      left: 35px;
-      margin-top: 30px;
-      opacity: ${({ opacity }) => (opacity ? '50%' : '')};
-    }
-    & :nth-child(1) {
-      height: 15px;
-      width: 15px;
-      padding: 2px;
-      left: 105px;
-    }
   }
 `
 
