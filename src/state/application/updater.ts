@@ -7,10 +7,14 @@ import { useDispatch } from 'react-redux'
 import { useClearUserPopup, useUserPopup } from 'state/user/hooks'
 import { usePopup } from './hooks'
 import { useClearMarketplacePopup, useMarketplacePopup } from 'state/marketplace/hooks'
+import { useHistory } from 'react-router-dom'
 
 export default function Updater(): null {
   const { library, chainId } = useActiveWeb3React()
+
   const dispatch = useDispatch()
+
+  const history = useHistory()
 
   const userPopup = useUserPopup()
 
@@ -46,15 +50,17 @@ export default function Updater(): null {
     if (userPopup) {
       popup(userPopup)
       clearUserPopup()
+      if (userPopup.type === 'SaveDraft' && userPopup.success) history.push('/')
     }
-  },[userPopup, popup, clearUserPopup, dispatch])
+  },[userPopup, history, popup, clearUserPopup, dispatch])
 
   useEffect(()=>{
     if (marketplacePopup) {
       popup(marketplacePopup)
       clearMarketplacePoup()
+      if (marketplacePopup.type === 'MintNFT' && marketplacePopup.success) history.push('/')
     }
-  },[marketplacePopup, popup, clearMarketplacePoup, dispatch])
+  },[marketplacePopup, history, popup, clearMarketplacePoup, dispatch])
 
   // attach/detach listeners
   useEffect(() => {

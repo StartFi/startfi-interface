@@ -8,21 +8,24 @@ import { AuctionNFT } from './models/AuctionNFT'
 import { checkSuccess, sortHelper } from 'utils'
 import { Auction } from './models/Auction'
 import { DEFAULTSORT } from './../constants'
+import {datatype as faker} from 'faker'
 
 export const mintNFT = async (nft: NFT) => {
   //get from blockchain or compute
   const hash = ''
-  nft.id = 0
+  nft.id =  faker.number({'min' : 100000, 'max' : 999999})
+  nft.uuid =faker.uuid()
   nft.txtHash = hash
   const nftAdded = await addNFT(nft)
   const status = checkSuccess({ nftAdded })
   return { status, nftAdded, hash }
 }
 
-export type NFTQUERY = {
+export interface NFTQUERY {
   search?: string
   category?: string
   sort?: string
+  name?: string
 }
 
 export const getMarketplace = async (query?: NFTQUERY) => {
@@ -31,7 +34,7 @@ export const getMarketplace = async (query?: NFTQUERY) => {
   if (!query) query = {}
   const { search, category, sort } = query
   const nftsQuery: NFTQUERY = {}
-  if (search) nftsQuery.search = search
+  if (search) nftsQuery.name = search
   if (category && category !== 'all') nftsQuery.category = category
   const auctionSort = sort ? sort : DEFAULTSORT
   const nfts = await getNFTs(nftsQuery)

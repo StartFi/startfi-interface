@@ -18,7 +18,6 @@ import {
   setBidOrBuy,
 } from './actions'
 import { usePopup } from 'state/application/hooks'
-import { useHistory } from 'react-router-dom'
 
 export const useMarketplace = (): AuctionNFT[] => {
   return useSelector((state: AppState) => state.marketplace.marketplace)
@@ -75,14 +74,12 @@ export const useMintNFT = (): ((nft: NFT) => void) => {
   const dispatch = useDispatch()
   const owner = useUserAddress()
   const popup = usePopup()
-  const history = useHistory()
   return useCallback((nft: NFT) => {
     if (owner) {
       dispatch(mintNFTAction({...nft, owner, issuer: owner, issueDate: new Date() }))
-      history.push('/')
     }
     else popup({success:false,message:'Connect wallet'})
-  }, [owner, history, popup, dispatch])
+  }, [owner, popup, dispatch])
 }
 
 export const useGetAuctionNFT = (nftId: number, auctionId: string) => {

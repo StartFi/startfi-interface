@@ -12,7 +12,7 @@ export const useIpfsStatus = (): ipfsEnumStatus | null => {
   return useSelector((state: AppState) => state.ipfs.ipfsStatus)
 }
 
-export const useIpfsProgress = (): string => {
+export const useIpfsProgress = (): number => {
   return useSelector((state: AppState) => state.ipfs.ipfsProgress)
 }
 

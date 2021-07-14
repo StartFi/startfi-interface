@@ -1,6 +1,7 @@
 import NFTsHeader from 'components/Header/NFTsHeader'
 import NFTConfirm from 'components/NFTConfirm'
 import Nftproduct from 'components/NFTproduct/Nftproduct'
+import WishList from 'components/WishList'
 import React from 'react'
 import { Route } from 'react-router-dom'
 import styled from 'styled-components'
@@ -19,6 +20,9 @@ const Marketplace: React.FC = () => {
       <Route path="/marketplace/nfts" component={NFTs} />
       <Route path="/marketplace/nft/:nft/:auction" component={Nftproduct} />
       <Route path="/marketplace/buyorbid" component={NFTConfirm} />
+
+      <Route path="/marketplace/wishList" component={WishList} />
+
 
     </MarketplaceWrapper>
 
