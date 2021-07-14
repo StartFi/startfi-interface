@@ -21,10 +21,13 @@ const InventoryHome = () => {
 
 
 
-  let inventoryItems
+  let inventoryItems:NFT[];
 
   if (inventoryOption === InventoryOptions.Draft) {
-    inventoryItems = [...drafts]
+    if(drafts?.length>0)inventoryItems = [...drafts]
+    inventoryItems = []
+
+
   } else if (inventoryOption === InventoryOptions.inMarketPlace) {
     inventoryItems = [...onMarketNFT]
   } else {
@@ -46,12 +49,12 @@ const InventoryHome = () => {
       ></CardHeader>
       <InventoryCard>
         <Row padding='20px' align='start'>
-          {inventoryItems ? (
+          {inventoryItems?.length>0 ? (
             inventoryItems?.map((nft: NFT) => (
               <MiniCard key={nft.id} cardContent={nft} navigate={() => navigate(nft.id)} />
             ))
           ) : (
-            <p>no item</p>
+            <p>No items available</p>
           )}
         </Row>
       </InventoryCard>
