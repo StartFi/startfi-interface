@@ -153,14 +153,18 @@ export const useUserReservesFreeLogs = (contract: Contract | null) => {
   }, [userReservesFreeEvent])
 }
 
-export const useListOnMarketplace = (): ((nftContract: string, tokenId: string, listingPrice: string) => any) => {
+export const useListOnMarketplace = (): ((
+  nftContract: string,
+  tokenId: string | number,
+  listingPrice: string | number
+) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiMarketplace(true)
   const listOnMarketplace = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   useListOnMarketplaceLogs(contract)
   return useCallback(
-    async (nftContract: string, tokenId: string, listingPrice: string) => {
+    async (nftContract: string, tokenId: string | number, listingPrice: string | number) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
@@ -183,12 +187,12 @@ export const useListOnMarketplace = (): ((nftContract: string, tokenId: string, 
 }
 export const useCreateAuction = (): ((
   nftContract: string,
-  tokenId: string,
-  listingPrice: string,
-  qualifyAmount: string,
-  sellForEnabled: string,
-  sellFor: string,
-  duration: string
+  tokenId: string | number,
+  listingPrice: string | number,
+  qualifyAmount: string | number,
+  sellForEnabled: boolean,
+  sellingPrice: string | number,
+  duration: string | number
 ) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiMarketplace(true)
@@ -198,12 +202,12 @@ export const useCreateAuction = (): ((
   return useCallback(
     async (
       nftContract: string,
-      tokenId: string,
-      listingPrice: string,
-      qualifyAmount: string,
-      sellForEnabled: string,
-      sellFor: string,
-      duration: string
+      tokenId: string | number,
+      listingPrice: string | number,
+      qualifyAmount: string | number,
+      sellForEnabled: boolean,
+      sellingPrice: string | number,
+      duration: string | number
     ) => {
       if (!account) {
         toggleWalletModal()
@@ -212,7 +216,7 @@ export const useCreateAuction = (): ((
       try {
         return await createAuction(
           'createAuction',
-          [nftContract, tokenId, listingPrice, qualifyAmount, sellForEnabled, sellFor, duration],
+          [nftContract, tokenId, listingPrice, qualifyAmount, sellForEnabled, sellingPrice, duration],
           contract,
           account,
           library
@@ -226,14 +230,19 @@ export const useCreateAuction = (): ((
   )
 }
 
-export const useBid = (): ((listingId: string, tokenAddress: string, tokenId: string, bidPrice: string) => any) => {
+export const useBid = (): ((
+  listingId: string | number,
+  tokenAddress: string,
+  tokenId: string | number,
+  bidPrice: string | number
+) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiMarketplace(true)
   const bid = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   useBidOnAuctionLogs(contract)
   return useCallback(
-    async (listingId: string, tokenAddress: string, tokenId: string, bidPrice: string) => {
+    async (listingId: string | number, tokenAddress: string, tokenId: string | number, bidPrice: string | number) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
@@ -241,7 +250,7 @@ export const useBid = (): ((listingId: string, tokenAddress: string, tokenId: st
       try {
         return await bid(
           'bid',
-          [formatBytes32String(listingId), tokenAddress, tokenId, bidPrice],
+          [formatBytes32String(String(listingId)), tokenAddress, tokenId, bidPrice],
           contract,
           account,
           library
@@ -255,20 +264,20 @@ export const useBid = (): ((listingId: string, tokenAddress: string, tokenId: st
   )
 }
 
-export const useFullfilBid = (): ((listingId: string) => any) => {
+export const useFullfilBid = (): ((listingId: string | number) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiMarketplace(true)
   const fullfilBid = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   useFullfilBidLogs(contract)
   return useCallback(
-    async (listingId: string) => {
+    async (listingId: string | number) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
       }
       try {
-        return await fullfilBid('fullfillBid', [formatBytes32String(listingId)], contract, account, library)
+        return await fullfilBid('fullfillBid', [formatBytes32String(String(listingId))], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
@@ -278,20 +287,20 @@ export const useFullfilBid = (): ((listingId: string) => any) => {
   )
 }
 
-export const useDeList = (): ((listingId: string) => any) => {
+export const useDeList = (): ((listingId: string | number) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiMarketplace(true)
   const delist = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   useDeListOffMarketplaceLogs(contract)
   return useCallback(
-    async (listingId: string) => {
+    async (listingId: string | number) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
       }
       try {
-        return await delist('deList', [formatBytes32String(listingId)], contract, account, library)
+        return await delist('deList', [formatBytes32String(String(listingId))], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
@@ -301,20 +310,20 @@ export const useDeList = (): ((listingId: string) => any) => {
   )
 }
 
-export const useBuyNow = (): ((listingId: string, price: string) => any) => {
+export const useBuyNow = (): ((listingId: string | number, price: string | number) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiMarketplace(true)
   const delist = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   useBuyNowLogs(contract)
   return useCallback(
-    async (listingId: string, price: string) => {
+    async (listingId: string | number, price: string | number) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
       }
       try {
-        return await delist('buyNow', [formatBytes32String(listingId), price], contract, account, library)
+        return await delist('buyNow', [formatBytes32String(String(listingId)), price], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
@@ -324,20 +333,26 @@ export const useBuyNow = (): ((listingId: string, price: string) => any) => {
   )
 }
 
-export const useDisputeAuction = (): ((listingId: string) => any) => {
+export const useDisputeAuction = (): ((listingId: string | number) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiMarketplace(true)
   const disputeAuction = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   useDisputeAuctionLogs(contract)
   return useCallback(
-    async (listingId: string) => {
+    async (listingId: string | number) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
       }
       try {
-        return await disputeAuction('disputeAuction', [formatBytes32String(listingId)], contract, account, library)
+        return await disputeAuction(
+          'disputeAuction',
+          [formatBytes32String(String(listingId))],
+          contract,
+          account,
+          library
+        )
       } catch (e) {
         console.log('error', e)
         return e
@@ -347,20 +362,26 @@ export const useDisputeAuction = (): ((listingId: string) => any) => {
   )
 }
 
-export const useFreeReserves = (): ((listingId: string) => any) => {
+export const useFreeReserves = (): ((listingId: string | number) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiMarketplace(true)
   const freeReserves = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   useUserReservesFreeLogs(contract)
   return useCallback(
-    async (listingId: string) => {
+    async (listingId: string | number) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
       }
       try {
-        return await freeReserves('disputeAuction', [formatBytes32String(listingId)], contract, account, library)
+        return await freeReserves(
+          'disputeAuction',
+          [formatBytes32String(String(listingId))],
+          contract,
+          account,
+          library
+        )
       } catch (e) {
         console.log('error', e)
         return e
@@ -401,24 +422,24 @@ export const useGetServiceFee = () => {
   }, [contract])
 }
 
-export const useWinnerBid = (): ((listingId: string) => any) => {
+export const useWinnerBid = (): ((listingId: string | number) => any) => {
   const contract = useStartFiMarketplace(false)
   return useCallback(
-    async (listingId: string) => {
-      const bidWinner = await evaluateTransaction(contract, 'winnerBid', [formatBytes32String(listingId)])
+    async (listingId: string | number) => {
+      const bidWinner = await evaluateTransaction(contract, 'winnerBid', [formatBytes32String(String(listingId))])
       return bidWinner
     },
     [contract]
   )
 }
 
-export const useGetAuctionBidDetails = (): ((listingId: string, bidder: string) => any) => {
+export const useGetAuctionBidDetails = (): ((listingId: string | number, bidder: string) => any) => {
   const contract = useStartFiMarketplace(false)
   return useCallback(
-    async (listingId: string, bidder: string) => {
+    async (listingId: string | number, bidder: string) => {
       try {
         const auctionBidDetails = await evaluateTransaction(contract, 'getAuctionBidDetails', [
-          formatBytes32String(listingId),
+          formatBytes32String(String(listingId)),
           bidder
         ])
         return parseBigNumber(auctionBidDetails)
@@ -430,12 +451,14 @@ export const useGetAuctionBidDetails = (): ((listingId: string, bidder: string) 
     [contract]
   )
 }
-export const useGetListingDetails = (): ((listingId: string) => any) => {
+export const useGetListingDetails = (): ((listingId: string | number) => any) => {
   const contract = useStartFiMarketplace(false)
   return useCallback(
-    async (listingId: string) => {
+    async (listingId: string | number) => {
       try {
-        const listingDetails = await evaluateTransaction(contract, 'getListingDetails', [listingId])
+        const listingDetails = await evaluateTransaction(contract, 'getListingDetails', [
+          formatBytes32String(String(listingId))
+        ])
         return parseBigNumber(listingDetails)
       } catch (e) {
         console.log(e)
