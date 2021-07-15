@@ -7,7 +7,7 @@ import { useUserWishList } from 'state/user/hooks'
 import Text from '../Text'
 import WishCard from './WishCard'
 import { NoListContainer } from './WishList.styles'
-import TrackVisibility from 'react-on-screen'
+
 
 const WishList = () => {
   const history = useHistory()
@@ -21,9 +21,9 @@ const WishList = () => {
 
       {userWishList.length > 0 ? (
         userWishList.map((auction: AuctionNFT) => (
-          <TrackVisibility>
-            <WishCard isVisible cardContent={auction}></WishCard>
-          </TrackVisibility>
+
+             <WishCard key={auction.auction.id} cardContent={auction} ></WishCard>
+
         ))
       ) : (
         <NoListContainer>
