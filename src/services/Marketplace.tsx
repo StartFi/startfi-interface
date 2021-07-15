@@ -1,6 +1,6 @@
 import { Bid } from './models/Bid'
 import { NFT } from './models/NFT'
-import { addBidToAuction, editAuction, getAuction, getAuctions } from './database/Auction'
+import { addAuction, addBidToAuction, editAuction, getAuction, getAuctions } from './database/Auction'
 import { getUser } from './database/User'
 import { addNFT, editNFT, getNFT, getNFTs } from './database/NFT'
 import { addBid } from './database/Bid'
@@ -10,13 +10,21 @@ import { Auction } from './models/Auction'
 import { DEFAULTSORT } from './../constants'
 
 export const mintNFT = async (nft: NFT) => {
-  //get from blockchain or compute
   const hash = ''
   nft.id = 0
   nft.txtHash = hash
   const nftAdded = await addNFT(nft)
   const status = checkSuccess({ nftAdded })
   return { status, nftAdded, hash }
+}
+
+export const AddToMarketplace = async (auction: Auction) => {
+  const hash = ''
+  auction.id = '0'
+  auction.listingTxt = hash
+  const auctionAdded = await addAuction(auction)
+  const status = checkSuccess({ auctionAdded })
+  return { status, auctionAdded, hash }
 }
 
 export interface NFTQUERY {

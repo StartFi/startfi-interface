@@ -28,9 +28,9 @@ const Edit = styled(Row)`
 `
 
 interface EditableBoxProps {
-  editable: boolean
+  editable?: boolean
   children: React.ReactNode
-  link: string
+  link?: string
   state?: Dictionary
 }
 
@@ -40,7 +40,7 @@ const EditableBox: React.FC<EditableBoxProps> = ({ editable, children, link, sta
   return (
     <Box>
       {editable && (
-        <Edit onClick={() => history.push(link, state)}>
+        <Edit onClick={() => link ? history.push(link, state) : null}>
           <img src={Icon} alt="Edit" />
           <div>Edit</div>
         </Edit>

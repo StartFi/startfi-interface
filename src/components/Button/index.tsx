@@ -378,7 +378,9 @@ interface ButtonMintProps {
 }
 
 export const ButtonMint = styled(ButtonPrimary)<ButtonMintProps>`
-  width: 10vw;
+  min-width: 10vw;
+  width: fit-content;
+  padding: 0 2vw;
   height: 6vh;
   font-size: 1rem;
   background-color: ${({ disabled }) => (disabled ? '#C2C2C2' : 'black')};

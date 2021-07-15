@@ -1,3 +1,4 @@
+import { Modal } from 'components/WaitingConfirmation'
 import styled from 'styled-components'
 import { Row } from './../../theme'
 
@@ -114,4 +115,20 @@ export const Info = styled.div`
 
 export const Columns = styled(Row)`
   align-items: flex-start;
+`
+
+export const PaymentModal = styled(Modal)`
+  background: #fafafa;
+  border: 1px solid #d8d8d8;
+`
+
+export const Royalty = styled(Row)`
+  font-weight: bold;
+  width: 75%;
+  text-align: left;
+  justify-content: flex-start;
+`
+
+export const Approx = styled.div`
+  margin: 0 1vw;
 `

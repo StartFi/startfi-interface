@@ -15,9 +15,12 @@ import {
   getMarketplaceAction,
   placeBidAction,
   setBidOrBuy,
-  saveNFT
+  saveNFT,
+  saveAuction,
+  addToMarketplaceAction
 } from './actions'
 import { usePopup } from 'state/application/hooks'
+import { Auction } from 'services/models/Auction'
 
 export const useMarketplace = (): AuctionNFT[] => {
   return useSelector((state: AppState) => state.marketplace.marketplace)
@@ -55,6 +58,10 @@ export const useNFT = (): NFT | null => {
   return useSelector((state: AppState) => state.marketplace.nft)
 }
 
+export const useAuction = (): Auction | null => {
+  return useSelector((state: AppState) => state.marketplace.auction)
+}
+
 export const useSetBidOrBuy = (): ((bidOrBuy: boolean, value: number) => void) => {
   const dispatch = useDispatch()
   return useCallback((bidOrBuy: boolean, value: number) => dispatch(setBidOrBuy({ bidOrBuy, value })), [dispatch])
@@ -63,6 +70,11 @@ export const useSetBidOrBuy = (): ((bidOrBuy: boolean, value: number) => void) =
 export const useSaveNFT = (): ((nft: NFT) => void) => {
   const dispatch = useDispatch()
   return useCallback((nft: NFT) => dispatch(saveNFT({ nft })), [dispatch])
+}
+
+export const useSaveAuction = (): ((auction: Auction) => void) => {
+  const dispatch = useDispatch()
+  return useCallback((auction: Auction) => dispatch(saveAuction({ auction })), [dispatch])
 }
 
 export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
@@ -95,6 +107,20 @@ export const useMintNFT = (): (() => void) => {
       dispatch(mintNFTAction({ ...nft, owner, issuer: owner, issueDate: new Date() }))
     } else popup({ success: false, message: 'Connect wallet or no NFT data' })
   }, [nft, owner, popup, dispatch])
+}
+
+export const useAddToMarketplace = (): (() => void) => {
+  const dispatch = useDispatch()
+  const seller = useUserAddress()
+  const popup = usePopup()
+  const nft = useNFT()
+  const auction = useAuction()
+
+  return useCallback(() => {
+    if (seller && auction && nft) {
+      dispatch(addToMarketplaceAction({ ...auction, nft: nft.id, seller, listTime: new Date() }))
+    } else popup({ success: false, message: 'Connect wallet or no Auction data' })
+  }, [auction, nft, seller, popup, dispatch])
 }
 
 export const useGetAuctionNFT = (nftId: number, auctionId: string) => {

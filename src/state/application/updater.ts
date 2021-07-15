@@ -46,20 +46,22 @@ export default function Updater(): null {
     [chainId, setState]
   )
 
-  useEffect(()=>{
+  useEffect(() => {
     if (userPopup) {
       popup(userPopup)
       clearUserPopup()
       if (userPopup.type === 'SaveDraft' && userPopup.success) history.push('/')
     }
-  },[userPopup, history, popup, clearUserPopup, dispatch])
+  }, [userPopup, history, popup, clearUserPopup, dispatch])
 
-  useEffect(()=>{
+  useEffect(() => {
     if (marketplacePopup) {
       popup(marketplacePopup)
       clearMarketplacePoup()
+      if (marketplacePopup.type === 'AddToMarketplace' && marketplacePopup.success)
+        history.push('/mint/addedtomarketplace')
     }
-  },[marketplacePopup, history, popup, clearMarketplacePoup, dispatch])
+  }, [marketplacePopup, history, popup, clearMarketplacePoup, dispatch])
 
   // attach/detach listeners
   useEffect(() => {
