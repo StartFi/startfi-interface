@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StepProps } from '../../constants'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
@@ -32,6 +32,8 @@ const Text = styled.div`
 const Step3: React.FC<StepProps> = ({ state, handleChange }: StepProps) => {
   const { t } = useTranslation()
 
+  const [royalty, setRoyalty] = useState(false)
+
   return (
     <React.Fragment>
       <Margin>
@@ -39,29 +41,25 @@ const Step3: React.FC<StepProps> = ({ state, handleChange }: StepProps) => {
       </Margin>
       <Radios>
         <div>
-          <input
-            type="radio"
-            name="royaltyShare"
-            value="true"
-            checked={state.royaltyShare === 'true'}
-            onChange={handleChange}
-          />
+          <input type="radio" checked={royalty} onChange={() => setRoyalty(true)} />
           <RadioLabel>{t('allowed')}</RadioLabel>
         </div>
         <div>
-          <input
-            type="radio"
-            name="royaltyShare"
-            value="false"
-            checked={state.royaltyShare === 'false'}
-            onChange={handleChange}
-          />
+          <input type="radio" checked={!royalty} onChange={() => setRoyalty(false)} />
           <RadioLabel>{t('notAllowed')}</RadioLabel>
         </div>
       </Radios>
-      {state.royaltyShare === 'true' && (
+      {royalty && (
         <Royalty>
-          <Input name="royalty" value={state.royalty} onChange={handleChange} currency="%" number />
+          <Input
+            name="royalty"
+            value={state.royalty}
+            onChange={handleChange}
+            currency="%"
+            outlineWidth="6vw"
+            inputWidth="3vw"
+            number
+          />
           <Text>Per Each resell</Text>
         </Royalty>
       )}

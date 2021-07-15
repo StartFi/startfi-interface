@@ -6,6 +6,7 @@ import Increment from './../../assets/icons/increment.svg'
 import Pause from './../../assets/icons/pause.svg'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import Label from './Label'
 
 export const InputBase = styled.input`
   box-sizing: border-box;
@@ -110,7 +111,7 @@ export const InputFile = ({ name, label, value, onChange, error, progress, filen
         )}
       </InputFileHeader>
       <InputFileFooter>
-        <FileInput onClick={() => progress === 0 ? ref.current?.click() : null} minWidth="11vw" error={error}>
+        <FileInput onClick={() => (progress === 0 ? ref.current?.click() : null)} minWidth="11vw" error={error}>
           <input
             type="file"
             name={name}
@@ -122,8 +123,8 @@ export const InputFile = ({ name, label, value, onChange, error, progress, filen
               onChange(e)
             }}
           />
-          <div>{t(progress === 0 ? 'upload' : (progress === 100 ? 'uploaded' : 'uploading'))}</div>
-          <img src={progress === 0 ? Upload : (progress === 100 ? Check : Pause)} alt="Upload file" />
+          <div>{t(progress === 0 ? 'upload' : progress === 100 ? 'uploaded' : 'uploading')}</div>
+          <img src={progress === 0 ? Upload : progress === 100 ? Check : Pause} alt="Upload file" />
         </FileInput>
         {filename && (
           <FileInput minWidth="28vw">
@@ -153,15 +154,13 @@ const InputOutline = styled.textarea`
   resize: none;
 `
 
-const Label = styled.div`
-  margin-right: 2vw;
-`
-
-export const LabelBlack = styled(Label)`
+export const LabelBlack = styled.div`
+  margin-right: 1vw;
   color: black;
 `
 
-export const LabelGrey = styled(Label)`
+export const LabelGrey = styled.div`
+  margin-right: 2vw;
   color: #7e7e7e;
 `
 
@@ -186,16 +185,20 @@ const Character = styled.div`
   align-self: flex-end;
 `
 
-export const InputNumber = styled.input`
+interface InputNumberProps {
+  readonly width?: number
+}
+
+export const InputNumber = styled.input<InputNumberProps>`
   border: none;
   outline: none;
-  width: 3vw;
+  width: ${({ width }) => (width ? width : '7vw')};
 `
 
-export const OutlineNumber = styled.div`
+export const OutlineNumber = styled.div<InputNumberProps>`
   display: flex;
   flex-flow: row nowrap;
-  width: 6vw;
+  width: ${({ width }) => (width ? width : '12vw')};
   height: 7vh;
   background-color: #ffffff;
   border: 1px solid #dddddd;
@@ -238,8 +241,11 @@ export const Input = ({
   number,
   characters,
   height,
+  outlineWidth,
+  inputWidth,
   error,
-  currency
+  currency,
+  question
 }: any) => {
   const { t } = useTranslation()
 
@@ -264,7 +270,7 @@ export const Input = ({
     <InputContainer direction={number ? 'row' : 'column'} align={number ? 'center' : 'flex-start'}>
       {number ? (
         label ? (
-          <LabelBlack>{t(label)}</LabelBlack>
+          <Label text={t(label)} question={question} />
         ) : null
       ) : value || textarea || underline ? (
         <div onClick={() => (underline ? setUnderlineClick(false) : null)} style={{ width: '100%' }}>
@@ -289,8 +295,8 @@ export const Input = ({
         </Outline>
       )}
       {number && (
-        <OutlineNumber>
-          <InputNumber name={name} type="number" onChange={handleChange} value={value} />
+        <OutlineNumber width={outlineWidth || '12vw'}>
+          <InputNumber name={name} type="number" onChange={handleChange} value={value} width={inputWidth || '7vw'} />
           {currency ? currency : 'STFI'}
         </OutlineNumber>
       )}

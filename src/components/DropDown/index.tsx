@@ -25,6 +25,7 @@ const Container = styled.div<WidthProps>`
 `
 
 const LabelRow = styled(Row)`
+  min-height: 6vh;
   border: 1px solid #dddddd;
   box-sizing: border-box;
   border-radius: 8px;

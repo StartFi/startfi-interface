@@ -12,10 +12,11 @@ interface LabelProps {
 
 const Container = styled(Row)`
   justify-content: flex-start;
+  width: fit-content;
 `
 
 const MarginLeft = styled.div`
-  margin-left: 2vw;
+  margin-right: 2vw;
 `
 
 const Label: React.FC<LabelProps> = ({ text, question }) => {

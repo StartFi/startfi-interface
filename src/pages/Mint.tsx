@@ -1,5 +1,5 @@
-import MintingCongrats from 'components/MintingCongrats/mintingCongrats'
 import MintNFT from 'components/MintNFT'
+import AddedToMarketplace from 'components/MintNFT/AddedToMarketplace'
 import Header from 'components/MintNFT/Header'
 import NFTSummary from 'components/MintNFT/NFTSummary'
 import React from 'react'
@@ -18,7 +18,7 @@ const Mint: React.FC = () => {
       <Header />
       <Route path="/mint/steps" component={MintNFT} />
       <Route path="/mint/summary" component={NFTSummary} />
-      <Route path="/mint/minted" component={MintingCongrats} />
+      <Route path="/mint/addedtomarketplace" component={AddedToMarketplace} />
     </Container>
   )
 }

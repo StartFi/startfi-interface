@@ -31,7 +31,7 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"royaltyInfo\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"issuer\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_royaltyAmount\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/yehia/Documents/startups/Startfi/projects/startfi/startfi-core/contracts/interface/IERC721Royalty.sol\":\"IERC721Royalty\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":999999},\"remappings\":[]},\"sources\":{\"/home/yehia/Documents/startups/Startfi/projects/startfi/startfi-core/contracts/interface/IERC721Royalty.sol\":{\"keccak256\":\"0x8ce52008cb269ca93b527e46f9e6250c018feda6b083276e2ffc806dc72ce23a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://d43ee624d3a8509ef5572bb2717384bc8d62c3ca39c547d65fec808c26d938c4\",\"dweb:/ipfs/QmSchrBzQcqZZEMrueFQJ6dfHuysvZ92vn6tYYiHodQZ1R\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"royaltyInfo\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"issuer\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_royaltyAmount\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/yehia/Documents/startups/Startfi/projects/startfi/startfi-core/contracts/interface/IERC721Royalty.sol\":\"IERC721Royalty\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":999999},\"remappings\":[]},\"sources\":{\"/home/yehia/Documents/startups/Startfi/projects/startfi/startfi-core/contracts/interface/IERC721Royalty.sol\":{\"keccak256\":\"0x2bc5df5a2963d9d776f4c778a2233a81a9522a9dda872018c929de0322ba1801\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8cb5f385b70d0faed2ec76f45285e89fa206fc9f036c87fe905af3784d9fbee9\",\"dweb:/ipfs/QmSaKtkiRsia6X6vHUVXsWGYR5jJReVmvToNGjbWzfAYxg\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -39,21 +39,21 @@
   "deployedGeneratedSources": [],
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\ninterface IERC721Royalty {\n function royaltyInfo(uint256 _tokenId, uint256 _value) external view returns (address issuer, uint256 _royaltyAmount) ;  \n}",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\ninterface IERC721Royalty {\n  function royaltyInfo(uint256 _tokenId, uint256 _value) external view returns (address issuer, uint256 _royaltyAmount) ;  \n}",
   "sourcePath": "/home/yehia/Documents/startups/Startfi/projects/startfi/startfi-core/contracts/interface/IERC721Royalty.sol",
   "ast": {
     "absolutePath": "/home/yehia/Documents/startups/Startfi/projects/startfi/startfi-core/contracts/interface/IERC721Royalty.sol",
     "exportedSymbols": {
       "IERC721Royalty": [
-        1799
+        3237
       ]
     },
-    "id": 1800,
+    "id": 3238,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1787,
+        "id": 3225,
         "literals": [
           "solidity",
           "^",
@@ -61,7 +61,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "32:23:9"
+        "src": "32:23:13"
       },
       {
         "abstract": false,
@@ -69,33 +69,33 @@
         "contractDependencies": [],
         "contractKind": "interface",
         "fullyImplemented": false,
-        "id": 1799,
+        "id": 3237,
         "linearizedBaseContracts": [
-          1799
+          3237
         ],
         "name": "IERC721Royalty",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "functionSelector": "2a55205a",
-            "id": 1798,
+            "id": 3236,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "royaltyInfo",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1792,
+              "id": 3230,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1789,
+                  "id": 3227,
                   "mutability": "mutable",
                   "name": "_tokenId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1798,
-                  "src": "105:16:9",
+                  "scope": 3236,
+                  "src": "106:16:13",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -103,10 +103,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1788,
+                    "id": 3226,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "105:7:9",
+                    "src": "106:7:13",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -116,12 +116,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1791,
+                  "id": 3229,
                   "mutability": "mutable",
                   "name": "_value",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1798,
-                  "src": "123:14:9",
+                  "scope": 3236,
+                  "src": "124:14:13",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -129,10 +129,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1790,
+                    "id": 3228,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "123:7:9",
+                    "src": "124:7:13",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -141,20 +141,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "104:34:9"
+              "src": "105:34:13"
             },
             "returnParameters": {
-              "id": 1797,
+              "id": 3235,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1794,
+                  "id": 3232,
                   "mutability": "mutable",
                   "name": "issuer",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1798,
-                  "src": "162:14:9",
+                  "scope": 3236,
+                  "src": "163:14:13",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -162,10 +162,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1793,
+                    "id": 3231,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "162:7:9",
+                    "src": "163:7:13",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -176,12 +176,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1796,
+                  "id": 3234,
                   "mutability": "mutable",
                   "name": "_royaltyAmount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1798,
-                  "src": "178:22:9",
+                  "scope": 3236,
+                  "src": "179:22:13",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -189,10 +189,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1795,
+                    "id": 3233,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "178:7:9",
+                    "src": "179:7:13",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -201,34 +201,34 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "161:40:9"
+              "src": "162:40:13"
             },
-            "scope": 1799,
-            "src": "84:119:9",
+            "scope": 3237,
+            "src": "85:119:13",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 1800,
-        "src": "56:151:9"
+        "scope": 3238,
+        "src": "56:152:13"
       }
     ],
-    "src": "32:175:9"
+    "src": "32:176:13"
   },
   "legacyAST": {
     "absolutePath": "/home/yehia/Documents/startups/Startfi/projects/startfi/startfi-core/contracts/interface/IERC721Royalty.sol",
     "exportedSymbols": {
       "IERC721Royalty": [
-        1799
+        3237
       ]
     },
-    "id": 1800,
+    "id": 3238,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1787,
+        "id": 3225,
         "literals": [
           "solidity",
           "^",
@@ -236,7 +236,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "32:23:9"
+        "src": "32:23:13"
       },
       {
         "abstract": false,
@@ -244,33 +244,33 @@
         "contractDependencies": [],
         "contractKind": "interface",
         "fullyImplemented": false,
-        "id": 1799,
+        "id": 3237,
         "linearizedBaseContracts": [
-          1799
+          3237
         ],
         "name": "IERC721Royalty",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "functionSelector": "2a55205a",
-            "id": 1798,
+            "id": 3236,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "royaltyInfo",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1792,
+              "id": 3230,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1789,
+                  "id": 3227,
                   "mutability": "mutable",
                   "name": "_tokenId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1798,
-                  "src": "105:16:9",
+                  "scope": 3236,
+                  "src": "106:16:13",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -278,10 +278,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1788,
+                    "id": 3226,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "105:7:9",
+                    "src": "106:7:13",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -291,12 +291,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1791,
+                  "id": 3229,
                   "mutability": "mutable",
                   "name": "_value",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1798,
-                  "src": "123:14:9",
+                  "scope": 3236,
+                  "src": "124:14:13",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -304,10 +304,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1790,
+                    "id": 3228,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "123:7:9",
+                    "src": "124:7:13",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -316,20 +316,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "104:34:9"
+              "src": "105:34:13"
             },
             "returnParameters": {
-              "id": 1797,
+              "id": 3235,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1794,
+                  "id": 3232,
                   "mutability": "mutable",
                   "name": "issuer",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1798,
-                  "src": "162:14:9",
+                  "scope": 3236,
+                  "src": "163:14:13",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -337,10 +337,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1793,
+                    "id": 3231,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "162:7:9",
+                    "src": "163:7:13",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -351,12 +351,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1796,
+                  "id": 3234,
                   "mutability": "mutable",
                   "name": "_royaltyAmount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1798,
-                  "src": "178:22:9",
+                  "scope": 3236,
+                  "src": "179:22:13",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -364,10 +364,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1795,
+                    "id": 3233,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "178:7:9",
+                    "src": "179:7:13",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -376,20 +376,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "161:40:9"
+              "src": "162:40:13"
             },
-            "scope": 1799,
-            "src": "84:119:9",
+            "scope": 3237,
+            "src": "85:119:13",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 1800,
-        "src": "56:151:9"
+        "scope": 3238,
+        "src": "56:152:13"
       }
     ],
-    "src": "32:175:9"
+    "src": "32:176:13"
   },
   "compiler": {
     "name": "solc",
@@ -397,7 +397,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-06-13T12:10:06.187Z",
+  "updatedAt": "2021-06-26T21:59:36.960Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
+import Step7 from './Step7'
 import Step1Icon from './../../assets/icons/step1.svg'
 import Step2Icon from './../../assets/icons/step2.svg'
 import Step3Icon from './../../assets/icons/step3.svg'
@@ -13,7 +14,8 @@ import { NFT } from 'services/models/NFT'
 import { Row } from 'theme/components'
 import { usePopup } from 'state/application/hooks'
 import { useHistory } from 'react-router-dom'
-import { useNFT, useSaveNFT } from 'state/marketplace/hooks'
+import { useAuction, useNFT, useSaveAuction, useSaveNFT } from 'state/marketplace/hooks'
+import { Auction } from 'services/models/Auction'
 
 const Container = styled.div`
   display: flex;
@@ -55,10 +57,14 @@ const Card: React.FC<CardProps> = ({ currentStep }) => {
 
   const saveNFT = useSaveNFT()
 
-  const Nft = useNFT()
+  const saveAuction = useSaveAuction()
+
+  const savedNFT = useNFT()
+
+  const savedAuction = useAuction()
 
   const [nft, setNFT] = useState<NFT>(
-    Nft || {
+    savedNFT || {
       id: 0,
       category: '',
       dataHash: '',
@@ -72,6 +78,22 @@ const Card: React.FC<CardProps> = ({ currentStep }) => {
       royalty: 0
     }
   )
+
+  const [auction, setAuction] = useState<Auction>(savedAuction || {
+    id: 'string',
+    nft: 0,
+    listingPrice: 0,
+    seller: '',
+    expireTimestamp: 0,
+    isForSale: false,
+    isForBid: false,
+    bids: [],
+    listTime: new Date(),
+    listingTxt: '',
+    status: 'open',
+    minBid: 0,
+    qualifyAmount: 0
+  })
 
   const [missing, setMissing] = useState<string[]>([])
 
@@ -118,12 +140,14 @@ const Card: React.FC<CardProps> = ({ currentStep }) => {
         }
         break
       case 3:
+
         if ((nft.royaltyShare === 'true' && !newMissing.includes('royalty')) || nft.royaltyShare === 'false') {
           setMissing([])
           saveNFT(nft)
           return history.push('summary')
         }
       break
+
       default:
     }
     setMissing(newMissing)
@@ -137,6 +161,8 @@ const Card: React.FC<CardProps> = ({ currentStep }) => {
         return Step2Icon
       case 3:
         return Step3Icon
+      case 7:
+        return
       default:
     }
     return Step1Icon
@@ -150,6 +176,8 @@ const Card: React.FC<CardProps> = ({ currentStep }) => {
         return <Step2 state={nft} handleChange={handleChange} missing={missing} />
       case 3:
         return <Step3 state={nft} handleChange={handleChange} missing={missing} />
+      case 7:
+        return <Step7 auction={auction} setAuction={setAuction} />
       default:
         return null
     }
@@ -162,21 +190,23 @@ const Card: React.FC<CardProps> = ({ currentStep }) => {
           <Title>{t('mintNFTTitle')}</Title>
           <Underline />
         </div>
-        <img src={StepIcon()} alt="Step" />
+        {StepIcon() && <img src={StepIcon()} alt="Step" />}
       </Header>
       {Step()}
       <Footer>
-        <ButtonMintBack onClick={() => (step > 1 ? setStep(step - 1) : null)}>{t('back')}</ButtonMintBack>
+        <ButtonMintBack onClick={() => (step > 1 && step < 4 ? setStep(step - 1) : null)}>{t('back')}</ButtonMintBack>
         <ButtonDraft
           onClick={() =>
-            nft.category || nft.dataHash || nft.name || nft.description
+            step < 4 ?
+            (nft.category || nft.dataHash || nft.name || nft.description
               ? saveDraft(nft)
-              : popup({ success: false, message: 'No data entered to save' })
+              : popup({ success: false, message: 'No data entered to save' }))
+              : history.push('/inventory/off-market/' + nft.id)
           }
         >
-          {t('saveDraft')}
+          {t(step === 7 ? 'saveAtOffMarketplace' : 'saveDraft')}
         </ButtonDraft>
-        <ButtonMint onClick={() => next()}>{t(step < 3 ? 'next' : 'submit')}</ButtonMint>
+        <ButtonMint onClick={() => next()}>{t(step !== 3 ? 'next' : 'submit')}</ButtonMint>
       </Footer>
     </Container>
   )

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import StartFi from '../../assets/svg/StartFi-c 1.svg'
+import LoaderStartfi from 'components/Loader/Loader'
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -89,6 +90,7 @@ export const LandingPage = () => {
 
   return (
     <PageWrapper>
+      <LoaderStartfi/>
       <Header>
         <InnerHeader>
           <LinkCreateNFT to="/mint/steps">{t('mintNFT')}</LinkCreateNFT>
