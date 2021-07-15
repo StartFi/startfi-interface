@@ -22,8 +22,8 @@ const WishList = () => {
       {userWishList.length > 0 ? (
         userWishList.map((auction: AuctionNFT) => (
 
-             <WishCard  cardContent={auction}></WishCard>
-       
+             <WishCard key={auction.auction.id} cardContent={auction} ></WishCard>
+
         ))
       ) : (
         <NoListContainer>

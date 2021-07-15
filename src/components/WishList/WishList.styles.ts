@@ -5,14 +5,11 @@ export const TextContainer = styled.div`
   display: flex;
   margin: 18px 25px 25px 10px;
   flex-direction: column;
-  justify-content: space-between;
 `
 export const RemoveContainer = styled('div')<{ opacity?: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: -10px;
-  /* margin-top: -5px; */
 
   & div {
     display: flex;
@@ -24,7 +21,6 @@ export const RemoveContainer = styled('div')<{ opacity?: boolean }>`
       width: 20px;
       position: relative;
       left: 10px;
-      /* margin-top: 30px; */
     }
   }
 `
@@ -38,7 +34,6 @@ export const ImgDIV = styled.div`
     width: 128px;
     height: 103px;
     border-radius: 4px;
-
   }
 `
 export const WishListCard = styled.div`
@@ -49,12 +44,6 @@ export const WishListCard = styled.div`
   background-color: #ffffff;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.135216);
   border-radius: 8px;
-  /* & img {
-    width: 128px;
-    height: 103px;
-    border-radius: 4px;
-    margin: 26px 25px 28px 27px;
-  } */
 
   &:hover {
     ${RemoveContainer} {
@@ -103,4 +92,31 @@ export const NoListContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`
+
+export const Counter = styled.div`
+  display: inline-block;
+  & p {
+    display: inline-block;
+  }
+  & :first-child {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 1rem;
+    color: #000000;
+    margin-right: 2px;
+  }
+  & :last-child {
+    margin-right: 5px;
+  }
+`
+
+export const CounterContainer = styled.div`
+  width: 321px;
+  height: 33px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  background-color: #eaeaea;
 `
