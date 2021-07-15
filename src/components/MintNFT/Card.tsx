@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
-import {datatype as faker} from 'faker'
+import { datatype as faker } from 'faker'
 import styled from 'styled-components'
 import Step1 from './Step1'
 import Step2 from './Step2'
@@ -43,7 +43,11 @@ const Footer = styled.div`
   margin-top: auto;
 `
 
-const Card: React.FC = () => {
+interface MintCardProps {
+  draft: NFT
+}
+
+const Card: React.FC<MintCardProps> = ({ draft }) => {
   const { t } = useTranslation()
 
   const mintNFT = useMintNFT()
@@ -51,7 +55,7 @@ const Card: React.FC = () => {
   const saveDraft = useSaveDraft()
 
   const [nft, setNFT] = useState<NFT>({
-    id: faker.number({'min': 5,'max': 5}),
+    id: faker.number({ min: 5, max: 5 }),
     uuid: faker.uuid(),
     category: '',
     dataHash: '',
@@ -105,8 +109,7 @@ const Card: React.FC = () => {
       case 2:
         if (['name', 'description'].filter(f => newMissing.includes(f)).length === 0) {
           setMissing([])
-          console.log(nft);
-          
+
           mintNFT(nft)
         }
         break
@@ -130,6 +133,12 @@ const Card: React.FC = () => {
     return Step1Icon
   }
 
+  useEffect(() => {
+    if (draft) {
+      setNFT(draft)
+    }
+  }, [draft])
+
   return (
     <Container>
       <Header>
@@ -137,10 +146,11 @@ const Card: React.FC = () => {
           <Title>{t('mintNFTTitle')}</Title>
           <Underline />
         </div>
-        <img src={StepIcon()} alt="Step" />
+        <img src={StepIcon()} alt='Step' />
       </Header>
+
       {step === 1 ? (
-        <Step1 state={nft} handleChange={handleChange} missing={missing} />
+        <Step1 state={nft} draft={draft} handleChange={handleChange} missing={missing} />
       ) : step === 2 ? (
         <Step2 state={nft} handleChange={handleChange} missing={missing} />
       ) : (
@@ -148,12 +158,17 @@ const Card: React.FC = () => {
       )}
       <Footer>
         <ButtonMintBack onClick={() => (step > 1 ? setStep(step - 1) : null)}>{t('back')}</ButtonMintBack>
+
         <ButtonDraft
-          onClick={() => (nft.category || nft.dataHash || nft.name || nft.description) ?
-                saveDraft(nft) : popup({success:false,message:'No data entered to save'})}
+          onClick={() =>
+            nft.category || nft.dataHash || nft.name || nft.description
+              ? saveDraft(nft)
+              : popup({ success: false, message: 'No data entered to save' })
+          }
         >
           {t('saveDraft')}
         </ButtonDraft>
+
         <ButtonMint onClick={() => next()}>{t(step === 1 ? 'next' : 'submit')}</ButtonMint>
       </Footer>
     </Container>

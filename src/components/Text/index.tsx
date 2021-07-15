@@ -24,7 +24,6 @@ const Text = styled('p')<{
   
 
 
-
   & span{
     margin-left:${({ marginLeft }) => marginLeft};
     font-weight: ${({ spanWeight }) => spanWeight};

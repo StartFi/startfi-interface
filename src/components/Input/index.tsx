@@ -98,7 +98,7 @@ export const InputFile = ({ name, label, value, onChange, error, progress, filen
     <div>
       <InputFileHeader>
         <LabelWithCheck text={label} Label={LabelBlack} error={error} />
-        {filename && (
+         {filename && (
           <ButtonFile
             onClick={() => {
               setFile('')

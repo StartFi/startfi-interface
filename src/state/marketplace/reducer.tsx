@@ -1,5 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit'
+
+// import { getNFTS } from 'services/database/Database'
+
 import { PopupContent } from './../../constants'
+
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import {
   mintNFTAction,
@@ -8,8 +12,9 @@ import {
   getAuctionNFTAction,
   getMarketplaceAction,
   placeBidAction,
-  setBidOrBuy,
+  setBidOrBuy
 } from './actions'
+import { NFT } from 'services/models/NFT'
 
 export interface MarketplaceState {
   marketplace: AuctionNFT[]
@@ -18,6 +23,7 @@ export interface MarketplaceState {
   bidOrBuy: boolean
   bidOrBuyValue: number
   confirmationLoading: boolean
+  NftDetails: NFT | null
   popup: PopupContent | null
 }
 
@@ -28,6 +34,9 @@ const initialState: MarketplaceState = {
   bidOrBuy: false,
   bidOrBuyValue: 0,
   confirmationLoading: false,
+
+  NftDetails: null,
+
   popup: null
 }
 
@@ -83,6 +92,7 @@ export default createReducer(initialState, builder =>
       state.bidOrBuy = bidOrBuy
       state.bidOrBuyValue = value
     })
+
     .addCase(clearMarketplacePopup, (state, action) => {
       state.popup = null
     })

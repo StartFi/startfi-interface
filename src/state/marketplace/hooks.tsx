@@ -13,6 +13,7 @@ import {
   clearMarketplacePopup,
   getAuctionNFTAction,
   getMarketplaceAction,
+
   placeBidAction,
   setBidOrBuy,
 } from './actions'
@@ -64,7 +65,6 @@ export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
 
 export const useLoadNFTs = (): void => {
   const dispatch = useDispatch()
-
   useEffect(() => {
     dispatch(getMarketplaceAction())
   }, [dispatch])
@@ -132,9 +132,18 @@ export const useBuyNFT = (): (() => void) => {
   }, [soldPrice, auctionNFT, buyer, popup, dispatch])
 }
 
+
+
+
+
+export const useNFTDetails =()=>{
+  return useSelector((state: AppState) => state.marketplace.NftDetails)}
+
 export const useClearMarketplacePopup = () => {
   const dispatch = useDispatch()
+
   return useCallback(() => {
     dispatch(clearMarketplacePopup())
   }, [dispatch])
 }
+

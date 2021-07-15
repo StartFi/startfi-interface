@@ -376,19 +376,21 @@ export const ButtonSearch = styled(ButtonPrimary)`
   font-size: 1.125rem;
 `
 
-export const ButtonMint = styled(ButtonPrimary)`
-  width: 10vw;
+export const ButtonMint = styled(ButtonPrimary)<{ width?: string }>`
+  width: ${({ width }) => width ?? '10vw'};
   height: 6vh;
   font-size: 1rem;
+  cursor: pointer;
 `
 
-export const ButtonDraft = styled(ButtonMint)`
+export const ButtonDraft = styled(ButtonMint)<{ width?: string }>`
   background-color: ${({ theme }) => theme.white};
   background-color: white;
   color: #929292;
   margin-right: 2vw;
   border: none;
   box-shadow: none;
+  width: ${({ width }) => width};
   :hover {
     background-color: ${({ theme }) => theme.white};
     color: #929292;
