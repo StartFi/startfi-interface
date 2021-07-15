@@ -188,27 +188,25 @@ const NFTsHeader: React.FC = () => {
           const approver_third = await getApproverAddress(2) // return '0x0000000000000000000000000000000000000000' mean empty
           console.log('approver', approver_third)
           if (STARTFI_MARKET_PLACE_ADDRESS !== approver_third) {
-            approveNft(STARTFI_MARKET_PLACE_ADDRESS, 0)
+            approveNft(STARTFI_MARKET_PLACE_ADDRESS, 2)
+          }
+          const approver_fourth = await getApproverAddress(3) // return '0x0000000000000000000000000000000000000000' mean empty
+          console.log('approver', approver_fourth)
+          if (STARTFI_MARKET_PLACE_ADDRESS !== approver_fourth) {
+            approveNft(STARTFI_MARKET_PLACE_ADDRESS, 3)
           }
           const listOnMarketplace_first = await listMarketplace(STARTFI_NFT_ADDRESS, 0, 100)
           const listOnMarketplace_second = await listMarketplace(STARTFI_NFT_ADDRESS, 1, 100)
-          const listOnMarketplace_third = await listMarketplace(STARTFI_NFT_ADDRESS, 2, 100)
 
-          console.log(
-            'listed item to the marketplace',
-            listOnMarketplace_first,
-            listOnMarketplace_second,
-            listOnMarketplace_third
-          )
+          console.log('listed item to the marketplace', listOnMarketplace_first, listOnMarketplace_second)
 
-          const auction_first = await createAuction(STARTFI_NFT_ADDRESS, 0, 1, 11, true, 1, 10000000000000)
-          const auction_second = await createAuction(STARTFI_NFT_ADDRESS, 1, 1, 11, true, 1, 10000000000000)
-          const auction_third = await createAuction(STARTFI_NFT_ADDRESS, 2, 1, 11, true, 1, 10000000000000)
+          const auction_first = await createAuction(STARTFI_NFT_ADDRESS, 2, 1, 11, true, 1, 10000000000000)
+          const auction_second = await createAuction(STARTFI_NFT_ADDRESS, 3, 1, 11, true, 1, 10000000000000)
 
-          console.log('auction', auction_first, auction_second, auction_third)
+          console.log('auction', auction_first, auction_second)
 
-          const bidOnItem = await bid(0, STARTFI_STAKES_ADDRESS, 0, 1)
-          await bid(1, STARTFI_STAKES_ADDRESS, 1, 1) // will not fullfil that bid
+          const bidOnItem = await bid(0, STARTFI_NFT_ADDRESS, 0, 1)
+          await bid(1, STARTFI_NFT_ADDRESS, 1, 1) // will not fullfil that bid
           console.log('bid on item', bidOnItem)
           const fullfilBidOnItem = await fullfilBid(0)
           console.log('fullfil bid on item', fullfilBidOnItem)

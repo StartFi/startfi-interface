@@ -1,4 +1,5 @@
 import { Contract } from '@ethersproject/contracts'
+import { BigNumber } from 'ethers'
 import { CallState, NEVER_RELOAD, useSingleCallResult } from 'state/multicall/hooks'
 
 export function useEvaluateTransaction(
@@ -18,7 +19,7 @@ export function useEvaluateTransaction(
 export async function evaluateTransaction(
   contract: Contract | null,
   methodName: string,
-  args: Array<any>
+  args: Array<string | number | BigNumber>
 ): Promise<any> {
   try {
     const methods = await contract?.callStatic
