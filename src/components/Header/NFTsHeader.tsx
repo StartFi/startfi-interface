@@ -208,7 +208,12 @@ const NFTsHeader: React.FC = () => {
           const approver_third = await getApproverAddress(2) // return '0x0000000000000000000000000000000000000000' mean empty
           console.log('approver', approver_third)
           if (STARTFI_MARKET_PLACE_ADDRESS !== approver_third) {
-            approveNft(STARTFI_MARKET_PLACE_ADDRESS, 0)
+            approveNft(STARTFI_MARKET_PLACE_ADDRESS, 2)
+          }
+          const approver_fourth = await getApproverAddress(3) // return '0x0000000000000000000000000000000000000000' mean empty
+          console.log('approver', approver_fourth)
+          if (STARTFI_MARKET_PLACE_ADDRESS !== approver_fourth) {
+            approveNft(STARTFI_MARKET_PLACE_ADDRESS, 3)
           }
           const listOnMarketplace_first = await listMarketplace(STARTFI_NFT_ADDRESS, 0, 100)
        
