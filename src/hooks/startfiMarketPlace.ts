@@ -232,8 +232,6 @@ export const useCreateAuction = (): ((
 
 export const useBid = (): ((
   listingId: string | number,
-  tokenAddress: string,
-  tokenId: string | number,
   bidPrice: string | number
 ) => any) => {
   const { account, library } = useActiveWeb3React()
@@ -242,7 +240,7 @@ export const useBid = (): ((
   const toggleWalletModal = useWalletModalToggle()
   useBidOnAuctionLogs(contract)
   return useCallback(
-    async (listingId: string | number, tokenAddress: string, tokenId: string | number, bidPrice: string | number) => {
+    async (listingId: string | number, bidPrice: string | number) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`
@@ -250,7 +248,7 @@ export const useBid = (): ((
       try {
         return await bid(
           'bid',
-          [formatBytes32String(String(listingId)), tokenAddress, tokenId, bidPrice],
+          [formatBytes32String(String(listingId)) , bidPrice],
           contract,
           account,
           library

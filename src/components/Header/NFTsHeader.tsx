@@ -63,7 +63,7 @@ import {
 } from 'hooks/startfiMarketPlace'
 
 import { useActiveWeb3React } from 'hooks'
-import { useDeposit } from 'hooks/startfiStakes'
+import { useDeposit ,useGetReserves} from 'hooks/startfiStakes'
 /* End example never merge to the main  branch*/
 
 const Categories = ['All', ...CATEGORIES]
@@ -130,6 +130,7 @@ const NFTsHeader: React.FC = () => {
   /*End Marketplace tests */
   /*Start Staking tests */
   const depositStfiToken = useDeposit()
+  const getReserves = useGetReserves()
   /*End Staking tests */
 
   /* End example never merge to the main  branch*/
@@ -157,25 +158,44 @@ const NFTsHeader: React.FC = () => {
           /* Begin example never merge to the main  branch*/
 
           /*=======================MARKETPLACE=======================*/
-          const stfiToken = await getTokenInfo()
-          console.log('stfi token is', stfiToken)
-          const balance = await getTokenBalance(account as string)
-          if (balance === '0x00') {
-            new Error('User need some STFI token')
-          }
-          const marketPlaceServiceFee = await serviceFee()
-          console.log('marketPlaceServiceFee', marketPlaceServiceFee)
 
-          // check if user allowed the smart contract to spend token
+          /***************************** adding to marketplace include the following steps 
+           * 
+           *  @dev
+           * 1- if it's an list for sale " not auction", check users stakes if it's not enough, user has to stake. if it's auction skip this step
+           * 2-allow marketplace to spend the NFT
+           * 
+           * 
+           *  ******************************************* */
+
+       
+          // check to see how much stakes user has , user has to stake more to list on marketplace if his stakes is not enough
+          const currentStakes = await  getReserves(account as string);
+          console.log(currentStakes);
+          const balance2 = await getTokenBalance(account as string)
+          console.log(balance2,'balance');
+          console.log(`user stakes is ********${currentStakes}******`);
+          /*****************************if user has to stake more token, follow these steps ******************************************* */
+          
+        //  check if user allowed the smart contract to spend token
           const allowedAmountOfToken = await getAllowance(account as string, STARTFI_STAKES_ADDRESS)
+          console.log(" staking contract is allowed to transfer", allowedAmountOfToken);
+          
           if (allowedAmountOfToken === '0x00') {
             await approveToken(STARTFI_STAKES_ADDRESS, 9000000000)
-          }
+            console.log('deposit some token for staking, you need to stack token for Listing nft to marketplace')
+            const deposit = await depositStfiToken(account as string, 1000)
+            console.log('deposit', deposit)
+          }else{
           console.log('deposit some token for staking, you need to stack token for Listing nft to marketplace')
           const deposit = await depositStfiToken(account as string, 1000)
-          console.log('deposit', deposit)
+          console.log('deposit', deposit)}
+          /***************************** end ******************************************* */
 
-          const approver_first = await getApproverAddress(0) // return '0x0000000000000000000000000000000000000000' mean empty
+
+          /*****************************2 let marketplace contract to transfer user NFT ******************************************* */
+/**@dev if the returned address is not the  STARTFI_MARKET_PLACE_ADDRESS, that  means it is not approved to spend the NFT token*/
+          const approver_first = await getApproverAddress(0) 
           console.log('approver', approver_first)
           if (STARTFI_MARKET_PLACE_ADDRESS !== approver_first) {
             approveNft(STARTFI_MARKET_PLACE_ADDRESS, 0)
@@ -191,25 +211,30 @@ const NFTsHeader: React.FC = () => {
             approveNft(STARTFI_MARKET_PLACE_ADDRESS, 0)
           }
           const listOnMarketplace_first = await listMarketplace(STARTFI_NFT_ADDRESS, 0, 100)
-          const listOnMarketplace_second = await listMarketplace(STARTFI_NFT_ADDRESS, 1, 100)
-          const listOnMarketplace_third = await listMarketplace(STARTFI_NFT_ADDRESS, 2, 100)
-
+       
           console.log(
             'listed item to the marketplace',
-            listOnMarketplace_first,
-            listOnMarketplace_second,
-            listOnMarketplace_third
+            listOnMarketplace_first
           )
 
-          const auction_first = await createAuction(STARTFI_NFT_ADDRESS, 0, 1, 11, true, 1, 10000000000000)
-          const auction_second = await createAuction(STARTFI_NFT_ADDRESS, 1, 1, 11, true, 1, 10000000000000)
-          const auction_third = await createAuction(STARTFI_NFT_ADDRESS, 2, 1, 11, true, 1, 10000000000000)
-
-          console.log('auction', auction_first, auction_second, auction_third)
-
-          const bidOnItem = await bid(0, STARTFI_STAKES_ADDRESS, 0, 1)
-          await bid(1, STARTFI_STAKES_ADDRESS, 1, 1) // will not fullfil that bid
+           const auction_second = await createAuction(STARTFI_NFT_ADDRESS, 1, 1, 111, true, 1, 10)
+ 
+          console.log('auction',  auction_second)
+/******************** user wants to bid on auction********************************* */
+/** @dev
+ * on bidding , user has to stake first and his stake be >= the required qualify amount so as developer you need to check the auction required qualify amount and get user stakes to check if it matches the condition, let him bid
+ *   
+ */
+          const bidOnItem = await bid(0,  120)
+          /**@dev
+           *  this transaction will revert, so as a dev you need to check in the front-end to get the latest bid as well as the listing price, if the latest bid is more than 0, make sure that the user doesn't add price less than the last bid else , the bid should be more than the listing price
+           * 
+           */
+        
+          await bid(1,  119) // will not fullfil that bid
           console.log('bid on item', bidOnItem)
+          // if the caller is not the winner( highest bid and auction is ended), it will revert 
+          /** @dev : check that the caller is the winner for better user experience */
           const fullfilBidOnItem = await fullfilBid(0)
           console.log('fullfil bid on item', fullfilBidOnItem)
 
@@ -220,7 +245,8 @@ const NFTsHeader: React.FC = () => {
           console.log('listingDetails', listingDetails)
           const auctionDetails = await getAuctionBidDetails(0, account as string)
           console.log('auctionDetails', auctionDetails)
-          const bidWinner = await winnerBid(0)
+          let listingId="";
+          const bidWinner = await winnerBid(listingId)
           console.log('bid winner', bidWinner)
 
           console.log("if user didn't fullfil a bid")
@@ -237,6 +263,21 @@ const NFTsHeader: React.FC = () => {
 
           const freeReserve = await freeReserves(1)
           console.log('freeReserve', freeReserve)
+
+
+
+
+          /*** to get some info from the contract  */
+          const stfiToken = await getTokenInfo()
+          console.log('stfi token is', stfiToken)
+          const balance = await getTokenBalance(account as string)
+          console.log(balance,'balance');
+          
+          if (balance === '0x00') {
+            new Error('User need some STFI token')
+          }
+          const marketPlaceServiceFee = await serviceFee()
+          console.log('marketPlaceServiceFee', marketPlaceServiceFee)
           /* End example never merge to the main  branch*/
           getNFTs({ category: Categories[category] })
           setCategory(category)
