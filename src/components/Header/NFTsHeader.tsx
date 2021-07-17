@@ -67,14 +67,14 @@ const NFTsHeader: React.FC = () => {
       </Grid>
       <TabsCategory
         value={category}
-        onChange={(e, category) => {
+        onChange={async (e, category) => {
           /*=======================Stakes=======================*/
-          depositStakes(account as string, '22').then((result: any) => {
-            console.log('Deposit stakes', result)
-          })
-          getReserveStakes(account as string).then((result: any) => {
-            console.log('get reserved stakes', result)
-          })
+          const depositToken = await depositStakes(account as string, '22')
+          console.log('Deposit stakes', depositToken)
+
+          const getReserve = await getReserveStakes(account as string)
+          console.log('get reserves', getReserve)
+
           getNFTs({ category: Categories[category] })
           setCategory(category)
         }}
