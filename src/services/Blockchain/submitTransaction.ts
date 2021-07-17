@@ -2,11 +2,10 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { Web3Provider } from '@ethersproject/providers'
 import { useCallback } from 'react'
 import { Contract } from '@ethersproject/contracts'
-import { calculateGasMargin } from 'utils'
 
 export const useSubmitTransaction = (): ((
   methodsName: string,
-  args: Array<string> | undefined,
+  args: Array<string | number | BigNumber | boolean> | undefined,
   contract: Contract | null,
   account: string | null,
   library: Web3Provider | undefined
@@ -14,7 +13,7 @@ export const useSubmitTransaction = (): ((
   return useCallback(
     async (
       methodsName: string,
-      args: Array<string> | undefined,
+      args: Array<string | number | BigNumber | boolean> | undefined,
       contract: Contract | null,
       account: string | null,
       library: any
