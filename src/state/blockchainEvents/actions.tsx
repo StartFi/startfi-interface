@@ -5,4 +5,4 @@ export interface BcEvent {
   eventValue: any
 }
 
-export const addNewEvent = createAction<BcEvent>('blockchain/event/add')
+export const addNewEvent = createAction<BcEvent>('blockchain/event/marketplace')

@@ -5,7 +5,7 @@ import { CallState, NEVER_RELOAD, useSingleCallResult } from 'state/multicall/ho
 export function useEvaluateTransaction(
   contract: Contract | null,
   methodName: string,
-  args: Array<string | number | BigNumber> | undefined,
+  args: Array<string | number | BigNumber> | undefined
 ): CallState | boolean | undefined {
   try {
     const call = useSingleCallResult(contract, methodName, args, NEVER_RELOAD)
