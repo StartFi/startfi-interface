@@ -4,7 +4,6 @@ import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
 import { useStartFiPayment, useStartFiNft, parseBigNumber } from './useContract'
-import abiDecoder from 'abi-decoder'
 import { ROLES } from 'constants/index'
 
 export const useNftInfo = () => {
@@ -129,10 +128,7 @@ export const useGrantRoleNft = (): ((user: string) => any) => {
         return `account: ${account} is not connected`
       }
       try {
-        const transaction = await grantRole('grantRole', [ROLES.admin, user], contract, account, library)
-        const transactionReceipt = await library?.getTransactionReceipt((transaction as any).hash)
-        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
-        return decodedLogs[0].events
+        return await grantRole('grantRole', [ROLES.admin, user], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
@@ -154,10 +150,7 @@ export const useApproveNft = (): ((spender: string, tokenId: string | number) =>
         return `account: ${account} is not connected`
       }
       try {
-        const transaction = await approve('approve', [spender, tokenId], contract, account, library)
-        const transactionReceipt = await library?.getTransactionReceipt((transaction as any).hash)
-        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
-        return decodedLogs[0].events
+        return await approve('approve', [spender, tokenId], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e

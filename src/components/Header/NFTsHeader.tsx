@@ -18,7 +18,6 @@ import Images from '../../assets/icons/imagestab.svg'
 import { useGetNFTs } from 'state/nfts/hooks'
 import { useHistory } from 'react-router'
 import { CATEGORIES, Dictionary } from './../../constants'
-
 const Categories = ['All', ...CATEGORIES]
 
 const TabIcons: Dictionary = {
