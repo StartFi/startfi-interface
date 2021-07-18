@@ -161,7 +161,7 @@ export function parseBigNumber(logs: any): any {
   }
   return logs.map(log => {
     if (BigNumber.isBigNumber(log)) {
-      return log.toNumber()
+      return log.toHexString()
     }
     return log
   })
