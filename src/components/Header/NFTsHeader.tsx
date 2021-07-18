@@ -47,7 +47,6 @@ import {
   useIncreaseAllowance,
   useDecreaseAllowance
 } from 'hooks/startfiToken'
-import { useActiveWeb3React } from 'hooks'
 /* End example never merge to the main  branch*/
 const Categories = ['All', ...CATEGORIES]
 
@@ -84,7 +83,6 @@ const NFTsHeader: React.FC = () => {
   const grantRole = useGrantRoleNft()
   const changePaymentContract = useChangeNftContractNftPayment()
   /* Beign example never merge to the main  branch*/
-  const { account } = useActiveWeb3React() // get user address from metamask wallet
   /*Start Stakes tests */
   const depositStakes = useDeposit()
   const getReserveStakes = useGetReserves()
