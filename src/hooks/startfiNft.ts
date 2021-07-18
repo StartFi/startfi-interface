@@ -5,6 +5,7 @@ import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
 import { useStartFiPayment, useStartFiNft, parseBigNumber } from './useContract'
 import abiDecoder from 'abi-decoder'
+import { ROLES } from 'constants/index'
 
 export const useNftInfo = () => {
   const contract = useStartFiNft(false)
@@ -128,13 +129,7 @@ export const useGrantRoleNft = (): ((user: string) => any) => {
         return `account: ${account} is not connected`
       }
       try {
-        const transaction = await grantRole(
-          'grantRole',
-          ['0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6', user],
-          contract,
-          account,
-          library
-        )
+        const transaction = await grantRole('grantRole', [ROLES.admin, user], contract, account, library)
         const transactionReceipt = await library?.getTransactionReceipt((transaction as any).hash)
         const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
         return decodedLogs[0].events
