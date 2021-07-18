@@ -8,6 +8,7 @@ import { Contract, EventFilter } from 'ethers'
 import { useDispatch } from 'react-redux'
 import { addNewEvent } from 'state/blockchainEvents/actions'
 import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../constants/abis/StartFiNFTPayment.json'
+import { ROLES } from 'constants/index'
 
 export const useApprovalNftLogs = (contract: Contract | null) => {
   const { library } = useActiveWeb3React()
@@ -150,13 +151,7 @@ export const useGrantRoleNft = (): ((user: string) => any) => {
         return `account: ${account} is not connected`
       }
       try {
-        return await grantRole(
-          'grantRole',
-          ['0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6', user],
-          contract,
-          account,
-          library
-        )
+        return await grantRole('grantRole', [ROLES.admin, user], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
