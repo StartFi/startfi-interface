@@ -1,33 +1,11 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
 import { useStartFiPayment, useStartFiNft, parseBigNumber } from './useContract'
-import { Contract, EventFilter } from 'ethers'
-import { useDispatch } from 'react-redux'
-import { addNewEvent } from 'state/blockchainEvents/actions'
-import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../constants/abis/StartFiNFTPayment.json'
 import { ROLES } from 'constants/index'
 
-export const useApprovalNftLogs = (contract: Contract | null) => {
-  const { library } = useActiveWeb3React()
-  const ApprovalEvent = contract?.filters.Approval()
-  const dispatch = useDispatch()
-  useEffect(() => {
-    if (ApprovalEvent) {
-      library?.on(ApprovalEvent as EventFilter, result => {
-        const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
-        const args = eventLogs?.args
-        const eventValue = args && { sender: args[0], recipient: args[1], amount: args[2].toNumber() }
-        dispatch(addNewEvent({ eventName: 'ApprovalNft', eventValue }))
-      })
-    }
-    return () => {
-      library?.removeAllListeners(ApprovalEvent as EventFilter)
-    }
-  }, [ApprovalEvent])
-}
 export const useNftInfo = () => {
   const contract = useStartFiNft(false)
   return useCallback(async () => {
@@ -143,7 +121,6 @@ export const useGrantRoleNft = (): ((user: string) => any) => {
   const contract = useStartFiNft(true)
   const grantRole = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
-  useApprovalNftLogs(contract)
   return useCallback(
     async (user: string) => {
       if (!account) {
@@ -166,7 +143,6 @@ export const useApproveNft = (): ((spender: string, tokenId: string | number) =>
   const contract = useStartFiNft(true)
   const approve = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
-  useApprovalNftLogs(contract)
   return useCallback(
     async (spender: string, tokenId: string | number) => {
       if (!account) {

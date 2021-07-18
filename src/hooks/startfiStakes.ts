@@ -5,13 +5,13 @@ import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
 
-export const useDeposit = (): ((user: string, amount: string) => any) => {
+export const useDeposit = (): ((user: string, amount: string | number) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiStakes(true)
   const deposit = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
   return useCallback(
-    async (user: string, amount: string) => {
+    async (user: string, amount: string | number) => {
       if (!account) {
         toggleWalletModal()
         return `account: ${account} is not connected`

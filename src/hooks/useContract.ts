@@ -95,7 +95,6 @@ export function useArgentWalletDetectorContract(): Contract | null {
     false
   )
 }
-
 export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contract | null {
   const { chainId } = useActiveWeb3React()
   let address: string | undefined

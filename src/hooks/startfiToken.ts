@@ -1,49 +1,12 @@
-import { useDispatch } from 'react-redux'
-import { Contract, EventFilter } from 'ethers'
 import { useStartFiToken } from './useContract'
-import { useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
-import { addNewEvent } from '../state/blockchainEvents/actions'
-
-export const useTransferTokenLogs = (contract: Contract | null) => {
-  const { library } = useActiveWeb3React()
-  const transferEvent = contract?.filters.Transfer()
-  const dispatch = useDispatch()
-  useEffect(() => {
-    if (transferEvent) {
-      library?.on(transferEvent as EventFilter, result => {
-        const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
-        const args = eventLogs?.args
-        const eventValue = args && { sender: args[0], recipient: args[1], amount: args[2].toNumber() }
-        dispatch(addNewEvent({ eventName: 'transferToken', eventValue }))
-      })
-    }
-    return () => {
-      library?.removeAllListeners(transferEvent as EventFilter)
-    }
-  }, [transferEvent])
-}
-export const useApprovalTokenLogs = (contract: Contract | null) => {
-  const { library } = useActiveWeb3React()
-  const ApprovalEvent = contract?.filters.Approval()
-  const dispatch = useDispatch()
-  useEffect(() => {
-    if (ApprovalEvent) {
-      library?.on(ApprovalEvent as EventFilter, result => {
-        const eventLogs = contract?.interface.parseLog({ data: result.data, topics: result.topics })
-        const args = eventLogs?.args
-        const eventValue = args && { sender: args[0], recipient: args[1], amount: args[2].toNumber() }
-        dispatch(addNewEvent({ eventName: 'ApprovalToken', eventValue }))
-      })
-    }
-    return () => {
-      library?.removeAllListeners(ApprovalEvent as EventFilter)
-    }
-  }, [ApprovalEvent])
-}
+import abiDecoder from 'abi-decoder'
+import { abi as STARTFI_TOKEN_ABI } from '../constants/abis/StartFiToken.json'
+abiDecoder.addABI(STARTFI_TOKEN_ABI)
 export const useTokenInfo = () => {
   const contract = useStartFiToken(false)
   return useCallback(() => {
@@ -109,7 +72,6 @@ export const useApproveToken = (): ((spender: string, amount: string | number) =
   const contract = useStartFiToken(true)
   const approve = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
-  useApprovalTokenLogs(contract)
   return useCallback(
     async (spender: string, amount: string | number) => {
       if (!account) {
@@ -117,7 +79,11 @@ export const useApproveToken = (): ((spender: string, amount: string | number) =
         return `account: ${account} is not connected`
       }
       try {
-        return await approve('approve', [spender, amount], contract, account, library)
+        const transaction = await approve('approve', [spender, amount], contract, account, library)
+        const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
+        console.log('transactionReceipt', transactionReceipt)
+        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
+        return decodedLogs[0].events
       } catch (e) {
         console.log('error', e)
         return e
@@ -138,7 +104,11 @@ export const useIncreaseAllowance = (): ((spender: string, addedValue: string | 
         return `account: ${account} is not connected`
       }
       try {
-        return await approve('increaseAllowance', [spender, addedValue], contract, account, library)
+        const transaction = await approve('increaseAllowance', [spender, addedValue], contract, account, library)
+        const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
+        console.log('transactionReceipt', transactionReceipt)
+        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
+        return decodedLogs[0].events
       } catch (e) {
         console.log('error', e)
         return e
@@ -160,7 +130,11 @@ export const useDecreaseAllowance = (): ((spender: string, subtractedValue: stri
         return `account: ${account} is not connected`
       }
       try {
-        return await approve('decreaseAllowance', [spender, subtractedValue], contract, account, library)
+        const transaction = await approve('decreaseAllowance', [spender, subtractedValue], contract, account, library)
+        const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
+        console.log('transactionReceipt', transactionReceipt)
+        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
+        return decodedLogs[0].events
       } catch (e) {
         console.log('error', e)
         return e
@@ -171,7 +145,6 @@ export const useDecreaseAllowance = (): ((spender: string, subtractedValue: stri
 }
 export const useTransfer = (): ((address: string, amount: string | number) => any) => {
   const contract = useStartFiToken(true)
-  useTransferTokenLogs(contract)
   const transfer = useSubmitTransaction()
   const { account, library } = useActiveWeb3React()
   const toggleWalletModal = useWalletModalToggle()
@@ -182,7 +155,10 @@ export const useTransfer = (): ((address: string, amount: string | number) => an
         return `account: ${account} is not connected`
       }
       try {
-        return await transfer('transfer', [address, amount], contract, account, library)
+        const transaction = await transfer('transfer', [address, amount], contract, account, library)
+        const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
+        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
+        return decodedLogs[0].events
       } catch (e) {
         console.log('error', e)
         return e

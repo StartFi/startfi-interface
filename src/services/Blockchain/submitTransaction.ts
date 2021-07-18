@@ -14,7 +14,7 @@ export const useSubmitTransaction = (): ((
   return useCallback(
     async (
       methodsName: string,
-      args: Array<any> | undefined,
+      args: Array<string | number | BigNumber> | undefined,
       contract: Contract | null,
       account: string | null,
       library: any
