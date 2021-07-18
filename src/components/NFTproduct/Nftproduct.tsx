@@ -61,7 +61,7 @@ const Nftproduct = () => {
 
   const nftId = parseInt(nft)
 
-  const imgUrl = uriToHttp(`${auctionNFT?.nft.image}`)[0]
+   const imgUrl = uriToHttp(`${auctionNFT?.nft.dataHash}`)[1]
 
   const showScroll = (readMore: boolean) => {
     readMore ? setIsReadMore('scroll') : setIsReadMore('')
@@ -73,7 +73,7 @@ const Nftproduct = () => {
       <LeftGrid>
         <ImgCard>
           <img src={imgUrl} alt='NFT' />
-          <p>1234 {t('views')}</p>
+    
         </ImgCard>
         <LeftTextCard>
           <CreatedTitle>

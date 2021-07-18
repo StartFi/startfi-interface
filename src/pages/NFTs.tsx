@@ -11,6 +11,7 @@ import { useGetNFTs, useLoadTime, useMarketplace } from 'state/marketplace/hooks
 import { Row } from 'theme/components'
 import { LinkBase } from '../components/Link/index'
 import { AuctionNFT } from 'services/models/AuctionNFT'
+import StartfiLoader from '../components/Loader/startfi'
 
 
 // const NFTS = styled.div`
@@ -58,7 +59,6 @@ const NFTs: React.FC = () => {
   return (
     <Padding>
       <Header>
-
         <Results>
           {onMarket.length} {t('NFTSResults')} {loadtime}ms
         </Results>
@@ -76,9 +76,8 @@ const NFTs: React.FC = () => {
       <LinkBase to='/inventory/home/draft' onClick={useGetInventory()}>
         Inventory
       </LinkBase>
-      <br></br>
-      <br></br>
-       <LinkBase to='/marketplace/wishList'>
+  &nbsp;&nbsp;
+      <LinkBase to='/marketplace/wishList'>
         Wish List
       </LinkBase>
 
@@ -96,7 +95,7 @@ const NFTs: React.FC = () => {
             ></NTFCard>
           </Nft>
         ))}
-      </NFTList> :  <div>No results</div>}
+      </NFTList> : <div><StartfiLoader></StartfiLoader></div>}
 
     </Padding>
   )

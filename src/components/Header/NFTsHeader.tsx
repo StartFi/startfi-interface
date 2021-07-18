@@ -107,7 +107,7 @@ const NFTsHeader: React.FC = () => {
         <Link to="" onClick={() => history.push('whitelist')}>
           <img src={Heart} alt="Whitelist" />
         </Link>
-        <LinkCreateNFT to="/mint/minting">{t('mintNFT')}</LinkCreateNFT>
+        <LinkCreateNFT to="/mint/minting">Start Earning</LinkCreateNFT>
         <Wallet />
       </FirstRow>
       {!address && <ConnectWallet>{t('marketplaceConnectWallet')}</ConnectWallet>}
