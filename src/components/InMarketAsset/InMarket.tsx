@@ -17,9 +17,10 @@ interface onMarketParams {
 const InMarket = () => {
   const { id }: onMarketParams = useParams()
   const nft: NFT = useOnMarketItem(parseInt(id))
-  const auction:Auction=useAuctionItem(parseInt(id))
-  const imgUrl = uriToHttp(`${nft.image}`)[0]
+  const auction: Auction = useAuctionItem(parseInt(id))
+  const imgUrl = uriToHttp(`${nft.dataHash}`)[1]
   const [tagsState, setTagsState] = useState(false)
+
 
   useEffect(() => {
     if (nft?.tags) {
@@ -27,7 +28,7 @@ const InMarket = () => {
     }
   }, [])
 
-  console.log(auction)
+
 
   return (
     <InventoryCard borderRadius='8px' marginTop='54px'>
@@ -38,7 +39,7 @@ const InMarket = () => {
         {/* 1 */}
         <Card height='142px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB'>
           <ImageContainer>
-            <img src={imgUrl}/>
+            <img src={imgUrl} />
             <TextContainer marginLeft='1.438rem'>
               <div>
                 <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='3.75rem'>
@@ -80,9 +81,7 @@ const InMarket = () => {
                   ))}
                 </TagContainer>
               ) : (
-
-                 <span>No Tags Added</span>
-
+                <span>No Tags Added</span>
               )}
             </TagRow>
 
@@ -106,38 +105,52 @@ const InMarket = () => {
         </Card>
 
         {/* 4 */}
-        <Card height='229px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
-          <TextContainer marginLeft='1.438rem' width='100%'>
-            <div>
-              <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
-                Pricing
-                <span>{auction.listingPrice} STFI ~ 253 USD</span>
-              </Text>
-            </div>
-            <Divider width='95%'></Divider>
-            <div>
-              <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='5.0rem'>
-                Minimum Bidding
-                <span>800 STFI ~ 253 USD</span>
-              </Text>
-            </div>
+        {auction.isForBid ? (
+          <Card height='229px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
+            <TextContainer marginLeft='1.438rem' width='100%'>
+              <div>
+                <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
+                  Pricing
+                  <span>{auction.listingPrice} STFI ~ 253 USD</span>
+                </Text>
+              </div>
+              <Divider width='95%'></Divider>
 
-            <Divider width='95%'></Divider>
-            <div>
-              <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='6.7rem'>
-                Auction Time
-                <span> opened for 4 days</span>
-              </Text>
-            </div>
-            <Divider width='95%'></Divider>
-            <div>
-              <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='6.2rem'>
-                Qualify Amount
-                <span>40 STFI ~ 253 USD</span>
-              </Text>
-            </div>
-          </TextContainer>
-        </Card>
+              <div>
+                <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='5.0rem'>
+                  Minimum Bidding
+                  <span>800 STFI ~ 253 USD</span>
+                </Text>
+              </div>
+
+              <Divider width='95%'></Divider>
+              <div>
+                <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='6.7rem'>
+                  Auction Time
+                  <span> opened for 4 days</span>
+                </Text>
+              </div>
+              <Divider width='95%'></Divider>
+              <div>
+                <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='6.2rem'>
+                  Qualify Amount
+                  <span>40 STFI ~ 253 USD</span>
+                </Text>
+              </div>
+            </TextContainer>
+          </Card>
+        ) : (
+          <Card height='71px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
+            <TextContainer marginLeft='1.438rem' width='100%'>
+              <div>
+                <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
+                  Pricing
+                  <span>{auction.listingPrice} STFI ~ 253 USD</span>
+                </Text>
+              </div>
+            </TextContainer>
+          </Card>
+        )}
 
         {/* 5 */}
         <Card height='123px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>

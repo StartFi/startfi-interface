@@ -60,7 +60,7 @@ export const getUserNFTs = async (owner: string) => {
     else offMarket.push(userNFTs[i])
   }
 
-  console.log('auctions', userAuctions,onMarket)
+ 
   return { onMarket, offMarket,userAuctions}
 }
 
