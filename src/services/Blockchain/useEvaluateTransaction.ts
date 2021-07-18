@@ -18,7 +18,7 @@ export function useEvaluateTransaction(
 export async function evaluateTransaction(
   contract: Contract | null,
   methodName: string,
-  args: Array<string>
+  args: Array<any>
 ): Promise<any> {
   try {
     const methods = await contract?.callStatic
