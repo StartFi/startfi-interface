@@ -63,6 +63,7 @@ const Nftproduct = () => {
 
    const imgUrl = uriToHttp(`${auctionNFT?.nft.dataHash}`)[1]
 
+
   const showScroll = (readMore: boolean) => {
     readMore ? setIsReadMore('scroll') : setIsReadMore('')
   }
