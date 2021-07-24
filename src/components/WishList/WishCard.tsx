@@ -8,17 +8,15 @@ import { RemoveWishList } from 'components/Button'
 import Remove from '../../assets/images/Remove.png'
 import { useCountDownTimer } from 'hooks/countDownTimer'
 
-
 interface MiniCardContent {
   cardContent: AuctionNFT
+  navigateToNft: (clickedCard: AuctionNFT) => void
   key: string
 }
 
-
-const WishCard: React.FC<MiniCardContent> = ({ cardContent }) => {
+const WishCard: React.FC<MiniCardContent> = ({ cardContent, navigateToNft }) => {
   const remove = useRemoveWishlistItem(cardContent.nft.id)
-  const timeLeft =useCountDownTimer(cardContent.auction.expireTimestamp)
-
+  const timeLeft = useCountDownTimer(cardContent.auction.expireTimestamp)
 
   const timerComponents: any = []
 
@@ -38,9 +36,9 @@ const WishCard: React.FC<MiniCardContent> = ({ cardContent }) => {
       </Counter>
     )
   })
-  
+
   return (
-    <WishListCard>
+    <WishListCard onClick={() => navigateToNft(cardContent)}>
       <ImgDIV>
         <img src={uriToHttp(`${cardContent.nft.dataHash}`)[1]} />
       </ImgDIV>
@@ -52,7 +50,14 @@ const WishCard: React.FC<MiniCardContent> = ({ cardContent }) => {
           </Text>
           <div>
             <img src={Remove} />
-            <RemoveWishList onClick={remove}>Remove from WishList</RemoveWishList>
+            <RemoveWishList
+              onClick={event => {
+                event.stopPropagation()
+                remove()
+              }}
+            >
+              Remove from WishList
+            </RemoveWishList>
           </div>
         </RemoveContainer>
 
