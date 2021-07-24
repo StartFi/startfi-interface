@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import uriToHttp from 'utils/uriToHttp'
 import { WishListCard, TextContainer, RemoveContainer, ImgDIV, Counter, CounterContainer } from './WishList.styles'
@@ -6,27 +6,19 @@ import Text from '../Text'
 import { useRemoveWishlistItem } from 'state/user/hooks'
 import { RemoveWishList } from 'components/Button'
 import Remove from '../../assets/images/Remove.png'
-import { calculateTimeLeft } from 'utils/timer'
+import { useCountDownTimer } from 'hooks/countDownTimer'
+
 
 interface MiniCardContent {
   cardContent: AuctionNFT
   key: string
 }
 
-interface TimeLeft {
-  [key: string]: number
-}
+
 const WishCard: React.FC<MiniCardContent> = ({ cardContent }) => {
   const remove = useRemoveWishlistItem(cardContent.nft.id)
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft(cardContent.auction.expireTimestamp))
+  const timeLeft =useCountDownTimer(cardContent.auction.expireTimestamp)
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setTimeLeft(calculateTimeLeft(cardContent.auction.expireTimestamp))
-    }, 1000)
-
-    return () => clearTimeout(timer)
-  }, [timeLeft])
 
   const timerComponents: any = []
 
@@ -46,7 +38,7 @@ const WishCard: React.FC<MiniCardContent> = ({ cardContent }) => {
       </Counter>
     )
   })
-
+  
   return (
     <WishListCard>
       <ImgDIV>

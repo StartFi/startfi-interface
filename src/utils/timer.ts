@@ -9,5 +9,5 @@ export const calculateTimeLeft= (expireTimeStamp: number) => {
         S: Math.floor((difference / 1000) % 60)
       };
     }
-    return timeLeft;
+      return timeLeft;
   };
