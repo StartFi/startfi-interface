@@ -74,7 +74,6 @@ const Nftproduct = () => {
       <LeftGrid>
         <ImgCard>
           <img src={imgUrl} alt='NFT' />
-    
         </ImgCard>
         <LeftTextCard>
           <CreatedTitle>
