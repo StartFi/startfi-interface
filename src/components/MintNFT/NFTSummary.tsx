@@ -53,8 +53,13 @@ import {
 } from './NFTSummary.styles'
 import { WhiteShadow } from 'components/WaitingConfirmation'
 import { useHistory } from 'react-router-dom'
+import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../../constants/abis/StartFiNFTPayment.json'
+import { useApproveToken } from 'hooks/startfiToken'
+import { useWeb3React } from '@web3-react/core'
 
 const NFTSummary: React.FC = () => {
+  const { account } = useWeb3React()
+  const approveToken = useApproveToken()
   const history = useHistory()
 
   const nft = useNFT()
@@ -81,13 +86,14 @@ const NFTSummary: React.FC = () => {
 
   const minted = useMinted()
 
-   if (!nft) return null
+  if (!nft) return null
 
   const next = () => {
     switch (step) {
       case 4:
         return agree ? setStep(step + 1) : null
       case 5:
+        approveToken(STARTFI_NFT_PAYMENT_ADDRESS, 5)
         return setStep(step + 1)
       case 6:
         return mint()
@@ -272,7 +278,9 @@ const NFTSummary: React.FC = () => {
       <ButtonBlack onClick={next}>
         {t(step === 6 ? 'saveToBlockchain' : step === 10 ? 'addToMarketplace' : 'allowPayment')}
       </ButtonBlack>
-      <ButtonTransparentBorder onClick={() => (nft.step < 4 ? saveDraft(nft) : history.push('/inventory/off-market/' + nft.id))}>
+      <ButtonTransparentBorder
+        onClick={() => (nft.step < 4 ? saveDraft(nft) : history.push('/inventory/off-market/' + nft.id))}
+      >
         {t('cancelAndSaveAsDraft')}
       </ButtonTransparentBorder>
     </Right>
@@ -301,7 +309,11 @@ const NFTSummary: React.FC = () => {
             <Auction />
             {(step === 4 || step === 8) && <ContainerFooter />}
           </Left>
-          {(step === 5 || step === 6) && <MarginLeft><PaymentCard /></MarginLeft>}
+          {(step === 5 || step === 6) && (
+            <MarginLeft>
+              <PaymentCard />
+            </MarginLeft>
+          )}
         </Columns>
       </Card>
     </Container>
@@ -309,4 +321,3 @@ const NFTSummary: React.FC = () => {
 }
 
 export default NFTSummary
-
