@@ -252,3 +252,6 @@ export const BLOCKED_ADDRESSES: string[] = [
   '0xA7e5d5A720f06526557c513402f2e6B5fA20b008',
   '0x8576aCC5C05D6Ce88f4e49bf65BdF0C62F91353C'
 ]
+export const ROLES = {
+  admin: '0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6'
+}

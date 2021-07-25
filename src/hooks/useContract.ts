@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/camelcase */
+import { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
-import { Token,WETH9 } from '@uniswap/sdk-core'
+import { Token, WETH9 } from '@uniswap/sdk-core'
 import { useMemo } from 'react'
 
 import { ChainId } from '../constants/supportedChains'
@@ -19,11 +21,27 @@ import WETH_ABI from '../constants/abis/weth.json'
 
 import ERC20_ABI from '../constants/abis/erc20.json'
 import ERC721_ABI from '../constants/abis/erc721.json'
+
+import { abi as STARTFI_TOKEN_ABI, address as STARTFI_TOKEN_ADDRESS } from '../constants/abis/StartFiToken.json'
+
+import { abi as STARTFI_NFT_ABI, address as STARTFI_NFT_ADDRESS } from '../constants/abis/StartfiRoyaltyNFT.json'
+import {
+  abi as STARTFI_MARKET_PLACE_ABI,
+  address as STARTFI_MARKET_PLACE_ADDRESS
+} from '../constants/abis/StartFiMarketPlace.json'
+import {
+  abi as STARTFI_NFT_PAYMENT_ABI,
+  address as STARTFI_NFT_PAYMENT_ADDRESS
+} from '../constants/abis/StartFiNFTPayment.json'
+import {
+  abi as STARTFI_STAKES_PAYMENT_ABI,
+  address as STARTFI_STAKES_ADDRESS
+} from '../constants/abis/StartfiStakes.json'
 // returns null on errors
-declare type WETH_Only= {
+declare type WETH_Only = {
   [chainId in ChainId]: Token
-};
-const WETH :WETH_Only={
+}
+const WETH: WETH_Only = {
   [ChainId.MAINNET]: WETH9[ChainId.MAINNET],
   [ChainId.ROPSTEN]: WETH9[ChainId.ROPSTEN],
   [ChainId.RINKEBY]: WETH9[ChainId.RINKEBY],
@@ -52,11 +70,11 @@ function useContract(address: string | undefined, ABI: any, withSignerIfPossible
 // left as a reference to follow when consuming startfi contract
 export function useWETHContract(withSignerIfPossible?: boolean): Contract | null {
   const { chainId } = useActiveWeb3React()
-  console.log(chainId,WETH,'chainId');
+  console.log(chainId, WETH, 'chainId')
 
   return useContract(chainId ? WETH[chainId].address : undefined, WETH_ABI, withSignerIfPossible)
 }
-export const useERC721= (address: string | undefined,withSignerIfPossible?: boolean): Contract | null => {
+export const useERC721 = (address: string | undefined, withSignerIfPossible?: boolean): Contract | null => {
   return useContract(address, ERC721_ABI, withSignerIfPossible)
 }
 export function useArgentWalletDetectorContract(): Contract | null {
@@ -67,7 +85,6 @@ export function useArgentWalletDetectorContract(): Contract | null {
     false
   )
 }
-
 export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contract | null {
   const { chainId } = useActiveWeb3React()
   let address: string | undefined
@@ -99,16 +116,41 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
   return useContract(tokenAddress, ERC20_ABI, withSignerIfPossible)
 }
 
-
 export function useMulticallContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
 
   return useContract(chainId && MULTICALL_NETWORKS[chainId], MULTICALL_ABI, false)
 }
 
+export const useStartFiToken = (withSignerIfPossible?: boolean): Contract | null => {
+  const { chainId } = useActiveWeb3React()
+  return useContract(chainId && STARTFI_TOKEN_ADDRESS, STARTFI_TOKEN_ABI, withSignerIfPossible)
+}
 
+export const useStartFiNft = (withSignerIfPossible?: boolean): Contract | null => {
+  const { chainId } = useActiveWeb3React()
+  return useContract(STARTFI_NFT_ADDRESS, STARTFI_NFT_ABI, withSignerIfPossible)
+}
 
+export const useStartFiMarketplace = (withSignerIfPossible?: boolean): Contract | null => {
+  const { chainId } = useActiveWeb3React()
+  return useContract(chainId && STARTFI_MARKET_PLACE_ADDRESS, STARTFI_MARKET_PLACE_ABI, withSignerIfPossible)
+}
 
+export const useStartFiPayment = (withSignerIfPossible?: boolean): Contract | null => {
+  const { chainId } = useActiveWeb3React()
+  return useContract(STARTFI_NFT_PAYMENT_ADDRESS, STARTFI_NFT_PAYMENT_ABI, withSignerIfPossible)
+}
+export const useStartFiStakes = (withSignerIfPossible?: boolean): Contract | null => {
+  const { chainId } = useActiveWeb3React()
+  return useContract(STARTFI_STAKES_ADDRESS, STARTFI_STAKES_PAYMENT_ABI, withSignerIfPossible)
+}
 
-
-
+export function parseBigNumber(logs: any): any {
+  return logs.map(log => {
+    if (BigNumber.isBigNumber(log)) {
+      return log.toHexString()
+    }
+    return log
+  })
+}

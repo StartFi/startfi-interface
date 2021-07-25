@@ -8,9 +8,6 @@ import { isAddress } from '../utils'
 import { useActiveWeb3React } from './web3'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
 
-
-
-
 // parse a name or symbol from a token response
 const BYTES32_REGEX = /^0x[a-fA-F0-9]{64}$/
 
@@ -26,26 +23,20 @@ function parseStringOrBytes32(str: string | undefined, bytes32: string | undefin
 // undefined if invalid or does not exist
 // null if loading
 // otherwise returns the token
-export function useToken(tokenAddress?: string): Token | undefined | null {
+export function useToken(tokenAddress = '0x9cCA28d98EC895c50C266b7f138dD6316aADB52A'): Token | undefined | null {
   const { chainId } = useActiveWeb3React()
- 
   const address = isAddress(tokenAddress)
 
   const tokenContract = useTokenContract(address ? address : undefined, false)
   const tokenContractBytes32 = useBytes32TokenContract(address ? address : undefined, false)
-   const tokenName = useSingleCallResult( tokenContract, 'name', undefined, NEVER_RELOAD)
-  const tokenNameBytes32 = useSingleCallResult(
-   tokenContractBytes32,
-    'name',
-    undefined,
-    NEVER_RELOAD
-  )
-  const symbol = useSingleCallResult(  tokenContract, 'symbol', undefined, NEVER_RELOAD)
-  const symbolBytes32 = useSingleCallResult(  tokenContractBytes32, 'symbol', undefined, NEVER_RELOAD)
-  const decimals = useSingleCallResult(  tokenContract, 'decimals', undefined, NEVER_RELOAD)
-
+  const tokenName = useSingleCallResult(tokenContract, 'name', undefined, NEVER_RELOAD)
+  const tokenNameBytes32 = useSingleCallResult(tokenContractBytes32, 'name', undefined, NEVER_RELOAD)
+  const symbol = useSingleCallResult(tokenContract, 'symbol', undefined, NEVER_RELOAD)
+  const symbolBytes32 = useSingleCallResult(tokenContractBytes32, 'symbol', undefined, NEVER_RELOAD)
+  const decimals = useSingleCallResult(tokenContract, 'decimals', undefined, NEVER_RELOAD)
+  console.log(tokenName && tokenName.result ? tokenName.result[0] : 'undefined')
   return useMemo(() => {
-     if (!chainId || !address) return undefined
+    if (!chainId || !address) return undefined
     if (decimals.loading || symbol.loading || tokenName.loading) return null
     if (decimals.result) {
       return new Token(
@@ -65,9 +56,9 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
     symbol.loading,
     symbol.result,
     symbolBytes32.result,
-        tokenName.loading,
+    tokenName.loading,
     tokenName.result,
-    tokenNameBytes32.result,
+    tokenNameBytes32.result
   ])
 }
 
