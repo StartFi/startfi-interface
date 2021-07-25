@@ -64,7 +64,7 @@ const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   5: 'goerli.',
   56: 'goerli.',
   97: 'goerli.',
-  1337: 'goerli.',
+  1337: 'startfi.',
   42: 'kovan.'
 }
 

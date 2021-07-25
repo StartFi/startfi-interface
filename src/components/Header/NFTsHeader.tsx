@@ -88,7 +88,7 @@ const NFTsHeader: React.FC = () => {
 
   const getNFTs = useGetNFTs()
 
-  var { category, search } = useSearch()
+  const { category, search } = useSearch()
 
   if (!category) category = 'all'
 
@@ -122,5 +122,4 @@ const NFTsHeader: React.FC = () => {
     </React.Fragment>
   )
 }
-
 export default NFTsHeader
