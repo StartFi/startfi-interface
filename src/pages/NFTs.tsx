@@ -1,12 +1,24 @@
 import React, { useState } from 'react'
+
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { useHistory } from 'react-router'
+import { useGetInventory } from 'state/user/hooks'
+// import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useGetNFTs, useLoadTime, useMarketplace } from 'state/marketplace/hooks'
 import { Row } from 'theme/components'
+import { LinkBase } from '../components/Link/index'
 import { AuctionNFT } from 'services/models/AuctionNFT'
+import StartfiLoader from '../components/Loader/startfi'
+
+
+// const NFTS = styled.div`
+//   padding: 4vh 3.2vw;
+//   width: 100%;
+//   z-index: 1;
+// `
 
 const Header = styled(Row)`
   padding-bottom: 6vh;
@@ -52,7 +64,7 @@ const NFTs: React.FC = () => {
         </Results>
         <DropDownSort
           boxshadow
-          name="sort"
+          name='sort'
           options={SORTBY}
           value={sort}
           onChange={(e: any) => {
@@ -61,6 +73,14 @@ const NFTs: React.FC = () => {
           }}
         />
       </Header>
+      <LinkBase to='/inventory/home/draft' onClick={useGetInventory()}>
+        Inventory
+      </LinkBase>
+  &nbsp;&nbsp;
+      <LinkBase to='/marketplace/wishList'>
+        Wish List
+      </LinkBase>
+
       {onMarket.length > 0 ? <NFTList>
         {onMarket.map((auctionNFT: AuctionNFT) => (
           <Nft key={auctionNFT.nft.id}>
@@ -75,8 +95,8 @@ const NFTs: React.FC = () => {
             ></NTFCard>
           </Nft>
         ))}
-      </NFTList> :
-      <div>No results</div>}
+      </NFTList> : <div><StartfiLoader></StartfiLoader></div>}
+
     </Padding>
   )
 }

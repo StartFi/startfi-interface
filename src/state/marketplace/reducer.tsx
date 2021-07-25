@@ -1,5 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit'
+
+// import { getNFTS } from 'services/database/Database'
+
 import { PopupContent } from './../../constants'
+
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import {
   mintNFTAction,
@@ -120,6 +124,7 @@ export default createReducer(initialState, builder =>
       state.bidOrBuy = bidOrBuy
       state.bidOrBuyValue = value
     })
+
     .addCase(clearMarketplacePopup, (state, action) => {
       state.popup = null
     })

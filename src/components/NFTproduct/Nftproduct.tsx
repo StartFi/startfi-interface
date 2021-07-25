@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Rectangle from '../../assets/images/Rectangle.png'
 
 import {
   Grid,
@@ -18,7 +17,8 @@ import {
   BuyNow,
   DescriptionCard,
   DescriptionTitle,
-  DescriptionText
+  DescriptionText,
+  OwnerText
 } from './Nftproduct.styles'
 import ReadMore from '../ReadMore/readmore'
 import { useTranslation } from 'react-i18next'
@@ -26,7 +26,10 @@ import BidOrBuy from 'components/BidOrBuy'
 import ButtonWishlist from 'components/Button/ButtonWishlist'
 import { usePopup } from 'state/application/hooks'
 import { useHistory, useParams } from 'react-router-dom'
-import { useGetAuctionNFT } from 'state/marketplace/hooks'
+import { useAuctionNFT, useGetAuctionNFT } from 'state/marketplace/hooks'
+
+import uriToHttp from 'utils/uriToHttp'
+import { AuctionNFT } from 'services/models/AuctionNFT'
 
 interface NFTParams {
   nft: string
@@ -44,6 +47,7 @@ const Nftproduct = () => {
   const { nft, auction }: NFTParams = useParams()
 
   useGetAuctionNFT(parseInt(nft), auction)
+  const auctionNFT: AuctionNFT | null = useAuctionNFT()
 
   const popup = usePopup()
 
@@ -57,6 +61,9 @@ const Nftproduct = () => {
 
   const nftId = parseInt(nft)
 
+   const imgUrl = uriToHttp(`${auctionNFT?.nft.dataHash}`)[1]
+
+
   const showScroll = (readMore: boolean) => {
     readMore ? setIsReadMore('scroll') : setIsReadMore('')
   }
@@ -66,14 +73,14 @@ const Nftproduct = () => {
       <BidOrBuy bidOrBuy={bidOrBuy} isOpen={isOpen} close={() => setIsOpen(false)} />
       <LeftGrid>
         <ImgCard>
-          <img src={Rectangle} alt="NFT" />
-          <p>1234 {t('views')}</p>
+          <img src={imgUrl} alt='NFT' />
+    
         </ImgCard>
         <LeftTextCard>
           <CreatedTitle>
             <p>
               {t('createdBy')}
-              <span>Muhammed Amin</span>
+              <span>{auctionNFT?.nft.name}</span>
             </p>
           </CreatedTitle>
           <CreatedText>
@@ -89,32 +96,33 @@ const Nftproduct = () => {
       <RightGrid>
         <RightTitle>
           {/* text created by user */}
-          <p>Apple Watch Series 4 GPS</p>
+          <p>{auctionNFT?.nft.name}</p>
         </RightTitle>
         <RightSubTitle>{t('prediction')}: Round 11 (Bronze) - Only 100 Available</RightSubTitle>
-        <PublisherCard height="91px">
+        <PublisherCard height='91px'>
           <div>
             <p>
-              {t('publisher')} :<span>Muhammed Amin</span>
+              {t('publisher')} :<span>{auctionNFT?.issuername}</span>
             </p>
             <p>8% {t('resellingPercentage')}</p>
           </div>
         </PublisherCard>
-        <PublisherCard height="60px">
-          <div>
+        <PublisherCard height='60px'>
+          <OwnerText>
             <p>
-              {t('owner')} :<span>Mohamed Mounier El - King</span>
+              {t('owner')} :
             </p>
-          </div>
+            <span>{auctionNFT?.nft.owner}</span>
+          </OwnerText>
         </PublisherCard>
         <BuyCard>
           <BuyCost>
             <p>
-              {t('cost')} : <span>180 ETH</span>
+              {t('cost')} : <span>{auctionNFT?.auction.soldPrice}</span>
             </p>
           </BuyCost>
           <BuyButtons $opacity={false}>
-            <ButtonWishlist nftId={nftId} type="NFTProduct" />
+            <ButtonWishlist nftId={nftId} type='NFTProduct' />
             <button
               onClick={() => {
                 setBidOrBuy(true)
@@ -141,15 +149,7 @@ const Nftproduct = () => {
           </DescriptionTitle>
           <DescriptionText>
             <ReadMore showScroll={showScroll}>
-              <p>
-                he biggest fight of the year is set for May 8 at AT&T Stadium in Arlington, Texas, as WBA, WBC and Ring
-                Magazine champion and the number one pound-for-pound fighter in the world, Canelo Alvarez, meets Billy
-                Joe Saunders, the holder of the WBO belt, in a battle for super middleweight supremacy. This stunning
-                collection of. he biggest fight of the year is set for May 8 at AT&T Stadium in Arlington, Texas, as
-                WBA, WBC and Ring Magazine champion and the number one pound-for-pound fighter in the world, Canelo
-                Alvarez, meets Billy Joe Saunders, the holder of the WBO belt, in a battle for super middleweight
-                supremacy. This stunning collection of
-              </p>
+              <p>{auctionNFT?.nft.description}</p>
             </ReadMore>
           </DescriptionText>
         </DescriptionCard>

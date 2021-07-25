@@ -7,7 +7,6 @@ import { addPopup, ApplicationModal, PopupContent as PC, removePopup, setOpenMod
 
 export function useBlockNumber(): number | undefined {
   const { chainId } = useActiveWeb3React()
-
   return useSelector((state: AppState) => state.application.blockNumber[chainId ?? -1])
 }
 
@@ -63,7 +62,6 @@ export function useToggleVoteModal(): () => void {
 // returns a function that allows adding a popup
 export function useAddPopup(): (content: PC, key?: string) => void {
   const dispatch = useDispatch()
-
   return useCallback(
     (content: PC, key?: string) => {
       dispatch(addPopup({ content, key }))
@@ -72,6 +70,7 @@ export function useAddPopup(): (content: PC, key?: string) => void {
   )
 }
 
+
 export const usePopup = (): ((popupContent: PopupContent) => void) => {
   const popup = useAddPopup()
   return useCallback((popupContent: PopupContent)=>{
@@ -79,10 +78,13 @@ export const usePopup = (): ((popupContent: PopupContent) => void) => {
       hash: '',
       success: popupContent.success,
       summary: popupContent.message
+
+
     }}  
     popup(content)
   },[popup])
 }
+
 
 // returns a function that allows removing a popup via its key
 export function useRemovePopup(): (key: string) => void {

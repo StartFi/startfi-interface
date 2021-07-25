@@ -4,6 +4,9 @@ import Card from './Card'
 import Questions from './Questions'
 import { Row } from 'theme/components'
 import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import { NFT } from 'services/models/NFT'
+import { useDraft } from 'state/user/hooks'
 
 const Container = styled.div`
   width: 100%;
@@ -37,9 +40,16 @@ const Right = styled(CardBase)`
 interface LocationState {
   step?: number
 }
+        
+interface DraftParams {
+  draftId: string;
+}
+
 
 const MintNFT: React.FC = () => {
   const location = useLocation<LocationState>()
+    const {draftId}: DraftParams = useParams()
+  const draft:NFT=useDraft(parseInt(draftId));
 
   return (
     <Container>
@@ -48,7 +58,7 @@ const MintNFT: React.FC = () => {
           <Questions />
         </Left>
         <Right>
-          <Card currentStep={location.state?.step} />
+          <Card currentStep={location.state?.step} draft={draft}/>
         </Right>
       </Body>
     </Container>

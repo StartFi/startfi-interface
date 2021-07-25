@@ -21,10 +21,13 @@ import {
   clearUserPopup,
   logoutAction,
   getDraftsAction,
-  getUserNFTsAction
+  getUserNFTsAction,
+  removeWishListItemAction,
+
 } from './actions'
 import { User } from 'services/models/User'
 import { NFT } from 'services/models/NFT'
+import { Auction } from 'services/models/Auction'
 
 const currentTimestamp = () => new Date().getTime()
 
@@ -66,6 +69,7 @@ export interface UserState {
   drafts: NFT[]
   onMarket: NFT[]
   offMarket: NFT[]
+  userAuctions:Auction[]
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -87,7 +91,8 @@ export const initialState: UserState = {
   popup: null,
   drafts: [],
   onMarket: [],
-  offMarket: []
+  offMarket: [],
+  userAuctions:[]
 }
 
 export default createReducer(initialState, builder =>
@@ -188,6 +193,18 @@ export default createReducer(initialState, builder =>
     .addCase(addToWishlistAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while adding NFT to wishlist' }
     })
+    .addCase(removeWishListItemAction.pending, (state, action) => {})
+    .addCase(removeWishListItemAction.fulfilled, (state, action) => {
+      const success = action.payload.removedWishlistItem === 'success'
+      state.popup = {
+        success,
+        message: success ? 'NFT removed from wishlist successfully' : action.payload.removedWishlistItem
+      }
+      state.user = action.payload.user
+    })
+    .addCase(removeWishListItemAction.rejected, (state, action) => {
+      state.popup = { success: false, message: action.error.message || 'Error occured while adding NFT to wishlist' }
+    })
     .addCase(saveDraftAction.pending, (state, action) => {})
     .addCase(saveDraftAction.fulfilled, (state, action) => {
       const success = action.payload.status === 'success'
@@ -210,8 +227,14 @@ export default createReducer(initialState, builder =>
     .addCase(getUserNFTsAction.fulfilled, (state, action) => {
       state.onMarket = action.payload.onMarket
       state.offMarket = action.payload.offMarket
+      state.userAuctions=action.payload.userAuctions
     })
     .addCase(getUserNFTsAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
     })
+
 )
+
+
+
+

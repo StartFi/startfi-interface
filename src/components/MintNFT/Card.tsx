@@ -1,5 +1,6 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
+import { datatype as faker } from 'faker'
 import styled from 'styled-components'
 import Step1 from './Step1'
 import Step2 from './Step2'
@@ -46,9 +47,11 @@ const Footer = styled.div`
 `
 interface CardProps {
   currentStep?: number
+    draft: NFT
 }
 
-const Card: React.FC<CardProps> = ({ currentStep }) => {
+const Card: React.FC<CardProps> = ({ currentStep, draft }) => {
+
   const { t } = useTranslation()
 
   const history = useHistory()
@@ -65,7 +68,8 @@ const Card: React.FC<CardProps> = ({ currentStep }) => {
 
   const [nft, setNFT] = useState<NFT>(
     savedNFT || {
-      id: 0,
+      id: faker.number({ min: 5, max: 5 }),
+      uuid: faker.uuid(),
       category: '',
       dataHash: '',
       name: '',
@@ -183,6 +187,12 @@ const Card: React.FC<CardProps> = ({ currentStep }) => {
         return null
     }
   }
+
+useEffect(() => {
+    if (draft) {
+      setNFT(draft)
+    }
+  }, [draft])
 
   return (
     <Container>
