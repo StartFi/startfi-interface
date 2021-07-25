@@ -55,7 +55,7 @@ import { WhiteShadow } from 'components/WaitingConfirmation'
 import { useHistory } from 'react-router-dom'
 import { useWeb3React } from '@web3-react/core'
 import { address as STARTFI_TOKEN_ADDRESS } from '../../constants/abis/StartFiToken.json'
-import { useTokenBalance, useGetAllowance } from 'hooks/startfiToken'
+import { useGetAllowance } from 'hooks/startfiToken'
 
 const NFTSummary: React.FC = () => {
   const { account } = useWeb3React()
