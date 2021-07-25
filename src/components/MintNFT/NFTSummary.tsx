@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { usePopup } from 'state/application/hooks'
 import { useAddToMarketplace, useAuction, useMinted, useMintNFT, useNFT } from 'state/marketplace/hooks'
@@ -53,8 +53,21 @@ import {
 } from './NFTSummary.styles'
 import { WhiteShadow } from 'components/WaitingConfirmation'
 import { useHistory } from 'react-router-dom'
+import { useTokenBalance } from 'hooks/startfiToken'
+import { useWeb3React } from '@web3-react/core'
 
 const NFTSummary: React.FC = () => {
+  const { account } = useWeb3React()
+  const getStfiBalance = useTokenBalance()
+  const [stfiBalance, setStfiBalance] = useState('0')
+  useEffect(() => {
+    const getBalance = async () => {
+      const balanceHexString = await getStfiBalance(account as string)
+      const balance = balanceHexString?.length < 5 ? parseInt(balanceHexString, 16) : balanceHexString
+      setStfiBalance(balance)
+    }
+    account && getBalance()
+  }, [account, getStfiBalance])
   const history = useHistory()
 
   const nft = useNFT()
@@ -62,7 +75,6 @@ const NFTSummary: React.FC = () => {
   const auction = useAuction()
 
   const { t } = useTranslation()
-
   const popup = usePopup()
 
   const saveDraft = useSaveDraft()
@@ -70,8 +82,6 @@ const NFTSummary: React.FC = () => {
   const [step, setStep] = useState<number>(auction ? 8 : 4)
 
   const fees = useDigitizingFees()
-
-  const balance = parseFloat(useUserBalance() || '')
 
   const mint = useMintNFT()
 
@@ -81,7 +91,7 @@ const NFTSummary: React.FC = () => {
 
   const minted = useMinted()
 
-   if (!nft) return null
+  if (!nft) return null
 
   const next = () => {
     switch (step) {
@@ -258,7 +268,7 @@ const NFTSummary: React.FC = () => {
       <Border />
       <SpaceBetween>
         <SemiBold>{t('yourBalance')}</SemiBold>
-        <Amount amount={balance} />
+        <Amount amount={Number(stfiBalance)} />
       </SpaceBetween>
       <Border />
       <SpaceBetween>
@@ -272,7 +282,9 @@ const NFTSummary: React.FC = () => {
       <ButtonBlack onClick={next}>
         {t(step === 6 ? 'saveToBlockchain' : step === 10 ? 'addToMarketplace' : 'allowPayment')}
       </ButtonBlack>
-      <ButtonTransparentBorder onClick={() => (nft.step < 4 ? saveDraft(nft) : history.push('/inventory/off-market/' + nft.id))}>
+      <ButtonTransparentBorder
+        onClick={() => (nft.step < 4 ? saveDraft(nft) : history.push('/inventory/off-market/' + nft.id))}
+      >
         {t('cancelAndSaveAsDraft')}
       </ButtonTransparentBorder>
     </Right>
@@ -301,7 +313,11 @@ const NFTSummary: React.FC = () => {
             <Auction />
             {(step === 4 || step === 8) && <ContainerFooter />}
           </Left>
-          {(step === 5 || step === 6) && <MarginLeft><PaymentCard /></MarginLeft>}
+          {(step === 5 || step === 6) && (
+            <MarginLeft>
+              <PaymentCard />
+            </MarginLeft>
+          )}
         </Columns>
       </Card>
     </Container>
@@ -309,4 +325,3 @@ const NFTSummary: React.FC = () => {
 }
 
 export default NFTSummary
-
