@@ -48,12 +48,9 @@ export const useMint = (): ((
             account,
             library
           )
-          console.log('royalty', mintedNFT)
           return (mintedNFT as any).value.toNumber()
         } else {
           const mintedNFT = await mint('MintNFTWithoutRoyalty', [address, ipfsHash], contract, account, library)
-          console.log('no royalty', mintedNFT)
-
           return (mintedNFT as any).value.toNumber()
         }
       } catch (e) {

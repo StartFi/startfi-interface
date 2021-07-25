@@ -3,10 +3,12 @@ import { useActiveWeb3React } from 'hooks'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { addNewEvent } from 'state/blockchainEvents/actions'
+import { useNFT } from 'state/marketplace/hooks'
 import { parseBigNumber, useStartFiToken, useStartFiMarketplace, useStartFiPayment, useStartFiNft } from './useContract'
-
+import { mintNFTAction } from 'state/marketplace/actions'
 export const useNftPaymentEventListener = () => {
-  const { library } = useActiveWeb3React()
+  const { library, account } = useActiveWeb3React()
+  const nft = useNFT()
 
   const tokenContract = useStartFiToken(false)
   const nftRoyalty = useStartFiNft(false)
@@ -19,8 +21,15 @@ export const useNftPaymentEventListener = () => {
     if (transferRoyalEvent) {
       library?.on(transferRoyalEvent as EventFilter, result => {
         const eventLogs = nftRoyalty?.interface.parseLog({ data: result.data, topics: result.topics }).args
-        console.log({ eventName: 'transferRoyalEvent', eventValue: parseBigNumber(eventLogs) })
-        dispatch(addNewEvent({ eventName: 'transferRoyalEvent', eventValue: parseBigNumber(eventLogs) }))
+        console.log({ eventName: 'transferRoyaltyEvent', eventValue: parseBigNumber(eventLogs) })
+        const mintedNftId = parseBigNumber(eventLogs)[2]
+
+        if (account && nft) {
+          console.log('mintedNFT', mintedNftId)
+          dispatch(mintNFTAction({ ...nft, issuer: account as string, issueDate: new Date(), id: mintedNftId }))
+        }
+
+        dispatch(addNewEvent({ eventName: 'transferRoyaltyEvent', eventValue: parseBigNumber(eventLogs) }))
       })
     }
     return () => {
