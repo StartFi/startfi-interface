@@ -31,6 +31,7 @@ export interface MarketplaceState {
   minted: boolean
   nft: NFT | null
   auction: Auction | null
+  NftDetails: NFT | null
 }
 
 const initialState: MarketplaceState = {
@@ -43,7 +44,8 @@ const initialState: MarketplaceState = {
   popup: null,
   minted: false,
   nft: null,
-  auction: null
+  auction: null,
+  NftDetails: null
 }
 
 export default createReducer(initialState, builder =>
