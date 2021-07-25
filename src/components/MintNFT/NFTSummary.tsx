@@ -81,7 +81,7 @@ const NFTSummary: React.FC = () => {
 
   const minted = useMinted()
 
-  if (!nft || !balance) return null
+   if (!nft) return null
 
   const next = () => {
     switch (step) {
@@ -109,12 +109,12 @@ const NFTSummary: React.FC = () => {
           <FirstBoxFields>
             <Field>
               <FirstBoxLabel>{t('category')}</FirstBoxLabel>
-              <FirstBoxData>{nft.category}</FirstBoxData>
+              <FirstBoxData>{nft?.category}</FirstBoxData>
             </Field>
             <Line />
             <Field>
               <FirstBoxLabel>{t('uploadedFile')}</FirstBoxLabel>
-              <FirstBoxData>{nft.name}</FirstBoxData>
+              <FirstBoxData>{nft?.name}</FirstBoxData>
             </Field>
           </FirstBoxFields>
         </FirstField>
@@ -122,7 +122,7 @@ const NFTSummary: React.FC = () => {
       <EditableBox editable={step === 4} link="/mint/steps" state={{ step: 2 }}>
         <Field>
           <Label>{t('assetName')}</Label>
-          <Data500>{nft.dataHash}</Data500>
+          <Data500>{nft?.dataHash}</Data500>
         </Field>
         <Line />
         <Field>
@@ -309,3 +309,4 @@ const NFTSummary: React.FC = () => {
 }
 
 export default NFTSummary
+
