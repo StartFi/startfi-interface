@@ -88,7 +88,7 @@ const NFTsHeader: React.FC = () => {
 
   const getNFTs = useGetNFTs()
 
-  const { category, search } = useSearch()
+  let { category, search } = useSearch()
 
   if (!category) category = 'all'
 
