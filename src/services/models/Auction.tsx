@@ -8,10 +8,12 @@ export interface Auction {
   isForSale: boolean
   isForBid: boolean
   bids: string[]
-  listTime: number
+  listTime: Date
   purchaseTime?: Date
   listingTxt: string
   purchaseTxt?: string
   soldPrice?: number
   status: string
+  minBid?: number
+  qualifyAmount?: number
 }
