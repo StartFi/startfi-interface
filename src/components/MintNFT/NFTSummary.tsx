@@ -55,10 +55,8 @@ import { WhiteShadow } from 'components/WaitingConfirmation'
 import { useHistory } from 'react-router-dom'
 import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../../constants/abis/StartFiNFTPayment.json'
 import { useApproveToken } from 'hooks/startfiToken'
-import { useWeb3React } from '@web3-react/core'
 
 const NFTSummary: React.FC = () => {
-  const { account } = useWeb3React()
   const approveToken = useApproveToken()
   const history = useHistory()
 
