@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import StartFi from '../../assets/svg/StartFi-c 1.svg'
-import LoaderStartfi from 'components/Loader/Loader'
 
 const PageWrapper = styled.div`
   width: 100%;
