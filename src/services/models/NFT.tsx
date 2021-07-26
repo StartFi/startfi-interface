@@ -2,6 +2,7 @@ import { Dictionary } from '../../constants'
 
 export interface NFT extends Dictionary {
   id: number
+  tokenId:number|string
   uuid: string,
   dataHash: string
   name: string
