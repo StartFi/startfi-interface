@@ -7,6 +7,7 @@ import { useRemoveWishlistItem } from 'state/user/hooks'
 import { RemoveWishList } from 'components/Button'
 import Remove from '../../assets/images/Remove.png'
 import { useCountDownTimer } from 'hooks/countDownTimer'
+import { useTranslation } from 'react-i18next'
 
 interface MiniCardContent {
   cardContent: AuctionNFT
@@ -17,8 +18,9 @@ interface MiniCardContent {
 const WishCard: React.FC<MiniCardContent> = ({ cardContent, navigateToNft }) => {
   const remove = useRemoveWishlistItem(cardContent.nft.id)
   const timeLeft = useCountDownTimer(cardContent.auction.expireTimestamp)
-
+  const { t } = useTranslation()
   const timerComponents: any = []
+
 
   Object.keys(timeLeft).forEach(interval => {
     if (!timeLeft[interval]) {
@@ -56,14 +58,14 @@ const WishCard: React.FC<MiniCardContent> = ({ cardContent, navigateToNft }) => 
                 remove()
               }}
             >
-              Remove from WishList
+              {t('removeWishListItem')}
             </RemoveWishList>
           </div>
         </RemoveContainer>
 
         {cardContent.auction?.bids?.length > 0 ? (
           <Text FontWeight='500' color='#000000' fontSize='1rem'>
-            Last Bidding : {cardContent.auction.bids[cardContent.auction?.bids?.length - 1]} STFI
+            {t('lastBidding')}: {cardContent.auction.bids[cardContent.auction?.bids?.length - 1]} STFI
           </Text>
         ) : (
           <Text FontWeight='700' color='#000000' fontSize='1rem'>
@@ -74,7 +76,7 @@ const WishCard: React.FC<MiniCardContent> = ({ cardContent, navigateToNft }) => 
         {timerComponents?.length > 0 ? (
           <CounterContainer>
             <Text FontWeight='400' color='#000000' fontSize='1rem' margin='0 5px 0 10px'>
-              Auctions Ends In :
+             {t('auctionEnds')} :
             </Text>
 
             {timerComponents}
