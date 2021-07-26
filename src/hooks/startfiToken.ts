@@ -79,11 +79,7 @@ export const useApproveToken = (): ((spender: string, amount: string | number) =
         return `account: ${account} is not connected`
       }
       try {
-        const transaction = await approve('approve', [spender, amount], contract, account, library)
-        const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
-        console.log('transactionReceipt', transactionReceipt)
-        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
-        return decodedLogs[0].events
+        return await approve('approve', [spender, amount], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
