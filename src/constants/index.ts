@@ -80,6 +80,8 @@ const WETH_ONLY: ChainTokenList = {
   [ChainId.BSCT]: [WETH9[ChainId.GÖRLI]],
   [ChainId.BSC]: [WETH9[ChainId.GÖRLI]],
   [ChainId.StartFi]: [WETH9[ChainId.GÖRLI]],
+  [ChainId.POLYGON]: [WETH9[ChainId.GÖRLI]],
+  [ChainId.AURORA]: [WETH9[ChainId.GÖRLI]],
   [ChainId.KOVAN]: [WETH9[ChainId.KOVAN]]
 }
 
