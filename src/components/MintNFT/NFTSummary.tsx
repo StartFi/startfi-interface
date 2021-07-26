@@ -5,7 +5,9 @@ import { useAddToMarketplace, useAuction, useMinted, useMintNFT, useNFT } from '
 import uriToHttp from 'utils/uriToHttp'
 import { Tag } from 'components/Tags'
 import { ButtonDraft, ButtonMint } from 'components/Button'
-import { useSaveDraft, useUserBalance } from 'state/user/hooks'
+import { useSaveDraft } from 'state/user/hooks'
+import { address as STARTFI_TOKEN_ADDRESS } from '../../constants/abis/StartFiToken.json'
+import { useGetAllowance } from 'hooks/startfiToken'
 import {
   Bold,
   Border,
@@ -53,14 +55,24 @@ import {
 } from './NFTSummary.styles'
 import { WhiteShadow } from 'components/WaitingConfirmation'
 import { useHistory } from 'react-router-dom'
+import { useTokenBalance } from 'hooks/startfiToken'
 import { useWeb3React } from '@web3-react/core'
-import { address as STARTFI_TOKEN_ADDRESS } from '../../constants/abis/StartFiToken.json'
-import { useGetAllowance } from 'hooks/startfiToken'
 
 const NFTSummary: React.FC = () => {
   const { account } = useWeb3React()
+  const getStfiBalance = useTokenBalance()
   const getAllowedStfi = useGetAllowance()
   const [allowedStfi, setAllowedStfi] = useState(0)
+  const [stfiBalance, setStfiBalance] = useState(0)
+  useEffect(() => {
+    const getBalance = async () => {
+      const balanceHexString = await getStfiBalance(account as string)
+      const balance = balanceHexString?.length < 5 ? parseInt(balanceHexString, 16) : Number(balanceHexString)
+      console.log({ balanceHexString })
+      setStfiBalance(balance)
+    }
+    account && getBalance()
+  }, [account, getStfiBalance])
   useEffect(() => {
     const getAllowed = async () => {
       const allowedHexString = await getAllowedStfi(STARTFI_TOKEN_ADDRESS, account as string)
@@ -76,7 +88,6 @@ const NFTSummary: React.FC = () => {
   const auction = useAuction()
 
   const { t } = useTranslation()
-
   const popup = usePopup()
 
   const saveDraft = useSaveDraft()
@@ -84,8 +95,6 @@ const NFTSummary: React.FC = () => {
   const [step, setStep] = useState<number>(auction ? 8 : 4)
 
   const fees = useDigitizingFees()
-
-  const balance = parseFloat(useUserBalance() || '')
 
   const mint = useMintNFT()
 
@@ -272,7 +281,7 @@ const NFTSummary: React.FC = () => {
       <Border />
       <SpaceBetween>
         <SemiBold>{t('yourBalance')}</SemiBold>
-        <Amount amount={balance} />
+        <Amount amount={stfiBalance} />
       </SpaceBetween>
       <Border />
       <SpaceBetween>
