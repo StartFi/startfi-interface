@@ -5,7 +5,9 @@ import { useAddToMarketplace, useAuction, useMinted, useMintNFT, useNFT } from '
 import uriToHttp from 'utils/uriToHttp'
 import { Tag } from 'components/Tags'
 import { ButtonDraft, ButtonMint } from 'components/Button'
-import { useSaveDraft, useUserBalance } from 'state/user/hooks'
+import { useSaveDraft } from 'state/user/hooks'
+import { address as STARTFI_TOKEN_ADDRESS } from '../../constants/abis/StartFiToken.json'
+import { useGetAllowance } from 'hooks/startfiToken'
 import {
   Bold,
   Border,
@@ -59,15 +61,26 @@ import { useWeb3React } from '@web3-react/core'
 const NFTSummary: React.FC = () => {
   const { account } = useWeb3React()
   const getStfiBalance = useTokenBalance()
-  const [stfiBalance, setStfiBalance] = useState('0')
+  const getAllowedStfi = useGetAllowance()
+  const [allowedStfi, setAllowedStfi] = useState(0)
+  const [stfiBalance, setStfiBalance] = useState(0)
   useEffect(() => {
     const getBalance = async () => {
       const balanceHexString = await getStfiBalance(account as string)
-      const balance = balanceHexString?.length < 5 ? parseInt(balanceHexString, 16) : balanceHexString
+      const balance = balanceHexString?.length < 5 ? parseInt(balanceHexString, 16) : Number(balanceHexString)
+      console.log({ balanceHexString })
       setStfiBalance(balance)
     }
     account && getBalance()
   }, [account, getStfiBalance])
+  useEffect(() => {
+    const getAllowed = async () => {
+      const allowedHexString = await getAllowedStfi(STARTFI_TOKEN_ADDRESS, account as string)
+      const allowed = allowedHexString?.length < 5 ? parseInt(allowedHexString, 16) : allowedHexString
+      setAllowedStfi(allowed)
+    }
+    account && getAllowed()
+  }, [account, getAllowedStfi])
   const history = useHistory()
 
   const nft = useNFT()
@@ -268,7 +281,7 @@ const NFTSummary: React.FC = () => {
       <Border />
       <SpaceBetween>
         <SemiBold>{t('yourBalance')}</SemiBold>
-        <Amount amount={Number(stfiBalance)} />
+        <Amount amount={stfiBalance} />
       </SpaceBetween>
       <Border />
       <SpaceBetween>
@@ -280,7 +293,7 @@ const NFTSummary: React.FC = () => {
         {(step === 5 || step === 9) && <Question text="payFromAccountDesc" />}
       </Info>
       <ButtonBlack onClick={next}>
-        {t(step === 6 ? 'saveToBlockchain' : step === 10 ? 'addToMarketplace' : 'allowPayment')}
+        {t(step === 6 ? 'saveToBlockchain' : step === 10 || allowedStfi !== 0 ? 'addToMarketplace' : 'allowPayment')}{' '}
       </ButtonBlack>
       <ButtonTransparentBorder
         onClick={() => (nft.step < 4 ? saveDraft(nft) : history.push('/inventory/off-market/' + nft.id))}

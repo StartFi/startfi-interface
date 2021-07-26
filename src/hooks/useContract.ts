@@ -47,20 +47,10 @@ const WETH: WETH_Only = {
   [ChainId.RINKEBY]: WETH9[ChainId.RINKEBY],
   [ChainId.GÖRLI]: WETH9[ChainId.GÖRLI],
   [ChainId.BSCT]: new Token(ChainId.BSCT, '0x793b6B742e1206C5D3DFAF2Efd85D3919dba60eB', 18, 'ETH', 'Ethereum Token'),
-  [ChainId.BSC]: new Token(
-    ChainId.BSC,
-    '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
-    18,
-    'ETH',
-    'Binance-Peg Ethereum'
-  ),
-  [ChainId.StartFi]: new Token(
-    ChainId.BSC,
-    '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
-    18,
-    'ETH',
-    'Binance-Peg Ethereum'
-  ),
+  [ChainId.BSC]: new Token(ChainId.BSC, '0x2170Ed0880ac9A755fd29B2688956BD959F933F8', 18, 'ETH', 'Binance-Peg Ethereum'),
+  [ChainId.StartFi]:  new Token(ChainId.BSC, '0x2170Ed0880ac9A755fd29B2688956BD959F933F8', 18, 'ETH', 'Binance-Peg Ethereum'),
+  [ChainId.AURORA]:  new Token(ChainId.BSC, '0x2170Ed0880ac9A755fd29B2688956BD959F933F8', 18, 'ETH', 'Binance-Peg Ethereum'),
+  [ChainId.POLYGON]:  new Token(ChainId.BSC, '0x2170Ed0880ac9A755fd29B2688956BD959F933F8', 18, 'ETH', 'Binance-Peg Ethereum'),
   [ChainId.KOVAN]: WETH9[ChainId.KOVAN]
 }
 function useContract(address: string | undefined, ABI: any, withSignerIfPossible = true): Contract | null {
