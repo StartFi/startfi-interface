@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { Row } from 'theme'
 import Icon from './../../assets/icons/edit.svg'
+import { useTranslation } from 'react-i18next'
 
 const Box = styled.div`
   position: relative;
@@ -37,12 +38,14 @@ interface EditableBoxProps {
 const EditableBox: React.FC<EditableBoxProps> = ({ editable, children, link, state }) => {
   const history = useHistory()
 
+  const { t } = useTranslation()
+
   return (
     <Box>
       {editable && (
-        <Edit onClick={() => link ? history.push(link, state) : null}>
+        <Edit onClick={() => (link ? history.push(link, state) : null)}>
           <img src={Icon} alt="Edit" />
-          <div>Edit</div>
+          <div>{t('edit')}</div>
         </Edit>
       )}
       {children}

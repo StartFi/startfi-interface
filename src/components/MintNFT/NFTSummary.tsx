@@ -81,7 +81,7 @@ const NFTSummary: React.FC = () => {
 
   const minted = useMinted()
 
-   if (!nft) return null
+  if (!nft) return null
 
   const next = () => {
     switch (step) {
@@ -272,7 +272,9 @@ const NFTSummary: React.FC = () => {
       <ButtonBlack onClick={next}>
         {t(step === 6 ? 'saveToBlockchain' : step === 10 ? 'addToMarketplace' : 'allowPayment')}
       </ButtonBlack>
-      <ButtonTransparentBorder onClick={() => (nft.step < 4 ? saveDraft(nft) : history.push('/inventory/off-market/' + nft.id))}>
+      <ButtonTransparentBorder
+        onClick={() => (nft.step < 4 ? saveDraft(nft) : history.push('/inventory/off-market/' + nft.id))}
+      >
         {t('cancelAndSaveAsDraft')}
       </ButtonTransparentBorder>
     </Right>
@@ -301,7 +303,11 @@ const NFTSummary: React.FC = () => {
             <Auction />
             {(step === 4 || step === 8) && <ContainerFooter />}
           </Left>
-          {(step === 5 || step === 6) && <MarginLeft><PaymentCard /></MarginLeft>}
+          {(step === 5 || step === 6) && (
+            <MarginLeft>
+              <PaymentCard />
+            </MarginLeft>
+          )}
         </Columns>
       </Card>
     </Container>
@@ -309,4 +315,3 @@ const NFTSummary: React.FC = () => {
 }
 
 export default NFTSummary
-
