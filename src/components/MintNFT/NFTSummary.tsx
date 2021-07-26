@@ -55,27 +55,30 @@ import {
 } from './NFTSummary.styles'
 import { WhiteShadow } from 'components/WaitingConfirmation'
 import { useHistory } from 'react-router-dom'
-import { useTokenBalance } from 'hooks/startfiToken'
+import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../../constants/abis/StartFiNFTPayment.json'
+import { useApproveToken, useTokenBalance } from 'hooks/startfiToken'
 import { useWeb3React } from '@web3-react/core'
 
 const NFTSummary: React.FC = () => {
   const { account } = useWeb3React()
   const getStfiBalance = useTokenBalance()
   const getAllowedStfi = useGetAllowance()
+  const approveToken = useApproveToken()
+
   const [allowedStfi, setAllowedStfi] = useState(0)
   const [stfiBalance, setStfiBalance] = useState(0)
   useEffect(() => {
     const getBalance = async () => {
       const balanceHexString = await getStfiBalance(account as string)
       const balance = balanceHexString?.length < 5 ? parseInt(balanceHexString, 16) : Number(balanceHexString)
-      console.log({ balanceHexString })
       setStfiBalance(balance)
     }
     account && getBalance()
   }, [account, getStfiBalance])
   useEffect(() => {
     const getAllowed = async () => {
-      const allowedHexString = await getAllowedStfi(STARTFI_TOKEN_ADDRESS, account as string)
+      const allowedHexString = await getAllowedStfi(account as string, STARTFI_NFT_PAYMENT_ADDRESS)
+      console.log({ allowedHexString })
       const allowed = allowedHexString?.length < 5 ? parseInt(allowedHexString, 16) : allowedHexString
       setAllowedStfi(allowed)
     }
@@ -106,12 +109,24 @@ const NFTSummary: React.FC = () => {
 
   if (!nft) return null
 
-  const next = () => {
+  const next = async () => {
     switch (step) {
       case 4:
-        return agree ? setStep(step + 1) : null
+        if (agree) {
+          if (allowedStfi) {
+            setStep(step + 2)
+          } else {
+            setStep(step + 1)
+          }
+        }
+        return null
       case 5:
-        return setStep(step + 1)
+        console.log({ allowedStfi })
+        const result = await approveToken(STARTFI_NFT_PAYMENT_ADDRESS, 5)
+        if (result.hash) {
+          return setStep(step + 1)
+        }
+        return null
       case 6:
         return mint()
       case 8:
