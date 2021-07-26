@@ -17,7 +17,7 @@ import { usePopup } from 'state/application/hooks'
 import { useHistory } from 'react-router-dom'
 import { useAuction, useNFT, useSaveAuction, useSaveNFT } from 'state/marketplace/hooks'
 import { Auction } from 'services/models/Auction'
-
+import { address as STARTFI_NFT_ADDRESS } from '../../constants/abis/StartfiRoyaltyNFT.json'
 const Container = styled.div`
   display: flex;
   flex-flow: column nowrap;
@@ -85,6 +85,7 @@ const Card: React.FC<CardProps> = ({ currentStep, draft }) => {
   const [auction, setAuction] = useState<Auction>(
     savedAuction || {
       id: 'string',
+      contractAddress: STARTFI_NFT_ADDRESS,
       nft: 0,
       listingPrice: 0,
       seller: '',

@@ -22,6 +22,8 @@ import {
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
+import { useCreateAuction } from 'hooks/startfiMarketPlace'
+import { useWeb3React } from '@web3-react/core'
 
 export const useMarketplace = (): AuctionNFT[] => {
   return useSelector((state: AppState) => state.marketplace.marketplace)
@@ -115,9 +117,13 @@ export const useAddToMarketplace = (): (() => void) => {
   const popup = usePopup()
   const nft = useNFT()
   const auction = useAuction()
-
-  return useCallback(() => {
+const createAuction = useCreateAuction()
+/** */
+  return useCallback(async() => {
     if (seller && auction && nft) {
+     
+      await createAuction( auction.contractAddress, 1,  auction.listingPrice,   auction.qualifyAmount as number,   auction.isForBid,auction.soldPrice as number,
+        auction.expireTimestamp)
       dispatch(addToMarketplaceAction({ ...auction, nft: nft.id, seller, listTime: new Date() }))
     } else popup({ success: false, message: 'Connect wallet or no Auction data' })
   }, [auction, nft, seller, popup, dispatch])

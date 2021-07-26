@@ -55,7 +55,9 @@ import { WhiteShadow } from 'components/WaitingConfirmation'
 import { useHistory } from 'react-router-dom'
 import { useWeb3React } from '@web3-react/core'
 import { address as STARTFI_TOKEN_ADDRESS } from '../../constants/abis/StartFiToken.json'
+import { address as STARTFI_Marketplace_ADDRESS } from '../../constants/abis/StartfiRoyaltyNFT.json'
 import { useGetAllowance } from 'hooks/startfiToken'
+import { useApproveNft,useGetApproverAddress } from 'hooks/startfiNft'
 
 const NFTSummary: React.FC = () => {
   const { account } = useWeb3React()
@@ -69,6 +71,18 @@ const NFTSummary: React.FC = () => {
     }
     account && getAllowed()
   }, [account, getAllowedStfi])
+  const [allowed, setAllowed] = useState<boolean>( false)
+  const getApproverAddress= useGetApproverAddress()
+  const approve= useApproveNft()
+  useEffect(() => {
+    const getAllowed = async () => {
+      // const approver = await getApproverAddress(nft?.id as number)
+      const approver = await getApproverAddress(1)
+      if(approver== STARTFI_Marketplace_ADDRESS as any )
+      {setAllowed(true)}
+    }
+    getAllowed()
+  }, [allowed])
   const history = useHistory()
 
   const nft = useNFT()
@@ -97,7 +111,7 @@ const NFTSummary: React.FC = () => {
 
   if (!nft) return null
 
-  const next = () => {
+  const next =async () => {
     switch (step) {
       case 4:
         return agree ? setStep(step + 1) : null
@@ -108,6 +122,10 @@ const NFTSummary: React.FC = () => {
       case 8:
         return setStep(step + 1)
       case 9:
+        if(!allowed){
+          await approve(STARTFI_Marketplace_ADDRESS,1);
+          // await approve(STARTFI_Marketplace_ADDRESS,nft.id);
+        }
         return setStep(step + 1)
       case 10:
         return addToMarketplace()
