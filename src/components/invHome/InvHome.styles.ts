@@ -31,9 +31,16 @@ border-bottom: ${props => (props.selected ? '2px solid #000000;' : 'none;')};
 color: ${props => (props.selected ? ' #000000;' : '#919191;')};
 transition: ease-in-out 0.3s all;
 `
+export const InventoryCard = styled('div')<{
+  borderRadius?:string;
+  marginTop?:string;
+  height?:string;
 
-export const InventoryCard = styled('div')<{borderRadius?:string;marginTop?:string}>`
+
+
+}>`
   height: 500px;
+  height:${({ height }) => height};
   width: 92%;
   margin: 0px auto 0px auto;
   background-color: #ffffff;
@@ -53,6 +60,7 @@ export const InventoryCard = styled('div')<{borderRadius?:string;marginTop?:stri
     background-color: #b5b5b5;
   }
 `
+
 export const MiniInvCard = styled.div`
   display: flex;
   width: 46.1%;
