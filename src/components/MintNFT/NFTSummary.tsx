@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { usePopup } from 'state/application/hooks'
 import { useAddToMarketplace, useAuction, useMinted, useMintNFT, useNFT } from 'state/marketplace/hooks'
@@ -53,8 +53,22 @@ import {
 } from './NFTSummary.styles'
 import { WhiteShadow } from 'components/WaitingConfirmation'
 import { useHistory } from 'react-router-dom'
+import { useWeb3React } from '@web3-react/core'
+import { address as STARTFI_TOKEN_ADDRESS } from '../../constants/abis/StartFiToken.json'
+import { useGetAllowance } from 'hooks/startfiToken'
 
 const NFTSummary: React.FC = () => {
+  const { account } = useWeb3React()
+  const getAllowedStfi = useGetAllowance()
+  const [allowedStfi, setAllowedStfi] = useState(0)
+  useEffect(() => {
+    const getAllowed = async () => {
+      const allowedHexString = await getAllowedStfi(STARTFI_TOKEN_ADDRESS, account as string)
+      const allowed = allowedHexString?.length < 5 ? parseInt(allowedHexString, 16) : allowedHexString
+      setAllowedStfi(allowed)
+    }
+    account && getAllowed()
+  }, [account, getAllowedStfi])
   const history = useHistory()
 
   const nft = useNFT()
@@ -81,7 +95,7 @@ const NFTSummary: React.FC = () => {
 
   const minted = useMinted()
 
-   if (!nft) return null
+  if (!nft) return null
 
   const next = () => {
     switch (step) {
@@ -270,9 +284,11 @@ const NFTSummary: React.FC = () => {
         {(step === 5 || step === 9) && <Question text="payFromAccountDesc" />}
       </Info>
       <ButtonBlack onClick={next}>
-        {t(step === 6 ? 'saveToBlockchain' : step === 10 ? 'addToMarketplace' : 'allowPayment')}
+        {t(step === 6 ? 'saveToBlockchain' : step === 10 || allowedStfi !== 0 ? 'addToMarketplace' : 'allowPayment')}{' '}
       </ButtonBlack>
-      <ButtonTransparentBorder onClick={() => (nft.step < 4 ? saveDraft(nft) : history.push('/inventory/off-market/' + nft.id))}>
+      <ButtonTransparentBorder
+        onClick={() => (nft.step < 4 ? saveDraft(nft) : history.push('/inventory/off-market/' + nft.id))}
+      >
         {t('cancelAndSaveAsDraft')}
       </ButtonTransparentBorder>
     </Right>
@@ -301,7 +317,11 @@ const NFTSummary: React.FC = () => {
             <Auction />
             {(step === 4 || step === 8) && <ContainerFooter />}
           </Left>
-          {(step === 5 || step === 6) && <MarginLeft><PaymentCard /></MarginLeft>}
+          {(step === 5 || step === 6) && (
+            <MarginLeft>
+              <PaymentCard />
+            </MarginLeft>
+          )}
         </Columns>
       </Card>
     </Container>
@@ -309,4 +329,3 @@ const NFTSummary: React.FC = () => {
 }
 
 export default NFTSummary
-
