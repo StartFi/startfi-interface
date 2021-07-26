@@ -18,7 +18,8 @@ import {
   setBidOrBuy,
   saveNFT,
   saveAuction,
-  addToMarketplaceAction
+  addToMarketplaceAction,
+  clearNFT,
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
@@ -76,6 +77,11 @@ export const useSaveNFT = (): ((nft: NFT) => void) => {
 export const useSaveAuction = (): ((auction: Auction) => void) => {
   const dispatch = useDispatch()
   return useCallback((auction: Auction) => dispatch(saveAuction({ auction })), [dispatch])
+}
+
+export const useClearNFT = (): (() => void) => {
+  const dispatch = useDispatch()
+  return useCallback(() => dispatch(clearNFT()), [dispatch])
 }
 
 export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
@@ -170,10 +176,6 @@ export const useBuyNFT = (): (() => void) => {
     } else popup({ success: false, message: 'Connect wallet' })
   }, [soldPrice, auctionNFT, buyer, popup, dispatch])
 }
-
-
-
-
 
 export const useNFTDetails =()=>{
   return useSelector((state: AppState) => state.marketplace.NftDetails)}
