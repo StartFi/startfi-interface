@@ -190,6 +190,15 @@
   "lastBidding":"Last Bidding",
   "auctionEnds":" Auctions Ends In",
   "wishList":"WishList",
-  "noAssetsAddedToWishList":" There Are No Assets Added to your wishlist"
+  "noAssetsAddedToWishList":" There Are No Assets Added to your wishlist",
+  "inventory":"Inventory",
+  "offMarketPlace":"offMarketPlace",
+  "category":"Category",
+  "fileName":" File Name",
+  "assetName":"Asset Name",
+  "tokenId":" Token ID",
+  "contactAddressAttribute":"Contact address attribute"
+
+
 
 }
