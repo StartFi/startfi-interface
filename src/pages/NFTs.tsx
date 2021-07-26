@@ -15,6 +15,7 @@ import StartfiLoader from '../components/Loader/startfi'
 import Pagination from 'components/Pagination'
 
 
+
 // const NFTS = styled.div`
 //   padding: 4vh 3.2vw;
 //   width: 100%;
@@ -58,7 +59,6 @@ const NFTs: React.FC = () => {
   const getNFTs = useGetNFTs()
 
   return (
-    
     <Padding>
       <Header>
         <Results>
@@ -97,12 +97,11 @@ const NFTs: React.FC = () => {
             ></NTFCard>
           </Nft>
         ))}
-      </NFTList>
-      <Pagination />
-      : <div><StartfiLoader></StartfiLoader></div>}
+        <br/>
+        <Pagination />
+      </NFTList> : <div><StartfiLoader></StartfiLoader></div>}
 
     </Padding>
-   
   )
 }
 
