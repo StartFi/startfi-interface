@@ -23,10 +23,9 @@ export const useNftPaymentEventListener = () => {
         const eventLogs = nftRoyalty?.interface.parseLog({ data: result.data, topics: result.topics }).args
         console.log({ eventName: 'transferRoyaltyEvent', eventValue: parseBigNumber(eventLogs) })
         const mintedNftId = parseBigNumber(eventLogs)[2]
-
         if (account && nft) {
           console.log('mintedNFT', mintedNftId)
-          dispatch(mintNFTAction({ ...nft, issuer: account as string, issueDate: new Date(), id: mintedNftId }))
+          dispatch(mintNFTAction({ ...nft, issuer: account as string, issueDate: new Date(), tokenId: mintedNftId }))
         }
 
         dispatch(addNewEvent({ eventName: 'transferRoyaltyEvent', eventValue: parseBigNumber(eventLogs) }))

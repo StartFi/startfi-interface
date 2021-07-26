@@ -59,6 +59,7 @@ export const useGetAllowance = (): ((owner: string, spender: string) => any) => 
           return allowance.toHexString()
         } catch (e) {
           console.log(e)
+          return e
         }
       }
       return getAllowance()

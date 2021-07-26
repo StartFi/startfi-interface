@@ -77,7 +77,7 @@ const NFTSummary: React.FC = () => {
   }, [account, getStfiBalance])
   useEffect(() => {
     const getAllowed = async () => {
-      const allowedHexString = await getAllowedStfi(account as string, STARTFI_NFT_PAYMENT_ADDRESS)
+      const allowedHexString = await getAllowedStfi(account as string, '0x38FA3d253c37f0E679F9dD9d23c1256f9822DDAc')
       console.log({ allowedHexString })
       const allowed = allowedHexString?.length < 5 ? parseInt(allowedHexString, 16) : allowedHexString
       setAllowedStfi(allowed)
@@ -113,6 +113,7 @@ const NFTSummary: React.FC = () => {
     switch (step) {
       case 4:
         if (agree) {
+          console.log({ allowedStfi })
           if (allowedStfi) {
             setStep(step + 2)
           } else {
@@ -121,7 +122,6 @@ const NFTSummary: React.FC = () => {
         }
         return null
       case 5:
-        console.log({ allowedStfi })
         const result = await approveToken(STARTFI_NFT_PAYMENT_ADDRESS, 5)
         if (result.hash) {
           return setStep(step + 1)
