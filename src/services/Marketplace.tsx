@@ -45,11 +45,12 @@ export const getMarketplace = async (query?: NFTQUERY) => {
   if (category && category !== 'all') nftsQuery.category = category
   const auctionSort = sort ? sort : DEFAULTSORT
   const nfts = await getNFTs(nftsQuery)
-  const auctions = await getAuctions({ status: 'open' }, sortHelper(auctionSort))
+  let auctions = await getAuctions({ status: 'open' }, sortHelper(auctionSort))
   const onMarket: AuctionNFT[] = []
   auctions.forEach((auction: Auction) => {
     const nft = nfts.filter((nft: NFT) => nft.id === auction.nft)[0]
-    if (nft)
+    if (nft){
+   // if(nft.issueDate) delete nft.issueDate;
       onMarket.push({
         nft,
         auction,
@@ -57,9 +58,11 @@ export const getMarketplace = async (query?: NFTQUERY) => {
         issuername: '',
         ownerdetails: ''
       })
+    }
   })
   const t1 = performance.now()
   const loadtime = Math.round(t1 - t0)
+  console.log(onMarket);
   return { onMarket, loadtime, ...query }
 }
 
