@@ -26,13 +26,14 @@ const Outline = styled.div`
   padding: 1vh 1vw 2vh 1vw;
 `
 
-const Tag = styled(Row)`
+export const Tag = styled(Row)`
   background: #f4f4f4;
   border-radius: 4px;
   color: #0b0b0b;
   padding: 1vh 1vw;
   margin-right: 0.6vw;
   margin-top: 1vh;
+  max-width: fit-content;
 `
 
 const Img = styled.img`

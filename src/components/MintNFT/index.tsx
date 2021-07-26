@@ -1,17 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import Card from './Card'
-import Header from './Header'
 import Questions from './Questions'
 import { Row } from 'theme/components'
-import { useParams } from 'react-router-dom'
-import { NFT } from 'services/models/NFT'
-import { useDraft } from 'state/user/hooks'
+
+import { useLocation } from 'react-router-dom'
+
 
 const Container = styled.div`
   width: 100%;
-  background-color: #fafafa;
-  padding: 4vh 3.2vw;
 `
 
 const Body = styled(Row)`
@@ -38,23 +35,25 @@ const Left = styled(CardBase)`
 const Right = styled(CardBase)`
   width: 60%;
 `
-interface DraftParams {
-  draftId: string;
+
+
+interface LocationState {
+  step?: number
 }
+
 const MintNFT: React.FC = () => {
 
-  const {draftId}: DraftParams = useParams()
-  const draft:NFT=useDraft(parseInt(draftId));
 
   return (
     <Container>
-      <Header />
       <Body>
         <Left>
           <Questions />
         </Left>
         <Right>
-          <Card draft={draft} />
+
+          <Card currentStep={location.state?.step} />
+
         </Right>
       </Body>
     </Container>

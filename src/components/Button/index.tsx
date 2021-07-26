@@ -376,11 +376,22 @@ export const ButtonSearch = styled(ButtonPrimary)`
   font-size: 1.125rem;
 `
 
-export const ButtonMint = styled(ButtonPrimary)<{ width?: string }>`
-  width: ${({ width }) => width ?? '10vw'};
+
+interface ButtonMintProps {
+  readonly disabled?: boolean
+  width?: string
+}
+
+export const ButtonMint = styled(ButtonPrimary)<ButtonMintProps>`
+  min-width: 10vw;
+  width: fit-content;
+  padding: 0 2vw;
   height: 6vh;
   font-size: 1rem;
-  cursor: pointer;
+  background-color: ${({ disabled }) => (disabled ? '#C2C2C2' : 'black')};
+  :hover {
+    background-color: ${({ disabled }) => (disabled ? '#C2C2C2' : 'black')};
+  }
 `
 
 export const ButtonDraft = styled(ButtonMint)<{ width?: string }>`

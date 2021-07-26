@@ -13,6 +13,14 @@ export const Row = styled(Flex)`
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+`
+
+export const Center = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `
 
 export const ButtonText = styled.button`

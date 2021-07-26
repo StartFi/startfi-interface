@@ -15,6 +15,7 @@ import NFTConfirm from 'components/NFTConfirm'
 import { useLogin } from 'state/user/hooks'
 import Mint from './Mint'
 import Marketplace from './Marketplace'
+import WaitingConfirmation from 'components/WaitingConfirmation'
 
 import Inventory from './Inventory'
 
@@ -59,6 +60,7 @@ export default function App() {
       <Route component={GoogleAnalyticsReporter} />
       <Route component={DarkModeQueryParamReader} />
       <AppWrapper>
+        <WaitingConfirmation />
         <URLWarning />
         <BodyWrapper>
           <Popups />

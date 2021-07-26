@@ -1,31 +1,22 @@
-import React from 'react'
-import { DropDownDateType } from 'components/DropDown'
-import { Input, InputNumberButtons } from 'components/Input'
+import React, { useState } from 'react'
 import { StepProps } from '../../constants'
-import PriceArrows from './../../assets/icons/pricearrows.svg'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { Row } from 'theme/components'
+import { Row } from 'theme'
+import { Input } from 'components/Input'
+import Label from 'components/Input/Label'
 
-const Price = styled(Row)`
-  width: 70%;
-  margin: 5vh 0;
-`
-
-const BidOffers = styled.div`
-  margin-bottom: 2vh;
+const Margin = styled(Row)`
+  margin: 6vh 0 3vh 0;
 `
 
 const Radios = styled(Row)`
   width: 35%;
 `
 
-const MinBid = styled.div`
+const Royalty = styled(Row)`
+  width: 16vw;
   margin: 3vh 0;
-`
-
-const OpenFor = styled(Row)`
-  width: 60%;
 `
 
 const RadioLabel = styled.span`
@@ -34,55 +25,43 @@ const RadioLabel = styled.span`
   margin-left: 1vw;
 `
 
+const Text = styled.div`
+  margin-left: 2vw;
+`
+
 const Step3: React.FC<StepProps> = ({ state, handleChange }: StepProps) => {
   const { t } = useTranslation()
 
+  const [royalty, setRoyalty] = useState(false)
+
   return (
     <React.Fragment>
-      <Price>
-        <Input name="price" label="NFTprice" value={state.price} onChange={handleChange} number />
-        <img src={PriceArrows} alt="Currency conversion" />
-        <Input name="usd" currency="USD" value={state.price} onChange={() => {}} number />
-      </Price>
-      <BidOffers>{t('bidsOffers')}</BidOffers>
+      <Margin>
+        <Label text="royaltyShare" question="royaltyShareDescription" />
+      </Margin>
       <Radios>
         <div>
-          <input
-            type="radio"
-            name="bidsOffers"
-            value="true"
-            checked={state.bidsOffers === 'true'}
-            onChange={handleChange}
-          />
+          <input type="radio" checked={royalty} onChange={() => setRoyalty(true)} />
           <RadioLabel>{t('allowed')}</RadioLabel>
         </div>
         <div>
-          <input
-            type="radio"
-            name="bidsOffers"
-            value="false"
-            checked={state.bidsOffers === 'false'}
-            onChange={handleChange}
-          />
+          <input type="radio" checked={!royalty} onChange={() => setRoyalty(false)} />
           <RadioLabel>{t('notAllowed')}</RadioLabel>
         </div>
       </Radios>
-      {state.bidsOffers === 'true' && (
-        <div>
-          <MinBid>
-            <Input name="minBid" label="minBid" value={state.minBid} onChange={handleChange} number />
-          </MinBid>
-          <OpenFor>
-            <div>{t('openFor')}</div>
-            <InputNumberButtons name="openFor" value={state.openFor} onChange={handleChange} />
-            <DropDownDateType
-              name="type"
-              options={['Day', 'Week', 'Month', 'Year']}
-              value={state.type}
-              onChange={handleChange}
-            />
-          </OpenFor>
-        </div>
+      {royalty && (
+        <Royalty>
+          <Input
+            name="royalty"
+            value={state.royalty}
+            onChange={handleChange}
+            currency="%"
+            outlineWidth="6vw"
+            inputWidth="3vw"
+            number
+          />
+          <Text>Per Each resell</Text>
+        </Royalty>
       )}
     </React.Fragment>
   )

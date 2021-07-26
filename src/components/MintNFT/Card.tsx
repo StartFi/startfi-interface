@@ -5,15 +5,18 @@ import styled from 'styled-components'
 import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
+import Step7 from './Step7'
 import Step1Icon from './../../assets/icons/step1.svg'
 import Step2Icon from './../../assets/icons/step2.svg'
 import Step3Icon from './../../assets/icons/step3.svg'
 import { useTranslation } from 'react-i18next'
-import { useMintNFT } from 'state/marketplace/hooks'
 import { useSaveDraft } from 'state/user/hooks'
 import { NFT } from 'services/models/NFT'
 import { Row } from 'theme/components'
 import { usePopup } from 'state/application/hooks'
+import { useHistory } from 'react-router-dom'
+import { useAuction, useNFT, useSaveAuction, useSaveNFT } from 'state/marketplace/hooks'
+import { Auction } from 'services/models/Auction'
 
 const Container = styled.div`
   display: flex;
@@ -42,42 +45,73 @@ const Footer = styled.div`
   align-self: flex-end;
   margin-top: auto;
 `
-
-interface MintCardProps {
-  draft: NFT
+interface CardProps {
+  currentStep?: number
 }
 
+
+
 const Card: React.FC<MintCardProps> = ({ draft }) => {
+
+
   const { t } = useTranslation()
 
-  const mintNFT = useMintNFT()
+  const history = useHistory()
 
   const saveDraft = useSaveDraft()
 
-  const [nft, setNFT] = useState<NFT>({
-    id: faker.number({ min: 5, max: 5 }),
-    uuid: faker.uuid(),
-    category: '',
-    dataHash: '',
-    name: '',
-    tags: [],
-    description: '',
-    owner: '',
-    issuer: '',
-    issueDate: new Date(),
-    txtHash: '',
-    royalty: 0
+
+  const saveNFT = useSaveNFT()
+
+  const saveAuction = useSaveAuction()
+
+  const savedNFT = useNFT()
+
+  const savedAuction = useAuction()
+
+  const [nft, setNFT] = useState<NFT>(
+    savedNFT || {
+      id: 0,
+      category: '',
+      dataHash: '',
+      name: '',
+      tags: [],
+      description: '',
+      owner: '',
+      issuer: '',
+      issueDate: new Date(),
+      txtHash: '',
+      royalty: 0
+    }
+  )
+
+  const [auction, setAuction] = useState<Auction>(savedAuction || {
+    id: 'string',
+    nft: 0,
+    listingPrice: 0,
+    seller: '',
+    expireTimestamp: 0,
+    isForSale: false,
+    isForBid: false,
+    bids: [],
+    listTime: new Date(),
+    listingTxt: '',
+    status: 'open',
+    minBid: 0,
+    qualifyAmount: 0
+
   })
 
   const [missing, setMissing] = useState<string[]>([])
 
-  const [step, setStep] = useState<number>(1)
+  const [step, setStep] = useState<number>(currentStep || 1)
 
   const popup = usePopup()
 
   const handleChange = useCallback(
     (e: any) => {
       if (e.persist) e.persist()
+      if (e.target.name === 'royalty' && parseInt(e.target.value) > 100) return
       if (e.target.value)
         setMissing(missing => {
           const newMissing = [...missing]
@@ -110,11 +144,20 @@ const Card: React.FC<MintCardProps> = ({ draft }) => {
         if (['name', 'description'].filter(f => newMissing.includes(f)).length === 0) {
           setMissing([])
 
-          mintNFT(nft)
+
+          return setStep(3)
+
         }
         break
       case 3:
-        break
+
+        if ((nft.royaltyShare === 'true' && !newMissing.includes('royalty')) || nft.royaltyShare === 'false') {
+          setMissing([])
+          saveNFT(nft)
+          return history.push('summary')
+        }
+      break
+
       default:
     }
     setMissing(newMissing)
@@ -128,16 +171,30 @@ const Card: React.FC<MintCardProps> = ({ draft }) => {
         return Step2Icon
       case 3:
         return Step3Icon
+      case 7:
+        return
       default:
     }
     return Step1Icon
   }
 
-  useEffect(() => {
-    if (draft) {
-      setNFT(draft)
+
+
+  const Step = () => {
+    switch (step) {
+      case 1:
+        return <Step1 state={nft} handleChange={handleChange} missing={missing} />
+      case 2:
+        return <Step2 state={nft} handleChange={handleChange} missing={missing} />
+      case 3:
+        return <Step3 state={nft} handleChange={handleChange} missing={missing} />
+      case 7:
+        return <Step7 auction={auction} setAuction={setAuction} />
+      default:
+        return null
     }
-  }, [draft])
+  }
+
 
   return (
     <Container>
@@ -146,30 +203,28 @@ const Card: React.FC<MintCardProps> = ({ draft }) => {
           <Title>{t('mintNFTTitle')}</Title>
           <Underline />
         </div>
-        <img src={StepIcon()} alt='Step' />
+
+        {StepIcon() && <img src={StepIcon()} alt="Step" />}
       </Header>
-
-      {step === 1 ? (
-        <Step1 state={nft} draft={draft} handleChange={handleChange} missing={missing} />
-      ) : step === 2 ? (
-        <Step2 state={nft} handleChange={handleChange} missing={missing} />
-      ) : (
-        <Step3 state={nft} handleChange={handleChange} missing={missing} />
-      )}
+      {Step()}
       <Footer>
-        <ButtonMintBack onClick={() => (step > 1 ? setStep(step - 1) : null)}>{t('back')}</ButtonMintBack>
-
+        <ButtonMintBack onClick={() => (step > 1 && step < 4 ? setStep(step - 1) : null)}>{t('back')}</ButtonMintBack>
         <ButtonDraft
           onClick={() =>
-            nft.category || nft.dataHash || nft.name || nft.description
+            step < 4 ?
+            (nft.category || nft.dataHash || nft.name || nft.description
               ? saveDraft(nft)
-              : popup({ success: false, message: 'No data entered to save' })
+              : popup({ success: false, message: 'No data entered to save' }))
+              : history.push('/inventory/off-market/' + nft.id)
+
           }
         >
-          {t('saveDraft')}
+          {t(step === 7 ? 'saveAtOffMarketplace' : 'saveDraft')}
         </ButtonDraft>
 
-        <ButtonMint onClick={() => next()}>{t(step === 1 ? 'next' : 'submit')}</ButtonMint>
+
+        <ButtonMint onClick={() => next()}>{t(step !== 3 ? 'next' : 'submit')}</ButtonMint>
+
       </Footer>
     </Container>
   )
