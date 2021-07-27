@@ -82,7 +82,9 @@ const NFTSummary: React.FC = () => {
       const allowedHexString = await getAllowedStfi(account as string, STARTFI_NFT_PAYMENT_ADDRESS)
       console.log({ allowedHexString })
       const allowed = allowedHexString?.length < 5 ? parseInt(allowedHexString, 16) : allowedHexString
+    if(allowed>=5){
       setAllowedStfi(allowed)
+    }  
     }
     account && getAllowed()
   }, [account, getAllowedStfi])
@@ -137,6 +139,8 @@ const NFTSummary: React.FC = () => {
       case 5:
         console.log({ allowedStfi })
         const result = await approveToken(STARTFI_NFT_PAYMENT_ADDRESS, 5)
+        console.log(result,'result');
+        
         if (result.hash) {
           return setStep(step + 1)
         }
@@ -147,10 +151,16 @@ const NFTSummary: React.FC = () => {
         return setStep(step + 1)
       case 9:
         if(!allowed){
-          await approve(STARTFI_Marketplace_ADDRESS,1);
+          const txt =  await approve(STARTFI_Marketplace_ADDRESS,1);
           // await approve(STARTFI_Marketplace_ADDRESS,nft.id);
+          if (txt.hash) {
+            return setStep(step + 1)
+          }
+          return null;
+        }else{
+          return setStep(step + 1)
         }
-        return setStep(step + 1)
+        
       case 10:
         return addToMarketplace()
       default:
