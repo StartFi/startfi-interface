@@ -30,7 +30,7 @@ import {
   logoutAction,
   getDraftsAction,
   getUserNFTsAction,
-  removeWishListItemAction
+  removeFromWishlistAction
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 
@@ -286,13 +286,23 @@ export const useAddToWishlist = (nftId: number) => {
   }, [nftId, userId, popup, dispatch])
 }
 
+export const useRemoveFromWishlist = (nftId: number) => {
+  const dispatch = useDispatch()
+  const userId = useUserAddress()
+  const popup = usePopup()
+  return useCallback(() => {
+    if (userId) dispatch(removeFromWishlistAction({ userId, nftId }))
+    else popup({ success: false, message: 'Connect wallet' })
+  }, [nftId, userId, popup, dispatch])
+}
+
 // remove item from wishlist
 export const useRemoveWishlistItem = (nftId: number) => {
   const dispatch = useDispatch()
   const userId = useUserAddress()
   const popup = usePopup()
   return useCallback(() => {
-    if (userId) dispatch(removeWishListItemAction({ userId, nftId }))
+    if (userId) dispatch(removeFromWishlistAction({ userId, nftId }))
     else popup({ success: false, message: 'Connect wallet' })
   }, [nftId, userId, popup, dispatch])
 }
@@ -358,9 +368,10 @@ export const useIsNFTWishlist = (nftId: number): boolean => {
 
 export const useWishlist = (nftId: number) => {
   const addToWishlist = useAddToWishlist(nftId)
+  const removeFromWishlist = useRemoveFromWishlist(nftId)
   const isWishlist = useIsNFTWishlist(nftId)
   return useMemo(() => {
-    return { addToWishlist, isWishlist }
+    return { addToWishlist, removeFromWishlist, isWishlist }
   }, [addToWishlist, isWishlist])
 }
 

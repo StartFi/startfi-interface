@@ -117,6 +117,7 @@
   "description": "Description",
   "needsMoreStakes": "Needs More Stakes",
   "getNow": "Get Now",
+  "removeFromWishlist": "Remove from wishlist",
   "noWallet": "No Ethereum wallet found",
   "wrongNetwork": "You are on the wrong network",
   "switchNetwork": "Please switch to {{ correctNetwork }}",
