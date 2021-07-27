@@ -115,6 +115,8 @@
   "assetName": "Asset Name",
   "relatedTags": "Related Tags",
   "description": "Description",
+  "needsMoreStakes": "Needs More Stakes",
+  "getNow": "Get Now",
   "noWallet": "No Ethereum wallet found",
   "wrongNetwork": "You are on the wrong network",
   "switchNetwork": "Please switch to {{ correctNetwork }}",
