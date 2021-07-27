@@ -50,7 +50,9 @@ const initialState: MarketplaceState = {
 
 export default createReducer(initialState, builder =>
   builder
-    .addCase(getMarketplaceAction.pending, (state, action) => {})
+    .addCase(getMarketplaceAction.pending, (state, action) => {
+      state.loadtime = -1
+    })
     .addCase(getMarketplaceAction.fulfilled, (state, action) => {
       state.auctionNFT = null
       state.marketplace = action.payload.onMarket
