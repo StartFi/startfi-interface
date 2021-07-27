@@ -12,8 +12,8 @@ import {datatype as faker} from 'faker'
 
 export const mintNFT = async (nft: NFT) => {
   const hash = ''
-  nft.id =  faker.number({'min' : 100000, 'max' : 999999})
-  nft.uuid =faker.uuid()
+  // nft.id = faker.number({'min' : 100000, 'max' : 999999})
+  // nft.uuid = faker.uuid()
   nft.txtHash = hash
   const nftAdded = await addNFT(nft)
   const status = checkSuccess({ nftAdded })

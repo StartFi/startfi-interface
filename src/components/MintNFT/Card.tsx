@@ -67,8 +67,8 @@ const Card: React.FC<CardProps> = ({ currentStep, draft }) => {
 
   const [nft, setNFT] = useState<NFT>(
     savedNFT || {
-      id: faker.number({ min: 5, max: 5 }),
-      uuid: faker.uuid(),
+      id: 30, //faker.number({ min: 5, max: 5 }),
+      // uuid: faker.uuid(),
       category: '',
       dataHash: '',
       name: '',
