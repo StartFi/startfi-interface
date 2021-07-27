@@ -5,6 +5,7 @@ import uriToHttp from 'utils/uriToHttp'
 import Text from '../Text'
 import { CardContent, MiniInvCard, TagContainer, TextContainer, Image } from './InvHome.styles'
 
+
 interface MiniCardContent {
   cardContent: NFT
   navigate: () => void

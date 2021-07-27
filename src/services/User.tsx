@@ -37,6 +37,7 @@ export const removeFromWishlist = async ({ userId, nftId }: AddToWishList) => {
 }
 export const saveDraft = async (draft: Draft) => {
   const draftAdded = await addDraft(draft)
+  console.log(draft)
   const status = checkSuccess({ draftAdded })
   return { status, draftAdded }
 }
