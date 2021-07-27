@@ -40,7 +40,7 @@ const Right = styled(CardBase)`
 interface LocationState {
   step?: number
 }
-        
+
 interface DraftParams {
   draftId: string;
 }
@@ -48,8 +48,10 @@ interface DraftParams {
 
 const MintNFT: React.FC = () => {
   const location = useLocation<LocationState>()
-    const {draftId}: DraftParams = useParams()
+  const {draftId}: DraftParams = useParams()
   const draft:NFT=useDraft(parseInt(draftId));
+
+
 
   return (
     <Container>

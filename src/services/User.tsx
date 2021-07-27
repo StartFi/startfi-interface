@@ -42,7 +42,8 @@ export const saveDraft = async (draft: Draft) => {
 }
 
 export const getDrafts = async (user: string) => {
-  const drafts = (await getDraft(user)).drafts
+  let drafts = (await getDraft(user))?.drafts
+
   return { drafts }
 }
 
