@@ -6,7 +6,6 @@ import uriToHttp from 'utils/uriToHttp'
 import { Tag } from 'components/Tags'
 import { ButtonDraft, ButtonMint } from 'components/Button'
 import { useSaveDraft } from 'state/user/hooks'
-import { address as STARTFI_TOKEN_ADDRESS } from '../../constants/abis/StartFiToken.json'
 import { useGetAllowance } from 'hooks/startfiToken'
 import {
   Bold,
@@ -58,9 +57,11 @@ import { useHistory } from 'react-router-dom'
 import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../../constants/abis/StartFiNFTPayment.json'
 import { useApproveToken, useTokenBalance } from 'hooks/startfiToken'
 import { useWeb3React } from '@web3-react/core'
+import { useStartFiToken } from 'hooks/useContract'
 
 const NFTSummary: React.FC = () => {
   const { account } = useWeb3React()
+
   const getStfiBalance = useTokenBalance()
   const getAllowedStfi = useGetAllowance()
   const approveToken = useApproveToken()
@@ -77,8 +78,7 @@ const NFTSummary: React.FC = () => {
   }, [account, getStfiBalance])
   useEffect(() => {
     const getAllowed = async () => {
-      const allowedHexString = await getAllowedStfi(account as string, '0x38FA3d253c37f0E679F9dD9d23c1256f9822DDAc')
-      console.log({ allowedHexString })
+      const allowedHexString = await getAllowedStfi(account as string, STARTFI_NFT_PAYMENT_ADDRESS)
       const allowed = allowedHexString?.length < 5 ? parseInt(allowedHexString, 16) : allowedHexString
       setAllowedStfi(allowed)
     }
@@ -122,11 +122,8 @@ const NFTSummary: React.FC = () => {
         }
         return null
       case 5:
-        const result = await approveToken(STARTFI_NFT_PAYMENT_ADDRESS, 5)
-        if (result.hash) {
-          return setStep(step + 1)
-        }
-        return null
+        await approveToken(STARTFI_NFT_PAYMENT_ADDRESS, 5)
+        return setStep(step + 1)
       case 6:
         return mint()
       case 8:
