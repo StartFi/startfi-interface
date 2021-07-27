@@ -18,10 +18,12 @@ import {
   setBidOrBuy,
   saveNFT,
   saveAuction,
-  addToMarketplaceAction
+  addToMarketplaceAction,
+  clearNFT,
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
+import { useClearIPFSProgress } from 'state/ipfs/hooks'
 
 export const useMarketplace = (): AuctionNFT[] => {
   return useSelector((state: AppState) => state.marketplace.marketplace)
@@ -78,6 +80,11 @@ export const useSaveAuction = (): ((auction: Auction) => void) => {
   return useCallback((auction: Auction) => dispatch(saveAuction({ auction })), [dispatch])
 }
 
+export const useClearNFT = (): (() => void) => {
+  const dispatch = useDispatch()
+  return useCallback(() => dispatch(clearNFT()), [dispatch])
+}
+
 export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
   const dispatch = useDispatch()
   return useCallback(
@@ -101,10 +108,12 @@ export const useMintNFT = (): (() => void) => {
   const owner = useUserAddress()
   const popup = usePopup()
   const nft = useNFT()
+  const clearIPFSprogress = useClearIPFSProgress()
 
   return useCallback(() => {
     if (owner && nft) {
       dispatch(mintNFTAction({ ...nft, owner, issuer: owner, issueDate: new Date() }))
+      clearIPFSprogress()
     } else popup({ success: false, message: 'Connect wallet or no NFT data' })
   }, [nft, owner, popup, dispatch])
 }
@@ -170,10 +179,6 @@ export const useBuyNFT = (): (() => void) => {
     } else popup({ success: false, message: 'Connect wallet' })
   }, [soldPrice, auctionNFT, buyer, popup, dispatch])
 }
-
-
-
-
 
 export const useNFTDetails =()=>{
   return useSelector((state: AppState) => state.marketplace.NftDetails)}

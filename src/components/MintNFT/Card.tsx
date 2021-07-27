@@ -47,11 +47,10 @@ const Footer = styled.div`
 `
 interface CardProps {
   currentStep?: number
-    draft: NFT
+  draft: NFT
 }
 
 const Card: React.FC<CardProps> = ({ currentStep, draft }) => {
-
   const { t } = useTranslation()
 
   const history = useHistory()
@@ -83,25 +82,28 @@ const Card: React.FC<CardProps> = ({ currentStep, draft }) => {
     }
   )
 
-  const [auction, setAuction] = useState<Auction>(savedAuction || {
-    id: 'string',
-    nft: 0,
-    listingPrice: 0,
-    seller: '',
-    expireTimestamp: 0,
-    isForSale: false,
-    isForBid: false,
-    bids: [],
-    listTime: new Date(),
-    listingTxt: '',
-    status: 'open',
-    minBid: 0,
-    qualifyAmount: 0
-  })
+  const [auction, setAuction] = useState<Auction>(
+    savedAuction || {
+      id: 'string',
+      nft: 0,
+      listingPrice: 0,
+      seller: '',
+      expireTimestamp: 0,
+      isForSale: false,
+      isForBid: false,
+      bids: [],
+      listTime: new Date(),
+      listingTxt: '',
+      status: 'open',
+      minBid: 0,
+      qualifyAmount: 0
+    }
+  )
 
   const [missing, setMissing] = useState<string[]>([])
 
   const [step, setStep] = useState<number>(currentStep || 1)
+ 
 
   const popup = usePopup()
 
@@ -188,9 +190,10 @@ const Card: React.FC<CardProps> = ({ currentStep, draft }) => {
     }
   }
 
-useEffect(() => {
+  useEffect(() => {
     if (draft) {
       setNFT(draft)
+      setStep(2)
     }
   }, [draft])
 
@@ -208,10 +211,10 @@ useEffect(() => {
         <ButtonMintBack onClick={() => (step > 1 && step < 4 ? setStep(step - 1) : null)}>{t('back')}</ButtonMintBack>
         <ButtonDraft
           onClick={() =>
-            step < 4 ?
-            (nft.category || nft.dataHash || nft.name || nft.description
-              ? saveDraft(nft)
-              : popup({ success: false, message: 'No data entered to save' }))
+            step < 4
+              ? nft.category || nft.dataHash || nft.name || nft.description
+                ? saveDraft(nft)
+                : popup({ success: false, message: 'No data entered to save' })
               : history.push('/inventory/off-market/' + nft.id)
           }
         >

@@ -427,3 +427,14 @@ export const RemoveWishList = styled(ButtonMint )`
     cursor: auto;
   }
 `
+export const DelistButton=styled.button`
+width: 168px;
+height: 50px;
+border: none;
+background: #FBFBFB;
+border-radius: 4px;
+color:#858585;
+font-family: Roboto;
+font-size: 1rem;
+cursor:pointer;
+`

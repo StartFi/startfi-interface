@@ -60,7 +60,7 @@ const Step3: React.FC<StepProps> = ({ state, handleChange }: StepProps) => {
             inputWidth="3vw"
             number
           />
-          <Text>Per Each resell</Text>
+          <Text>{t('perEachResell')}</Text>
         </Royalty>
       )}
     </React.Fragment>

@@ -1,5 +1,7 @@
 import Row from 'components/Row'
+
 import React, { useEffect, useState } from 'react'
+
 import { useHistory } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
 import { useDrafts, useOffMarket, useOnMarket } from 'state/user/hooks'
@@ -14,6 +16,7 @@ const InventoryHome = () => {
   const drafts: NFT[] | undefined = useDrafts()
   const onMarketNFT: NFT[] | undefined = useOnMarket()
   const offMarketNFT: NFT[] | undefined = useOffMarket()
+
 
   useEffect(() => {
     switch (inventoryOption) {
@@ -34,8 +37,9 @@ const InventoryHome = () => {
   })
 
   
+
   const navigate = (id: number) => {
-    if (inventoryOption === InventoryOptions.Draft) history.push(`/mint/draft/${id}`)
+    if (inventoryOption === InventoryOptions.Draft) history.push(`/mint/steps/${id}`)
     if (inventoryOption === InventoryOptions.inMarketPlace) history.push(`/inventory/in-market/${id}`)
     if (inventoryOption === InventoryOptions.offMarketPlace) history.push(`/inventory/off-market/${id}`)
   }

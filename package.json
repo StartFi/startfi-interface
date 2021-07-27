@@ -152,6 +152,7 @@
   "dependencies": {
     "@types/node-fetch": "^2.5.10",
     "@uniswap/default-token-list": "^2.0.0",
+    "abi-decoder": "^2.4.0",
     "firebase": "^8.6.8",
     "ipfs-http-client": "^50.1.2",
     "it-all": "^1.0.5",

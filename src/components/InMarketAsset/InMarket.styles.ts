@@ -38,3 +38,11 @@ export const TagRow = styled.div`
     font-weight: 500;
   }
 `
+
+export const DeListingContainer=styled.div`
+display:flex;
+align-items:center;
+justify-content:space-between;
+height:100px;
+margin:0px 18px 0px 30px;
+`
