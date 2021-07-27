@@ -66,6 +66,7 @@ export default function App() {
               <Route path="/nftconfirm" component={NFTConfirm} />
               <Route path="/marketplace" component={Marketplace} />
               <Route path="/mint" component={Mint} />
+              
               <Route path="/inventory" component={Inventory}  />
 
 
