@@ -42,14 +42,15 @@ interface LocationState {
 }
 
 interface DraftParams {
-  draftId: string;
+  draftId: string
 }
-
 
 const MintNFT: React.FC = () => {
   const location = useLocation<LocationState>()
-  const {draftId}: DraftParams = useParams()
-  const draft:NFT=useDraft(parseInt(draftId));
+  const { draftId }: DraftParams = useParams()
+  const draft: NFT = useDraft(parseInt(draftId))
+
+  
 
 
 
@@ -60,7 +61,7 @@ const MintNFT: React.FC = () => {
           <Questions />
         </Left>
         <Right>
-          <Card currentStep={location.state?.step} draft={draft}/>
+          <Card currentStep={location.state?.step} draft={draft} />
         </Right>
       </Body>
     </Container>
