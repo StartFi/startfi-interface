@@ -15,7 +15,8 @@ import {
   setBidOrBuy,
   saveNFT,
   saveAuction,
-  addToMarketplaceAction
+  addToMarketplaceAction,
+  clearNFT,
 } from './actions'
 import { NFT } from 'services/models/NFT'
 import { Auction } from 'services/models/Auction'
@@ -139,6 +140,9 @@ export default createReducer(initialState, builder =>
     .addCase(saveAuction, (state, action) => {
       state.auction = action.payload.auction
       state.minted = false
+    })
+    .addCase(clearNFT, (state, action) => {
+      state.nft = null
     })
 )
 

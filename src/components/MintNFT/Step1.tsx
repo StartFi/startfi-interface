@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useIpfsHash, useIpfsProgress, useIpfsStatus, useUploadToIpfs } from 'state/ipfs/hooks'
 import { ipfsEnumStatus } from 'state/ipfs/actions'
-// import uriToHttp from 'utils/uriToHttp'
 
 const DropDown = styled.div`
   margin: 10vh 0;
@@ -16,12 +15,10 @@ const Label = styled.div`
   margin-bottom: 2vh;
 `
 
-
 const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
   const [filename, setFilename] = useState(state.dataHash)
 
   const [progress, setProgress] = useState(0)
-
 
   const { t } = useTranslation()
 
@@ -33,20 +30,15 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
 
   const status = useIpfsStatus()
 
-
-
   useEffect(() => {
     if (status === ipfsEnumStatus.DONE && filename !== '') {
       handleChange({ target: { name: 'dataHash', value: 'ipfs://' + hash } })
     }
   }, [filename, status, hash, handleChange])
 
-
-
   useEffect(() => {
     setProgress(ipfsProgress)
   }, [ipfsProgress, setProgress])
-
 
   return (
     <React.Fragment>
@@ -60,14 +52,13 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
           />
         </Label>
         <DropDownCategory
-          name='category'
+          name="category"
           label={t('chooseCategory')}
           options={CATEGORIES}
           value={state.category}
           onChange={handleChange}
         />
       </DropDown>
-
       <InputFile
         name="dataHash"
         label={t('uploadNFT')}

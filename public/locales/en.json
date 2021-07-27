@@ -110,6 +110,8 @@
   "royaltyOption": "Royalty Option",
   "issuerRoyaltyShare": "Issuer Royalty Share",
   "forEachResell": " For Each Resell",
+  "perEachResell": "Per Each Resell",
+  "edit": "Edit",
   "category": "Category",
   "uploadedFile": "Uploaded File",
   "assetName": "Asset Name",

@@ -22,3 +22,5 @@ export const clearMarketplacePopup = createAction<void>('marketplace/clearMarket
 export const saveNFT = createAction<{ nft: NFT }>('marketplace/saveNFT')
 
 export const saveAuction = createAction<{ auction: Auction }>('marketplace/saveAuction')
+
+export const clearNFT = createAction('marketplace/clearNFT')

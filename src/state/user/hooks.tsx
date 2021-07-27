@@ -234,6 +234,7 @@ export const useSaveDraft = () => {
   const popup = usePopup()
   return useCallback(
     (draft: NFT) => {
+     
       const drafts = [draft]
 
       if (user) dispatch(saveDraftAction({ user, drafts }))
