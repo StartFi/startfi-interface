@@ -57,7 +57,6 @@ import { useHistory } from 'react-router-dom'
 import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../../constants/abis/StartFiNFTPayment.json'
 import { useApproveToken, useTokenBalance } from 'hooks/startfiToken'
 import { useWeb3React } from '@web3-react/core'
-import { useStartFiToken } from 'hooks/useContract'
 
 const NFTSummary: React.FC = () => {
   const { account } = useWeb3React()

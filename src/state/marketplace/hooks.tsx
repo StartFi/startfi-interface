@@ -104,6 +104,7 @@ export const useMintNFT = (): (() => void) => {
   const nft = useNFT()
   const mint = useMint()
   const { account } = useWeb3React()
+
   useNftPaymentEventListener()
   return useCallback(async () => {
     if (account && nft) {
@@ -112,6 +113,7 @@ export const useMintNFT = (): (() => void) => {
       } else {
         await mint(account as string, nft.dataHash, nft.royalty, 100)
       }
+      dispatch(mintNFTAction({ ...nft, issueDate: new Date() }))
     } else popup({ success: false, message: 'Connect wallet or no NFT data' })
   }, [nft, account, popup, dispatch])
 }

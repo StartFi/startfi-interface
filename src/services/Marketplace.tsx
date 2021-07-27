@@ -10,9 +10,7 @@ import { Auction } from './models/Auction'
 import { DEFAULTSORT } from './../constants'
 import { datatype as faker } from 'faker'
 
-export const mintNFT = async (nft: NFT, tokenId: any) => {
-  console.log('Marketplaace', { nft })
-  nft.tokenId = tokenId
+export const mintNFT = async (nft: NFT) => {
   const hash = ''
   nft.id = faker.number({ min: 100000, max: 999999 })
   nft.uuid = faker.uuid()
