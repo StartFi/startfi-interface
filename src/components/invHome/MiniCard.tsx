@@ -4,12 +4,13 @@ import uriToHttp from 'utils/uriToHttp'
 import Text from '../Text'
 import { CardContent, MiniInvCard, TagContainer, TextContainer, Image } from './InvHome.styles'
 
+
 interface MiniCardContent {
   cardContent: NFT
   navigate: () => void
 }
 const MiniCard: React.FC<MiniCardContent> = ({ cardContent, navigate }) => {
-  console.log('card=>',cardContent)
+
   let tags: string[] = []
   if (cardContent?.tags) tags = [...cardContent?.tags].splice(0, 2)
   const imgUrl = uriToHttp(`${cardContent.dataHash}`)[1]
