@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 import Check from './../../assets/icons/check.svg'
 import { ButtonBlack, SemiBold, ButtonTransparentBorder } from 'components/NFTConfirm'
 import styled from 'styled-components'
-import { useNFT } from 'state/marketplace/hooks'
+import { useClearNFT, useNFT } from 'state/marketplace/hooks'
 
 const MintedBorder = styled.div`
   margin-top: 2vh;
@@ -34,6 +34,8 @@ const Minted: React.FC = () => {
 
   const nft = useNFT()
 
+  const clearNFT = useClearNFT()
+
   if (!nft) return null
 
   return (
@@ -50,7 +52,10 @@ const Minted: React.FC = () => {
         <MintedButtonBlack onClick={() => history.push('/mint/steps', { step: 7 })}>
           {t('addAssetToMarketplace')}
         </MintedButtonBlack>
-        <MintedButtonWhite onClick={() => history.push('/inventory/off-market/' + nft.id)}>
+        <MintedButtonWhite onClick={() => {
+          clearNFT()
+          history.push('/inventory/off-market/' + nft.id)
+          }}>
           {t('seeInInventory')}
         </MintedButtonWhite>
       </WalletConfirmationContainer>{' '}

@@ -17,13 +17,15 @@ import {
   setBidOrBuy,
   saveNFT,
   saveAuction,
-  addToMarketplaceAction
+  addToMarketplaceAction,
+  clearNFT
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
 import { useMint } from 'hooks/startfiNft'
 import { useWeb3React } from '@web3-react/core'
 import { useNftPaymentEventListener } from 'hooks/startfiEventListener'
+import { useClearIPFSProgress } from 'state/ipfs/hooks'
 
 export const useMarketplace = (): AuctionNFT[] => {
   return useSelector((state: AppState) => state.marketplace.marketplace)
@@ -78,6 +80,11 @@ export const useSaveNFT = (): ((nft: NFT) => void) => {
 export const useSaveAuction = (): ((auction: Auction) => void) => {
   const dispatch = useDispatch()
   return useCallback((auction: Auction) => dispatch(saveAuction({ auction })), [dispatch])
+}
+
+export const useClearNFT = (): (() => void) => {
+  const dispatch = useDispatch()
+  return useCallback(() => dispatch(clearNFT()), [dispatch])
 }
 
 export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
