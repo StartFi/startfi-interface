@@ -2,7 +2,7 @@ import { Dictionary } from '../../constants'
 
 export interface NFT extends Dictionary {
   id: number
-  uuid: string,
+  uuid: string
   dataHash: string
   name: string
   description: string
@@ -13,4 +13,5 @@ export interface NFT extends Dictionary {
   issueDate: any
   tags?: string[]
   royalty: number
+  tokenId?: string
 }
