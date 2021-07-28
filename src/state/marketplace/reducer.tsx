@@ -33,6 +33,8 @@ export interface MarketplaceState {
   nft: NFT | null
   auction: Auction | null
   NftDetails: NFT | null
+  currentPage: number
+  lastAuctions: any[]
 }
 
 const initialState: MarketplaceState = {
@@ -46,7 +48,9 @@ const initialState: MarketplaceState = {
   minted: false,
   nft: null,
   auction: null,
-  NftDetails: null
+  NftDetails: null,
+  currentPage: 0,
+  lastAuctions: []
 }
 
 export default createReducer(initialState, builder =>
@@ -56,6 +60,8 @@ export default createReducer(initialState, builder =>
       state.auctionNFT = null
       state.marketplace = action.payload.onMarket
       state.loadtime = action.payload.loadtime
+      state.lastAuctions.push(action.payload.newLastAuction)
+      if (action.payload.newPage !== undefined) state.currentPage = action.payload.newPage
     })
     .addCase(getMarketplaceAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while getting marketplace NFTs' }

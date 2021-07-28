@@ -78,7 +78,8 @@ const Card: React.FC<CardProps> = ({ currentStep, draft }) => {
       issuer: '',
       issueDate: new Date(),
       txtHash: '',
-      royalty: 0
+      royalty: 0,
+      filename: ''
     }
   )
 

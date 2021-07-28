@@ -148,7 +148,7 @@ const NFTSummary: React.FC = () => {
             <Line />
             <Field>
               <FirstBoxLabel>{t('uploadedFile')}</FirstBoxLabel>
-              <FirstBoxData>{nft?.name}</FirstBoxData>
+              <FirstBoxData>{nft?.filename}</FirstBoxData>
             </Field>
           </FirstBoxFields>
         </FirstField>
@@ -156,7 +156,7 @@ const NFTSummary: React.FC = () => {
       <EditableBox editable={step === 4} link="/mint/steps" state={{ step: 2 }}>
         <Field>
           <Label>{t('assetName')}</Label>
-          <Data500>{nft?.dataHash}</Data500>
+          <Data500>{nft?.name}</Data500>
         </Field>
         <Line />
         <Field>
