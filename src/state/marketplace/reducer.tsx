@@ -50,7 +50,7 @@ const initialState: MarketplaceState = {
   nft: null,
   auction: null,
   NftDetails: null,
-  loading: false
+  loading: false,
   currentPage: 0,
   lastAuctions: []
 }

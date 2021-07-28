@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { useHistory } from 'react-router'
-import { useGetInventory, useUser} from 'state/user/hooks'
+import { useGetInventory } from 'state/user/hooks'
 // import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { useGetNFTs, useMarketplaceLoading, useLoadTime, useMarketplace } from 'state/marketplace/hooks'
+import { useGetNFTs, useLoadTime, useMarketplace } from 'state/marketplace/hooks'
 import { Row } from 'theme/components'
 import { LinkBase } from '../components/Link/index'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import StartfiLoader from '../components/Loader/startfi'
-import Pagination from 'components/Pagination'
 
 
 // const NFTS = styled.div`
@@ -55,19 +54,7 @@ const NFTs: React.FC = () => {
 
   const loadtime = useLoadTime()
 
-  const loading = useMarketplaceLoading()
-
   const getNFTs = useGetNFTs()
-  const user = useUser()
-
-  const getInventory = useGetInventory()
-
-  if (loading)
-    return (
-      <div>
-        <StartfiLoader></StartfiLoader>
-      </div>
-    )
 
   return (
     <Padding>
@@ -77,7 +64,7 @@ const NFTs: React.FC = () => {
         </Results>
         <DropDownSort
           boxshadow
-          name="sort"
+          name='sort'
           options={SORTBY}
           value={sort}
           onChange={(e: any) => {
@@ -86,14 +73,15 @@ const NFTs: React.FC = () => {
           }}
         />
       </Header>
-      <LinkBase to="/inventory/home/draft" onClick={getInventory}>
+      <LinkBase to='/inventory/home/draft' onClick={useGetInventory()}>
         Inventory
       </LinkBase>
+  &nbsp;&nbsp;
+      <LinkBase to='/marketplace/wishList'>
+        Wish List
+      </LinkBase>
 
-      &nbsp;&nbsp;
-      <LinkBase to="/marketplace/wishList">Wish List</LinkBase>
-      <NFTList>
-
+      {onMarket.length > 0 ? <NFTList>
         {onMarket.map((auctionNFT: AuctionNFT) => (
           <Nft key={auctionNFT.nft.id}>
             <NTFCard
@@ -107,9 +95,8 @@ const NFTs: React.FC = () => {
             ></NTFCard>
           </Nft>
         ))}
-        <br/>
       </NFTList> : <div><StartfiLoader></StartfiLoader></div>}
-      <Pagination />
+
     </Padding>
   )
 }
