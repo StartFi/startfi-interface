@@ -33,6 +33,7 @@ export interface MarketplaceState {
   nft: NFT | null
   auction: Auction | null
   NftDetails: NFT | null
+  loading: boolean
   currentPage: number
   lastAuctions: any[]
 }
@@ -49,17 +50,21 @@ const initialState: MarketplaceState = {
   nft: null,
   auction: null,
   NftDetails: null,
+  loading: false
   currentPage: 0,
   lastAuctions: []
 }
 
 export default createReducer(initialState, builder =>
   builder
-    .addCase(getMarketplaceAction.pending, (state, action) => {})
+    .addCase(getMarketplaceAction.pending, (state, action) => {
+      state.loading = true
+    })
     .addCase(getMarketplaceAction.fulfilled, (state, action) => {
       state.auctionNFT = null
       state.marketplace = action.payload.onMarket
       state.loadtime = action.payload.loadtime
+      state.loading = false
       state.lastAuctions.push(action.payload.newLastAuction)
       if (action.payload.newPage !== undefined) state.currentPage = action.payload.newPage
     })

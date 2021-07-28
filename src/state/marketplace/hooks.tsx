@@ -67,6 +67,9 @@ export const useAuction = (): Auction | null => {
   return useSelector((state: AppState) => state.marketplace.auction)
 }
 
+export const useMarketplaceLoading = (): boolean => {
+  return useSelector((state: AppState) => state.marketplace.loading)
+
 export const useCurrentPage = (): number => {
   return useSelector((state: AppState) => state.marketplace.currentPage)
 }
@@ -154,7 +157,9 @@ export const useAddToMarketplace = (): (() => void) => {
   return useCallback(() => {
     if (seller && auction && nft) {
       dispatch(addToMarketplaceAction({ ...auction, nft: nft.id, seller, listTime: new Date() }))
-    } else popup({ success: false, message: 'Connect wallet or no Auction data' })
+    } else if (!seller) popup({ success: false, message: 'connectWallet' })
+    else if (!nft) popup({ success: false, message: 'noNFT' })
+    else if (!auction) popup({ success: false, message: 'noAuction' })
   }, [auction, nft, seller, popup, dispatch])
 }
 
@@ -186,7 +191,7 @@ export const usePlaceBid = (): (() => void) => {
         txtHash: ''
       }
       dispatch(placeBidAction({ auctionId, bid }))
-    } else popup({ success: false, message: 'Connect wallet' })
+    } else popup({ success: false, message: 'connectWallet' })
   }, [bidPrice, auctionNFT, bidder, popup, dispatch])
 }
 
@@ -202,7 +207,7 @@ export const useBuyNFT = (): (() => void) => {
       const auctionId = auctionNFT.auction.id
       const owner = auctionNFT.nft.owner
       dispatch(buyNFTAction({ nftId, auctionId, owner, buyer, soldPrice }))
-    } else popup({ success: false, message: 'Connect wallet' })
+    } else popup({ success: false, message: 'connectWallet' })
   }, [soldPrice, auctionNFT, buyer, popup, dispatch])
 }
 
