@@ -68,7 +68,7 @@ export const useAuction = (): Auction | null => {
 }
 
 export const useMarketplaceLoading = (): boolean => {
-  return useSelector((state: AppState) => state.marketplace.loading)
+  return useSelector((state: AppState) => state.marketplace.loading)}
 
 export const useCurrentPage = (): number => {
   return useSelector((state: AppState) => state.marketplace.currentPage)
@@ -222,3 +222,5 @@ export const useClearMarketplacePopup = () => {
     dispatch(clearMarketplacePopup())
   }, [dispatch])
 }
+
+
