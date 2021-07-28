@@ -98,9 +98,8 @@ const NFTs: React.FC = () => {
           </Nft>
         ))}
         <br/>
-        <Pagination />
       </NFTList> : <div><StartfiLoader></StartfiLoader></div>}
-
+      <Pagination />
     </Padding>
   )
 }

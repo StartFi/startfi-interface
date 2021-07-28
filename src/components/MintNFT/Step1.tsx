@@ -16,12 +16,10 @@ const Label = styled.div`
   margin-bottom: 2vh;
 `
 
-
 const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
   const [filename, setFilename] = useState(state.dataHash)
 
   const [progress, setProgress] = useState(0)
-
 
   const { t } = useTranslation()
 
@@ -33,20 +31,16 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
 
   const status = useIpfsStatus()
 
-
-
   useEffect(() => {
     if (status === ipfsEnumStatus.DONE && filename !== '') {
       handleChange({ target: { name: 'dataHash', value: 'ipfs://' + hash } })
+      handleChange({ target: { name: 'filename', value: filename } })
     }
   }, [filename, status, hash, handleChange])
-
-
 
   useEffect(() => {
     setProgress(ipfsProgress)
   }, [ipfsProgress, setProgress])
-
 
   return (
     <React.Fragment>
@@ -60,7 +54,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
           />
         </Label>
         <DropDownCategory
-          name='category'
+          name="category"
           label={t('chooseCategory')}
           options={CATEGORIES}
           value={state.category}

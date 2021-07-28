@@ -1,110 +1,42 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
+import LeftArrow from './../../assets/icons/leftarrow.svg'
+import RightArrow from './../../assets/icons/rightarrow.svg'
+import { usePagination } from 'state/marketplace/hooks'
+import * as _ from 'lodash'
+import { Row } from 'theme'
 
-const PaginationStyle = styled.div`
- 
-a{
-    text-decoration: none;
-  }
-  
-  p, li, a{
-    font-size: 14px;
-  }
+const Container = styled(Row)`
+  width: 100%;
+  max-width: 20vw;
+  margin: 0 auto;
+`
 
-    
-  .col {
-      display: block;
-      float:left;
-      margin: 1% 0 1% 1.6%;
-  }
-  
-  .col:first-of-type {
-    margin-left: 0;
-  }
-  
-  .container{
-    width: 100%;
-    max-width: 940px;
-    margin: 0 auto;
-    position: relative;
-    text-align: center;
-  }
-  
-  .cf:before,
-  .cf:after {
-      content: " ";
-      display: table;
-  }
-  
-  .cf:after {
-      clear: both;
-  }
-  
-  .cf {
-      *zoom: 1;
-  }
-  
+const Number = styled.div<{ active: boolean }>`
+  font-size: 14px;
+  line-height: 40px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  color: ${({ active }) => (active ? '#fff' : '#222')};
+  background-color: ${({ active }) => (active ? '#000000' : 'white')};
+  border-radius: ${({ active }) => (active ? '100%' : '0')};
+`
 
-  .pagination{
-    padding: 30px 0;
-  }
-  
-  .pagination ul{
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-  }
-  
-  .pagination a{
-    display: inline-block;
-    padding: 10px 18px;
-    color: #222;
-  }
-    
-  .p1 a{
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    padding: 0;
-    text-align: center;
-  }
-  
-  .p1 a.is-active{
-    background-color: #000000;
-    border-radius: 100%;
-    color: #fff;
-  }
-`;
+const PAGES = 4
 
+const Pagination: React.FC = () => {
+  const { currentPage, changePage } = usePagination()
 
-interface PageProps {
-    itemCounts?: number,
-    pageSize?: number,
-   // onPageChange: () => void,
-    currentPage?: number,
-    location?: number
+  return (
+    <Container>
+      <img src={LeftArrow} alt="Prev page" onClick={() => (currentPage > 1 ? changePage(currentPage - 1) : null)} />
+      {_.times(PAGES, (i: number) => (
+        <Number active={i === 0}>{currentPage + 1 + i}</Number>
+      ))}
+      <img src={RightArrow} alt="Next page" onClick={() => changePage(currentPage + 1)} />
+    </Container>
+  )
 }
 
-const Pagination: React.FC<PageProps> = ({ itemCounts, pageSize, currentPage, location }) => {
-    return (
-        <React.Fragment>
-            <PaginationStyle>
-                <div className="container">
-                    <div className="pagination p1">
-                        <ul>
-                            <a href="#"><li>prev</li></a>
-                            <a className="is-active" href="#"><li>1</li></a>
-                            <a href="#"><li>2</li></a>
-                            <a href="#"><li>3</li></a>
-                            <a href="#"><li>4</li></a>
-                            <a href="#"><li>5</li></a>
-                            <a href="#"><li>6</li></a>
-                            <a href="#"><li>next</li></a></ul>
-                    </div>
-                </div>
-            </PaginationStyle>
-        </React.Fragment>
-    );
-}
-
-export default Pagination;
+export default Pagination
