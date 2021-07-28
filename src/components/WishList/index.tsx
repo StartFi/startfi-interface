@@ -22,7 +22,9 @@ const WishList = () => {
       {userWishList.length > 0 ? (
         userWishList.map((auction: AuctionNFT) => (
 
-             <WishCard key={auction.auction.id} cardContent={auction} ></WishCard>
+             <WishCard key={auction.auction.id} cardContent={auction}
+             navigateToNft={(auction:AuctionNFT)=>
+              history.push(`/marketplace/nft/${auction.nft.id}/${auction.auction.id}`)}></WishCard>
 
         ))
       ) : (

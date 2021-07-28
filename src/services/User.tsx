@@ -37,12 +37,14 @@ export const removeFromWishlist = async ({ userId, nftId }: AddToWishList) => {
 }
 export const saveDraft = async (draft: Draft) => {
   const draftAdded = await addDraft(draft)
+  console.log(draft)
   const status = checkSuccess({ draftAdded })
   return { status, draftAdded }
 }
 
 export const getDrafts = async (user: string) => {
-  const drafts = (await getDraft(user)).drafts
+  let drafts = (await getDraft(user))?.drafts
+
   return { drafts }
 }
 

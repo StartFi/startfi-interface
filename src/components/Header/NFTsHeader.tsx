@@ -23,7 +23,6 @@ import { useWalletAddress } from 'state/user/hooks'
 import { useSearch } from 'hooks'
 
 const Categories = ['all', ...CATEGORIES]
-
 const TabIcons: Dictionary = {
   books: Books,
   videos: Videos,

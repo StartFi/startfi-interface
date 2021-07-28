@@ -103,6 +103,7 @@ const Card: React.FC<CardProps> = ({ currentStep, draft }) => {
   const [missing, setMissing] = useState<string[]>([])
 
   const [step, setStep] = useState<number>(currentStep || 1)
+ 
 
   const popup = usePopup()
 
@@ -192,6 +193,7 @@ const Card: React.FC<CardProps> = ({ currentStep, draft }) => {
   useEffect(() => {
     if (draft) {
       setNFT(draft)
+      setStep(2)
     }
   }, [draft])
 
