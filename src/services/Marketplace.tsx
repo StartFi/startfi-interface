@@ -52,7 +52,8 @@ export const getMarketplace = async (query?: NFTQUERY) => {
   auctions.forEach((rawAuction: any) => {
     const auction = rawAuction.data()
     const nft = nfts.filter((nft: NFT) => nft.id === auction.nft)[0]
-    if (nft)
+    if (nft){
+    if(nft.issueDate) delete nft.issueDate;
       onMarket.push({
         nft,
         auction,
@@ -60,6 +61,7 @@ export const getMarketplace = async (query?: NFTQUERY) => {
         issuername: '',
         ownerdetails: ''
       })
+    }
   })
   onMarket = onMarket.slice(0, NFTS_PER_PAGE)
   const id = onMarket[onMarket.length - 1]?.auction.id

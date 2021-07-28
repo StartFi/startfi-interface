@@ -8,6 +8,7 @@ import user from './user/reducer'
 import transactions from './transactions/reducer'
 import multicall from './multicall/reducer'
 import ipfs from './ipfs/reducer'
+import bcEvent from './blockchainEvents/reducer'
 
 const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists']
 
@@ -18,7 +19,8 @@ const store = configureStore({
     user,
     transactions,
     multicall,
-    ipfs
+    ipfs,
+    bcEvent
   },
   middleware: [...getDefaultMiddleware({ thunk: true ,serializableCheck: {
     ignoredActionPaths: ['marketplace.marketplace.0.nft.issueDate',

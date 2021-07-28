@@ -17,10 +17,15 @@ import {
   setBidOrBuy,
   saveNFT,
   saveAuction,
-  addToMarketplaceAction
+  addToMarketplaceAction,
+  clearNFT
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
+import { useMint } from 'hooks/startfiNft'
+import { useWeb3React } from '@web3-react/core'
+import { useNftPaymentEventListener } from 'hooks/startfiEventListener'
+import { useClearIPFSProgress } from 'state/ipfs/hooks'
 
 export const useMarketplace = (): AuctionNFT[] => {
   return useSelector((state: AppState) => state.marketplace.marketplace)
@@ -85,6 +90,11 @@ export const useSaveAuction = (): ((auction: Auction) => void) => {
   return useCallback((auction: Auction) => dispatch(saveAuction({ auction })), [dispatch])
 }
 
+export const useClearNFT = (): (() => void) => {
+  const dispatch = useDispatch()
+  return useCallback(() => dispatch(clearNFT()), [dispatch])
+}
+
 export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
   const dispatch = useDispatch()
   return useCallback(
@@ -116,15 +126,22 @@ export const usePagination = () => {
 
 export const useMintNFT = (): (() => void) => {
   const dispatch = useDispatch()
-  const owner = useUserAddress()
   const popup = usePopup()
   const nft = useNFT()
+  const mint = useMint()
+  const { account } = useWeb3React()
 
-  return useCallback(() => {
-    if (owner && nft) {
-      dispatch(mintNFTAction({ ...nft, owner, issuer: owner, issueDate: new Date() }))
+  useNftPaymentEventListener()
+  return useCallback(async () => {
+    if (account && nft) {
+      if (nft.royalty === 0) {
+        await mint(account as string, nft.dataHash)
+      } else {
+        await mint(account as string, nft.dataHash, nft.royalty, 100)
+      }
+      dispatch(mintNFTAction({ ...nft, issueDate: new Date() }))
     } else popup({ success: false, message: 'Connect wallet or no NFT data' })
-  }, [nft, owner, popup, dispatch])
+  }, [nft, account, popup, dispatch])
 }
 
 export const useAddToMarketplace = (): (() => void) => {

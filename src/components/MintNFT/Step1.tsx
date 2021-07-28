@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useIpfsHash, useIpfsProgress, useIpfsStatus, useUploadToIpfs } from 'state/ipfs/hooks'
 import { ipfsEnumStatus } from 'state/ipfs/actions'
-// import uriToHttp from 'utils/uriToHttp'
 
 const DropDown = styled.div`
   margin: 10vh 0;
@@ -61,7 +60,6 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
           onChange={handleChange}
         />
       </DropDown>
-
       <InputFile
         name="dataHash"
         label={t('uploadNFT')}
