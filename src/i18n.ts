@@ -5,23 +5,26 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 
 i18next
   .use(XHR)
-  .use(LanguageDetector)
   .use(initReactI18next)
+  .use(LanguageDetector)
   .init(
     {
-    initImmediate: false ,
-    backend: {
-      loadPath: `./locales/{{lng}}.json`
-    },
-    react: {
-      useSuspense: true
-    },
-    fallbackLng: 'en',
-    preload: ['en'],
-    keySeparator: false,
-    interpolation: { escapeValue: false }
-  })
+      initImmediate: false,
+      backend: {
+        loadPath: `./locales/{{lng}}.json`
+      },
+      react: {
+        useSuspense: true
+      },
+      fallbackLng: 'en',
+      preload: ['en'],
+      keySeparator: false,
+      nsSeparator: false,
+      interpolation: { escapeValue: false },
+      // resources: {
+      //   "en": { translation: require('locales/en.json') }
+      // }
+    })
 
- 
 
 export default i18next
