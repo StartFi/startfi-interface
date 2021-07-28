@@ -62,7 +62,7 @@ const Nftproduct = () => {
   const balance = useUserBalance()
 
   if (!nft || !auction) {
-    popup({ success: false, message: 'No nft selected' })
+    popup({ success: false, message: 'noNFT' })
     history.goBack()
     return null
   }

@@ -238,7 +238,7 @@ export const useSaveDraft = () => {
       const drafts = [draft]
 
       if (user) dispatch(saveDraftAction({ user, drafts }))
-      else popup({ success: false, message: 'Connect wallet' })
+      else popup({ success: false, message: 'connectWallet' })
     },
     [user, popup, dispatch]
   )
@@ -252,7 +252,7 @@ export const useGetInventory = () => {
     () =>
       user
         ? (dispatch(getUserNFTsAction(user)), dispatch(getDraftsAction(user)))
-        : popup({ success: false, message: 'Connect wallet' }),
+        : popup({ success: false, message: 'connectWallet' }),
     [user, popup, dispatch]
   )
 }
@@ -283,7 +283,7 @@ export const useAddToWishlist = (nftId: number) => {
   const popup = usePopup()
   return useCallback(() => {
     if (userId) dispatch(addToWishlistAction({ userId, nftId }))
-    else popup({ success: false, message: 'Connect wallet' })
+    else popup({ success: false, message: 'connectWallet' })
   }, [nftId, userId, popup, dispatch])
 }
 
@@ -293,7 +293,7 @@ export const useRemoveFromWishlist = (nftId: number) => {
   const popup = usePopup()
   return useCallback(() => {
     if (userId) dispatch(removeFromWishlistAction({ userId, nftId }))
-    else popup({ success: false, message: 'Connect wallet' })
+    else popup({ success: false, message: 'connectWallet' })
   }, [nftId, userId, popup, dispatch])
 }
 
@@ -304,7 +304,7 @@ export const useRemoveWishlistItem = (nftId: number) => {
   const popup = usePopup()
   return useCallback(() => {
     if (userId) dispatch(removeFromWishlistAction({ userId, nftId }))
-    else popup({ success: false, message: 'Connect wallet' })
+    else popup({ success: false, message: 'connectWallet' })
   }, [nftId, userId, popup, dispatch])
 }
 
@@ -381,7 +381,7 @@ export const useGetDrafts = () => {
   const user = useUserAddress()
   const popup = usePopup()
   return useCallback(
-    () => (user ? dispatch(getDraftsAction(user)) : popup({ success: false, message: 'Connect wallet' })),
+    () => (user ? dispatch(getDraftsAction(user)) : popup({ success: false, message: 'connectWallet' })),
     [user, popup, dispatch]
   )
 }
@@ -391,7 +391,7 @@ export const useGetUserNFTs = () => {
   const user = useUserAddress()
   const popup = usePopup()
   return useCallback(
-    () => (user ? dispatch(getUserNFTsAction(user)) : popup({ success: false, message: 'Connect wallet' })),
+    () => (user ? dispatch(getUserNFTsAction(user)) : popup({ success: false, message: 'connectWallet' })),
     [user, popup, dispatch]
   )
 }
