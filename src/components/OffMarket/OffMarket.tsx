@@ -36,7 +36,7 @@ const OffMarket = () => {
   }, [])
 
   return (
-    <React.Fragment>
+   
       <InventoryCard borderRadius='8px' marginTop='54px'>
         <TopTitle>
           <span>Inventory</span>
@@ -107,6 +107,7 @@ const OffMarket = () => {
             </TextContainer>
           </Card>
 
+
           {/* 3 */}
           <Card height='123px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
             <TextContainer marginLeft='1.438rem' width='100%'>
@@ -132,7 +133,8 @@ const OffMarket = () => {
           <ButtonMint onClick={() => history.push(`/mint/steps/${id}`)}>Add to marketplace</ButtonMint>
         </Footer>
       </InventoryCard>
-    </React.Fragment>
+   
+
   )
 }
 

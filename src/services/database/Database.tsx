@@ -59,7 +59,20 @@ export const getDocuments = async (
   return snapshotToArray(await query.get().catch((err: any) => console.log(err)))
 }
 
-const snapshotToArray = (
+export const getDocumentsPaginated = async (
+  collection: string,
+  filters?: Dictionary,
+  orders?: Dictionary,
+  lastVisible?: any
+): Promise<any> => {
+  var query: any = DB.collection(collection)
+  if (filters) Object.keys(filters).forEach(key => (query = query.where(key, '==', filters[key])))
+  if (orders) Object.keys(orders).forEach(key => (query = query.orderBy(key, orders[key])))
+  if (lastVisible) query = query.startAfter(lastVisible)
+  return query.get().catch((err: any) => console.log(err))
+}
+
+export const snapshotToArray = (
   snapshot: firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData> | void
 ): Document[] => {
   const result: Document[] = []
