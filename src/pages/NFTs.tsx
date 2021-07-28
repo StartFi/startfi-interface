@@ -7,7 +7,7 @@ import { useGetInventory, useUser} from 'state/user/hooks'
 // import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { useGetNFTs, useLoadTime, useMarketplace } from 'state/marketplace/hooks'
+import { useGetNFTs, useMarketplaceLoading, useLoadTime, useMarketplace } from 'state/marketplace/hooks'
 import { Row } from 'theme/components'
 import { LinkBase } from '../components/Link/index'
 import { AuctionNFT } from 'services/models/AuctionNFT'
@@ -53,12 +53,14 @@ const NFTs: React.FC = () => {
 
   const loadtime = useLoadTime()
 
+  const loading = useMarketplaceLoading()
+
   const getNFTs = useGetNFTs()
   const user = useUser()
 
   const getInventory = useGetInventory()
 
-  if (loadtime === -1)
+  if (loading)
     return (
       <div>
         <StartfiLoader></StartfiLoader>

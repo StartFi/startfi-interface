@@ -65,6 +65,10 @@ export const useAuction = (): Auction | null => {
   return useSelector((state: AppState) => state.marketplace.auction)
 }
 
+export const useMarketplaceLoading = (): boolean => {
+  return useSelector((state: AppState) => state.marketplace.loading)
+}
+
 export const useSetBidOrBuy = (): ((bidOrBuy: boolean, value: number) => void) => {
   const dispatch = useDispatch()
   return useCallback((bidOrBuy: boolean, value: number) => dispatch(setBidOrBuy({ bidOrBuy, value })), [dispatch])
