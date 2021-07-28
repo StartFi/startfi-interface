@@ -6,7 +6,6 @@ import uriToHttp from 'utils/uriToHttp'
 import { Tag } from 'components/Tags'
 import { ButtonDraft, ButtonMint } from 'components/Button'
 import { useSaveDraft } from 'state/user/hooks'
-import { address as STARTFI_TOKEN_ADDRESS } from '../../constants/abis/StartFiToken.json'
 import { useGetAllowance } from 'hooks/startfiToken'
 import {
   Bold,
@@ -60,7 +59,10 @@ import { useApproveToken, useTokenBalance } from 'hooks/startfiToken'
 import { useWeb3React } from '@web3-react/core'
 
 const NFTSummary: React.FC = () => {
+  const history = useHistory()
+
   const { account } = useWeb3React()
+
   const getStfiBalance = useTokenBalance()
   const getAllowedStfi = useGetAllowance()
   const approveToken = useApproveToken()
@@ -72,19 +74,19 @@ const NFTSummary: React.FC = () => {
       const balanceHexString = await getStfiBalance(account as string)
       const balance = balanceHexString?.length < 5 ? parseInt(balanceHexString, 16) : Number(balanceHexString)
       setStfiBalance(balance)
+      if (balance === 0)
+       history.push('/')
     }
     account && getBalance()
   }, [account, getStfiBalance])
   useEffect(() => {
     const getAllowed = async () => {
       const allowedHexString = await getAllowedStfi(account as string, STARTFI_NFT_PAYMENT_ADDRESS)
-      console.log({ allowedHexString })
       const allowed = allowedHexString?.length < 5 ? parseInt(allowedHexString, 16) : allowedHexString
       setAllowedStfi(allowed)
     }
     account && getAllowed()
   }, [account, getAllowedStfi])
-  const history = useHistory()
 
   const nft = useNFT()
 
@@ -113,6 +115,7 @@ const NFTSummary: React.FC = () => {
     switch (step) {
       case 4:
         if (agree) {
+          console.log({ allowedStfi })
           if (allowedStfi) {
             setStep(step + 2)
           } else {
@@ -121,12 +124,8 @@ const NFTSummary: React.FC = () => {
         }
         return null
       case 5:
-        console.log({ allowedStfi })
-        const result = await approveToken(STARTFI_NFT_PAYMENT_ADDRESS, 5)
-        if (result.hash) {
-          return setStep(step + 1)
-        }
-        return null
+        await approveToken(STARTFI_NFT_PAYMENT_ADDRESS, 5)
+        return setStep(step + 1)
       case 6:
         return mint()
       case 8:
@@ -152,7 +151,7 @@ const NFTSummary: React.FC = () => {
             <Line />
             <Field>
               <FirstBoxLabel>{t('uploadedFile')}</FirstBoxLabel>
-              <FirstBoxData>{nft?.name}</FirstBoxData>
+              <FirstBoxData>{nft?.filename}</FirstBoxData>
             </Field>
           </FirstBoxFields>
         </FirstField>
@@ -160,7 +159,7 @@ const NFTSummary: React.FC = () => {
       <EditableBox editable={step === 4} link="/mint/steps" state={{ step: 2 }}>
         <Field>
           <Label>{t('assetName')}</Label>
-          <Data500>{nft?.dataHash}</Data500>
+          <Data500>{nft?.name}</Data500>
         </Field>
         <Line />
         <Field>
@@ -273,7 +272,7 @@ const NFTSummary: React.FC = () => {
             nft.step < 4
               ? nft.category || nft.dataHash || nft.name || nft.description
                 ? saveDraft(nft)
-                : popup({ success: false, message: 'No data entered to save' })
+                : popup({ success: false, message: 'noEnteredData' })
               : history.push('/inventory/off-market/' + nft.id)
           }
         >

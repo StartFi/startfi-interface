@@ -14,14 +14,14 @@ interface ButtonWishlistProps {
 const ButtonWishlist: React.FC<ButtonWishlistProps> = ({ nftId, type }: ButtonWishlistProps) => {
   const { t } = useTranslation()
 
-  const { addToWishlist, isWishlist } = useWishlist(nftId)
+  const { addToWishlist, removeFromWishlist, isWishlist } = useWishlist(nftId)
 
   if (type === 'NFTProduct')
     return (
       <React.Fragment>
         <img src={Heart} alt="Add to Wishlist" />
-        <button disabled={isWishlist} onClick={() => addToWishlist()}>
-          {t('wishlist')}
+        <button onClick={() => (isWishlist ? removeFromWishlist() : addToWishlist())}>
+          {t(isWishlist ? 'removeFromWishlist' : 'whishList')}
         </button>
       </React.Fragment>
     )
@@ -29,15 +29,19 @@ const ButtonWishlist: React.FC<ButtonWishlistProps> = ({ nftId, type }: ButtonWi
   if (type === 'NFTCard')
     return (
       <WhishList>
-      <ImageIcon src={Heart}  $opacity={isWishlist}/>
-      <NftButton disabled={isWishlist} onClick={() => addToWishlist()} color="#000000">
-        {t('whishList')}
-      </NftButton>
+        <ImageIcon src={Heart} $opacity={isWishlist} />
+        <NftButton onClick={() => (isWishlist ? removeFromWishlist() : addToWishlist())} color="#000000">
+          {t(isWishlist ? 'removeFromWishlist' : 'whishList')}
+        </NftButton>
       </WhishList>
     )
 
   if (type === 'NFTConfirm')
-    return <ButtonTransparentBorder disabled={isWishlist} onClick={() => addToWishlist()}>{t('addToWishlist')}</ButtonTransparentBorder>
+    return (
+      <ButtonTransparentBorder onClick={() => (isWishlist ? removeFromWishlist() : addToWishlist())}>
+        {t(isWishlist ? 'removeFromWishlist' : 'addToWishlist')}
+      </ButtonTransparentBorder>
+    )
 
   return null
 }

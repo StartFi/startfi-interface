@@ -68,8 +68,8 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft}) => {
 
   const [nft, setNFT] = useState<NFT>(
     savedNFT || {
-      id: faker.number({ min: 5, max: 5 }),
-      uuid: faker.uuid(),
+      id: 0, //faker.number({ min: 5, max: 5 }),
+      // uuid: faker.uuid(),
       category: '',
       dataHash: '',
       name: '',
@@ -79,7 +79,8 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft}) => {
       issuer: '',
       issueDate: new Date(),
       txtHash: '',
-      royalty: 0
+      royalty: 0,
+      filename: ''
     }
   )
 
@@ -220,7 +221,7 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft}) => {
             step < 4
               ? nft.category || nft.dataHash || nft.name || nft.description
                 ? saveDraft(nft)
-                : popup({ success: false, message: 'No data entered to save' })
+                : popup({ success: false, message: 'noEnteredData' })
               : history.push('/inventory/off-market/' + nft.id)
           }
         >

@@ -1,10 +1,10 @@
 import React from 'react'
-import { ConsoleView } from 'react-device-detect'
 import { useTranslation } from 'react-i18next'
 import { NFT } from 'services/models/NFT'
 import uriToHttp from 'utils/uriToHttp'
 import Text from '../Text'
 import { CardContent, MiniInvCard, TagContainer, TextContainer, Image } from './InvHome.styles'
+
 
 interface MiniCardContent {
   cardContent: NFT

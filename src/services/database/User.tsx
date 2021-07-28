@@ -34,7 +34,7 @@ export const addNFTToWishlist = async (userId: string, nftId: number) => {
 
 }
 
-export const removeNFTWishlist = async (userId: string, nftId: number) => {
+export const removeNFTFromWishlist = async (userId: string, nftId: number) => {
   const oldUser = (await getDocument(COLLECTION, userId)) as User
   if (oldUser) {
     const newUser = { ...oldUser }

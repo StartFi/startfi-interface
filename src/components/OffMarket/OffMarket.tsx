@@ -107,6 +107,7 @@ const OffMarket = () => {
             </TextContainer>
           </Card>
 
+
           {/* 3 */}
           <Card height='123px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
             <TextContainer marginLeft='1.438rem' width='100%'>

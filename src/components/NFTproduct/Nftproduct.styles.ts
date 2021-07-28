@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Row } from 'theme'
 
 export const LoadingDiv = styled('div')<{ $display?: boolean }>`
   position: absolute;
@@ -274,4 +275,23 @@ export const OwnerText = styled.div`
     /* text-overflow: ellipsis;
       -webkit-line-clamp: 4px; */
   }
+`
+
+export const Name = styled(Row)`
+  width: 445px;
+`
+
+export const Stakes = styled(Row)`
+  justify-content: flex-end;
+  width: fit-content;
+`
+
+export const NoStakes = styled.li`
+  color: #d90000;
+`
+
+export const GetNow = styled.div`
+  margin-left: 2vw;
+  font-weight: 500;
+  text-decoration: underline;
 `
