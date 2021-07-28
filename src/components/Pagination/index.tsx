@@ -30,7 +30,7 @@ const Pagination: React.FC = () => {
 
   return (
     <Container>
-      <img src={LeftArrow} alt="Prev page" onClick={() => (currentPage > 1 ? changePage(currentPage - 1) : null)} />
+      <img src={LeftArrow} alt="Prev page" onClick={() => (currentPage > 0 ? changePage(currentPage - 1) : null)} />
       {_.times(PAGES, (i: number) => (
         <Number active={i === 0}>{currentPage + 1 + i}</Number>
       ))}

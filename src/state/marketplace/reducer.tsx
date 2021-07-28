@@ -60,7 +60,7 @@ export default createReducer(initialState, builder =>
       state.marketplace = action.payload.onMarket
       state.loadtime = action.payload.loadtime
       state.lastAuctions.push(action.payload.newLastAuction)
-      if (action.payload.newPage) state.currentPage = action.payload.newPage
+      if (action.payload.newPage !== undefined) state.currentPage = action.payload.newPage
     })
     .addCase(getMarketplaceAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while getting marketplace NFTs' }
