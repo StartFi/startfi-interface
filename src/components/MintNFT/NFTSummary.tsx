@@ -80,10 +80,9 @@ const NFTSummary: React.FC = () => {
   useEffect(() => {
     const getAllowed = async () => {
       const allowedHexString = await getAllowedStfi(account as string, STARTFI_NFT_PAYMENT_ADDRESS)
+      console.log({ allowedHexString })
       const allowed = allowedHexString?.length < 5 ? parseInt(allowedHexString, 16) : allowedHexString
-    if(allowed>=5){
       setAllowedStfi(allowed)
-    }  
     }
     account && getAllowed()
   }, [account, getAllowedStfi])
@@ -92,8 +91,10 @@ const NFTSummary: React.FC = () => {
   const approve= useApproveNft()
   useEffect(() => {
     const getAllowed = async () => {
-      // const approver = await getApproverAddress(nft?.id as number)
+      // const approver = await getApproverAddress(nft?.tokenId  as number)
+       
       const approver = await getApproverAddress(1)
+       
       if(approver== STARTFI_Marketplace_ADDRESS as any )
       {setAllowed(true)}
     }
@@ -145,15 +146,10 @@ const NFTSummary: React.FC = () => {
         return setStep(step + 1)
       case 9:
         if(!allowed){
-          const txt =  await approve(STARTFI_Marketplace_ADDRESS,1);
+            await approve(STARTFI_Marketplace_ADDRESS,1);
           // await approve(STARTFI_Marketplace_ADDRESS,nft.id);
-          if (txt.hash) {
-            return setStep(step + 1)
-          }
-          return null;
-        }else{
-          return setStep(step + 1)
-        }
+           }
+           return setStep(step + 1)
         
       case 10:
         return addToMarketplace()
@@ -330,7 +326,7 @@ const NFTSummary: React.FC = () => {
         {(step === 5 || step === 9) && <Question text="payFromAccountDesc" />}
       </Info>
       <ButtonBlack onClick={next}>
-        {t(step === 6 ? 'saveToBlockchain' : step === 10 || allowedStfi !== 0 ? 'addToMarketplace' : 'allowPayment')}{' '}
+        {t((step === 5 && allowedStfi == 0)|| (step === 9 && !allowed ) ? 'allowPayment':step === 6 ? 'saveToBlockchain' :   'addToMarketplace'  )}{' '}
       </ButtonBlack>
       <ButtonTransparentBorder
         onClick={() => (nft.step < 4 ? saveDraft(nft) : history.push('/inventory/off-market/' + nft.id))}

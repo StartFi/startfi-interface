@@ -136,8 +136,9 @@ const createAuction = useCreateAuction()
 /** */
   return useCallback(async() => {
     if (seller && auction && nft) {
+     console.log(auction,'auction');
      
-      await createAuction( auction.contractAddress, 1,  auction.listingPrice,   auction.qualifyAmount as number,   auction.isForBid,auction.soldPrice as number,
+      await createAuction( auction.contractAddress, 1,  auction.minBid as number,   auction.qualifyAmount as number,   auction.isForBid,auction.listingPrice as number,
         auction.expireTimestamp)
       dispatch(addToMarketplaceAction({ ...auction, nft: nft.id, seller, listTime: new Date() }))
     } else popup({ success: false, message: 'Connect wallet or no Auction data' })
