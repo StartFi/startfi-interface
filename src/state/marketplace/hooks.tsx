@@ -1,5 +1,5 @@
-import { DEFAULTSORT, PopupContent } from './../../constants'
-import { useCallback, useEffect } from 'react'
+import { DEFAULT_SORT, PopupContent } from './../../constants'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NFTQUERY } from 'services/Marketplace'
 import { AuctionNFT } from 'services/models/AuctionNFT'
@@ -69,6 +69,13 @@ export const useAuction = (): Auction | null => {
 
 export const useMarketplaceLoading = (): boolean => {
   return useSelector((state: AppState) => state.marketplace.loading)
+
+export const useCurrentPage = (): number => {
+  return useSelector((state: AppState) => state.marketplace.currentPage)
+}
+
+export const useLastAuctions = (): any[] => {
+  return useSelector((state: AppState) => state.marketplace.lastAuctions)
 }
 
 export const useSetBidOrBuy = (): ((bidOrBuy: boolean, value: number) => void) => {
@@ -95,18 +102,29 @@ export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
   const dispatch = useDispatch()
   return useCallback(
     (query?: NFTQUERY) => {
-      let q = query || { sort: DEFAULTSORT }
+      let q = query || { sort: DEFAULT_SORT }
       dispatch(getMarketplaceAction(q))
     },
     [dispatch]
   )
 }
 
-export const useLoadNFTs = (): void => {
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(getMarketplaceAction())
-  }, [dispatch])
+const useChangePage = () => {
+  const getNFTs = useGetNFTs()
+  const lastAuctions = useLastAuctions()
+  return useCallback((newPage: number) => getNFTs({ newPage, lastAuction: lastAuctions[newPage - 1] }), [
+    lastAuctions,
+    getNFTs
+  ])
+}
+
+export const usePagination = () => {
+  const currentPage = useCurrentPage()
+  const changePage = useChangePage()
+
+  return useMemo(() => {
+    return { currentPage, changePage }
+  }, [currentPage, changePage])
 }
 
 export const useMintNFT = (): (() => void) => {

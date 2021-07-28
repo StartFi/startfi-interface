@@ -12,6 +12,8 @@ import { Row } from 'theme/components'
 import { LinkBase } from '../components/Link/index'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import StartfiLoader from '../components/Loader/startfi'
+import Pagination from 'components/Pagination'
+
 
 // const NFTS = styled.div`
 //   padding: 4vh 3.2vw;
@@ -105,7 +107,9 @@ const NFTs: React.FC = () => {
             ></NTFCard>
           </Nft>
         ))}
-      </NFTList>
+        <br/>
+      </NFTList> : <div><StartfiLoader></StartfiLoader></div>}
+      <Pagination />
     </Padding>
   )
 }

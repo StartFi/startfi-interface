@@ -14,6 +14,7 @@ export interface NFT extends Dictionary {
   txtHash: string
   issuer: string
   issueDate: any
+  filename: string
   tags?: string[]
   royalty: number
   tokenId?: string
