@@ -247,7 +247,12 @@
   "deListingAsset":"Delisting Asset",
   "removeAsset":" Do you want to remove your asset from the marketplace",
   "deListAsset":"Delist Asset",
-  "inventory":"Inventory"
+  "inventory":"Inventory",
+  "wishList":"WishList",
+  "noAsset":"There Are No Assets Added to your wishlist",
+  "removeWishList":"Remove from WishList",
+  "lastBidding":"Last Bidding",
+  "auctionEnds":" Auctions Ends In"
 
 
 
