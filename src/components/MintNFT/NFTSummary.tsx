@@ -59,6 +59,8 @@ import { useApproveToken, useTokenBalance } from 'hooks/startfiToken'
 import { useWeb3React } from '@web3-react/core'
 
 const NFTSummary: React.FC = () => {
+  const history = useHistory()
+
   const { account } = useWeb3React()
 
   const getStfiBalance = useTokenBalance()
@@ -72,6 +74,8 @@ const NFTSummary: React.FC = () => {
       const balanceHexString = await getStfiBalance(account as string)
       const balance = balanceHexString?.length < 5 ? parseInt(balanceHexString, 16) : Number(balanceHexString)
       setStfiBalance(balance)
+      if (balance === 0)
+       history.push('/')
     }
     account && getBalance()
   }, [account, getStfiBalance])
@@ -83,7 +87,6 @@ const NFTSummary: React.FC = () => {
     }
     account && getAllowed()
   }, [account, getAllowedStfi])
-  const history = useHistory()
 
   const nft = useNFT()
 
