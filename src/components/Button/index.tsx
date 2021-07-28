@@ -359,6 +359,7 @@ export const ButtonBase = styled.button`
   border-radius: 4px;
   border: none;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.135216);
+  cursor:pointer;
 `
 
 export const ButtonPrimary = styled(ButtonBase)`

@@ -48,9 +48,10 @@ const Footer = styled.div`
 interface CardProps {
   currentStep?: number
   draft: NFT
+  offMarketNft: NFT
 }
 
-const Card: React.FC<CardProps> = ({ currentStep, draft }) => {
+const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft}) => {
   const { t } = useTranslation()
 
   const history = useHistory()
@@ -103,7 +104,7 @@ const Card: React.FC<CardProps> = ({ currentStep, draft }) => {
   const [missing, setMissing] = useState<string[]>([])
 
   const [step, setStep] = useState<number>(currentStep || 1)
- 
+
 
   const popup = usePopup()
 
@@ -195,7 +196,12 @@ const Card: React.FC<CardProps> = ({ currentStep, draft }) => {
       setNFT(draft)
       setStep(2)
     }
-  }, [draft])
+    if(offMarketNft){
+      setNFT(offMarketNft)
+      setStep(7)
+
+    }
+  }, [draft,offMarketNft])
 
   return (
     <Container>
