@@ -285,7 +285,7 @@ const NFTSummary: React.FC = () => {
     </Footer>
   )
 
-  const PaymentCard = () => (
+ const PaymentCard = () => (
     <Right minHeight="60vh">
       <Bold>{t('confirmPayment')}</Bold>
       <SpaceBetween>
