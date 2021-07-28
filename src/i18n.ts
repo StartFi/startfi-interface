@@ -7,7 +7,9 @@ i18next
   .use(XHR)
   .use(LanguageDetector)
   .use(initReactI18next)
-  .init({
+  .init(
+    {
+    initImmediate: false ,
     backend: {
       loadPath: `./locales/{{lng}}.json`
     },
@@ -19,5 +21,7 @@ i18next
     keySeparator: false,
     interpolation: { escapeValue: false }
   })
+
+ 
 
 export default i18next
