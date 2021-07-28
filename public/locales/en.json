@@ -224,5 +224,27 @@
   "landHead":"marketplace and lunchpad for NFT collateralised loans",
   "landSubText":"Put your NFT assets up as collateral for a loan, or offer loans to other users on their non-fungible tokens",
   "saveOffMarket":"Save at off Marketplace",
-  "addToMarket":"Add to marketplace"
+  "addToMarket":"Add to marketplace",
+  "Draft":"Draft",
+  "inMarketPlace":"In marketplace",
+  "offMarketPlace":"off market place",
+  "noItems":"No items available",
+  "noData":"No Data Available",
+  "monetizingAssets":"Monetizing your assets",
+  "fileName":"File Name",
+  "asstName":"Asset Name",
+  "noTags":"No Tags Added",
+  "IssueRoyaltyShare":" Issue Royalty Share",
+  "minBiding":"Minimum Bidding",
+  "contactAddress":"Contact address attribute",
+  "deListingAsset":"Delisting Asset",
+  "removeAsset":" Do you want to remove your asset from the marketplace",
+  "deListAsset":"Delist Asset",
+  "inventory":"Inventory"
+
+
+
+
+
+
 }

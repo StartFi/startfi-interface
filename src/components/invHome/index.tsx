@@ -1,5 +1,6 @@
 import Row from 'components/Row'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
 import { useDrafts, useOffMarket, useOnMarket } from 'state/user/hooks'
@@ -8,6 +9,7 @@ import { InventoryCard } from './InvHome.styles'
 import MiniCard from './MiniCard'
 
 const InventoryHome = () => {
+  const { t } = useTranslation()
   const [inventoryOption, setInventoryOption] = useState(InventoryOptions.Draft)
   const history = useHistory()
   const drafts: NFT[] | undefined = useDrafts()
@@ -44,7 +46,7 @@ const InventoryHome = () => {
               <MiniCard key={nft.id} cardContent={nft} navigate={() => navigate(nft.id)} />
             ))
           ) : (
-            <p>No items available</p>
+            <p>{t('noItems')}</p>
           )}
         </Row>
       </InventoryCard>
