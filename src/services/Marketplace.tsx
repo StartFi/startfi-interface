@@ -1,6 +1,6 @@
 import { Bid } from './models/Bid'
 import { NFT } from './models/NFT'
-import { addAuction, addBidToAuction, editAuction, getAuction, getAuctionsPaginated } from './database/Auction'
+import { addAuction, addBidToAuction, editAuction, getAuction, getAuctionsPaginated ,getAuctions } from './database/Auction'
 import { getUser } from './database/User'
 import { addNFT, editNFT, getNFT, getNFTs } from './database/NFT'
 import { addBid } from './database/Bid'
@@ -8,15 +8,13 @@ import { AuctionNFT } from './models/AuctionNFT'
 import { checkSuccess, sortHelper } from 'utils'
 import { Auction } from './models/Auction'
 import { DEFAULT_SORT, NFTS_PER_PAGE } from './../constants'
-import { datatype as faker } from 'faker'
 
 let generateId = Date.now().toString(36) + Math.random().toString(36).substr(2);
 
 export const mintNFT = async (nft: NFT) => {
   const hash = ''
 
-  // nft.id =  faker.number({'min' : 100000, 'max' : 999999})
-  // nft.uuid =faker.uuid()
+
   nft.id =  generateId;
   nft.txtHash = hash
   const nftAdded = await addNFT(nft)
@@ -42,22 +40,57 @@ export interface NFTQUERY {
   lastAuction?: any
 }
 
+// export const getMarketplace = async (query?: NFTQUERY) => {
+//   const t0 = performance.now()
+//   if (!query) query = {}
+//   const { search, category, sort, lastAuction } = query
+//   const nftsQuery: NFTQUERY = {}
+//   if (search) nftsQuery.name = search
+//   if (category && category !== 'all') nftsQuery.category = category
+//   const auctionSort = sort ? sort : DEFAULT_SORT
+//   const nfts = await getNFTs(nftsQuery)
+//   const auctions = await getAuctionsPaginated({ status: 'open' }, sortHelper(auctionSort), lastAuction)
+//   var onMarket: AuctionNFT[] = []
+//   auctions.forEach((rawAuction: any) => {
+//     const auction = rawAuction.data()
+//     const nft = nfts.filter((nft: NFT) => nft.id === auction.nft)[0]
+//     if (nft){
+//     if(nft.issueDate) delete nft.issueDate;
+//       onMarket.push({
+//         nft,
+//         auction,
+//         ownername: '',
+//         issuername: '',
+//         ownerdetails: ''
+//       })
+//     }
+//   })
+//   onMarket = onMarket.slice(0, NFTS_PER_PAGE)
+//   const id = onMarket[onMarket.length - 1]?.auction.id
+//   var newLastAuction = null
+//   auctions.forEach((a: any) => {
+//     if (a.data().id === id) newLastAuction = a
+//   })
+//   const t1 = performance.now()
+//   const loadtime = Math.round(t1 - t0)
+//   return { onMarket, loadtime, newLastAuction, auctions, ...query }
+// }
+
+
 export const getMarketplace = async (query?: NFTQUERY) => {
   const t0 = performance.now()
   if (!query) query = {}
-  const { search, category, sort, lastAuction } = query
+  const { search, category, sort } = query
   const nftsQuery: NFTQUERY = {}
   if (search) nftsQuery.name = search
   if (category && category !== 'all') nftsQuery.category = category
   const auctionSort = sort ? sort : DEFAULT_SORT
   const nfts = await getNFTs(nftsQuery)
-  const auctions = await getAuctionsPaginated({ status: 'open' }, sortHelper(auctionSort), lastAuction)
-  var onMarket: AuctionNFT[] = []
-  auctions.forEach((rawAuction: any) => {
-    const auction = rawAuction.data()
+  const auctions = await getAuctions({ status: 'open' }, sortHelper(auctionSort))
+  const onMarket: AuctionNFT[] = []
+  auctions.forEach((auction: Auction) => {
     const nft = nfts.filter((nft: NFT) => nft.id === auction.nft)[0]
-    if (nft){
-    if(nft.issueDate) delete nft.issueDate;
+    if (nft)
       onMarket.push({
         nft,
         auction,
@@ -65,17 +98,10 @@ export const getMarketplace = async (query?: NFTQUERY) => {
         issuername: '',
         ownerdetails: ''
       })
-    }
-  })
-  onMarket = onMarket.slice(0, NFTS_PER_PAGE)
-  const id = onMarket[onMarket.length - 1]?.auction.id
-  var newLastAuction = null
-  auctions.forEach((a: any) => {
-    if (a.data().id === id) newLastAuction = a
   })
   const t1 = performance.now()
   const loadtime = Math.round(t1 - t0)
-  return { onMarket, loadtime, newLastAuction, auctions, ...query }
+  return { onMarket, loadtime, ...query }
 }
 
 interface GetAuctionNFT {
