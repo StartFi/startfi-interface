@@ -10,7 +10,7 @@ export const CATEGORIES = ['music', 'books', 'videos', 'art', 'images', 'games']
 
 export type Dictionary = { [index: string]: any }
 
-export const NFTQUERYLIMIT = 4
+export const NFTS_PER_PAGE = 1
 
 export interface StepProps {
   state: Dictionary
@@ -25,7 +25,7 @@ export interface PopupContent {
   type?: string
 }
 
-export const DEFAULTSORT = 'Lowest price'
+export const DEFAULT_SORT = 'Lowest price'
 
 export const ROUTER_ADDRESS = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
 export interface PopupContent {
@@ -80,6 +80,8 @@ const WETH_ONLY: ChainTokenList = {
   [ChainId.BSCT]: [WETH9[ChainId.GÖRLI]],
   [ChainId.BSC]: [WETH9[ChainId.GÖRLI]],
   [ChainId.StartFi]: [WETH9[ChainId.GÖRLI]],
+  [ChainId.POLYGON]: [WETH9[ChainId.GÖRLI]],
+  [ChainId.AURORA]: [WETH9[ChainId.GÖRLI]],
   [ChainId.KOVAN]: [WETH9[ChainId.KOVAN]]
 }
 
@@ -250,3 +252,6 @@ export const BLOCKED_ADDRESSES: string[] = [
   '0xA7e5d5A720f06526557c513402f2e6B5fA20b008',
   '0x8576aCC5C05D6Ce88f4e49bf65BdF0C62F91353C'
 ]
+export const ROLES = {
+  admin: '0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6'
+}

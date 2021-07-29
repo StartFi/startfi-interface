@@ -73,6 +73,11 @@ const BalanceText = styled(Text)`
 const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.RINKEBY]: 'Rinkeby',
   [ChainId.ROPSTEN]: 'Ropsten',
+  [ChainId.StartFi]: 'LocalHost',
+  [ChainId.AURORA]: 'Aurora',
+  [ChainId.BSCT]: 'Binance Smart chain Test',
+  [ChainId.BSC]: 'Binance Smart chain',
+   [ChainId.POLYGON]: 'Polygon Test',
   [ChainId.GÖRLI]: 'Görli',
   [ChainId.KOVAN]: 'Kovan'
 }

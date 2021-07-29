@@ -6,7 +6,7 @@ import { Row } from 'theme/components'
 import { useLocation } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
-import { useDraft } from 'state/user/hooks'
+import { useDraft, useOffMarketItem } from 'state/user/hooks'
 
 const Container = styled.div`
   width: 100%;
@@ -40,16 +40,22 @@ const Right = styled(CardBase)`
 interface LocationState {
   step?: number
 }
-        
-interface DraftParams {
-  draftId: string;
-}
 
+interface DraftParams {
+  id: string
+}
 
 const MintNFT: React.FC = () => {
   const location = useLocation<LocationState>()
-    const {draftId}: DraftParams = useParams()
-  const draft:NFT=useDraft(parseInt(draftId));
+  const { id }: DraftParams = useParams()
+  const draft: NFT = useDraft(parseInt(id))
+  const offMarketNft: NFT = useOffMarketItem(parseInt(id))
+  console.log('draft=>',draft)
+  console.log('offMrket',offMarketNft)
+
+
+
+
 
   return (
     <Container>
@@ -58,7 +64,7 @@ const MintNFT: React.FC = () => {
           <Questions />
         </Left>
         <Right>
-          <Card currentStep={location.state?.step} draft={draft}/>
+          <Card currentStep={location.state?.step} draft={draft} offMarketNft={offMarketNft}/>
         </Right>
       </Body>
     </Container>

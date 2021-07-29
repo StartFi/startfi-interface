@@ -47,11 +47,11 @@ const Footer = styled.div`
 `
 interface CardProps {
   currentStep?: number
-    draft: NFT
+  draft: NFT
+  offMarketNft: NFT
 }
 
-const Card: React.FC<CardProps> = ({ currentStep, draft }) => {
-
+const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft}) => {
   const { t } = useTranslation()
 
   const history = useHistory()
@@ -68,8 +68,8 @@ const Card: React.FC<CardProps> = ({ currentStep, draft }) => {
 
   const [nft, setNFT] = useState<NFT>(
     savedNFT || {
-      id: faker.number({ min: 5, max: 5 }),
-      uuid: faker.uuid(),
+      id: 0, //faker.number({ min: 5, max: 5 }),
+      // uuid: faker.uuid(),
       category: '',
       dataHash: '',
       name: '',
@@ -79,29 +79,33 @@ const Card: React.FC<CardProps> = ({ currentStep, draft }) => {
       issuer: '',
       issueDate: new Date(),
       txtHash: '',
-      royalty: 0
+      royalty: 0,
+      filename: ''
     }
   )
 
-  const [auction, setAuction] = useState<Auction>(savedAuction || {
-    id: 'string',
-    nft: 0,
-    listingPrice: 0,
-    seller: '',
-    expireTimestamp: 0,
-    isForSale: false,
-    isForBid: false,
-    bids: [],
-    listTime: new Date(),
-    listingTxt: '',
-    status: 'open',
-    minBid: 0,
-    qualifyAmount: 0
-  })
+  const [auction, setAuction] = useState<Auction>(
+    savedAuction || {
+      id: 'string',
+      nft: 0,
+      listingPrice: 0,
+      seller: '',
+      expireTimestamp: 0,
+      isForSale: false,
+      isForBid: false,
+      bids: [],
+      listTime: new Date(),
+      listingTxt: '',
+      status: 'open',
+      minBid: 0,
+      qualifyAmount: 0
+    }
+  )
 
   const [missing, setMissing] = useState<string[]>([])
 
   const [step, setStep] = useState<number>(currentStep || 1)
+
 
   const popup = usePopup()
 
@@ -188,11 +192,17 @@ const Card: React.FC<CardProps> = ({ currentStep, draft }) => {
     }
   }
 
-useEffect(() => {
+  useEffect(() => {
     if (draft) {
       setNFT(draft)
+      setStep(2)
     }
-  }, [draft])
+    if(offMarketNft){
+      setNFT(offMarketNft)
+      setStep(7)
+
+    }
+  }, [draft,offMarketNft])
 
   return (
     <Container>
@@ -208,10 +218,10 @@ useEffect(() => {
         <ButtonMintBack onClick={() => (step > 1 && step < 4 ? setStep(step - 1) : null)}>{t('back')}</ButtonMintBack>
         <ButtonDraft
           onClick={() =>
-            step < 4 ?
-            (nft.category || nft.dataHash || nft.name || nft.description
-              ? saveDraft(nft)
-              : popup({ success: false, message: 'No data entered to save' }))
+            step < 4
+              ? nft.category || nft.dataHash || nft.name || nft.description
+                ? saveDraft(nft)
+                : popup({ success: false, message: 'noEnteredData' })
               : history.push('/inventory/off-market/' + nft.id)
           }
         >

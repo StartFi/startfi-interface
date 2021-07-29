@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next'
 import Vector from '../../assets/images/Vector.png'
 import StringModifier from 'utils/StringSplice'
 
+
 interface offMarketParams {
   id: string
 }
@@ -26,110 +27,114 @@ const OffMarket = () => {
   const imgUrl = uriToHttp(`${nft.dataHash}`)[1]
 
   const [tagsState, setTagsState] = useState(false)
-
+ 
 
   useEffect(() => {
     if (nft?.tags) {
       if (nft.tags.length > 0) setTagsState(true)
     }
   }, [])
-  return (
 
-    <InventoryCard borderRadius='8px' marginTop='54px'>
+  return (
+   
+      <InventoryCard borderRadius='8px' marginTop='54px'>
         <TopTitle>
-            <span>Inventory</span>
-            <img src={Vector}/>
-            <span>offMarketPlace</span>
-            <img src={Vector}/>
-            <span>{StringModifier(nft.owner)}</span>
-            </TopTitle>
-      <Row padding='20px' align='start'>
-        <Text fontFamily='Roboto' FontWeight='500' fontSize='1rem' color='#000000' margin='0 0 3px 8px'>
-          {nft.name}
-        </Text>
-        {/* 1 */}
-        <Card height='142px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB'>
-          <ImageContainer>
-            <img src={imgUrl} />
-            <TextContainer marginLeft='1.438rem'>
+          <span>Inventory</span>
+          <img src={Vector} />
+          <span>offMarketPlace</span>
+          <img src={Vector} />
+          <span>{StringModifier(nft.owner)}</span>
+        </TopTitle>
+        <Row padding='20px' align='start'>
+          <Text fontFamily='Roboto' FontWeight='500' fontSize='1rem' color='#000000' margin='0 0 3px 8px'>
+            {nft.name}
+          </Text>
+          {/* 1 */}
+          <Card height='142px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB'>
+            <ImageContainer>
+              <img src={imgUrl} />
+              <TextContainer marginLeft='1.438rem'>
+                <div>
+                  <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='3.75rem'>
+                    Category
+                    <span>{nft.category}</span>
+                  </Text>
+                </div>
+
+                <Divider width='29.938rem '></Divider>
+                <div>
+                  <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='3.40rem'>
+                    File Name
+                    <span></span>
+                  </Text>
+                </div>
+              </TextContainer>
+            </ImageContainer>
+          </Card>
+
+          {/* 2 */}
+          <Card height='226px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
+            <TextContainer marginLeft='1.438rem' width='100%'>
               <div>
                 <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='3.75rem'>
-                  Category
-                  <span>{nft.category}</span>
+                  Asset Name
+                  <span>{nft.name}</span>
                 </Text>
               </div>
+              <Divider width='95%'></Divider>
+              <TagRow>
+                <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='7.0rem'>
+                  Tags
+                </Text>
+                {tagsState ? (
+                  <TagContainer marginLeft='6.8rem'>
+                    {nft.tags?.map(e => (
+                      <div key={e}>{e}</div>
+                    ))}
+                  </TagContainer>
+                ) : (
+                  <span>No Tags Added</span>
+                )}
+              </TagRow>
 
-              <Divider width='29.938rem '></Divider>
+              <Divider width='95%'></Divider>
               <div>
-                <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='3.40rem'>
-                  File Name
+                <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='4.0rem'>
+                  Description
+                  <span>{nft.description}</span>
+                </Text>
+              </div>
+            </TextContainer>
+          </Card>
+
+
+          {/* 3 */}
+          <Card height='123px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
+            <TextContainer marginLeft='1.438rem' width='100%'>
+              <div>
+                <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
+                  Token ID
+                  <span>{nft.id}</span>
+                </Text>
+              </div>
+              <Divider width='95%'></Divider>
+              <div>
+                <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='5.0rem'>
+                  Contact address attribute
                   <span></span>
                 </Text>
               </div>
             </TextContainer>
-          </ImageContainer>
-        </Card>
+          </Card>
+        </Row>
+        <Footer>
+          <ButtonMintBack onClick={() => history.push('/inventory/home/offMarket')}>{t('back')}</ButtonMintBack>
+          <ButtonDraft>Save at off Marketplace</ButtonDraft>
+          <ButtonMint onClick={() => history.push(`/mint/steps/${id}`)}>Add to marketplace</ButtonMint>
+        </Footer>
+      </InventoryCard>
+   
 
-        {/* 2 */}
-        <Card height='226px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
-          <TextContainer marginLeft='1.438rem' width='100%'>
-            <div>
-              <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='3.75rem'>
-                Asset Name
-                <span>{nft.name}</span>
-              </Text>
-            </div>
-            <Divider width='95%'></Divider>
-            <TagRow>
-              <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='7.0rem'>
-                Tags
-              </Text>
-              {tagsState ? (
-                <TagContainer marginLeft='6.8rem'>
-                  {nft.tags?.map(e => (
-                    <div key={e}>{e}</div>
-                  ))}
-                </TagContainer>
-              ) : (
-                <span>No Tags Added</span>
-              )}
-            </TagRow>
-
-            <Divider width='95%'></Divider>
-            <div>
-              <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='4.0rem'>
-                Description
-                <span>{nft.description}</span>
-              </Text>
-            </div>
-          </TextContainer>
-        </Card>
-
-        {/* 3 */}
-        <Card height='123px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
-          <TextContainer marginLeft='1.438rem' width='100%'>
-            <div>
-              <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
-                Token ID
-                <span>{nft.id}</span>
-              </Text>
-            </div>
-            <Divider width='95%'></Divider>
-            <div>
-              <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='5.0rem'>
-                Contact address attribute
-                <span></span>
-              </Text>
-            </div>
-          </TextContainer>
-        </Card>
-      </Row>
-      <Footer>
-        <ButtonMintBack onClick={()=>history.push('/inventory/home/offMarket')}>{t('back')}</ButtonMintBack>
-        <ButtonDraft >Save at off Marketplace</ButtonDraft>
-        <ButtonMint >Add to marketplace</ButtonMint>
-      </Footer>
-    </InventoryCard>
   )
 }
 

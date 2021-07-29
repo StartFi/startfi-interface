@@ -14,7 +14,7 @@ import Music from '../../assets/icons/musictab.svg'
 import Images from '../../assets/icons/imagestab.svg'
 import { useGetNFTs } from 'state/marketplace/hooks'
 import { useHistory } from 'react-router'
-import { CATEGORIES, DEFAULTSORT, Dictionary } from './../../constants'
+import { CATEGORIES, DEFAULT_SORT, Dictionary } from './../../constants'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
@@ -23,7 +23,6 @@ import { useWalletAddress } from 'state/user/hooks'
 import { useSearch } from 'hooks'
 
 const Categories = ['all', ...CATEGORIES]
-
 const TabIcons: Dictionary = {
   books: Books,
   videos: Videos,
@@ -88,11 +87,11 @@ const NFTsHeader: React.FC = () => {
 
   const getNFTs = useGetNFTs()
 
-  var { category, search } = useSearch()
+  let { category, search } = useSearch()
 
   if (!category) category = 'all'
 
-  useEffect(() => getNFTs({ category, search, sort: DEFAULTSORT }), [category, search, getNFTs])
+  useEffect(() => getNFTs({ category, search, sort: DEFAULT_SORT }), [category, search, getNFTs])
 
   return (
     <React.Fragment>
@@ -122,5 +121,4 @@ const NFTsHeader: React.FC = () => {
     </React.Fragment>
   )
 }
-
 export default NFTsHeader

@@ -4,7 +4,7 @@ import { NFT } from './models/NFT'
 import { getAuctions } from './database/Auction'
 import { addDraft, getDraft } from './database/Draft'
 import {  getNFTs } from './database/NFT'
-import { addNFTToWishlist, addUser, getUser, removeNFTWishlist } from './database/User'
+import { addNFTToWishlist, addUser, getUser, removeNFTFromWishlist } from './database/User'
 import { User } from './models/User'
 import { Auction } from './models/Auction'
 
@@ -31,18 +31,20 @@ export const addToWishlist = async ({ userId, nftId }: AddToWishList) => {
 }
 
 export const removeFromWishlist = async ({ userId, nftId }: AddToWishList) => {
-  const removedWishlistItem = await removeNFTWishlist(userId, nftId)
+  const removedWishlistItem = await removeNFTFromWishlist(userId, nftId)
   const user = await login(userId)
   return { removedWishlistItem, user }
 }
 export const saveDraft = async (draft: Draft) => {
   const draftAdded = await addDraft(draft)
+  console.log(draft)
   const status = checkSuccess({ draftAdded })
   return { status, draftAdded }
 }
 
 export const getDrafts = async (user: string) => {
-  const drafts = (await getDraft(user)).drafts
+  let drafts = (await getDraft(user))?.drafts
+
   return { drafts }
 }
 

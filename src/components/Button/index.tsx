@@ -359,6 +359,7 @@ export const ButtonBase = styled.button`
   border-radius: 4px;
   border: none;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.135216);
+  cursor:pointer;
 `
 
 export const ButtonPrimary = styled(ButtonBase)`
@@ -426,4 +427,15 @@ export const RemoveWishList = styled(ButtonMint )`
     opacity:50%;
     cursor: auto;
   }
+`
+export const DelistButton=styled.button`
+width: 168px;
+height: 50px;
+border: none;
+background: #FBFBFB;
+border-radius: 4px;
+color:#858585;
+font-family: Roboto;
+font-size: 1rem;
+cursor:pointer;
 `
