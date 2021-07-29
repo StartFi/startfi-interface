@@ -16,12 +16,12 @@ export const editAuction = async (auction: any): Promise<string> => {
   return editDocument(COLLECTION, auction.id, auction)
 }
 
-export const getAuctions = async (filters?: Dictionary, orders?: Dictionary): Promise<Auction[]> => {
+export const getAuctions = async (filters: Dictionary, orders?: Dictionary): Promise<Auction[]> => {
   return (await getDocuments(COLLECTION, filters, orders)) as Auction[]
 }
 
 export const getAuctionsPaginated = async (
-  filters?: Dictionary,
+  filters: Dictionary,
   orders?: Dictionary,
   lastVisible?: any
 ): Promise<any> => {

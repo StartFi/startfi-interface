@@ -15,4 +15,5 @@ export interface NFT extends Dictionary {
   tags?: string[]
   royalty: number
   tokenId?: string
+  chainId: number
 }

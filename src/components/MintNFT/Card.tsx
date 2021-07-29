@@ -80,7 +80,8 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft}) => {
       issueDate: new Date(),
       txtHash: '',
       royalty: 0,
-      filename: ''
+      filename: '',
+      chainId: 0
     }
   )
 
@@ -98,7 +99,8 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft}) => {
       listingTxt: '',
       status: 'open',
       minBid: 0,
-      qualifyAmount: 0
+      qualifyAmount: 0,
+      chainId: 0
     }
   )
 

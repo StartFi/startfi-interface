@@ -5,4 +5,5 @@ export interface Bid {
   bidder: string
   expireTimestamp: number
   txtHash: string
+  chainId: number
 }

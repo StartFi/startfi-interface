@@ -16,4 +16,5 @@ export interface Auction {
   status: string
   minBid?: number
   qualifyAmount?: number
+  chainId: number
 }
