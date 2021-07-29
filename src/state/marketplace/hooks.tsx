@@ -101,14 +101,11 @@ export const useClearNFT = (): (() => void) => {
 export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
   const dispatch = useDispatch()
   const chainId = useChainId()
-  const popup = usePopup()
   return useCallback(
     (query?: NFTQUERY) => {
-      if (chainId) {
-        let q: NFTQUERY = query || { sort: DEFAULT_SORT }
-        q.chainId = chainId
-        dispatch(getMarketplaceAction(q))
-      } else if (!chainId) popup({ success: false, message: 'connectWallet' })
+      let q: NFTQUERY = query || { sort: DEFAULT_SORT }
+      q.chainId = chainId
+      dispatch(getMarketplaceAction(q))
     },
     [dispatch]
   )

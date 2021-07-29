@@ -7,7 +7,7 @@ import { addBid } from './database/Bid'
 import { AuctionNFT } from './models/AuctionNFT'
 import { checkSuccess, sortHelper } from 'utils'
 import { Auction } from './models/Auction'
-import { DEFAULT_SORT, NFTS_PER_PAGE } from './../constants'
+import { DEFAULT_CHAIN_ID, DEFAULT_SORT, NFTS_PER_PAGE } from './../constants'
 import { datatype as faker } from 'faker'
 
 let generateId =
@@ -47,7 +47,10 @@ export interface NFTQUERY {
 export const getMarketplace = async (query?: NFTQUERY) => {
   const t0 = performance.now()
   if (!query) query = {}
-  const { chainId, search, category, sort, lastAuction } = query
+  const { search, category, sort, lastAuction } = query
+  var chainId
+  if (!query.chainId) chainId = DEFAULT_CHAIN_ID
+  else chainId = query.chainId
   const nftsQuery: NFTQUERY = {chainId}
   if (search) nftsQuery.name = search
   if (category && category !== 'all') nftsQuery.category = category
