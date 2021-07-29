@@ -149,7 +149,7 @@ interface PlaceBid {
 export const placeBid = async ({ auctionId, bid }: PlaceBid) => {
   //to get from blockchain or compute
   const hash = ''
-  bid.id = '0'
+  bid.id = generateId
   bid.expireTimestamp = 0
   bid.txtHash = hash
   const bidAdded = await addBid(bid)
