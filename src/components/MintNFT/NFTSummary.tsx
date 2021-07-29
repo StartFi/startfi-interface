@@ -58,7 +58,7 @@ import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../../constants/abis/Sta
 import { useApproveToken, useTokenBalance } from 'hooks/startfiToken'
 import { useWeb3React } from '@web3-react/core'
  import { address as STARTFI_Marketplace_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
- import { useApproveNft,useGetApproverAddress } from 'hooks/startfiNft'
+ import { useApproveNft,useGetApproverAddress ,useGetNftOwner} from 'hooks/startfiNft'
 
 const NFTSummary: React.FC = () => {
   const history = useHistory()
@@ -92,17 +92,24 @@ const NFTSummary: React.FC = () => {
   }, [account, getAllowedStfi])
   const [allowed, setAllowed] = useState<boolean>( false)
   const getApproverAddress= useGetApproverAddress()
+  const getOwnerAddress= useGetNftOwner()
   const approve= useApproveNft()
   useEffect(() => {
     const getNFTAllowed = async () => {
       // const approver = await getApproverAddress(nft?.tokenId  as number)
-       
-      const approver = await getApproverAddress(1)
-       
-      if(approver== STARTFI_Marketplace_ADDRESS as any )
-      console.log(approver,'approver');
-      
-      {setAllowed(true)}
+       console.log(nft,'nft');
+       // temporary until tokeinId issue is fixed
+       const tokenId=nft?.tokenId?nft?.tokenId:1;
+      const owner = await getApproverAddress(tokenId)
+      if(owner==account){
+        const approver = await getApproverAddress(tokenId)
+        console.log(approver,'approver');
+  
+        if(approver== STARTFI_Marketplace_ADDRESS as any )
+        
+        {setAllowed(true)}
+      }
+     
     }
     getNFTAllowed()
   }, [allowed])
@@ -148,10 +155,12 @@ const NFTSummary: React.FC = () => {
       case 6:
         return mint()
       case 8:
-        return setStep(step + 1)
+        return !allowed? setStep(step + 1):setStep(step + 2)
       case 9:
         if(!allowed){
-            await approve(STARTFI_Marketplace_ADDRESS,1);
+          const tokenId=nft?.tokenId?nft?.tokenId:1;
+
+            await approve(STARTFI_Marketplace_ADDRESS,tokenId);
           // await approve(STARTFI_Marketplace_ADDRESS,nft.id);
            }
            return setStep(step + 1)
