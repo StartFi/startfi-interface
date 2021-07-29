@@ -7,6 +7,8 @@ import { Tag } from 'components/Tags'
 import { ButtonDraft, ButtonMint } from 'components/Button'
 import { useSaveDraft } from 'state/user/hooks'
 import { useGetAllowance } from 'hooks/startfiToken'
+import { ExternalLink, LinkStyledButton, TYPE } from '../../theme'
+
 import {
   Bold,
   Border,
@@ -73,11 +75,12 @@ const NFTSummary: React.FC = () => {
   const [stfiBalance, setStfiBalance] = useState(0)
   useEffect(() => {
     const getBalance = async () => {
+     
       const balanceHexString = await getStfiBalance(account as string)
       const balance = balanceHexString?.length < 5 ? parseInt(balanceHexString, 16) : Number(balanceHexString)
       setStfiBalance(balance)
-      if (balance === 0)
-       history.push('/')
+    
+     
     }
     account && getBalance()
   }, [account, getStfiBalance])
@@ -228,6 +231,24 @@ const NFTSummary: React.FC = () => {
       </EditableBox>
     </React.Fragment>
   )
+  const ZeroBalance = () => (
+    <React.Fragment>
+           <FirstBoxFields>
+            <Field>
+            <Label>{t('zeroBalance')}</Label>
+             </Field>
+            <Line />
+            <Field>
+              <FirstBoxLabel>{t('zeroBalanceMessage')}</FirstBoxLabel>
+             </Field>
+            <Field>
+               <LinkStyledButton onClick={()=>console.log("redirect me to where I can buy some")
+              }>{t('getBlance')}</LinkStyledButton>
+
+                                      </Field>
+          </FirstBoxFields>
+       </React.Fragment>
+  )
 
   const openFor = (timestamp: number) => {
     const date = new Date(timestamp)
@@ -335,13 +356,15 @@ const NFTSummary: React.FC = () => {
         <SemiBold>{t('totalPaymentAmount')}</SemiBold>
         <Amount amount={fees} />
       </SpaceBetween>
-      <Info>
+      {stfiBalance>0?( <div>
+        <Info>
         {t(step === 5 || step === 9 ? 'payFromYourAccount' : 'paymentAllowedDigitize')}
         {(step === 5 || step === 9) && <Question text="payFromAccountDesc" />}
       </Info>
       <ButtonBlack onClick={next}>
         {t((step === 5 && allowedStfi == 0)|| (step === 9 && !allowed ) ? 'allowPayment':step === 6 ? 'saveToBlockchain' :   'addToMarketplace'  )}{' '}
       </ButtonBlack>
+      </div>):(<ZeroBalance/>)}
       <ButtonTransparentBorder
         onClick={() => (nft.step < 4 ? saveDraft(nft) : history.push('/inventory/off-market/' + nft.id))}
       >
