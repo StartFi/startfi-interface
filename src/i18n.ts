@@ -16,7 +16,7 @@ i18next
     react: {
       useSuspense: true
     },
-    debug: true,
+    debug: false,
     initImmediate: false,
     fallbackLng: 'en',
     preload: ['en'],
