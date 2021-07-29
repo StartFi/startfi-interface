@@ -10,12 +10,14 @@ import { Auction } from './models/Auction'
 import { DEFAULT_SORT, NFTS_PER_PAGE } from './../constants'
 import { datatype as faker } from 'faker'
 
+let generateId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+
 export const mintNFT = async (nft: NFT) => {
   const hash = ''
 
   // nft.id =  faker.number({'min' : 100000, 'max' : 999999})
   // nft.uuid =faker.uuid()
-  
+  nft.id =  generateId;
   nft.txtHash = hash
   const nftAdded = await addNFT(nft)
   const status = checkSuccess({ nftAdded })
@@ -24,7 +26,7 @@ export const mintNFT = async (nft: NFT) => {
 
 export const AddToMarketplace = async (auction: Auction) => {
   const hash = ''
-  auction.id = '0'
+  auction.id = generateId;
   auction.listingTxt = hash
   const auctionAdded = await addAuction(auction)
   const status = checkSuccess({ auctionAdded })
@@ -147,7 +149,7 @@ interface PlaceBid {
 export const placeBid = async ({ auctionId, bid }: PlaceBid) => {
   //to get from blockchain or compute
   const hash = ''
-  bid.id = '0'
+  bid.id = generateId
   bid.expireTimestamp = 0
   bid.txtHash = hash
   const bidAdded = await addBid(bid)

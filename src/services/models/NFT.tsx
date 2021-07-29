@@ -1,11 +1,8 @@
 import { Dictionary } from '../../constants'
 
 export interface NFT extends Dictionary {
-  id: number
-  // uuid: string,
-
-  
-
+  // id: string it should be string but get error becauseof current data
+  id: any
   dataHash: string
   name: string
   description: string

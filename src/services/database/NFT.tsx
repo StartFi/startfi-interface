@@ -1,4 +1,3 @@
-
 import { Dictionary } from './../../constants'
 import { addDocument, editDocument, getDocument, getDocuments } from 'services/database/Database'
 import { NFT } from 'services/models/NFT'
@@ -9,7 +8,7 @@ export const addNFT = async (nft: NFT): Promise<string> => {
   return addDocument(COLLECTION, nft.id, nft)
 }
 
-export const getNFT = async (id: number): Promise<NFT> => {
+export const getNFT = async (id: any): Promise<NFT> => {
   return (await getDocument(COLLECTION, id)) as NFT
 }
 
