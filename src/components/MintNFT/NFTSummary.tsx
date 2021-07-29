@@ -57,7 +57,7 @@ import { useHistory } from 'react-router-dom'
 import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../../constants/abis/StartFiNFTPayment.json'
 import { useApproveToken, useTokenBalance } from 'hooks/startfiToken'
 import { useWeb3React } from '@web3-react/core'
- import { address as STARTFI_Marketplace_ADDRESS } from '../../constants/abis/StartfiRoyaltyNFT.json'
+ import { address as STARTFI_Marketplace_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
  import { useApproveNft,useGetApproverAddress } from 'hooks/startfiNft'
 
 const NFTSummary: React.FC = () => {
@@ -90,15 +90,17 @@ const NFTSummary: React.FC = () => {
   const getApproverAddress= useGetApproverAddress()
   const approve= useApproveNft()
   useEffect(() => {
-    const getAllowed = async () => {
+    const getNFTAllowed = async () => {
       // const approver = await getApproverAddress(nft?.tokenId  as number)
        
       const approver = await getApproverAddress(1)
        
       if(approver== STARTFI_Marketplace_ADDRESS as any )
+      console.log(approver,'approver');
+      
       {setAllowed(true)}
     }
-    getAllowed()
+    getNFTAllowed()
   }, [allowed])
   const history = useHistory()
 
