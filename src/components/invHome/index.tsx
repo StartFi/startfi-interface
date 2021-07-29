@@ -1,5 +1,6 @@
 import Row from 'components/Row'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
 import { useDrafts, useOffMarket, useOnMarket } from 'state/user/hooks'
@@ -9,6 +10,7 @@ import MiniCard from './MiniCard'
 
 
 const InventoryHome = () => {
+  const { t } = useTranslation();
   const [inventoryOption, setInventoryOption] = useState(InventoryOptions.Draft)
   const [inventoryItems, setInventoryItems] = useState<NFT[]>([])
   const history = useHistory()
@@ -34,7 +36,7 @@ const InventoryHome = () => {
         setInventoryItems([...offMarketNFT])
         break
     }
-    
+
   }, [inventoryOption])
 
   inventoryItems?.sort((a, b) => {
@@ -61,7 +63,7 @@ const InventoryHome = () => {
               <MiniCard key={nft.id} cardContent={nft} navigate={() => navigate(nft.id)} />
             ))
           ) : (
-            <p>No items available</p>
+            <p>{t('noItems')}</p>
           )}
         </Row>
       </InventoryCard>
