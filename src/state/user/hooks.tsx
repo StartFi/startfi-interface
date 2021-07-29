@@ -380,7 +380,7 @@ export const useWishlist = (nftId: number) => {
   const isWishlist = useIsNFTWishlist(nftId)
   return useMemo(() => {
     return { addToWishlist, removeFromWishlist, isWishlist }
-  }, [addToWishlist, isWishlist])
+  }, [isWishlist, addToWishlist, removeFromWishlist])
 }
 
 export const useGetDrafts = () => {

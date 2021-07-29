@@ -8,7 +8,6 @@ import { AuctionNFT } from './models/AuctionNFT'
 import { checkSuccess, sortHelper } from 'utils'
 import { Auction } from './models/Auction'
 import { DEFAULT_CHAIN_ID, DEFAULT_SORT, NFTS_PER_PAGE } from './../constants'
-import { datatype as faker } from 'faker'
 
 let generateId =
   Date.now().toString(36) +
