@@ -1,6 +1,7 @@
+import { invert } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { HeaderContainer, InvTab, InvTabsCategory } from './InvHome.styles'
 
 export enum InventoryOptions {
@@ -16,7 +17,7 @@ interface CardHeaderProps {
   getType: (type: InventoryOptions) => void
 }
 
-interface InvParams {
+export interface InvParams {
   id: string
 }
 
@@ -31,11 +32,15 @@ const CardHeader: React.FC<CardHeaderProps> = ({ getType }) => {
   const { t } = useTranslation()
   const { id }: InvParams = useParams()
 
+  const history = useHistory()
+
   useEffect(() => {
-    if (id === 'offMarket') {
-      setInventoryType(InventoryOptions.offMarketPlace)
-    }
-  }, [])
+
+    if (inventoryType === InventoryOptions.Draft) history.push('/inventory/home/draft')
+    if (id === 'offMarketPlace') setInventoryType(InventoryOptions.offMarketPlace)
+  }, [id])
+
+  
 
   return (
     <HeaderContainer>

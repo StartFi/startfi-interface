@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { useHistory } from 'react-router'
-import { useGetInventory, useUser} from 'state/user/hooks'
+import { useGetInventory } from 'state/user/hooks'
 // import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -55,7 +55,6 @@ const NFTs: React.FC = () => {
   const loadtime = useLoadTime()
 
   const getNFTs = useGetNFTs()
-  const user = useUser()
 
   return (
     <Padding>
@@ -78,12 +77,9 @@ const NFTs: React.FC = () => {
         Inventory
       </LinkBase>
   &nbsp;&nbsp;
-
-
-{user?( <LinkBase to='/marketplace/wishList'>
+      <LinkBase to='/marketplace/wishList'>
         Wish List
-      </LinkBase>):null}
-
+      </LinkBase>
 
       {onMarket.length > 0 ? <NFTList>
         {onMarket.map((auctionNFT: AuctionNFT) => (

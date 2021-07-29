@@ -117,7 +117,14 @@
   "assetName": "Asset Name",
   "relatedTags": "Related Tags",
   "description": "Description",
+  "needsMoreStakes": "Needs More Stakes",
+  "getNow": "Get Now",
+  "removeFromWishlist": "Remove from wishlist",
+  "noEnteredData": "No data entered to save",
+  "noNFT": "No NFT",
+  "noValue": "No Value",
   "noWallet": "No Ethereum wallet found",
+  "noAuction": "No Auction",
   "wrongNetwork": "You are on the wrong network",
   "switchNetwork": "Please switch to {{ correctNetwork }}",
   "installWeb3MobileBrowser": "Please visit us from a web3-enabled mobile browser such as Trust Wallet or Coinbase Wallet.",
@@ -224,5 +231,32 @@
   "landHead":"marketplace and lunchpad for NFT collateralised loans",
   "landSubText":"Put your NFT assets up as collateral for a loan, or offer loans to other users on their non-fungible tokens",
   "saveOffMarket":"Save at off Marketplace",
-  "addToMarket":"Add to marketplace"
+  "addToMarket":"Add to marketplace",
+  "Draft":"Draft",
+  "inMarketPlace":"In marketplace",
+  "offMarketPlace":"off market place",
+  "noItems":"No items available",
+  "noData":"No Data Available",
+  "monetizingAssets":"Monetizing your assets",
+  "fileName":"File Name",
+  "asstName":"Asset Name",
+  "noTags":"No Tags Added",
+  "IssueRoyaltyShare":" Issue Royalty Share",
+  "minBiding":"Minimum Bidding",
+  "contactAddress":"Contact address attribute",
+  "deListingAsset":"Delisting Asset",
+  "removeAsset":" Do you want to remove your asset from the marketplace",
+  "deListAsset":"Delist Asset",
+  "inventory":"Inventory",
+  "wishList":"WishList",
+  "noAsset":"There Are No Assets Added to your wishlist",
+  "removeWishList":"Remove from WishList",
+  "lastBidding":"Last Bidding",
+  "auctionEnds":" Auctions Ends In"
+
+
+
+
+
+
 }

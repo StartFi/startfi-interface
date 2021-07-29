@@ -61,6 +61,8 @@ import { useWeb3React } from '@web3-react/core'
  import { useApproveNft,useGetApproverAddress } from 'hooks/startfiNft'
 
 const NFTSummary: React.FC = () => {
+  const history = useHistory()
+
   const { account } = useWeb3React()
 
   const getStfiBalance = useTokenBalance()
@@ -74,6 +76,8 @@ const NFTSummary: React.FC = () => {
       const balanceHexString = await getStfiBalance(account as string)
       const balance = balanceHexString?.length < 5 ? parseInt(balanceHexString, 16) : Number(balanceHexString)
       setStfiBalance(balance)
+      if (balance === 0)
+       history.push('/')
     }
     account && getBalance()
   }, [account, getStfiBalance])
@@ -102,8 +106,7 @@ const NFTSummary: React.FC = () => {
     }
     getNFTAllowed()
   }, [allowed])
-  const history = useHistory()
-
+ 
   const nft = useNFT()
 
   const auction = useAuction()
@@ -172,7 +175,7 @@ const NFTSummary: React.FC = () => {
             <Line />
             <Field>
               <FirstBoxLabel>{t('uploadedFile')}</FirstBoxLabel>
-              <FirstBoxData>{nft?.name}</FirstBoxData>
+              <FirstBoxData>{nft?.filename}</FirstBoxData>
             </Field>
           </FirstBoxFields>
         </FirstField>
@@ -180,7 +183,7 @@ const NFTSummary: React.FC = () => {
       <EditableBox editable={step === 4} link="/mint/steps" state={{ step: 2 }}>
         <Field>
           <Label>{t('assetName')}</Label>
-          <Data500>{nft?.dataHash}</Data500>
+          <Data500>{nft?.name}</Data500>
         </Field>
         <Line />
         <Field>
@@ -293,7 +296,7 @@ const NFTSummary: React.FC = () => {
             nft.step < 4
               ? nft.category || nft.dataHash || nft.name || nft.description
                 ? saveDraft(nft)
-                : popup({ success: false, message: 'No data entered to save' })
+                : popup({ success: false, message: 'noEnteredData' })
               : history.push('/inventory/off-market/' + nft.id)
           }
         >
@@ -306,7 +309,7 @@ const NFTSummary: React.FC = () => {
     </Footer>
   )
 
-  const PaymentCard = () => (
+ const PaymentCard = () => (
     <Right minHeight="60vh">
       <Bold>{t('confirmPayment')}</Bold>
       <SpaceBetween>

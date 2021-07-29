@@ -22,7 +22,7 @@ import {
   logoutAction,
   getDraftsAction,
   getUserNFTsAction,
-  removeWishListItemAction,
+  removeFromWishlistAction,
 
 } from './actions'
 import { User } from 'services/models/User'
@@ -193,8 +193,8 @@ export default createReducer(initialState, builder =>
     .addCase(addToWishlistAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while adding NFT to wishlist' }
     })
-    .addCase(removeWishListItemAction.pending, (state, action) => {})
-    .addCase(removeWishListItemAction.fulfilled, (state, action) => {
+    .addCase(removeFromWishlistAction.pending, (state, action) => {})
+    .addCase(removeFromWishlistAction.fulfilled, (state, action) => {
       const success = action.payload.removedWishlistItem === 'success'
       state.popup = {
         success,
@@ -202,7 +202,7 @@ export default createReducer(initialState, builder =>
       }
       state.user = action.payload.user
     })
-    .addCase(removeWishListItemAction.rejected, (state, action) => {
+    .addCase(removeFromWishlistAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while adding NFT to wishlist' }
     })
     .addCase(saveDraftAction.pending, (state, action) => {})

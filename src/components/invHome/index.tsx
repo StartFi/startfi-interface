@@ -1,15 +1,16 @@
 import Row from 'components/Row'
-
 import React, { useEffect, useState } from 'react'
-
-import { useHistory } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { useHistory, useParams } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
 import { useDrafts, useOffMarket, useOnMarket } from 'state/user/hooks'
-import CardHeader, { InventoryOptions } from './CardHeader'
+import CardHeader, { InventoryOptions, InvParams } from './CardHeader'
 import { InventoryCard } from './InvHome.styles'
 import MiniCard from './MiniCard'
 
+
 const InventoryHome = () => {
+  const { t } = useTranslation();
   const [inventoryOption, setInventoryOption] = useState(InventoryOptions.Draft)
   const [inventoryItems, setInventoryItems] = useState<NFT[]>([])
   const history = useHistory()
@@ -17,8 +18,13 @@ const InventoryHome = () => {
   const onMarketNFT: NFT[] | undefined = useOnMarket()
   const offMarketNFT: NFT[] | undefined = useOffMarket()
 
+  const { id }: InvParams = useParams()
 
   useEffect(() => {
+    if (id === 'offMarketPlace') {
+      setInventoryOption(InventoryOptions.offMarketPlace);
+    }
+
     switch (inventoryOption) {
       case InventoryOptions.Draft:
         if (drafts?.length > 0) setInventoryItems([...drafts])
@@ -28,15 +34,14 @@ const InventoryHome = () => {
         break
       case InventoryOptions.offMarketPlace:
         setInventoryItems([...offMarketNFT])
-      break
+        break
     }
+
   }, [inventoryOption])
 
   inventoryItems?.sort((a, b) => {
     return b.issueDate.seconds - a.issueDate.seconds
   })
-
-  
 
   const navigate = (id: number) => {
     if (inventoryOption === InventoryOptions.Draft) history.push(`/mint/steps/${id}`)
@@ -58,7 +63,7 @@ const InventoryHome = () => {
               <MiniCard key={nft.id} cardContent={nft} navigate={() => navigate(nft.id)} />
             ))
           ) : (
-            <p>No items available</p>
+            <p>{t('noItems')}</p>
           )}
         </Row>
       </InventoryCard>

@@ -33,6 +33,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
   useEffect(() => {
     if (status === ipfsEnumStatus.DONE && filename !== '') {
       handleChange({ target: { name: 'dataHash', value: 'ipfs://' + hash } })
+      handleChange({ target: { name: 'filename', value: filename } })
     }
   }, [filename, status, hash, handleChange])
 
