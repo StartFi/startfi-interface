@@ -1,9 +1,7 @@
 // NOTICE: Kindly keep the old sdk unite we remove the code dependant on it in this file
 import { Pair, Token } from '@uniswap/sdk'
-
 import { PopupContent } from './../../constants'
 import { useCallback, useEffect, useMemo } from 'react'
-
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { NFT } from 'services/models/NFT'
 import { User } from 'services/models/User'
@@ -239,7 +237,7 @@ export const useSaveDraft = () => {
   const popup = usePopup()
   return useCallback(
     (draft: NFT) => {
-     
+
       const drafts = [draft]
 
       if (user) dispatch(saveDraftAction({ user, drafts }))
