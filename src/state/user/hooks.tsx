@@ -218,14 +218,19 @@ export const useUser = (): User | null => {
   return useSelector((state: AppState) => state.user.user)
 }
 
-export const useUserAddress = () => {
+export const useUserAddress = (): string | undefined => {
   const user = useUser()
   return useMemo(() => user?.ethAddress, [user])
 }
 
-export const useWalletAddress = () => {
+export const useWalletAddress = (): string | null | undefined => {
   const { account } = useActiveWeb3React()
   return useMemo(() => account, [account])
+}
+
+export const useChainId = (): number | undefined => {
+  const { chainId } = useActiveWeb3React()
+  return useMemo(() => chainId, [chainId])
 }
 
 export const useSaveDraft = () => {
@@ -246,14 +251,16 @@ export const useSaveDraft = () => {
 
 export const useGetInventory = () => {
   const dispatch = useDispatch()
-  const user = useUserAddress()
+  const owner = useUserAddress()
+  const chainId = useChainId()
+
   const popup = usePopup()
   return useCallback(
     () =>
-      user
-        ? (dispatch(getUserNFTsAction(user)), dispatch(getDraftsAction(user)))
+      owner && chainId
+        ? (dispatch(getUserNFTsAction({ owner, chainId })), dispatch(getDraftsAction(owner)))
         : popup({ success: false, message: 'connectWallet' }),
-    [user, popup, dispatch]
+    [owner, chainId, popup, dispatch]
   )
 }
 
@@ -388,10 +395,11 @@ export const useGetDrafts = () => {
 
 export const useGetUserNFTs = () => {
   const dispatch = useDispatch()
-  const user = useUserAddress()
+  const owner = useUserAddress()
+  const chainId = useChainId()
   const popup = usePopup()
   return useCallback(
-    () => (user ? dispatch(getUserNFTsAction(user)) : popup({ success: false, message: 'connectWallet' })),
-    [user, popup, dispatch]
+    () => (owner && chainId ? dispatch(getUserNFTsAction({owner, chainId})) : popup({ success: false, message: 'connectWallet' })),
+    [owner, chainId, popup, dispatch]
   )
 }

@@ -35,22 +35,26 @@ export const removeFromWishlist = async ({ userId, nftId }: AddToWishList) => {
   const user = await login(userId)
   return { removedWishlistItem, user }
 }
+
 export const saveDraft = async (draft: Draft) => {
   const draftAdded = await addDraft(draft)
-  console.log(draft)
   const status = checkSuccess({ draftAdded })
   return { status, draftAdded }
 }
 
 export const getDrafts = async (user: string) => {
-  let drafts = (await getDraft(user))?.drafts
-
+  const drafts = (await getDraft(user))?.drafts
   return { drafts }
 }
 
+interface GetUserNFTs {
+  chainId: number
+  owner: string
+}
+
 // get user inMarket offMarket
-export const getUserNFTs = async (owner: string) => {
-  const userNFTs = await getNFTs({ owner })
+export const getUserNFTs = async ({ chainId, owner }: GetUserNFTs) => {
+  const userNFTs = await getNFTs({ chainId, owner })
   const onMarket: NFT[] = []
   const offMarket: NFT[] = []
   let userAuctions: Auction[] = []
@@ -61,7 +65,6 @@ export const getUserNFTs = async (owner: string) => {
     if (auctions.filter(auction => auction.status === 'open').length > 0) onMarket.push(userNFTs[i])
     else offMarket.push(userNFTs[i])
   }
-
   console.log('auctions', userAuctions,onMarket)
   return { onMarket, offMarket,userAuctions}
 }
