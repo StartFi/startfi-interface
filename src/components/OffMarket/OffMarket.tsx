@@ -27,7 +27,7 @@ const OffMarket = () => {
   const imgUrl = uriToHttp(`${nft.dataHash}`)[1]
 
   const [tagsState, setTagsState] = useState(false)
- 
+
 
   useEffect(() => {
     if (nft?.tags) {
@@ -36,7 +36,7 @@ const OffMarket = () => {
   }, [])
 
   return (
-   
+
       <InventoryCard borderRadius='8px' marginTop='54px'>
         <TopTitle>
           <span>Inventory</span>
@@ -128,12 +128,12 @@ const OffMarket = () => {
           </Card>
         </Row>
         <Footer>
-          <ButtonMintBack onClick={() => history.push('/inventory/home/offMarket')}>{t('back')}</ButtonMintBack>
+          <ButtonMintBack onClick={() => history.push('/inventory/home/offMarketPlace')}>{t('back')}</ButtonMintBack>
           <ButtonDraft>Save at off Marketplace</ButtonDraft>
           <ButtonMint onClick={() => history.push(`/mint/steps/${id}`)}>Add to marketplace</ButtonMint>
         </Footer>
       </InventoryCard>
-   
+
 
   )
 }
