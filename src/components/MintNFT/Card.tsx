@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
-import { datatype as faker } from 'faker'
 import styled from 'styled-components'
 import Step1 from './Step1'
 import Step2 from './Step2'
@@ -17,7 +16,7 @@ import { usePopup } from 'state/application/hooks'
 import { useHistory } from 'react-router-dom'
 import { useAuction, useNFT, useSaveAuction, useSaveNFT } from 'state/marketplace/hooks'
 import { Auction } from 'services/models/Auction'
-
+import { address as STARTFI_NFT_ADDRESS } from '../../constants/abis/StartfiRoyaltyNFT.json'
 const Container = styled.div`
   display: flex;
   flex-flow: column nowrap;
@@ -80,13 +79,15 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft}) => {
       issueDate: new Date(),
       txtHash: '',
       royalty: 0,
-      filename: ''
+      filename: '',
+      chainId: 0
     }
   )
 
   const [auction, setAuction] = useState<Auction>(
     savedAuction || {
       id: 'string',
+      contractAddress: STARTFI_NFT_ADDRESS,
       nft: 0,
       listingPrice: 0,
       seller: '',
@@ -98,7 +99,8 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft}) => {
       listingTxt: '',
       status: 'open',
       minBid: 0,
-      qualifyAmount: 0
+      qualifyAmount: 0,
+      chainId: 0
     }
   )
 

@@ -71,6 +71,8 @@ export const useCreateAuction = (): ((
         return `account: ${account} is not connected`
       }
       try {
+        console.log(nftContract, tokenId, listingPrice, qualifyAmount, sellForEnabled, sellingPrice, duration,'test txn param');
+        
         const transaction = await createAuction(
           'createAuction',
           [nftContract, tokenId, listingPrice, qualifyAmount, sellForEnabled, sellingPrice, duration],

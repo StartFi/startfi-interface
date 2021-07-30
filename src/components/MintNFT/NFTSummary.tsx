@@ -57,6 +57,8 @@ import { useHistory } from 'react-router-dom'
 import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../../constants/abis/StartFiNFTPayment.json'
 import { useApproveToken, useTokenBalance } from 'hooks/startfiToken'
 import { useWeb3React } from '@web3-react/core'
+ import { address as STARTFI_Marketplace_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
+ import { useApproveNft,useGetApproverAddress ,useGetNftOwner} from 'hooks/startfiNft'
 
 const NFTSummary: React.FC = () => {
   const history = useHistory()
@@ -78,16 +80,40 @@ const NFTSummary: React.FC = () => {
        history.push('/')
     }
     account && getBalance()
-  }, [account, getStfiBalance])
+  }, [account, history, getStfiBalance])
   useEffect(() => {
     const getAllowed = async () => {
       const allowedHexString = await getAllowedStfi(account as string, STARTFI_NFT_PAYMENT_ADDRESS)
+      console.log({ allowedHexString })
       const allowed = allowedHexString?.length < 5 ? parseInt(allowedHexString, 16) : allowedHexString
       setAllowedStfi(allowed)
     }
     account && getAllowed()
   }, [account, getAllowedStfi])
-
+  const [allowed, setAllowed] = useState<boolean>( false)
+  const getApproverAddress= useGetApproverAddress()
+  const getOwnerAddress= useGetNftOwner()
+  const approve= useApproveNft()
+  useEffect(() => {
+    const getNFTAllowed = async () => {
+      // const approver = await getApproverAddress(nft?.tokenId  as number)
+       console.log(nft,'nft');
+       // temporary until tokeinId issue is fixed
+       const tokenId=nft?.tokenId?nft?.tokenId:1;
+      const owner = await getApproverAddress(tokenId)
+      if(owner==account){
+        const approver = await getApproverAddress(tokenId)
+        console.log(approver,'approver');
+  
+        if(approver== STARTFI_Marketplace_ADDRESS as any )
+        
+        {setAllowed(true)}
+      }
+     
+    }
+    getNFTAllowed()
+  }, [allowed])
+ 
   const nft = useNFT()
 
   const auction = useAuction()
@@ -111,7 +137,7 @@ const NFTSummary: React.FC = () => {
 
   if (!nft) return null
 
-  const next = async () => {
+  const next =async () => {
     switch (step) {
       case 4:
         if (agree) {
@@ -129,9 +155,16 @@ const NFTSummary: React.FC = () => {
       case 6:
         return mint()
       case 8:
-        return setStep(step + 1)
+        return !allowed? setStep(step + 1):setStep(step + 2)
       case 9:
-        return setStep(step + 1)
+        if(!allowed){
+          const tokenId=nft?.tokenId?nft?.tokenId:1;
+
+            await approve(STARTFI_Marketplace_ADDRESS,tokenId);
+          // await approve(STARTFI_Marketplace_ADDRESS,nft.id);
+           }
+           return setStep(step + 1)
+        
       case 10:
         return addToMarketplace()
       default:
@@ -307,7 +340,7 @@ const NFTSummary: React.FC = () => {
         {(step === 5 || step === 9) && <Question text="payFromAccountDesc" />}
       </Info>
       <ButtonBlack onClick={next}>
-        {t(step === 6 ? 'saveToBlockchain' : step === 10 || allowedStfi !== 0 ? 'addToMarketplace' : 'allowPayment')}{' '}
+        {t((step === 5 && allowedStfi == 0)|| (step === 9 && !allowed ) ? 'allowPayment':step === 6 ? 'saveToBlockchain' :   'addToMarketplace'  )}{' '}
       </ButtonBlack>
       <ButtonTransparentBorder
         onClick={() => (nft.step < 4 ? saveDraft(nft) : history.push('/inventory/off-market/' + nft.id))}
