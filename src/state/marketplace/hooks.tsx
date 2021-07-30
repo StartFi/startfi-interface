@@ -26,7 +26,7 @@ import { useMint } from 'hooks/startfiNft'
 import { useWeb3React } from '@web3-react/core'
 import { useNftPaymentEventListener } from 'hooks/startfiEventListener'
 import { useClearIPFSProgress } from 'state/ipfs/hooks'
-
+let generateId = Date.now().toString(36) + Math.random().toString(36).substr(2);
 export const useMarketplace = (): AuctionNFT[] => {
   return useSelector((state: AppState) => state.marketplace.marketplace)
 }
@@ -183,7 +183,7 @@ export const usePlaceBid = (): (() => void) => {
     if (bidder && auctionNFT) {
       const auctionId = auctionNFT.auction.id
       const bid: Bid = {
-        id: '0',
+        id: generateId,
         nft: auctionNFT.nft.id,
         bidPrice,
         bidder,
