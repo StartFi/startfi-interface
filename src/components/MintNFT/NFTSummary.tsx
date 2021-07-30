@@ -85,6 +85,7 @@ const NFTSummary: React.FC = () => {
     account && getBalance()
   }, [account, getStfiBalance])
   useEffect(() => {
+
     const getAllowed = async () => {
       const allowedHexString = await getAllowedStfi(account as string, STARTFI_NFT_PAYMENT_ADDRESS)
       console.log({ allowedHexString })
@@ -114,7 +115,7 @@ const NFTSummary: React.FC = () => {
       }
      
     }
-    getNFTAllowed()
+   account && getNFTAllowed()
   }, [allowed])
  
   const nft = useNFT()
@@ -243,7 +244,23 @@ const NFTSummary: React.FC = () => {
              </Field>
             <Field>
                <LinkStyledButton onClick={()=>console.log("redirect me to where I can buy some")
-              }>{t('getBlance')}</LinkStyledButton>
+              }>{t('getBalance')}</LinkStyledButton>
+
+                                      </Field>
+          </FirstBoxFields>
+       </React.Fragment>
+  )
+  const ConnectWallet = () => (
+    <React.Fragment>
+           <FirstBoxFields>
+        
+            <Field>
+              <FirstBoxLabel>{t('marketplaceConnectWallet')}</FirstBoxLabel>
+             </Field>
+             <Line />
+               <Field>
+               <LinkStyledButton onClick={()=>console.log("show whatever to user to connect to his wallet")
+              }>{t('connectWallet')}</LinkStyledButton>
 
                                       </Field>
           </FirstBoxFields>
@@ -356,7 +373,7 @@ const NFTSummary: React.FC = () => {
         <SemiBold>{t('totalPaymentAmount')}</SemiBold>
         <Amount amount={fees} />
       </SpaceBetween>
-      {stfiBalance>0?( <div>
+      {account ?(stfiBalance>0?( <div>
         <Info>
         {t(step === 5 || step === 9 ? 'payFromYourAccount' : 'paymentAllowedDigitize')}
         {(step === 5 || step === 9) && <Question text="payFromAccountDesc" />}
@@ -364,7 +381,8 @@ const NFTSummary: React.FC = () => {
       <ButtonBlack onClick={next}>
         {t((step === 5 && allowedStfi == 0)|| (step === 9 && !allowed ) ? 'allowPayment':step === 6 ? 'saveToBlockchain' :   'addToMarketplace'  )}{' '}
       </ButtonBlack>
-      </div>):(<ZeroBalance/>)}
+      </div>):(<ZeroBalance/>)):(<ConnectWallet/>)}
+    
       <ButtonTransparentBorder
         onClick={() => (nft.step < 4 ? saveDraft(nft) : history.push('/inventory/off-market/' + nft.id))}
       >
