@@ -22,8 +22,9 @@ import {
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
-import { useMint } from 'hooks/startfiNft'
+import { useCreateAuction } from 'hooks/startfiMarketPlace'
 import { useWeb3React } from '@web3-react/core'
+import { useMint } from 'hooks/startfiPaymentNft'
 import { useNftPaymentEventListener } from 'hooks/startfiEventListener'
 
 export const useMarketplace = (): AuctionNFT[] => {
@@ -158,9 +159,15 @@ export const useAddToMarketplace = (): (() => void) => {
   const popup = usePopup()
   const nft = useNFT()
   const auction = useAuction()
-
-  return useCallback(() => {
+const createAuction = useCreateAuction()
+/** */
+  return useCallback(async() => {
     if (seller && chainId && auction && nft) {
+      console.log(auction,'auction');
+     const tokenId=nft?.tokenId?nft?.tokenId:1;
+
+      await createAuction( auction.contractAddress, tokenId,  auction.minBid as number,   auction.qualifyAmount as number,   auction.isForBid,auction.listingPrice as number,
+        auction.expireTimestamp)
       dispatch(addToMarketplaceAction({ ...auction, nft: nft.id, seller, listTime: new Date(), chainId }))
     } else if (!seller || !chainId) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
