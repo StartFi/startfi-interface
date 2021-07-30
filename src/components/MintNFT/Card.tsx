@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
-import { datatype as faker } from 'faker'
 import styled from 'styled-components'
 import Step1 from './Step1'
 import Step2 from './Step2'

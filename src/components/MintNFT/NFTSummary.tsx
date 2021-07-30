@@ -83,7 +83,7 @@ const NFTSummary: React.FC = () => {
      
     }
     account && getBalance()
-  }, [account, getStfiBalance])
+  }, [account, history, getStfiBalance])
   useEffect(() => {
 
     const getAllowed = async () => {
