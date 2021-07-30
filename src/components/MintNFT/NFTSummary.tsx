@@ -78,7 +78,7 @@ const NFTSummary: React.FC = () => {
        history.push('/')
     }
     account && getBalance()
-  }, [account, getStfiBalance])
+  }, [account, history, getStfiBalance])
   useEffect(() => {
     const getAllowed = async () => {
       const allowedHexString = await getAllowedStfi(account as string, STARTFI_NFT_PAYMENT_ADDRESS)

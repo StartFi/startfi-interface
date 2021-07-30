@@ -101,16 +101,13 @@ export const useClearNFT = (): (() => void) => {
 export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
   const dispatch = useDispatch()
   const chainId = useChainId()
-  const popup = usePopup()
   return useCallback(
     (query?: NFTQUERY) => {
-      if (chainId) {
-        let q: NFTQUERY = query || { sort: DEFAULT_SORT }
-        q.chainId = chainId
-        dispatch(getMarketplaceAction(q))
-      } else if (!chainId) popup({ success: false, message: 'connectWallet' })
+      let q: NFTQUERY = query || { sort: DEFAULT_SORT }
+      q.chainId = chainId
+      dispatch(getMarketplaceAction(q))
     },
-    [dispatch]
+    [chainId, dispatch]
   )
 }
 
@@ -151,7 +148,7 @@ export const useMintNFT = (): (() => void) => {
       dispatch(mintNFTAction({ ...nft, issueDate: new Date(), owner: account, chainId }))
     } else if (!account || !chainId) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
-  }, [nft, account, popup, dispatch])
+  }, [nft, account, chainId, popup, dispatch, mint])
 }
 
 export const useAddToMarketplace = (): (() => void) => {
@@ -168,7 +165,7 @@ export const useAddToMarketplace = (): (() => void) => {
     } else if (!seller || !chainId) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
     else if (!auction) popup({ success: false, message: 'noAuction' })
-  }, [auction, nft, seller, popup, dispatch])
+  }, [auction, nft, seller, chainId, popup, dispatch])
 }
 
 export const useGetAuctionNFT = (nftId: number, auctionId: string) => {
@@ -202,7 +199,7 @@ export const usePlaceBid = (): (() => void) => {
       }
       dispatch(placeBidAction({ auctionId, bid }))
     } else popup({ success: false, message: 'connectWallet' })
-  }, [bidPrice, auctionNFT, bidder, popup, dispatch])
+  }, [bidPrice, auctionNFT, bidder, chainId, popup, dispatch])
 }
 
 export const useBuyNFT = (): (() => void) => {
