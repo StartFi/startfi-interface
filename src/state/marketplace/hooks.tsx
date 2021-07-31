@@ -153,7 +153,7 @@ export const useAddToMarketplace = (): (() => void) => {
   const popup = usePopup()
   const nft = useNFT()
   const auction = useAuction()
-
+console.log(nft);
   return useCallback(() => {
     if (seller && auction && nft) {
       dispatch(addToMarketplaceAction({ ...auction, nft: nft.id, seller, listTime: new Date() }))
