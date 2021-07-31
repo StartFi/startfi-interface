@@ -253,8 +253,10 @@
   "noAsset":"There Are No Assets Added to your wishlist",
   "removeWishList":"Remove from WishList",
   "lastBidding":"Last Bidding",
-  "auctionEnds":" Auctions Ends In"
-
+  "auctionEnds":" Auctions Ends In",
+  "zeroBalanceMessage":" You don't have balance",
+  "zeroBalance":" No balance"
+ 
 
 
 

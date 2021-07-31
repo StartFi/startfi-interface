@@ -7,6 +7,8 @@ import { Tag } from 'components/Tags'
 import { ButtonDraft, ButtonMint } from 'components/Button'
 import { useSaveDraft } from 'state/user/hooks'
 import { useGetAllowance } from 'hooks/startfiToken'
+import { ExternalLink, LinkStyledButton, TYPE } from '../../theme'
+
 import {
   Bold,
   Border,
@@ -73,15 +75,17 @@ const NFTSummary: React.FC = () => {
   const [stfiBalance, setStfiBalance] = useState(0)
   useEffect(() => {
     const getBalance = async () => {
+     
       const balanceHexString = await getStfiBalance(account as string)
       const balance = balanceHexString?.length < 5 ? parseInt(balanceHexString, 16) : Number(balanceHexString)
       setStfiBalance(balance)
-      if (balance === 0)
-       history.push('/')
+    
+     
     }
     account && getBalance()
   }, [account, history, getStfiBalance])
   useEffect(() => {
+
     const getAllowed = async () => {
       const allowedHexString = await getAllowedStfi(account as string, STARTFI_NFT_PAYMENT_ADDRESS)
       console.log({ allowedHexString })
@@ -111,7 +115,7 @@ const NFTSummary: React.FC = () => {
       }
      
     }
-    getNFTAllowed()
+   account && getNFTAllowed()
   }, [allowed])
  
   const nft = useNFT()
@@ -228,6 +232,40 @@ const NFTSummary: React.FC = () => {
       </EditableBox>
     </React.Fragment>
   )
+  const ZeroBalance = () => (
+    <React.Fragment>
+           <FirstBoxFields>
+            <Field>
+            <Label>{t('zeroBalance')}</Label>
+             </Field>
+            <Line />
+            <Field>
+              <FirstBoxLabel>{t('zeroBalanceMessage')}</FirstBoxLabel>
+             </Field>
+            <Field>
+               <LinkStyledButton onClick={()=>console.log("redirect me to where I can buy some")
+              }>{t('getBalance')}</LinkStyledButton>
+
+                                      </Field>
+          </FirstBoxFields>
+       </React.Fragment>
+  )
+  const ConnectWallet = () => (
+    <React.Fragment>
+           <FirstBoxFields>
+        
+            <Field>
+              <FirstBoxLabel>{t('marketplaceConnectWallet')}</FirstBoxLabel>
+             </Field>
+             <Line />
+               <Field>
+               <LinkStyledButton onClick={()=>console.log("show whatever to user to connect to his wallet")
+              }>{t('connectWallet')}</LinkStyledButton>
+
+                                      </Field>
+          </FirstBoxFields>
+       </React.Fragment>
+  )
 
   const openFor = (timestamp: number) => {
     const date = new Date(timestamp)
@@ -335,13 +373,16 @@ const NFTSummary: React.FC = () => {
         <SemiBold>{t('totalPaymentAmount')}</SemiBold>
         <Amount amount={fees} />
       </SpaceBetween>
-      <Info>
+      {account ?(stfiBalance>0?( <div>
+        <Info>
         {t(step === 5 || step === 9 ? 'payFromYourAccount' : 'paymentAllowedDigitize')}
         {(step === 5 || step === 9) && <Question text="payFromAccountDesc" />}
       </Info>
       <ButtonBlack onClick={next}>
         {t((step === 5 && allowedStfi == 0)|| (step === 9 && !allowed ) ? 'allowPayment':step === 6 ? 'saveToBlockchain' :   'addToMarketplace'  )}{' '}
       </ButtonBlack>
+      </div>):(<ZeroBalance/>)):(<ConnectWallet/>)}
+    
       <ButtonTransparentBorder
         onClick={() => (nft.step < 4 ? saveDraft(nft) : history.push('/inventory/off-market/' + nft.id))}
       >
