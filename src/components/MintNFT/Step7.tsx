@@ -6,7 +6,15 @@ import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { Row } from 'theme/components'
 import { Auction } from 'services/models/Auction'
+import { useWeb3React } from '@web3-react/core'
 
+import {
+  NoStakes,
+  GetNow,
+  Name,
+  Stakes
+} from '../NFTproduct/Nftproduct.styles'
+import {useGetReserves} from '../../hooks/startfiStakes'
 const Price = styled(Row)`
   width: 70%;
   margin: 5vh 0;
@@ -42,7 +50,6 @@ interface Step7Props {
   auction: Auction
   setAuction: React.Dispatch<React.SetStateAction<Auction>>
 }
-
 const Step7: React.FC<Step7Props> = ({ auction, setAuction }) => {
   const { t } = useTranslation()
 
@@ -50,10 +57,28 @@ const Step7: React.FC<Step7Props> = ({ auction, setAuction }) => {
     openFor: 0,
     type: ''
   })
-
+  const { account } = useWeb3React()
+const listqualifyPercentage =1;
+const  base=100;
   const handleChange = (e: any) => setAuction({ ...auction, [e.target.name]: e.target.value })
 
   const handleExpire = (e: any) => setExpire({ ...expire, [e.target.name]: e.target.value })
+  const getReserves=useGetReserves()
+
+const [enoughStakes, setEnoughStakes] = useState(false)
+const [stakes, setStakes] = useState(0)
+const [requiredStakes, setRequiredStakes] = useState(0)
+  useEffect(() => {
+    const getUserReserves=async () => {
+    const reservesHexString = await getReserves(account as string)
+    const reserves = reservesHexString?.length < 5 ? parseInt(reservesHexString, 16) : reservesHexString
+
+    if(reserves>0){
+      setStakes(reserves)
+    }
+    }
+account&&getUserReserves();
+  }, [stakes])
 
   useEffect(() => {
     if (expire.openFor && expire.type) {
@@ -78,21 +103,17 @@ const Step7: React.FC<Step7Props> = ({ auction, setAuction }) => {
       })
     }
   }, [expire, setAuction])
-
+const handelPrice=(price)=>{
+  //listingPrice.mul(listqualifyPercentage).div( listqualifyPercentageBase); 
+  setRequiredStakes((price*listqualifyPercentage)/base) 
+  setAuction({ ...auction, listingPrice:price })
+  if(requiredStakes<=stakes){
+    setEnoughStakes(true)
+  }
+}
   return (
     <React.Fragment>
-      <Price>
-        <Input
-          name="listingPrice"
-          label="NFTprice"
-          value={auction.listingPrice}
-          onChange={(e: any) => setAuction({ ...auction, isForSale: true, listingPrice: e.target.value })}
-          number
-        />
-        <img src={PriceArrows} alt="Currency conversion" />
-        <Input name="usd" currency="USD" value={auction.listingPrice} onChange={() => {}} number />
-      </Price>
-      <BidOffers>{t('bidsOffers')}</BidOffers>
+            <BidOffers>{t('bidsOffers')}</BidOffers>
       <Radios>
         <div>
           <input
@@ -113,11 +134,13 @@ const Step7: React.FC<Step7Props> = ({ auction, setAuction }) => {
           <RadioLabel>{t('notAllowed')}</RadioLabel>
         </div>
       </Radios>
-      {auction.isForBid && (
+
+      {auction.isForBid ? (
         <div>
           <MinBid>
             <Input name="minBid" label="minBid" value={auction.minBid} onChange={handleChange} number />
           </MinBid>
+       
           <OpenFor>
             <div>{t('openFor')}</div>
             <InputNumberButtons name="openFor" value={expire.openFor} onChange={handleExpire} />
@@ -128,6 +151,17 @@ const Step7: React.FC<Step7Props> = ({ auction, setAuction }) => {
               onChange={handleExpire}
             />
           </OpenFor>
+          <Price>
+        <Input
+          name="listingPrice"
+          label="NFTprice"
+          value={auction.listingPrice}
+          onChange={(e: any) => setAuction({ ...auction, isForSale: true, listingPrice: e.target.value })}
+          number
+        />
+        <img src={PriceArrows} alt="Currency conversion" />
+        <Input name="usd" currency="USD" value={auction.listingPrice} onChange={() => {}} number />
+      </Price>
           <QualifyAmount>
             <Input
               name="qualifyAmount"
@@ -141,7 +175,27 @@ const Step7: React.FC<Step7Props> = ({ auction, setAuction }) => {
             <Input name="usd" currency="USD" value={auction.qualifyAmount} onChange={() => {}} number />
           </QualifyAmount>
         </div>
-      )}
+      ):(   <div>
+          <Price>
+        <Input
+          name="listingPrice"
+          label="NFTprice"
+          value={auction.listingPrice}
+          onChange={(e: any) => handelPrice(e.target.value)}
+          number
+        />
+        <img src={PriceArrows} alt="Currency conversion" />
+        <Input name="usd" currency="USD" value={auction.listingPrice} onChange={() => {}} number />
+      </Price>
+      <Name>
+            {!enoughStakes && (
+              <Stakes>
+                <NoStakes>{t('needsMoreStakes')}</NoStakes>
+                <GetNow onClick={() => console.log('redirect me to where I can deposit stakes')}>{t('getNow')}</GetNow>
+              </Stakes>
+            )}
+          </Name>
+      </div> )}
     </React.Fragment>
   )
 }
