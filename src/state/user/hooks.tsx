@@ -344,7 +344,7 @@ export const useOffMarket = (): NFT[] => {
 }
 
 // get single offMarket item
-export const useOffMarketItem = (nftId: number): NFT => {
+export const useOffMarketItem = (nftId: string): NFT => {
   const offMarket: NFT[] = useOffMarket()
   return useMemo(() => offMarket.filter(nft => nft.id === nftId)[0], [offMarket, nftId])
 }
