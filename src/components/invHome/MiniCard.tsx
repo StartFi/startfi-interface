@@ -17,6 +17,7 @@ const MiniCard: React.FC<MiniCardContent> = ({ cardContent, navigate }) => {
   let tags: string[] = []
   if (cardContent?.tags) tags = [...cardContent?.tags].splice(0, 2)
   const imgUrl=uriToHttp(`${cardContent.dataHash}`)[1]
+ 
   const checkImage=useCheckIfImage(cardContent?.filename)
 
 
@@ -24,7 +25,7 @@ const MiniCard: React.FC<MiniCardContent> = ({ cardContent, navigate }) => {
     <MiniInvCard onClick={navigate}>
       <CardContent>
         {checkImage?(<Image src={imgUrl}></Image>):<Image src={NoImage}></Image>}
-    
+
         <TextContainer>
           <Text fontFamily='Roboto' fontSize='1rem' color='#000000' margin='-1px 0'>
             {cardContent?.name ? cardContent.name : t('noData')}

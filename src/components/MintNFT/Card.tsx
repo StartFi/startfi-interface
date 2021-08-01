@@ -88,7 +88,7 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft }) => {
     savedAuction || {
       id: 'string',
       contractAddress: STARTFI_NFT_ADDRESS,
-      nft: 0,
+      nft:'0',
       listingPrice: 0,
       seller: '',
       expireTimestamp: 0,
