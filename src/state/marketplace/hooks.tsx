@@ -25,10 +25,14 @@ import { Auction } from 'services/models/Auction'
 import { useCreateAuction } from 'hooks/startfiMarketPlace'
 import { useWeb3React } from '@web3-react/core'
 import { useMint } from 'hooks/startfiPaymentNft'
-import { useNftPaymentEventListener } from 'hooks/startfiEventListener'
+import { useMarketplaceListener, useNftPaymentEventListener } from 'hooks/startfiEventListener'
 
 import { useClearIPFSProgress } from 'state/ipfs/hooks'
-let generateId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+let generateId =
+  Date.now().toString(36) +
+  Math.random()
+    .toString(36)
+    .substr(2)
 
 export const useMarketplace = (): AuctionNFT[] => {
   return useSelector((state: AppState) => state.marketplace.marketplace)
@@ -163,18 +167,32 @@ export const useAddToMarketplace = (): (() => void) => {
   const nft = useNFT()
   const auction = useAuction()
 
-const createAuction = useCreateAuction()
-/** */
-  return useCallback(async() => {
+  const createAuction = useCreateAuction()
+
+  useMarketplaceListener(nft)
+  return useCallback(async () => {
     if (seller && chainId && auction && nft) {
-      console.log(auction,'auction');
-     const tokenId=nft?.tokenId?nft?.tokenId:1;
-
-      await createAuction( auction.contractAddress, tokenId,  auction.minBid as number,   auction.qualifyAmount as number,   auction.isForBid,auction.listingPrice as number,
-        auction.expireTimestamp)
-      dispatch(addToMarketplaceAction({ ...auction, nft: nft.id, seller, listTime: new Date(), chainId }))
+      const tokenId = nft?.tokenId ? nft?.tokenId : 1
+      console.log(
+        'params',
+        auction.contractAddress,
+        tokenId,
+        auction.minBid as number,
+        auction.qualifyAmount as number,
+        auction.isForBid,
+        auction.listingPrice as number,
+        auction.expireTimestamp
+      )
+      await createAuction(
+        auction.contractAddress,
+        tokenId,
+        auction.minBid as number,
+        auction.qualifyAmount as number,
+        auction.isForBid,
+        auction.listingPrice as number,
+        auction.expireTimestamp
+      )
     } else if (!seller || !chainId) popup({ success: false, message: 'connectWallet' })
-
     else if (!nft) popup({ success: false, message: 'noNFT' })
     else if (!auction) popup({ success: false, message: 'noAuction' })
   }, [auction, nft, seller, chainId, popup, dispatch])
