@@ -14,7 +14,6 @@ import { AuctionNFT } from 'services/models/AuctionNFT'
 import StartfiLoader from '../components/Loader/startfi'
 import Pagination from 'components/Pagination'
 
-
 // const NFTS = styled.div`
 //   padding: 4vh 3.2vw;
 //   width: 100%;
@@ -65,7 +64,7 @@ const NFTs: React.FC = () => {
         </Results>
         <DropDownSort
           boxshadow
-          name='sort'
+          name="sort"
           options={SORTBY}
           value={sort}
           onChange={(e: any) => {
@@ -74,30 +73,36 @@ const NFTs: React.FC = () => {
           }}
         />
       </Header>
-      <LinkBase to='/inventory/home/draft' onClick={useGetInventory()}>
+      <LinkBase to="/inventory/home/draft" onClick={useGetInventory()}>
         Inventory
       </LinkBase>
-  &nbsp;&nbsp;
-      <LinkBase to='/marketplace/wishList'>
-        Wish List
-      </LinkBase>
 
-      {onMarket.length > 0 ? <NFTList>
-        {onMarket.map((auctionNFT: AuctionNFT) => (
-          <Nft key={auctionNFT.nft.id}>
-            <NTFCard
-              auctionNFT={auctionNFT}
-              navigateToCard={(auctionNFT: AuctionNFT) =>
-                history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
-              }
-              placeBid={(auctionNFT: AuctionNFT) =>
-                history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
-              }
-            ></NTFCard>
-          </Nft>
-        ))}
-      </NFTList> : <div><StartfiLoader></StartfiLoader></div>}
-      <Pagination/>
+      &nbsp;&nbsp;
+      <LinkBase to="/marketplace/wishList">Wish List</LinkBase>
+      {onMarket.length > 0 ? (
+        <NFTList>
+          {onMarket.map((auctionNFT: AuctionNFT) => (
+            <Nft key={auctionNFT.nft.id}>
+              <NTFCard
+                auctionNFT={auctionNFT}
+                navigateToCard={(auctionNFT: AuctionNFT) =>
+                  history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
+                }
+                placeBid={(auctionNFT: AuctionNFT) =>
+                  history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
+                }
+              ></NTFCard>
+            </Nft>
+          ))}
+        </NFTList>
+      ) : (
+        <div>
+          <StartfiLoader></StartfiLoader>
+        </div>
+      )}
+      <Pagination />
+
+
     </Padding>
   )
 }
