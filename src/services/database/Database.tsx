@@ -68,6 +68,7 @@ export const getDocumentsPaginated = async (
   var query: any = DB.collection(collection)
   if (filters) Object.keys(filters).forEach(key => (query = query.where(key, '==', filters[key])))
   if (orders) Object.keys(orders).forEach(key => (query = query.orderBy(key, orders[key])))
+  if (lastVisible) query = query.startAfter(lastVisible)
   return snapshotToArray(await query.get().catch((err: any) => console.log(err)))
  // if (lastVisible) query = query.startAfter(lastVisible)
   // return query.get().catch((err: any) => console.log(err))
