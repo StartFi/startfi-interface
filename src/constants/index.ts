@@ -2,7 +2,6 @@ import { Percent, Token, WETH9 } from '@uniswap/sdk-core'
 import JSBI from 'jsbi'
 import { ChainId } from '../constants/supportedChains'
 import { AbstractConnector } from '@web3-react/abstract-connector'
-
 import { fortmatic, injected, portis, walletconnect, walletlink } from '../connectors'
 import { NFT } from 'services/models/NFT'
 

@@ -15,7 +15,10 @@ export const useSearch = () => {
     location.search
       .substring(1, location.search.length)
       .split('&')
-      .forEach(pair => (json[pair.split('=')[0]] = pair.split('=')[1]))
+      .forEach(pair => {
+        const [key, value] = pair.split('=')
+        json[key] = value
+      })
     return { ...json }
   }, [location])
 }
