@@ -13,6 +13,7 @@ const Text = styled('p')<{
   marginRight?:string
   spanWeight?: string
   textTransform?:string
+  display?:string
 }>`
   font-family: ${({ fontFamily }) => fontFamily};
   font-weight: ${({ FontWeight }) => FontWeight};
@@ -20,6 +21,7 @@ const Text = styled('p')<{
   width: ${({ width }) => width};
   color: ${({ color }) => color};
   overflow: ${({ overflow }) => overflow};
+  display: ${({ display}) => display};
   text-overflow: ${({ textOverflow }) => textOverflow};
   margin:${({ margin }) => margin};
   text-transform:${({ textTransform }) => textTransform};

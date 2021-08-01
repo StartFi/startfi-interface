@@ -39,10 +39,10 @@ export const TagRow = styled.div`
   }
 `
 
-export const DeListingContainer=styled.div`
+export const DeListingContainer=styled('div')<{height?:string}>`
 display:flex;
 align-items:center;
 justify-content:space-between;
-height:100px;
+height:${({ height }) => height};
 margin:0px 18px 0px 30px;
 `

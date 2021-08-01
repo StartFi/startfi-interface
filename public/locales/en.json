@@ -255,8 +255,9 @@
   "lastBidding":"Last Bidding",
   "auctionEnds":" Auctions Ends In",
   "zeroBalanceMessage":" You don't have balance",
-  "zeroBalance":" No balance"
- 
+  "zeroBalance":" No balance",
+  "DelistWarning":"Your Asset cannot be delisted because it’s in auction and already got bids"
+
 
 
 
