@@ -162,6 +162,7 @@ export const useAddToMarketplace = (): (() => void) => {
   const popup = usePopup()
   const nft = useNFT()
   const auction = useAuction()
+
 const createAuction = useCreateAuction()
 /** */
   return useCallback(async() => {
@@ -173,6 +174,7 @@ const createAuction = useCreateAuction()
         auction.expireTimestamp)
       dispatch(addToMarketplaceAction({ ...auction, nft: nft.id, seller, listTime: new Date(), chainId }))
     } else if (!seller || !chainId) popup({ success: false, message: 'connectWallet' })
+
     else if (!nft) popup({ success: false, message: 'noNFT' })
     else if (!auction) popup({ success: false, message: 'noAuction' })
   }, [auction, nft, seller, chainId, popup, dispatch])
