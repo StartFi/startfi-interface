@@ -213,7 +213,6 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft }) => {
       <Header>
         <div>
           <Title>{t('mintNFTTitle')}</Title>
-          <h3>{step}</h3>
           <Underline />
         </div>
         {StepIcon() && <img src={StepIcon()} alt="Step" />}
