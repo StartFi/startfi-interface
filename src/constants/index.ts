@@ -10,7 +10,7 @@ export const CATEGORIES = ['music', 'books', 'videos', 'art', 'images', 'games']
 
 export type Dictionary = { [index: string]: any }
 
-export const NFTS_PER_PAGE = 1
+export const NFTS_PER_PAGE = 10
 
 export interface StepProps {
   state: Dictionary
