@@ -12,7 +12,7 @@ import { Auction } from 'services/models/Auction'
 import { DelistButton } from 'components/Button'
 import { useTranslation } from 'react-i18next'
 import DelistCard from 'components/DelistCard/DelistCard'
-import { setOpenModal } from 'state/application/actions'
+
 
 interface onMarketParams {
   id: string
@@ -54,7 +54,7 @@ const InMarket = () => {
 
   return (
     <React.Fragment>
-      <DelistCard isOpen={openModal} close={closeCard}></DelistCard>
+      <DelistCard isOpen={openModal} close={closeCard} nft={nft}></DelistCard>
       <div>
         <Text
           fontFamily='Roboto'

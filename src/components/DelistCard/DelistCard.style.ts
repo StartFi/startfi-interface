@@ -6,7 +6,7 @@ interface PaymentCardProps {
   readonly minHeight: string
 }
 
-export const Right = styled.div<PaymentCardProps>`
+export const Container = styled.div<PaymentCardProps>`
   width: 28vw;
   padding: 3vh 2vw;
   background-color: #fafafa;
@@ -57,4 +57,9 @@ export const PaymentModal = styled(Modal)`
 export const Info = styled.div`
   line-height: 28px;
   letter-spacing: 0.04em;
+`
+
+export const DelistCardHeader =styled.div`
+height:76.4px;
+width:100%;
 `
