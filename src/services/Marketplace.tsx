@@ -17,13 +17,9 @@ let generateId =
     .substr(2)
 
 export const mintNFT = async (nft: NFT) => {
-  const hash = ''
-
-  nft.id = generateId;
-  nft.txtHash = hash
   const nftAdded = await addNFT(nft)
   const status = checkSuccess({ nftAdded })
-  return { status, nftAdded, hash }
+  return { status, nftAdded }
 }
 
 export const AddToMarketplace = async (auction: Auction) => {
