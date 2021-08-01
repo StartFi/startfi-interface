@@ -149,7 +149,7 @@ export const useMintNFT = (): (() => void) => {
       } else {
         await mint(account as string, nft.dataHash, nft.royalty, 100)
       }
-      dispatch(mintNFTAction({ ...nft, issueDate: new Date(), owner: account, chainId }))
+      // dispatch(mintNFTAction({ ...nft, issueDate: new Date(), owner: account, chainId }))
     } else if (!account || !chainId) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
   }, [nft, account, chainId, popup, dispatch, mint])

@@ -50,7 +50,7 @@ interface CardProps {
   offMarketNft: NFT
 }
 
-const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft}) => {
+const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft }) => {
   const { t } = useTranslation()
 
   const history = useHistory()
@@ -88,7 +88,7 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft}) => {
     savedAuction || {
       id: 'string',
       contractAddress: STARTFI_NFT_ADDRESS,
-      nft: 0,
+      nft:'0',
       listingPrice: 0,
       seller: '',
       expireTimestamp: 0,
@@ -107,7 +107,6 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft}) => {
   const [missing, setMissing] = useState<string[]>([])
 
   const [step, setStep] = useState<number>(currentStep || 1)
-
 
   const popup = usePopup()
 
@@ -154,7 +153,11 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft}) => {
         saveNFT(nft)
         return history.push('summary')
       case 7:
-        if (auction.isForSale || auction.isForBid) {
+        const { isForSale, listingPrice, isForBid, minBid, qualifyAmount, expireTimestamp } = auction
+        if (
+          (isForSale && listingPrice > 0) ||
+          (isForBid && minBid && minBid > 0 && qualifyAmount && qualifyAmount > 0 && expireTimestamp > 0)
+        ) {
           saveAuction(auction)
           return history.push('summary')
         }
@@ -199,12 +202,11 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft}) => {
       setNFT(draft)
       setStep(2)
     }
-    if(offMarketNft){
+    if (offMarketNft) {
       setNFT(offMarketNft)
       setStep(7)
-
     }
-  }, [draft,offMarketNft])
+  }, [draft, offMarketNft])
 
   return (
     <Container>

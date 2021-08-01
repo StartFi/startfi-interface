@@ -333,7 +333,7 @@ export const useOnMarket = (): NFT[] => {
 }
 
 // get onMarket single item
-export const useOnMarketItem = (nftId: number): NFT => {
+export const useOnMarketItem = (nftId: string): NFT => {
   const onMarket: NFT[] = useOnMarket()
   return useMemo(() => onMarket.filter(nft => nft.id === nftId)[0], [onMarket, nftId])
 }
@@ -354,7 +354,7 @@ export const useUserAuctions = (): Auction[] => {
 }
 
 // get single Auction
-export const useAuctionItem = (nftId: number): Auction => {
+export const useAuctionItem = (nftId: string): Auction => {
   const userAuctions: Auction[] = useUserAuctions()
   return useMemo(() => userAuctions.filter(auction => auction.nft === nftId)[0], [userAuctions, nftId])
 }
