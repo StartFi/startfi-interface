@@ -167,7 +167,7 @@ const createAuction = useCreateAuction()
 /** */
   return useCallback(async() => {
     if (seller && chainId && auction && nft) {
-      console.log(auction,'auction');
+    
      const tokenId=nft?.tokenId?nft?.tokenId:1;
 
       await createAuction( auction.contractAddress, tokenId,  auction.minBid as number,   auction.qualifyAmount as number,   auction.isForBid,auction.listingPrice as number,
@@ -180,7 +180,7 @@ const createAuction = useCreateAuction()
   }, [auction, nft, seller, chainId, popup, dispatch])
 }
 
-export const useGetAuctionNFT = (nftId: number, auctionId: string) => {
+export const useGetAuctionNFT = (nftId: string, auctionId: string) => {
   const dispatch = useDispatch()
   const nfts = useMarketplace()
   useEffect(() => {
