@@ -39,7 +39,12 @@ const Img = styled.img`
 
 const Search = styled(Row)`
   align-items: stretch;
+  display: flex;
+  justify-content:start;
   height: 6vh;
+  position:relative;
+  left:44px;
+
 `
 
 const TabsCategory = styled(Row)`
