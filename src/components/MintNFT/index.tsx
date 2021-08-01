@@ -49,7 +49,7 @@ const MintNFT: React.FC = () => {
   const location = useLocation<LocationState>()
   const { id }: DraftParams = useParams()
   const draft: NFT = useDraft(parseInt(id))
-  const offMarketNft: NFT = useOffMarketItem(parseInt(id))
+  const offMarketNft: NFT = useOffMarketItem(id)
   console.log('draft=>',draft)
   console.log('offMrket',offMarketNft)
 

@@ -10,7 +10,7 @@ export const CATEGORIES = ['music', 'books', 'videos', 'art', 'images', 'games']
 
 export type Dictionary = { [index: string]: any }
 
-export const NFTS_PER_PAGE = 1
+export const NFTS_PER_PAGE = 12
 
 export interface StepProps {
   state: Dictionary
@@ -26,6 +26,8 @@ export interface PopupContent {
 }
 
 export const DEFAULT_SORT = 'Lowest price'
+
+export const DEFAULT_CHAIN_ID = 3
 
 export const ROUTER_ADDRESS = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
 export interface PopupContent {

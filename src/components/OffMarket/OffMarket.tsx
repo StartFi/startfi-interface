@@ -13,6 +13,7 @@ import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
 import { useTranslation } from 'react-i18next'
 import Vector from '../../assets/images/Vector.png'
 import StringModifier from 'utils/StringSplice'
+import { buyNFT } from 'services/Marketplace'
 
 
 interface offMarketParams {
@@ -22,9 +23,11 @@ interface offMarketParams {
 const OffMarket = () => {
   const { t } = useTranslation()
   const { id }: offMarketParams = useParams()
+  console.log('id',id)
   const history = useHistory()
-  const nft: NFT = useOffMarketItem(parseInt(id))
-  const imgUrl = uriToHttp(`${nft.dataHash}`)[1]
+  const nft: NFT = useOffMarketItem(id)
+  console.log('offMarket Nft=>',buyNFT)
+  const imgUrl = uriToHttp(`${nft?.dataHash}`)[1]
 
   const [tagsState, setTagsState] = useState(false)
 
@@ -43,7 +46,7 @@ const OffMarket = () => {
           <img src={Vector} />
           <span>{t('offMarketPlace')}</span>
           <img src={Vector} />
-          <span>{StringModifier(nft.owner)}</span>
+          <span>{StringModifier(nft?.owner)}</span>
         </TopTitle>
         <Row padding='20px' align='start'>
           <Text fontFamily='Roboto' FontWeight='500' fontSize='1rem' color='#000000' margin='0 0 3px 8px'>

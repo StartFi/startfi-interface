@@ -76,6 +76,7 @@ const NFTs: React.FC = () => {
       <LinkBase to="/inventory/home/draft" onClick={useGetInventory()}>
         Inventory
       </LinkBase>
+
       &nbsp;&nbsp;
       <LinkBase to="/marketplace/wishList">Wish List</LinkBase>
       {onMarket.length > 0 ? (
@@ -100,6 +101,8 @@ const NFTs: React.FC = () => {
         </div>
       )}
       <Pagination />
+
+
     </Padding>
   )
 }

@@ -27,7 +27,7 @@ const InventoryHome = () => {
 
     switch (inventoryOption) {
       case InventoryOptions.Draft:
-        if (drafts?.length > 0) setInventoryItems([...drafts])
+        if (drafts?.length > 0) {setInventoryItems([...drafts])}else{setInventoryItems([])}
         break
       case InventoryOptions.inMarketPlace:
         setInventoryItems([...onMarketNFT])
