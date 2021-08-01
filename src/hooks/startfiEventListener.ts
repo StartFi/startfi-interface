@@ -3,7 +3,7 @@ import { useActiveWeb3React } from 'hooks'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { addNewEvent } from 'state/blockchainEvents/actions'
-import { parseBigNumber, useStartFiToken, useStartFiMarketplace, useStartFiPayment, useStartFiNft } from './useContract'
+import { parseBigNumber, useStartFiToken, useStartFiMarketplace, useStartFiNft } from './useContract'
 import { addToMarketplaceAction, mintNFTAction, saveNFT } from 'state/marketplace/actions'
 import { editNFT } from 'services/database/NFT'
 import { useAuction, useNFT } from 'state/marketplace/hooks'
@@ -24,25 +24,12 @@ export const useNftPaymentEventListener = () => {
       library?.on(transferRoyalEvent as EventFilter, result => {
         const eventLogs = nftRoyalty?.interface.parseLog({ data: result.data, topics: result.topics }).args
         console.log({ eventName: 'transferRoyaltyEvent', eventValue: parseBigNumber(eventLogs) })
-        const mintedNftId = parseBigNumber(eventLogs)[2] //tokenId
+        const id = parseInt(parseBigNumber(eventLogs)[2], 16).toString() //tokenId
         if (account && nft) {
-          dispatch(
-            mintNFTAction({
-              ...nft,
-              issueDate: new Date(),
-              owner: account as string,
-              chainId: 3,
-              tokenId: parseInt(mintedNftId, 16) as number
-            })
-          )
-          const mintedNft = {
-            ...nft,
-            issueDate: new Date(),
-            owner: account as string,
-            chainId: 3,
-            tokenId: parseInt(mintedNftId, 16) as number
-          }
-          dispatch(saveNFT({ nft: mintedNft }))
+          console.log('mintedNFT', id)
+          const mintedNFT = { ...nft, id, issueDate: new Date(), owner: account as string, chainId: 3, tokenId: id }
+          dispatch(mintNFTAction(mintedNFT))
+          dispatch(saveNFT({ nft: mintedNFT }))
         }
 
         dispatch(addNewEvent({ eventName: 'transferRoyaltyEvent', eventValue: parseBigNumber(eventLogs) }))
