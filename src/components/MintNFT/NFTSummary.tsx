@@ -7,7 +7,7 @@ import { Tag } from 'components/Tags'
 import { ButtonDraft, ButtonMint } from 'components/Button'
 import { useSaveDraft } from 'state/user/hooks'
 import { useGetAllowance } from 'hooks/startfiToken'
-import { ExternalLink, LinkStyledButton, TYPE } from '../../theme'
+import { LinkStyledButton } from '../../theme'
 
 import {
   Bold,
@@ -98,6 +98,7 @@ const NFTSummary: React.FC = () => {
   const getApproverAddress= useGetApproverAddress()
   const getOwnerAddress= useGetNftOwner()
   const approve= useApproveNft()
+  const nft = useNFT()
   useEffect(() => {
     const getNFTAllowed = async () => {
       // const approver = await getApproverAddress(nft?.tokenId  as number)
@@ -105,20 +106,19 @@ const NFTSummary: React.FC = () => {
        // temporary until tokeinId issue is fixed
        const tokenId=nft?.tokenId?nft?.tokenId:1;
       const owner = await getApproverAddress(tokenId)
-      if(owner==account){
+      if(owner===account){
         const approver = await getApproverAddress(tokenId)
         console.log(approver,'approver');
   
-        if(approver== STARTFI_Marketplace_ADDRESS as any )
+        if(approver=== STARTFI_Marketplace_ADDRESS as any )
         
         {setAllowed(true)}
       }
      
     }
    account && getNFTAllowed()
-  }, [allowed])
+  }, [allowed, account, nft, getApproverAddress])
  
-  const nft = useNFT()
 
   const auction = useAuction()
 
@@ -379,7 +379,7 @@ const NFTSummary: React.FC = () => {
         {(step === 5 || step === 9) && <Question text="payFromAccountDesc" />}
       </Info>
       <ButtonBlack onClick={next}>
-        {t((step === 5 && allowedStfi == 0)|| (step === 9 && !allowed ) ? 'allowPayment':step === 6 ? 'saveToBlockchain' :   'addToMarketplace'  )}{' '}
+        {t((step === 5 && allowedStfi === 0)|| (step === 9 && !allowed ) ? 'allowPayment':step === 6 ? 'saveToBlockchain' :   'addToMarketplace'  )}{' '}
       </ButtonBlack>
       </div>):(<ZeroBalance/>)):(<ConnectWallet/>)}
     

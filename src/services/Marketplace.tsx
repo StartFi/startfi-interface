@@ -1,6 +1,6 @@
 import { Bid } from './models/Bid'
 import { NFT } from './models/NFT'
-import { addAuction, addBidToAuction, editAuction, getAuction, getAuctionsPaginated, getAuctions } from './database/Auction'
+import { addAuction, addBidToAuction, editAuction, getAuction, getAuctionsPaginated } from './database/Auction'
 import { getUser } from './database/User'
 import { addNFT, editNFT, getNFT, getNFTs } from './database/NFT'
 import { addBid } from './database/Bid'

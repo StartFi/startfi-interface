@@ -8,7 +8,6 @@ import { NFT } from 'services/models/NFT'
 import { AppState } from 'state'
 import { useChainId, useUserAddress } from 'state/user/hooks'
 import {
-  mintNFTAction,
   buyNFTAction,
   clearMarketplacePopup,
   getAuctionNFTAction,
@@ -27,7 +26,6 @@ import { useWeb3React } from '@web3-react/core'
 import { useMint } from 'hooks/startfiPaymentNft'
 import { useNftPaymentEventListener } from 'hooks/startfiEventListener'
 
-import { useClearIPFSProgress } from 'state/ipfs/hooks'
 let generateId = Date.now().toString(36) + Math.random().toString(36).substr(2);
 
 export const useMarketplace = (): AuctionNFT[] => {
@@ -134,7 +132,6 @@ export const usePagination = () => {
 }
 
 export const useMintNFT = (): (() => void) => {
-  const dispatch = useDispatch()
   const chainId = useChainId()
   const popup = usePopup()
   const nft = useNFT()
@@ -149,10 +146,9 @@ export const useMintNFT = (): (() => void) => {
       } else {
         await mint(account as string, nft.dataHash, nft.royalty, 100)
       }
-      // dispatch(mintNFTAction({ ...nft, issueDate: new Date(), owner: account, chainId }))
     } else if (!account || !chainId) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
-  }, [nft, account, chainId, popup, dispatch, mint])
+  }, [nft, account, chainId, popup, mint])
 }
 
 export const useAddToMarketplace = (): (() => void) => {
@@ -177,7 +173,7 @@ const createAuction = useCreateAuction()
 
     else if (!nft) popup({ success: false, message: 'noNFT' })
     else if (!auction) popup({ success: false, message: 'noAuction' })
-  }, [auction, nft, seller, chainId, popup, dispatch])
+  }, [auction, nft, seller, chainId, createAuction, popup, dispatch])
 }
 
 export const useGetAuctionNFT = (nftId: number, auctionId: string) => {
