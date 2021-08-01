@@ -7,14 +7,14 @@ interface PaymentCardProps {
 }
 
 export const Container = styled.div<PaymentCardProps>`
-  width: 28vw;
+  width: 30vw;
   padding: 3vh 2vw;
   background-color: #fafafa;
   border-radius: 8px;
   min-height: ${({ minHeight }) => minHeight};
   display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-between;
+   flex-flow: column nowrap;
+  /* justify-content: space-between; */
 `
 
 export const SpaceBetween = styled(Row)`
@@ -60,6 +60,6 @@ export const Info = styled.div`
 `
 
 export const DelistCardHeader =styled.div`
-height:76.4px;
+/* height:76.4px; */
 width:100%;
 `
