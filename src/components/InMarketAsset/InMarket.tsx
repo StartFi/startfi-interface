@@ -19,8 +19,8 @@ interface onMarketParams {
 const InMarket = () => {
   const { t } = useTranslation()
   const { id }: onMarketParams = useParams()
-  const nft: NFT = useOnMarketItem(parseInt(id))
-  const auction: Auction = useAuctionItem(parseInt(id))
+  const nft: NFT = useOnMarketItem(id)
+  const auction: Auction = useAuctionItem(id)
   const imgUrl = uriToHttp(`${nft.dataHash}`)[1]
   const [tagsState, setTagsState] = useState(false)
 
