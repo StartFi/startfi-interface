@@ -26,11 +26,10 @@ export const useNftPaymentEventListener = () => {
         const mintedNftId = parseBigNumber(eventLogs)[2] //tokenId
         if (account && nft) {
           console.log('mintedNFT', mintedNftId)
-          addNFT({ ...nft, tokenId: mintedNftId }).then(result => {
-            console.log('the nft', { result })
-          })
+          dispatch(
+            mintNFTAction({ ...nft, issueDate: new Date(), owner: account as string, chainId: 3, tokenId: mintedNftId })
+          )
         }
-
         dispatch(addNewEvent({ eventName: 'transferRoyaltyEvent', eventValue: parseBigNumber(eventLogs) }))
       })
     }

@@ -7,9 +7,14 @@ import { addBid } from './database/Bid'
 import { AuctionNFT } from './models/AuctionNFT'
 import { checkSuccess, sortHelper } from 'utils'
 import { Auction } from './models/Auction'
-import { DEFAULT_SORT, NFTS_PER_PAGE } from './../constants'
+import { DEFAULT_CHAIN_ID, DEFAULT_SORT, NFTS_PER_PAGE } from './../constants'
 
-let generateId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+
+let generateId =
+  Date.now().toString(36) +
+  Math.random()
+    .toString(36)
+    .substr(2)
 
 export const mintNFT = async (nft: NFT) => {
   const hash = ''
@@ -23,7 +28,7 @@ export const mintNFT = async (nft: NFT) => {
 
 export const AddToMarketplace = async (auction: Auction) => {
   const hash = ''
-  auction.id = generateId;
+  auction.id = generateId
   auction.listingTxt = hash
   const auctionAdded = await addAuction(auction)
   const status = checkSuccess({ auctionAdded })
@@ -31,6 +36,7 @@ export const AddToMarketplace = async (auction: Auction) => {
 }
 
 export interface NFTQUERY {
+  chainId?: number
   search?: string
   category?: string
   sort?: string
@@ -43,25 +49,28 @@ export const getMarketplace = async (query?: NFTQUERY) => {
   const t0 = performance.now()
   if (!query) query = {}
   const { search, category, sort, lastAuction } = query
-  const nftsQuery: NFTQUERY = {}
+  var chainId
+  if (!query.chainId) chainId = DEFAULT_CHAIN_ID
+  else chainId = query.chainId
+  const nftsQuery: NFTQUERY = {chainId}
   if (search) nftsQuery.name = search
   if (category && category !== 'all') nftsQuery.category = category
   const auctionSort = sort ? sort : DEFAULT_SORT
   const nfts = await getNFTs(nftsQuery)
 
-  const auctions = await getAuctionsPaginated({ status: 'open' }, sortHelper(auctionSort), lastAuction)
-  
-  
-  console.log(auctions);
-  console.log("-------------------");
+  const auctions = await getAuctionsPaginated({ status: 'open', chainId }, sortHelper(auctionSort), lastAuction)
+
   var onMarket: AuctionNFT[] = []
   auctions.forEach((rawAuction: any) => {
     console.log(rawAuction);
     const auction = rawAuction
     const nft = nfts.filter((nft: NFT) => nft.id === auction.nft)[0]
+
     if (nft) {
       if (nft.issueDate) delete nft.issueDate;
       if (auction.purchaseTime) delete auction.purchaseTime;
+
+
       onMarket.push({
         nft,
         auction,
@@ -124,7 +133,6 @@ interface BuyNFT {
 }
 
 export const buyNFT = async ({ nftId, auctionId, owner, buyer, soldPrice }: BuyNFT) => {
-  //get from blockchain
   const hash = ''
   const nftChange = {
     id: nftId,
@@ -153,10 +161,8 @@ interface PlaceBid {
 }
 
 export const placeBid = async ({ auctionId, bid }: PlaceBid) => {
-  //to get from blockchain or compute
   const hash = ''
   bid.id = generateId
-  bid.expireTimestamp = 0
   bid.txtHash = hash
   const bidAdded = await addBid(bid)
   const bidAddedToAuction = await addBidToAuction(auctionId, bid.id)

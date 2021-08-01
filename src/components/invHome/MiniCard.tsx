@@ -1,9 +1,11 @@
+import { useCheckIfImage } from 'hooks/checkImage'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { NFT } from 'services/models/NFT'
 import uriToHttp from 'utils/uriToHttp'
 import Text from '../Text'
 import { CardContent, MiniInvCard, TagContainer, TextContainer, Image } from './InvHome.styles'
+import NoImage from '../../assets/images/no-image-icon-23483.png'
 
 
 interface MiniCardContent {
@@ -14,13 +16,15 @@ const MiniCard: React.FC<MiniCardContent> = ({ cardContent, navigate }) => {
   const { t } = useTranslation()
   let tags: string[] = []
   if (cardContent?.tags) tags = [...cardContent?.tags].splice(0, 2)
-  const imgUrl = uriToHttp(`${cardContent.dataHash}`)[1]
+  const imgUrl=uriToHttp(`${cardContent.dataHash}`)[1]
+  const checkImage=useCheckIfImage(cardContent?.filename)
 
 
   return (
     <MiniInvCard onClick={navigate}>
       <CardContent>
-        <Image src={imgUrl}></Image>
+        {checkImage?(<Image src={imgUrl}></Image>):<Image src={NoImage}></Image>}
+    
         <TextContainer>
           <Text fontFamily='Roboto' fontSize='1rem' color='#000000' margin='-1px 0'>
             {cardContent?.name ? cardContent.name : t('noData')}
