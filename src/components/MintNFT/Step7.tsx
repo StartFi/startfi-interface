@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { Row } from 'theme/components'
 import { Auction } from 'services/models/Auction'
+import {useEthPrice,useUSDPrice,convertToWie} from '../../services/Blockchain/cryptoPrice'
 
 const Price = styled(Row)`
   width: 70%;
@@ -52,8 +53,10 @@ const Step7: React.FC<Step7Props> = ({ auction, setAuction }) => {
   })
 
   const handleChange = (e: any) => setAuction({ ...auction, [e.target.name]: e.target.value })
-
+const [usdAmount, setUsdAmount] = useState(0);
   const handleExpire = (e: any) => setExpire({ ...expire, [e.target.name]: e.target.value })
+  const usdPrice = useUSDPrice();
+  const ethPrice = useEthPrice();
 
   useEffect(() => {
     if (expire.openFor && expire.type) {
@@ -78,6 +81,27 @@ const Step7: React.FC<Step7Props> = ({ auction, setAuction }) => {
       })
     }
   }, [expire, setAuction])
+const setSTFI_USDPrice= async(amount)=>{
+  const STFIinWie=5;
+ const value= await ethPrice();
+ const wei=1/10**18;
+   const wiePrice=value/wei;
+   console.log('amount*wiePrice*STFIinWie',amount*wiePrice*STFIinWie);
+   
+  setUsdAmount(amount*wiePrice*STFIinWie);}
+const setUSD_STFIPrice= async(amount)=>{
+  const STFIinWie=5;
+ const value= await usdPrice();
+  const wiePrice=value*amount; 
+  const result=convertToWie(wiePrice/STFIinWie);
+  console.log(result,'result');
+  
+   setAuction({ ...auction, isForSale: true, listingPrice: wiePrice/STFIinWie })
+  setUsdAmount(amount);
+
+}
+
+
 
   return (
     <React.Fragment>
@@ -86,11 +110,15 @@ const Step7: React.FC<Step7Props> = ({ auction, setAuction }) => {
           name="listingPrice"
           label="NFTprice"
           value={auction.listingPrice}
-          onChange={(e: any) => setAuction({ ...auction, isForSale: true, listingPrice: e.target.value })}
+          onChange={(e: any) => {
+            setSTFI_USDPrice(e.target.value)
+            setAuction({ ...auction, isForSale: true, listingPrice: e.target.value })}}
           number
         />
         <img src={PriceArrows} alt="Currency conversion" />
-        <Input name="usd" currency="USD" value={auction.listingPrice} onChange={() => {}} number />
+        <Input name="usd" currency="USD" value={usdAmount} 
+          onChange={(e: any) => 
+            setUSD_STFIPrice(e.target.value)} number />
       </Price>
       <BidOffers>{t('bidsOffers')}</BidOffers>
       <Radios>
