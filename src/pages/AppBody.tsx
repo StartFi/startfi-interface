@@ -11,7 +11,6 @@ export const BodyWrapper = styled.div`
   border-radius: 30px;
   /* padding: 1rem; */
 `
-
 /**
  * The styled container element that wraps the content of most pages and the tabs.
  */
