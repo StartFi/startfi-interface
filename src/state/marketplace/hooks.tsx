@@ -166,7 +166,6 @@ export const useAddToMarketplace = (): (() => void) => {
 
   const createAuction = useCreateAuction()
 
-
   useMarketplaceListener(nft)
   return useCallback(async () => {
     if (seller && chainId && auction && nft) {

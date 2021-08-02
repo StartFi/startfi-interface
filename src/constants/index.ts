@@ -28,7 +28,14 @@ export const DEFAULT_SORT: string = 'Lowest price'
 
 export const DEFAULT_CHAIN_ID: number = 3
 
-export const HEADER_DROPDOWN = ['WishList', 'Inventory', 'Dashboard', 'Stake Tokens', 'Get STFI Token', 'My Account']
+export const HEADER_DROPDOWN: string[] = [
+  'WishList',
+  'Inventory',
+  'Dashboard',
+  'Stake Tokens',
+  'Get STFI Token',
+  'My Account'
+]
 
 export const ROUTER_ADDRESS = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
 export interface PopupContent {
