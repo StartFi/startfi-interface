@@ -20,7 +20,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Row } from 'theme/components'
 import { useWalletAddress } from 'state/user/hooks'
-import { useSearch } from 'hooks'
+import { useLocationSearch } from 'hooks'
 
 const Categories = ['all', ...CATEGORIES]
 const TabIcons: Dictionary = {
@@ -87,7 +87,7 @@ const NFTsHeader: React.FC = () => {
 
   const getNFTs = useGetNFTs()
 
-  let { category, search } = useSearch()
+  let { category, search } = useLocationSearch()
 
   if (!category) category = 'all'
 

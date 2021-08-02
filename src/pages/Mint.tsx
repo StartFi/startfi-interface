@@ -19,7 +19,6 @@ const Mint: React.FC = () => {
       <Route path="/mint/steps/:id?" component={MintNFT} />
       <Route path="/mint/summary" component={NFTSummary} />
       <Route path="/mint/addedtomarketplace" component={AddedToMarketplace} />
-
     </Container>
   )
 }

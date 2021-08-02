@@ -8,7 +8,7 @@ import { injected } from '../connectors'
 import { Dictionary, NetworkContextName } from '../constants'
 import { useLocation } from 'react-router-dom'
 
-export const useSearch = () => {
+export const useLocationSearch = (): Dictionary => {
   const location = useLocation()
   return useMemo(() => {
     const json: Dictionary = {}
@@ -25,11 +25,9 @@ export const useSearch = () => {
 
 export const useSTFItoUSD = (amount: number): number => {
   const [USD, setUSD] = useState<number>(amount)
-
   useEffect(() => {
     setUSD(amount * 100)
   }, [amount, setUSD])
-
   return USD
 }
 

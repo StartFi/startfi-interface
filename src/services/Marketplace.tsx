@@ -9,26 +9,16 @@ import { checkSuccess, sortHelper } from 'utils'
 import { Auction } from './models/Auction'
 import { DEFAULT_CHAIN_ID, DEFAULT_SORT, NFTS_PER_PAGE } from './../constants'
 
-
-let generateId =
-  Date.now().toString(36) +
-  Math.random()
-    .toString(36)
-    .substr(2)
-
 export const mintNFT = async (nft: NFT) => {
   const nftAdded = await addNFT(nft)
   const status = checkSuccess({ nftAdded })
   return { status, nftAdded }
 }
 
-export const AddToMarketplace = async (auction: Auction) => {
-  const hash = ''
-  auction.id = generateId
-  auction.listingTxt = hash
+export const addToMarketplace = async (auction: Auction) => {
   const auctionAdded = await addAuction(auction)
   const status = checkSuccess({ auctionAdded })
-  return { status, auctionAdded, hash }
+  return { status, auctionAdded }
 }
 
 export interface NFTQUERY {
@@ -48,7 +38,7 @@ export const getMarketplace = async (query?: NFTQUERY) => {
   var chainId
   if (!query.chainId) chainId = DEFAULT_CHAIN_ID
   else chainId = query.chainId
-  const nftsQuery: NFTQUERY = {chainId}
+  const nftsQuery: NFTQUERY = { chainId }
   if (search) nftsQuery.name = search
   if (category && category !== 'all') nftsQuery.category = category
   const auctionSort = sort ? sort : DEFAULT_SORT
@@ -58,14 +48,13 @@ export const getMarketplace = async (query?: NFTQUERY) => {
 
   var onMarket: AuctionNFT[] = []
   auctions.forEach((rawAuction: any) => {
-    console.log(rawAuction);
+    console.log(rawAuction)
     const auction = rawAuction
     const nft = nfts.filter((nft: NFT) => nft.id === auction.nft)[0]
 
     if (nft) {
-      if (nft.issueDate) delete nft.issueDate;
-      if (auction.purchaseTime) delete auction.purchaseTime;
-
+      if (nft.issueDate) delete nft.issueDate
+      if (auction.purchaseTime) delete auction.purchaseTime
 
       onMarket.push({
         nft,
@@ -86,8 +75,6 @@ export const getMarketplace = async (query?: NFTQUERY) => {
   const loadtime = Math.round(t1 - t0)
   return { onMarket, loadtime, newLastAuction, auctions, ...query }
 }
-
-
 
 interface GetAuctionNFT {
   nftId: number
@@ -129,7 +116,6 @@ interface BuyNFT {
 }
 
 export const buyNFT = async ({ nftId, auctionId, owner, buyer, soldPrice }: BuyNFT) => {
-  const hash = ''
   const nftChange = {
     id: nftId,
     owner: buyer
@@ -141,14 +127,13 @@ export const buyNFT = async ({ nftId, auctionId, owner, buyer, soldPrice }: BuyN
     isForSale: false,
     isForBid: false,
     purchaseTime: new Date(),
-    purchaseTxt: hash,
     soldPrice,
     status: 'closed'
   }
   const nftEdited = await editNFT(nftChange)
   const auctionEdited = await editAuction(auctionChange)
   const status = checkSuccess({ nftEdited, auctionEdited })
-  return { status, nftEdited, auctionEdited, hash }
+  return { status, nftEdited, auctionEdited }
 }
 
 interface PlaceBid {
@@ -157,11 +142,8 @@ interface PlaceBid {
 }
 
 export const placeBid = async ({ auctionId, bid }: PlaceBid) => {
-  const hash = ''
-  bid.id = generateId
-  bid.txtHash = hash
   const bidAdded = await addBid(bid)
   const bidAddedToAuction = await addBidToAuction(auctionId, bid.id)
   const status = checkSuccess({ bidAdded, bidAddedToAuction })
-  return { status, bidAdded, bidAddedToAuction, hash }
+  return { status, bidAdded, bidAddedToAuction }
 }

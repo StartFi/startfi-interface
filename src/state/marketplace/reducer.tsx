@@ -1,9 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-
-// import { getNFTS } from 'services/database/Database'
-
 import { PopupContent } from './../../constants'
-
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import {
   mintNFTAction,
@@ -16,7 +12,7 @@ import {
   saveNFT,
   saveAuction,
   addToMarketplaceAction,
-  clearNFT,
+  clearNFT
 } from './actions'
 import { NFT } from 'services/models/NFT'
 import { Auction } from 'services/models/Auction'

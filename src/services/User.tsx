@@ -3,7 +3,7 @@ import { Draft } from './models/Draft'
 import { NFT } from './models/NFT'
 import { getAuctions } from './database/Auction'
 import { addDraft, getDraft } from './database/Draft'
-import {  getNFTs } from './database/NFT'
+import { getNFTs } from './database/NFT'
 import { addNFTToWishlist, addUser, getUser, removeNFTFromWishlist } from './database/User'
 import { User } from './models/User'
 import { Auction } from './models/Auction'
@@ -19,18 +19,18 @@ export const login = async (ethAddress: string): Promise<User> => {
   return getUser(ethAddress)
 }
 
-interface AddToWishList {
+interface Wishlisting {
   userId: string
   nftId: number
 }
 
-export const addToWishlist = async ({ userId, nftId }: AddToWishList) => {
+export const addToWishlist = async ({ userId, nftId }: Wishlisting) => {
   const addedToWishlist = await addNFTToWishlist(userId, nftId)
   const user = await login(userId)
   return { addedToWishlist, user }
 }
 
-export const removeFromWishlist = async ({ userId, nftId }: AddToWishList) => {
+export const removeFromWishlist = async ({ userId, nftId }: Wishlisting) => {
   const removedWishlistItem = await removeNFTFromWishlist(userId, nftId)
   const user = await login(userId)
   return { removedWishlistItem, user }
@@ -60,13 +60,11 @@ export const getUserNFTs = async ({ chainId, owner }: GetUserNFTs) => {
   let userAuctions: Auction[] = []
   for (var i in userNFTs) {
     const auctions = await getAuctions({ nft: userNFTs[i].id })
-    if (auctions.length>0) userAuctions.push(auctions[0])
+    if (auctions.length > 0) userAuctions.push(auctions[0])
 
     if (auctions.filter(auction => auction.status === 'open').length > 0) onMarket.push(userNFTs[i])
     else offMarket.push(userNFTs[i])
   }
-  console.log('auctions', userAuctions,onMarket)
-  return { onMarket, offMarket,userAuctions}
+  console.log('auctions', userAuctions, onMarket)
+  return { onMarket, offMarket, userAuctions }
 }
-
-

@@ -20,12 +20,8 @@ const Marketplace: React.FC = () => {
       <Route path="/marketplace/nfts" component={NFTs} />
       <Route path="/marketplace/nft/:nft/:auction" component={Nftproduct} />
       <Route path="/marketplace/buyorbid" component={NFTConfirm} />
-
       <Route path="/marketplace/wishList" component={WishList} />
-
-
     </MarketplaceWrapper>
-
   )
 }
 
