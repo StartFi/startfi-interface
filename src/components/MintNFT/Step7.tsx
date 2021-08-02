@@ -81,6 +81,11 @@ const [usdAmount, setUsdAmount] = useState(0);
       })
     }
   }, [expire, setAuction])
+/**
+ * @dev this function call the hook to get the token price in usd ( 1 SFTI =?? usd)
+ * @notice we should only multiply the token price returned from the exchange by the amount the user entered but since the token is not listed yet, we are applying like a workaround though using ether simulation 
+ * @param amount 
+ */
 const setSTFI_USDPrice= async(amount)=>{
   const STFIinWie=5;
  const value= await ethPrice();
@@ -89,6 +94,12 @@ const setSTFI_USDPrice= async(amount)=>{
    console.log('amount*wiePrice*STFIinWie',amount*wiePrice*STFIinWie);
    
   setUsdAmount(Math.round(amount*wiePrice*STFIinWie));}
+/**
+ * @dev this function call the hook to get the token price ( 1 USD =?? SFT)
+ * @notice we should only multiply the token price returned from the exchange by the amount the user entered but since the token is not listed yet, we are applying like a workaround though using ether simulation 
+
+ * @param amount 
+ */
 const setUSD_STFIPrice= async(amount)=>{
   const STFIinWie=5;
  const value= await usdPrice();
