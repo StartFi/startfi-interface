@@ -16,7 +16,8 @@ import {
   setBidOrBuy,
   saveNFT,
   saveAuction,
-  clearNFT
+  clearNFT,
+  delistAuctionAction
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
@@ -25,6 +26,9 @@ import { useApproveToken } from 'hooks/startfiToken'
 
 import { useWeb3React } from '@web3-react/core'
 import { useMint } from 'hooks/startfiPaymentNft'
+import { getAuction } from 'services/database/Auction'
+import { getNFT } from 'services/database/NFT'
+
 import { useMarketplaceListener, useNftPaymentEventListener } from 'hooks/startfiEventListener'
 import { address as STARTFI_MARKETPLACE_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
 
@@ -165,7 +169,6 @@ export const useAddToMarketplace = (): (() => void) => {
   const auction = useAuction()
 
   const createAuction = useCreateAuction()
-
   useMarketplaceListener(nft)
   return useCallback(async () => {
     if (seller && chainId && auction && nft) {
@@ -188,7 +191,7 @@ export const useAddToMarketplace = (): (() => void) => {
         auction.isForBid,
         auction.listingPrice as number,
         auction.expireTimestamp
-      )
+      )    
     } else if (!seller || !chainId) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
     else if (!auction) popup({ success: false, message: 'noAuction' })
@@ -259,4 +262,33 @@ export const useClearMarketplacePopup = (): (() => void) => {
   return useCallback(() => {
     dispatch(clearMarketplacePopup())
   }, [dispatch])
+}
+
+export const useDelistAuction = (): ((auctionId: string) => void) => {
+  const dispatch = useDispatch()
+  const owner = useUserAddress()
+  const popup = usePopup()
+  return useCallback(
+    async (auctionId: string) => {
+      //get auction and nft data replace with nft and auction retrieved from blockchain
+      const auction = await getAuction(auctionId)
+      const nft = await getNFT(auction.nft)
+      //validation
+      if (
+        owner &&
+        owner === nft.owner &&
+        auction.status === 'open' &&
+        auction.bids.length === 0 &&
+        auction.expireTimestamp > new Date().valueOf()
+      )
+        dispatch(delistAuctionAction(auctionId))
+      //displaying error
+      else if (!owner || owner !== nft.owner) popup({ success: false, message: 'notOwner' })
+      else if (auction.status !== 'open') popup({ success: false, message: 'auctionNotOpened' })
+      else if (auction.bids.length !== 0) popup({ success: false, message: 'auctionHasBids' })
+      else if (auction.expireTimestamp <= new Date().valueOf()) popup({ success: false, message: 'auctionExpired' })
+      else popup({ success: false, message: 'unknownReason' })
+    },
+    [dispatch]
+  )
 }

@@ -48,7 +48,6 @@ export const getMarketplace = async (query?: NFTQUERY) => {
 
   var onMarket: AuctionNFT[] = []
   auctions.forEach((rawAuction: any) => {
-  
     const auction = rawAuction
     const nft = nfts.filter((nft: NFT) => nft.id === auction.nft)[0]
 
@@ -148,4 +147,10 @@ export const placeBid = async ({ auctionId, bid }: PlaceBid) => {
   const bidAddedToAuction = await addBidToAuction(auctionId, bid.id)
   const status = checkSuccess({ bidAdded, bidAddedToAuction })
   return { status, bidAdded, bidAddedToAuction }
+}
+
+export const delistAuction = async (id: string) => {
+  const editedAuction = await editAuction({ id, status: 'closed' })
+  const status = checkSuccess({ editedAuction })
+  return { status, editedAuction }
 }
