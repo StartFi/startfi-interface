@@ -30,31 +30,23 @@ export interface NFTQUERY {
   newPage?: number
   lastAuction?: any
 }
-
 export const getMarketplace = async (query?: NFTQUERY) => {
   const t0 = performance.now()
   if (!query) query = {}
   const { search, category, sort, lastAuction } = query
-  var chainId
-  if (!query.chainId) chainId = DEFAULT_CHAIN_ID
-  else chainId = query.chainId
-  const nftsQuery: NFTQUERY = { chainId }
+  const nftsQuery: NFTQUERY = {}
   if (search) nftsQuery.name = search
   if (category && category !== 'all') nftsQuery.category = category
   const auctionSort = sort ? sort : DEFAULT_SORT
   const nfts = await getNFTs(nftsQuery)
-
-  const auctions = await getAuctionsPaginated({ status: 'open', chainId }, sortHelper(auctionSort), lastAuction)
-
+  const auctions = await getAuctionsPaginated({ status: 'open' }, sortHelper(auctionSort), lastAuction)
   var onMarket: AuctionNFT[] = []
   auctions.forEach((rawAuction: any) => {
-    const auction = rawAuction
+    const auction = rawAuction.data()
     const nft = nfts.filter((nft: NFT) => nft.id === auction.nft)[0]
-
-    if (nft) {
-      if (nft.issueDate) delete nft.issueDate
-      if (auction.purchaseTime) delete auction.purchaseTime
-
+    if (nft){
+    if(nft.issueDate) delete nft.issueDate;
+    if(auction.purchaseTime) delete auction.purchaseTime;
       onMarket.push({
         nft,
         auction,
@@ -68,12 +60,56 @@ export const getMarketplace = async (query?: NFTQUERY) => {
   const id = onMarket[onMarket.length - 1]?.auction.id
   var newLastAuction = null
   auctions.forEach((a: any) => {
-    if (a.id === id) newLastAuction = a
+    if (a.data().id === id) newLastAuction = a
   })
   const t1 = performance.now()
   const loadtime = Math.round(t1 - t0)
   return { onMarket, loadtime, newLastAuction, auctions, ...query }
 }
+
+// export const getMarketplace = async (query?: NFTQUERY) => {
+//   const t0 = performance.now()
+//   if (!query) query = {}
+//   const { search, category, sort, lastAuction } = query
+//   var chainId
+//   if (!query.chainId) chainId = DEFAULT_CHAIN_ID
+//   else chainId = query.chainId
+//   const nftsQuery: NFTQUERY = { chainId }
+//   if (search) nftsQuery.name = search
+//   if (category && category !== 'all') nftsQuery.category = category
+//   const auctionSort = sort ? sort : DEFAULT_SORT
+//   const nfts = await getNFTs(nftsQuery)
+
+//   const auctions = await getAuctionsPaginated({ status: 'open', chainId }, sortHelper(auctionSort), lastAuction)
+
+//   var onMarket: AuctionNFT[] = []
+//   auctions.forEach((rawAuction: any) => {
+//     const auction = rawAuction
+//     const nft = nfts.filter((nft: NFT) => nft.id === auction.nft)[0]
+
+//     if (nft) {
+//       if (nft.issueDate) delete nft.issueDate
+//       if (auction.purchaseTime) delete auction.purchaseTime
+
+//       onMarket.push({
+//         nft,
+//         auction,
+//         ownername: '',
+//         issuername: '',
+//         ownerdetails: ''
+//       })
+//     }
+//   })
+//   onMarket = onMarket.slice(0, NFTS_PER_PAGE)
+//   const id = onMarket[onMarket.length - 1]?.auction.id
+//   var newLastAuction = null
+//   auctions.forEach((a: any) => {
+//     if (a.id === id) newLastAuction = a
+//   })
+//   const t1 = performance.now()
+//   const loadtime = Math.round(t1 - t0)
+//   return { onMarket, loadtime, newLastAuction, auctions, ...query }
+// }
 
 interface GetAuctionNFT {
   nftId: string
