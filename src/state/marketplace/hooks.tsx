@@ -22,10 +22,13 @@ import {
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
-import { useCreateAuction } from 'hooks/startfiMarketPlace'
+import { useBuyNow, useCreateAuction } from 'hooks/startfiMarketPlace'
+import { useApproveToken } from 'hooks/startfiToken'
+
 import { useWeb3React } from '@web3-react/core'
 import { useMint } from 'hooks/startfiPaymentNft'
 import { useMarketplaceListener, useNftPaymentEventListener } from 'hooks/startfiEventListener'
+import { address as STARTFI_MARKETPLACE_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
 
 import { useClearIPFSProgress } from 'state/ipfs/hooks'
 let generateId =
@@ -234,15 +237,20 @@ export const usePlaceBid = (): (() => void) => {
 
 export const useBuyNFT = (): (() => void) => {
   const dispatch = useDispatch()
+  const buyNow = useBuyNow()
   const buyer = useUserAddress()
   const auctionNFT = useAuctionNFT()
   const soldPrice = useBidOrBuyValue()
+  const approveToken = useApproveToken()
   const popup = usePopup()
-  return useCallback(() => {
+  return useCallback(async () => {
     if (buyer && auctionNFT) {
       const nftId = auctionNFT.nft.id
       const auctionId = auctionNFT.auction.id
       const owner = auctionNFT.nft.owner
+      await approveToken(STARTFI_MARKETPLACE_ADDRESS, soldPrice)
+      await buyNow(auctionNFT.nft.listingId, soldPrice)
+
       dispatch(buyNFTAction({ nftId, auctionId, owner, buyer, soldPrice }))
     } else popup({ success: false, message: 'connectWallet' })
   }, [soldPrice, auctionNFT, buyer, popup, dispatch])
