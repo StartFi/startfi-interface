@@ -106,6 +106,7 @@ export default createReducer(initialState, builder =>
       state.auctionNFT = action.payload.auctionNFT
     })
     .addCase(getAuctionNFTAction.rejected, (state, action) => {
+     
       state.popup = { success: false, message: action.error.message || 'Error occured while getting NFT' }
     })
     .addCase(placeBidAction.pending, (state, action) => {
