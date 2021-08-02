@@ -63,8 +63,10 @@ const NFTs: React.FC = () => {
           {onMarket.length} {t('NFTSResults')} {loadtime}ms
         </Results>
         <DropDownSort
+         showLabel={true}
           boxshadow
           name="sort"
+          selectIcon={true}
           options={SORTBY}
           value={sort}
           onChange={(e: any) => {
@@ -73,12 +75,12 @@ const NFTs: React.FC = () => {
           }}
         />
       </Header>
-      <LinkBase to="/inventory/home/draft" onClick={useGetInventory()}>
+      {/* <LinkBase to="/inventory/home/draft" onClick={useGetInventory()}>
         Inventory
-      </LinkBase>
+      </LinkBase> */}
 
-      &nbsp;&nbsp;
-      <LinkBase to="/marketplace/wishList">Wish List</LinkBase>
+      {/* &nbsp;&nbsp; */}
+      {/* <LinkBase to="/marketplace/wishList">Wish List</LinkBase> */}
       {onMarket.length > 0 ? (
         <NFTList>
           {onMarket.map((auctionNFT: AuctionNFT) => (
