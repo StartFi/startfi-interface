@@ -23,13 +23,9 @@ let generateId =
     .substr(2)
 
 export const mintNFT = async (nft: NFT) => {
-  const hash = ''
-
-  nft.id = generateId
-  nft.txtHash = hash
   const nftAdded = await addNFT(nft)
   const status = checkSuccess({ nftAdded })
-  return { status, nftAdded, hash }
+  return { status, nftAdded }
 }
 
 export const addToMarketplace = async (auction: Auction) => {
@@ -68,7 +64,6 @@ export const getMarketplace = async (query?: NFTQUERY) => {
 
   var onMarket: AuctionNFT[] = []
   auctions.forEach((rawAuction: any) => {
-    console.log(rawAuction)
     const auction = rawAuction
     const nft = nfts.filter((nft: NFT) => nft.id === auction.nft)[0]
 
@@ -97,7 +92,7 @@ export const getMarketplace = async (query?: NFTQUERY) => {
 }
 
 interface GetAuctionNFT {
-  nftId: number
+  nftId: string
   auctionId: string
   AuctionNFT?: AuctionNFT
 }
@@ -105,6 +100,7 @@ interface GetAuctionNFT {
 export const getAuctionNFT = async ({ nftId, auctionId, AuctionNFT }: GetAuctionNFT) => {
   var nft: NFT
   var auction: Auction
+
   if (AuctionNFT) {
     nft = AuctionNFT.nft
     auction = AuctionNFT.auction
@@ -112,11 +108,12 @@ export const getAuctionNFT = async ({ nftId, auctionId, AuctionNFT }: GetAuction
     nft = await getNFT(nftId)
     auction = await getAuction(auctionId)
   }
-  const owner = await getUser(nft.owner)
-  const issuer = await getUser(nft.issuer)
-  const ownerdetails = owner.details || 'No details'
-  const ownername = owner.name || 'No name'
-  const issuername = issuer.name || 'No name'
+
+  const owner = nft.owner?await getUser(nft.owner):null
+  const issuer = nft.issuer?await getUser(nft.issuer):null
+  const ownerdetails = owner?.details || 'No details'
+  const ownername = owner?.name || 'No name'
+  const issuername = issuer?.name || 'No name'
   const auctionNFT: AuctionNFT = {
     nft,
     auction,

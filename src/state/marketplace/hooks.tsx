@@ -155,7 +155,7 @@ export const useMintNFT = (): (() => void) => {
       } else {
         await mint(account as string, nft.dataHash, nft.royalty, 100)
       }
-      dispatch(mintNFTAction({ ...nft, issueDate: new Date(), owner: account, chainId }))
+      // dispatch(mintNFTAction({ ...nft, issueDate: new Date(), owner: account, chainId }))
     } else if (!account || !chainId) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
   }, [nft, account, chainId, popup, dispatch, mint])
@@ -173,7 +173,6 @@ export const useAddToMarketplace = (): (() => void) => {
   /** */
   return useCallback(async () => {
     if (seller && chainId && auction && nft) {
-      console.log(auction, 'auction')
       const tokenId = nft?.tokenId ? nft?.tokenId : 1
 
       await createAuction(
@@ -184,15 +183,14 @@ export const useAddToMarketplace = (): (() => void) => {
         auction.isForBid,
         auction.listingPrice as number,
         auction.expireTimestamp
-      )
-      dispatch(addToMarketplaceAction({ ...auction, nft: nft.id, seller, listTime: new Date(), chainId }))
+      )    
     } else if (!seller || !chainId) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
     else if (!auction) popup({ success: false, message: 'noAuction' })
   }, [auction, nft, seller, chainId, popup, dispatch])
 }
 
-export const useGetAuctionNFT = (nftId: number, auctionId: string) => {
+export const useGetAuctionNFT = (nftId: string, auctionId: string) => {
   const dispatch = useDispatch()
   const nfts = useMarketplace()
   useEffect(() => {
