@@ -1,7 +1,7 @@
 import MintNFT from 'components/MintNFT'
 import AddedToMarketplace from 'components/MintNFT/AddedToMarketplace'
 import Header from 'components/MintNFT/Header'
-import NFTSummary from 'components/MintNFT/NFTSummary'
+import NFTSummary from 'components/NFTSummary'
 import React from 'react'
 import { Route } from 'react-router-dom'
 import styled from 'styled-components'

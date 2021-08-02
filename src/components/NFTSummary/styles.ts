@@ -1,6 +1,6 @@
 import { Modal } from 'components/WaitingConfirmation/styles'
 import styled from 'styled-components'
-import { Row } from './../../theme'
+import { Row } from '../../theme'
 
 export const Container = styled.div``
 
@@ -78,7 +78,7 @@ export const Name = styled.div`
   margin-bottom: 1vh;
 `
 
-export const Footer = styled(Row)`
+export const FooterContainer = styled(Row)`
   margin-top: 4vh;
   justify-content: unset;
 `
@@ -126,4 +126,26 @@ export const Royalty = styled(Row)`
 
 export const Approx = styled.div`
   margin: 0 1vw;
+`
+
+export const Box = styled.div`
+  position: relative;
+  box-sizing: border-box;
+  margin-bottom: 2vh;
+  padding: 3vh 2vw;
+  background: #fbfbfb;
+  border: 1px solid #f4f4f4;
+  border-radius: 6px;
+`
+
+export const Edit = styled(Row)`
+  position: absolute;
+  top: 2vh;
+  right: 1vw;
+  background: #ffffff;
+  box-shadow: 3px 5px 10px 2px rgba(0, 0, 0, 0.11);
+  border-radius: 8px;
+  justify-content: space-evenly;
+  width: 8vw;
+  padding: 1.5vh 0;
 `

@@ -1,4 +1,4 @@
-import { Dictionary } from './../../constants'
+import { Dictionary } from '../../constants'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import Icon from './../../assets/icons/edit.svg'

@@ -20,6 +20,20 @@ export const sortHelper = (sort: string): Dictionary => {
   }
 }
 
+export const openFor = (timestamp: number): string => {
+  const date = new Date(timestamp)
+  const now = new Date()
+  const years = date.getFullYear() - now.getFullYear()
+  const months = date.getMonth() - now.getMonth()
+  const days = date.getDate() - now.getDate()
+  var string = ''
+  if (days) string += days + ' days'
+  if (months) string += months + ' months'
+  if (years) string += years + ' years'
+  if (days < 0) return '0 days'
+  return string
+}
+
 export const isSuccess = (input: string): boolean => input === 'success'
 
 export const checkSuccess = (object: any): string =>
