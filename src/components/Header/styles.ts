@@ -6,9 +6,12 @@ export const Img = styled.img`
 `
 
 export const Search = styled(Row)`
-  align-items: stretch;
-  height: 6vh;
-`
+   display: flex;
+   justify-content: start;
+   align-items: stretch;
+   height: 6vh;
+   width: 50%;
+ `
 
 export const TabsCategory = styled(Row)`
   /* margin-top: 1vh; */

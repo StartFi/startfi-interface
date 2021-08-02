@@ -3,6 +3,7 @@ import { Row } from 'theme/components'
 
 interface WidthProps {
   readonly width: string
+  readonly itemsWidth?: string
 }
 
 export const Container = styled.div<WidthProps>`
@@ -11,9 +12,10 @@ export const Container = styled.div<WidthProps>`
   z-index: 9999;
 `
 
-export const LabelRow = styled(Row)`
+export const LabelRow = styled(Row)<{ border?: string }>`
   min-height: 6vh;
   border: 1px solid #dddddd;
+  border: ${({ border }) => border};
   box-sizing: border-box;
   border-radius: 8px;
   padding: 2vh 2vw;
@@ -30,6 +32,7 @@ export const Items = styled.div<WidthProps>`
   border-radius: 8px;
   position: absolute;
   width: ${props => props.width};
+  width: ${props => props.itemsWidth};
 `
 
 interface ItemProps {

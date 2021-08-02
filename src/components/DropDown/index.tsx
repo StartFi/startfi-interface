@@ -47,7 +47,6 @@ export const DropDown: React.FC<DropDownProps> = ({
       <Container width={width || '10vh'}>
         <LabelRow border={border} onBlur={() => setOpen(false)} onClick={() => setOpen(!open)} >
         {showLabel?(<Label>{t(selected) || t(label)}</Label>):null}
-
          {selectIcon? (<img src={SelectIcon} alt="Select" />):null}
         </LabelRow >
         {open && (
