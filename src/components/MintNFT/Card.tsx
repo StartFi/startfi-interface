@@ -220,8 +220,10 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft }) => {
       {Step()}
       <Footer>
         <ButtonMintBack onClick={() => (step > 1 && step < 4 ? setStep(step - 1) : null)}>{t('back')}</ButtonMintBack>
-        <ButtonDraft
+        <ButtonDraft  
           onClick={() =>
+            step < 2 
+            ? popup({ success: false, message :t('cannotAddDraft') }): 
             step < 4
               ? nft.category || nft.dataHash || nft.name || nft.description
                 ? saveDraft(nft)

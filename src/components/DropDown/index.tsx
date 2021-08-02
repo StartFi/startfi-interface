@@ -12,10 +12,19 @@ interface DropDownProps {
   width?: string
   label?: string
   boxshadow?: boolean
+  selectIcon?:boolean
+  itemsWidth?:string
+  border?:string
+  showLabel?:boolean;
+
 }
 
 interface WidthProps {
   readonly width: string
+  itemsWidth?:string
+
+
+
 }
 
 const Container = styled.div<WidthProps>`
@@ -24,13 +33,15 @@ const Container = styled.div<WidthProps>`
   z-index: 9999;
 `
 
-const LabelRow = styled(Row)`
+const LabelRow = styled(Row)<{border?:string}>`
   min-height: 6vh;
   border: 1px solid #dddddd;
+  border: ${({ border }) => border};
   box-sizing: border-box;
   border-radius: 8px;
   padding: 2vh 2vw;
   cursor: pointer;
+  /* width:3%; */
 `
 
 const Label = styled.div`
@@ -43,6 +54,9 @@ const Items = styled.div<WidthProps>`
   border-radius: 8px;
   position: absolute;
   width: ${props => props.width};
+  width: ${props => props.itemsWidth};
+
+
 `
 
 interface ItemProps {
@@ -81,7 +95,11 @@ export const DropDown: React.FunctionComponent<DropDownProps> = ({
   onChange,
   width,
   label,
-  boxshadow
+  selectIcon,
+  boxshadow,
+  itemsWidth,
+  border,
+  showLabel
 }: DropDownProps) => {
   const { t } = useTranslation()
 
@@ -97,12 +115,13 @@ export const DropDown: React.FunctionComponent<DropDownProps> = ({
     <React.Fragment>
       {open && <BlurLayer onClick={() => setOpen(false)} />}
       <Container width={width || '10vh'}>
-        <LabelRow onBlur={() => setOpen(false)} onClick={() => setOpen(!open)}>
-          <Label>{t(selected) || t(label)}</Label>
-          <img src={SelectIcon} alt="Select" />
-        </LabelRow>
+        <LabelRow border={border} onBlur={() => setOpen(false)} onClick={() => setOpen(!open)} >
+        {showLabel?(<Label>{t(selected) || t(label)}</Label>):null}
+
+         {selectIcon? (<img src={SelectIcon} alt="Select" />):null}
+        </LabelRow >
         {open && (
-          <Items width={width || '10vh'}>
+          <Items width={width || '10vh'} itemsWidth={itemsWidth}>
             {options.map((o, i) => (
               <Item
                 selected={selected === o}
@@ -128,4 +147,4 @@ export const DropDownSort = (props: DropDownProps) => <DropDown {...props} width
 
 export const DropDownDateType = (props: DropDownProps) => <DropDown {...props} width="8vw" />
 
-export const DropDownCategory = (props: DropDownProps) => <DropDown {...props} width="30vw" />
+export const DropDownCategory = (props: DropDownProps) => <DropDown {...props} />
