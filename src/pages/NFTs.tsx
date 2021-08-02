@@ -66,8 +66,10 @@ const NFTs: React.FC = () => {
           {onMarket.length} {t('NFTSResults')} {loadtime}ms
         </Results>
         <DropDownSort
+         showLabel={true}
           boxshadow
           name="sort"
+          selectIcon={true}
           options={SORTBY}
           value={sort}
           onChange={(e: any) => {

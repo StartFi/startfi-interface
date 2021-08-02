@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
-import { useDrafts, useOffMarket, useOnMarket } from 'state/user/hooks'
+import { useDrafts, useGetInventory, useOffMarket, useOnMarket } from 'state/user/hooks'
 import CardHeader, { InventoryOptions, InvParams } from './CardHeader'
 import { InventoryCard } from './InvHome.styles'
 import MiniCard from './MiniCard'
@@ -19,6 +19,10 @@ const InventoryHome = () => {
   const offMarketNFT: NFT[] | undefined = useOffMarket()
 
   const { id }: InvParams = useParams()
+  const getInventory=useGetInventory()
+  useEffect(()=>{
+    getInventory()
+  },[])
 
   useEffect(() => {
     if (id === 'offMarketPlace') {

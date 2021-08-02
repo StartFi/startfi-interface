@@ -11,6 +11,11 @@ interface DropDownProps {
   width?: string
   label?: string
   boxshadow?: boolean
+  selectIcon?:boolean
+  itemsWidth?:string
+  border?:string
+  showLabel?:boolean;
+
 }
 
 export const DropDown: React.FC<DropDownProps> = ({
@@ -20,7 +25,11 @@ export const DropDown: React.FC<DropDownProps> = ({
   onChange,
   width,
   label,
-  boxshadow
+  selectIcon,
+  boxshadow,
+  itemsWidth,
+  border,
+  showLabel
 }: DropDownProps) => {
   const { t } = useTranslation()
 
@@ -36,12 +45,13 @@ export const DropDown: React.FC<DropDownProps> = ({
     <React.Fragment>
       {open && <BlurLayer onClick={() => setOpen(false)} />}
       <Container width={width || '10vh'}>
-        <LabelRow onBlur={() => setOpen(false)} onClick={() => setOpen(!open)}>
-          <Label>{t(selected) || t(label)}</Label>
-          <img src={SelectIcon} alt="Select" />
-        </LabelRow>
+        <LabelRow border={border} onBlur={() => setOpen(false)} onClick={() => setOpen(!open)} >
+        {showLabel?(<Label>{t(selected) || t(label)}</Label>):null}
+
+         {selectIcon? (<img src={SelectIcon} alt="Select" />):null}
+        </LabelRow >
         {open && (
-          <Items width={width || '10vh'}>
+          <Items width={width || '10vh'} itemsWidth={itemsWidth}>
             {options.map((o, i) => (
               <Item
                 selected={selected === o}
@@ -67,4 +77,4 @@ export const DropDownSort = (props: DropDownProps) => <DropDown {...props} width
 
 export const DropDownDateType = (props: DropDownProps) => <DropDown {...props} width="8vw" />
 
-export const DropDownCategory = (props: DropDownProps) => <DropDown {...props} width="30vw" />
+export const DropDownCategory = (props: DropDownProps) => <DropDown {...props} />

@@ -14,12 +14,12 @@ import Music from '../../assets/icons/musictab.svg'
 import Images from '../../assets/icons/imagestab.svg'
 import { useGetNFTs } from 'state/marketplace/hooks'
 import { useHistory } from 'react-router'
-import { CATEGORIES, DEFAULT_SORT, Dictionary } from '../../constants'
+import { CATEGORIES, DEFAULT_SORT, Dictionary, HEADER_DROPDOWN } from '../../constants'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import { useWalletAddress } from 'state/user/hooks'
 import { useLocationSearch } from 'hooks'
 import { ConnectWallet, FirstRow, Img, Search, Tab, TabsCategory } from './styles'
+import { DropDownCategory } from 'components/DropDown'
 
 const Categories = ['all', ...CATEGORIES]
 
@@ -50,20 +50,43 @@ const MarketplaceHeader: React.FC = () => {
 
   useEffect(() => getNFTs({ category, search, sort: DEFAULT_SORT }), [category, search, getNFTs])
 
+  const getDropDownChanges = (e: any) => {
+    switch (e.target.value) {
+      case 'WishList':
+        history.push('/marketplace/wishList')
+        break
+      case 'Inventory':
+        history.push('/inventory/home/draft')
+        break
+      case 'Dashboard':
+        history.push('')
+        break
+    }
+  }
   return (
     <React.Fragment>
       <FirstRow>
-        <img src={Logo} alt="Logo" onClick={() => history.push('/')} />
+        <img src={Logo} alt='Logo' onClick={() => history.push('/')} />
         <Search>
           <InputSearch placeholder={t('searchNFTS')} value={input} onChange={(e: any) => setInput(e.target.value)} />
           <ButtonSearch onClick={() => history.push(`/marketplace/nfts/?category=${category}&search=${input}`)}>
             {t('search')}
           </ButtonSearch>
         </Search>
-        <Link to="" onClick={() => history.push('whitelist')}>
-          <img src={Heart} alt="Whitelist" />
-        </Link>
-        <LinkCreateNFT to="/mint/steps">{t('mintNFT')}</LinkCreateNFT>
+
+        <LinkCreateNFT to='/mint/steps'>{t('mintNFT')}</LinkCreateNFT>
+
+        <DropDownCategory
+          options={HEADER_DROPDOWN}
+          name={'drop'}
+          value={''}
+          itemsWidth='180px'
+          border='none'
+          selectIcon={true}
+          onChange={(e: any) => {
+            getDropDownChanges(e)
+          }}
+        ></DropDownCategory>
         <Wallet />
       </FirstRow>
 
