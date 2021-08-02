@@ -53,15 +53,18 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
           />
         </Label>
         <DropDownCategory
-          name="category"
+          name='category'
           label={t('chooseCategory')}
           options={CATEGORIES}
           value={state.category}
           onChange={handleChange}
+          width='30vw'
+          showLabel={true}
+          selectIcon={true}
         />
       </DropDown>
       <InputFile
-        name="dataHash"
+        name='dataHash'
         label={t('uploadNFT')}
         value={state.dataHash}
         onChange={(e: any) => {
