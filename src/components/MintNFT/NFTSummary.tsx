@@ -85,9 +85,7 @@ const NFTSummary: React.FC = () => {
   useEffect(() => {
     const getAllowed = async () => {
       const allowedHexString = await getAllowedStfi(account as string, STARTFI_NFT_PAYMENT_ADDRESS)
-      console.log({ allowedHexString })
       const allowed = allowedHexString?.length < 5 ? parseInt(allowedHexString, 16) : allowedHexString
-      setAllowedStfi(allowed)
     }
     account && getAllowed()
   }, [account, getAllowedStfi])
@@ -98,9 +96,8 @@ const NFTSummary: React.FC = () => {
   useEffect(() => {
     const getNFTAllowed = async () => {
       // const approver = await getApproverAddress(nft?.tokenId  as number)
-      console.log(nft, 'nft')
       // temporary until tokeinId issue is fixed
-      const tokenId = nft?.tokenId ? nft?.tokenId : 1
+      const tokenId = nft?.tokenId
       const owner = await getApproverAddress(tokenId)
       if (owner == account) {
         const approver = await getApproverAddress(tokenId)

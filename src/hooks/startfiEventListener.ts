@@ -23,10 +23,8 @@ export const useNftPaymentEventListener = () => {
     if (transferRoyalEvent) {
       library?.on(transferRoyalEvent as EventFilter, result => {
         const eventLogs = nftRoyalty?.interface.parseLog({ data: result.data, topics: result.topics }).args
-        console.log({ eventName: 'transferRoyaltyEvent', eventValue: parseBigNumber(eventLogs) })
         const id = parseInt(parseBigNumber(eventLogs)[2], 16).toString() //tokenId
         if (account && nft) {
-          console.log('mintedNFT', id)
           const mintedNFT = { ...nft, id, issueDate: new Date(), owner: account as string, chainId: 3, tokenId: id }
           dispatch(mintNFTAction(mintedNFT))
           dispatch(saveNFT({ nft: mintedNFT }))
@@ -115,10 +113,6 @@ export const useMarketplaceListener = (nft?: any) => {
         const eventLogs = marketplaceContract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
         const eventValue = parseBigNumber(args)
-        console.log('------------------------------------------')
-        console.log('eventValue', { eventValue })
-        console.log('eventValue', eventValue[0])
-        console.log('NFT id', nft)
         editNFT({ id: nft.id, listingId: eventValue[0] }).then(result => {
           console.log('Update result', result)
         })
