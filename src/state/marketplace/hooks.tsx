@@ -185,7 +185,7 @@ export const useAddToMarketplace = (): (() => void) => {
   }, [auction, nft, seller, chainId, createAuction, popup, dispatch])
 }
 
-export const useGetAuctionNFT = (nftId: number, auctionId: string): void => {
+export const useGetAuctionNFT = (nftId: string, auctionId: string): void => {
   const dispatch = useDispatch()
   const nfts = useMarketplace()
   useEffect(() => {
