@@ -59,8 +59,9 @@ import { useHistory } from 'react-router-dom'
 import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../../constants/abis/StartFiNFTPayment.json'
 import { useApproveToken, useTokenBalance } from 'hooks/startfiToken'
 import { useWeb3React } from '@web3-react/core'
- import { address as STARTFI_Marketplace_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
- import { useApproveNft,useGetApproverAddress ,useGetNftOwner} from 'hooks/startfiNft'
+import { address as STARTFI_Marketplace_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
+import { useApproveNft, useGetApproverAddress, useGetNftOwner } from 'hooks/startfiNft'
+import { useMarketplaceListener } from 'hooks/startfiEventListener'
 
 const NFTSummary: React.FC = () => {
   const history = useHistory()
@@ -75,49 +76,41 @@ const NFTSummary: React.FC = () => {
   const [stfiBalance, setStfiBalance] = useState(0)
   useEffect(() => {
     const getBalance = async () => {
-     
       const balanceHexString = await getStfiBalance(account as string)
       const balance = balanceHexString?.length < 5 ? parseInt(balanceHexString, 16) : Number(balanceHexString)
       setStfiBalance(balance)
-    
-     
     }
     account && getBalance()
   }, [account, history, getStfiBalance])
   useEffect(() => {
-
     const getAllowed = async () => {
       const allowedHexString = await getAllowedStfi(account as string, STARTFI_NFT_PAYMENT_ADDRESS)
-      console.log({ allowedHexString })
       const allowed = allowedHexString?.length < 5 ? parseInt(allowedHexString, 16) : allowedHexString
-      setAllowedStfi(allowed)
     }
     account && getAllowed()
   }, [account, getAllowedStfi])
-  const [allowed, setAllowed] = useState<boolean>( false)
-  const getApproverAddress= useGetApproverAddress()
-  const getOwnerAddress= useGetNftOwner()
-  const approve= useApproveNft()
+  const [allowed, setAllowed] = useState<boolean>(false)
+  const getApproverAddress = useGetApproverAddress()
+  const getOwnerAddress = useGetNftOwner()
+  const approve = useApproveNft()
   useEffect(() => {
     const getNFTAllowed = async () => {
       // const approver = await getApproverAddress(nft?.tokenId  as number)
-       console.log(nft,'nft');
-       // temporary until tokeinId issue is fixed
-       const tokenId=nft?.tokenId?nft?.tokenId:1;
+      // temporary until tokeinId issue is fixed
+      const tokenId = nft?.tokenId
       const owner = await getApproverAddress(tokenId)
-      if(owner==account){
+      if (owner == account) {
         const approver = await getApproverAddress(tokenId)
-        console.log(approver,'approver');
-  
-        if(approver== STARTFI_Marketplace_ADDRESS as any )
-        
-        {setAllowed(true)}
+        console.log(approver, 'approver')
+
+        if (approver == (STARTFI_Marketplace_ADDRESS as any)) {
+          setAllowed(true)
+        }
       }
-     
     }
-   account && getNFTAllowed()
+    account && getNFTAllowed()
   }, [allowed])
- 
+
   const nft = useNFT()
 
   const auction = useAuction()
@@ -141,7 +134,7 @@ const NFTSummary: React.FC = () => {
 
   if (!nft) return null
 
-  const next =async () => {
+  const next = async () => {
     switch (step) {
       case 4:
         if (agree) {
@@ -159,16 +152,16 @@ const NFTSummary: React.FC = () => {
       case 6:
         return mint()
       case 8:
-        return !allowed? setStep(step + 1):setStep(step + 2)
+        return !allowed ? setStep(step + 1) : setStep(step + 2)
       case 9:
-        if(!allowed){
-          const tokenId=nft?.tokenId?nft?.tokenId:1;
+        if (!allowed) {
+          const tokenId = nft?.tokenId ? nft?.tokenId : 1
 
-            await approve(STARTFI_Marketplace_ADDRESS,tokenId);
+          await approve(STARTFI_Marketplace_ADDRESS, tokenId)
           // await approve(STARTFI_Marketplace_ADDRESS,nft.id);
-           }
-           return setStep(step + 1)
-        
+        }
+        return setStep(step + 1)
+
       case 10:
         return addToMarketplace()
       default:
@@ -234,37 +227,36 @@ const NFTSummary: React.FC = () => {
   )
   const ZeroBalance = () => (
     <React.Fragment>
-           <FirstBoxFields>
-            <Field>
-            <Label>{t('zeroBalance')}</Label>
-             </Field>
-            <Line />
-            <Field>
-              <FirstBoxLabel>{t('zeroBalanceMessage')}</FirstBoxLabel>
-             </Field>
-            <Field>
-               <LinkStyledButton onClick={()=>console.log("redirect me to where I can buy some")
-              }>{t('getBalance')}</LinkStyledButton>
-
-                                      </Field>
-          </FirstBoxFields>
-       </React.Fragment>
+      <FirstBoxFields>
+        <Field>
+          <Label>{t('zeroBalance')}</Label>
+        </Field>
+        <Line />
+        <Field>
+          <FirstBoxLabel>{t('zeroBalanceMessage')}</FirstBoxLabel>
+        </Field>
+        <Field>
+          <LinkStyledButton onClick={() => console.log('redirect me to where I can buy some')}>
+            {t('getBalance')}
+          </LinkStyledButton>
+        </Field>
+      </FirstBoxFields>
+    </React.Fragment>
   )
   const ConnectWallet = () => (
     <React.Fragment>
-           <FirstBoxFields>
-        
-            <Field>
-              <FirstBoxLabel>{t('marketplaceConnectWallet')}</FirstBoxLabel>
-             </Field>
-             <Line />
-               <Field>
-               <LinkStyledButton onClick={()=>console.log("show whatever to user to connect to his wallet")
-              }>{t('connectWallet')}</LinkStyledButton>
-
-                                      </Field>
-          </FirstBoxFields>
-       </React.Fragment>
+      <FirstBoxFields>
+        <Field>
+          <FirstBoxLabel>{t('marketplaceConnectWallet')}</FirstBoxLabel>
+        </Field>
+        <Line />
+        <Field>
+          <LinkStyledButton onClick={() => console.log('show whatever to user to connect to his wallet')}>
+            {t('connectWallet')}
+          </LinkStyledButton>
+        </Field>
+      </FirstBoxFields>
+    </React.Fragment>
   )
 
   const openFor = (timestamp: number) => {
@@ -356,7 +348,7 @@ const NFTSummary: React.FC = () => {
     </Footer>
   )
 
- const PaymentCard = () => (
+  const PaymentCard = () => (
     <Right minHeight="60vh">
       <Bold>{t('confirmPayment')}</Bold>
       <SpaceBetween>
@@ -373,16 +365,30 @@ const NFTSummary: React.FC = () => {
         <SemiBold>{t('totalPaymentAmount')}</SemiBold>
         <Amount amount={fees} />
       </SpaceBetween>
-      {account ?(stfiBalance>0?( <div>
-        <Info>
-        {t(step === 5 || step === 9 ? 'payFromYourAccount' : 'paymentAllowedDigitize')}
-        {(step === 5 || step === 9) && <Question text="payFromAccountDesc" />}
-      </Info>
-      <ButtonBlack onClick={next}>
-        {t((step === 5 && allowedStfi == 0)|| (step === 9 && !allowed ) ? 'allowPayment':step === 6 ? 'saveToBlockchain' :   'addToMarketplace'  )}{' '}
-      </ButtonBlack>
-      </div>):(<ZeroBalance/>)):(<ConnectWallet/>)}
-    
+      {account ? (
+        stfiBalance > 0 ? (
+          <div>
+            <Info>
+              {t(step === 5 || step === 9 ? 'payFromYourAccount' : 'paymentAllowedDigitize')}
+              {(step === 5 || step === 9) && <Question text="payFromAccountDesc" />}
+            </Info>
+            <ButtonBlack onClick={next}>
+              {t(
+                (step === 5 && allowedStfi == 0) || (step === 9 && !allowed)
+                  ? 'allowPayment'
+                  : step === 6
+                  ? 'saveToBlockchain'
+                  : 'addToMarketplace'
+              )}{' '}
+            </ButtonBlack>
+          </div>
+        ) : (
+          <ZeroBalance />
+        )
+      ) : (
+        <ConnectWallet />
+      )}
+
       <ButtonTransparentBorder
         onClick={() => (nft.step < 4 ? saveDraft(nft) : history.push('/inventory/off-market/' + nft.id))}
       >
