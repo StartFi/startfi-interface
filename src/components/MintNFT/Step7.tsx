@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { Row } from 'theme/components'
 import { Auction } from 'services/models/Auction'
-import {useEthPrice,useUSDPrice,convertToWie} from '../../services/Blockchain/cryptoPrice'
+import {useEthPrice,useUSDPrice} from '../../services/Blockchain/cryptoPrice'
 
 const Price = styled(Row)`
   width: 70%;
@@ -57,7 +57,7 @@ const [usdAmount, setUsdAmount] = useState(0);
   const handleExpire = (e: any) => setExpire({ ...expire, [e.target.name]: e.target.value })
   const usdPrice = useUSDPrice();
   const ethPrice = useEthPrice();
-
+ 
   useEffect(() => {
     if (expire.openFor && expire.type) {
       const date = new Date()
@@ -84,19 +84,23 @@ const [usdAmount, setUsdAmount] = useState(0);
 const setSTFI_USDPrice= async(amount)=>{
   const STFIinWie=5;
  const value= await ethPrice();
- const wei=1/10**18;
+ const wei=8000;
    const wiePrice=value/wei;
    console.log('amount*wiePrice*STFIinWie',amount*wiePrice*STFIinWie);
    
-  setUsdAmount(amount*wiePrice*STFIinWie);}
+  setUsdAmount(Math.round(amount*wiePrice*STFIinWie));}
 const setUSD_STFIPrice= async(amount)=>{
   const STFIinWie=5;
  const value= await usdPrice();
-  const wiePrice=value*amount; 
-  const result=convertToWie(wiePrice/STFIinWie);
-  console.log(result,'result');
+ 
+ const wei=8000;
+ const wiePrice=value*amount*wei; 
   
-   setAuction({ ...auction, isForSale: true, listingPrice: wiePrice/STFIinWie })
+  // const result=convertToWie(wiePrice/STFIinWie);
+  // console.log(result,'result');
+  console.log(wiePrice,'wiePrice');
+  
+   setAuction({ ...auction, isForSale: true, listingPrice: Math.round(wiePrice/STFIinWie) })
   setUsdAmount(amount);
 
 }
