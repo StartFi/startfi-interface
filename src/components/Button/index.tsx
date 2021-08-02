@@ -185,8 +185,8 @@ export const ButtonOutlined = styled(Base)`
   background-color: transparent;
   color: ${({ theme }) => theme.text1};
   width: 189px;
- height: 50px;
- border-radius:8px;
+  height: 50px;
+  border-radius: 8px;
 
   &:focus {
     box-shadow: 0 0 0 1px ${({ theme }) => theme.bg4};
@@ -359,7 +359,7 @@ export const ButtonBase = styled.button`
   border-radius: 4px;
   border: none;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.135216);
-  cursor:pointer;
+  cursor: pointer;
 `
 
 export const ButtonPrimary = styled(ButtonBase)`
@@ -410,13 +410,13 @@ export const ButtonMintBack = styled(ButtonDraft)`
   color: #3f3f3f;
   margin-right: 0;
 `
-export const RemoveWishList = styled(ButtonMint )`
+export const RemoveWishList = styled(ButtonMint)`
   background-color: white;
   width: 15vw;
   color: #000000;
   font-weight: 500;
   font-size: 16px;
-  cursor:pointer;
+  cursor: pointer;
   border: none;
   box-shadow: none;
   &:hover {
@@ -424,18 +424,18 @@ export const RemoveWishList = styled(ButtonMint )`
     color: #000000;
   }
   &:disabled {
-    opacity:50%;
+    opacity: 50%;
     cursor: auto;
   }
 `
-export const DelistButton=styled.button`
-width: 168px;
-height: 50px;
-border: none;
-background: #FBFBFB;
-border-radius: 4px;
-color:#858585;
-font-family: Roboto;
-font-size: 1rem;
-cursor:pointer;
+export const DelistButton = styled.button`
+  width: 168px;
+  height: 50px;
+  border: none;
+  background: #fbfbfb;
+  border-radius: 4px;
+  color: #858585;
+  font-family: Roboto;
+  font-size: 1rem;
+  cursor: pointer;
 `

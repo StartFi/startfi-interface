@@ -1,4 +1,4 @@
-import { Modal } from 'components/WaitingConfirmation'
+import { Modal } from 'components/WaitingConfirmation/styles'
 import styled from 'styled-components'
 import { Row } from './../../theme'
 
@@ -69,11 +69,6 @@ export const Img = styled.img`
   height: 99px;
   border-radius: 4px;
 `
-
-// export const Footer = styled(Row)`
-//   margin-top: 4vh;
-//   justify-content: flex-end;
-// `
 
 export const Prepare = styled.div`
   margin: 2vh 0;

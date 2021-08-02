@@ -1,33 +1,9 @@
 import React, { useState } from 'react'
 import { StepProps } from '../../constants'
-import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { Row } from 'theme'
 import { Input } from 'components/Input'
 import Label from 'components/Input/Label'
-
-const Margin = styled(Row)`
-  margin: 6vh 0 3vh 0;
-`
-
-const Radios = styled(Row)`
-  width: 35%;
-`
-
-const Royalty = styled(Row)`
-  width: 16vw;
-  margin: 3vh 0;
-`
-
-const RadioLabel = styled.span`
-  font-weight: bold;
-  font-size: 14px;
-  margin-left: 1vw;
-`
-
-const Text = styled.div`
-  margin-left: 2vw;
-`
+import { Margin, Radios, RadioLabel, Royalty, Text } from './styles'
 
 const Step3: React.FC<StepProps> = ({ state, handleChange }: StepProps) => {
   const { t } = useTranslation()
@@ -39,16 +15,19 @@ const Step3: React.FC<StepProps> = ({ state, handleChange }: StepProps) => {
       <Margin>
         <Label text="royaltyShare" question="royaltyShareDescription" />
       </Margin>
+
       <Radios>
         <div>
           <input type="radio" checked={royalty} onChange={() => setRoyalty(true)} />
           <RadioLabel>{t('allowed')}</RadioLabel>
         </div>
+
         <div>
           <input type="radio" checked={!royalty} onChange={() => setRoyalty(false)} />
           <RadioLabel>{t('notAllowed')}</RadioLabel>
         </div>
       </Radios>
+
       {royalty && (
         <Royalty>
           <Input

@@ -1,5 +1,5 @@
 import { ImageIcon, WhishList } from 'components/NFTcard/nftcard.styles'
-import { ButtonTransparentBorder } from 'components/NFTConfirm'
+import { ButtonTransparentBorder } from 'components/NFTConfirm/styles'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWishlist } from 'state/user/hooks'

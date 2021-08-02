@@ -1,4 +1,4 @@
-import { Bold } from 'components/NFTConfirm'
+import { Bold } from 'components/NFTConfirm/styles'
 import { useSTFItoUSD } from 'hooks'
 import React from 'react'
 

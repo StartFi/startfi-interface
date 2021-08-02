@@ -2,41 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { DropDownDateType } from 'components/DropDown'
 import { Input, InputNumberButtons } from 'components/Input'
 import PriceArrows from './../../assets/icons/pricearrows.svg'
-import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { Row } from 'theme/components'
 import { Auction } from 'services/models/Auction'
-
-const Price = styled(Row)`
-  width: 70%;
-  margin: 5vh 0;
-`
-
-const QualifyAmount = styled(Price)`
-  width: 80%;
-`
-
-const BidOffers = styled.div`
-  margin-bottom: 2vh;
-`
-
-const Radios = styled(Row)`
-  width: 35%;
-`
-
-const MinBid = styled.div`
-  margin: 3vh 0;
-`
-
-const OpenFor = styled(Row)`
-  width: 60%;
-`
-
-const RadioLabel = styled.span`
-  font-weight: bold;
-  font-size: 14px;
-  margin-left: 1vw;
-`
+import { BidOffers, MinBid, OpenFor, Price, QualifyAmount, RadioLabel, Radios } from './styles'
 
 interface Step7Props {
   auction: Auction
