@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Wallet from 'components/Wallet'
 import Logo from '../../assets/icons/logo.svg'
 import Heart from '../../assets/icons/heart.svg'
+import DownArrow from '../../assets/images/arrowDown.png'
 import { ButtonSearch } from 'components/Button'
 import { LinkCreateNFT } from 'components/Link'
 import { InputSearch } from 'components/Input'
@@ -19,8 +20,9 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Row } from 'theme/components'
-import { useWalletAddress } from 'state/user/hooks'
+import { useGetInventory, useWalletAddress } from 'state/user/hooks'
 import { useSearch } from 'hooks'
+import { DropDownCategory } from 'components/DropDown'
 
 const Categories = ['all', ...CATEGORIES]
 const TabIcons: Dictionary = {
@@ -38,12 +40,15 @@ const Img = styled.img`
 `
 
 const Search = styled(Row)`
-  align-items: stretch;
+
   display: flex;
   justify-content:start;
+    align-items: stretch;
+
   height: 6vh;
-  position:relative;
-  left:44px;
+  width:50%;
+  /* position:relative;
+  left:44px; */
 
 `
 
@@ -81,6 +86,8 @@ const ConnectWallet = styled.div`
   margin-bottom: 2vh;
 `
 
+const DropDownList=['WishList','Inventory','Dashboard','Stake Tokens','Get STFI Token','My Account']
+
 const NFTsHeader: React.FC = () => {
   const address = useWalletAddress()
 
@@ -91,6 +98,7 @@ const NFTsHeader: React.FC = () => {
   const [input, setInput] = useState('')
 
   const getNFTs = useGetNFTs()
+  const getInventory=useGetInventory()
 
   let { category, search } = useSearch()
 
@@ -98,6 +106,21 @@ const NFTsHeader: React.FC = () => {
 
   useEffect(() => getNFTs({ category, search, sort: DEFAULT_SORT }), [category, search, getNFTs])
 
+
+  const getDropDownChanges=(e:any)=>{
+
+    switch(e.target.value){
+      case 'WishList':
+        history.push("/marketplace/wishList")
+        break;
+        case 'Inventory':
+          getInventory()
+          history.push("/inventory/home/draft")
+          break;
+    }
+    // if(e.target.value==='WishList') history.push("/marketplace/wishList")
+
+  }
   return (
     <React.Fragment>
       <FirstRow>
@@ -108,10 +131,22 @@ const NFTsHeader: React.FC = () => {
             {t('search')}
           </ButtonSearch>
         </Search>
-        <Link to="" onClick={() => history.push('whitelist')}>
-          <img src={Heart} alt="Whitelist" />
-        </Link>
+
         <LinkCreateNFT to="/mint/steps">{t('mintNFT')}</LinkCreateNFT>
+       
+        <DropDownCategory
+        options={DropDownList}
+        name={'drop'}
+        value={''}
+        itemsWidth="180px"
+        border='none'
+        selectIcon={true}
+        onChange={(e:any)=>{
+          getDropDownChanges(e)
+
+        }}
+
+        ></DropDownCategory>
         <Wallet />
       </FirstRow>
       {!address && <ConnectWallet>{t('marketplaceConnectWallet')}</ConnectWallet>}

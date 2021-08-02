@@ -58,6 +58,10 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
           options={CATEGORIES}
           value={state.category}
           onChange={handleChange}
+          width='30vw'
+          showLabel={true}
+
+
         />
       </DropDown>
       <InputFile
