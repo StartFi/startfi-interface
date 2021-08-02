@@ -1,5 +1,5 @@
 import { useDigitizingFees } from 'hooks'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { NFTSummaryProps } from '.'
 import { Info } from './styles'
@@ -14,20 +14,16 @@ import {
 } from 'components/NFTConfirm/styles'
 import Question from 'components/Input/Question'
 import { useHistory } from 'react-router-dom'
-import { useSaveDraft } from 'state/user/hooks'
+import { useSaveDraft, useUser } from 'state/user/hooks'
 import ZeroBalance from './ZeroBalance'
 import ConnectWallet from './ConnectWallet'
 import Amount from './Amount'
-import { useWeb3React } from '@web3-react/core'
-import { useTokenBalance } from 'hooks/startfiToken'
 import { useNFT } from 'state/marketplace/hooks'
+import { useSTFIBalance } from 'hooks/useSTFIBalance'
+import { useAllowedSTFI } from 'hooks/useAllowedSTFI'
+import { useAllowed } from 'hooks/useAllowed'
 
-interface PaymentCardProps extends NFTSummaryProps {
-  allowedStfi: number
-  allowed: boolean
-}
-
-const PaymentCard: React.FC<PaymentCardProps> = ({ step, next, allowedStfi, allowed }) => {
+const PaymentCard: React.FC<NFTSummaryProps> = ({ step, next }) => {
   const { t } = useTranslation()
 
   const history = useHistory()
@@ -38,20 +34,13 @@ const PaymentCard: React.FC<PaymentCardProps> = ({ step, next, allowedStfi, allo
 
   const nft = useNFT()
 
-  const { account } = useWeb3React()
+  const user = useUser()
 
-  const getStfiBalance = useTokenBalance()
+  const STFIBalance = useSTFIBalance()
 
-  const [stfiBalance, setStfiBalance] = useState<number>(0)
+  const allowedStfi = useAllowedSTFI()
 
-  useEffect(() => {
-    const getBalance = async () => {
-      const balanceHexString = await getStfiBalance(account as string)
-      const balance = balanceHexString?.length < 5 ? parseInt(balanceHexString, 16) : Number(balanceHexString)
-      setStfiBalance(balance)
-    }
-    account && getBalance()
-  }, [account, getStfiBalance])
+  const allowed = useAllowed()
 
   if (!nft) return null
 
@@ -65,15 +54,15 @@ const PaymentCard: React.FC<PaymentCardProps> = ({ step, next, allowedStfi, allo
       <Border />
       <SpaceBetween>
         <SemiBold>{t('yourBalance')}</SemiBold>
-        <Amount amount={stfiBalance} />
+        <Amount amount={STFIBalance} />
       </SpaceBetween>
       <Border />
       <SpaceBetween>
         <SemiBold>{t('totalPaymentAmount')}</SemiBold>
         <Amount amount={fees} />
       </SpaceBetween>
-      {account ? (
-        stfiBalance > 0 ? (
+      {user ? (
+        STFIBalance > 0 ? (
           <div>
             <Info>
               {t(step === 5 || step === 9 ? 'payFromYourAccount' : 'paymentAllowedDigitize')}
