@@ -1,19 +1,22 @@
 import { Divider } from 'components/InMarketAsset/InMarket.styles'
-import React from 'react'
+import React, { useState } from 'react'
 import { NFT } from 'services/models/NFT'
 // import { useTranslation } from 'react-i18next'
 import {
-  PaymentModal,
+  DelistModal,
   Container,
   Shadow,
   DelistCardHeader,
   DelistingDuration,
   CounterSegment,
   CounterContainer,
-  CheckContainer
+  CheckContainer,
+  DelistButton,
+  ButtonContainer
 } from './DelistCard.style'
 import Text from '../Text'
 import { useCountDownTimer } from 'hooks/countDownTimer'
+
 
 interface PaymentCardProps {
   isOpen: boolean
@@ -23,7 +26,12 @@ interface PaymentCardProps {
 
 const DelistCard: React.FC<PaymentCardProps> = ({ isOpen, close, nft }) => {
   const timeLeft = useCountDownTimer(1628267099000)
+  const [disabled, setDisabled] = useState<boolean>(true)
   const timerComponents: any = []
+
+  const handelCheckBoxChanges = e => {
+    setDisabled(!e.target.checked)
+  }
 
   Object.keys(timeLeft).forEach(interval => {
     if (!timeLeft[interval]) {
@@ -37,7 +45,7 @@ const DelistCard: React.FC<PaymentCardProps> = ({ isOpen, close, nft }) => {
     if (interval !== 'S') {
       timerComponents.push(
         <div>
-          <Divider  left='40%' top="60%" width='40.5%' backgroundColor='#E2E2E2'></Divider>
+          <Divider left='40%' top='60%' width='40.5%' backgroundColor='#E2E2E2'></Divider>
           <CounterSegment>
             <p>{timeLeft[interval]}</p>
             <p>{modifiedInterval}</p>
@@ -51,7 +59,7 @@ const DelistCard: React.FC<PaymentCardProps> = ({ isOpen, close, nft }) => {
   return (
     <React.Fragment>
       <Shadow onClick={close} />
-      <PaymentModal>
+      <DelistModal>
         <Container minHeight='70vh'>
           <DelistCardHeader>
             <Text fontFamily='Roboto' fontSize='1.2rem' color='#000000' font-weight='500' margin='5px 0px 15px 0px'>
@@ -59,7 +67,14 @@ const DelistCard: React.FC<PaymentCardProps> = ({ isOpen, close, nft }) => {
             </Text>
             <Divider left='-7.8%' width='115.5%' backgroundColor='#D1D1D1'></Divider>
           </DelistCardHeader>
-          <Text fontFamily='Roboto' fontSize='0.875rem' color='#444444' font-weight='400' textAlign="justify" textJustify="auto">
+          <Text
+            fontFamily='Roboto'
+            fontSize='0.875rem'
+            color='#444444'
+            font-weight='400'
+            textAlign='justify'
+            textJustify='auto'
+          >
             Delisting the asset from the market place right now Will cost you stakes if it’s didn’t Exceed the minimaum
             duration of delisting
           </Text>
@@ -71,22 +86,29 @@ const DelistCard: React.FC<PaymentCardProps> = ({ isOpen, close, nft }) => {
               fontSize='0.875rem'
               color='#000000'
               font-weight='500'
-
-              textAlign="justify" textJustify="auto"
+              textAlign='justify'
+              textJustify='auto'
             >
               minimum delisting duration Left
             </Text>
           </DelistingDuration>
           <CounterContainer>{timerComponents}</CounterContainer>
           <CheckContainer>
-            <input type="checkbox"/>
-            <Text fontFamily='Roboto' fontSize='10.5px' color='#000000' font-weight='500' >
-            I’m sure about delisting my asset which will charge me stake fees
+            <input type='checkbox' onChange={handelCheckBoxChanges} />
+            <Text fontFamily='Roboto' fontSize='10.5px' color='#000000' font-weight='500'>
+              I’m sure about delisting my asset which will charge me stake fees
             </Text>
-
           </CheckContainer>
+          <ButtonContainer>
+            <DelistButton disabled={disabled} backgroundColor='#000000' color='#ffffff'>
+              Delist Now
+            </DelistButton>
+            <DelistButton onClick={close} backgroundColor='transparent' border='1px solid #000000'>
+              Cancel Delisting
+            </DelistButton>
+          </ButtonContainer>
         </Container>
-      </PaymentModal>
+      </DelistModal>
     </React.Fragment>
   )
 }

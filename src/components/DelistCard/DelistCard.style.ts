@@ -1,12 +1,13 @@
 import { Modal } from 'components/WaitingConfirmation'
-import styled from 'styled-components'
-import { Row } from 'theme'
 
-interface PaymentCardProps {
+import styled from 'styled-components'
+
+
+interface DelistCardProps {
   readonly minHeight: string
 }
 
-export const Container = styled.div<PaymentCardProps>`
+export const Container = styled.div<DelistCardProps>`
   width: 30vw;
   padding: 3vh 2vw;
   background-color: #fafafa;
@@ -17,30 +18,8 @@ export const Container = styled.div<PaymentCardProps>`
   /* justify-content: space-between; */
 `
 
-export const SpaceBetween = styled(Row)`
-  justify-content: space-between;
-  align-items: baseline;
-`
-export const Bold = styled.div`
-  font-weight: bold;
-  letter-spacing: 0.04em;
-  font-size: 1.125rem;
-  color: #000000;
-  text-transform: capitalize;
-`
 
-export const SemiBold = styled.div`
-  font-weight: 500;
-  font-size: 1rem;
-  letter-spacing: 0.04em;
-  color: #000000;
-  text-transform: capitalize;
-`
 
-export const Border = styled.div`
-  border-bottom: 1px solid #eeeeee;
-  width: 100%;
-`
 export const Shadow = styled.div`
   position: fixed;
   top: 0;
@@ -50,14 +29,14 @@ export const Shadow = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 10;
 `
-export const PaymentModal = styled(Modal)`
+export const DelistModal = styled(Modal)`
   background: #fafafa;
   border: 1px solid #d8d8d8;
 `
-export const Info = styled.div`
-  line-height: 28px;
-  letter-spacing: 0.04em;
-`
+// export const Info = styled.div`
+//   line-height: 28px;
+//   letter-spacing: 0.04em;
+// `
 
 export const DelistCardHeader = styled.div`
   /* height:76.4px; */
@@ -99,12 +78,34 @@ export const CheckContainer = styled.div`
   & input {
     margin-right: 8px;
     &:checked {
-      background: #000000;
-      box-shadow: 0 0 0 3px #000000;
+      background-color: #000000;
+
     }
   }
-  /* & input:checked {
-    box-shadow: 0 0 0 3px lime;
-    background: red;
-  } */
+`
+export const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+  margin-top: 20px;
+  & :first-child {
+    margin-bottom: 20px;
+  }
+`
+export const DelistButton = styled('button')<{ backgroundColor?: string; color?: string; border?: string }>`
+  cursor: pointer;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 4px;
+  height: 50px;
+
+  background-color: ${({ backgroundColor }) => backgroundColor};
+  color: ${({ color }) => color};
+  border: ${({ border }) => border};
+  &:disabled{
+    background-color:#c2c2c2;
+    /* cursor:none; */
+    /* opacity:50%; */
+
+  }
 `
