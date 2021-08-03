@@ -166,7 +166,7 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft }) => {
       case 7:
         return <Step7 auction={auction} setAuction={setAuction} />
       default:
-        return null
+        return
     }
   }
 
@@ -193,11 +193,11 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft }) => {
       {Step()}
       <Footer>
         <ButtonMintBack onClick={() => (step > 1 && step < 4 ? setStep(step - 1) : null)}>{t('back')}</ButtonMintBack>
-        <ButtonDraft  
+        <ButtonDraft
           onClick={() =>
-            step < 2 
-            ? popup({ success: false, message :t('cannotAddDraft') }): 
-            step < 4
+            step < 2
+              ? popup({ success: false, message: t('cannotAddDraft') })
+              : step < 4
               ? nft.category || nft.dataHash || nft.name || nft.description
                 ? saveDraft(nft)
                 : popup({ success: false, message: 'noEnteredData' })

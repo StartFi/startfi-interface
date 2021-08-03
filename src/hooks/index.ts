@@ -32,7 +32,7 @@ export const useSTFItoUSD = (amount: number): number => {
 }
 
 export const useDigitizingFees = (): number => {
-  const fees = 0.5
+  const fees = 5
   return fees
 }
 

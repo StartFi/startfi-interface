@@ -55,7 +55,7 @@ const AuctionBoxes: React.FC<NFTSummaryProps> = ({ step }) => {
         <Line />
         <Field>
           <Label>{t('contractAddressAttribute')}</Label>
-          <Data></Data>
+          <Data>{auction.contractAddress}</Data>
         </Field>
       </EditableBox>
     </React.Fragment>

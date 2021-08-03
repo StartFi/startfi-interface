@@ -7,14 +7,12 @@ export const useAllowedSTFI = (): number => {
   const address = useUserAddress()
   const getAllowedSTFI = useGetAllowance()
   const [allowed, setAllowed] = useState<number>(0)
-  useEffect(
-    () =>
-      address
-        ? getAllowedSTFI(address, STARTFI_NFT_PAYMENT_ADDRESS).then(allowedHexString =>
-            setAllowed(allowedHexString?.length < 5 ? parseInt(allowedHexString, 16) : allowedHexString)
-          )
-        : null,
-    [address, getAllowedSTFI]
-  )
+  useEffect(() => {
+    if (address)
+      getAllowedSTFI(address, STARTFI_NFT_PAYMENT_ADDRESS).then(allowedHexString =>
+        setAllowed(allowedHexString?.length < 5 ? parseInt(allowedHexString, 16) : allowedHexString)
+      )
+    return () => {}
+  }, [address, getAllowedSTFI])
   return allowed
 }

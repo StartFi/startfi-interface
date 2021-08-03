@@ -2,11 +2,10 @@ import { useDigitizingFees } from 'hooks'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { NFTSummaryProps } from '.'
-import { Info } from './styles'
+import { ButtonPaymentBlack, Info, MarginLeft } from './styles'
 import {
   Bold,
   Border,
-  ButtonBlack,
   ButtonTransparentBorder,
   Right,
   SemiBold,
@@ -20,10 +19,10 @@ import ConnectWallet from './ConnectWallet'
 import Amount from './Amount'
 import { useNFT } from 'state/marketplace/hooks'
 import { useSTFIBalance } from 'hooks/useSTFIBalance'
-import { useAllowedSTFI } from 'hooks/useAllowedSTFI'
-import { useAllowed } from 'hooks/useAllowed'
+import Loading from './../../assets/icons/buttonloader.svg'
+import { LoadingIcon } from 'components/WaitingConfirmation/styles'
 
-const PaymentCard: React.FC<NFTSummaryProps> = ({ step, next }) => {
+const PaymentCard: React.FC<NFTSummaryProps> = ({ step, next, loader }) => {
   const { t } = useTranslation()
 
   const history = useHistory()
@@ -38,11 +37,17 @@ const PaymentCard: React.FC<NFTSummaryProps> = ({ step, next }) => {
 
   const STFIBalance = useSTFIBalance()
 
-  const allowedStfi = useAllowedSTFI()
-
-  const allowed = useAllowed()
-
   if (!nft) return null
+
+  const blackButtonText = (): string => {
+    switch (step) {
+      case 5: return 'allowPayment'
+      case 6: return 'saveToBlockchain'
+      case 9: return 'allowPayment'
+      case 10: return 'addToMarketplace'
+      default: return 'error'
+    }
+  }
 
   return (
     <Right minHeight="60vh">
@@ -68,15 +73,10 @@ const PaymentCard: React.FC<NFTSummaryProps> = ({ step, next }) => {
               {t(step === 5 || step === 9 ? 'payFromYourAccount' : 'paymentAllowedDigitize')}
               {(step === 5 || step === 9) && <Question text="payFromAccountDesc" />}
             </Info>
-            <ButtonBlack onClick={next}>
-              {t(
-                (step === 5 && allowedStfi === 0) || (step === 9 && !allowed)
-                  ? 'allowPayment'
-                  : step === 6
-                  ? 'saveToBlockchain'
-                  : 'addToMarketplace'
-              )}{' '}
-            </ButtonBlack>
+            <ButtonPaymentBlack disabled={loader} onClick={next}>
+              {t(blackButtonText())}
+              {loader && <MarginLeft><LoadingIcon src={Loading} alt="Loading" /></MarginLeft>}
+            </ButtonPaymentBlack>
           </div>
         ) : (
           <ZeroBalance />

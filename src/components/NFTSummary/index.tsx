@@ -20,6 +20,7 @@ import { address as STARTFI_Marketplace_ADDRESS } from '../../constants/abis/Sta
 
 export interface NFTSummaryProps {
   step: number
+  loader?: boolean
   next?: () => void
 }
 
@@ -40,42 +41,44 @@ const NFTSummary: React.FC = () => {
 
   const addToMarketplace = useAddToMarketplace()
 
-  const [agree, setAgree] = useState<boolean>(false)
-
   const minted = useMinted()
 
   const fees = useDigitizingFees()
 
-  const allowedStfi = useAllowedSTFI()
+  const allowedSTFI = useAllowedSTFI()
 
   const allowed = useAllowed()
 
+  const [agree, setAgree] = useState<boolean>(false)
+
+  const [loader, setLoader] = useState<boolean>(false)
+
   if (!nft) return null
 
-  const next = async () => {
+  const next = () => {
     switch (step) {
       case 4:
-        if (agree) {
-          if (allowedStfi) {
-            setStep(step + 2)
-          } else {
-            setStep(step + 1)
-          }
-        }
-        return null
+          return agree ? setStep(allowedSTFI ? 6 : 5) : null
       case 5:
-        await approveToken(STARTFI_NFT_PAYMENT_ADDRESS, fees)
-        return setStep(step + 1)
+          setLoader(true)
+          approveToken(STARTFI_NFT_PAYMENT_ADDRESS, fees).then(() => {
+            setStep(6)
+            setLoader(false)    
+          })
+        break; 
       case 6:
         return mint()
       case 8:
-        return !allowed ? setStep(step + 1) : setStep(step + 2)
+        return setStep(allowed ? 10 : 9)
       case 9:
         if (!allowed) {
-          const tokenId = nft?.tokenId ? nft?.tokenId : 1
-          await approve(STARTFI_Marketplace_ADDRESS, tokenId)
+          setLoader(true)
+          approve(STARTFI_Marketplace_ADDRESS, nft.id).then(()=>{
+            setStep(10)
+            setLoader(false)    
+          })
         }
-        return setStep(step + 1)
+        break;
       case 10:
         return addToMarketplace()
       default:
@@ -88,7 +91,7 @@ const NFTSummary: React.FC = () => {
         <React.Fragment>
           <WhiteShadow />
           <PaymentModal>
-            <PaymentCard step={step} next={next}/>
+            <PaymentCard step={step} next={next} loader={loader}/>
           </PaymentModal>
         </React.Fragment>
       )}
@@ -109,7 +112,7 @@ const NFTSummary: React.FC = () => {
           </Left>
           {(step === 5 || step === 6) && (
             <MarginLeft>
-            <PaymentCard step={step} next={next}/>
+            <PaymentCard step={step} next={next} loader={loader}/>
             </MarginLeft>
           )}
         </Columns>

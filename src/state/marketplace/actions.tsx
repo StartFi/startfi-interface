@@ -26,3 +26,5 @@ export const saveAuction = createAction<{ auction: Auction }>('marketplace/saveA
 export const clearNFT = createAction('marketplace/clearNFT')
 
 export const delistAuctionAction = createAsyncThunk('marketplace/delistAuctionAction', delistAuction)
+
+export const setWalletConfirmation = createAction('marketplace/setWalletConfirmation')

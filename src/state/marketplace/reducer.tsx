@@ -14,6 +14,7 @@ import {
   addToMarketplaceAction,
   clearNFT,
   delistAuctionAction,
+  setWalletConfirmation,
 } from './actions'
 import { NFT } from 'services/models/NFT'
 import { Auction } from 'services/models/Auction'
@@ -71,7 +72,6 @@ export default createReducer(initialState, builder =>
       state.popup = { success: false, message: action.error.message || 'Error occured while getting marketplace NFTs' }
     })
     .addCase(mintNFTAction.pending, (state, action) => {
-      state.walletConfirmation = 'Bidding'
       state.minted = false
     })
     .addCase(mintNFTAction.fulfilled, (state, action) => {
@@ -88,7 +88,6 @@ export default createReducer(initialState, builder =>
       state.popup = { success: false, message: action.error.message || 'Error occured while minting NFT' }
     })
     .addCase(addToMarketplaceAction.pending, (state, action) => {
-      state.walletConfirmation = 'Bidding'
     })
     .addCase(addToMarketplaceAction.fulfilled, (state, action) => {
       state.walletConfirmation = null
@@ -167,6 +166,9 @@ export default createReducer(initialState, builder =>
     })
     .addCase(delistAuctionAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while Delisting Auction' }
+    })
+    .addCase(setWalletConfirmation, (state, action) => {
+        state.walletConfirmation = 'Bidding'
     })
 )
 

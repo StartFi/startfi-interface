@@ -1,3 +1,4 @@
+import { ButtonBlack } from 'components/NFTConfirm/styles'
 import { Modal } from 'components/WaitingConfirmation/styles'
 import styled from 'styled-components'
 import { Row } from '../../theme'
@@ -148,4 +149,15 @@ export const Edit = styled(Row)`
   justify-content: space-evenly;
   width: 8vw;
   padding: 1.5vh 0;
+`
+
+export const ButtonPaymentBlack = styled(ButtonBlack)`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+`
+
+export const MarginLeft = styled.div`
+  margin-left: 2vw;
 `

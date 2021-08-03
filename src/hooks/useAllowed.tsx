@@ -17,6 +17,7 @@ export const useAllowed = (): boolean => {
           ? getApproverAddress(tokenId).then(approver => setAllowed(approver === (STARTFI_Marketplace_ADDRESS as any)))
           : null
       )
+      return () => {}
   }, [address, nft, getApproverAddress])
   return allowed
 }
