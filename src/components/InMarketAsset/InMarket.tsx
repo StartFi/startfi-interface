@@ -23,7 +23,7 @@ const InMarket = () => {
   const { id }: onMarketParams = useParams()
   const nft: NFT = useOnMarketItem(id)
   const auction: Auction = useAuctionItem(id)
-  const imgUrl = uriToHttp(`${nft.dataHash}`)[1]
+  const imgUrl = uriToHttp(`${nft?.dataHash}`)[1]
   const [tagsState, setTagsState] = useState(false)
   const [delistState, setDelistState] = useState(false)
   const [displayWarning, setDisplayWarning] = useState<string>('none')

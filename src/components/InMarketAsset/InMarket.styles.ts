@@ -15,7 +15,7 @@ export const Divider = styled('div') < { width?: string; left?: string ; backgro
   &:after {
     content: '';
     position: absolute;
-    top:${({ top }) => top};
+    margin-top:${({ top }) => top};
     height: 1px;
     width: ${({ width }) => width};
     left: ${({ left }) => left};

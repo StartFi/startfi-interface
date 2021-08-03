@@ -14,6 +14,8 @@ const Text = styled('p')<{
   spanWeight?: string
   textTransform?:string
   display?:string
+  textAlign?:string;
+  textJustify?:string;
 }>`
   font-family: ${({ fontFamily }) => fontFamily};
   font-weight: ${({ FontWeight }) => FontWeight};
@@ -25,6 +27,9 @@ const Text = styled('p')<{
   text-overflow: ${({ textOverflow }) => textOverflow};
   margin:${({ margin }) => margin};
   text-transform:${({ textTransform }) => textTransform};
+  text-align: ${({ textAlign}) => textAlign};
+  text-justify:${({ textJustify}) => textJustify};
+
   & span{
     margin-left:${({ marginLeft }) => marginLeft};
     font-weight: ${({ spanWeight }) => spanWeight};

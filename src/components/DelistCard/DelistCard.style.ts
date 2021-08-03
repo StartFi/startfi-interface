@@ -13,7 +13,7 @@ export const Container = styled.div<PaymentCardProps>`
   border-radius: 8px;
   min-height: ${({ minHeight }) => minHeight};
   display: flex;
-   flex-flow: column nowrap;
+  flex-flow: column nowrap;
   /* justify-content: space-between; */
 `
 
@@ -59,7 +59,52 @@ export const Info = styled.div`
   letter-spacing: 0.04em;
 `
 
-export const DelistCardHeader =styled.div`
-/* height:76.4px; */
-width:100%;
+export const DelistCardHeader = styled.div`
+  /* height:76.4px; */
+  width: 100%;
+`
+
+export const DelistingDuration = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
+export const CounterContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
+  & div {
+    &:not(:first-child) {
+      margin-left: 16px;
+    }
+  }
+`
+export const CounterSegment = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70px;
+  height: 122.23px;
+  background: #ffffff;
+  border: 1px solid #e2e2e2;
+  box-sizing: border-box;
+  border-radius: 4px;
+`
+
+export const CheckContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  margin-top: 22px;
+  & input {
+    margin-right: 8px;
+    &:checked {
+      background: #000000;
+      box-shadow: 0 0 0 3px #000000;
+    }
+  }
+  /* & input:checked {
+    box-shadow: 0 0 0 3px lime;
+    background: red;
+  } */
 `
