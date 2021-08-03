@@ -9,6 +9,7 @@ import transactions from './transactions/reducer'
 import multicall from './multicall/reducer'
 import ipfs from './ipfs/reducer'
 import bcEvent from './blockchainEvents/reducer'
+import { getUserNFTsAction } from './user/actions'
 
 const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists']
 
@@ -24,6 +25,7 @@ const store = configureStore({
   },
   middleware: [...getDefaultMiddleware({
     thunk: true, logger: false,serializableCheck: false
+
   }), save({ states: PERSISTED_KEYS })],
   preloadedState: load({ states: PERSISTED_KEYS })
 })
