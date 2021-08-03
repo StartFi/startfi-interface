@@ -2,7 +2,6 @@ import { Modal } from 'components/WaitingConfirmation'
 
 import styled from 'styled-components'
 
-
 interface DelistCardProps {
   readonly minHeight: string
 }
@@ -18,8 +17,6 @@ export const Container = styled.div<DelistCardProps>`
   /* justify-content: space-between; */
 `
 
-
-
 export const Shadow = styled.div`
   position: fixed;
   top: 0;
@@ -33,10 +30,7 @@ export const DelistModal = styled(Modal)`
   background: #fafafa;
   border: 1px solid #d8d8d8;
 `
-// export const Info = styled.div`
-//   line-height: 28px;
-//   letter-spacing: 0.04em;
-// `
+export const DelistMain = styled.div``
 
 export const DelistCardHeader = styled.div`
   /* height:76.4px; */
@@ -79,7 +73,6 @@ export const CheckContainer = styled.div`
     margin-right: 8px;
     &:checked {
       background-color: #000000;
-
     }
   }
 `
@@ -92,7 +85,16 @@ export const ButtonContainer = styled.div`
     margin-bottom: 20px;
   }
 `
-export const DelistButton = styled('button')<{ backgroundColor?: string; color?: string; border?: string }>`
+export const DelistButton = styled('button')<{
+  backgroundColor?: string;
+   color?: string;
+   border?: string;
+   padding?:string;
+   textDecoration?:string;
+   fontWeight?: string
+   fontSize?: string
+
+}>`
   cursor: pointer;
   box-sizing: border-box;
   border: none;
@@ -102,10 +104,37 @@ export const DelistButton = styled('button')<{ backgroundColor?: string; color?:
   background-color: ${({ backgroundColor }) => backgroundColor};
   color: ${({ color }) => color};
   border: ${({ border }) => border};
-  &:disabled{
-    background-color:#c2c2c2;
-    /* cursor:none; */
-    /* opacity:50%; */
-
+  padding:${({ padding }) => padding};
+  text-decoration:${({ textDecoration }) => textDecoration};
+  font-weight: ${({ fontWeight }) => fontWeight};
+  font-size: ${({ fontSize }) => fontSize};
+  &:disabled {
+    background-color: #c2c2c2;
   }
+`
+export const DelistSuccessContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  & img {
+    margin-top: 33.5px;
+  }
+  & div {
+    display: flex;
+    flex-direction: column;
+    margin-top:33px;
+    & div {
+      display: flex;
+      flex-direction: row;
+
+      margin-bottom:24px
+    }
+  }
+`
+export const SuccessImgContainer = styled.div`
+  /* display:flex;
+justify-content: center;
+align-items: center;
+margin-top:33.5px */
 `

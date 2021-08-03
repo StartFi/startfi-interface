@@ -36,7 +36,7 @@ const InMarket = () => {
     if (nft?.tags) {
       if (nft.tags.length > 0) setTagsState(true)
     }
-    if (delistState && auction.isForBid) {
+    if (delistState && auction?.isForBid) {
       setDisplayWarning('block')
       setDelistCardHeight('161px')
       setDelistContainerHeight('145px')
@@ -54,7 +54,7 @@ const InMarket = () => {
 
   return (
     <React.Fragment>
-      <DelistCard isOpen={openModal} close={closeCard} nft={nft}></DelistCard>
+      <DelistCard isOpen={openModal} close={closeCard} nft={nft} auction={auction}></DelistCard>
       <div>
         <Text
           fontFamily='Roboto'
@@ -69,7 +69,7 @@ const InMarket = () => {
         <InventoryCard borderRadius='8px' marginTop='54px'>
           <Row padding='20px' align='start'>
             <Text fontFamily='Roboto' FontWeight='500' fontSize='1rem' color='#000000' margin='0 0 3px 8px'>
-              {nft.name}
+              {nft?.name}
             </Text>
             {/* 1 */}
             <Card height='142px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB'>
@@ -79,7 +79,7 @@ const InMarket = () => {
                   <div>
                     <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='3.75rem'>
                       {t('category')}
-                      <span>{nft.category}</span>
+                      <span>{nft?.category}</span>
                     </Text>
                   </div>
 
@@ -100,7 +100,7 @@ const InMarket = () => {
                 <div>
                   <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='3.75rem'>
                     {t('asstName')}
-                    <span>{nft.name}</span>
+                    <span>{nft?.name}</span>
                   </Text>
                 </div>
                 <Divider width='95%'></Divider>
@@ -124,7 +124,7 @@ const InMarket = () => {
                 <div>
                   <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='4.0rem'>
                     {t('description')}
-                    <span>{nft.description}</span>
+                    <span>{nft?.description}</span>
                   </Text>
                 </div>
               </TextContainer>
@@ -135,19 +135,19 @@ const InMarket = () => {
               <TextContainer marginLeft='1.438rem' width='100%'>
                 <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='3.40rem'>
                   {t('IssueRoyaltyShare')}
-                  <span>{nft.royalty} % ~ ( 250 STFI / 25 USD )</span>
+                  <span>{nft?.royalty} % ~ ( 250 STFI / 25 USD )</span>
                 </Text>
               </TextContainer>
             </Card>
 
             {/* 4 */}
-            {auction.isForBid ? (
+            {auction?.isForBid ? (
               <Card height='229px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
                 <TextContainer marginLeft='1.438rem' width='100%'>
                   <div>
                     <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
                       {t('pricing')}
-                      <span>{auction.listingPrice} STFI ~ 253 USD</span>
+                      <span>{auction?.listingPrice} STFI ~ 253 USD</span>
                     </Text>
                   </div>
                   <Divider width='95%'></Divider>
@@ -181,7 +181,7 @@ const InMarket = () => {
                   <div>
                     <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
                       {t('pricing')}
-                      <span>{auction.listingPrice} STFI ~ 253 USD</span>
+                      <span>{auction?.listingPrice} STFI ~ 253 USD</span>
                     </Text>
                   </div>
                 </TextContainer>
@@ -194,7 +194,7 @@ const InMarket = () => {
                 <div>
                   <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
                     {t('tokenId')}
-                    <span>{nft.id}</span>
+                    <span>{nft?.id}</span>
                   </Text>
                 </div>
                 <Divider width='95%'></Divider>
