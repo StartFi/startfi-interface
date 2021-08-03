@@ -3,14 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { NFTSummaryProps } from '.'
 import { ButtonPaymentBlack, Info, MarginLeft } from './styles'
-import {
-  Bold,
-  Border,
-  ButtonTransparentBorder,
-  Right,
-  SemiBold,
-  SpaceBetween
-} from 'components/NFTConfirm/styles'
+import { Bold, Border, ButtonTransparentBorder, Right, SemiBold, SpaceBetween } from 'components/NFTConfirm/styles'
 import Question from 'components/Input/Question'
 import { useHistory } from 'react-router-dom'
 import { useSaveDraft, useUser } from 'state/user/hooks'
@@ -41,11 +34,16 @@ const PaymentCard: React.FC<NFTSummaryProps> = ({ step, next, loader }) => {
 
   const blackButtonText = (): string => {
     switch (step) {
-      case 5: return 'allowPayment'
-      case 6: return 'saveToBlockchain'
-      case 9: return 'allowPayment'
-      case 10: return 'addToMarketplace'
-      default: return 'error'
+      case 5:
+        return 'allowPayment'
+      case 6:
+        return 'saveToBlockchain'
+      case 9:
+        return 'allowPayment'
+      case 10:
+        return 'addToMarketplace'
+      default:
+        return 'error'
     }
   }
 
@@ -75,7 +73,11 @@ const PaymentCard: React.FC<NFTSummaryProps> = ({ step, next, loader }) => {
             </Info>
             <ButtonPaymentBlack disabled={loader} onClick={next}>
               {t(blackButtonText())}
-              {loader && <MarginLeft><LoadingIcon src={Loading} alt="Loading" /></MarginLeft>}
+              {loader && (
+                <MarginLeft>
+                  <LoadingIcon src={Loading} alt="Loading" />
+                </MarginLeft>
+              )}
             </ButtonPaymentBlack>
           </div>
         ) : (

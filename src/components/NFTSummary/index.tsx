@@ -58,14 +58,14 @@ const NFTSummary: React.FC = () => {
   const next = () => {
     switch (step) {
       case 4:
-          return agree ? setStep(allowedSTFI ? 6 : 5) : null
+        return agree ? setStep(allowedSTFI ? 6 : 5) : null
       case 5:
-          setLoader(true)
-          approveToken(STARTFI_NFT_PAYMENT_ADDRESS, fees).then(() => {
-            setStep(6)
-            setLoader(false)    
-          })
-        break; 
+        setLoader(true)
+        approveToken(STARTFI_NFT_PAYMENT_ADDRESS, fees).then(() => {
+          setStep(6)
+          setLoader(false)
+        })
+        break
       case 6:
         return mint()
       case 8:
@@ -73,12 +73,12 @@ const NFTSummary: React.FC = () => {
       case 9:
         if (!allowed) {
           setLoader(true)
-          approve(STARTFI_Marketplace_ADDRESS, nft.id).then(()=>{
+          approve(STARTFI_Marketplace_ADDRESS, nft.id).then(() => {
             setStep(10)
-            setLoader(false)    
+            setLoader(false)
           })
         }
-        break;
+        break
       case 10:
         return addToMarketplace()
       default:
@@ -91,7 +91,7 @@ const NFTSummary: React.FC = () => {
         <React.Fragment>
           <WhiteShadow />
           <PaymentModal>
-            <PaymentCard step={step} next={next} loader={loader}/>
+            <PaymentCard step={step} next={next} loader={loader} />
           </PaymentModal>
         </React.Fragment>
       )}
@@ -112,7 +112,7 @@ const NFTSummary: React.FC = () => {
           </Left>
           {(step === 5 || step === 6) && (
             <MarginLeft>
-            <PaymentCard step={step} next={next} loader={loader}/>
+              <PaymentCard step={step} next={next} loader={loader} />
             </MarginLeft>
           )}
         </Columns>
