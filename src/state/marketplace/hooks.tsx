@@ -233,15 +233,13 @@ export const useBuyNFT = (): (() => void) => {
   const soldPrice = useBidOrBuyValue()
   const approveToken = useApproveToken()
   const popup = usePopup()
+  const setWalletConfirmation = useSetWalletConfirmation()
+  useMarketplaceListener(auctionNFT?.nft)
   return useCallback(async () => {
     if (buyer && auctionNFT) {
-      const nftId = auctionNFT.nft.id
-      const auctionId = auctionNFT.auction.id
-      const owner = auctionNFT.nft.owner
+      setWalletConfirmation()
       await approveToken(STARTFI_MARKETPLACE_ADDRESS, soldPrice)
       await buyNow(auctionNFT.nft.listingId, soldPrice)
-
-      dispatch(buyNFTAction({ nftId, auctionId, owner, buyer, soldPrice }))
     } else popup({ success: false, message: 'connectWallet' })
   }, [soldPrice, auctionNFT, buyer, approveToken, buyNow, popup, dispatch])
 }
