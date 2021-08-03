@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { DropDownCategory } from 'components/DropDown'
-import { InputFile, LabelBlack, LabelWithCheck } from 'components/Input'
+import { InputFile, LabelWithCheck } from 'components/Input'
 import { CATEGORIES, StepProps } from '../../constants'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
 import { useIpfsHash, useIpfsProgress, useIpfsStatus, useUploadToIpfs } from 'state/ipfs/hooks'
 import { ipfsEnumStatus } from 'state/ipfs/actions'
-
-const DropDown = styled.div`
-  margin: 10vh 0;
-`
-
-const Label = styled.div`
-  margin-bottom: 2vh;
-`
+import { LabelBlack } from 'components/Input/styles'
+import { DropDown, Label } from './styles'
 
 const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
   const [filename, setFilename] = useState(state.dataHash)
@@ -63,6 +56,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
           selectIcon={true}
         />
       </DropDown>
+
       <InputFile
         name='dataHash'
         label={t('uploadNFT')}

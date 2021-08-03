@@ -8,30 +8,31 @@ import { injected } from '../connectors'
 import { Dictionary, NetworkContextName } from '../constants'
 import { useLocation } from 'react-router-dom'
 
-export const useSearch = () => {
+export const useLocationSearch = (): Dictionary => {
   const location = useLocation()
   return useMemo(() => {
     const json: Dictionary = {}
     location.search
       .substring(1, location.search.length)
       .split('&')
-      .forEach(pair => (json[pair.split('=')[0]] = pair.split('=')[1]))
+      .forEach(pair => {
+        const [key, value] = pair.split('=')
+        json[key] = value
+      })
     return { ...json }
   }, [location])
 }
 
 export const useSTFItoUSD = (amount: number): number => {
   const [USD, setUSD] = useState<number>(amount)
-
   useEffect(() => {
     setUSD(amount * 100)
   }, [amount, setUSD])
-
   return USD
 }
 
 export const useDigitizingFees = (): number => {
-  const fees = 0.5
+  const fees = 5
   return fees
 }
 

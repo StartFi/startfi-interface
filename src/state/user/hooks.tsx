@@ -204,12 +204,18 @@ export function useURLWarningToggle(): () => void {
   return useCallback(() => dispatch(toggleURLWarning()), [dispatch])
 }
 
-export const useUserBalance = (): string | undefined => {
+export const useWalletAddress = (): string | null | undefined => {
   const { account } = useActiveWeb3React()
+  return useMemo(() => account, [account])
+}
 
-  const balance = useETHBalances(account ? [account] : [])?.[account ?? '']
-
-  return balance?.toSignificant(5)
+export const useLogin = () => {
+  const account = useWalletAddress()
+  const dispatch = useDispatch()
+  useEffect(() => {
+    if (account) dispatch(loginAction(account))
+    else dispatch(logoutAction())
+  }, [account, dispatch])
 }
 
 export const useUser = (): User | null => {
@@ -221,9 +227,10 @@ export const useUserAddress = (): string | undefined => {
   return useMemo(() => user?.ethAddress, [user])
 }
 
-export const useWalletAddress = (): string | null | undefined => {
+export const useUserBalance = (): string | undefined => {
   const { account } = useActiveWeb3React()
-  return useMemo(() => account, [account])
+  const balance = useETHBalances(account ? [account] : [])?.[account ?? '']
+  return useMemo(() => balance?.toSignificant(5), [balance])
 }
 
 export const useChainId = (): number | undefined => {
@@ -231,20 +238,52 @@ export const useChainId = (): number | undefined => {
   return useMemo(() => chainId, [chainId])
 }
 
-export const useSaveDraft = () => {
+export const useSaveDraft = (): ((draft: NFT) => void) => {
   const dispatch = useDispatch()
   const user = useUserAddress()
   const popup = usePopup()
   return useCallback(
     (draft: NFT) => {
-
       const drafts = [draft]
-
       if (user) dispatch(saveDraftAction({ user, drafts }))
       else popup({ success: false, message: 'connectWallet' })
     },
     [user, popup, dispatch]
   )
+}
+
+const useAddToWishlist = (nftId: number): (() => void) => {
+  const dispatch = useDispatch()
+  const userId = useUserAddress()
+  const popup = usePopup()
+  return useCallback(() => {
+    if (userId) dispatch(addToWishlistAction({ userId, nftId }))
+    else popup({ success: false, message: 'connectWallet' })
+  }, [nftId, userId, popup, dispatch])
+}
+
+const useRemoveFromWishlist = (nftId: number): (() => void) => {
+  const dispatch = useDispatch()
+  const userId = useUserAddress()
+  const popup = usePopup()
+  return useCallback(() => {
+    if (userId) dispatch(removeFromWishlistAction({ userId, nftId }))
+    else popup({ success: false, message: 'connectWallet' })
+  }, [nftId, userId, popup, dispatch])
+}
+
+const useIsNFTWishlist = (nftId: number): boolean => {
+  const user = useUser()
+  return useMemo(() => (user && user.wishlist ? user.wishlist.includes(nftId) : false), [nftId, user])
+}
+
+export const useWishlist = (nftId: number) => {
+  const addToWishlist = useAddToWishlist(nftId)
+  const removeFromWishlist = useRemoveFromWishlist(nftId)
+  const isWishlist = useIsNFTWishlist(nftId)
+  return useMemo(() => {
+    return { addToWishlist, removeFromWishlist, isWishlist }
+  }, [isWishlist, addToWishlist, removeFromWishlist])
 }
 
 export const useGetInventory = () => {
@@ -262,15 +301,6 @@ export const useGetInventory = () => {
   )
 }
 
-export const useLogin = () => {
-  const account = useWalletAddress()
-  const dispatch = useDispatch()
-  return useEffect(() => {
-    if (account) dispatch(loginAction(account))
-    else dispatch(logoutAction())
-  }, [account, dispatch])
-}
-
 // get user Wishlist AuctionNft
 export const useUserWishList = (): AuctionNFT[] => {
   const user = useUser()
@@ -280,26 +310,6 @@ export const useUserWishList = (): AuctionNFT[] => {
       return user?.wishlist.includes(e.nft.id)
     })
   }, [user, marketPlace])
-}
-
-export const useAddToWishlist = (nftId: number) => {
-  const dispatch = useDispatch()
-  const userId = useUserAddress()
-  const popup = usePopup()
-  return useCallback(() => {
-    if (userId) dispatch(addToWishlistAction({ userId, nftId }))
-    else popup({ success: false, message: 'connectWallet' })
-  }, [nftId, userId, popup, dispatch])
-}
-
-export const useRemoveFromWishlist = (nftId: number) => {
-  const dispatch = useDispatch()
-  const userId = useUserAddress()
-  const popup = usePopup()
-  return useCallback(() => {
-    if (userId) dispatch(removeFromWishlistAction({ userId, nftId }))
-    else popup({ success: false, message: 'connectWallet' })
-  }, [nftId, userId, popup, dispatch])
 }
 
 // remove item from wishlist
@@ -359,26 +369,11 @@ export const useAuctionItem = (nftId: string): Auction => {
   return useMemo(() => userAuctions.filter(auction => auction.nft === nftId)[0], [userAuctions, nftId])
 }
 
-export const useClearUserPopup = () => {
+export const useClearUserPopup = (): (() => void) => {
   const dispatch = useDispatch()
   return useCallback(() => {
     dispatch(clearUserPopup())
   }, [dispatch])
-}
-
-export const useIsNFTWishlist = (nftId: number): boolean => {
-  const user = useUser()
-
-  return useMemo(() => (user && user.wishlist ? user.wishlist.includes(nftId) : false), [nftId, user])
-}
-
-export const useWishlist = (nftId: number) => {
-  const addToWishlist = useAddToWishlist(nftId)
-  const removeFromWishlist = useRemoveFromWishlist(nftId)
-  const isWishlist = useIsNFTWishlist(nftId)
-  return useMemo(() => {
-    return { addToWishlist, removeFromWishlist, isWishlist }
-  }, [isWishlist, addToWishlist, removeFromWishlist])
 }
 
 export const useGetDrafts = () => {
@@ -397,7 +392,10 @@ export const useGetUserNFTs = () => {
   const chainId = useChainId()
   const popup = usePopup()
   return useCallback(
-    () => (owner && chainId ? dispatch(getUserNFTsAction({owner, chainId})) : popup({ success: false, message: 'connectWallet' })),
+    () =>
+      owner && chainId
+        ? dispatch(getUserNFTsAction({ owner, chainId }))
+        : popup({ success: false, message: 'connectWallet' }),
     [owner, chainId, popup, dispatch]
   )
 }

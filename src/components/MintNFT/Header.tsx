@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import Wallet from 'components/Wallet'
 import Logo from './../../assets/icons/logo.svg'
 import Arrow from './../../assets/icons/backarrow.svg'
@@ -8,33 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
 import { useLocation } from 'react-router-dom'
 import { Row } from 'theme'
-
-const Container = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: flex-end;
-`
-
-const LeftContainer = styled.div`
-  width: 40%;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  font-weight: 500;
-  font-size: 1.125rem;
-  cursor: pointer;
-  img {
-    margin-right: 1vw;
-  }
-`
-
-const Right = styled.div`
-  width: 60%;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: flex-end;
-`
+import { HeaderContainer, HeaderRight, LeftContainer } from './styles'
 
 const Left = () => {
   const history = useHistory()
@@ -62,16 +35,16 @@ const Header: React.FC = () => {
       </Row>
     )
   return (
-    <Container>
+    <HeaderContainer>
       <Left />
-      <Right>
+      <HeaderRight>
         <div>
           <LinkMarketplace to="/marketplace/nfts">{t('backToMarketplace')}</LinkMarketplace>
           <img src={Arrow} alt="Back" />
         </div>
         <Wallet />
-      </Right>
-    </Container>
+      </HeaderRight>
+    </HeaderContainer>
   )
 }
 

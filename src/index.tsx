@@ -69,7 +69,7 @@ ReactDOM.render(
             <ThemeProvider>
               <ThemedGlobalStyle />
               <BrowserRouter>
-              <Updaters />
+                <Updaters />
                 <App />
               </BrowserRouter>
             </ThemeProvider>

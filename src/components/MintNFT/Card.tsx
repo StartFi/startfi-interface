@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
-import styled from 'styled-components'
 import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
@@ -11,39 +10,13 @@ import Step3Icon from './../../assets/icons/step3.svg'
 import { useTranslation } from 'react-i18next'
 import { useSaveDraft } from 'state/user/hooks'
 import { NFT } from 'services/models/NFT'
-import { Row } from 'theme/components'
 import { usePopup } from 'state/application/hooks'
 import { useHistory } from 'react-router-dom'
 import { useAuction, useNFT, useSaveAuction, useSaveNFT } from 'state/marketplace/hooks'
 import { Auction } from 'services/models/Auction'
 import { address as STARTFI_NFT_ADDRESS } from '../../constants/abis/StartfiRoyaltyNFT.json'
-const Container = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  height: 100%;
-`
+import { CardContainer, CardHeader, CardUnderline, Footer, Title } from './styles'
 
-const Header = styled(Row)`
-  align-items: flex-start;
-`
-
-const Title = styled.div`
-  text-transform: uppercase;
-`
-
-const Underline = styled.hr`
-  margin-top: 2vh;
-  width: 3vw;
-  height: 0.3vh;
-  text-align: left;
-  margin-left: 0;
-  background-color: ${({ theme }) => theme.black};
-`
-
-const Footer = styled.div`
-  align-self: flex-end;
-  margin-top: auto;
-`
 interface CardProps {
   currentStep?: number
   draft: NFT
@@ -88,7 +61,7 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft }) => {
     savedAuction || {
       id: 'string',
       contractAddress: STARTFI_NFT_ADDRESS,
-      nft:'0',
+      nft: '0',
       listingPrice: 0,
       seller: '',
       expireTimestamp: 0,
@@ -193,7 +166,7 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft }) => {
       case 7:
         return <Step7 auction={auction} setAuction={setAuction} />
       default:
-        return null
+        return
     }
   }
 
@@ -209,22 +182,22 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft }) => {
   }, [draft, offMarketNft])
 
   return (
-    <Container>
-      <Header>
+    <CardContainer>
+      <CardHeader>
         <div>
           <Title>{t('mintNFTTitle')}</Title>
-          <Underline />
+          <CardUnderline />
         </div>
         {StepIcon() && <img src={StepIcon()} alt="Step" />}
-      </Header>
+      </CardHeader>
       {Step()}
       <Footer>
         <ButtonMintBack onClick={() => (step > 1 && step < 4 ? setStep(step - 1) : null)}>{t('back')}</ButtonMintBack>
-        <ButtonDraft  
+        <ButtonDraft
           onClick={() =>
-            step < 2 
-            ? popup({ success: false, message :t('cannotAddDraft') }): 
-            step < 4
+            step < 2
+              ? popup({ success: false, message: t('cannotAddDraft') })
+              : step < 4
               ? nft.category || nft.dataHash || nft.name || nft.description
                 ? saveDraft(nft)
                 : popup({ success: false, message: 'noEnteredData' })
@@ -235,7 +208,7 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft }) => {
         </ButtonDraft>
         <ButtonMint onClick={() => next()}>{t(step !== 3 ? 'next' : 'submit')}</ButtonMint>
       </Footer>
-    </Container>
+    </CardContainer>
   )
 }
 

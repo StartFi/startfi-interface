@@ -1,9 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-
-// import { getNFTS } from 'services/database/Database'
-
 import { PopupContent } from './../../constants'
-
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import {
   mintNFTAction,
@@ -18,6 +14,7 @@ import {
   addToMarketplaceAction,
   clearNFT,
   delistAuctionAction,
+  setWalletConfirmation
 } from './actions'
 import { NFT } from 'services/models/NFT'
 import { Auction } from 'services/models/Auction'
@@ -75,7 +72,6 @@ export default createReducer(initialState, builder =>
       state.popup = { success: false, message: action.error.message || 'Error occured while getting marketplace NFTs' }
     })
     .addCase(mintNFTAction.pending, (state, action) => {
-      state.walletConfirmation = 'Bidding'
       state.minted = false
     })
     .addCase(mintNFTAction.fulfilled, (state, action) => {
@@ -91,9 +87,7 @@ export default createReducer(initialState, builder =>
     .addCase(mintNFTAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while minting NFT' }
     })
-    .addCase(addToMarketplaceAction.pending, (state, action) => {
-      state.walletConfirmation = 'Bidding'
-    })
+    .addCase(addToMarketplaceAction.pending, (state, action) => {})
     .addCase(addToMarketplaceAction.fulfilled, (state, action) => {
       state.walletConfirmation = null
       state.nft = null
@@ -113,7 +107,6 @@ export default createReducer(initialState, builder =>
       state.auctionNFT = action.payload.auctionNFT
     })
     .addCase(getAuctionNFTAction.rejected, (state, action) => {
-     
       state.popup = { success: false, message: action.error.message || 'Error occured while getting NFT' }
     })
     .addCase(placeBidAction.pending, (state, action) => {
@@ -171,6 +164,9 @@ export default createReducer(initialState, builder =>
     })
     .addCase(delistAuctionAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while Delisting Auction' }
+    })
+    .addCase(setWalletConfirmation, (state, action) => {
+      state.walletConfirmation = 'Bidding'
     })
 )
 

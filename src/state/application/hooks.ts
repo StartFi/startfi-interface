@@ -74,14 +74,11 @@ export function useAddPopup(): (content: PC, key?: string) => void {
 export const usePopup = (): ((popupContent: PopupContent) => void) => {
   const popup = useAddPopup()
   return useCallback((popupContent: PopupContent)=>{
-    const content:PC = {txn:{
+    popup({txn:{
       hash: '',
       success: popupContent.success,
       summary: popupContent.message
-
-
-    }}  
-    popup(content)
+    }})
   },[popup])
 }
 

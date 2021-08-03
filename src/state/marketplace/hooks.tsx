@@ -8,7 +8,6 @@ import { NFT } from 'services/models/NFT'
 import { AppState } from 'state'
 import { useChainId, useUserAddress } from 'state/user/hooks'
 import {
-  mintNFTAction,
   buyNFTAction,
   clearMarketplacePopup,
   getAuctionNFTAction,
@@ -17,20 +16,17 @@ import {
   setBidOrBuy,
   saveNFT,
   saveAuction,
-  addToMarketplaceAction,
   clearNFT,
-  delistAuctionAction
+  delistAuctionAction,
+  setWalletConfirmation
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
 import { useBuyNow, useCreateAuction } from 'hooks/startfiMarketPlace'
 import { useApproveToken } from 'hooks/startfiToken'
-
-import { useWeb3React } from '@web3-react/core'
 import { useMint } from 'hooks/startfiPaymentNft'
 import { getAuction } from 'services/database/Auction'
 import { getNFT } from 'services/database/NFT'
-
 import { useMarketplaceListener, useNftPaymentEventListener } from 'hooks/startfiEventListener'
 import { address as STARTFI_MARKETPLACE_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
 
@@ -112,6 +108,11 @@ export const useClearNFT = (): (() => void) => {
   return useCallback(() => dispatch(clearNFT()), [dispatch])
 }
 
+export const useSetWalletConfirmation = (): (() => void) => {
+  const dispatch = useDispatch()
+  return useCallback(() => dispatch(setWalletConfirmation()), [dispatch])
+}
+
 export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
   const dispatch = useDispatch()
   const chainId = useChainId()
@@ -125,7 +126,7 @@ export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
   )
 }
 
-const useChangePage = () => {
+const useChangePage = (): ((newPage: number) => void) => {
   const getNFTs = useGetNFTs()
   const lastAuctions = useLastAuctions()
   return useCallback((newPage: number) => getNFTs({ newPage, lastAuction: lastAuctions[newPage - 1] }), [
@@ -137,72 +138,60 @@ const useChangePage = () => {
 export const usePagination = () => {
   const currentPage = useCurrentPage()
   const changePage = useChangePage()
-
   return useMemo(() => {
     return { currentPage, changePage }
   }, [currentPage, changePage])
 }
 
 export const useMintNFT = (): (() => void) => {
-  const dispatch = useDispatch()
+  const address = useUserAddress()
   const chainId = useChainId()
   const popup = usePopup()
   const nft = useNFT()
   const mint = useMint()
-  const { account } = useWeb3React()
-
+  const setWalletConfirmation = useSetWalletConfirmation()
   useNftPaymentEventListener()
-  return useCallback(async () => {
-    if (account && nft && chainId) {
+  return useCallback(() => {
+    if (address && nft) {
       if (nft.royalty === 0) {
-        await mint(account as string, nft.dataHash)
+        mint(address, nft.dataHash)
       } else {
-        await mint(account as string, nft.dataHash, nft.royalty, 100)
+        mint(address, nft.dataHash, nft.royalty, 100)
       }
-    } else if (!account || !chainId) popup({ success: false, message: 'connectWallet' })
+      setWalletConfirmation()
+    } else if (!address) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
-  }, [nft, account, chainId, popup, dispatch, mint])
+  }, [nft, address, chainId, popup, mint, setWalletConfirmation])
 }
 
 export const useAddToMarketplace = (): (() => void) => {
-  const dispatch = useDispatch()
   const seller = useUserAddress()
   const chainId = useChainId()
   const popup = usePopup()
   const nft = useNFT()
   const auction = useAuction()
-
   const createAuction = useCreateAuction()
+  const setWalletConfirmation = useSetWalletConfirmation()
   useMarketplaceListener(nft)
-  return useCallback(async () => {
+  return useCallback(() => {
     if (seller && chainId && auction && nft) {
-      const tokenId = nft?.tokenId ? nft?.tokenId : 1
-      console.log(
-        'params',
+      createAuction(
         auction.contractAddress,
-        tokenId,
+        nft.id,
         auction.minBid as number,
         auction.qualifyAmount as number,
         auction.isForBid,
         auction.listingPrice as number,
         auction.expireTimestamp
       )
-      await createAuction(
-        auction.contractAddress,
-        tokenId,
-        auction.minBid as number,
-        auction.qualifyAmount as number,
-        auction.isForBid,
-        auction.listingPrice as number,
-        auction.expireTimestamp
-      )    
+      setWalletConfirmation()
     } else if (!seller || !chainId) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
     else if (!auction) popup({ success: false, message: 'noAuction' })
-  }, [auction, nft, seller, chainId, popup, dispatch])
+  }, [auction, nft, seller, chainId, createAuction, popup, setWalletConfirmation])
 }
 
-export const useGetAuctionNFT = (nftId: string, auctionId: string) => {
+export const useGetAuctionNFT = (nftId: string, auctionId: string): void => {
   const dispatch = useDispatch()
   const nfts = useMarketplace()
   useEffect(() => {
@@ -254,16 +243,15 @@ export const useBuyNFT = (): (() => void) => {
 
       dispatch(buyNFTAction({ nftId, auctionId, owner, buyer, soldPrice }))
     } else popup({ success: false, message: 'connectWallet' })
-  }, [soldPrice, auctionNFT, buyer, popup, dispatch])
+  }, [soldPrice, auctionNFT, buyer, approveToken, buyNow, popup, dispatch])
 }
 
 export const useNFTDetails = () => {
   return useSelector((state: AppState) => state.marketplace.NftDetails)
 }
 
-export const useClearMarketplacePopup = () => {
+export const useClearMarketplacePopup = (): (() => void) => {
   const dispatch = useDispatch()
-
   return useCallback(() => {
     dispatch(clearMarketplacePopup())
   }, [dispatch])
@@ -294,6 +282,6 @@ export const useDelistAuction = (): ((auctionId: string) => void) => {
       else if (auction.expireTimestamp <= new Date().valueOf()) popup({ success: false, message: 'auctionExpired' })
       else popup({ success: false, message: 'unknownReason' })
     },
-    [dispatch]
+    [owner, popup, dispatch]
   )
 }

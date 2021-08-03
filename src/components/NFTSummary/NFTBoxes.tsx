@@ -1,0 +1,93 @@
+import React from 'react'
+import EditableBox from 'components/NFTSummary/EditableBox'
+import uriToHttp from 'utils/uriToHttp'
+import { Tag } from 'components/Tags'
+import {
+  DataWidth,
+  Label,
+  Data500,
+  Field,
+  FirstBoxData,
+  FirstBoxFields,
+  FirstBoxLabel,
+  FirstField,
+  Img,
+  Line,
+  Tags,
+  Royalty,
+  Approx
+} from './styles'
+import Amount from './Amount'
+import { useTranslation } from 'react-i18next'
+import { NFTSummaryProps } from '.'
+import { useAuction, useNFT } from 'state/marketplace/hooks'
+
+const NFTBoxes: React.FC<NFTSummaryProps> = ({ step }) => {
+  const { t } = useTranslation()
+
+  const nft = useNFT()
+
+  const auction = useAuction()
+
+  if (!nft) return null
+
+  return (
+    <React.Fragment>
+      <EditableBox editable={step === 4} link="/mint/steps" state={{ step: 1 }}>
+        <FirstField>
+          <Img src={uriToHttp(nft.dataHash)[1]} alt="NFT" />
+          <FirstBoxFields>
+            <Field>
+              <FirstBoxLabel>{t('category')}</FirstBoxLabel>
+              <FirstBoxData>{nft?.category}</FirstBoxData>
+            </Field>
+            <Line />
+            <Field>
+              <FirstBoxLabel>{t('uploadedFile')}</FirstBoxLabel>
+              <FirstBoxData>{nft?.filename}</FirstBoxData>
+            </Field>
+          </FirstBoxFields>
+        </FirstField>
+      </EditableBox>
+      <EditableBox editable={step === 4} link="/mint/steps" state={{ step: 2 }}>
+        <Field>
+          <Label>{t('assetName')}</Label>
+          <Data500>{nft?.name}</Data500>
+        </Field>
+        <Line />
+        <Field>
+          <Label>{t('relatedTags')}</Label>
+          {nft.tags && (
+            <Tags>
+              {nft.tags.map(tag => (
+                <Tag key={tag}>{tag}</Tag>
+              ))}
+            </Tags>
+          )}
+        </Field>
+        <Line />
+        <Field>
+          <Label>{t('description')}</Label>
+          <DataWidth>{nft.description}</DataWidth>
+        </Field>
+      </EditableBox>
+      <EditableBox editable={step === 4} link="/mint/steps" state={{ step: 3 }}>
+        <Field>
+          <Label>{t(step < 7 ? 'royaltyOption' : 'issuerRoyaltyShare')}</Label>
+          <Royalty>
+            <span>{nft.royalty}%</span>
+            {step < 7 ? (
+              t('forEachResell')
+            ) : (
+              <Royalty>
+                <Approx>~</Approx> ( <Amount amount={(nft.royalty / 100) * (auction?.listingPrice || 0)} /> ){' '}
+              </Royalty>
+            )}
+          </Royalty>
+        </Field>
+      </EditableBox>
+    </React.Fragment>
+  )
+}
+
+export default NFTBoxes

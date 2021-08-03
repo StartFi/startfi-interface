@@ -1,24 +1,16 @@
 import React, { useState } from 'react'
-
 import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { useHistory } from 'react-router'
 import { useGetInventory } from 'state/user/hooks'
-// import NFTsHeader from 'components/Header/NFTsHeader'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { useGetNFTs, useLoadTime, useMarketplace } from 'state/marketplace/hooks'
+import { useGetNFTs, useLoadTime, useMarketplace, useMarketplaceLoading } from 'state/marketplace/hooks'
 import { Row } from 'theme/components'
 import { LinkBase } from '../components/Link/index'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import StartfiLoader from '../components/Loader/startfi'
 import Pagination from 'components/Pagination'
-
-// const NFTS = styled.div`
-//   padding: 4vh 3.2vw;
-//   width: 100%;
-//   z-index: 1;
-// `
 
 const Header = styled(Row)`
   padding-bottom: 6vh;
@@ -56,6 +48,17 @@ const NFTs: React.FC = () => {
 
   const getNFTs = useGetNFTs()
 
+  const loading = useMarketplaceLoading()
+
+  const getInventory = useGetInventory()
+
+  if (loading)
+    return (
+      <div>
+        <StartfiLoader></StartfiLoader>
+      </div>
+    )
+
   return (
     <Padding>
       <Header>
@@ -63,7 +66,7 @@ const NFTs: React.FC = () => {
           {onMarket.length} {t('NFTSResults')} {loadtime}ms
         </Results>
         <DropDownSort
-         showLabel={true}
+          showLabel={true}
           boxshadow
           name="sort"
           selectIcon={true}
@@ -75,36 +78,26 @@ const NFTs: React.FC = () => {
           }}
         />
       </Header>
-      {/* <LinkBase to="/inventory/home/draft" onClick={useGetInventory()}>
+      <LinkBase to="/inventory/home/draft" onClick={getInventory}>
         Inventory
-      </LinkBase> */}
-
-      {/* &nbsp;&nbsp; */}
-      {/* <LinkBase to="/marketplace/wishList">Wish List</LinkBase> */}
-      {onMarket.length > 0 ? (
-        <NFTList>
-          {onMarket.map((auctionNFT: AuctionNFT) => (
-            <Nft key={auctionNFT.nft.id}>
-              <NTFCard
-                auctionNFT={auctionNFT}
-                navigateToCard={(auctionNFT: AuctionNFT) =>
-                  history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
-                }
-                placeBid={(auctionNFT: AuctionNFT) =>
-                  history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
-                }
-              ></NTFCard>
-            </Nft>
-          ))}
-        </NFTList>
-      ) : (
-        <div>
-          <StartfiLoader></StartfiLoader>
-        </div>
-      )}
+      </LinkBase>
+      <LinkBase to="/marketplace/wishList">Wish List</LinkBase>
+      <NFTList>
+        {onMarket.map((auctionNFT: AuctionNFT) => (
+          <Nft key={auctionNFT.nft.id}>
+            <NTFCard
+              auctionNFT={auctionNFT}
+              navigateToCard={(auctionNFT: AuctionNFT) =>
+                history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
+              }
+              placeBid={(auctionNFT: AuctionNFT) =>
+                history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
+              }
+            ></NTFCard>
+          </Nft>
+        ))}
+      </NFTList>
       <Pagination />
-
-
     </Padding>
   )
 }

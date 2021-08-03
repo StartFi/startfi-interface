@@ -19,14 +19,3 @@ export const editNFT = async (nft: any): Promise<string> => {
 export const getNFTs = async (filters: Dictionary): Promise<NFT[]> => {
   return (await getDocuments(COLLECTION, filters)) as NFT[]
 }
-
-// get single NFT details
-// export const getNfDetails= async(nftId:number):Promise<NFT>=>{
-//   return (await getDocument(ENTITY, nftId)) as NFT
-
-// }
-
-// export const getOwnerNFTs = async (owner: string): Promise<NFT[]> => {
-//   return (await getDocumentsByChild(ENTITY, 'owner', owner)) as NFT[]
-// }
-

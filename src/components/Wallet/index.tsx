@@ -77,7 +77,7 @@ const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.AURORA]: 'Aurora',
   [ChainId.BSCT]: 'Binance Smart chain Test',
   [ChainId.BSC]: 'Binance Smart chain',
-   [ChainId.POLYGON]: 'Polygon Test',
+  [ChainId.POLYGON]: 'Polygon Test',
   [ChainId.GÖRLI]: 'Görli',
   [ChainId.KOVAN]: 'Kovan'
 }

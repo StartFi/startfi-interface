@@ -2,18 +2,11 @@ import React from 'react'
 import { Input } from 'components/Input'
 import { StepProps } from '../../constants'
 import Tags from 'components/Tags'
-import styled from 'styled-components'
-
-const Container = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-around;
-  flex: 1 1 auto;
-`
+import { Step2Container } from './styles'
 
 const Step2: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
   return (
-    <Container>
+    <Step2Container>
       <Input
         name="name"
         label="NFTname"
@@ -22,7 +15,9 @@ const Step2: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
         error={missing.includes('name')}
         underline
       />
+
       <Tags name="tags" max={10} onChange={handleChange} value={state.tags} />
+      
       <Input
         name="description"
         label="NFTdescription"
@@ -33,7 +28,7 @@ const Step2: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
         textarea={4}
         error={missing.includes('description')}
       />
-    </Container>
+    </Step2Container>
   )
 }
 
