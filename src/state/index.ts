@@ -23,7 +23,7 @@ const store = configureStore({
     bcEvent
   },
   middleware: [...getDefaultMiddleware({
-    thunk: true, logger: false,
+    thunk: true, logger: false,serializableCheck: false
   }), save({ states: PERSISTED_KEYS })],
   preloadedState: load({ states: PERSISTED_KEYS })
 })
