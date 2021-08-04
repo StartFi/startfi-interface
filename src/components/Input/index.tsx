@@ -35,12 +35,15 @@ interface LabelWithCheckProps {
   underline?: boolean
 }
 
-export const LabelWithCheck: React.FC<LabelWithCheckProps> = ({ Label, text, verified, error, underline }) => (
-  <LabelContainer underline={underline} error={error}>
-    <Label>{text}</Label>
-    {verified ? <img src={Check} alt="Verified" /> : error ? <Missed>Missed</Missed> : null}
-  </LabelContainer>
-)
+export const LabelWithCheck: React.FC<LabelWithCheckProps> = ({ Label, text, verified, error, underline }) => {
+  const { t } = useTranslation()
+  return (
+    <LabelContainer underline={underline} error={error}>
+      <Label>{text}</Label>
+      {verified ? <img src={Check} alt="Verified" /> : error ? <Missed>{t('missed')}</Missed> : null}
+    </LabelContainer>
+  )
+}
 
 interface InputFileProps {
   name: string
@@ -191,7 +194,15 @@ export const Input: React.FC<InputProps> = ({
       )}
       {number && (
         <OutlineNumber width={outlineWidth || '12vw'}>
-          <InputNumber name={name} type="number" onChange={handleChange} value={value} width={inputWidth || '7vw'} />
+          <InputNumber
+            name={name}
+            type="number"
+            onChange={e => {
+              handleChange({ target: { name, value: parseFloat(e.target.value) } })
+            }}
+            value={value}
+            width={inputWidth || '7vw'}
+          />
           {currency ? currency : 'STFI'}
         </OutlineNumber>
       )}
