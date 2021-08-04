@@ -11,6 +11,10 @@ export type Dictionary = { [index: string]: any }
 
 export const NFTS_PER_PAGE: number = 12
 
+export const STFI_IN_WEI = 5
+
+export const WEI = 8000
+
 export interface StepProps {
   state: Dictionary
   handleChange: (e: any) => void
