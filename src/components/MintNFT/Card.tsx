@@ -126,7 +126,7 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft }) => {
       case 3:
         setMissing([])
         saveNFT(nft)
-        return history.push('summary')
+        return history.push('/mint/summary')
       case 7:
         const { isForSale, listingPrice, isForBid, minBid, qualifyAmount, expireTimestamp } = auction
         if (
@@ -134,7 +134,7 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft }) => {
           (isForBid && minBid && minBid > 0 && qualifyAmount && qualifyAmount > 0 && expireTimestamp > 0)
         ) {
           saveAuction(auction)
-          return history.push('summary')
+          return history.push('/mint/summary')
         }
         break
       default:
