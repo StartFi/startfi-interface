@@ -1,7 +1,7 @@
 import { Divider } from 'components/InMarketAsset/InMarket.styles'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { NFT } from 'services/models/NFT'
-// import { useTranslation } from 'react-i18next'
+
 import {
   DelistModal,
   Container,
@@ -15,13 +15,14 @@ import {
   DelistSuccessContainer,
   DelistButton,
   ButtonContainer,
-  SuccessImgContainer
+
 } from './DelistCard.style'
 import Text from '../Text'
 import { useCountDownTimer } from 'hooks/countDownTimer'
 import delistSuccessImg from '../../assets/images/delistSuccess.png'
 import { useHistory } from 'react-router-dom'
 import { Auction } from 'services/models/Auction'
+import { useTranslation } from 'react-i18next'
 
 interface DelistCardProps {
   isOpen: boolean
@@ -31,11 +32,12 @@ interface DelistCardProps {
 }
 
 const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) => {
-  const timeLeft = useCountDownTimer(auction?.expireTimestamp)
+  const { t } = useTranslation();
+  const timeLeft = useCountDownTimer(1630751434000)
   const [disabled, setDisabled] = useState<boolean>(true)
   const [delistSuccess, setDelistSuccess] = useState<boolean>(false)
   const timerComponents: any = []
- 
+
 
   const history = useHistory()
 
@@ -54,11 +56,11 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
 
     if (interval !== 'S') {
       timerComponents.push(
-        <div key={interval}>
+        <div >
           <Divider left='40%' top='60%' width='40.5%' backgroundColor='#E2E2E2'></Divider>
           <CounterSegment>
             <p>{timeLeft[interval]}</p>
-            <p>{modifiedInterval}</p>
+            <p>{t(modifiedInterval)}</p>
           </CounterSegment>
         </div>
       )
@@ -66,6 +68,7 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
   })
 
   if (!isOpen) return null
+
   return (
     <React.Fragment>
       <Shadow onClick={close} />
@@ -73,14 +76,14 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
         <Container minHeight='70vh'>
           <DelistCardHeader>
             <Text fontFamily='Roboto' fontSize='1.2rem' color='#000000' font-weight='500' margin='5px 0px 15px 0px'>
-              Delisting Asset "{nft?.name}"
+              {t('delistAsset')} {nft?.name}
             </Text>
             <Divider left='-7.8%' width='115.5%' backgroundColor='#D1D1D1'></Divider>
           </DelistCardHeader>
 
           {!delistSuccess ? (
             <DelistMain>
-              {timerComponents.length > 0 ? (
+              {timerComponents.length > 0 && auction?.bids.length>0 ? (
                 <Text
                   fontFamily='Roboto'
                   fontSize='0.875rem'
@@ -89,8 +92,7 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
                   textAlign='justify'
                   textJustify='auto'
                 >
-                  Delisting the asset from the market place right now Will cost you stakes if it’s didn’t Exceed the
-                  minimaum duration of delisting
+                 {t('delistCost')}
                 </Text>
               ) : (
                 <Text
@@ -101,13 +103,12 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
                   textAlign='justify'
                   textJustify='auto'
                 >
-                  Delisting the asset now means it will be removed from the marketplace are you sure you want to delist
-                  it?
+                 {t('delistNow')}
                 </Text>
               )}
 
               <DelistingDuration>
-                {timerComponents.length > 0 ? (
+                {timerComponents.length > 0 && auction?.bids.length>0 ? (
                   <Text
                     textTransform='upperCase'
                     fontFamily='Roboto'
@@ -117,15 +118,16 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
                     textAlign='justify'
                     textJustify='auto'
                   >
-                    minimum delisting duration Left
+                  {t('minDelistLef')}
                   </Text>
                 ) : null}
               </DelistingDuration>
-              <CounterContainer>{timerComponents}</CounterContainer>
+              {auction?.bids.length>0?(<CounterContainer>{timerComponents}</CounterContainer>):null}
+
               <CheckContainer>
                 <input type='checkbox' onChange={handelCheckBoxChanges} />
                 <Text fontFamily='Roboto' fontSize='10.5px' color='#000000' font-weight='500'>
-                  I’m sure about delisting my asset which will charge me stake fees
+                 {t('delistConfirm')}
                 </Text>
               </CheckContainer>
               <ButtonContainer>
@@ -135,10 +137,10 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
                   backgroundColor='#000000'
                   color='#ffffff'
                 >
-                  Delist Now
+                  {t('delistNowButton')}
                 </DelistButton>
                 <DelistButton onClick={close} backgroundColor='transparent' border='1px solid #000000'>
-                  Cancel Delisting
+                  {t('cancelDelisting')}
                 </DelistButton>
               </ButtonContainer>
             </DelistMain>
@@ -153,7 +155,7 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
                 margin='35px 0px 0px 0px'
                 textAlign='center'
               >
-                Your asset has been Delisted and moved to “Inventory, Off marketplace”
+                {t('DelistSuccess')}
               </Text>
               <div>
                 <div>
@@ -164,7 +166,7 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
                     fontWeight='500'
                     fontSize='0.9rem'
                   >
-                    Check my Stake Balance
+                    {t('checkStake')}
                   </DelistButton>
                   <DelistButton
                     onClick={() => history.push('/inventory/home/draft')}
@@ -173,7 +175,7 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
                     fontWeight='500'
                     fontSize='0.9rem'
                   >
-                    Check my Inventory
+                    {t('checkInventory')}
                   </DelistButton>
                 </div>
                 <DelistButton
@@ -181,7 +183,7 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
                   backgroundColor='#000000'
                   color='#ffffff'
                 >
-                  Go Back to Marketplace
+                {t('BackToMarketplace')}
                 </DelistButton>
               </div>
             </DelistSuccessContainer>

@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
 import { useAuctionItem, useOnMarketItem } from 'state/user/hooks'
 import uriToHttp from 'utils/uriToHttp'
-import { Divider, ImageContainer, TextContainer, TagRow, DeListingContainer } from './InMarket.styles'
+import { Divider, ImageContainer, TextContainer, TagRow, DeListingContainer, AuctionTimer } from './InMarket.styles'
 import { Auction } from 'services/models/Auction'
 import { DelistButton } from 'components/Button'
 import { useTranslation } from 'react-i18next'
@@ -26,7 +26,6 @@ const InMarket = () => {
   const auction: Auction = useAuctionItem(id)
   const imgUrl = uriToHttp(`${nft?.dataHash}`)[1]
   const [tagsState, setTagsState] = useState(false)
-  // const [delistState, setDelistState] = useState(false)
   const [displayBidWarning, setDisplayBidWarning] = useState<string>('none')
   const [displayWarning, setDisplayWarning] = useState<string>('none')
   const [delistCardHeight, setDelistCardHeight] = useState<string>('129px')
@@ -35,7 +34,7 @@ const InMarket = () => {
   const [disabled, setDisabled] = useState<boolean>(false)
   const timeLeft = useCountDownTimer(auction.expireTimestamp)
 
-  console.log('auction=>',auction)
+
 
   const timerComponents: any = []
 
@@ -46,18 +45,16 @@ const InMarket = () => {
     let comma = ','
     if (interval === 'S') comma = ''
     timerComponents.push(
-      <React.Fragment key={interval}>
-        <Counter>
-          <p>{timeLeft[interval]}</p>
-          <p>
-            {interval}
-            {comma}{' '}
-          </p>
-        </Counter>
-      </React.Fragment>
+      <Counter key={interval}>
+        <p>{timeLeft[interval]}</p>
+        <p>
+          {interval}
+          {comma}{' '}
+        </p>
+      </Counter>
     )
   })
-
+  console.log('timerLength', timerComponents.length)
   useEffect(() => {
     if (nft?.tags) {
       if (nft.tags.length > 0) setTagsState(true)
@@ -66,16 +63,26 @@ const InMarket = () => {
       setDisplayBidWarning('block')
       setDelistCardHeight('161px')
       setDelistContainerHeight('145px')
-
-
     }
-    if (timerComponents.length > 0 && auction?.isForBid && !(auction?.bids.length > 0)) {
+  }, [])
+
+  const delist = () => {
+    if (timerComponents.length > 0 && !(auction?.bids.length > 0)) {
       setDisplayWarning('block')
       setDelistCardHeight('161px')
       setDelistContainerHeight('145px')
       setDisabled(true)
     }
-  }, [])
+    if (timerComponents.length > 0 && auction?.bids.length > 0) {
+      setDisplayBidWarning('block')
+      setDelistCardHeight('161px')
+      setDelistContainerHeight('145px')
+    }
+
+    if (timerComponents.length < 1) {
+      setOpenModal(true)
+    }
+  }
 
   const closeCard = () => {
     setOpenModal(false)
@@ -189,12 +196,18 @@ const InMarket = () => {
                   </div>
 
                   <Divider width='95%'></Divider>
-                  <div>
-                    <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='6.7rem'>
+                  <AuctionTimer>
+                    <Text
+                      fontFamily='Roboto'
+                      fontSize='1rem'
+                      color='#444444'
+                      spanWeight='500'
+                      margin='0px 111px 0px 0px'
+                    >
                       {t('auctionTime')}
-                      {timerComponents.length > 0 ? <span> {timerComponents}</span> : <span>Auction Ended</span>}
                     </Text>
-                  </div>
+                    {timerComponents.length > 0 ? <div> {timerComponents}</div> : <div>Auction Ended</div>}
+                  </AuctionTimer>
                   <Divider width='95%'></Divider>
                   <div>
                     <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='6.2rem'>
@@ -253,12 +266,7 @@ const InMarket = () => {
                 {t('DelistWarning')}
               </Text>
             </div>
-            <DelistButton
-              disabled={disabled}
-              onClick={() => {
-                setOpenModal(true)
-              }}
-            >
+            <DelistButton disabled={disabled} onClick={delist}>
               {t('deListAsset')}
             </DelistButton>
           </DeListingContainer>

@@ -49,3 +49,9 @@ justify-content:space-between;
 height:${({ height }) => height};
 margin:0px 18px 0px 30px;
 `
+
+export const AuctionTimer=styled.div`
+display:flex;
+align-items:center;
+
+`

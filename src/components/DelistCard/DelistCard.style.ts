@@ -14,7 +14,6 @@ export const Container = styled.div<DelistCardProps>`
   min-height: ${({ minHeight }) => minHeight};
   display: flex;
   flex-flow: column nowrap;
-  /* justify-content: space-between; */
 `
 
 export const Shadow = styled.div`
@@ -86,14 +85,13 @@ export const ButtonContainer = styled.div`
   }
 `
 export const DelistButton = styled('button')<{
-  backgroundColor?: string;
-   color?: string;
-   border?: string;
-   padding?:string;
-   textDecoration?:string;
-   fontWeight?: string
-   fontSize?: string
-
+  backgroundColor?: string
+  color?: string
+  border?: string
+  padding?: string
+  textDecoration?: string
+  fontWeight?: string
+  fontSize?: string
 }>`
   cursor: pointer;
   box-sizing: border-box;
@@ -104,8 +102,8 @@ export const DelistButton = styled('button')<{
   background-color: ${({ backgroundColor }) => backgroundColor};
   color: ${({ color }) => color};
   border: ${({ border }) => border};
-  padding:${({ padding }) => padding};
-  text-decoration:${({ textDecoration }) => textDecoration};
+  padding: ${({ padding }) => padding};
+  text-decoration: ${({ textDecoration }) => textDecoration};
   font-weight: ${({ fontWeight }) => fontWeight};
   font-size: ${({ fontSize }) => fontSize};
   &:disabled {
@@ -123,18 +121,13 @@ export const DelistSuccessContainer = styled.div`
   & div {
     display: flex;
     flex-direction: column;
-    margin-top:33px;
+    margin-top: 33px;
     & div {
       display: flex;
       flex-direction: row;
 
-      margin-bottom:24px
+      margin-bottom: 24px;
     }
   }
 `
-export const SuccessImgContainer = styled.div`
-  /* display:flex;
-justify-content: center;
-align-items: center;
-margin-top:33.5px */
-`
+
