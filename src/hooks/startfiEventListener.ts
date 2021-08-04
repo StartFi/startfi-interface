@@ -60,7 +60,7 @@ export const useNftPaymentEventListener = () => {
   }, [])
 }
 
-export const useMarketplaceListener = (nft?: any) => { 
+export const useMarketplaceListener = (nft?: any) => {
   const { library } = useActiveWeb3React()
   const marketplaceContract = useStartFiMarketplace(false)
   const listOnMarketplaceEvent = marketplaceContract?.filters.ListOnMarketplace()
@@ -115,7 +115,9 @@ export const useMarketplaceListener = (nft?: any) => {
         //   console.log('Update result', result)
         // })
         dispatch(addNewEvent({ eventName: 'CreateAuction', eventValue }))
-        dispatch(addToMarketplaceAction({ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId }))
+        dispatch(
+          addToMarketplaceAction({ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId })
+        )
       })
     }
     return () => {
@@ -169,10 +171,10 @@ export const useMarketplaceListener = (nft?: any) => {
         const eventValue = parseBigNumber(args)
         const nftId = auctionNFT?.nft.id
         const auctionId = auctionNFT?.auction.id || ''
-        const owner = auctionNFT?.nft.owner  || ''
+        const owner = auctionNFT?.nft.owner || ''
         const buyer = seller || ''
         const soldPrice = 10
-        console.log('buyvalue',eventValue)
+        console.log('buyvalue', eventValue)
         dispatch(buyNFTAction({ nftId, auctionId, owner, buyer, soldPrice }))
         dispatch(addNewEvent({ eventName: 'BuyNow', eventValue }))
       })

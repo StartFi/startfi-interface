@@ -8,7 +8,6 @@ import { NFT } from 'services/models/NFT'
 import { AppState } from 'state'
 import { useChainId, useUserAddress } from 'state/user/hooks'
 import {
-  buyNFTAction,
   clearMarketplacePopup,
   getAuctionNFTAction,
   getMarketplaceAction,
@@ -30,7 +29,7 @@ import { getNFT } from 'services/database/NFT'
 import { useMarketplaceListener, useNftPaymentEventListener } from 'hooks/startfiEventListener'
 import { address as STARTFI_MARKETPLACE_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
 
-let generateId =
+const generateId =
   Date.now().toString(36) +
   Math.random()
     .toString(36)
@@ -118,7 +117,7 @@ export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
   const chainId = useChainId()
   return useCallback(
     (query?: NFTQUERY) => {
-      let q: NFTQUERY = query || { sort: DEFAULT_SORT }
+      const q: NFTQUERY = query || { sort: DEFAULT_SORT }
       q.chainId = chainId
       dispatch(getMarketplaceAction(q))
     },
@@ -145,7 +144,6 @@ export const usePagination = () => {
 
 export const useMintNFT = (): (() => void) => {
   const address = useUserAddress()
-  const chainId = useChainId()
   const popup = usePopup()
   const nft = useNFT()
   const mint = useMint()
@@ -161,7 +159,7 @@ export const useMintNFT = (): (() => void) => {
       setWalletConfirmation()
     } else if (!address) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
-  }, [nft, address, chainId, popup, mint, setWalletConfirmation])
+  }, [nft, address, popup, mint, setWalletConfirmation])
 }
 
 export const useAddToMarketplace = (): (() => void) => {
@@ -197,7 +195,6 @@ export const useGetAuctionNFT = (nftId: string, auctionId: string): void => {
   useEffect(() => {
     const AuctionNFT = nfts.filter(nft => nft.nft.id === nftId)[0]
     dispatch(getAuctionNFTAction({ nftId, auctionId, AuctionNFT }))
-    return () => {}
   }, [nftId, auctionId, nfts, dispatch])
 }
 
@@ -226,7 +223,6 @@ export const usePlaceBid = (): (() => void) => {
 }
 
 export const useBuyNFT = (): (() => void) => {
-  const dispatch = useDispatch()
   const buyNow = useBuyNow()
   const buyer = useUserAddress()
   const auctionNFT = useAuctionNFT()
@@ -238,10 +234,11 @@ export const useBuyNFT = (): (() => void) => {
   return useCallback(async () => {
     if (buyer && auctionNFT) {
       setWalletConfirmation()
+      console.log(auctionNFT.auction.id)
       await approveToken(STARTFI_MARKETPLACE_ADDRESS, soldPrice)
-      await buyNow(auctionNFT.nft.listingId, soldPrice)
+      await buyNow(auctionNFT.auction.id, soldPrice)
     } else popup({ success: false, message: 'connectWallet' })
-  }, [soldPrice, auctionNFT, buyer, approveToken, buyNow, popup, dispatch])
+  }, [soldPrice, auctionNFT, buyer, approveToken, buyNow, popup, setWalletConfirmation])
 }
 
 export const useNFTDetails = () => {
