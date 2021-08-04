@@ -19,6 +19,10 @@ import { useWalletAddress } from 'state/user/hooks'
 import { useLocationSearch } from 'hooks'
 import { ConnectWallet, FirstRow, Img, Search, Tab, TabsCategory } from './styles'
 import { DropDownCategory } from 'components/DropDown'
+import { useDeposit } from 'hooks/startfiStakes'
+import { useWeb3React } from '@web3-react/core'
+import { useApproveToken } from 'hooks/startfiToken'
+import { address as STARTFI_STAKES_ADDRESS } from '../../constants/abis/StartfiStakes.json'
 
 const Categories = ['all', ...CATEGORIES]
 
@@ -42,14 +46,16 @@ const MarketplaceHeader: React.FC = () => {
   const [input, setInput] = useState('')
 
   const getNFTs = useGetNFTs()
-
+  const stakeToken = useDeposit()
+  const approveToken = useApproveToken()
+  const { account } = useWeb3React()
   let { category, search } = useLocationSearch()
 
   if (!category) category = 'all'
 
   useEffect(() => getNFTs({ category, search, sort: DEFAULT_SORT }), [category, search, getNFTs])
 
-  const getDropDownChanges = (e: any) => {
+  const getDropDownChanges = async (e: any) => {
     switch (e.target.value) {
       case 'WishList':
         history.push('/marketplace/wishList')
@@ -60,12 +66,16 @@ const MarketplaceHeader: React.FC = () => {
       case 'Dashboard':
         history.push('')
         break
+      case 'Stake Tokens':
+        await approveToken(STARTFI_STAKES_ADDRESS, 1000)
+        await stakeToken(account as string, 1000)
+        break
     }
   }
   return (
     <React.Fragment>
       <FirstRow>
-        <img src={Logo} alt='Logo' onClick={() => history.push('/')} />
+        <img src={Logo} alt="Logo" onClick={() => history.push('/')} />
         <Search>
           <InputSearch placeholder={t('searchNFTS')} value={input} onChange={(e: any) => setInput(e.target.value)} />
           <ButtonSearch onClick={() => history.push(`/marketplace/nfts/?category=${category}&search=${input}`)}>
@@ -73,14 +83,14 @@ const MarketplaceHeader: React.FC = () => {
           </ButtonSearch>
         </Search>
 
-        <LinkCreateNFT to='/mint/steps'>{t('mintNFT')}</LinkCreateNFT>
+        <LinkCreateNFT to="/mint/steps">{t('mintNFT')}</LinkCreateNFT>
 
         <DropDownCategory
           options={HEADER_DROPDOWN}
           name={'drop'}
           value={''}
-          itemsWidth='180px'
-          border='none'
+          itemsWidth="180px"
+          border="none"
           selectIcon={true}
           onChange={(e: any) => {
             getDropDownChanges(e)
