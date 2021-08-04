@@ -86,20 +86,22 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft }) => {
   const handleChange = useCallback(
     (e: any) => {
       if (e.persist) e.persist()
-      if (e.target.name === 'royalty' && parseInt(e.target.value) > 100) return
-      if (e.target.value)
+      const name = e.target.name
+      const value = e.target.value
+      if (name === 'royalty' && value > 100) return
+      if (value)
         setMissing(missing => {
           const newMissing = [...missing]
-          newMissing.splice(newMissing.indexOf(e.target.name), 1)
+          newMissing.splice(newMissing.indexOf(name), 1)
           return newMissing
         })
       else
         setMissing(missing => {
-          if (missing.includes(e.target.name)) return missing
-          return [...missing, e.target.name]
+          if (missing.includes(name)) return missing
+          return [...missing, name]
         })
       setNFT(nft => {
-        return { ...nft, [e.target.name]: e.target.value }
+        return { ...nft, [name]: value }
       })
     },
     [setNFT]

@@ -9,7 +9,7 @@ import { LabelBlack } from 'components/Input/styles'
 import { DropDown, Label } from './styles'
 
 const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
-  const [filename, setFilename] = useState(state.dataHash)
+  const [filename, setFilename] = useState(state.filename)
 
   const [progress, setProgress] = useState(0)
 

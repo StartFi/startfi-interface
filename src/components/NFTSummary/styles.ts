@@ -63,6 +63,7 @@ export const FirstBoxLabel = styled(Label)`
 `
 export const FirstBoxData = styled(Data)`
   width: 100%;
+  text-transform: capitalize;
 `
 
 export const Img = styled.img`

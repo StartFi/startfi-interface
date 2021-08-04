@@ -8,7 +8,7 @@ import { Margin, Radios, RadioLabel, Royalty, Text } from './styles'
 const Step3: React.FC<StepProps> = ({ state, handleChange }: StepProps) => {
   const { t } = useTranslation()
 
-  const [royalty, setRoyalty] = useState(false)
+  const [royalty, setRoyalty] = useState(state.royalty ? true : false)
 
   return (
     <React.Fragment>

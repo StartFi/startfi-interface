@@ -239,3 +239,7 @@ export const Footer = styled.div`
   align-self: flex-end;
   margin-top: auto;
 `
+
+export const NeedHelpContainer = styled.div`
+  min-height: 75vh;
+`
