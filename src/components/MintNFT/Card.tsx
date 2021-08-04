@@ -79,7 +79,7 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft }) => {
 
   const [missing, setMissing] = useState<string[]>([])
 
-  const [step, setStep] = useState<number>(currentStep || 3)
+  const [step, setStep] = useState<number>(currentStep || 1)
 
   const popup = usePopup()
 
