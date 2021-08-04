@@ -21,7 +21,7 @@ import {
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
-import { useBuyNow, useCreateAuction } from 'hooks/startfiMarketPlace'
+import { useBid, useBuyNow, useCreateAuction } from 'hooks/startfiMarketPlace'
 import { useApproveToken } from 'hooks/startfiToken'
 import { useMint } from 'hooks/startfiPaymentNft'
 import { getAuction } from 'services/database/Auction'
@@ -204,8 +204,10 @@ export const usePlaceBid = (): (() => void) => {
   const chainId = useChainId()
   const auctionNFT = useAuctionNFT()
   const bidPrice = useBidOrBuyValue()
+  const setWalletConfirmation = useSetWalletConfirmation()
+  const bidWeb3 = useBid()
   const popup = usePopup()
-  return useCallback(() => {
+  return useCallback(async () => {
     if (bidder && chainId && auctionNFT) {
       const auctionId = auctionNFT.auction.id
       const bid: Bid = {
@@ -217,6 +219,8 @@ export const usePlaceBid = (): (() => void) => {
         txtHash: '',
         chainId
       }
+      setWalletConfirmation()
+      await bidWeb3(auctionId, bidPrice)
       dispatch(placeBidAction({ auctionId, bid }))
     } else popup({ success: false, message: 'connectWallet' })
   }, [bidPrice, auctionNFT, bidder, chainId, popup, dispatch])
