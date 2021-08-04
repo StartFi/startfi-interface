@@ -26,7 +26,7 @@ const InMarket = () => {
   const auction: Auction = useAuctionItem(id)
   const imgUrl = uriToHttp(`${nft?.dataHash}`)[1]
   const [tagsState, setTagsState] = useState(false)
-  const [delistState, setDelistState] = useState(false)
+  // const [delistState, setDelistState] = useState(false)
   const [displayBidWarning, setDisplayBidWarning] = useState<string>('none')
   const [displayWarning, setDisplayWarning] = useState<string>('none')
   const [delistCardHeight, setDelistCardHeight] = useState<string>('129px')
@@ -34,6 +34,8 @@ const InMarket = () => {
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [disabled, setDisabled] = useState<boolean>(false)
   const timeLeft = useCountDownTimer(auction.expireTimestamp)
+
+  console.log('auction=>',auction)
 
   const timerComponents: any = []
 
@@ -44,13 +46,15 @@ const InMarket = () => {
     let comma = ','
     if (interval === 'S') comma = ''
     timerComponents.push(
-      <Counter>
-        <p>{timeLeft[interval]}</p>
-        <p>
-          {interval}
-          {comma}{' '}
-        </p>
-      </Counter>
+      <React.Fragment key={interval}>
+        <Counter>
+          <p>{timeLeft[interval]}</p>
+          <p>
+            {interval}
+            {comma}{' '}
+          </p>
+        </Counter>
+      </React.Fragment>
     )
   })
 
@@ -62,24 +66,19 @@ const InMarket = () => {
       setDisplayBidWarning('block')
       setDelistCardHeight('161px')
       setDelistContainerHeight('145px')
-      setDisabled(true)
-      // setOpenModal(true)
+
+
     }
     if (timerComponents.length > 0 && auction?.isForBid && !(auction?.bids.length > 0)) {
       setDisplayWarning('block')
       setDelistCardHeight('161px')
       setDelistContainerHeight('145px')
-       setDisabled(true)
-
+      setDisabled(true)
     }
-  }, [delistState])
+  }, [])
 
   const closeCard = () => {
     setOpenModal(false)
-    setDelistState(false)
-
-    setDelistCardHeight('129px')
-    setDelistContainerHeight('120px')
   }
 
   return (
@@ -254,7 +253,14 @@ const InMarket = () => {
                 {t('DelistWarning')}
               </Text>
             </div>
-            <DelistButton disabled={disabled} onClick={()=>{setOpenModal(true)}}>{t('deListAsset')}</DelistButton>
+            <DelistButton
+              disabled={disabled}
+              onClick={() => {
+                setOpenModal(true)
+              }}
+            >
+              {t('deListAsset')}
+            </DelistButton>
           </DeListingContainer>
         </InventoryCard>
       </div>

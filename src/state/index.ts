@@ -22,10 +22,10 @@ const store = configureStore({
     ipfs,
     bcEvent
   },
-  middleware: [...getDefaultMiddleware({ thunk: true ,serializableCheck: {
-    ignoredActionPaths: ['marketplace.marketplace.0.nft.issueDate',
-  'marketplace.marketplace.0.nft.issueDate'],
-  }}), save({ states: PERSISTED_KEYS })],
+  middleware: [...getDefaultMiddleware({ thunk: true ,
+    serializableCheck:false,
+
+}), save({ states: PERSISTED_KEYS })],
   preloadedState: load({ states: PERSISTED_KEYS })
 })
 
