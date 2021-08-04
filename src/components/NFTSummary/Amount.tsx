@@ -1,5 +1,5 @@
-import { Bold } from 'components/NFTConfirm'
-import { useSTFItoUSD } from 'hooks'
+import { Bold } from 'components/NFTConfirm/styles'
+import { useSTFItoUSD } from 'hooks/useSTFItoUSD'
 import React from 'react'
 
 interface AmountProps {

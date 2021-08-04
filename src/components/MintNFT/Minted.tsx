@@ -1,31 +1,11 @@
 import React from 'react'
-import { SidePadding, WalletConfirmationContainer, WhiteShadow } from 'components/WaitingConfirmation'
+import { SidePadding, WalletConfirmationContainer, WhiteShadow } from 'components/WaitingConfirmation/styles'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import Check from './../../assets/icons/check.svg'
-import { ButtonBlack, SemiBold, ButtonTransparentBorder } from 'components/NFTConfirm'
-import styled from 'styled-components'
+import { SemiBold } from 'components/NFTConfirm/styles'
 import { useClearNFT, useNFT } from 'state/marketplace/hooks'
-
-const MintedBorder = styled.div`
-  margin-top: 2vh;
-  border: 1px solid #eeeeee;
-  width: 100%;
-`
-
-const MintedButtonBlack = styled(ButtonBlack)`
-  margin-top: 3vh;
-  border-radius: 100px;
-`
-
-const MintedButtonWhite = styled(ButtonTransparentBorder)`
-  margin-top: 3vh;
-  border-radius: 100px;
-`
-
-const CheckIcon = styled.img`
-  margin-right: 1vw;
-`
+import { MintedBorder, CheckIcon, MintedButtonBlack, MintedButtonWhite } from './styles'
 
 const Minted: React.FC = () => {
   const { t } = useTranslation()
@@ -52,10 +32,12 @@ const Minted: React.FC = () => {
         <MintedButtonBlack onClick={() => history.push('/mint/steps', { step: 7 })}>
           {t('addAssetToMarketplace')}
         </MintedButtonBlack>
-        <MintedButtonWhite onClick={() => {
-          clearNFT()
-          history.push('/inventory/off-market/' + nft.id)
-          }}>
+        <MintedButtonWhite
+          onClick={() => {
+            clearNFT()
+            history.push('/inventory/home/offMarketPlace')
+          }}
+        >
           {t('seeInInventory')}
         </MintedButtonWhite>
       </WalletConfirmationContainer>{' '}

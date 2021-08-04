@@ -1,42 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { DropDownDateType } from 'components/DropDown'
 import { Input, InputNumberButtons } from 'components/Input'
-import PriceArrows from './../../assets/icons/pricearrows.svg'
-import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { Row } from 'theme/components'
 import { Auction } from 'services/models/Auction'
-
-const Price = styled(Row)`
-  width: 70%;
-  margin: 5vh 0;
-`
-
-const QualifyAmount = styled(Price)`
-  width: 80%;
-`
-
-const BidOffers = styled.div`
-  margin-bottom: 2vh;
-`
-
-const Radios = styled(Row)`
-  width: 35%;
-`
-
-const MinBid = styled.div`
-  margin: 3vh 0;
-`
-
-const OpenFor = styled(Row)`
-  width: 60%;
-`
-
-const RadioLabel = styled.span`
-  font-weight: bold;
-  font-size: 14px;
-  margin-left: 1vw;
-`
+import { BidOffers, MinBid, OpenFor, Price, QualifyAmount, RadioLabel, Radios } from './styles'
+import InputSTFI from 'components/Input/InputSTFI'
 
 interface Step7Props {
   auction: Auction
@@ -48,11 +16,10 @@ const Step7: React.FC<Step7Props> = ({ auction, setAuction }) => {
 
   const [expire, setExpire] = useState({
     openFor: 0,
-    type: ''
+    type: 'Day'
   })
 
   const handleChange = (e: any) => setAuction({ ...auction, [e.target.name]: e.target.value })
-
   const handleExpire = (e: any) => setExpire({ ...expire, [e.target.name]: e.target.value })
 
   useEffect(() => {
@@ -82,15 +49,12 @@ const Step7: React.FC<Step7Props> = ({ auction, setAuction }) => {
   return (
     <React.Fragment>
       <Price>
-        <Input
+        <InputSTFI
           name="listingPrice"
           label="NFTprice"
           value={auction.listingPrice}
-          onChange={(e: any) => setAuction({ ...auction, isForSale: true, listingPrice: e.target.value })}
-          number
+          onChange={value => setAuction({ ...auction, isForSale: true, listingPrice: value })}
         />
-        <img src={PriceArrows} alt="Currency conversion" />
-        <Input name="usd" currency="USD" value={auction.listingPrice} onChange={() => {}} number />
       </Price>
       <BidOffers>{t('bidsOffers')}</BidOffers>
       <Radios>
@@ -126,19 +90,16 @@ const Step7: React.FC<Step7Props> = ({ auction, setAuction }) => {
               options={['Day', 'Week', 'Month', 'Year']}
               value={expire.type}
               onChange={handleExpire}
+              showLabel={true}
             />
           </OpenFor>
           <QualifyAmount>
-            <Input
+            <InputSTFI
               name="qualifyAmount"
               label="qualifyAmount"
-              value={auction.qualifyAmount}
-              onChange={handleChange}
-              question="qualifyAmountDesc"
-              number
+              value={auction.qualifyAmount || 0}
+              onChange={value => setAuction({ ...auction, qualifyAmount: value })}
             />
-            <img src={PriceArrows} alt="Currency conversion" />
-            <Input name="usd" currency="USD" value={auction.qualifyAmount} onChange={() => {}} number />
           </QualifyAmount>
         </div>
       )}

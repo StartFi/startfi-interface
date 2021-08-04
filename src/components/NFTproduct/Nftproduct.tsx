@@ -51,7 +51,7 @@ const Nftproduct = () => {
 
   const { nft, auction }: NFTParams = useParams()
 
-  useGetAuctionNFT(parseInt(nft), auction)
+  useGetAuctionNFT(nft, auction)
 
   const auctionNFT: AuctionNFT | null = useAuctionNFT()
 
@@ -77,8 +77,6 @@ const Nftproduct = () => {
     (parseFloat(balance) < auctionNFT.auction.listingPrice ||
       (auctionNFT.auction.minBid && parseFloat(balance) < auctionNFT.auction.minBid))
 
-  console.log(balance)
-  console.log(auctionNFT)
   const showScroll = (readMore: boolean) => {
     readMore ? setIsReadMore('scroll') : setIsReadMore('')
   }
@@ -88,7 +86,7 @@ const Nftproduct = () => {
       <BidOrBuy bidOrBuy={bidOrBuy} isOpen={isOpen} close={() => setIsOpen(false)} />
       <LeftGrid>
         <ImgCard>
-          <img src={imgUrl} alt="NFT" />
+          <img src={imgUrl} alt='NFT' />
         </ImgCard>
         <LeftTextCard>
           <CreatedTitle>
@@ -122,7 +120,7 @@ const Nftproduct = () => {
           </Name>
         </RightTitle>
         <RightSubTitle>{t('prediction')}: Round 11 (Bronze) - Only 100 Available</RightSubTitle>
-        <PublisherCard height="91px">
+        <PublisherCard height='91px'>
           <div>
             <p>
               {t('publisher')} :<span>{auctionNFT?.issuername}</span>
@@ -130,7 +128,7 @@ const Nftproduct = () => {
             <p>8% {t('resellingPercentage')}</p>
           </div>
         </PublisherCard>
-        <PublisherCard height="60px">
+        <PublisherCard height='60px'>
           <OwnerText>
             <p>{t('owner')} :</p>
             <span>{auctionNFT?.nft.owner}</span>
@@ -143,7 +141,7 @@ const Nftproduct = () => {
             </p>
           </BuyCost>
           <BuyButtons $opacity={false}>
-            <ButtonWishlist nftId={nftId} type="NFTProduct" />
+            <ButtonWishlist nftId={nftId} type='NFTProduct' />
             <button
               onClick={() => {
                 setBidOrBuy(true)

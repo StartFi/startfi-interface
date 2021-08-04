@@ -5,7 +5,7 @@ import Text from '../Text'
 import { useHistory, useParams } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
 import uriToHttp from 'utils/uriToHttp'
-import { useOffMarketItem } from 'state/user/hooks'
+import { useOffMarketItem,useGetInventory } from 'state/user/hooks'
 import Card from 'components/Card'
 import { ImageContainer, Divider, TextContainer, TagRow } from 'components/InMarketAsset/InMarket.styles'
 import { Footer, TopTitle } from './OffMarket.styles'
@@ -21,17 +21,20 @@ interface offMarketParams {
 }
 
 const OffMarket = () => {
+
   const { t } = useTranslation()
   const { id }: offMarketParams = useParams()
 
   const history = useHistory()
   const nft: NFT = useOffMarketItem(id)
+
   const imgUrl = uriToHttp(`${nft?.dataHash}`)[1]
 
   const [tagsState, setTagsState] = useState(false)
-
+  // const getInventory=useGetInventory()
 
   useEffect(() => {
+    // getInventory()
     if (nft?.tags) {
       if (nft.tags.length > 0) setTagsState(true)
     }

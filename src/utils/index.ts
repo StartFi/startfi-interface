@@ -5,23 +5,11 @@ import { AddressZero } from '@ethersproject/constants'
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
 import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
-import { ROUTER_ADDRESS } from '../constants'
+import { Dictionary, ROUTER_ADDRESS } from '../constants'
 import { Percent } from '@uniswap/sdk-core'
 import { ChainId } from '../constants/supportedChains'
-import { AuctionNFT } from 'services/models/AuctionNFT'
 
-export const sortMarketplaceHelper = (sort: string) => {
-  switch (sort) {
-    case 'Highest price':
-      return { parentKey: 'auction', childKey: 'listingPrice', desc: true }
-    case 'Lowest price':
-      return { parentKey: 'auction', childKey: 'listingPrice', desc: false }
-    default:
-      return { parentKey: 'auction', childKey: 'listingPrice', desc: false }
-  }
-}
-
-export const sortHelper = (sort: string) => {
+export const sortHelper = (sort: string): Dictionary => {
   switch (sort.toLocaleLowerCase()) {
     case 'lowest price':
       return { listingPrice: 'asc' }
@@ -32,20 +20,23 @@ export const sortHelper = (sort: string) => {
   }
 }
 
-export const sortMarketplace = (array: AuctionNFT[], sort: string): AuctionNFT[] => {
-  const { parentKey, childKey, desc } = sortMarketplaceHelper(sort)
-  const sorted = array.sort((a: any, b: any) => {
-    const x = a[parentKey][childKey]
-    const y = b[parentKey][childKey]
-    return x < y ? -1 : x > y ? 1 : 0
-  })
-  if (desc) return sorted.reverse()
-  else return sorted
+export const openFor = (timestamp: number): string => {
+  const date = new Date(timestamp)
+  const now = new Date()
+  const years = date.getFullYear() - now.getFullYear()
+  const months = date.getMonth() - now.getMonth()
+  const days = date.getDate() - now.getDate()
+  var string = ''
+  if (days) string += days + ' days'
+  if (months) string += months + ' months'
+  if (years) string += years + ' years'
+  if (days < 0) return '0 days'
+  return string
 }
 
-export const isSuccess = (input: string) => input === 'success'
+export const isSuccess = (input: string): boolean => input === 'success'
 
-export const checkSuccess = (object: any) =>
+export const checkSuccess = (object: any): string =>
   Object.keys(object).filter(key => !isSuccess(object[key])).length === 0 ? 'success' : 'failure'
 
 // returns the checksummed address if the address is valid, otherwise returns false
@@ -67,9 +58,7 @@ const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   97: 'BSCT.',
   1337: 'StartFi.',
   80001: 'poygon',
-  1313161555 : 'AURORA.'
-
-  
+  1313161555: 'AURORA.'
 }
 
 export function getEtherscanLink(

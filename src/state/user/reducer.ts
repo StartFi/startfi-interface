@@ -22,8 +22,7 @@ import {
   logoutAction,
   getDraftsAction,
   getUserNFTsAction,
-  removeFromWishlistAction,
-
+  removeFromWishlistAction
 } from './actions'
 import { User } from 'services/models/User'
 import { NFT } from 'services/models/NFT'
@@ -69,7 +68,7 @@ export interface UserState {
   drafts: NFT[]
   onMarket: NFT[]
   offMarket: NFT[]
-  userAuctions:Auction[]
+  userAuctions: Auction[]
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -92,7 +91,7 @@ export const initialState: UserState = {
   drafts: [],
   onMarket: [],
   offMarket: [],
-  userAuctions:[]
+  userAuctions: []
 }
 
 export default createReducer(initialState, builder =>
@@ -208,7 +207,11 @@ export default createReducer(initialState, builder =>
     .addCase(saveDraftAction.pending, (state, action) => {})
     .addCase(saveDraftAction.fulfilled, (state, action) => {
       const success = action.payload.status === 'success'
-      state.popup = { success, type: 'SaveDraft', message: success ? 'Draft saved successfully' : action.payload.draftAdded }
+      state.popup = {
+        success,
+        type: 'SaveDraft',
+        message: success ? 'Draft saved successfully' : action.payload.draftAdded
+      }
     })
     .addCase(saveDraftAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
@@ -223,18 +226,17 @@ export default createReducer(initialState, builder =>
     .addCase(getDraftsAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
     })
-    .addCase(getUserNFTsAction.pending, (state, action) => {})
+    .addCase(getUserNFTsAction.pending, (state, action) => {
+      console.log('pending')
+    })
     .addCase(getUserNFTsAction.fulfilled, (state, action) => {
+      console.log('reducer',action.payload)
       state.onMarket = action.payload.onMarket
       state.offMarket = action.payload.offMarket
-      state.userAuctions=action.payload.userAuctions
+      state.userAuctions = action.payload.userAuctions
     })
     .addCase(getUserNFTsAction.rejected, (state, action) => {
+      console.log('error',action)
       state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
     })
-
 )
-
-
-
-

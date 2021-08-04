@@ -8,8 +8,8 @@ export const addAuction = async (auction: Auction): Promise<string> => {
   return addDocument(COLLECTION, auction.id, auction)
 }
 
-export const getAuction = async (auctionId: string): Promise<Auction> => {
-  return (await getDocument(COLLECTION, auctionId)) as Auction
+export const getAuction = async (id: string): Promise<Auction> => {
+  return (await getDocument(COLLECTION, id)) as Auction
 }
 
 export const editAuction = async (auction: any): Promise<string> => {

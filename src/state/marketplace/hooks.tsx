@@ -8,8 +8,6 @@ import { NFT } from 'services/models/NFT'
 import { AppState } from 'state'
 import { useChainId, useUserAddress } from 'state/user/hooks'
 import {
-  mintNFTAction,
-  buyNFTAction,
   clearMarketplacePopup,
   getAuctionNFTAction,
   getMarketplaceAction,
@@ -17,18 +15,25 @@ import {
   setBidOrBuy,
   saveNFT,
   saveAuction,
-  addToMarketplaceAction,
-  clearNFT
+  clearNFT,
+  delistAuctionAction,
+  setWalletConfirmation
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
-import { useCreateAuction } from 'hooks/startfiMarketPlace'
-import { useWeb3React } from '@web3-react/core'
+import { useBuyNow, useCreateAuction } from 'hooks/startfiMarketPlace'
+import { useApproveToken } from 'hooks/startfiToken'
 import { useMint } from 'hooks/startfiPaymentNft'
-import { useNftPaymentEventListener } from 'hooks/startfiEventListener'
+import { getAuction } from 'services/database/Auction'
+import { getNFT } from 'services/database/NFT'
+import { useMarketplaceListener, useNftPaymentEventListener } from 'hooks/startfiEventListener'
+import { address as STARTFI_MARKETPLACE_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
 
-import { useClearIPFSProgress } from 'state/ipfs/hooks'
-let generateId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+const generateId =
+  Date.now().toString(36) +
+  Math.random()
+    .toString(36)
+    .substr(2)
 
 export const useMarketplace = (): AuctionNFT[] => {
   return useSelector((state: AppState) => state.marketplace.marketplace)
@@ -102,12 +107,17 @@ export const useClearNFT = (): (() => void) => {
   return useCallback(() => dispatch(clearNFT()), [dispatch])
 }
 
+export const useSetWalletConfirmation = (): (() => void) => {
+  const dispatch = useDispatch()
+  return useCallback(() => dispatch(setWalletConfirmation()), [dispatch])
+}
+
 export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
   const dispatch = useDispatch()
   const chainId = useChainId()
   return useCallback(
     (query?: NFTQUERY) => {
-      let q: NFTQUERY = query || { sort: DEFAULT_SORT }
+      const q: NFTQUERY = query || { sort: DEFAULT_SORT }
       q.chainId = chainId
       dispatch(getMarketplaceAction(q))
     },
@@ -115,7 +125,7 @@ export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
   )
 }
 
-const useChangePage = () => {
+const useChangePage = (): ((newPage: number) => void) => {
   const getNFTs = useGetNFTs()
   const lastAuctions = useLastAuctions()
   return useCallback((newPage: number) => getNFTs({ newPage, lastAuction: lastAuctions[newPage - 1] }), [
@@ -127,64 +137,64 @@ const useChangePage = () => {
 export const usePagination = () => {
   const currentPage = useCurrentPage()
   const changePage = useChangePage()
-
   return useMemo(() => {
     return { currentPage, changePage }
   }, [currentPage, changePage])
 }
 
 export const useMintNFT = (): (() => void) => {
-  const dispatch = useDispatch()
-  const chainId = useChainId()
+  const address = useUserAddress()
   const popup = usePopup()
   const nft = useNFT()
   const mint = useMint()
-  const { account } = useWeb3React()
-
+  const setWalletConfirmation = useSetWalletConfirmation()
   useNftPaymentEventListener()
-  return useCallback(async () => {
-    if (account && nft && chainId) {
+  return useCallback(() => {
+    if (address && nft) {
       if (nft.royalty === 0) {
-        await mint(account as string, nft.dataHash)
+        mint(address, nft.dataHash)
       } else {
-        await mint(account as string, nft.dataHash, nft.royalty, 100)
+        mint(address, nft.dataHash, nft.royalty, 100)
       }
-      dispatch(mintNFTAction({ ...nft, issueDate: new Date(), owner: account, chainId }))
-    } else if (!account || !chainId) popup({ success: false, message: 'connectWallet' })
+      setWalletConfirmation()
+    } else if (!address) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
-  }, [nft, account, chainId, popup, dispatch, mint])
+  }, [nft, address, popup, mint, setWalletConfirmation])
 }
 
 export const useAddToMarketplace = (): (() => void) => {
-  const dispatch = useDispatch()
   const seller = useUserAddress()
   const chainId = useChainId()
   const popup = usePopup()
   const nft = useNFT()
   const auction = useAuction()
-const createAuction = useCreateAuction()
-/** */
-  return useCallback(async() => {
+  const createAuction = useCreateAuction()
+  const setWalletConfirmation = useSetWalletConfirmation()
+  useMarketplaceListener(nft)
+  return useCallback(() => {
     if (seller && chainId && auction && nft) {
-      console.log(auction,'auction');
-     const tokenId=nft?.tokenId?nft?.tokenId:1;
-
-      await createAuction( auction.contractAddress, tokenId,  auction.minBid as number,   auction.qualifyAmount as number,   auction.isForBid,auction.listingPrice as number,
-        auction.expireTimestamp)
-      dispatch(addToMarketplaceAction({ ...auction, nft: nft.id, seller, listTime: new Date(), chainId }))
+      createAuction(
+        auction.contractAddress,
+        nft.id,
+        auction.minBid as number,
+        auction.qualifyAmount as number,
+        auction.isForBid,
+        auction.listingPrice as number,
+        auction.expireTimestamp
+      )
+      setWalletConfirmation()
     } else if (!seller || !chainId) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
     else if (!auction) popup({ success: false, message: 'noAuction' })
-  }, [auction, nft, seller, chainId, popup, dispatch])
+  }, [auction, nft, seller, chainId, createAuction, popup, setWalletConfirmation])
 }
 
-export const useGetAuctionNFT = (nftId: number, auctionId: string) => {
+export const useGetAuctionNFT = (nftId: string, auctionId: string): void => {
   const dispatch = useDispatch()
   const nfts = useMarketplace()
   useEffect(() => {
     const AuctionNFT = nfts.filter(nft => nft.nft.id === nftId)[0]
     dispatch(getAuctionNFTAction({ nftId, auctionId, AuctionNFT }))
-    return () => {}
   }, [nftId, auctionId, nfts, dispatch])
 }
 
@@ -213,29 +223,60 @@ export const usePlaceBid = (): (() => void) => {
 }
 
 export const useBuyNFT = (): (() => void) => {
-  const dispatch = useDispatch()
+  const buyNow = useBuyNow()
   const buyer = useUserAddress()
   const auctionNFT = useAuctionNFT()
   const soldPrice = useBidOrBuyValue()
+  const approveToken = useApproveToken()
   const popup = usePopup()
-  return useCallback(() => {
+  const setWalletConfirmation = useSetWalletConfirmation()
+  useMarketplaceListener(auctionNFT?.nft)
+  return useCallback(async () => {
     if (buyer && auctionNFT) {
-      const nftId = auctionNFT.nft.id
-      const auctionId = auctionNFT.auction.id
-      const owner = auctionNFT.nft.owner
-      dispatch(buyNFTAction({ nftId, auctionId, owner, buyer, soldPrice }))
+      setWalletConfirmation()
+      console.log(auctionNFT.auction.id)
+      await approveToken(STARTFI_MARKETPLACE_ADDRESS, soldPrice)
+      await buyNow(auctionNFT.auction.id, soldPrice)
     } else popup({ success: false, message: 'connectWallet' })
-  }, [soldPrice, auctionNFT, buyer, popup, dispatch])
+  }, [soldPrice, auctionNFT, buyer, approveToken, buyNow, popup, setWalletConfirmation])
 }
 
 export const useNFTDetails = () => {
   return useSelector((state: AppState) => state.marketplace.NftDetails)
 }
 
-export const useClearMarketplacePopup = () => {
+export const useClearMarketplacePopup = (): (() => void) => {
   const dispatch = useDispatch()
-
   return useCallback(() => {
     dispatch(clearMarketplacePopup())
   }, [dispatch])
+}
+
+export const useDelistAuction = (): ((auctionId: string) => void) => {
+  const dispatch = useDispatch()
+  const owner = useUserAddress()
+  const popup = usePopup()
+  return useCallback(
+    async (auctionId: string) => {
+      //get auction and nft data replace with nft and auction retrieved from blockchain
+      const auction = await getAuction(auctionId)
+      const nft = await getNFT(auction.nft)
+      //validation
+      if (
+        owner &&
+        owner === nft.owner &&
+        auction.status === 'open' &&
+        auction.bids.length === 0 &&
+        auction.expireTimestamp > new Date().valueOf()
+      )
+        dispatch(delistAuctionAction(auctionId))
+      //displaying error
+      else if (!owner || owner !== nft.owner) popup({ success: false, message: 'notOwner' })
+      else if (auction.status !== 'open') popup({ success: false, message: 'auctionNotOpened' })
+      else if (auction.bids.length !== 0) popup({ success: false, message: 'auctionHasBids' })
+      else if (auction.expireTimestamp <= new Date().valueOf()) popup({ success: false, message: 'auctionExpired' })
+      else popup({ success: false, message: 'unknownReason' })
+    },
+    [owner, popup, dispatch]
+  )
 }
