@@ -35,7 +35,7 @@ export const DropDown: React.FC<DropDownProps> = ({
 
   const [open, setOpen] = useState(false)
 
-  const [selected, setSelected] = useState('')
+  const [selected, setSelected] = useState(value || '')
 
   useEffect(() => {
     if (value) setSelected(value)

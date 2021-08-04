@@ -17,7 +17,7 @@ const Step7: React.FC<Step7Props> = ({ auction, setAuction }) => {
 
   const [expire, setExpire] = useState({
     openFor: 0,
-    type: ''
+    type: 'Day'
   })
 
   const handleChange = (e: any) => setAuction({ ...auction, [e.target.name]: e.target.value })
@@ -140,6 +140,7 @@ const Step7: React.FC<Step7Props> = ({ auction, setAuction }) => {
               options={['Day', 'Week', 'Month', 'Year']}
               value={expire.type}
               onChange={handleExpire}
+              showLabel={true}
             />
           </OpenFor>
           <QualifyAmount>
