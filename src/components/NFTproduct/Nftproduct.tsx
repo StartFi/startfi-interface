@@ -69,7 +69,7 @@ const Nftproduct = () => {
 
   const nftId = parseInt(nft)
 
-  const imgUrl = uriToHttp(`${auctionNFT?.nft.dataHash}`)[1]
+  const imgUrl = uriToHttp(`${auctionNFT?.nft?.dataHash}`)[1]
 
   const noStakes =
     balance &&
@@ -131,13 +131,13 @@ const Nftproduct = () => {
         <PublisherCard height='60px'>
           <OwnerText>
             <p>{t('owner')} :</p>
-            <span>{auctionNFT?.nft.owner}</span>
+            <span>{auctionNFT?.nft?.owner}</span>
           </OwnerText>
         </PublisherCard>
         <BuyCard>
           <BuyCost>
             <p>
-              {t('cost')} : <span>{auctionNFT?.auction.listingPrice}</span>
+              {t('cost')} : <span>{auctionNFT?.auction?.listingPrice}</span>
             </p>
           </BuyCost>
           <BuyButtons $opacity={false}>
@@ -168,7 +168,7 @@ const Nftproduct = () => {
           </DescriptionTitle>
           <DescriptionText>
             <ReadMore showScroll={showScroll}>
-              <p>{auctionNFT?.nft.description}</p>
+              <p>{auctionNFT?.nft?.description}</p>
             </ReadMore>
           </DescriptionText>
         </DescriptionCard>

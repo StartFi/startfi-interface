@@ -35,7 +35,7 @@ const Minted: React.FC = () => {
         <MintedButtonWhite
           onClick={() => {
             clearNFT()
-            history.push('/inventory/off-market/' + nft.id)
+            history.push('/inventory/home/offMarketPlace')
           }}
         >
           {t('seeInInventory')}

@@ -29,7 +29,7 @@ const WishCard: React.FC<MiniCardContent> = ({ cardContent, navigateToNft }) => 
     let comma = ','
     if (interval === 'S') comma = ''
     timerComponents.push(
-      <Counter>
+      <Counter key={interval}>
         <p>{timeLeft[interval]}</p>
         <p>
           {interval}

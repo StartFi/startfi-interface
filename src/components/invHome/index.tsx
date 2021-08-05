@@ -8,9 +8,8 @@ import CardHeader, { InventoryOptions, InvParams } from './CardHeader'
 import { InventoryCard } from './InvHome.styles'
 import MiniCard from './MiniCard'
 
-
 const InventoryHome = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const [inventoryOption, setInventoryOption] = useState(InventoryOptions.Draft)
   const [inventoryItems, setInventoryItems] = useState<NFT[]>([])
   const history = useHistory()
@@ -19,19 +18,26 @@ const InventoryHome = () => {
   const offMarketNFT: NFT[] | undefined = useOffMarket()
 
   const { id }: InvParams = useParams()
-  const getInventory=useGetInventory()
-  useEffect(()=>{
+  const getInventory = useGetInventory()
+  useEffect(() => {
     getInventory()
-  },[])
+  }, [])
 
   useEffect(() => {
     if (id === 'offMarketPlace') {
-      setInventoryOption(InventoryOptions.offMarketPlace);
+      setInventoryOption(InventoryOptions.offMarketPlace)
+    }
+    if (id === 'onMarketPlace') {
+      setInventoryOption(InventoryOptions.inMarketPlace)
     }
 
     switch (inventoryOption) {
       case InventoryOptions.Draft:
-        if (drafts?.length > 0) {setInventoryItems([...drafts])}else{setInventoryItems([])}
+        if (drafts?.length > 0) {
+          setInventoryItems([...drafts])
+        } else {
+          setInventoryItems([])
+        }
         break
       case InventoryOptions.inMarketPlace:
         setInventoryItems([...onMarketNFT])
@@ -40,7 +46,6 @@ const InventoryHome = () => {
         setInventoryItems([...offMarketNFT])
         break
     }
-
   }, [inventoryOption])
 
   inventoryItems?.sort((a, b) => {

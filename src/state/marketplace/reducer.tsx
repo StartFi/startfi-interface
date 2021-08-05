@@ -121,7 +121,6 @@ export default createReducer(initialState, builder =>
       state.popup = { success: false, message: action.error.message || 'Error occured while placing bid' }
     })
     .addCase(buyNFTAction.pending, (state, action) => {
-      state.walletConfirmation = 'Payment'
     })
     .addCase(buyNFTAction.fulfilled, (state, action) => {
       state.walletConfirmation = null

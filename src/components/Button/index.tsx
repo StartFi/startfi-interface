@@ -413,7 +413,7 @@ export const ButtonMintBack = styled(ButtonDraft)`
 `
 export const RemoveWishList = styled(ButtonMint)`
   background-color: white;
-  width: 15vw;
+  width: 18vw;
   color: #000000;
   font-weight: 500;
   font-size: 16px;

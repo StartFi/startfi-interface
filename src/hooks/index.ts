@@ -23,14 +23,6 @@ export const useLocationSearch = (): Dictionary => {
   }, [location])
 }
 
-export const useSTFItoUSD = (amount: number): number => {
-  const [USD, setUSD] = useState<number>(amount)
-  useEffect(() => {
-    setUSD(amount * 100)
-  }, [amount, setUSD])
-  return USD
-}
-
 export const useDigitizingFees = (): number => {
   const fees = 5
   return fees

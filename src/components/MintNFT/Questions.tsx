@@ -3,9 +3,9 @@ import * as _ from 'lodash'
 import { useTranslation } from 'react-i18next'
 import ArrowDown from './../../assets/icons/qaarrowdown.svg'
 import ArrowUp from './../../assets/icons/qaarrowup.svg'
-import { NeedHelp, QA, Answer, Underline, Question, Img } from './styles'
+import { NeedHelp, QA, Answer, Underline, Question, Img, NeedHelpContainer } from './styles'
 
-const QAS = 7
+const QAS = 4
 
 const Questions: React.FC = () => {
   const { t } = useTranslation()
@@ -13,7 +13,7 @@ const Questions: React.FC = () => {
   const [selected, setSelected] = useState(-1)
 
   return (
-    <div>
+    <NeedHelpContainer>
       <NeedHelp>{t('Need Help?')}</NeedHelp>
       <Underline />
       {_.times(QAS, (i: number) => (
@@ -25,7 +25,7 @@ const Questions: React.FC = () => {
           {selected === i && <Answer>{t('needHelpA' + i)}</Answer>}
         </QA>
       ))}
-    </div>
+    </NeedHelpContainer>
   )
 }
 
