@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Row } from 'theme/components'
+import { CenteredRow, Row } from 'theme/components'
 
 export const Img = styled.img`
   margin-right: 1vw;
@@ -25,8 +25,9 @@ interface TabProps {
   readonly selected: boolean
 }
 
-export const Tab = styled(Row)<TabProps>`
+export const Tab = styled(CenteredRow)<TabProps>`
   cursor: pointer;
+  width: fit-content;
   padding-bottom: 1vh;
   border-bottom: ${props => (props.selected ? '2px solid #000000;' : 'none;')};
 `

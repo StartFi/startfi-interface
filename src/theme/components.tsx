@@ -9,9 +9,23 @@ export const Flex = styled.div`
   display: flex;
 `
 
+export const CenteredRow = styled(Flex)`
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`
+
 export const Row = styled(Flex)`
   flex-flow: row nowrap;
   justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`
+
+export const SpaceEvenly = styled(Flex)`
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
   align-items: center;
   width: 100%;
 `
