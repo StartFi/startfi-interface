@@ -5,7 +5,7 @@ import Text from '../Text'
 import { useHistory, useParams } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
 import uriToHttp from 'utils/uriToHttp'
-import { useOffMarketItem, useGetInventory } from 'state/user/hooks'
+import { useOffMarketItem} from 'state/user/hooks'
 import Card from 'components/Card'
 import { ImageContainer, Divider, TextContainer, TagRow } from 'components/InMarketAsset/InMarket.styles'
 import { Footer, TopTitle } from './OffMarket.styles'
@@ -13,7 +13,6 @@ import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
 import { useTranslation } from 'react-i18next'
 import Vector from '../../assets/images/Vector.png'
 import StringModifier from 'utils/StringSplice'
-import { buyNFT } from 'services/Marketplace'
 import { useSaveNFT } from 'state/marketplace/hooks'
 
 interface offMarketParams {
@@ -23,18 +22,14 @@ interface offMarketParams {
 const OffMarket = () => {
   const { t } = useTranslation()
   const { id }: offMarketParams = useParams()
-  console.log('id', id)
   const history = useHistory()
   const nft: NFT = useOffMarketItem(id)
   const saveNFT = useSaveNFT()
-  console.log('offMarket Nft=>', nft)
   const imgUrl = uriToHttp(`${nft?.dataHash}`)[1]
-
   const [tagsState, setTagsState] = useState(false)
-  // const getInventory=useGetInventory()
+
 
   useEffect(() => {
-    // getInventory()
     if (nft?.tags) {
       if (nft.tags.length > 0) setTagsState(true)
     }
@@ -51,7 +46,7 @@ const OffMarket = () => {
       </TopTitle>
       <Row padding="20px" align="start">
         <Text fontFamily="Roboto" FontWeight="500" fontSize="1rem" color="#000000" margin="0 0 3px 8px">
-          {nft.name}
+          {nft?.name}
         </Text>
         {/* 1 */}
         <Card height="142px" border="1px solid #F4F4F4" borderRadius="6px" background="#FBFBFB">
@@ -61,7 +56,7 @@ const OffMarket = () => {
               <div>
                 <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="3.75rem">
                   {t('category')}
-                  <span>{nft.category}</span>
+                  <span>{nft?.category}</span>
                 </Text>
               </div>
 
@@ -82,7 +77,7 @@ const OffMarket = () => {
             <div>
               <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="3.75rem">
                 {t('asstName')}
-                <span>{nft.name}</span>
+                <span>{nft?.name}</span>
               </Text>
             </div>
             <Divider width="95%"></Divider>
@@ -92,7 +87,7 @@ const OffMarket = () => {
               </Text>
               {tagsState ? (
                 <TagContainer marginLeft="6.8rem">
-                  {nft.tags?.map(e => (
+                  {nft?.tags?.map(e => (
                     <div key={e}>{e}</div>
                   ))}
                 </TagContainer>
@@ -105,7 +100,7 @@ const OffMarket = () => {
             <div>
               <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="4.0rem">
                 {t('description')}
-                <span>{nft.description}</span>
+                <span>{nft?.description}</span>
               </Text>
             </div>
           </TextContainer>
@@ -117,7 +112,7 @@ const OffMarket = () => {
             <div>
               <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="9.75rem">
                 {t('tokenId')}
-                <span>{nft.id}</span>
+                <span>{nft?.id}</span>
               </Text>
             </div>
             <Divider width="95%"></Divider>

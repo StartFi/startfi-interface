@@ -34,12 +34,10 @@ const CardHeader: React.FC<CardHeaderProps> = ({ getType }) => {
   const history = useHistory()
 
   useEffect(() => {
-
     if (inventoryType === InventoryOptions.Draft) history.push('/inventory/home/draft')
     if (id === 'offMarketPlace') setInventoryType(InventoryOptions.offMarketPlace)
+    if (id === 'onMarketPlace') setInventoryType(InventoryOptions.inMarketPlace)
   }, [id])
-
-  
 
   return (
     <HeaderContainer>

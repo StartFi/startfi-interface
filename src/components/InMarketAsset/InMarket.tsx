@@ -3,14 +3,15 @@ import { InventoryCard, TagContainer } from 'components/invHome/InvHome.styles'
 import Row from 'components/Row'
 import Text from '../Text'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
 import { useAuctionItem, useOnMarketItem } from 'state/user/hooks'
 import uriToHttp from 'utils/uriToHttp'
 import { Divider, ImageContainer, TextContainer, TagRow, DeListingContainer } from './InMarket.styles'
 import { Auction } from 'services/models/Auction'
-import { DelistButton } from 'components/Button'
+import { ButtonMintBack, DelistButton } from 'components/Button'
 import { useTranslation } from 'react-i18next'
+import { Footer } from 'components/OffMarket/OffMarket.styles'
 
 interface onMarketParams {
   id: string
@@ -23,6 +24,7 @@ const InMarket = () => {
   const auction: Auction = useAuctionItem(id)
   const imgUrl = uriToHttp(`${nft.dataHash}`)[1]
   const [tagsState, setTagsState] = useState(false)
+  const history = useHistory()
 
   useEffect(() => {
     if (nft?.tags) {
@@ -39,7 +41,7 @@ const InMarket = () => {
       <InventoryCard borderRadius='8px' marginTop='54px'>
         <Row padding='20px' align='start'>
           <Text fontFamily='Roboto' FontWeight='500' fontSize='1rem' color='#000000' margin='0 0 3px 8px'>
-            {nft.name}
+            {nft?.name}
           </Text>
           {/* 1 */}
           <Card height='142px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB'>
@@ -49,7 +51,7 @@ const InMarket = () => {
                 <div>
                   <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='3.75rem'>
                     {t('category')}
-                    <span>{nft.category}</span>
+                    <span>{nft?.category}</span>
                   </Text>
                 </div>
 
@@ -70,7 +72,7 @@ const InMarket = () => {
               <div>
                 <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='3.75rem'>
                   {t('asstName')}
-                  <span>{nft.name}</span>
+                  <span>{nft?.name}</span>
                 </Text>
               </div>
               <Divider width='95%'></Divider>
@@ -94,7 +96,7 @@ const InMarket = () => {
               <div>
                 <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='4.0rem'>
                   {t('description')}
-                  <span>{nft.description}</span>
+                  <span>{nft?.description}</span>
                 </Text>
               </div>
             </TextContainer>
@@ -105,7 +107,7 @@ const InMarket = () => {
             <TextContainer marginLeft='1.438rem' width='100%'>
               <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='3.40rem'>
                 {t('IssueRoyaltyShare')}
-                <span>{nft.royalty} % ~ ( 250 STFI / 25 USD )</span>
+                <span>{nft?.royalty} % ~ ( 250 STFI / 25 USD )</span>
               </Text>
             </TextContainer>
           </Card>
@@ -117,7 +119,7 @@ const InMarket = () => {
                 <div>
                   <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
                     {t('pricing')}
-                    <span>{auction.listingPrice} STFI ~ 253 USD</span>
+                    <span>{auction?.listingPrice} STFI ~ 253 USD</span>
                   </Text>
                 </div>
                 <Divider width='95%'></Divider>
@@ -151,7 +153,7 @@ const InMarket = () => {
                 <div>
                   <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
                     {t('pricing')}
-                    <span>{auction.listingPrice} STFI ~ 253 USD</span>
+                    <span>{auction?.listingPrice} STFI ~ 253 USD</span>
                   </Text>
                 </div>
               </TextContainer>
@@ -164,7 +166,7 @@ const InMarket = () => {
               <div>
                 <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
                   {t('tokenId')}
-                  <span>{nft.id}</span>
+                  <span>{nft?.id}</span>
                 </Text>
               </div>
               <Divider width='95%'></Divider>
@@ -177,6 +179,9 @@ const InMarket = () => {
             </TextContainer>
           </Card>
         </Row>
+        <Footer>
+        <ButtonMintBack onClick={() => history.push('/inventory/home/onMarketPlace')}>{t('back')}</ButtonMintBack>
+      </Footer>
       </InventoryCard>
       <InventoryCard height='114px' borderRadius='8px' marginTop='30px'>
         <DeListingContainer>
