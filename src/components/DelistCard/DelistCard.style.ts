@@ -1,4 +1,4 @@
-import { Modal } from 'components/WaitingConfirmation'
+import { Modal } from 'components/WaitingConfirmation/styles'
 
 import styled from 'styled-components'
 
@@ -25,7 +25,8 @@ export const Shadow = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 10;
 `
-export const DelistModal = styled(Modal)`
+
+export const DelistModal = styled(Modal)` 
   background: #fafafa;
   border: 1px solid #d8d8d8;
 `
