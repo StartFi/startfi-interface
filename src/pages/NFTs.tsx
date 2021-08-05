@@ -78,10 +78,10 @@ const NFTs: React.FC = () => {
           }}
         />
       </Header>
-      <LinkBase to="/inventory/home/draft" onClick={getInventory}>
+      {/* <LinkBase to="/inventory/home/draft" onClick={getInventory}>
         Inventory
       </LinkBase>
-      <LinkBase to="/marketplace/wishList">Wish List</LinkBase>
+      <LinkBase to="/marketplace/wishList">Wish List</LinkBase> */}
       <NFTList>
         {onMarket.map((auctionNFT: AuctionNFT) => (
           <Nft key={auctionNFT.nft.id}>
