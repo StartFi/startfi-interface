@@ -3,17 +3,18 @@ import { InventoryCard, TagContainer } from 'components/invHome/InvHome.styles'
 import Row from 'components/Row'
 import Text from '../Text'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
 import { useAuctionItem, useOnMarketItem } from 'state/user/hooks'
 import uriToHttp from 'utils/uriToHttp'
 import { Divider, ImageContainer, TextContainer, TagRow, DeListingContainer, AuctionTimer } from './InMarket.styles'
 import { Auction } from 'services/models/Auction'
-import { DelistButton } from 'components/Button'
+import { ButtonMintBack, DelistButton } from 'components/Button'
 import { useTranslation } from 'react-i18next'
 import DelistCard from 'components/DelistCard/DelistCard'
 import { Counter } from 'components/WishList/WishList.styles'
 import { useCountDownTimer } from 'hooks/countDownTimer'
+
 
 interface onMarketParams {
   id: string
@@ -26,6 +27,7 @@ const InMarket = () => {
   const auction: Auction = useAuctionItem(id)
   const imgUrl = uriToHttp(`${nft?.dataHash}`)[1]
   const [tagsState, setTagsState] = useState(false)
+
   const [displayBidWarning, setDisplayBidWarning] = useState<string>('none')
   const [displayWarning, setDisplayWarning] = useState<string>('none')
   const [delistCardHeight, setDelistCardHeight] = useState<string>('129px')
@@ -33,6 +35,7 @@ const InMarket = () => {
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [disabled, setDisabled] = useState<boolean>(false)
   const timeLeft = useCountDownTimer(auction.expireTimestamp)
+
 
 
 
@@ -137,6 +140,7 @@ const InMarket = () => {
                   <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='3.75rem'>
                     {t('asstName')}
                     <span>{nft?.name}</span>
+
                   </Text>
                 </div>
                 <Divider width='95%'></Divider>
@@ -188,6 +192,7 @@ const InMarket = () => {
                   </div>
                   <Divider width='95%'></Divider>
 
+
                   <div>
                     <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='5.0rem'>
                       {t('minBiding')}
@@ -235,19 +240,24 @@ const InMarket = () => {
               <TextContainer marginLeft='1.438rem' width='100%'>
                 <div>
                   <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
-                    {t('tokenId')}
-                    <span>{nft?.id}</span>
+
+                    {t('pricing')}
+                    <span>{auction?.listingPrice} STFI ~ 253 USD</span>
+
                   </Text>
                 </div>
                 <Divider width='95%'></Divider>
                 <div>
                   <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='5.0rem'>
+
                     {t('contactAddress')}
                     <span></span>
+
                   </Text>
                 </div>
               </TextContainer>
             </Card>
+
           </Row>
         </InventoryCard>
         <InventoryCard height={delistCardHeight} borderRadius='8px' marginTop='30px'>
@@ -273,6 +283,7 @@ const InMarket = () => {
         </InventoryCard>
       </div>
     </React.Fragment>
+
   )
 }
 

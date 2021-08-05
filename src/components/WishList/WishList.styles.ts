@@ -20,7 +20,7 @@ export const RemoveContainer = styled('div')<{ opacity?: boolean }>`
       height: 20px;
       width: 20px;
       position: relative;
-      left: 10px;
+      /* left: 10px; */
     }
   }
 `
@@ -44,7 +44,7 @@ export const WishListCard = styled.div`
   background-color: #ffffff;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.135216);
   border-radius: 8px;
-  cursor:pointer;
+  cursor: pointer;
 
   &:hover {
     ${RemoveContainer} {

@@ -21,7 +21,7 @@ import {
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
-import { useBuyNow, useCreateAuction } from 'hooks/startfiMarketPlace'
+import { useBid, useBuyNow, useCreateAuction } from 'hooks/startfiMarketPlace'
 import { useApproveToken } from 'hooks/startfiToken'
 import { useMint } from 'hooks/startfiPaymentNft'
 import { getAuction } from 'services/database/Auction'
@@ -204,22 +204,25 @@ export const usePlaceBid = (): (() => void) => {
   const chainId = useChainId()
   const auctionNFT = useAuctionNFT()
   const bidPrice = useBidOrBuyValue()
-  const popup = usePopup()
-  return useCallback(() => {
-    if (bidder && chainId && auctionNFT) {
+  const setWalletConfirmation = useSetWalletConfirmation()
+  const bidWeb3 = useBid()
+  const bid: Bid = {
+    id: generateId,
+    nft: auctionNFT?.nft.id,
+    bidPrice,
+    bidder: bidder || '',
+    expireTimestamp: 0,
+    txtHash: '',
+    chainId: chainId || 3
+  }
+  useMarketplaceListener(auctionNFT?.nft, bid)
+  return useCallback(async () => {
+    if (auctionNFT) {
       const auctionId = auctionNFT.auction.id
-      const bid: Bid = {
-        id: generateId,
-        nft: auctionNFT.nft.id,
-        bidPrice,
-        bidder,
-        expireTimestamp: 0,
-        txtHash: '',
-        chainId
-      }
-      dispatch(placeBidAction({ auctionId, bid }))
-    } else popup({ success: false, message: 'connectWallet' })
-  }, [bidPrice, auctionNFT, bidder, chainId, popup, dispatch])
+      setWalletConfirmation()
+      await bidWeb3(auctionId, bidPrice)
+    }
+  }, [bidPrice, auctionNFT, bidWeb3, setWalletConfirmation])
 }
 
 export const useBuyNFT = (): (() => void) => {
@@ -234,7 +237,6 @@ export const useBuyNFT = (): (() => void) => {
   return useCallback(async () => {
     if (buyer && auctionNFT) {
       setWalletConfirmation()
-      console.log(auctionNFT.auction.id)
       await approveToken(STARTFI_MARKETPLACE_ADDRESS, soldPrice)
       await buyNow(auctionNFT.auction.id, soldPrice)
     } else popup({ success: false, message: 'connectWallet' })
