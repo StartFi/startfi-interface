@@ -4,10 +4,11 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { addNewEvent } from 'state/blockchainEvents/actions'
 import { parseBigNumber, useStartFiToken, useStartFiMarketplace, useStartFiNft } from './useContract'
-import { addToMarketplaceAction, buyNFTAction, mintNFTAction, saveNFT } from 'state/marketplace/actions'
+import { addToMarketplaceAction, buyNFTAction, mintNFTAction, placeBidAction, saveNFT } from 'state/marketplace/actions'
 import { editNFT } from 'services/database/NFT'
 import { useAuction, useAuctionNFT, useNFT } from 'state/marketplace/hooks'
 import { useChainId, useUserAddress } from 'state/user/hooks'
+import { Bid } from 'services/models/Bid'
 export const useNftPaymentEventListener = () => {
   const account = useUserAddress()
   const chainId = useChainId()
@@ -60,7 +61,7 @@ export const useNftPaymentEventListener = () => {
   }, [])
 }
 
-export const useMarketplaceListener = (nft?: any) => {
+export const useMarketplaceListener = (nft?: any, bid?: Bid) => {
   const { library } = useActiveWeb3React()
   const marketplaceContract = useStartFiMarketplace(false)
   const listOnMarketplaceEvent = marketplaceContract?.filters.ListOnMarketplace()
@@ -130,6 +131,11 @@ export const useMarketplaceListener = (nft?: any) => {
         const eventLogs = marketplaceContract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
         const eventValue = parseBigNumber(args)
+        console.log(eventValue)
+        if (bid) {
+          bid.id = eventValue[0]
+          dispatch(placeBidAction({ auctionId: auctionNFT?.auction.id || '', bid }))
+        }
         dispatch(addNewEvent({ eventName: 'BidOnAuction', eventValue }))
       })
     }
