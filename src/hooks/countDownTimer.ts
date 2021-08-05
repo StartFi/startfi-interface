@@ -7,11 +7,10 @@ export interface TimeLeft {
 export const useCountDownTimer = (expireTimestamp: number) => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft(expireTimestamp))
   const [updater, setUpdater] = useState<boolean>(false)
-  
+
   useEffect(() => {
     const timer = setTimeout(() => {
       let time = calculateTimeLeft(expireTimestamp)
-
       if (Object.keys(time).length > 0) setUpdater(!updater)
 
       setTimeLeft(calculateTimeLeft(expireTimestamp))

@@ -10,15 +10,18 @@ export const ImageContainer = styled.div`
   }
 `
 
-export const Divider = styled('div') <{ width?: string; left?: string }>`
+export const Divider = styled('div') < { width?: string; left?: string ; backgroundColor?: string; top?:string } > `
   position: relative;
   &:after {
     content: '';
     position: absolute;
+    margin-top:${({ top }) => top};
     height: 1px;
     width: ${({ width }) => width};
     left: ${({ left }) => left};
     background-color: #f0f0f0;
+    background-color: ${({ backgroundColor }) => backgroundColor};
+
   }
 `
 
@@ -39,10 +42,16 @@ export const TagRow = styled.div`
   }
 `
 
-export const DeListingContainer=styled.div`
+export const DeListingContainer = styled('div') <{ height?: string }>`
 display:flex;
 align-items:center;
 justify-content:space-between;
-height:100px;
+height:${({ height }) => height};
 margin:0px 18px 0px 30px;
+`
+
+export const AuctionTimer=styled.div`
+display:flex;
+align-items:center;
+
 `
