@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next'
 import DelistCard from 'components/DelistCard/DelistCard'
 import { Counter } from 'components/WishList/WishList.styles'
 import { useCountDownTimer } from 'hooks/countDownTimer'
-
+import { Footer} from '../OffMarket/OffMarket.styles'
 
 interface onMarketParams {
   id: string
@@ -36,7 +36,7 @@ const InMarket = () => {
   const [disabled, setDisabled] = useState<boolean>(false)
   const timeLeft = useCountDownTimer(auction.expireTimestamp)
 
-
+  const history = useHistory()
 
 
   const timerComponents: any = []
@@ -235,30 +235,8 @@ const InMarket = () => {
               </Card>
             )}
 
-            {/* 5 */}
-            <Card height='123px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
-              <TextContainer marginLeft='1.438rem' width='100%'>
-                <div>
-                  <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
 
-                    {t('pricing')}
-                    <span>{auction?.listingPrice} STFI ~ 253 USD</span>
 
-                  </Text>
-                </div>
-                <Divider width='95%'></Divider>
-                <div>
-                  <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='5.0rem'>
-
-                    {t('contactAddress')}
-                    <span></span>
-
-                  </Text>
-                </div>
-              </TextContainer>
-            </Card>
-
-          )}
 
           {/* 5 */}
           <Card height='123px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
@@ -282,23 +260,10 @@ const InMarket = () => {
         <Footer>
 
         <ButtonMintBack onClick={() => history.push('/inventory/home/onMarketPlace')}>{t('back')}</ButtonMintBack>
-        
+
       </Footer>
       </InventoryCard>
-      <InventoryCard height='114px' borderRadius='8px' marginTop='30px'>
-        <DeListingContainer>
-          <div>
-            <Text FontWeight='500' color='#000000' fontFamily='Roboto' fontSize='1rem'>
-              {t('deListingAsset')}?
-            </Text>
-            <Text fontFamily='Roboto' fontSize='1rem' color='#444444'>
-              {t('removeAsset')}?
-            </Text>
-          </div>
 
-
-          </Row>
-        </InventoryCard>
         <InventoryCard height={delistCardHeight} borderRadius='8px' marginTop='30px'>
           <DeListingContainer height={delistContainerHeight}>
             <div>
