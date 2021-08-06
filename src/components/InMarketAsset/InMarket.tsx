@@ -180,7 +180,9 @@ const InMarket = () => {
           </Card>
         </Row>
         <Footer>
+
         <ButtonMintBack onClick={() => history.push('/inventory/home/onMarketPlace')}>{t('back')}</ButtonMintBack>
+        
       </Footer>
       </InventoryCard>
       <InventoryCard height='114px' borderRadius='8px' marginTop='30px'>
