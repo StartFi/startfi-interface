@@ -223,6 +223,7 @@
   "brokenToken": "The selected token is not compatible with Uniswap V1. Adding liquidity will result in locked funds.",
   "toleranceExplanation": "Lowering this limit decreases your risk of frontrunning. However, this makes more likely that your transaction will fail due to normal price movements.",
   "tokenSearchPlaceholder": "Search name or paste address",
+
   "whishList": "WISHLIST",
   "views": "Views",
   "createdBy": "Details created By",
@@ -265,5 +266,21 @@
   "lastBidding": "Last Bidding",
   "auctionEnds": " Auctions Ends In",
   "zeroBalanceMessage": " You don't have balance",
-  "zeroBalance": " No balance"
+  "zeroBalance": " No balance",
+   "Days":"Days",
+  "Hours":"Hours",
+  "Minutes":"Minutes",
+  "delistAsset":"Delisting Asset",
+  "delistCost":"Delisting the asset from the market place right now Will cost you stakes if it's didn't Exceed the minimaum duration of delisting",
+  "delistNow":"Delisting the asset now means it will be removed from the marketplace are you sure you want to delist it?",
+  "minDelistLeft":" minimum delisting duration Left",
+  "delistConfirm":" I’m sure about delisting my asset which will charge me stake fees",
+  "delistNowButton":" Delist Now",
+  "cancelDelisting":"Cancel Delisting",
+  "DelistSuccess":"Your asset has been Delisted and moved to “Inventory, Off marketplace”",
+  "checkStake":" Check my Stake Balance",
+  "checkInventory":"Check my Inventory",
+  "BackToMarketplace":"Go Back to Marketplace"
+  
+
 }

@@ -22,6 +22,8 @@ interface offMarketParams {
 const OffMarket = () => {
   const { t } = useTranslation()
   const { id }: offMarketParams = useParams()
+
+
   const history = useHistory()
   const nft: NFT = useOffMarketItem(id)
   const saveNFT = useSaveNFT()

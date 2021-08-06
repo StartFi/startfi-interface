@@ -45,6 +45,7 @@ const Marginer = styled.div`
 `
 
 export default function App() {
+  //check if login
   useLogin()
 
   return (

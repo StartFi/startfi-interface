@@ -6,6 +6,7 @@ import config from './config'
 firebase.initializeApp(config)
 
 const DB = firebase.firestore()
+firebase.firestore().settings({ experimentalForceLongPolling: true });
 
 export const addDocument = async (collection: string, key: string | number, document: Document): Promise<string> => {
   if (!collection) return 'No entity provided'

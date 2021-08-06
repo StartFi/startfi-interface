@@ -76,7 +76,6 @@ const NFTs: React.FC = () => {
           }}
         />
       </Header>
-
       <NFTList>
         {onMarket.map((auctionNFT: AuctionNFT) => (
           <Nft key={auctionNFT.nft.id}>
