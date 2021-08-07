@@ -62,11 +62,7 @@ const InMarket = () => {
     if (nft?.tags) {
       if (nft.tags.length > 0) setTagsState(true)
     }
-    if (timerComponents.length > 0 && auction?.isForBid && auction?.bids.length > 0) {
-      setDisplayBidWarning('block')
-      setDelistCardHeight('161px')
-      setDelistContainerHeight('145px')
-    }
+   
   }, [])
 
   const delist = () => {
