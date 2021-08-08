@@ -36,7 +36,6 @@ const InMarket = () => {
   const [disabled, setDisabled] = useState<boolean>(false)
   const timeLeft = useCountDownTimer(auction.expireTimestamp)
 
-  useMarketplaceListener({ listingId: auction.id })
   const timerComponents: any = []
 
   Object.keys(timeLeft).forEach(interval => {

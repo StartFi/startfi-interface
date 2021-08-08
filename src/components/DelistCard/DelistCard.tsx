@@ -23,6 +23,7 @@ import delistSuccessImg from '../../assets/images/delistSuccess.png'
 import { useHistory } from 'react-router-dom'
 import { Auction } from 'services/models/Auction'
 import { useTranslation } from 'react-i18next'
+import { useDelistAuction } from 'state/marketplace/hooks'
 
 interface DelistCardProps {
   isOpen: boolean
@@ -37,6 +38,7 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
   const [disabled, setDisabled] = useState<boolean>(true)
   const [delistSuccess, setDelistSuccess] = useState<boolean>(false)
   const timerComponents: any = []
+  const delist = useDelistAuction(auction.id)
 
 
   const history = useHistory()
@@ -132,7 +134,10 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
               </CheckContainer>
               <ButtonContainer>
                 <DelistButton
-                  onClick={() => setDelistSuccess(true)}
+                  onClick={() => {
+                    delist()
+                    setDelistSuccess(true)
+                  }}
                   disabled={disabled}
                   backgroundColor='#000000'
                   color='#ffffff'
