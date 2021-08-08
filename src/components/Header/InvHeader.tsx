@@ -22,6 +22,7 @@ const Left = styled.div`
   font-size: 1.125rem;
   img {
     margin-right: 1vw;
+    cursor:pointer;
   }
 `
 
