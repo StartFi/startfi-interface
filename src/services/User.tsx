@@ -62,7 +62,6 @@ export const getUserNFTs = async ({ chainId, owner }: GetUserNFTs) => {
   for (var i in userNFTs) {
     const auctions = await getAuctions({ nft: userNFTs[i].id })
     if (auctions.length > 0) userAuctions.push(auctions[0])
-
     if (auctions.filter(auction => auction.status === 'open').length > 0) onMarket.push(userNFTs[i])
     else offMarket.push(userNFTs[i])
   }
