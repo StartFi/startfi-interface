@@ -4,7 +4,14 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { addNewEvent } from 'state/blockchainEvents/actions'
 import { parseBigNumber, useStartFiToken, useStartFiMarketplace, useStartFiNft } from './useContract'
-import { addToMarketplaceAction, buyNFTAction, mintNFTAction, placeBidAction, saveNFT } from 'state/marketplace/actions'
+import {
+  addToMarketplaceAction,
+  buyNFTAction,
+  delistAuctionAction,
+  mintNFTAction,
+  placeBidAction,
+  saveNFT
+} from 'state/marketplace/actions'
 import { editNFT } from 'services/database/NFT'
 import { useAuction, useAuctionNFT, useNFT } from 'state/marketplace/hooks'
 import { useChainId, useUserAddress } from 'state/user/hooks'
@@ -61,7 +68,7 @@ export const useNftPaymentEventListener = () => {
   }, [])
 }
 
-export const useMarketplaceListener = (nft?: any, bid?: Bid) => {
+export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string) => {
   const { library } = useActiveWeb3React()
   const marketplaceContract = useStartFiMarketplace(false)
   const listOnMarketplaceEvent = marketplaceContract?.filters.ListOnMarketplace()
@@ -83,9 +90,6 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid) => {
         const eventLogs = marketplaceContract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
         const eventValue = parseBigNumber(args)
-        // editNFT({ ...nft, listingId: eventValue[0] }).then(result => {
-        //   console.log('Update result', result)
-        // })
         dispatch(addNewEvent({ eventName: 'ListOnMarketplace', eventValue }))
       })
     }
@@ -100,6 +104,7 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid) => {
         const args = eventLogs?.args
         const eventValue = parseBigNumber(args)
         dispatch(addNewEvent({ eventName: 'DeListOffMarketplace', eventValue }))
+        dispatch(delistAuctionAction(listingId as string))
       })
     }
     return () => {
@@ -112,9 +117,6 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid) => {
         const eventLogs = marketplaceContract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
         const eventValue = parseBigNumber(args)
-        // editNFT({ id: nft.id, listingId: eventValue[0] }).then(result => {
-        //   console.log('Update result', result)
-        // })
         dispatch(addNewEvent({ eventName: 'CreateAuction', eventValue }))
         dispatch(
           addToMarketplaceAction({ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId })
