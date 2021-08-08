@@ -142,14 +142,14 @@ const Nftproduct = () => {
           </BuyCost>
           <BuyButtons $opacity={false}>
             <ButtonWishlist nftId={nftId} type='NFTProduct' />
-            <button
+            {/* <button
               onClick={() => {
                 setBidOrBuy(true)
                 setIsOpen(true)
               }}
             >
               {t('offer')}
-            </button>
+            </button> */}
           </BuyButtons>
           <BuyNow>
             <button
