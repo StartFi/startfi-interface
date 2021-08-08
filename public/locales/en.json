@@ -280,7 +280,10 @@
   "DelistSuccess":"Your asset has been Delisted and moved to “Inventory, Off marketplace”",
   "checkStake":" Check my Stake Balance",
   "checkInventory":"Check my Inventory",
-  "BackToMarketplace":"Go Back to Marketplace"
-  
+  "BackToMarketplace":"Go Back to Marketplace",
+  "DelistWarning":"You Asset cannot be delisted Until the Auction Time Ends",
+  "DelistBidWarning":"Your Asset cannot be delisted because it’s in auction and already got bids"
+
+
 
 }

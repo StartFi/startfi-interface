@@ -164,7 +164,7 @@ const Nftproduct = () => {
         </BuyCard>
         <DescriptionCard overflowY={isReadMore}>
           <DescriptionTitle>
-            <p>About Apple Watch Series 4 GPS</p>
+            <p>About {auctionNFT?.nft.name}</p>
           </DescriptionTitle>
           <DescriptionText>
             <ReadMore showScroll={showScroll}>

@@ -21,7 +21,7 @@ import {
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
-import { useBid, useBuyNow, useCreateAuction } from 'hooks/startfiMarketPlace'
+import { useBid, useBuyNow, useCreateAuction, useDeList, useGetListingDetails } from 'hooks/startfiMarketPlace'
 import { useApproveToken } from 'hooks/startfiToken'
 import { useMint } from 'hooks/startfiPaymentNft'
 import { getAuction } from 'services/database/Auction'
@@ -257,6 +257,7 @@ export const useClearMarketplacePopup = (): (() => void) => {
 export const useDelistAuction = (): ((auctionId: string) => void) => {
   const dispatch = useDispatch()
   const owner = useUserAddress()
+  const deListWeb3 = useDeList()
   const popup = usePopup()
   return useCallback(
     async (auctionId: string) => {
@@ -270,8 +271,9 @@ export const useDelistAuction = (): ((auctionId: string) => void) => {
         auction.status === 'open' &&
         auction.bids.length === 0 &&
         auction.expireTimestamp > new Date().valueOf()
-      )
-        dispatch(delistAuctionAction(auctionId))
+      ) {
+        await deListWeb3(auctionId) // need to make sure the auctionId is correct
+      }
       //displaying error
       else if (!owner || owner !== nft.owner) popup({ success: false, message: 'notOwner' })
       else if (auction.status !== 'open') popup({ success: false, message: 'auctionNotOpened' })

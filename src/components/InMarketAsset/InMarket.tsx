@@ -15,6 +15,8 @@ import DelistCard from 'components/DelistCard/DelistCard'
 import { Counter } from 'components/WishList/WishList.styles'
 import { useCountDownTimer } from 'hooks/countDownTimer'
 
+import { Footer} from '../OffMarket/OffMarket.styles'
+
 
 interface onMarketParams {
   id: string
@@ -36,6 +38,7 @@ const InMarket = () => {
   const [disabled, setDisabled] = useState<boolean>(false)
   const timeLeft = useCountDownTimer(auction.expireTimestamp)
 
+  const history = useHistory()
 
 
 
@@ -57,16 +60,11 @@ const InMarket = () => {
       </Counter>
     )
   })
-  console.log('timerLength', timerComponents.length)
   useEffect(() => {
     if (nft?.tags) {
       if (nft.tags.length > 0) setTagsState(true)
     }
-    if (timerComponents.length > 0 && auction?.isForBid && auction?.bids.length > 0) {
-      setDisplayBidWarning('block')
-      setDelistCardHeight('161px')
-      setDelistContainerHeight('145px')
-    }
+   
   }, [])
 
   const delist = () => {
@@ -96,35 +94,35 @@ const InMarket = () => {
       <DelistCard isOpen={openModal} close={closeCard} nft={nft} auction={auction}></DelistCard>
       <div>
         <Text
-          fontFamily='Roboto'
-          fontSize='1rem'
-          color='#444444'
-          textTransform='capitalize'
-          margin='25px 0px -45px 50px'
+          fontFamily="Roboto"
+          fontSize="1rem"
+          color="#444444"
+          textTransform="capitalize"
+          margin="25px 0px -45px 50px"
         >
           {t('monetizingAssets')}
         </Text>
 
-        <InventoryCard borderRadius='8px' marginTop='54px'>
-          <Row padding='20px' align='start'>
-            <Text fontFamily='Roboto' FontWeight='500' fontSize='1rem' color='#000000' margin='0 0 3px 8px'>
+        <InventoryCard borderRadius="8px" marginTop="54px">
+          <Row padding="20px" align="start">
+            <Text fontFamily="Roboto" FontWeight="500" fontSize="1rem" color="#000000" margin="0 0 3px 8px">
               {nft?.name}
             </Text>
             {/* 1 */}
-            <Card height='142px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB'>
+            <Card height="142px" border="1px solid #F4F4F4" borderRadius="6px" background="#FBFBFB">
               <ImageContainer>
                 <img src={imgUrl} />
-                <TextContainer marginLeft='1.438rem'>
+                <TextContainer marginLeft="1.438rem">
                   <div>
-                    <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='3.75rem'>
+                    <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="3.75rem">
                       {t('category')}
                       <span>{nft?.category}</span>
                     </Text>
                   </div>
 
-                  <Divider width='29.938rem '></Divider>
+                  <Divider width="29.938rem "></Divider>
                   <div>
-                    <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='3.40rem'>
+                    <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="3.40rem">
                       {t('fileName')}
                       <span></span>
                     </Text>
@@ -134,23 +132,22 @@ const InMarket = () => {
             </Card>
 
             {/* 2 */}
-            <Card height='226px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
-              <TextContainer marginLeft='1.438rem' width='100%'>
+            <Card height="226px" border="1px solid #F4F4F4" borderRadius="6px" background="#FBFBFB" marginTop="20px">
+              <TextContainer marginLeft="1.438rem" width="100%">
                 <div>
-                  <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='3.75rem'>
+                  <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="3.75rem">
                     {t('asstName')}
                     <span>{nft?.name}</span>
-
                   </Text>
                 </div>
-                <Divider width='95%'></Divider>
+                <Divider width="95%"></Divider>
                 <TagRow>
-                  <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='7.0rem'>
+                  <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="7.0rem">
                     {t('tags')}
                   </Text>
 
                   {tagsState ? (
-                    <TagContainer marginLeft='6.8rem'>
+                    <TagContainer marginLeft="6.8rem">
                       {nft.tags?.map(e => (
                         <div key={e}>{e}</div>
                       ))}
@@ -160,9 +157,9 @@ const InMarket = () => {
                   )}
                 </TagRow>
 
-                <Divider width='95%'></Divider>
+                <Divider width="95%"></Divider>
                 <div>
-                  <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='4.0rem'>
+                  <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="4.0rem">
                     {t('description')}
                     <span>{nft?.description}</span>
                   </Text>
@@ -171,9 +168,9 @@ const InMarket = () => {
             </Card>
 
             {/* 3 */}
-            <Card height='63px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
-              <TextContainer marginLeft='1.438rem' width='100%'>
-                <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='3.40rem'>
+            <Card height="63px" border="1px solid #F4F4F4" borderRadius="6px" background="#FBFBFB" marginTop="20px">
+              <TextContainer marginLeft="1.438rem" width="100%">
+                <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="3.40rem">
                   {t('IssueRoyaltyShare')}
                   <span>{nft?.royalty} % ~ ( 250 STFI / 25 USD )</span>
                 </Text>
@@ -182,40 +179,39 @@ const InMarket = () => {
 
             {/* 4 */}
             {auction?.isForBid ? (
-              <Card height='229px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
-                <TextContainer marginLeft='1.438rem' width='100%'>
+              <Card height="229px" border="1px solid #F4F4F4" borderRadius="6px" background="#FBFBFB" marginTop="20px">
+                <TextContainer marginLeft="1.438rem" width="100%">
                   <div>
-                    <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
+                    <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="9.75rem">
                       {t('pricing')}
                       <span>{auction?.listingPrice} STFI ~ 253 USD</span>
                     </Text>
                   </div>
-                  <Divider width='95%'></Divider>
-
+                  <Divider width="95%"></Divider>
 
                   <div>
-                    <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='5.0rem'>
+                    <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="5.0rem">
                       {t('minBiding')}
                       <span>800 STFI ~ 253 USD</span>
                     </Text>
                   </div>
 
-                  <Divider width='95%'></Divider>
+                  <Divider width="95%"></Divider>
                   <AuctionTimer>
                     <Text
-                      fontFamily='Roboto'
-                      fontSize='1rem'
-                      color='#444444'
-                      spanWeight='500'
-                      margin='0px 111px 0px 0px'
+                      fontFamily="Roboto"
+                      fontSize="1rem"
+                      color="#444444"
+                      spanWeight="500"
+                      margin="0px 111px 0px 0px"
                     >
                       {t('auctionTime')}
                     </Text>
                     {timerComponents.length > 0 ? <div> {timerComponents}</div> : <div>Auction Ended</div>}
                   </AuctionTimer>
-                  <Divider width='95%'></Divider>
+                  <Divider width="95%"></Divider>
                   <div>
-                    <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='6.2rem'>
+                    <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="6.2rem">
                       {t('qualifyAmount')}
                       <span>40 STFI ~ 253 USD</span>
                     </Text>
@@ -223,10 +219,10 @@ const InMarket = () => {
                 </TextContainer>
               </Card>
             ) : (
-              <Card height='71px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
-                <TextContainer marginLeft='1.438rem' width='100%'>
+              <Card height="71px" border="1px solid #F4F4F4" borderRadius="6px" background="#FBFBFB" marginTop="20px">
+                <TextContainer marginLeft="1.438rem" width="100%">
                   <div>
-                    <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
+                    <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="9.75rem">
                       {t('pricing')}
                       <span>{auction?.listingPrice} STFI ~ 253 USD</span>
                     </Text>
@@ -235,44 +231,46 @@ const InMarket = () => {
               </Card>
             )}
 
-            {/* 5 */}
-            <Card height='123px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
-              <TextContainer marginLeft='1.438rem' width='100%'>
-                <div>
-                  <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
+          {/* 5 */}
+          <Card height='123px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
+            <TextContainer marginLeft='1.438rem' width='100%'>
+              <div>
+                <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
+                  {t('tokenId')}
+                  <span>{nft?.id}</span>
+                </Text>
+              </div>
+              <Divider width='95%'></Divider>
+              <div>
+                <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='5.0rem'>
+                  {t('contactAddress')}
+                  <span></span>
+                </Text>
+              </div>
+            </TextContainer>
+          </Card>
+        </Row>
+        <Footer>
 
-                    {t('pricing')}
-                    <span>{auction?.listingPrice} STFI ~ 253 USD</span>
+        <ButtonMintBack onClick={() => history.push('/inventory/home/onMarketPlace')}>{t('back')}</ButtonMintBack>
 
-                  </Text>
-                </div>
-                <Divider width='95%'></Divider>
-                <div>
-                  <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='5.0rem'>
+      </Footer>
+      </InventoryCard>
 
-                    {t('contactAddress')}
-                    <span></span>
-
-                  </Text>
-                </div>
-              </TextContainer>
-            </Card>
-
-          </Row>
-        </InventoryCard>
         <InventoryCard height={delistCardHeight} borderRadius='8px' marginTop='30px'>
+
           <DeListingContainer height={delistContainerHeight}>
             <div>
-              <Text FontWeight='500' color='#000000' fontFamily='Roboto' fontSize='1rem'>
+              <Text FontWeight="500" color="#000000" fontFamily="Roboto" fontSize="1rem">
                 {t('deListingAsset')}?
               </Text>
-              <Text fontFamily='Roboto' fontSize='1rem' color='#444444'>
+              <Text fontFamily="Roboto" fontSize="1rem" color="#444444">
                 {t('removeAsset')}?
               </Text>
-              <Text fontFamily='Roboto' fontSize='1rem' color='#CA0000' display={displayBidWarning}>
+              <Text fontFamily="Roboto" fontSize="1rem" color="#CA0000" display={displayBidWarning}>
                 {t('DelistBidWarning')}
               </Text>
-              <Text fontFamily='Roboto' fontSize='1rem' color='#CA0000' display={displayWarning}>
+              <Text fontFamily="Roboto" fontSize="1rem" color="#CA0000" display={displayWarning}>
                 {t('DelistWarning')}
               </Text>
             </div>
@@ -283,7 +281,6 @@ const InMarket = () => {
         </InventoryCard>
       </div>
     </React.Fragment>
-
   )
 }
 
