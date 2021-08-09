@@ -1,4 +1,4 @@
-import { DEFAULT_SORT, PopupContent } from './../../constants'
+import { DEFAULT_SORT, NFTS_PER_PAGE, PopupContent } from './../../constants'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NFTQUERY } from 'services/Marketplace'
@@ -137,9 +137,11 @@ const useChangePage = (): ((newPage: number) => void) => {
 export const usePagination = () => {
   const currentPage = useCurrentPage()
   const changePage = useChangePage()
+  const nfts = useMarketplace()
   return useMemo(() => {
-    return { currentPage, changePage }
-  }, [currentPage, changePage])
+    const isNext: boolean = nfts.length === NFTS_PER_PAGE
+    return { currentPage, isNext, changePage }
+  }, [currentPage, nfts, changePage])
 }
 
 export const useMintNFT = (): (() => void) => {
@@ -254,33 +256,31 @@ export const useClearMarketplacePopup = (): (() => void) => {
   }, [dispatch])
 }
 
-export const useDelistAuction = (): ((auctionId: string) => void) => {
+export const useDelistAuction = (auctionId: string): (() => void) => {
   const dispatch = useDispatch()
   const owner = useUserAddress()
   const deListWeb3 = useDeList()
   const popup = usePopup()
-  return useCallback(
-    async (auctionId: string) => {
-      //get auction and nft data replace with nft and auction retrieved from blockchain
-      const auction = await getAuction(auctionId)
-      const nft = await getNFT(auction.nft)
-      //validation
-      if (
-        owner &&
-        owner === nft.owner &&
-        auction.status === 'open' &&
-        auction.bids.length === 0 &&
-        auction.expireTimestamp > new Date().valueOf()
-      ) {
-        await deListWeb3(auctionId) // need to make sure the auctionId is correct
-      }
-      //displaying error
-      else if (!owner || owner !== nft.owner) popup({ success: false, message: 'notOwner' })
-      else if (auction.status !== 'open') popup({ success: false, message: 'auctionNotOpened' })
-      else if (auction.bids.length !== 0) popup({ success: false, message: 'auctionHasBids' })
-      else if (auction.expireTimestamp <= new Date().valueOf()) popup({ success: false, message: 'auctionExpired' })
-      else popup({ success: false, message: 'unknownReason' })
-    },
-    [owner, popup, dispatch]
-  )
+  useMarketplaceListener({ listingId: auctionId })
+  return useCallback(async () => {
+    //get auction and nft data replace with nft and auction retrieved from blockchain
+    const auction = await getAuction(auctionId)
+    const nft = await getNFT(auction.nft)
+    //validation
+    if (
+      owner &&
+      owner === nft.owner &&
+      auction.status === 'open' &&
+      auction.bids.length === 0 &&
+      auction.expireTimestamp > new Date().valueOf()
+    ) {
+      await deListWeb3(auctionId) // need to make sure the auctionId is correct
+    }
+    //displaying error
+    else if (!owner || owner !== nft.owner) popup({ success: false, message: 'notOwner' })
+    else if (auction.status !== 'open') popup({ success: false, message: 'auctionNotOpened' })
+    else if (auction.bids.length !== 0) popup({ success: false, message: 'auctionHasBids' })
+    else if (auction.expireTimestamp <= new Date().valueOf()) popup({ success: false, message: 'auctionExpired' })
+    else popup({ success: false, message: 'unknownReason' })
+  }, [owner, popup, dispatch])
 }

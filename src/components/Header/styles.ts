@@ -34,6 +34,10 @@ export const Tab = styled(CenteredRow)<TabProps>`
 
 export const FirstRow = styled(Row)`
   margin-bottom: 4vh;
+  & img {
+    cursor:pointer;
+    margin:0px 8px 0px -4px;
+  }
 `
 
 export const ConnectWallet = styled.div`

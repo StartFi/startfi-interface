@@ -5,13 +5,13 @@ import { usePagination } from 'state/marketplace/hooks'
 import { Container, Number } from './styles'
 
 const Pagination: React.FC = () => {
-  const { currentPage, changePage } = usePagination()
+  const { currentPage, isNext, changePage } = usePagination()
 
   return (
     <Container>
       <img src={LeftArrow} alt="Prev page" onClick={() => (currentPage > 0 ? changePage(currentPage - 1) : null)} />
       <Number active={true}>{currentPage + 1}</Number>
-      <img src={RightArrow} alt="Next page" onClick={() => changePage(currentPage + 1)} />
+      <img src={RightArrow} alt="Next page" onClick={() => (isNext ? changePage(currentPage + 1) : null)} />
     </Container>
   )
 }
