@@ -10,7 +10,7 @@ export const Search = styled(Row)`
    justify-content: start;
    align-items: stretch;
    height: 6vh;
-   width: 50%;
+   width: 45%;
  `
 
 export const TabsCategory = styled(Row)`
@@ -35,19 +35,18 @@ export const Tab = styled(CenteredRow)<TabProps>`
 export const FirstRow = styled(Row)`
   margin-bottom: 4vh;
   & img {
-    cursor:pointer;
-    margin:0px 8px 0px -4px;
-    /* height:40px;
-    width:40px; */
+     cursor:pointer;
+    margin-right: 12px;
+
   }
 `
 
-export const LogoImg =styled.img`cursor:pointer;
-margin:0px 8px 0px -4px;
-height:40px;
-width:40px;
+// export const LogoImg=styled.img`
+// width:40px;
+// height:40px
+// `
 
-`
+
 export const ConnectWallet = styled.div`
   width: 100%;
   text-align: center;

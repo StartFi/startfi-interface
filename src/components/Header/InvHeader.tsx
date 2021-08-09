@@ -1,6 +1,5 @@
 import React from 'react'
-import Logo from './../../assets/icons/logo.svg'
-// import Logo from '../../assets/images/logoicon.png'
+import Logo from '../../assets/svg/StartFi-c 1.svg'
 import Wallet from 'components/Wallet'
 import styled from 'styled-components'
 
@@ -44,7 +43,7 @@ const InvHeader = () => {
       <Left onClick={() => history.push('/')} >
 
         <img src={Logo} alt='Logo' />
-        <div>Startfi</div>
+        {/* <div>Startfi</div> */}
       </Left>
 
       <Right>
