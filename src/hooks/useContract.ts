@@ -47,40 +47,40 @@ declare type WETH_Only = {
   [chainId in ChainId]: Token
 }
 const WETH: WETH_Only = {
-  [ChainId.MAINNET]: WETH9[ChainId.MAINNET],
+  // [ChainId.MAINNET]: WETH9[ChainId.MAINNET],
   [ChainId.ROPSTEN]: WETH9[ChainId.ROPSTEN],
-  [ChainId.RINKEBY]: WETH9[ChainId.RINKEBY],
-  [ChainId.GÖRLI]: WETH9[ChainId.GÖRLI],
-  [ChainId.BSCT]: new Token(ChainId.BSCT, '0x793b6B742e1206C5D3DFAF2Efd85D3919dba60eB', 18, 'ETH', 'Ethereum Token'),
-  [ChainId.BSC]: new Token(
-    ChainId.BSC,
-    '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
-    18,
-    'ETH',
-    'Binance-Peg Ethereum'
-  ),
+  // [ChainId.RINKEBY]: WETH9[ChainId.RINKEBY],
+  // [ChainId.GÖRLI]: WETH9[ChainId.GÖRLI],
+  // [ChainId.BSCT]: new Token(ChainId.BSCT, '0x793b6B742e1206C5D3DFAF2Efd85D3919dba60eB', 18, 'ETH', 'Ethereum Token'),
+  // [ChainId.BSC]: new Token(
+  //   ChainId.BSC,
+  //   '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
+  //   18,
+  //   'ETH',
+  //   'Binance-Peg Ethereum'
+  // ),
   [ChainId.StartFi]: new Token(
-    ChainId.BSC,
+    ChainId.ROPSTEN,
     '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
     18,
     'ETH',
     'Binance-Peg Ethereum'
   ),
-  [ChainId.AURORA]: new Token(
-    ChainId.BSC,
-    '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
-    18,
-    'ETH',
-    'Binance-Peg Ethereum'
-  ),
-  [ChainId.POLYGON]: new Token(
-    ChainId.BSC,
-    '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
-    18,
-    'ETH',
-    'Binance-Peg Ethereum'
-  ),
-  [ChainId.KOVAN]: WETH9[ChainId.KOVAN]
+  // [ChainId.AURORA]: new Token(
+  //   ChainId.BSC,
+  //   '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
+  //   18,
+  //   'ETH',
+  //   'Binance-Peg Ethereum'
+  // ),
+  // [ChainId.POLYGON]: new Token(
+  //   ChainId.BSC,
+  //   '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
+  //   18,
+  //   'ETH',
+  //   'Binance-Peg Ethereum'
+  // ),
+  // [ChainId.KOVAN]: WETH9[ChainId.KOVAN]
 }
 function useContract(address: string | undefined, ABI: any, withSignerIfPossible = true): Contract | null {
   const { library, account } = useActiveWeb3React()
@@ -109,7 +109,7 @@ export const useERC721 = (address: string | undefined, withSignerIfPossible?: bo
 export function useArgentWalletDetectorContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
   return useContract(
-    chainId === ChainId.MAINNET ? ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS : undefined,
+    chainId === ChainId.ROPSTEN/**MAINNET */ ? ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS : undefined,
     ARGENT_WALLET_DETECTOR_ABI,
     false
   )
@@ -119,11 +119,11 @@ export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contrac
   let address: string | undefined
   if (chainId) {
     switch (chainId) {
-      case ChainId.MAINNET:
-      case ChainId.GÖRLI:
+      // case ChainId.MAINNET:
+      // case ChainId.GÖRLI:
       case ChainId.ROPSTEN:
-      case ChainId.RINKEBY:
-        address = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
+      // case ChainId.RINKEBY:
+      //   address = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
         break
     }
   }
