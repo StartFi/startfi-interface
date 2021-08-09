@@ -67,8 +67,10 @@ const MarketplaceHeader: React.FC = () => {
         history.push('')
         break
       case 'Stake Tokens':
-        await approveToken(STARTFI_STAKES_ADDRESS, 1000)
-        await stakeToken(account as string, 1000)
+        history.push('/marketplace/stakeTokens')
+        // await approveToken(STARTFI_STAKES_ADDRESS, 1000)
+        // await stakeToken(account as string, 1000)
+
         break
     }
   }

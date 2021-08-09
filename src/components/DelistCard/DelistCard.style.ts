@@ -26,7 +26,7 @@ export const Shadow = styled.div`
   z-index: 10;
 `
 
-export const DelistModal = styled(Modal)` 
+export const DelistModal = styled(Modal)`
   background: #fafafa;
   border: 1px solid #d8d8d8;
 `
@@ -92,7 +92,8 @@ export const DelistButton = styled('button')<{
   padding?: string
   textDecoration?: string
   fontWeight?: string
-  fontSize?: string
+  fontSize?: string;
+  margin?:string
 }>`
   cursor: pointer;
   box-sizing: border-box;
@@ -107,6 +108,7 @@ export const DelistButton = styled('button')<{
   text-decoration: ${({ textDecoration }) => textDecoration};
   font-weight: ${({ fontWeight }) => fontWeight};
   font-size: ${({ fontSize }) => fontSize};
+  margin: ${({ margin }) => margin};
   &:disabled {
     background-color: #c2c2c2;
   }

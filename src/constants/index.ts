@@ -36,7 +36,7 @@ export const HEADER_DROPDOWN: string[] = [
   'WishList',
   'Inventory',
   // 'Dashboard',
-  // 'Stake Tokens',
+  'Stake Tokens',
   // 'Get STFI Token',
   // 'My Account'
 ]
