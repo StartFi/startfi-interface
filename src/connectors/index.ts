@@ -21,21 +21,21 @@ if (typeof INFURA_KEY === 'undefined') {
 const NETWORK_URLS: {
   [chainId: number]: string
 } = {
-  [1]: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
-  [4]: `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
+  // [1]: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
+  // [4]: `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
   [3]: `https://ropsten.infura.io/v3/${INFURA_KEY}`,
-  [5]: `https://goerli.infura.io/v3/${INFURA_KEY}`,
-  [42]: `https://kovan.infura.io/v3/${INFURA_KEY}`,
-  [56]: `https://bsc-dataseed.binance.org/`,
-  [97]: `https://data-seed-prebsc-1-s1.binance.org:8545/`,
+  // [5]: `https://goerli.infura.io/v3/${INFURA_KEY}`,
+  // [42]: `https://kovan.infura.io/v3/${INFURA_KEY}`,
+  // [56]: `https://bsc-dataseed.binance.org/`,
+  // [97]: `https://data-seed-prebsc-1-s1.binance.org:8545/`,
   [1337]: `http://127.0.0.1:8545/`
 }
 
-const SUPPORTED_CHAIN_IDS = [1, 4, 3, 42, 5, 56, 97, 1337]
+const SUPPORTED_CHAIN_IDS = [/*1, 4, */3/*, 42, 5, 56, 97*/, 1337]
 
 export const network = new NetworkConnector({
   urls: NETWORK_URLS,
-  defaultChainId: 1
+  defaultChainId: 3//1
 })
 
 let networkLibrary: Web3Provider | undefined
