@@ -70,6 +70,7 @@ export const CheckContainer = styled.div`
   margin-top: 22px;
   & input {
     margin-right: 8px;
+    cursor:pointer;
     &:checked {
       background-color: #000000;
     }

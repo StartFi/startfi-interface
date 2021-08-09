@@ -6,6 +6,7 @@ import { CheckContainer, DelistButton } from 'components/DelistCard/DelistCard.s
 import { useTranslation } from 'react-i18next'
 
 import { STFI, USD, USDPrice, USDWord, Input } from 'components/BidOrBuy/styles'
+import { ButtonMint } from 'components/Button'
 
 const StakeToken = () => {
   const { t } = useTranslation()
@@ -68,10 +69,11 @@ const StakeToken = () => {
 
             <CheckContainer>
             <input type='checkbox' onChange={handelCheckBoxChanges} />
-            <Text fontFamily='Roboto' fontSize='0.875rem' FontWeight="500" color='#525252'>
+            <Text fontFamily='Roboto' fontSize='0.875rem' FontWeight="500" color='#525252' margin="0 20px 0 0">
               {t('confirmIncStakeToken')}
             </Text>
             </CheckContainer>
+            <ButtonMint>Confirm increasing</ButtonMint>
 
 
           </StokeTokenFooter>

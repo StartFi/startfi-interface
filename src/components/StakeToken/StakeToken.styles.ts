@@ -25,4 +25,6 @@ width:536px;
 export const StokeTokenFooter=styled.div`
 width:536px;
 margin-left:302px;
+display:flex;
+align-items:center;
 `
