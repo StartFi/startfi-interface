@@ -1,6 +1,6 @@
 import React from 'react'
-// import Logo from './../../assets/icons/logo.svg'
-import Logo from '../../assets/images/logoicon.png'
+import Logo from './../../assets/icons/logo.svg'
+// import Logo from '../../assets/images/logoicon.png'
 import Wallet from 'components/Wallet'
 import styled from 'styled-components'
 
