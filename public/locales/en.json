@@ -284,7 +284,8 @@
   "DelistBidWarning":"Your Asset cannot be delisted because it’s in auction and already got bids",
   "IncreaseStakes":"increase Stakes",
   "Balance":"Your Balance",
-  "enterAmount":"Enter Amount"
+  "enterAmount":"Enter Amount",
+  "confirmIncStakeToken":"Are you sure you want to increase your balance"
 
 
 

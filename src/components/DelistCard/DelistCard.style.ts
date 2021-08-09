@@ -67,7 +67,6 @@ export const CounterSegment = styled.div`
 export const CheckContainer = styled.div`
   display: flex;
   align-items: center;
-
   margin-top: 22px;
   & input {
     margin-right: 8px;
@@ -92,8 +91,8 @@ export const DelistButton = styled('button')<{
   padding?: string
   textDecoration?: string
   fontWeight?: string
-  fontSize?: string;
-  margin?:string
+  fontSize?: string
+  margin?: string
 }>`
   cursor: pointer;
   box-sizing: border-box;
@@ -133,4 +132,3 @@ export const DelistSuccessContainer = styled.div`
     }
   }
 `
-
