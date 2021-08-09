@@ -66,7 +66,7 @@ const Nftproduct = () => {
     history.goBack()
     return null
   }
-
+ 
   const nftId = parseInt(nft)
 
   const imgUrl = uriToHttp(`${auctionNFT?.nft?.dataHash}`)[1]
@@ -91,16 +91,13 @@ const Nftproduct = () => {
         <LeftTextCard>
           <CreatedTitle>
             <p>
-              {t('createdBy')}
-              <span>{auctionNFT?.nft.name}</span>
+              <span>Tags</span>
             </p>
           </CreatedTitle>
           <CreatedText>
             {/* text created by user */}
             <p>
-              Put your NFT assets up as collateral for a loan, or offer loans to other users on their non-fungible
-              tokens Put your NFT assets up as collateral for a loan, or offer loans to other users on their
-              non-fungible tokens
+             {auctionNFT?.nft.tags}
             </p>
           </CreatedText>
         </LeftTextCard>

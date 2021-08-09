@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import StartFi from '../../assets/svg/StartFi-c 1.svg'
 
+
 const PageWrapper = styled.div`
   width: 100%;
   padding: 4vh 3.2vw;
