@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import styled from "styled-components";
 import {
   Grid,
   LeftGrid,
@@ -34,6 +34,29 @@ import { useAuctionNFT, useGetAuctionNFT } from 'state/marketplace/hooks'
 import uriToHttp from 'utils/uriToHttp'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { useUserBalance } from 'state/user/hooks'
+
+
+export const TagContainer = styled('div')<{marginLeft?:string,lastChildWidth?:string}>`
+  display: flex;
+  margin-left: ${({marginLeft})=>marginLeft};
+  & div{
+    display: flex;
+    align-items:center;
+    justify-content:center;
+    width: 87px;
+    height: 35px;
+    margin-right: 10px;
+    background: #f4f4f4;
+    border-radius: 4px;
+    outline: none;
+    border: transparent;
+  }
+
+  & :last-child {
+    width: ${({lastChildWidth})=>lastChildWidth??'87px'};
+  }
+
+`
 
 interface NFTParams {
   nft: string
@@ -97,7 +120,12 @@ const Nftproduct = () => {
           <CreatedText>
             {/* text created by user */}
             <p>
-             {auctionNFT?.nft.tags}
+             {/* {auctionNFT?.nft.tags} */}
+                <TagContainer marginLeft="6.8rem">
+                  {auctionNFT?.nft?.tags?.map(e => (
+                    <div key={e}>{e}</div>
+                  ))}
+                </TagContainer>
             </p>
           </CreatedText>
         </LeftTextCard>
