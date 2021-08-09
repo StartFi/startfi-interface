@@ -37,9 +37,17 @@ export const FirstRow = styled(Row)`
   & img {
     cursor:pointer;
     margin:0px 8px 0px -4px;
+    /* height:40px;
+    width:40px; */
   }
 `
 
+export const LogoImg =styled.img`cursor:pointer;
+margin:0px 8px 0px -4px;
+height:40px;
+width:40px;
+
+`
 export const ConnectWallet = styled.div`
   width: 100%;
   text-align: center;

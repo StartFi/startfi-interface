@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Wallet from 'components/Wallet'
-import Logo from '../../assets/icons/logo.svg'
+import Logo from '../../assets/images/logoicon.png'
 import { ButtonSearch } from 'components/Button'
 import { LinkCreateNFT } from 'components/Link'
 import { InputSearch } from 'components/Input/styles'
@@ -17,7 +17,7 @@ import { CATEGORIES, DEFAULT_SORT, Dictionary, HEADER_DROPDOWN } from '../../con
 import { useTranslation } from 'react-i18next'
 import { useWalletAddress } from 'state/user/hooks'
 import { useLocationSearch } from 'hooks'
-import { ConnectWallet, FirstRow, Img, Search, Tab, TabsCategory } from './styles'
+import { ConnectWallet, FirstRow, Img, Search, Tab, TabsCategory, LogoImg } from './styles'
 import { DropDownCategory } from 'components/DropDown'
 import { useDeposit } from 'hooks/startfiStakes'
 import { useWeb3React } from '@web3-react/core'
@@ -75,7 +75,7 @@ const MarketplaceHeader: React.FC = () => {
   return (
     <React.Fragment>
       <FirstRow>
-        <img src={Logo} alt="Logo" onClick={() => history.push('/')} />
+        <LogoImg src={Logo} alt='Logo' onClick={() => history.push('/')}></LogoImg>
         <Search>
           <InputSearch placeholder={t('searchNFTS')} value={input} onChange={(e: any) => setInput(e.target.value)} />
           <ButtonSearch onClick={() => history.push(`/marketplace/nfts/?category=${category}&search=${input}`)}>
@@ -83,14 +83,14 @@ const MarketplaceHeader: React.FC = () => {
           </ButtonSearch>
         </Search>
 
-        <LinkCreateNFT to="/mint/steps">{t('mintNFT')}</LinkCreateNFT>
+        <LinkCreateNFT to='/mint/steps'>{t('mintNFT')}</LinkCreateNFT>
 
         <DropDownCategory
           options={HEADER_DROPDOWN}
           name={'drop'}
           value={''}
-          itemsWidth="180px"
-          border="none"
+          itemsWidth='180px'
+          border='none'
           selectIcon={true}
           onChange={(e: any) => {
             getDropDownChanges(e)
