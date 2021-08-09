@@ -4,7 +4,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import StartFi from '../../assets/svg/StartFi-c 1.svg'
+// import StartFi from '../../assets/svg/StartFi-c 1.svg'
+import StartFi from '../../assets/images/logo.png'
+
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -13,10 +15,16 @@ const PageWrapper = styled.div`
   flex-flow: column;
   align-items: center;
 `
+// const Logo = styled.img`
+//    height: 6.625rem;
+//    width: 6.625rem;
+// `
+
 const Logo = styled.img`
-  height: 6.625rem;
-  width: 6.625rem;
+   height: 90px;
+   width: 323px;
 `
+
 const MainText = styled.div`
   font-family: Roboto;
   font-weight: 700;

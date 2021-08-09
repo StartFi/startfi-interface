@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import styled from "styled-components";
 import {
   Grid,
   LeftGrid,
@@ -35,6 +35,29 @@ import uriToHttp from 'utils/uriToHttp'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { useUserBalance } from 'state/user/hooks'
 
+
+export const TagContainer = styled('div')<{marginLeft?:string,lastChildWidth?:string}>`
+  display: flex;
+  margin-left: ${({marginLeft})=>marginLeft};
+  & div{
+    display: flex;
+    align-items:center;
+    justify-content:center;
+    width: 87px;
+    height: 35px;
+    margin-right: 10px;
+    background: #f4f4f4;
+    border-radius: 4px;
+    outline: none;
+    border: transparent;
+  }
+
+  & :last-child {
+    width: ${({lastChildWidth})=>lastChildWidth??'87px'};
+  }
+
+`
+
 interface NFTParams {
   nft: string
   auction: string
@@ -66,7 +89,7 @@ const Nftproduct = () => {
     history.goBack()
     return null
   }
-
+ 
   const nftId = parseInt(nft)
 
   const imgUrl = uriToHttp(`${auctionNFT?.nft?.dataHash}`)[1]
@@ -91,16 +114,18 @@ const Nftproduct = () => {
         <LeftTextCard>
           <CreatedTitle>
             <p>
-              {t('createdBy')}
-              <span>{auctionNFT?.nft.name}</span>
+              <span>Tags</span>
             </p>
           </CreatedTitle>
           <CreatedText>
             {/* text created by user */}
             <p>
-              Put your NFT assets up as collateral for a loan, or offer loans to other users on their non-fungible
-              tokens Put your NFT assets up as collateral for a loan, or offer loans to other users on their
-              non-fungible tokens
+             {/* {auctionNFT?.nft.tags} */}
+                <TagContainer marginLeft="6.8rem">
+                  {auctionNFT?.nft?.tags?.map(e => (
+                    <div key={e}>{e}</div>
+                  ))}
+                </TagContainer>
             </p>
           </CreatedText>
         </LeftTextCard>
