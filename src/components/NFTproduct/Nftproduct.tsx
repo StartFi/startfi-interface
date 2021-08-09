@@ -154,8 +154,9 @@ const Nftproduct = () => {
           <BuyNow>
             <button
               onClick={() => {
-                setBidOrBuy(false)
-                setIsOpen(true)
+                history.push('/marketplace/buyorbid')
+                // setBidOrBuy(false)
+                // setIsOpen(true)
               }}
             >
               {t('buy')}
