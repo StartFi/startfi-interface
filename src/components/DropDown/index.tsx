@@ -10,12 +10,10 @@ interface DropDownProps {
   onChange: (e: any) => void
   width?: string
   label?: string
-  boxshadow?: boolean
-  selectIcon?:boolean
-  itemsWidth?:string
-  border?:string
-  showLabel?:boolean;
-
+  selectIcon?: boolean
+  itemsWidth?: string
+  border?: string
+  showLabel?: boolean
 }
 
 export const DropDown: React.FC<DropDownProps> = ({
@@ -26,7 +24,6 @@ export const DropDown: React.FC<DropDownProps> = ({
   width,
   label,
   selectIcon,
-  boxshadow,
   itemsWidth,
   border,
   showLabel
@@ -45,10 +42,10 @@ export const DropDown: React.FC<DropDownProps> = ({
     <React.Fragment>
       {open && <BlurLayer onClick={() => setOpen(false)} />}
       <Container width={width || '10vh'}>
-        <LabelRow border={border} onBlur={() => setOpen(false)} onClick={() => setOpen(!open)} >
-        {showLabel?(<Label>{t(selected) || t(label)}</Label>):null}
-         {selectIcon? (<img src={SelectIcon} alt="Select" />):null}
-        </LabelRow >
+        <LabelRow border={border} onBlur={() => setOpen(false)} onClick={() => setOpen(!open)}>
+          {showLabel ? <Label>{t(selected) || t(label)}</Label> : null}
+          {selectIcon ? <img src={SelectIcon} alt="Select" /> : null}
+        </LabelRow>
         {open && (
           <Items width={width || '10vh'} itemsWidth={itemsWidth}>
             {options.map((o, i) => (

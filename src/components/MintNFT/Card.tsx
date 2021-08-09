@@ -4,9 +4,6 @@ import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
 import Step7 from './Step7'
-import Step1Icon from './../../assets/icons/step1.svg'
-import Step2Icon from './../../assets/icons/step2.svg'
-import Step3Icon from './../../assets/icons/step3.svg'
 import { useTranslation } from 'react-i18next'
 import { useSaveDraft } from 'state/user/hooks'
 import { NFT } from 'services/models/NFT'
@@ -16,6 +13,7 @@ import { useAuction, useNFT, useSaveAuction, useSaveNFT } from 'state/marketplac
 import { Auction } from 'services/models/Auction'
 import { address as STARTFI_NFT_ADDRESS } from '../../constants/abis/StartfiRoyaltyNFT.json'
 import { CardContainer, CardHeader, CardUnderline, Footer, Title } from './styles'
+import { StepIcon } from './../../constants'
 
 interface CardProps {
   currentStep?: number
@@ -144,21 +142,6 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft }) => {
     setMissing(newMissing)
   }
 
-  const StepIcon = () => {
-    switch (step) {
-      case 1:
-        return Step1Icon
-      case 2:
-        return Step2Icon
-      case 3:
-        return Step3Icon
-      case 7:
-        return
-      default:
-    }
-    return Step1Icon
-  }
-
   const Step = () => {
     switch (step) {
       case 1:
@@ -192,7 +175,7 @@ const Card: React.FC<CardProps> = ({ currentStep, draft, offMarketNft }) => {
           <Title>{t('mintNFTTitle')}</Title>
           <CardUnderline />
         </div>
-        {StepIcon() && <img src={StepIcon()} alt="Step" />}
+        {StepIcon(step) && <img src={StepIcon(step)} alt="Step" />}
       </CardHeader>
       {Step()}
       <Footer>

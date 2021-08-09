@@ -52,16 +52,21 @@ export default function Updater(): null {
       clearUserPopup()
       if (userPopup.type === 'SaveDraft' && userPopup.success) history.push('/')
     }
+    return () => {
+      clearUserPopup()
+    }
   }, [userPopup, history, popup, clearUserPopup, dispatch])
 
   useEffect(() => {
     if (marketplacePopup) {
       popup(marketplacePopup)
       if (marketplacePopup.type === 'AddToMarketplace' && marketplacePopup.success)
-      history.push('/mint/addedtomarketplace')
+        history.push('/mint/addedtomarketplace')
       clearMarketplacePoup()
     }
-    return () => {}
+    return () => {
+      clearMarketplacePoup()
+    }
   }, [marketplacePopup, history, popup, clearMarketplacePoup, dispatch])
 
   // attach/detach listeners

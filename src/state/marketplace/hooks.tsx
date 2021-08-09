@@ -11,17 +11,15 @@ import {
   clearMarketplacePopup,
   getAuctionNFTAction,
   getMarketplaceAction,
-  placeBidAction,
   setBidOrBuy,
   saveNFT,
   saveAuction,
   clearNFT,
-  delistAuctionAction,
   setWalletConfirmation
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
-import { useBid, useBuyNow, useCreateAuction, useDeList, useGetListingDetails } from 'hooks/startfiMarketPlace'
+import { useBid, useBuyNow, useCreateAuction, useDeList } from 'hooks/startfiMarketPlace'
 import { useApproveToken } from 'hooks/startfiToken'
 import { useMint } from 'hooks/startfiPaymentNft'
 import { getAuction } from 'services/database/Auction'
@@ -199,7 +197,6 @@ export const useGetAuctionNFT = (nftId: string, auctionId: string): void => {
 }
 
 export const usePlaceBid = (): (() => void) => {
-  const dispatch = useDispatch()
   const bidder = useUserAddress()
   const chainId = useChainId()
   const auctionNFT = useAuctionNFT()
@@ -255,7 +252,6 @@ export const useClearMarketplacePopup = (): (() => void) => {
 }
 
 export const useDelistAuction = (auctionId: string): (() => void) => {
-  const dispatch = useDispatch()
   const owner = useUserAddress()
   const deListWeb3 = useDeList()
   const popup = usePopup()
@@ -280,5 +276,5 @@ export const useDelistAuction = (auctionId: string): (() => void) => {
     else if (auction.bids.length !== 0) popup({ success: false, message: 'auctionHasBids' })
     else if (auction.expireTimestamp <= new Date().valueOf()) popup({ success: false, message: 'auctionExpired' })
     else popup({ success: false, message: 'unknownReason' })
-  }, [owner, popup, dispatch])
+  }, [auctionId, owner, deListWeb3, popup])
 }
