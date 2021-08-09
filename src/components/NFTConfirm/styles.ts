@@ -127,6 +127,7 @@ export const ButtonConfirmBid = styled.button`
   border-radius: 4px;
   width: 24vw;
   height: 6vh;
+  cursor: pointer;
 `
 export const ButtonBlack = styled(ButtonConfirmBid)`
   background-color: #000000;
