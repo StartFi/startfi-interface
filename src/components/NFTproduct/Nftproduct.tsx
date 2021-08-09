@@ -86,7 +86,7 @@ const Nftproduct = () => {
       <BidOrBuy bidOrBuy={bidOrBuy} isOpen={isOpen} close={() => setIsOpen(false)} />
       <LeftGrid>
         <ImgCard>
-          <img src={imgUrl} alt='NFT' />
+          <img src={imgUrl} alt="NFT" />
         </ImgCard>
         <LeftTextCard>
           <CreatedTitle>
@@ -120,7 +120,7 @@ const Nftproduct = () => {
           </Name>
         </RightTitle>
         <RightSubTitle>{t('prediction')}: Round 11 (Bronze) - Only 100 Available</RightSubTitle>
-        <PublisherCard height='91px'>
+        <PublisherCard height="91px">
           <div>
             <p>
               {t('publisher')} :<span>{auctionNFT?.issuername}</span>
@@ -128,7 +128,7 @@ const Nftproduct = () => {
             <p>8% {t('resellingPercentage')}</p>
           </div>
         </PublisherCard>
-        <PublisherCard height='60px'>
+        <PublisherCard height="60px">
           <OwnerText>
             <p>{t('owner')} :</p>
             <span>{auctionNFT?.nft?.owner}</span>
@@ -137,11 +137,11 @@ const Nftproduct = () => {
         <BuyCard>
           <BuyCost>
             <p>
-              {t('cost')} : <span>{auctionNFT?.auction?.listingPrice}</span>
+              {t('cost')} : <span>{auctionNFT?.auction?.listingPrice} STFI</span>
             </p>
           </BuyCost>
           <BuyButtons $opacity={false}>
-            <ButtonWishlist nftId={nftId} type='NFTProduct' />
+            <ButtonWishlist nftId={nftId} type="NFTProduct" />
             {/* <button
               onClick={() => {
                 setBidOrBuy(true)
