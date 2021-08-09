@@ -12,6 +12,8 @@ const Card = styled(Box)<{
   background?: string
   marginTop?: string
   margin?:string
+  alignItems?:string
+  flexDirection?:string
 }>`
   width: ${({ width }) => width ?? '100%'};
   height: ${({ height }) => height};
@@ -23,7 +25,11 @@ const Card = styled(Box)<{
   margin-top: ${({ marginTop }) => marginTop};
   margin: ${({ margin }) => margin};
   display: flex;
+  flex-direction:${({ flexDirection }) => flexDirection};
   align-items: center;
+  align-items:  ${({ alignItems }) => alignItems};
+
+
 `
 export default Card
 

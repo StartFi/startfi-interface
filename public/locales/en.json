@@ -283,7 +283,9 @@
   "DelistWarning":"You Asset cannot be delisted Until the Auction Time Ends",
   "DelistBidWarning":"Your Asset cannot be delisted because it’s in auction and already got bids",
   "IncreaseStakes":"increase Stakes",
-  "Balance":"Your Balance"
+  "Balance":"Your Balance",
+  "enterAmount":"Enter Amount"
+
 
 
 
