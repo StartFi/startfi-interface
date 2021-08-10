@@ -287,7 +287,17 @@
   "enterAmount":"Enter Amount",
   "confirmIncStakeToken":"Are you sure you want to increase your balance",
   "increaseBalance":"Increase My Balance",
-  "confirmIncreasing":"Confirm increasing"
+  "confirmIncreasing":"Confirm increasing",
+  "allowTransAction":"Allow Transaction",
+  "increasedStake":"Amount Of Increased Stakes",
+  "currentStakeAfterInc":"Current Stake Balance after increasing",
+  "stfiBalanceAfterInc":"STFI balance after the stake increasing",
+  "allowMetaMaskConnectionToIncreaseStake":"Allow Startfi to connect to you metamask to increase you stake balance",
+  "allow":"Allow"
+
+
+
+
 
 
 

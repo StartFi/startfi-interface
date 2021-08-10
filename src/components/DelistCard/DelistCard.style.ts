@@ -33,7 +33,6 @@ export const DelistModal = styled(Modal)`
 export const DelistMain = styled.div``
 
 export const DelistCardHeader = styled.div`
-  /* height:76.4px; */
   width: 100%;
 `
 
@@ -70,7 +69,7 @@ export const CheckContainer = styled.div`
   margin-top: 22px;
   & input {
     margin-right: 8px;
-    cursor:pointer;
+    cursor: pointer;
     &:checked {
       background-color: #000000;
     }

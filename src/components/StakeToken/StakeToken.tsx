@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 
 import { STFI, USD, USDPrice, USDWord, Input } from 'components/BidOrBuy/styles'
 import { ButtonMint } from 'components/Button'
+import StokeTokenCard from 'components/stokeTokenCard/StokeTokenCard'
 
 const StakeToken = () => {
   const { t } = useTranslation()
@@ -14,13 +15,20 @@ const StakeToken = () => {
   const [value, setValue] = useState(0)
   const usd = () => value * 10
   const [disabled, setDisabled] = useState<boolean>(true)
+  const [openModal, setOpenModal] = useState<boolean>(false)
 
   const handelCheckBoxChanges = e => {
     setDisabled(!e.target.checked)
   }
+  const closeCard = () => {
+    setOpenModal(false)
+  }
+
 
   return (
+
     <Card height={cancelState ? '600px' : '221px'} border='1px solid #F4F4F4' borderRadius='6px' marginTop='20px'>
+       <StokeTokenCard isOpen={openModal} close={closeCard}></StokeTokenCard>
       <Card
         margin='0px 30px 0px 43px'
         height={cancelState ? '431px' : '96px'}
@@ -73,7 +81,7 @@ const StakeToken = () => {
             <Text fontFamily='Roboto' fontSize='0.875rem' FontWeight="500" color='#525252' margin="0 10px 0 0">
               {t('confirmIncStakeToken')}
             </Text>
-            <ButtonMint    disabled={disabled}> {disabled?t('increaseBalance'):t('confirmIncreasing')}</ButtonMint>
+            <ButtonMint  onClick={()=>setOpenModal(true)}  disabled={disabled}> {disabled?t('increaseBalance'):t('confirmIncreasing')}</ButtonMint>
             </CheckContainer>
           </StokeTokenFooter>
           </React.Fragment>
