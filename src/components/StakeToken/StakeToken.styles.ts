@@ -14,17 +14,18 @@ export const BalanceContainer = styled('div')<{ display?: string }>`
   }
 `
 
-
-export const InputContainer= styled(Row)`
-background: #ffffff;
-border: 1px solid #dddddd;
-border-radius: 8px;
-width:536px;
+export const InputContainer = styled(Row)`
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  width: 536px;
 `
 
-export const StokeTokenFooter=styled.div`
-width:536px;
-margin-left:302px;
-display:flex;
-align-items:center;
+export const StokeTokenFooter = styled('div')<{ left?: string }>`
+  width: 536px;
+  margin-left: 302px;
+  & button {
+    position: relative;
+    left:${({ left}) => left};
+  }
 `

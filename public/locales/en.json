@@ -285,7 +285,9 @@
   "IncreaseStakes":"increase Stakes",
   "Balance":"Your Balance",
   "enterAmount":"Enter Amount",
-  "confirmIncStakeToken":"Are you sure you want to increase your balance"
+  "confirmIncStakeToken":"Are you sure you want to increase your balance",
+  "increaseBalance":"Increase My Balance",
+  "confirmIncreasing":"Confirm increasing"
 
 
 

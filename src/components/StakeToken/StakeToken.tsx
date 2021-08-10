@@ -13,9 +13,10 @@ const StakeToken = () => {
   const [cancelState, setCancelState] = useState<boolean>(true)
   const [value, setValue] = useState(0)
   const usd = () => value * 10
+  const [disabled, setDisabled] = useState<boolean>(true)
 
   const handelCheckBoxChanges = e => {
-    // setDisabled(!e.target.checked)
+    setDisabled(!e.target.checked)
   }
 
   return (
@@ -65,17 +66,15 @@ const StakeToken = () => {
               </InputContainer>
             </div>
           </BalanceContainer>
-          <StokeTokenFooter>
+          <StokeTokenFooter left={disabled?'15px':"26px"}>
 
             <CheckContainer>
             <input type='checkbox' onChange={handelCheckBoxChanges} />
-            <Text fontFamily='Roboto' fontSize='0.875rem' FontWeight="500" color='#525252' margin="0 20px 0 0">
+            <Text fontFamily='Roboto' fontSize='0.875rem' FontWeight="500" color='#525252' margin="0 10px 0 0">
               {t('confirmIncStakeToken')}
             </Text>
+            <ButtonMint    disabled={disabled}> {disabled?t('increaseBalance'):t('confirmIncreasing')}</ButtonMint>
             </CheckContainer>
-            <ButtonMint>Confirm increasing</ButtonMint>
-
-
           </StokeTokenFooter>
           </React.Fragment>
 
