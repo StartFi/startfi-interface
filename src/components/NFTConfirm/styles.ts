@@ -60,7 +60,7 @@ export const Column = styled.div`
 export const Bold = styled.div`
   font-weight: bold;
   letter-spacing: 0.04em;
-  font-size: 18px;
+  font-size: 1.125rem;
   color: #000000;
   text-transform: capitalize;
 `
@@ -121,12 +121,14 @@ export const Img = styled.img`
   border: none;
 `
 
-export const ButtonConfirmBid = styled.button`
+export const ButtonConfirmBid = styled('button')<{height?:string;width?:string}>`
   box-sizing: border-box;
   border: none;
   border-radius: 4px;
   width: 24vw;
   height: 6vh;
+  height: ${({ height }) => height};
+  width:${({ width }) => width};
   cursor:pointer;
 `
 export const ButtonBlack = styled(ButtonConfirmBid)`

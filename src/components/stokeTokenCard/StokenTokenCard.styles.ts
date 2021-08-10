@@ -1,13 +1,27 @@
 import styled from "styled-components";
 
-export const AllowButton=styled.button`
- border-radius: 4px;
-    background-color: #000000;
-    border: 1px solid #000000;
-    color: #ffffff;
-    font-size: 1rem;
-    font-family: Roboto;
-    letter-spacing: 0.04em;
-    cursor: pointer;
 
-`
+interface ContainerProps {
+    readonly minHeight: string
+  }
+
+  export const Container = styled.div<ContainerProps>`
+    width: 35vw;
+    padding: 3vh 2vw;
+    background-color: #fafafa;
+    border-radius: 8px;
+    min-height: ${({ minHeight }) => minHeight};
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+
+  `
+
+  export const TextContainer =styled.div`
+  display:flex;
+  & p{
+      width:60%
+  }
+  `
+
+
