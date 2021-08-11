@@ -27,7 +27,7 @@ const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid 
         <div>
           <Price>
             <Text fontFamily='Roboto' FontWight='700' fontSize='1.125rem'>
-              {auctionNFT.auction.listingPrice} ETH
+              {auctionNFT.auction.listingPrice} STFI
             </Text>
             <Text fontFamily='Roboto' FontWight='400' fontSize='1.0rem'>
               {cardContent.name}

@@ -48,7 +48,7 @@ const NFTConfirm: React.FunctionComponent = () => {
 
   const v: any = useBidOrBuyValue()
 
-  const value = parseFloat(v)
+  const value = bidOrBuy ? parseFloat(v) : auctionNFT?.auction.listingPrice
 
   const popup = usePopup()
 
@@ -58,7 +58,7 @@ const NFTConfirm: React.FunctionComponent = () => {
     return null
   }
 
-  if (value === 0) {
+  if (!value) {
     popup({ success: false, message: 'noValue' })
     history.goBack()
     return null
