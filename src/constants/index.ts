@@ -71,7 +71,7 @@ export const StepIcon = step => {
 
 export const HEADER_DROPDOWN: string[] = [
   'WishList',
-  'Inventory'
+  'Inventory',
   // 'Dashboard',
    'Stake Tokens',
   // 'Get STFI Token',
