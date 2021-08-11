@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 interface DelistCardProps {
   readonly minHeight: string
+  minWidth?:string
 }
 
 export const Container = styled.div<DelistCardProps>`
@@ -12,6 +13,7 @@ export const Container = styled.div<DelistCardProps>`
   background-color: #fafafa;
   border-radius: 8px;
   min-height: ${({ minHeight }) => minHeight};
+  min-width:${({ minWidth }) => minWidth};
   display: flex;
   flex-flow: column nowrap;
 `
@@ -127,7 +129,6 @@ export const DelistSuccessContainer = styled.div`
     & div {
       display: flex;
       flex-direction: row;
-
       margin-bottom: 24px;
     }
   }

@@ -14,7 +14,7 @@ import { AutoColumn, ColumnCenter } from '../Column'
 import Circle from '../../assets/images/blue-loader.svg'
 import { getEtherscanLink } from '../../utils'
 import { useActiveWeb3React } from '../../hooks'
- 
+
 const Wrapper = styled.div`
   width: 100%;
 `
@@ -74,7 +74,7 @@ function TransactionSubmittedContent({
   const theme = useContext(ThemeContext)
 
 
- 
+
   return (
     <Wrapper>
       <Section>
@@ -96,7 +96,7 @@ function TransactionSubmittedContent({
               </Text>
             </ExternalLink>
           )}
-          
+
           <ButtonPrimary onClick={onDismiss} style={{ margin: '20px 0 0 0' }}>
             <Text fontWeight={500} fontSize={20}>
               Close

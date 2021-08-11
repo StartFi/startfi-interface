@@ -7,11 +7,14 @@ import { useTranslation } from 'react-i18next'
 
 import { STFI, USD, USDPrice, USDWord, Input } from 'components/BidOrBuy/styles'
 import { ButtonMint } from 'components/Button'
-import StokeTokenCard from 'components/stokeTokenCard/StokeTokenCard'
+
 import { useApproveToken } from 'hooks/startfiToken'
 import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../../constants/abis/StartFiNFTPayment.json'
-import { address as STARTFI_Marketplace_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
+
 import { useDigitizingFees } from 'hooks'
+import { usePopup } from 'state/application/hooks'
+import StakeTokenCard from 'components/stakeTokenCard/StakeTokenCard'
+import StakeTokenSuccess from './StakeTokenSuccess'
 
 const StakeToken = () => {
   const { t } = useTranslation()
@@ -20,10 +23,13 @@ const StakeToken = () => {
   const usd = () => value * 10
   const [disabled, setDisabled] = useState<boolean>(true)
   const [openModal, setOpenModal] = useState<boolean>(false)
+  const [successModal, setSuccessModal] = useState<boolean>(false)
   const [loader, setLoader] = useState<boolean>(false)
-  const [buttonText,setButtonText]=useState<string>('Allow')
+  const [buttonText, setButtonText] = useState<string>('Allow')
   const approveToken = useApproveToken()
   const fees = useDigitizingFees()
+  const [step, setStep] = useState<number>(1)
+  const popup = usePopup()
 
   const handelCheckBoxChanges = e => {
     setDisabled(!e.target.checked)
@@ -31,19 +37,35 @@ const StakeToken = () => {
   const closeCard = () => {
     setOpenModal(false)
   }
+  const closeSuccess = () => {}
 
   const next = () => {
-    setLoader(true)
-    approveToken(STARTFI_NFT_PAYMENT_ADDRESS, fees).then((res) => {
-      console.log(res)
-      setLoader(false)
-      setButtonText('Increase Stake Balance')
-    })
+    switch (step) {
+      case 1:
+        setLoader(true)
+        approveToken(STARTFI_NFT_PAYMENT_ADDRESS, fees).then(res => {
+          setLoader(false)
+          setButtonText('Increase Stake Balance')
+          setStep(2)
+        })
+        break
+      case 2:
+        popup({ success: true, message: 'noNFT' })
+        break
+    }
   }
 
   return (
     <Card height={cancelState ? '600px' : '221px'} border='1px solid #F4F4F4' borderRadius='6px' marginTop='20px'>
-      <StokeTokenCard isOpen={openModal} close={closeCard} loader={loader} buttonText={buttonText} next={next}></StokeTokenCard>
+      <StakeTokenCard
+        isOpen={openModal}
+        close={closeCard}
+        loader={loader}
+        buttonText={buttonText}
+        next={next}
+      ></StakeTokenCard>
+
+      <StakeTokenSuccess isOpen={successModal} close={closeSuccess}></StakeTokenSuccess>
       <Card
         margin='0px 30px 0px 43px'
         height={cancelState ? '431px' : '96px'}

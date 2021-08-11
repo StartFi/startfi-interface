@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import { Row } from 'theme'
 
+import { Container } from 'components/stakeTokenCard/StakeTokenCard.styles';
+
 export const BalanceContainer = styled('div')<{ display?: string }>`
   display: flex;
   justify-content: space-between;
@@ -28,4 +30,15 @@ export const StokeTokenFooter = styled('div')<{ left?: string }>`
     position: relative;
     left:${({ left}) => left};
   }
+`
+
+export const StakeTokenSuccessCard=styled(Container)`
+align-items: center;
+& img{
+  margin-top: 33.5px;
+  width:64px;
+  height:51.1px;
+
+}
+
 `

@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { Divider } from 'components/InMarketAsset/InMarket.styles'
 import Loading from './../../assets/icons/buttonloader.svg'
 import { LoadingIcon } from 'components/WaitingConfirmation/styles'
-import { Container, TextContainer } from './StokenTokenCard.styles'
+import { Container, TextContainer } from './StakeTokenCard.styles'
 
 interface StokeTokenCardProps {
   isOpen: boolean
@@ -18,7 +18,7 @@ interface StokeTokenCardProps {
   buttonText: string
 }
 
-const StokeTokenCard: React.FC<StokeTokenCardProps> = ({ isOpen, close, loader, next, buttonText }) => {
+const StakeTokenCard: React.FC<StokeTokenCardProps> = ({ isOpen, close, loader, next, buttonText }) => {
   const { t } = useTranslation()
   if (!isOpen) return null
   return (
@@ -70,4 +70,4 @@ const StokeTokenCard: React.FC<StokeTokenCardProps> = ({ isOpen, close, loader, 
   )
 }
 
-export default StokeTokenCard
+export default StakeTokenCard

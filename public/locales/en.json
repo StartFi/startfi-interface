@@ -293,7 +293,9 @@
   "currentStakeAfterInc":"Current Stake Balance after increasing",
   "stfiBalanceAfterInc":"STFI balance after the stake increasing",
   "allowMetaMaskConnectionToIncreaseStake":"Allow Startfi to connect to you metamask to increase you stake balance",
-  "allow":"Allow"
+  "allow":"Allow",
+  "stakeTokenSuccess":"Your Stake Token balance has Increased Successfully",
+  "checkStakeBalance":"Check Stake Token Balance"
 
 
 
