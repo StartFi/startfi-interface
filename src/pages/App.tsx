@@ -54,7 +54,7 @@ export default function App() {
       <Route component={DarkModeQueryParamReader} />
       <AppWrapper>
         <WaitingConfirmation />
-        <URLWarning />
+        {/* <URLWarning /> */}
         <BodyWrapper>
           <Popups />
           <Polling />

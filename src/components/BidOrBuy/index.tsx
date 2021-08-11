@@ -1,3 +1,4 @@
+import { useSTFItoUSD } from 'hooks/useSTFItoUSD'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
@@ -40,9 +41,9 @@ const BidOrBuy: React.FunctionComponent<BidOrBuyProps> = ({ bidOrBuy, isOpen, cl
 
   const [value, setValue] = useState(useBidOrBuyValue())
 
-  if (!isOpen) return null
+  const usd = useSTFItoUSD(value)
 
-  const usd = () => value * 10
+  if (!isOpen) return null
 
   const title = bidOrBuy ? 'placeBid' : 'proceedToPayment'
 
@@ -67,7 +68,7 @@ const BidOrBuy: React.FunctionComponent<BidOrBuyProps> = ({ bidOrBuy, isOpen, cl
             <STFI>STFI</STFI>
             <Input type="number" value={value} onChange={(e: any) => setValue(e.target.value)} />
             <USD>
-              <USDPrice type="number" value={usd()} onChange={() => {}} />
+              <USDPrice type="number" value={usd} />
               <USDWord>USD</USDWord>
             </USD>
           </InputContainer>

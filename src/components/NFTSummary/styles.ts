@@ -150,6 +150,7 @@ export const Edit = styled(Row)`
   justify-content: space-evenly;
   width: 8vw;
   padding: 1.5vh 0;
+  cursor:pointer;
 `
 
 export const ButtonPaymentBlack = styled(ButtonBlack)`

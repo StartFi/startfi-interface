@@ -1,4 +1,4 @@
-import { DEFAULT_SORT, PopupContent } from './../../constants'
+import { DEFAULT_SORT, NFTS_PER_PAGE, PopupContent } from './../../constants'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NFTQUERY } from 'services/Marketplace'
@@ -135,9 +135,11 @@ const useChangePage = (): ((newPage: number) => void) => {
 export const usePagination = () => {
   const currentPage = useCurrentPage()
   const changePage = useChangePage()
+  const nfts = useMarketplace()
   return useMemo(() => {
-    return { currentPage, changePage }
-  }, [currentPage, changePage])
+    const isNext: boolean = nfts.length === NFTS_PER_PAGE
+    return { currentPage, isNext, changePage }
+  }, [currentPage, nfts, changePage])
 }
 
 export const useMintNFT = (): (() => void) => {

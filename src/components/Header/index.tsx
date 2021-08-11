@@ -9,8 +9,9 @@ import { useTranslation } from 'react-i18next'
 
 import styled from 'styled-components'
 
+// import Logo from '../../assets/svg/logo.svg'
 import Logo from '../../assets/svg/logo.svg'
-import LogoDark from '../../assets/svg/logo_white.svg'
+import LogoDark from '../../assets/svg/logo.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useETHBalances } from '../../state/wallet/hooks'
@@ -227,10 +228,10 @@ export const StyledMenuButton = styled.button`
 `
 
 const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
-  [ChainId.RINKEBY]: 'Rinkeby',
+  // [ChainId.RINKEBY]: 'Rinkeby',
   [ChainId.ROPSTEN]: 'Ropsten',
-  [ChainId.GÖRLI]: 'Görli',
-  [ChainId.KOVAN]: 'Kovan'
+  // [ChainId.GÖRLI]: 'Görli',
+  // [ChainId.KOVAN]: 'Kovan'
 }
 
 export default function Header() {
@@ -252,7 +253,7 @@ export default function Header() {
       <HeaderRow>
         <Title href='.'>
           <UniIcon>
-            <img width={'24px'} src={darkMode ? LogoDark : Logo} alt='logo' />
+            <img src={Logo} alt='logo' />
           </UniIcon>
         </Title>
         <HeaderLinks>

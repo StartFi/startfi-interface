@@ -1,5 +1,5 @@
 import React from 'react'
-import Logo from './../../assets/icons/logo.svg'
+import Logo from '../../assets/svg/StartFi-c 1.svg'
 import Wallet from 'components/Wallet'
 import styled from 'styled-components'
 
@@ -22,6 +22,7 @@ const Left = styled.div`
   font-size: 1.125rem;
   img {
     margin-right: 1vw;
+    cursor:pointer;
   }
 `
 
@@ -42,7 +43,7 @@ const InvHeader = () => {
       <Left onClick={() => history.push('/')} >
 
         <img src={Logo} alt='Logo' />
-        <div>Startfi</div>
+        {/* <div>Startfi</div> */}
       </Left>
 
       <Right>
