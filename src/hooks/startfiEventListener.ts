@@ -12,7 +12,6 @@ import {
   placeBidAction,
   saveNFT
 } from 'state/marketplace/actions'
-import { editNFT } from 'services/database/NFT'
 import { useAuction, useAuctionNFT, useNFT } from 'state/marketplace/hooks'
 import { useChainId, useUserAddress } from 'state/user/hooks'
 import { Bid } from 'services/models/Bid'
@@ -179,11 +178,10 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
         const eventValue = parseBigNumber(args)
         const nftId = auctionNFT?.nft.id
         const auctionId = auctionNFT?.auction.id || ''
-        const owner = auctionNFT?.nft.owner || ''
         const buyer = seller || ''
         const soldPrice = 10
         console.log('buyvalue', eventValue)
-        dispatch(buyNFTAction({ nftId, auctionId, owner, buyer, soldPrice }))
+        dispatch(buyNFTAction({ nftId, auctionId, buyer, soldPrice }))
         dispatch(addNewEvent({ eventName: 'BuyNow', eventValue }))
       })
     }

@@ -10,7 +10,7 @@ export const LinkCreateNFT = styled(LinkBase)`
   font-size: 1.125rem;
   font-weight: 500;
   /* width:30%; */
-  padding:0px 15px;
+  padding: 0px 15px;
 `
 
 export const LinkMarketplace = styled(LinkBase)`

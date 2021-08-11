@@ -48,8 +48,6 @@ const NFTs: React.FC = () => {
 
   const loading = useMarketplaceLoading()
 
-
-
   if (loading)
     return (
       <div>
@@ -65,7 +63,6 @@ const NFTs: React.FC = () => {
         </Results>
         <DropDownSort
           showLabel={true}
-          boxshadow
           name="sort"
           selectIcon={true}
           options={SORTBY}

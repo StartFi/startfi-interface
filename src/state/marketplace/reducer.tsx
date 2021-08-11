@@ -19,6 +19,12 @@ import {
 import { NFT } from 'services/models/NFT'
 import { Auction } from 'services/models/Auction'
 
+const getFirstError = (object: any): string => {
+  const keys = Object.keys(object)
+  for (const key in keys) if (object[key] !== 'success' && ['status', 'hash'].includes(object)) return object[key]
+  return 'success'
+}
+
 export interface MarketplaceState {
   marketplace: AuctionNFT[]
   loadtime: number
@@ -120,8 +126,7 @@ export default createReducer(initialState, builder =>
     .addCase(placeBidAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while placing bid' }
     })
-    .addCase(buyNFTAction.pending, (state, action) => {
-    })
+    .addCase(buyNFTAction.pending, (state, action) => {})
     .addCase(buyNFTAction.fulfilled, (state, action) => {
       state.walletConfirmation = null
       const success = action.payload.status === 'success'
@@ -168,9 +173,3 @@ export default createReducer(initialState, builder =>
       state.walletConfirmation = 'Bidding'
     })
 )
-
-const getFirstError = (object: any): string => {
-  const keys = Object.keys(object)
-  for (var key in keys) if (object[key] !== 'success' && ['status', 'hash'].includes(object)) return object[key]
-  return 'success'
-}
