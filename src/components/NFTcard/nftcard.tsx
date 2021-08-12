@@ -5,6 +5,9 @@ import ButtonWishlist from 'components/Button/ButtonWishlist'
 import { NftButton } from 'components/Button'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import uriToHttp from 'utils/uriToHttp'
+import Amount from 'components/NFTSummary/Amount'
+import Timer from 'components/Timer/Timer'
+import { ONE_DAY_MILLISECONDS } from '../../constants'
 
 
 export interface NftCardProps {
@@ -15,32 +18,36 @@ export interface NftCardProps {
 
 const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid }) => {
   const { t } = useTranslation()
-
   const cardContent = auctionNFT.nft
+  const expired = auctionNFT.auction.expireTimestamp - Date.now()
+
+
+  console.log(auctionNFT.nft.id,'expired=>',expired)
+
 
   return (
-    <Card>
+    <Card boxShadow={expired<ONE_DAY_MILLISECONDS?' inset 0 0 10px 0 rgba(0, 0, 0, 0.25), 0 0 8px 0 rgba(0, 0, 0, 0.25)'
+    :'0px 2px 8px rgba(0, 0, 0, 0.135216)'}>
       <div onClick={() => navigateToCard(auctionNFT)}>
         <Media>
           <CardImg src={uriToHttp(auctionNFT.nft.dataHash)[1]} />
         </Media>
         <div>
           <Price>
-            <Text fontFamily='Roboto' FontWight='700' fontSize='1.125rem'>
-              {auctionNFT.auction.listingPrice} STFI
-            </Text>
-            <Text fontFamily='Roboto' FontWight='400' fontSize='1.0rem'>
+            <Amount amount={auctionNFT?.auction?.listingPrice}></Amount>
+            <Text fontFamily='Roboto' FontWight='400' fontSize='1.0rem' margin='15px 0px 5px 0px'>
               {cardContent.name}
             </Text>
-            <Text fontFamily='Roboto' FontWight='400' fontSize='0.74rem'>
-              {cardContent.description}
-            </Text>
+            <div>
+              <Timer timeStamp={auctionNFT.auction.expireTimestamp} helperString='Auction'></Timer>
+              {expired > 1 ? <Text> LEFT</Text> : null}
+            </div>
           </Price>
         </div>
       </div>
       <Actions>
-        {/* */}
-          <ButtonWishlist nftId={cardContent.id} type="NFTCard"/>
+
+        <ButtonWishlist nftId={cardContent.id} type='NFTCard' />
         <Bid>
           <NftButton onClick={() => placeBid(auctionNFT)} color='#ffffff'>
             {t('placeBid')}

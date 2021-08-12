@@ -224,7 +224,7 @@
   "toleranceExplanation": "Lowering this limit decreases your risk of frontrunning. However, this makes more likely that your transaction will fail due to normal price movements.",
   "tokenSearchPlaceholder": "Search name or paste address",
 
-  "whishList": "WISHLIST",
+  "whishList": "Add to wishlist",
   "views": "Views",
   "createdBy": "Details created By",
   "prediction": "Prediction",

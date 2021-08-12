@@ -245,14 +245,14 @@ export const ButtonWhite = styled(Base)`
     cursor: auto;
   }
 `
-export const NftButton = styled(Base)<{ color?: string; border?: string }>`
+export const NftButton = styled(Base)<{ color?: string; border?: string ;fontSize?:string}>`
   color: black;
   background-color: transparent;
-  width: 100%;
   margin: 1em;
   padding: 0.25em 1em;
   border: none;
   border: none;
+  font-size:${({ fontSize }) => fontSize};
   border: ${({ border }) => border};
   color: ${({ color }) => color};
 `

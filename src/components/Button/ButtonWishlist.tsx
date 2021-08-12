@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useWishlist } from 'state/user/hooks'
 import { NftButton } from '.'
 import Heart from '../../assets/svg/Path.svg'
+import RemoveWish from '../../assets/images/removeWish.png'
 
 interface ButtonWishlistProps {
   nftId: number
@@ -28,9 +29,15 @@ const ButtonWishlist: React.FC<ButtonWishlistProps> = ({ nftId, type }: ButtonWi
 
   if (type === 'NFTCard')
     return (
-      <WhishList>
-        <ImageIcon src={Heart} $opacity={isWishlist} />
-        <NftButton onClick={() => (isWishlist ? removeFromWishlist() : addToWishlist())} color="#000000">
+      <WhishList
+      background={isWishlist?"#878787":"#ededed"}
+      >
+        <ImageIcon src={isWishlist ?RemoveWish:Heart} $opacity={isWishlist} />
+        <NftButton onClick={() => (isWishlist ? removeFromWishlist() : addToWishlist())}
+        color={isWishlist?"#ffffff":"#000000"} fontSize="0.75rem"
+
+
+        >
           {t(isWishlist ? 'removeFromWishlist' : 'whishList')}
         </NftButton>
       </WhishList>

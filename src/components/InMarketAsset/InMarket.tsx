@@ -20,11 +20,11 @@ import { Auction } from 'services/models/Auction'
 import { ButtonMintBack, DelistButton } from 'components/Button'
 import { useTranslation } from 'react-i18next'
 import DelistCard from 'components/DelistCard/DelistCard'
-import { Counter } from 'components/WishList/WishList.styles'
-import { useCountDownTimer } from 'hooks/countDownTimer'
+
 import { Footer } from 'components/OffMarket/OffMarket.styles'
 import Amount from 'components/NFTSummary/Amount'
-import { useSTFItoUSD } from 'hooks/useSTFItoUSD'
+
+import Timer from 'components/Timer/Timer'
 
 interface onMarketParams {
   id: string
@@ -45,26 +45,8 @@ const InMarket = () => {
   const [delistContainerHeight, setDelistContainerHeight] = useState<string>('120px')
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [disabled, setDisabled] = useState<boolean>(false)
-  const timeLeft = useCountDownTimer(auction.expireTimestamp)
+  const expired = auction.expireTimestamp - Date.now()
 
-  const timerComponents: any = []
-
-  Object.keys(timeLeft).forEach(interval => {
-    if (!timeLeft[interval]) {
-      return
-    }
-    let comma = ','
-    if (interval === 'S') comma = ''
-    timerComponents.push(
-      <Counter key={interval}>
-        <p>{timeLeft[interval]}</p>
-        <p>
-          {interval}
-          {comma}{' '}
-        </p>
-      </Counter>
-    )
-  })
   useEffect(() => {
     if (nft?.tags) {
       if (nft.tags.length > 0) setTagsState(true)
@@ -72,19 +54,19 @@ const InMarket = () => {
   }, [])
 
   const delist = () => {
-    if (timerComponents.length > 0 && !(auction?.bids.length > 0)) {
+    if (expired > 0 && !(auction?.bids.length > 0)) {
       setDisplayWarning('block')
       setDelistCardHeight('161px')
       setDelistContainerHeight('145px')
       setDisabled(true)
     }
-    if (timerComponents.length > 0 && auction?.bids.length > 0) {
+    if (expired > 0 && auction?.bids.length > 0) {
       setDisplayBidWarning('block')
       setDelistCardHeight('161px')
       setDelistContainerHeight('145px')
     }
 
-    if (timerComponents.length < 1) {
+    if (expired < 1) {
       setOpenModal(true)
     }
   }
@@ -188,7 +170,13 @@ const InMarket = () => {
               <Card height='229px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
                 <TextContainer marginLeft='1.438rem' width='100%'>
                   <AmountContainer>
-                    <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' margin="0px 88px 10px 0px">
+                    <Text
+                      fontFamily='Roboto'
+                      fontSize='1rem'
+                      color='#444444'
+                      spanWeight='500'
+                      margin='0px 88px 10px 0px'
+                    >
                       {t('pricing')}
                     </Text>
                     <Amount amount={auction?.listingPrice}></Amount>
@@ -196,12 +184,11 @@ const InMarket = () => {
                   <Divider width='95%'></Divider>
 
                   <div>
-                  <AmountContainer>
-                    <Text fontFamily='Roboto' fontSize='1rem' color='#444444'  margin="15px 13px 15px 0px">
-                      {t('minBiding')}
-
-                    </Text>
-                   {auction?.minBid?(<Amount amount={auction?.minBid}></Amount>):null}
+                    <AmountContainer>
+                      <Text fontFamily='Roboto' fontSize='1rem' color='#444444' margin='15px 13px 15px 0px'>
+                        {t('minBiding')}
+                      </Text>
+                      {auction?.minBid ? <Amount amount={auction?.minBid}></Amount> : null}
                     </AmountContainer>
                   </div>
 
@@ -216,19 +203,17 @@ const InMarket = () => {
                     >
                       {t('auctionTime')}
                     </Text>
-                    {timerComponents.length > 0 ? <div> {timerComponents}</div> : <div>Auction Ended</div>}
+                    <Timer timeStamp={auction.expireTimestamp} helperString='Auction'></Timer>
+
                   </AuctionTimer>
                   <Divider width='95%'></Divider>
                   <div>
-                  <AmountContainer>
-
-                    <Text fontFamily='Roboto' fontSize='1rem' color='#444444'  margin="15px 30px 15px 0px">
-                      {t('qualifyAmount')}
-
-                    </Text>
-                    {auction?.qualifyAmount?(<Amount amount={auction?.qualifyAmount}></Amount>):null}
-                  </AmountContainer>
-
+                    <AmountContainer>
+                      <Text fontFamily='Roboto' fontSize='1rem' color='#444444' margin='15px 30px 15px 0px'>
+                        {t('qualifyAmount')}
+                      </Text>
+                      {auction?.qualifyAmount ? <Amount amount={auction?.qualifyAmount}></Amount> : null}
+                    </AmountContainer>
                   </div>
                 </TextContainer>
               </Card>
