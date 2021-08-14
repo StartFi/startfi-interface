@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Text from '../Text'
+
 import {
   Grid,
   LeftGrid,
@@ -39,6 +39,8 @@ import { AuctionNFT } from 'services/models/AuctionNFT'
 import { useUserBalance } from 'state/user/hooks'
 import Timer from 'components/Timer/Timer'
 import Amount from 'components/NFTSummary/Amount'
+import StringModifier from 'utils/StringSplice'
+import Text from '../Text'
 
 interface NFTParams {
   nft: string
@@ -95,7 +97,7 @@ const Nftproduct = () => {
       <LeftGrid>
         <ImgCard>
           <img src={imgUrl} alt='NFT' />
-          {/* <p><img/>Views</p> */}
+
         </ImgCard>
         <LeftTextCard>
           <CreatedTitle>
@@ -108,17 +110,13 @@ const Nftproduct = () => {
               <p>{auctionNFT?.nft?.description}</p>
             </ReadMore>
 
-            {/* <TagContainer marginLeft="6.8rem">
-                  {auctionNFT?.nft?.tags?.map(e => (
-                    <div key={e}>{e}</div>
-                  ))}
-                </TagContainer> */}
+
           </CreatedText>
         </LeftTextCard>
       </LeftGrid>
       <RightGrid>
         <RightTitle>
-          {/* text created by user */}
+
 
           <Name>
             <p>{auctionNFT?.nft.name}</p>
@@ -130,7 +128,6 @@ const Nftproduct = () => {
             )}
           </Name>
         </RightTitle>
-        <RightSubTitle>{t('prediction')}: Round 11 (Bronze) - Only 100 Available</RightSubTitle>
 
         <TagContainer>
           {auctionNFT?.nft?.tags?.map(e => (
@@ -149,37 +146,34 @@ const Nftproduct = () => {
           </TimerContainer>
         ) : null}
 
-        {/* <PublisherCard height='60px'>
-          <OwnerText>
-            <p>{t('owner')} :</p>
-            <span>{auctionNFT?.nft?.owner}</span>
-          </OwnerText>
-        </PublisherCard> */}
         <BuyCard>
           {LastBidding ? (
             <LastBiddingContainer>
-              <Text fontFamily='Roboto' FontWeight="bold" fontSize='0.875rem' color='#323232' margin='0 23px 0px 0px'>{t('lastBidding')} :</Text>
-              <Amount amount={LastBidding}></Amount>{' '}
-            </LastBiddingContainer >
+              <Text fontFamily='Roboto' FontWeight='bold' fontSize='0.875rem' color='#323232' margin='0 23px 0px 0px'>
+                {t('lastBidding')} :
+              </Text>
+              <Amount amount={LastBidding}></Amount>
+            </LastBiddingContainer>
           ) : (
             <LastBiddingContainer>
-            <Text fontFamily='Roboto' FontWeight="bold" fontSize='1rem' color='#323232' margin='15px auto'>{t('noBidding')} </Text>
-            </LastBiddingContainer >
+              <Text fontFamily='Roboto' FontWeight='bold' fontSize='1rem' color='#323232' margin='15px auto'>
+                {t('noBidding')}
+              </Text>
+            </LastBiddingContainer>
           )}
 
-          <BuyButtons >
-            <ButtonWishlist nftId={nftId} type='NFTProduct' width="70%" borderRadius="4px" fontSize="1rem"/>
-            <PlaceBid >
-            < button
-              onClick={() => {
-                setBidOrBuy(true)
-                setIsOpen(true)
-              }}
-            >
-              {t('offer')}
-            </button>
+          <BuyButtons>
+            <ButtonWishlist nftId={nftId} type='NFTProduct' width='70%' borderRadius='4px' fontSize='1rem' />
+            <PlaceBid>
+              <button
+                onClick={() => {
+                  setBidOrBuy(true)
+                  setIsOpen(true)
+                }}
+              >
+                {t('placeBid')}
+              </button>
             </PlaceBid>
-
           </BuyButtons>
           <BuyNow>
             <button
@@ -193,11 +187,45 @@ const Nftproduct = () => {
             </button>
           </BuyNow>
         </BuyCard>
+
+        <PublisherCard height='91px'>
+          <OwnerText>
+          <Text fontFamily='Roboto' FontWeight='400' fontSize='1rem' color='#323232' margin='15px 0px 0px 22px'>
+
+              {t('Originally Crated By')} :
+
+              </Text>
+            {auctionNFT ?   <Text fontFamily='Roboto' FontWeight='600' fontSize='1rem' color='#323232' margin='15px 0px 0px 0px'>{StringModifier(auctionNFT?.nft?.issuer)}</Text> : null}
+          </OwnerText>
+          <OwnerText>
+          <Text fontFamily='Roboto' FontWeight='800' fontSize='1rem' color='#323232' margin='30px 0px 0px 22px '>
+              {auctionNFT?.nft?.royalty} %
+            </Text>
+
+            <Text fontFamily='Roboto' FontWeight='400' fontSize='1rem' color='#323232' margin='30px 10px 0px 10px '>
+              {t('PercentageResellingTransaction')}
+            </Text>
+          </OwnerText>
+        </PublisherCard>
+
+        <PublisherCard height='60px'>
+          <OwnerText>
+          <Text fontFamily='Roboto' FontWeight='400' fontSize='1rem' color='#323232' margin='15px 0px 0px 22px'>
+            {t('seller')} :
+            </Text>
+            {auctionNFT ?  <Text fontFamily='Roboto' FontWeight='600' fontSize='1rem' color='#323232' margin='15px 0px 0px 22px'>{StringModifier(auctionNFT?.nft?.owner)}</Text> : null}
+          </OwnerText>
+        </PublisherCard>
+
         <DescriptionCard overflowY={isReadMore}>
           <DescriptionTitle>
-            <p> {auctionNFT?.nft.name}</p>
+            <p> {t('DetailsCreatedBySeller')}</p>
           </DescriptionTitle>
-          <DescriptionText></DescriptionText>
+          <DescriptionText>
+            <ReadMore showScroll={showScroll}>
+              <p>{auctionNFT?.nft?.description}</p>
+            </ReadMore>
+          </DescriptionText>
         </DescriptionCard>
       </RightGrid>
     </Grid>
