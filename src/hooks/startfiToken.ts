@@ -1,11 +1,16 @@
-import { useStartFiToken } from './useContract'
 import { useCallback } from 'react'
+import { useStartFiToken } from './useContract'
 import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
+import { signERC2612Permit } from 'eth-permit'
+import { address as STARTFI_TOKEN_ADDRESS } from '../constants/abis/StartFiToken.json'
+
 import abiDecoder from 'abi-decoder'
 import { abi as STARTFI_TOKEN_ABI } from '../constants/abis/StartFiToken.json'
+import { utils } from 'ethers'
+import { useERC20PermitSignature } from './usePermit'
 abiDecoder.addABI(STARTFI_TOKEN_ABI)
 export const useTokenInfo = () => {
   const contract = useStartFiToken(false)
@@ -69,10 +74,13 @@ export const useGetAllowance = (): ((owner: string, spender: string) => any) => 
 }
 
 export const useApproveToken = (): ((spender: string, amount: string | number) => any) => {
-  const { account, library } = useActiveWeb3React()
+  const provider = useActiveWeb3React()
+  const { library, account } = provider
   const contract = useStartFiToken(true)
-  const approve = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
+  const singe = useERC20PermitSignature()
+  const permit = useSubmitTransaction()
+
   return useCallback(
     async (spender: string, amount: string | number) => {
       if (!account) {
@@ -80,16 +88,15 @@ export const useApproveToken = (): ((spender: string, amount: string | number) =
         return `account: ${account} is not connected`
       }
       try {
-        const transaction = await approve('approve', [spender, amount], contract, account, library)
-        const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
-        const decodedLogs = await abiDecoder.decodeLogs(transactionReceipt?.logs)
-        return decodedLogs[0].events
+        const { v, s, r, deadline } = await singe(spender, amount)
+        console.log({ v, s, r, deadline })
+        // await permit('permit', [spender, spender, amount, deadline, v, r, s], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
       }
     },
-    [account, contract, library, approve, toggleWalletModal]
+    [contract, toggleWalletModal]
   )
 }
 export const useIncreaseAllowance = (): ((spender: string, addedValue: string | number) => any) => {

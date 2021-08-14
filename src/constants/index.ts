@@ -71,9 +71,9 @@ export const StepIcon = step => {
 
 export const HEADER_DROPDOWN: string[] = [
   'WishList',
-  'Inventory'
+  'Inventory',
   // 'Dashboard',
-   'Stake Tokens',
+  'Stake Tokens'
   // 'Get STFI Token',
   // 'My Account'
 ]
@@ -130,7 +130,7 @@ const WETH_ONLY: ChainTokenList = {
   // [ChainId.GÖRLI]: [WETH9[ChainId.GÖRLI]],
   // [ChainId.BSCT]: [WETH9[ChainId.GÖRLI]],
   // [ChainId.BSC]: [WETH9[ChainId.GÖRLI]],
-  [ChainId.StartFi]: [WETH9[ChainId.ROPSTEN]],
+  [ChainId.StartFi]: [WETH9[ChainId.ROPSTEN]]
   // [ChainId.POLYGON]: [WETH9[ChainId.GÖRLI]],
   // [ChainId.AURORA]: [WETH9[ChainId.GÖRLI]],
   // [ChainId.KOVAN]: [WETH9[ChainId.KOVAN]]

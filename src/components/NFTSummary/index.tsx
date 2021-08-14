@@ -16,7 +16,7 @@ import { useDigitizingFees } from 'hooks'
 import { useAllowedSTFI } from 'hooks/useAllowedSTFI'
 import { useAllowed } from 'hooks/useAllowed'
 import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../../constants/abis/StartFiNFTPayment.json'
-import { address as STARTFI_Marketplace_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
+import { address as STARTFI_MARKETPLACE_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
 
 export interface NFTSummaryProps {
   step: number
@@ -73,7 +73,7 @@ const NFTSummary: React.FC = () => {
       case 9:
         if (!allowed) {
           setLoader(true)
-          approve(STARTFI_Marketplace_ADDRESS, nft.id).then(() => {
+          approve(STARTFI_MARKETPLACE_ADDRESS, nft.id).then(() => {
             setStep(10)
             setLoader(false)
           })
