@@ -61,12 +61,14 @@ export const Actions = styled.div`
   }
 `
 
-export const WhishList = styled('div')<{background?:string}>`
+export const WhishList = styled('div')<{background?:string,width?:string,borderRadius?:string}>`
   display: flex;
   align-items: center;
-
   background-color:${({ background }) => background};
+  width:${({ width }) => width};
   border-radius: 0px 0px 0px 8px;
+  border-radius:${({ borderRadius }) => borderRadius};
+
 `
 export const Bid = styled.div`
   display: flex;

@@ -22,7 +22,7 @@ const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid 
   const expired = auctionNFT.auction.expireTimestamp - Date.now()
 
 
-  console.log(auctionNFT.nft.id,'expired=>',expired)
+ 
 
 
   return (

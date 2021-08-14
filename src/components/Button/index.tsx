@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { darken, lighten } from 'polished'
-
 import { RowBetween } from '../Row'
 import { ChevronDown } from 'react-feather'
 import { Button as RebassButton, ButtonProps } from 'rebass/styled-components'
@@ -251,8 +250,8 @@ export const NftButton = styled(Base)<{ color?: string; border?: string ;fontSiz
   margin: 1em;
   padding: 0.25em 1em;
   border: none;
-  border: none;
-  font-size:${({ fontSize }) => fontSize};
+
+  font-size:${({ fontSize }) => fontSize||'0.75rem'};
   border: ${({ border }) => border};
   color: ${({ color }) => color};
 `
