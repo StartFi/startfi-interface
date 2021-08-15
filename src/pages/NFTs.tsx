@@ -9,34 +9,20 @@ import { Row } from 'theme/components'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import StartfiLoader from '../components/Loader/startfi'
 import Pagination from 'components/Pagination'
+import Algolia from '../assets/images/Algolia Search.png'
 
-const Header = styled(Row)`
-  padding-bottom: 6vh;
-`
+import { Padding, Results, NFTList, Nft, Header, DropDownContainer, DropDownImgIcons } from './styles'
 
-const Results = styled.div`
-  color: #2c2c2c;
-`
-
-const NFTList = styled(Row)`
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-`
-
-const Nft = styled.div`
-  margin-bottom: 8vh;
-`
-
-const Padding = styled.div`
-  padding: 0 2vw;
-`
-
-const SORTBY = ['With Bids', 'Lowest price', 'Highest price']
+// const SORTBY = ['With Bids', 'Lowest price', 'Highest price']
+const NetWorks = ['all Network', 'Net WORK 1', 'NetWork 2']
+const Status = ['All Status', 'Status 1', 'Status 2']
 
 const NFTs: React.FC = () => {
   const history = useHistory()
 
-  const [sort, setSort] = useState(SORTBY[0])
+  // const [sort, setSort] = useState(SORTBY[0])
+  const [netWork, setNetWork] = useState(NetWorks[0])
+  const [status, setStatus] = useState(Status[0])
 
   const { t } = useTranslation()
 
@@ -61,17 +47,33 @@ const NFTs: React.FC = () => {
         <Results>
           {onMarket.length} {t('NFTSResults')} {loadtime}ms
         </Results>
-        <DropDownSort
-          showLabel={true}
-          name="sort"
-          selectIcon={true}
-          options={SORTBY}
-          value={sort}
-          onChange={(e: any) => {
-            setSort(e.target.value)
-            getNFTs({ sort: e.target.value })
-          }}
-        />
+        <DropDownContainer>
+         
+          <DropDownSort
+            itemsWidth='12vw'
+            showLabel={true}
+            name='sort'
+            selectIcon={true}
+            options={NetWorks}
+            value={netWork}
+            onChange={(e: any) => {
+              setNetWork(e.target.value)
+            }}
+          />
+          <DropDownSort
+            itemsWidth='12vw'
+            showLabel={true}
+            name='sort'
+            selectIcon={true}
+            options={Status}
+            value={status}
+            onChange={(e: any) => {
+              setStatus(e.target.value)
+            }}
+          />
+          <DropDownImgIcons src={Algolia}></DropDownImgIcons>
+          <DropDownImgIcons src={Algolia}></DropDownImgIcons>
+        </DropDownContainer>
       </Header>
       <NFTList>
         {onMarket.map((auctionNFT: AuctionNFT) => (

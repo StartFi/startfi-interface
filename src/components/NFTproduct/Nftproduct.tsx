@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-
 import {
   Grid,
   LeftGrid,
@@ -9,8 +8,6 @@ import {
   CreatedTitle,
   CreatedText,
   RightTitle,
-  RightSubTitle,
-  PublisherCard,
   BuyCard,
   PlaceBid,
   BuyButtons,
@@ -25,7 +22,8 @@ import {
   Name,
   Stakes,
   TagContainer,
-  TimerContainer
+  TimerContainer,
+  PublisherCard
 } from './Nftproduct.styles'
 import ReadMore from '../ReadMore/readmore'
 import { useTranslation } from 'react-i18next'
