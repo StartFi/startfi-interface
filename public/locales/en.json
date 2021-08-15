@@ -287,7 +287,8 @@
   "OriginallyCratedBy":"Originally Crated By",
   "PercentageResellingTransaction":"Percentage on each reselling transaction",
   "seller":"Seller",
-  "DetailsCreatedBySeller":"Details created by the seller"
+  "DetailsCreatedBySeller":"Details created by the seller",
+  "auctionsEndIn":"Auction Ends in"
 
 
 

@@ -1,3 +1,4 @@
+import Timer from 'components/Timer/Timer'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
@@ -45,7 +46,10 @@ const NFTConfirm: React.FunctionComponent = () => {
     <Container>
       <Left>
         <TimerContainer>
-
+        <Text margin="0px 10px 0px 10px">
+          {t('auctionsEndIn')}:
+          </Text>
+          <Timer timeStamp={auctionNFT.auction.expireTimestamp} helperString='Auction'></Timer>
         </TimerContainer>
         <Rows>
           <Img src={uriToHttp(nft.dataHash)[1]} />
@@ -54,7 +58,7 @@ const NFTConfirm: React.FunctionComponent = () => {
             <Text>Prediction: Round 12 (Bronze) - Only 100 Available</Text>
             <MarginLeftBorder />
             <Baseline>
-              <MarginRight>{t('publisher')}</MarginRight>
+              <MarginRight>{t('OriginallyCratedBy')}</MarginRight>
               <SemiBold>{issuername}</SemiBold>
             </Baseline>
             <SemiBold>
@@ -62,7 +66,7 @@ const NFTConfirm: React.FunctionComponent = () => {
             </SemiBold>
             <MarginLeftBorder />
             <Baseline>
-              <MarginRight>{t('owner')}</MarginRight>
+              <MarginRight>{t('seller')}</MarginRight>
               <SemiBold>{ownername}</SemiBold>
             </Baseline>
           </Column>

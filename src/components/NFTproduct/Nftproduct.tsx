@@ -59,7 +59,7 @@ const Nftproduct = () => {
   useGetAuctionNFT(nft, auction)
 
   const auctionNFT: AuctionNFT | null = useAuctionNFT()
-  console.log('AuctionNft', auctionNFT)
+
 
   const popup = usePopup()
 
@@ -177,8 +177,8 @@ const Nftproduct = () => {
             <button
               onClick={() => {
                 history.push('/marketplace/buyorbid')
-                // setBidOrBuy(false)
-                // setIsOpen(true)
+                setBidOrBuy(false)
+                setIsOpen(true)
               }}
             >
               {t('buy')}
@@ -221,7 +221,7 @@ const Nftproduct = () => {
           </DescriptionTitle>
           <DescriptionText>
             <ReadMore showScroll={showScroll}>
-              <p>{auctionNFT?.nft?.description}</p>
+              <p>{auctionNFT?.ownerdetails}</p>
             </ReadMore>
           </DescriptionText>
         </DescriptionCard>

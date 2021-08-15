@@ -10,7 +10,6 @@ export const Left = styled.div`
   flex-grow: 1;
   border-right: 1px solid #eeeeee;
   padding-right: 4vw;
-
 `
 
 interface PaymentCardProps {
@@ -40,8 +39,8 @@ export const Row = styled.div`
 export const Rows = styled(Row)`
   margin-bottom: 5vh;
   & img {
-    height:202px;
-    width:187px;
+    height: 202px;
+    width: 187px;
   }
 `
 
@@ -83,9 +82,10 @@ export const Bold16 = styled.div`
   margin-right: 1vw;
 `
 
-export const Text = styled.div`
+export const Text = styled('div')<{margin?:string}>`
   letter-spacing: 0.04em;
   color: #323232;
+  margin:${({ margin }) => margin};
 `
 
 export const TextBlack = styled(Text)`
@@ -108,13 +108,11 @@ export const Border = styled.div`
 
 export const MarginLeftBorder = styled(Border)`
   margin-left: -1vw;
-
-
 `
 
 export const MarginBorder = styled(Border)`
   margin: 2vh 0;
-  width: 90%;
+  width: 95%;
 `
 
 export const MarginBottom = styled.div`
@@ -149,6 +147,8 @@ export const ButtonTransparentBorder = styled(ButtonTransparent)`
 `
 
 export const TimerContainer = styled.div`
+  display: flex;
+  align-items: center;
   width: 619px;
   height: 67px;
   margin-bottom: 40px;
