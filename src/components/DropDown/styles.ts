@@ -4,13 +4,14 @@ import { Row } from 'theme/components'
 interface WidthProps {
   readonly width: string
   readonly itemsWidth?: string
+  readonly marginRight?: string
 }
 
 export const Container = styled.div<WidthProps>`
   width: ${props => props.width};
   position: relative;
   height:5vh;
-  margin-right:40px;
+  margin-right:${props => props.marginRight};;
   z-index: 9999;
 
 
@@ -27,10 +28,17 @@ export const LabelRow = styled(Row)<{ border?: string }>`
   border-radius: 8px;
   padding: 2vh 2vw;
   cursor: pointer;
+  & img {
+    position: relative;
+    left:3px;
+  }
+
 `
 
 export const Label = styled.div`
   text-transform: capitalize;
+  color: #2c2c2c;
+  font-size:0.876rem;
 `
 
 export const Items = styled.div<WidthProps>`

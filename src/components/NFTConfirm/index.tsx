@@ -20,7 +20,8 @@ import {
   MarginLeftBorder,
   MarginRight,
   Rows,
-  TextBlack
+  TextBlack,
+  TimerContainer,
 } from './styles'
 
 const NFTConfirm: React.FunctionComponent = () => {
@@ -43,6 +44,9 @@ const NFTConfirm: React.FunctionComponent = () => {
   return (
     <Container>
       <Left>
+        <TimerContainer>
+
+        </TimerContainer>
         <Rows>
           <Img src={uriToHttp(nft.dataHash)[1]} />
           <Column>

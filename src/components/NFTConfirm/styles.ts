@@ -10,6 +10,7 @@ export const Left = styled.div`
   flex-grow: 1;
   border-right: 1px solid #eeeeee;
   padding-right: 4vw;
+
 `
 
 interface PaymentCardProps {
@@ -28,7 +29,7 @@ export const Right = styled.div<PaymentCardProps>`
 `
 
 export const MarginLeft = styled.div`
-  margin-left: 4vw;
+  margin-left: 10vw;
 `
 
 export const Row = styled.div`
@@ -38,6 +39,10 @@ export const Row = styled.div`
 
 export const Rows = styled(Row)`
   margin-bottom: 5vh;
+  & img {
+    height:202px;
+    width:187px;
+  }
 `
 
 export const SpaceBetween = styled(Row)`
@@ -98,16 +103,18 @@ export const SemiBold = styled.div`
 
 export const Border = styled.div`
   border-bottom: 1px solid #eeeeee;
-  width: 100%;
+  width: 95%;
 `
 
 export const MarginLeftBorder = styled(Border)`
   margin-left: -1vw;
+
+
 `
 
 export const MarginBorder = styled(Border)`
   margin: 2vh 0;
-  width: 98%;
+  width: 90%;
 `
 
 export const MarginBottom = styled.div`
@@ -139,4 +146,13 @@ export const ButtonTransparent = styled(ButtonConfirmBid)`
 
 export const ButtonTransparentBorder = styled(ButtonTransparent)`
   border: 1px solid #000000;
+`
+
+export const TimerContainer = styled.div`
+  width: 619px;
+  height: 67px;
+  margin-bottom: 40px;
+  border: solid 1px #ececec;
+  background-color: #fbfbfb;
+  border-radius: 8px;
 `

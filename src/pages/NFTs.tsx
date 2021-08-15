@@ -9,7 +9,8 @@ import { Row } from 'theme/components'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import StartfiLoader from '../components/Loader/startfi'
 import Pagination from 'components/Pagination'
-import Algolia from '../assets/images/Algolia Search.png'
+import Gallery from '../assets/images/Group 62.png'
+import TabList from '../assets/images/Group 63.png'
 
 import { Padding, Results, NFTList, Nft, Header, DropDownContainer, DropDownImgIcons } from './styles'
 
@@ -48,11 +49,12 @@ const NFTs: React.FC = () => {
           {onMarket.length} {t('NFTSResults')} {loadtime}ms
         </Results>
         <DropDownContainer>
-         
+
           <DropDownSort
             itemsWidth='12vw'
+            marginRight="40px"
             showLabel={true}
-            name='sort'
+            name='network'
             selectIcon={true}
             options={NetWorks}
             value={netWork}
@@ -62,6 +64,7 @@ const NFTs: React.FC = () => {
           />
           <DropDownSort
             itemsWidth='12vw'
+            marginRight="40px"
             showLabel={true}
             name='sort'
             selectIcon={true}
@@ -71,8 +74,8 @@ const NFTs: React.FC = () => {
               setStatus(e.target.value)
             }}
           />
-          <DropDownImgIcons src={Algolia}></DropDownImgIcons>
-          <DropDownImgIcons src={Algolia}></DropDownImgIcons>
+          <DropDownImgIcons src={Gallery}></DropDownImgIcons>
+          <DropDownImgIcons src={TabList}></DropDownImgIcons>
         </DropDownContainer>
       </Header>
       <NFTList>
