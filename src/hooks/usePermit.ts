@@ -1,10 +1,10 @@
-import { Contract, providers, utils, BigNumber, constants, ethers } from 'ethers'
-import { ecsign } from 'ethereumjs-util'
+import { Contract, utils, BigNumber, ethers } from 'ethers'
 import { useCallback } from 'react'
 import { useActiveWeb3React } from 'hooks'
-import { useStartFiToken } from './useContract'
+import { splitSignature } from 'ethers/lib/utils'
 
-const { getAddress, keccak256, defaultAbiCoder, toUtf8Bytes, solidityPack } = utils
+const {  keccak256, defaultAbiCoder, toUtf8Bytes, solidityPack } = utils
+const PERMIT_VALIDITY_BUFFER = 20 * 60
 
 const PERMIT_TYPEHASH = keccak256(
   toUtf8Bytes('Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)')
@@ -57,35 +57,34 @@ export async function getApprovalDigest(
   )
 }
 
-export const useERC20PermitSignature = (): ((spender: string, amount: string | number) => any) => {
+export const useERC20PermitSignature = (): ((spender: string, amount: string | number, contract: Contract) => any) => {
   const { account, library } = useActiveWeb3React()
-  const contract = useStartFiToken(true)
-  const { MaxUint256 } = constants
-  return useCallback(async (spender: string, amount: string | number) => {
-    try {
-      const nonce = await contract?.nonces(account)
-      const digest = await getApprovalDigest(
-        contract as Contract,
-        { owner: account as string, spender, value: BigNumber.from(amount) },
-        nonce,
-        MaxUint256
-      )
-
-      const signature = await library?.getSigner().signMessage(digest)
-      const r = signature?.slice(0, 66)
-      const s = '0x'.concat(signature?.slice(66, 130) as string)
-      let v = '0x'.concat(signature?.slice(130, 132) as string)
-      v = utils?.hexlify(v)
-      if (![27, 28].includes(Number(v))) v += 27
-      return {
-        r,
-        s,
-        v,
-        deadline: MaxUint256
+  const transactionDeadline = Date.now() + 20 * 60
+  return useCallback(
+    async (spender: string, amount: string | number, contract: Contract) => {
+      try {
+        const nonce = await contract.nonces(account)
+        const digest = await getApprovalDigest(
+          contract,
+          { owner: account as string, spender, value: BigNumber.from(amount) },
+          nonce,
+          BigNumber.from(transactionDeadline)
+        )
+        const messageHashBytes = utils.arrayify(digest)
+        const signature = await library?.getSigner().signMessage(messageHashBytes)
+        const signData = ethers.utils.splitSignature(signature as string)
+        const { r, s, v } = signData
+        return {
+          r,
+          s,
+          v,
+          deadline: transactionDeadline
+        }
+      } catch (e) {
+        console.log('error', e)
+        return e
       }
-    } catch (e) {
-      console.log('error', e)
-      return e
-    }
-  }, [])
+    },
+    [account, library, transactionDeadline]
+  )
 }

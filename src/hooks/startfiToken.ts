@@ -9,7 +9,7 @@ import { address as STARTFI_TOKEN_ADDRESS } from '../constants/abis/StartFiToken
 
 import abiDecoder from 'abi-decoder'
 import { abi as STARTFI_TOKEN_ABI } from '../constants/abis/StartFiToken.json'
-import { utils } from 'ethers'
+import { Contract } from 'ethers'
 import { useERC20PermitSignature } from './usePermit'
 abiDecoder.addABI(STARTFI_TOKEN_ABI)
 export const useTokenInfo = () => {
@@ -88,15 +88,14 @@ export const useApproveToken = (): ((spender: string, amount: string | number) =
         return `account: ${account} is not connected`
       }
       try {
-        const { v, s, r, deadline } = await singe(spender, amount)
-        console.log({ v, s, r, deadline })
-        // await permit('permit', [spender, spender, amount, deadline, v, r, s], contract, account, library)
+        const { v, s, r, deadline } = await singe(spender, amount, contract as Contract)
+        await permit('permit', [account as string, spender, amount, deadline, v, r, s], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
       }
     },
-    [contract, toggleWalletModal]
+    [account, contract, library, permit, singe, toggleWalletModal]
   )
 }
 export const useIncreaseAllowance = (): ((spender: string, addedValue: string | number) => any) => {
