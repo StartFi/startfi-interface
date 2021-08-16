@@ -34,7 +34,7 @@ export const MarginLeft = styled.div`
 export const Row = styled.div`
   display: flex;
   flex-flow: row nowrap;
-  margin-bottom:20px;
+  margin-bottom: 20px;
 `
 
 export const Rows = styled(Row)`
@@ -48,7 +48,6 @@ export const Rows = styled(Row)`
 export const SpaceBetween = styled(Row)`
   justify-content: space-between;
   align-items: baseline;
-
 `
 
 export const Baseline = styled(Row)`
@@ -63,7 +62,7 @@ export const Column = styled.div`
   width: 100%;
 `
 
-export const Bold = styled('div')<{margin?:string}>`
+export const Bold = styled('div')<{ margin?: string }>`
   font-weight: bold;
   letter-spacing: 0.04em;
   font-size: 18px;
@@ -94,10 +93,13 @@ export const Text = styled('div')<{ margin?: string }>`
 export const TextBlack = styled(Text)`
   color: #000000;
   line-height: 28px;
-  text-justify:auto;
+  text-align: justify;
+  text-justify: auto;
   & span {
     font-weight: 500;
     text-decoration: underline;
+    text-align: justify;
+    text-justify: auto;
     margin: 0 5px;
   }
 `
@@ -108,11 +110,15 @@ export const SemiBold = styled.div`
   letter-spacing: 0.04em;
   color: #000000;
   text-transform: capitalize;
+  margin-top: 12px;
 `
 
-export const Border = styled.div`
+export const Border = styled('div')<{ width?: string; left?: string }>`
+  position: relative;
   border-bottom: 1px solid #eeeeee;
   width: 95%;
+  width: ${({ width }) => width};
+  left: ${({ left }) => left};
 `
 
 export const MarginLeftBorder = styled(Border)`
@@ -142,7 +148,7 @@ export const ButtonConfirmBid = styled.button`
   width: 24vw;
   height: 6vh;
   cursor: pointer;
-  margin:5px 0px;
+  margin: 5px 0px;
 `
 export const ButtonBlack = styled(ButtonConfirmBid)`
   background-color: #000000;
