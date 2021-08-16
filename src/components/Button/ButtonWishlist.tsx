@@ -5,32 +5,47 @@ import { useTranslation } from 'react-i18next'
 import { useWishlist } from 'state/user/hooks'
 import { NftButton } from '.'
 import Heart from '../../assets/svg/Path.svg'
+import RemoveWish from '../../assets/images/removeWish.png'
 
 interface ButtonWishlistProps {
   nftId: number
   type: string
+  width?:string
+  borderRadius?:string
+  fontSize?:string
 }
 
-const ButtonWishlist: React.FC<ButtonWishlistProps> = ({ nftId, type }: ButtonWishlistProps) => {
+const ButtonWishlist: React.FC<ButtonWishlistProps> = ({ nftId, type,width,borderRadius,fontSize}: ButtonWishlistProps) => {
   const { t } = useTranslation()
 
   const { addToWishlist, removeFromWishlist, isWishlist } = useWishlist(nftId)
 
   if (type === 'NFTProduct')
     return (
-      <React.Fragment>
-        <img src={Heart} alt="Add to Wishlist" />
-        <button onClick={() => (isWishlist ? removeFromWishlist() : addToWishlist())}>
-          {t(isWishlist ? 'removeFromWishlist' : 'whishList')}
-        </button>
-      </React.Fragment>
+
+
+        <WhishList background={isWishlist ? '#878787' : '#ededed'} width={width} borderRadius={borderRadius}>
+          <ImageIcon src={isWishlist ? RemoveWish : Heart} $opacity={isWishlist} />
+          <NftButton
+            onClick={() => (isWishlist ? removeFromWishlist() : addToWishlist())}
+            color={isWishlist ? '#ffffff' : '#000000'}
+            fontSize={fontSize}
+          >
+            {t(isWishlist ? 'removeFromWishlist' : 'whishList')}
+          </NftButton>
+        </WhishList>
+
     )
 
   if (type === 'NFTCard')
     return (
-      <WhishList>
-        <ImageIcon src={Heart} $opacity={isWishlist} />
-        <NftButton onClick={() => (isWishlist ? removeFromWishlist() : addToWishlist())} color="#000000">
+      <WhishList background={isWishlist ? '#878787' : '#ededed'}>
+        <ImageIcon src={isWishlist ? RemoveWish : Heart} $opacity={isWishlist} />
+        <NftButton
+          onClick={() => (isWishlist ? removeFromWishlist() : addToWishlist())}
+          color={isWishlist ? '#ffffff' : '#000000'}
+
+        >
           {t(isWishlist ? 'removeFromWishlist' : 'whishList')}
         </NftButton>
       </WhishList>

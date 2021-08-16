@@ -66,29 +66,29 @@ const Payment: React.FC = () => {
   return (
     <MarginLeft>
       <Right minHeight="74vh">
-        <Bold>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</Bold>
-        <TextBlack>{t('bidDesc', { ownername, owner: shortenAddress(nft.owner, 6) })}</TextBlack>
+        <Bold margin="5px 0px">{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</Bold>
+        <TextBlack>{t('bidDesc')}<span>{nft?.name}</span>{t('by')} <span>{shortenAddress(nft.owner, 6)}</span></TextBlack>
         <SpaceBetween>
-          <Bold>{t(bidOrBuy ? 'biddingOffer' : 'paymentAmount')}</Bold>
-          <Bold>{value} STFI</Bold>
+          <Bold margin="5px 0px">{t(bidOrBuy ? 'biddingOffer' : 'paymentAmount')}</Bold>
+          <Bold margin="5px 0px">{value} STFI</Bold>
         </SpaceBetween>
         <Border />
         <SpaceBetween>
           <SemiBold>{t(bidOrBuy ? 'biddingBalance' : 'paymentBalance')}</SemiBold>
-          <Bold>{value} STFI</Bold>
+          <Bold margin="5px 0px">{value} STFI</Bold>
         </SpaceBetween>
         <SpaceBetween>
           <SemiBold>{t('yourBalance')}</SemiBold>
-          <Bold>{balance} STFI</Bold>
+          <Bold margin="5px 0px">{balance} STFI</Bold>
         </SpaceBetween>
         <SpaceBetween>
           <SemiBold>{t('serviceFees')}</SemiBold>
-          <Bold>{service()} STFI</Bold>
+          <Bold margin="5px 0px">{service()} STFI</Bold>
         </SpaceBetween>
         <Border />
         <SpaceBetween>
-          <Bold>{t(bidOrBuy ? 'totalBidAmount' : 'totalPaymentAmount')}</Bold>
-          <Bold>{total(value, service())} STFI</Bold>
+          <Bold margin="5px 0px">{t(bidOrBuy ? 'totalBidAmount' : 'totalPaymentAmount')}</Bold>
+          <Bold margin="5px 0px">{total(value, service())} STFI</Bold>
         </SpaceBetween>
         <ButtonBlack onClick={() => confirm()}>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</ButtonBlack>
         <ButtonWishlist nftId={nft.id} type="NFTConfirm" />
