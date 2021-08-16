@@ -1,14 +1,14 @@
 import styled from 'styled-components'
 
-
-export const Card = styled.div`
+export const Card = styled('div')<{boxShadow?:string}>`
   display: flex;
   flex-direction: column;
   width: 310px;
   height: 378px;
   border-radius: 8px;
   background-color: #ffffff;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.135216);
+
+  box-shadow: ${({ boxShadow }) => boxShadow};
   position: relative;
   cursor: pointer;
 `
@@ -29,15 +29,24 @@ export const CardImg = styled.img`
 `
 
 export const Price = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* margin:60px 0 20px 27px; */
   position: relative;
-  top: 38px;
+  top: 48px;
   left: 27px;
+  & div {
+    display: flex;
+    align-items: center;
+  }
 `
 
-export const Text = styled('p')<{ fontFamily?: string; FontWight?: string; fontSize?: string }>`
+export const Text = styled('p')<{ fontFamily?: string; FontWight?: string; fontSize?: string; margin?: string }>`
   font-family: ${({ fontFamily }) => fontFamily};
   font-weight: ${({ FontWight }) => FontWight};
   font-size: ${({ fontSize }) => fontSize};
+  margin: ${({ margin }) => margin};
   width: 90%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -47,13 +56,19 @@ export const Actions = styled.div`
   display: flex;
   margin-top: auto;
   height: 45px;
+  & div{
+    width:50%;
+  }
 `
 
-export const WhishList = styled.div`
+export const WhishList = styled('div')<{background?:string,width?:string,borderRadius?:string}>`
   display: flex;
   align-items: center;
-  background-color: #ededed;
+  background-color:${({ background }) => background};
+  width:${({ width }) => width};
   border-radius: 0px 0px 0px 8px;
+  border-radius:${({ borderRadius }) => borderRadius};
+
 `
 export const Bid = styled.div`
   display: flex;
@@ -63,9 +78,10 @@ export const Bid = styled.div`
   border-radius: 0px 0px 8px 0px;
 `
 
-export const ImageIcon = styled('img')<{$opacity?:boolean}>`
+export const ImageIcon = styled('img')<{ $opacity?: boolean }>`
   position: relative;
   left: 29px;
-  opacity:${({ $opacity}) => $opacity?'50%':''};
-
+  z-index:10;
+  margin-right:10px;
+  /* opacity: ${({ $opacity }) => ($opacity ? '50%' : '')}; */
 `

@@ -3,15 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useAuctionNFT, useWalletConfirmation } from 'state/marketplace/hooks'
 import { shortenAddress } from 'utils'
 import Loading from './../../assets/icons/loading.svg'
-import {
-  Footer,
-  LoadingIcon,
-  WhiteShadow,
-  SidePadding,
-  Text,
-  TopPadding,
-  WalletConfirmationContainer
-} from './styles'
+import { Footer, LoadingIcon, WhiteShadow, SidePadding, Text, TopPadding, WalletConfirmationContainer } from './styles'
 
 const WaitingConfirmation: React.FC = () => {
   const { t } = useTranslation()

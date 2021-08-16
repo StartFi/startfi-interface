@@ -12,7 +12,7 @@
   "about": "About",
   "detailsCreated": "Details created by",
   "confirmBidding": "Confirm Bidding",
-  "bidDesc": "You are about to place a bid for {{ ownername }} by {{ owner }}",
+  "bidDesc": "You are about to place a bid for",
   "addToWishlist": "Add To Wishlist",
   "biddingOffer": "Bidding Offer :",
   "biddingBalance": "Bidding balance",
@@ -223,7 +223,9 @@
   "brokenToken": "The selected token is not compatible with Uniswap V1. Adding liquidity will result in locked funds.",
   "toleranceExplanation": "Lowering this limit decreases your risk of frontrunning. However, this makes more likely that your transaction will fail due to normal price movements.",
   "tokenSearchPlaceholder": "Search name or paste address",
+
   "whishList": "WISHLIST",
+
   "views": "Views",
   "createdBy": "Details created By",
   "prediction": "Prediction",
@@ -266,6 +268,7 @@
   "auctionEnds": " Auctions Ends In",
   "zeroBalanceMessage": " You don't have balance",
   "zeroBalance": " No balance",
+
    "Days":"Days",
   "Hours":"Hours",
   "Minutes":"Minutes",
@@ -296,11 +299,6 @@
   "allow":"Allow",
   "stakeTokenSuccess":"Your Stake Token balance has Increased Successfully",
   "checkStakeBalance":"Check Stake Token Balance"
-
-
-
-
-
 
 
 

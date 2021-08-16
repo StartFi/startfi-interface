@@ -4,12 +4,22 @@ import { ChainId } from '../constants/supportedChains'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { fortmatic, injected, portis, walletconnect, walletlink } from '../connectors'
 import { NFT } from 'services/models/NFT'
+import Books from '../assets/icons/bookstab.svg'
+import Videos from '../assets/icons/videostab.svg'
+import Art from '../assets/icons/arttab.svg'
+import Games from '../assets/icons/gamestab.svg'
+import All from '../assets/icons/alltab.svg'
+import Music from '../assets/icons/musictab.svg'
+import Images from '../assets/icons/imagestab.svg'
+import Step1Icon from './../assets/icons/step1.svg'
+import Step2Icon from './../assets/icons/step2.svg'
+import Step3Icon from './../assets/icons/step3.svg'
 
 export const CATEGORIES: string[] = ['music', 'books', 'videos', 'art', 'images', 'games']
 
 export type Dictionary = { [index: string]: any }
 
-export const NFTS_PER_PAGE: number = 12
+export const NFTS_PER_PAGE = 12
 
 export const STFI_IN_WEI = 5
 
@@ -28,9 +38,36 @@ export interface PopupContent {
   type?: string
 }
 
-export const DEFAULT_SORT: string = 'Lowest price'
+export const DEFAULT_SORT = 'Lowest price'
 
-export const DEFAULT_CHAIN_ID: number = 3
+export const DEFAULT_CHAIN_ID = 3
+
+export const ALL_CATEGORIES = ['all', ...CATEGORIES]
+
+export const TabIcons: Dictionary = {
+  books: Books,
+  videos: Videos,
+  art: Art,
+  games: Games,
+  all: All,
+  music: Music,
+  images: Images
+}
+
+export const StepIcon = step => {
+  switch (step) {
+    case 1:
+      return Step1Icon
+    case 2:
+      return Step2Icon
+    case 3:
+      return Step3Icon
+    case 7:
+      return
+    default:
+  }
+  return Step1Icon
+}
 
 export const HEADER_DROPDOWN: string[] = [
   'WishList',
@@ -43,6 +80,8 @@ export const HEADER_DROPDOWN: string[] = [
   // 'My Account'
 ]
 
+// one Day in milliseconds
+export const ONE_DAY_MILLISECONDS=86400000
 export const ROUTER_ADDRESS = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
 export interface PopupContent {
   success: boolean

@@ -6,7 +6,7 @@ import config from './config'
 firebase.initializeApp(config)
 
 const DB = firebase.firestore()
-firebase.firestore().settings({ experimentalForceLongPolling: true });
+firebase.firestore().settings({ experimentalForceLongPolling: true })
 
 export const addDocument = async (collection: string, key: string | number, document: Document): Promise<string> => {
   if (!collection) return 'No entity provided'
@@ -39,12 +39,20 @@ export const editDocument = async (collection: string, key: string | number, doc
   return 'No document'
 }
 
+const snapshotToArray = (
+  snapshot: firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData> | void
+): Document[] => {
+  const result: Document[] = []
+  if (snapshot) snapshot.forEach(doc => result.push(doc.data() as Document))
+  return result
+}
+
 export const getDocuments = async (
   collection: string,
   filters?: Dictionary,
   orders?: Dictionary
 ): Promise<Document[]> => {
-  var query: any = DB.collection(collection)
+  let query: any = DB.collection(collection)
   if (filters) Object.keys(filters).forEach(key => (query = query.where(key, '==', filters[key])))
   if (orders) Object.keys(orders).forEach(key => (query = query.orderBy(key, orders[key])))
   return snapshotToArray(await query.get().catch((err: any) => console.log(err)))
@@ -56,17 +64,9 @@ export const getDocumentsPaginated = async (
   orders?: Dictionary,
   lastVisible?: any
 ): Promise<any> => {
-  var query: any = DB.collection(collection)
+  let query: any = DB.collection(collection)
   if (filters) Object.keys(filters).forEach(key => (query = query.where(key, '==', filters[key])))
   if (orders) Object.keys(orders).forEach(key => (query = query.orderBy(key, orders[key])))
   if (lastVisible) query = query.startAfter(lastVisible)
   return query.get().catch((err: any) => console.log(err))
-}
-
-export const snapshotToArray = (
-  snapshot: firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData> | void
-): Document[] => {
-  const result: Document[] = []
-  if (snapshot) snapshot.forEach(doc => result.push(doc.data() as Document))
-  return result
 }

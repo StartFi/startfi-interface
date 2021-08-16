@@ -12,7 +12,6 @@ export const useAllowedSTFI = (): number => {
       getAllowedSTFI(address, STARTFI_NFT_PAYMENT_ADDRESS).then(allowedHexString =>
         setAllowed(allowedHexString?.length < 5 ? parseInt(allowedHexString, 16) : allowedHexString)
       )
-    return () => {}
   }, [address, getAllowedSTFI])
   return allowed
 }

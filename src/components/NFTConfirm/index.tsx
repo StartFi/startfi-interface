@@ -1,21 +1,14 @@
-import ButtonWishlist from 'components/Button/ButtonWishlist'
+import Timer from 'components/Timer/Timer'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import { usePopup } from 'state/application/hooks'
-import { useAuctionNFT, useBidOrBuy, useBidOrBuyValue, useBuyNFT, usePlaceBid } from 'state/marketplace/hooks'
-import { useUserBalance } from 'state/user/hooks'
-import { shortenAddress } from 'utils'
+import { useAuctionNFT } from 'state/marketplace/hooks'
 import uriToHttp from 'utils/uriToHttp'
+import Payment from './Payment'
 import {
   Bold,
-  Border,
-  ButtonBlack,
-  ButtonTransparent,
-  MarginLeft,
-  Right,
   SemiBold,
-  SpaceBetween,
   Baseline,
   Text,
   Container,
@@ -28,7 +21,8 @@ import {
   MarginLeftBorder,
   MarginRight,
   Rows,
-  TextBlack
+  TextBlack,
+  TimerContainer,
 } from './styles'
 
 const NFTConfirm: React.FunctionComponent = () => {
@@ -36,19 +30,7 @@ const NFTConfirm: React.FunctionComponent = () => {
 
   const history = useHistory()
 
-  const balance = useUserBalance()
-
   const auctionNFT = useAuctionNFT()
-
-  const placebid = usePlaceBid()
-
-  const buynft = useBuyNFT()
-
-  const bidOrBuy = useBidOrBuy()
-
-  const v: any = useBidOrBuyValue()
-
-  const value = bidOrBuy ? parseFloat(v) : auctionNFT?.auction.listingPrice
 
   const popup = usePopup()
 
@@ -58,28 +40,17 @@ const NFTConfirm: React.FunctionComponent = () => {
     return null
   }
 
-  if (!value) {
-    popup({ success: false, message: 'noValue' })
-    history.goBack()
-    return null
-  }
-
   const { ownername, issuername, ownerdetails, nft } = auctionNFT
-
-  const service = (): number => value * 1
-
-  const total = (value: any, service: any): number => {
-    return parseFloat(value) + parseFloat(service)
-  }
-
-  const confirm = () => {
-    if (bidOrBuy) placebid()
-    else buynft()
-  }
 
   return (
     <Container>
       <Left>
+        <TimerContainer>
+        <Text margin="0px 10px 0px 10px">
+          {t('auctionsEndIn')}:
+          </Text>
+          <Timer timeStamp={auctionNFT.auction.expireTimestamp} helperString='Auction'></Timer>
+        </TimerContainer>
         <Rows>
           <Img src={uriToHttp(nft.dataHash)[1]} />
           <Column>
@@ -87,7 +58,7 @@ const NFTConfirm: React.FunctionComponent = () => {
             <Text>Prediction: Round 12 (Bronze) - Only 100 Available</Text>
             <MarginLeftBorder />
             <Baseline>
-              <MarginRight>{t('publisher')}</MarginRight>
+              <MarginRight>{t('OriginallyCratedBy')}</MarginRight>
               <SemiBold>{issuername}</SemiBold>
             </Baseline>
             <SemiBold>
@@ -95,7 +66,7 @@ const NFTConfirm: React.FunctionComponent = () => {
             </SemiBold>
             <MarginLeftBorder />
             <Baseline>
-              <MarginRight>{t('owner')}</MarginRight>
+              <MarginRight>{t('seller')}</MarginRight>
               <SemiBold>{ownername}</SemiBold>
             </Baseline>
           </Column>
@@ -116,39 +87,7 @@ const NFTConfirm: React.FunctionComponent = () => {
         </MarginBottom>
         <TextBlack>{ownerdetails}</TextBlack>
       </Left>
-      <MarginLeft>
-        <Right minHeight="74vh">
-          <Bold>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</Bold>
-          <TextBlack>{t('bidDesc', { ownername, owner: shortenAddress(nft.owner, 6) })}</TextBlack>
-          <SpaceBetween>
-            <Bold>{t(bidOrBuy ? 'biddingOffer' : 'paymentAmount')}</Bold>
-            <Bold>{value} STFI</Bold>
-          </SpaceBetween>
-          <Border />
-          <SpaceBetween>
-            <SemiBold>{t(bidOrBuy ? 'biddingBalance' : 'paymentBalance')}</SemiBold>
-            <Bold>{value} STFI</Bold>
-          </SpaceBetween>
-          <SpaceBetween>
-            <SemiBold>{t('yourBalance')}</SemiBold>
-            <Bold>{balance} STFI</Bold>
-          </SpaceBetween>
-          <SpaceBetween>
-            <SemiBold>{t('serviceFees')}</SemiBold>
-            <Bold>{service()} STFI</Bold>
-          </SpaceBetween>
-          <Border />
-          <SpaceBetween>
-            <Bold>{t(bidOrBuy ? 'totalBidAmount' : 'totalPaymentAmount')}</Bold>
-            <Bold>{total(value, service())} STFI</Bold>
-          </SpaceBetween>
-          <ButtonBlack onClick={() => confirm()}>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</ButtonBlack>
-          <ButtonWishlist nftId={nft.id} type="NFTConfirm" />
-          <ButtonTransparent onClick={() => history.goBack()}>
-            {t(bidOrBuy ? 'cancelBidding' : 'cancelPayment')}
-          </ButtonTransparent>
-        </Right>
-      </MarginLeft>
+      <Payment />
     </Container>
   )
 }
