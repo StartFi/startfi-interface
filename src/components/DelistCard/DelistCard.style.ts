@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 interface DelistCardProps {
   readonly minHeight: string
+  minWidth?:string
 }
 
 export const Container = styled.div<DelistCardProps>`
@@ -12,6 +13,7 @@ export const Container = styled.div<DelistCardProps>`
   background-color: #fafafa;
   border-radius: 8px;
   min-height: ${({ minHeight }) => minHeight};
+  min-width:${({ minWidth }) => minWidth};
   display: flex;
   flex-flow: column nowrap;
 `
@@ -26,14 +28,13 @@ export const Shadow = styled.div`
   z-index: 10;
 `
 
-export const DelistModal = styled(Modal)` 
+export const DelistModal = styled(Modal)`
   background: #fafafa;
   border: 1px solid #d8d8d8;
 `
 export const DelistMain = styled.div``
 
 export const DelistCardHeader = styled.div`
-  /* height:76.4px; */
   width: 100%;
 `
 
@@ -67,10 +68,10 @@ export const CounterSegment = styled.div`
 export const CheckContainer = styled.div`
   display: flex;
   align-items: center;
-
   margin-top: 22px;
   & input {
     margin-right: 8px;
+    cursor: pointer;
     &:checked {
       background-color: #000000;
     }
@@ -93,6 +94,7 @@ export const DelistButton = styled('button')<{
   textDecoration?: string
   fontWeight?: string
   fontSize?: string
+  margin?: string
 }>`
   cursor: pointer;
   box-sizing: border-box;
@@ -107,6 +109,7 @@ export const DelistButton = styled('button')<{
   text-decoration: ${({ textDecoration }) => textDecoration};
   font-weight: ${({ fontWeight }) => fontWeight};
   font-size: ${({ fontSize }) => fontSize};
+  margin: ${({ margin }) => margin};
   &:disabled {
     background-color: #c2c2c2;
   }
@@ -126,9 +129,7 @@ export const DelistSuccessContainer = styled.div`
     & div {
       display: flex;
       flex-direction: row;
-
       margin-bottom: 24px;
     }
   }
 `
-

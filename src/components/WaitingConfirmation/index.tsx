@@ -37,4 +37,4 @@ const WaitingConfirmation: React.FC = () => {
   )
 }
 
-export default WaitingConfirmation
+export default WaitingConfirmation;
