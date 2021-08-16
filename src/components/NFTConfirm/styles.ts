@@ -34,6 +34,7 @@ export const MarginLeft = styled.div`
 export const Row = styled.div`
   display: flex;
   flex-flow: row nowrap;
+  margin-bottom:20px;
 `
 
 export const Rows = styled(Row)`
@@ -47,6 +48,7 @@ export const Rows = styled(Row)`
 export const SpaceBetween = styled(Row)`
   justify-content: space-between;
   align-items: baseline;
+
 `
 
 export const Baseline = styled(Row)`
@@ -61,12 +63,13 @@ export const Column = styled.div`
   width: 100%;
 `
 
-export const Bold = styled.div`
+export const Bold = styled('div')<{margin?:string}>`
   font-weight: bold;
   letter-spacing: 0.04em;
   font-size: 18px;
   color: #000000;
   text-transform: capitalize;
+  margin: ${({ margin }) => margin};
 `
 
 export const MarginRight = styled(Bold)`
@@ -82,15 +85,21 @@ export const Bold16 = styled.div`
   margin-right: 1vw;
 `
 
-export const Text = styled('div')<{margin?:string}>`
+export const Text = styled('div')<{ margin?: string }>`
   letter-spacing: 0.04em;
   color: #323232;
-  margin:${({ margin }) => margin};
+  margin: ${({ margin }) => margin};
 `
 
 export const TextBlack = styled(Text)`
   color: #000000;
   line-height: 28px;
+  text-justify:auto;
+  & span {
+    font-weight: 500;
+    text-decoration: underline;
+    margin: 0 5px;
+  }
 `
 
 export const SemiBold = styled.div`
@@ -133,6 +142,7 @@ export const ButtonConfirmBid = styled.button`
   width: 24vw;
   height: 6vh;
   cursor: pointer;
+  margin:5px 0px;
 `
 export const ButtonBlack = styled(ButtonConfirmBid)`
   background-color: #000000;
