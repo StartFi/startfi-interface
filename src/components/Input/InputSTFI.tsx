@@ -8,22 +8,30 @@ interface InputSTFIProps {
   name: string
   label: string
   value: number
-  onChange: (value: number) => void
+  onChange: (value: number, name: string) => void
+  question?: string
 }
 
-const InputSTFI: React.FC<InputSTFIProps> = ({ name, label, value, onChange }) => {
+const InputSTFI: React.FC<InputSTFIProps> = ({ name, label, value, onChange, question }) => {
   const STFItoUSD = useSTFItoUSD(value)
   const USDtoSTFI = useUSDtoSTFI()
 
   return (
     <React.Fragment>
-      <Input name={name} label={label} value={value} onChange={(e: any) => onChange(e.target.value)} number />
+      <Input
+        name={name}
+        label={label}
+        value={value}
+        onChange={(value: any) => onChange(value, name)}
+        question={question}
+        number
+      />
       <img src={PriceArrows} alt="Currency conversion" />
       <Input
         name="usd"
         currency="USD"
         value={STFItoUSD}
-        onChange={(e: any) => USDtoSTFI(e.target.value).then(stfi => onChange(stfi))}
+        onChange={(value: any) => USDtoSTFI(value).then(stfi => onChange(stfi, name))}
         number
       />
     </React.Fragment>

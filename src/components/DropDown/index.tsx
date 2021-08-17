@@ -7,7 +7,7 @@ interface DropDownProps {
   name: string
   options: string[]
   value: string
-  onChange: (e: any) => void
+  onChange: (value: any, name: string) => void
   width?: string
   label?: string
   selectIcon?: boolean
@@ -59,7 +59,7 @@ export const DropDown: React.FC<DropDownProps> = ({
                 onClick={() => {
                   setSelected(o)
                   setOpen(false)
-                  onChange({ target: { name, value: o } })
+                  onChange(o, name)
                 }}
               >
                 {t(o)}
@@ -76,4 +76,4 @@ export const DropDownSort = (props: DropDownProps) => <DropDown {...props} width
 
 export const DropDownDateType = (props: DropDownProps) => <DropDown {...props} width="8vw" />
 
-export const DropDownCategory = (props: DropDownProps) => <DropDown {...props} />
+export const DropDownCategory = (props: DropDownProps) => <DropDown {...props} width="30vw" />

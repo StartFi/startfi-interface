@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Row } from 'theme'
-import { AddedToMarketplaceContainer, AddedToMarketplaceText, Header, PageLink } from './styles'
+import { AddedToMarketplaceContainer, AddedToMarketplaceText, Header, PageLink } from '../MintCard.tsx/styles'
 
 const AddedToMarketplace: React.FC = () => {
   const { t } = useTranslation()

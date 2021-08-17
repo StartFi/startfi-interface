@@ -1,14 +1,16 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useAuction, useNFT } from 'state/marketplace/hooks'
+import { useAuction, useNFT, useStep } from 'state/marketplace/hooks'
+import { STEP } from 'state/marketplace/types'
 import { openFor } from 'utils'
-import { NFTSummaryProps } from '.'
 import Amount from './Amount'
 import EditableBox from './EditableBox'
 import { Label, Data, Field, Line } from './styles'
 
-const AuctionBoxes: React.FC<NFTSummaryProps> = ({ step }) => {
+const AuctionBoxes: React.FC = () => {
   const { t } = useTranslation()
+
+  const step = useStep()
 
   const nft = useNFT()
 
@@ -18,34 +20,40 @@ const AuctionBoxes: React.FC<NFTSummaryProps> = ({ step }) => {
 
   return (
     <React.Fragment>
-      <EditableBox editable={step === 8} link="/mint/steps" state={{ step: 7 }}>
-        <Field>
-          <Label>{t('pricing')}</Label>
-          <Data>
-            <Amount amount={auction.listingPrice} />
-          </Data>
-        </Field>
+      <EditableBox editable={step === STEP.AUCTION_SUMMARY} link="/mint/steps" step={STEP.AUCTION_DETAILS}>
+        {auction.isForSale && (
+          <Field>
+            <Label>{t('pricing')}</Label>
+            <Data>
+              <Amount amount={auction.listingPrice || 0} />
+            </Data>
+          </Field>
+        )}
         <Line />
-        <Field>
-          <Label>{t('minimumBidding')}</Label>
-          <Data>
-            <Amount amount={auction.minBid || 0} />
-          </Data>
-        </Field>
-        <Line />
-        <Field>
-          <Label>{t('auctionTime')}</Label>
-          <Data>
-            {t('openedFor')} {`${openFor(auction.expireTimestamp)}`}
-          </Data>
-        </Field>
-        <Line />
-        <Field>
-          <Label>{t('qualifyAmount')}</Label>
-          <Data>
-            <Amount amount={auction.qualifyAmount || 0} />
-          </Data>
-        </Field>
+        {auction.isForBid && (
+          <React.Fragment>
+            <Field>
+              <Label>{t('minimumBidding')}</Label>
+              <Data>
+                <Amount amount={auction.minBid || 0} />
+              </Data>
+            </Field>
+            <Line />
+            <Field>
+              <Label>{t('auctionTime')}</Label>
+              <Data>
+                {t('openedFor')} {`${openFor(auction.expireTimestamp)}`}
+              </Data>
+            </Field>
+            <Line />
+            <Field>
+              <Label>{t('qualifyAmount')}</Label>
+              <Data>
+                <Amount amount={auction.qualifyAmount || 0} />
+              </Data>
+            </Field>
+          </React.Fragment>
+        )}
       </EditableBox>
       <EditableBox>
         <Field>

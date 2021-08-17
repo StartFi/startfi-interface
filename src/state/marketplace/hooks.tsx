@@ -1,5 +1,5 @@
 import { DEFAULT_SORT, NFTS_PER_PAGE, PopupContent } from './../../constants'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NFTQUERY } from 'services/Marketplace'
 import { AuctionNFT } from 'services/models/AuctionNFT'
@@ -15,7 +15,12 @@ import {
   saveNFT,
   saveAuction,
   clearNFT,
-  setWalletConfirmation
+  setWalletConfirmation,
+  setStep,
+  setAuction,
+  setMissing,
+  setNFT,
+  removeMissing
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
@@ -26,6 +31,14 @@ import { getAuction } from 'services/database/Auction'
 import { getNFT } from 'services/database/NFT'
 import { useMarketplaceListener, useNftPaymentEventListener } from 'hooks/startfiEventListener'
 import { address as STARTFI_MARKETPLACE_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
+import { useHistory } from 'react-router-dom'
+import { useAllowedSTFI } from 'hooks/useAllowedSTFI'
+import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../../constants/abis/StartFiNFTPayment.json'
+import { address as STARTFI_Marketplace_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
+import { useAllowed } from 'hooks/useAllowed'
+import { useApproveNft } from 'hooks/startfiNft'
+import { useDigitizingFees } from 'hooks'
+import { STEP } from './types'
 
 const generateId =
   Date.now().toString(36) +
@@ -65,11 +78,11 @@ export const useMinted = (): boolean => {
   return useSelector((state: AppState) => state.marketplace.minted)
 }
 
-export const useNFT = (): NFT | null => {
+export const useNFT = (): NFT => {
   return useSelector((state: AppState) => state.marketplace.nft)
 }
 
-export const useAuction = (): Auction | null => {
+export const useAuction = (): Auction => {
   return useSelector((state: AppState) => state.marketplace.auction)
 }
 
@@ -83,6 +96,24 @@ export const useCurrentPage = (): number => {
 
 export const useLastAuctions = (): any[] => {
   return useSelector((state: AppState) => state.marketplace.lastAuctions)
+}
+
+export const useStep = (): STEP => {
+  return useSelector((state: AppState) => state.marketplace.step)
+}
+
+export const useMissing = (): string[] => {
+  return useSelector((state: AppState) => state.marketplace.missing)
+}
+
+export const useSetMissing = (): ((missing: string[]) => void) => {
+  const dispatch = useDispatch()
+  return useCallback((missing: string[]) => dispatch(setMissing({ missing })), [dispatch])
+}
+
+export const useSetStep = (): ((step: STEP) => void) => {
+  const dispatch = useDispatch()
+  return useCallback((step: STEP) => dispatch(setStep({ step })), [dispatch])
 }
 
 export const useSetBidOrBuy = (): ((bidOrBuy: boolean, value: number) => void) => {
@@ -105,9 +136,9 @@ export const useClearNFT = (): (() => void) => {
   return useCallback(() => dispatch(clearNFT()), [dispatch])
 }
 
-export const useSetWalletConfirmation = (): (() => void) => {
+export const useSetWalletConfirmation = (): ((type: string) => void) => {
   const dispatch = useDispatch()
-  return useCallback(() => dispatch(setWalletConfirmation()), [dispatch])
+  return useCallback((type: string) => dispatch(setWalletConfirmation({ type })), [dispatch])
 }
 
 export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
@@ -156,7 +187,7 @@ export const useMintNFT = (): (() => void) => {
       } else {
         mint(address, nft.dataHash, nft.royalty, 100)
       }
-      setWalletConfirmation()
+      setWalletConfirmation('Digitizing')
     } else if (!address) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
   }, [nft, address, popup, mint, setWalletConfirmation])
@@ -182,7 +213,7 @@ export const useAddToMarketplace = (): (() => void) => {
         auction.listingPrice as number,
         auction.expireTimestamp
       )
-      setWalletConfirmation()
+      setWalletConfirmation('asset monetization')
     } else if (!seller || !chainId) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
     else if (!auction) popup({ success: false, message: 'noAuction' })
@@ -218,7 +249,7 @@ export const usePlaceBid = (): (() => void) => {
   return useCallback(async () => {
     if (auctionNFT) {
       const auctionId = auctionNFT.auction.id
-      setWalletConfirmation()
+      setWalletConfirmation('Bidding')
       await bidWeb3(auctionId, bidPrice)
     }
   }, [bidPrice, auctionNFT, bidWeb3, setWalletConfirmation])
@@ -235,7 +266,7 @@ export const useBuyNFT = (): (() => void) => {
   useMarketplaceListener(auctionNFT?.nft)
   return useCallback(async () => {
     if (buyer && auctionNFT) {
-      setWalletConfirmation()
+      setWalletConfirmation('Payment')
       await approveToken(STARTFI_MARKETPLACE_ADDRESS, soldPrice)
       await buyNow(auctionNFT.auction.id, soldPrice)
     } else popup({ success: false, message: 'connectWallet' })
@@ -280,3 +311,159 @@ export const useDelistAuction = (auctionId: string): (() => void) => {
     else popup({ success: false, message: 'unknownReason' })
   }, [auctionId, owner, deListWeb3, popup])
 }
+
+export const useAddNFT = () => {
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const missing = useMissing()
+  const setMissing = useSetMissing()
+  const step = useStep()
+  const setStep = useSetStep()
+  const nft = useNFT()
+  const allowedSTFI = useAllowedSTFI()
+  const mint = useMintNFT()
+  const approveToken = useApproveToken()
+  const fees = useDigitizingFees()
+  const [agree, setAgree] = useState<boolean>(false)
+  const [loader, setLoader] = useState<boolean>(false)
+
+  const handleChange = useCallback(
+    (value: any, name: string) => {
+      if (name === 'royalty' && value > 100) return
+      if (value) {
+        dispatch(removeMissing({ name }))
+        dispatch(setNFT({ value, name }))
+      }
+    },
+    [dispatch]
+  )
+
+  const next = useCallback(() => {
+    const newMissing: string[] = []
+    console.log(nft)
+    Object.keys(nft).forEach((key: string) => (nft[key] ? null : newMissing.push(key)))
+    console.log(newMissing)
+    switch (step) {
+      case STEP.STEP1:
+        if (nft.category && nft.dataHash) {
+          setMissing([])
+          setStep(STEP.STEP2)
+          return
+        }
+        break
+      case STEP.STEP2:
+        if (['name', 'description'].filter(f => newMissing.includes(f)).length === 0) {
+          setMissing([])
+          setStep(STEP.STEP3)
+          return
+        }
+        break
+      case STEP.STEP3:
+        setMissing([])
+        setStep(STEP.NFT_SUMMARY)
+        history.push('/mint/summary')
+        return
+      case STEP.NFT_SUMMARY:
+        if (agree) setStep(allowedSTFI ? STEP.ADD_NFT : STEP.ALLOW_TRANSFER)
+        break
+      case STEP.ALLOW_TRANSFER:
+        setLoader(true)
+        approveToken(STARTFI_NFT_PAYMENT_ADDRESS, fees).then(() => {
+          setStep(STEP.ADD_NFT)
+          setLoader(false)
+        })
+        break
+      case STEP.ADD_NFT:
+        mint()
+        setStep(STEP.CHOOSE_TYPE)
+        break
+      default:
+    }
+    setMissing(newMissing)
+  }, [history, nft, step, setStep, setMissing, agree, allowedSTFI, approveToken, fees, mint])
+
+  return useMemo(() => {
+    return { nft, handleChange, missing, next, loader, agree, setAgree }
+  }, [nft, handleChange, missing, next, loader, agree, setAgree])
+}
+
+export const useAddAuction = () => {
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const auction = useAuction()
+  const step = useStep()
+  const setStep = useSetStep()
+  const allowed = useAllowed()
+  const addToMarketplace = useAddToMarketplace()
+  const approve = useApproveNft()
+  const nft = useNFT()
+  const [loader, setLoader] = useState<boolean>(false)
+
+  const handleChange = useCallback((value: any, name: string) => dispatch(setAuction({ value, name })), [dispatch])
+
+  const next = useCallback(() => {
+    if (!auction) return
+    const { isForSale, listingPrice, isForBid, minBid, qualifyAmount, expireTimestamp } = auction
+    switch (step) {
+      //CHOOSE TYPE
+      case STEP.CHOOSE_TYPE:
+        if (isForSale || isForBid) setStep(STEP.AUCTION_DETAILS)
+        break
+      //AUCTION DETAILS
+      case STEP.AUCTION_DETAILS:
+        if (
+          (isForSale && listingPrice && listingPrice > 0) ||
+          (isForBid && minBid && minBid > 0 && qualifyAmount && qualifyAmount > 0 && expireTimestamp > 0)
+        ) {
+          setStep(STEP.AUCTION_SUMMARY)
+          history.push('/mint/summary')
+          break
+        }
+        break
+      case STEP.AUCTION_SUMMARY:
+        setStep(allowed ? STEP.ADD_AUCTION : STEP.ALLOW_MONETIZING)
+        break
+      case STEP.ALLOW_MONETIZING:
+        if (!allowed) {
+          setLoader(true)
+          approve(STARTFI_Marketplace_ADDRESS, nft?.id).then(() => {
+            setStep(STEP.ADD_AUCTION)
+            setLoader(false)
+          })
+        }
+        break
+      case STEP.ADD_AUCTION:
+        addToMarketplace()
+        break
+      default:
+    }
+  }, [history, auction, step, setStep, addToMarketplace, allowed, approve, nft])
+
+  return useMemo(() => {
+    return { auction, handleChange, next, loader }
+  }, [auction, handleChange, next, loader])
+}
+
+export const useSteps = () => {
+  const step = useStep()
+  const addNFT = useAddNFT()
+  const addAuction = useAddAuction()
+  const setStep = useSetStep()
+  const back = useCallback(() => (step > STEP.STEP1 && step > STEP.CHOOSE_TYPE ? setStep(step - 1) : null), [
+    step,
+    setStep
+  ])
+  return useMemo(() => {
+    const { agree, setAgree } = addNFT
+    const nftOrAuction = step < STEP.CHOOSE_TYPE
+    const next = nftOrAuction ? addNFT.next : addAuction.next
+    const loader = nftOrAuction ? addNFT.loader : addAuction.loader
+    return { step, next, back, nftOrAuction, loader, agree, setAgree }
+  }, [step, addNFT, addAuction, back])
+}
+
+// else
+// setMissing(missing => {
+//   if (missing.includes(name)) return missing
+//   return [...missing, name]
+// })

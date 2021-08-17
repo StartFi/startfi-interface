@@ -19,21 +19,23 @@ import {
 } from './styles'
 import Amount from './Amount'
 import { useTranslation } from 'react-i18next'
-import { NFTSummaryProps } from '.'
-import { useAuction, useNFT } from 'state/marketplace/hooks'
+import { useAuction, useNFT, useSteps } from 'state/marketplace/hooks'
+import { STEP } from 'state/marketplace/types'
 
-const NFTBoxes: React.FC<NFTSummaryProps> = ({ step }) => {
+const NFTBoxes: React.FC = () => {
   const { t } = useTranslation()
 
   const nft = useNFT()
 
   const auction = useAuction()
 
+  const { step, nftOrAuction } = useSteps()
+
   if (!nft) return null
 
   return (
     <React.Fragment>
-      <EditableBox editable={step === 4} link="/mint/steps" state={{ step: 1 }}>
+      <EditableBox editable={step === STEP.NFT_SUMMARY} link="/mint/steps" step={STEP.STEP1}>
         <FirstField>
           <Img src={uriToHttp(nft.dataHash)[1]} alt="NFT" />
           <FirstBoxFields>
@@ -49,7 +51,7 @@ const NFTBoxes: React.FC<NFTSummaryProps> = ({ step }) => {
           </FirstBoxFields>
         </FirstField>
       </EditableBox>
-      <EditableBox editable={step === 4} link="/mint/steps" state={{ step: 2 }}>
+      <EditableBox editable={step === STEP.NFT_SUMMARY} link="/mint/steps" step={STEP.STEP2}>
         <Field>
           <Label>{t('assetName')}</Label>
           <Data500>{nft?.name}</Data500>
@@ -71,12 +73,12 @@ const NFTBoxes: React.FC<NFTSummaryProps> = ({ step }) => {
           <DataWidth>{nft.description}</DataWidth>
         </Field>
       </EditableBox>
-      <EditableBox editable={step === 4} link="/mint/steps" state={{ step: 3 }}>
+      <EditableBox editable={step === STEP.NFT_SUMMARY} link="/mint/steps" step={STEP.STEP3}>
         <Field>
-          <Label>{t(step < 7 ? 'royaltyOption' : 'issuerRoyaltyShare')}</Label>
+          <Label>{t(nftOrAuction ? 'royaltyOption' : 'issuerRoyaltyShare')}</Label>
           <Royalty>
             <span>{nft.royalty}%</span>
-            {step < 7 ? (
+            {nftOrAuction ? (
               t('forEachResell')
             ) : (
               <Royalty>

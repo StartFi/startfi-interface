@@ -179,7 +179,7 @@ const InMarket = () => {
                     >
                       {t('pricing')}
                     </Text>
-                    <Amount amount={auction?.listingPrice}></Amount>
+                    <Amount amount={auction?.listingPrice || 0}></Amount>
                   </AmountContainer>
                   <Divider width='95%'></Divider>
 

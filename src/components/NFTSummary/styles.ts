@@ -150,7 +150,7 @@ export const Edit = styled(Row)`
   justify-content: space-evenly;
   width: 8vw;
   padding: 1.5vh 0;
-  cursor:pointer;
+  cursor: pointer;
 `
 
 export const ButtonPaymentBlack = styled(ButtonBlack)`
@@ -162,4 +162,10 @@ export const ButtonPaymentBlack = styled(ButtonBlack)`
 
 export const MarginLeft = styled.div`
   margin-left: 2vw;
+`
+
+export const ZeroBalance = styled.div`
+  font-weight: 500;
+  line-height: 1.19;
+  color: #f00;
 `

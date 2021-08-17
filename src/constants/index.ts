@@ -14,6 +14,7 @@ import Images from '../assets/icons/imagestab.svg'
 import Step1Icon from './../assets/icons/step1.svg'
 import Step2Icon from './../assets/icons/step2.svg'
 import Step3Icon from './../assets/icons/step3.svg'
+import { STEP } from 'state/marketplace/types'
 
 export const CATEGORIES: string[] = ['music', 'books', 'videos', 'art', 'images', 'games']
 
@@ -27,7 +28,7 @@ export const WEI = 8000
 
 export interface StepProps {
   state: Dictionary
-  handleChange: (e: any) => void
+  handleChange: (value: any, name: string) => void
   missing: string[]
   draft?: NFT
 }
@@ -56,14 +57,12 @@ export const TabIcons: Dictionary = {
 
 export const StepIcon = step => {
   switch (step) {
-    case 1:
+    case STEP.STEP1:
       return Step1Icon
-    case 2:
+    case STEP.STEP2:
       return Step2Icon
-    case 3:
+    case STEP.STEP3:
       return Step3Icon
-    case 7:
-      return
     default:
   }
   return Step1Icon

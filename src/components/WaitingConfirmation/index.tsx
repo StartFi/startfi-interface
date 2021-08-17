@@ -10,9 +10,9 @@ const WaitingConfirmation: React.FC = () => {
 
   const auctionNFT = useAuctionNFT()
 
-  const confirmation = useWalletConfirmation()
+  const bidorbuy = useWalletConfirmation()
 
-  if (!confirmation) return null
+  if (!bidorbuy) return null
 
   const { ownername, nft } = auctionNFT || {
     ownername: 'START FI',
@@ -28,7 +28,7 @@ const WaitingConfirmation: React.FC = () => {
           <TopPadding />
           <LoadingIcon src={Loading} alt="Loading" />
 
-          <Text>{t(`waitingConfirmation`, { confirmation, ownername, owner: shortenAddress(nft.owner, 6) })}</Text>
+          <Text>{t(`waitingConfirmation`, { bidorbuy, ownername, owner: shortenAddress(nft.owner, 6) })}</Text>
 
           <Footer>{t('confirmTransactionInWallet')}</Footer>
         </SidePadding>
