@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { darken, lighten } from 'polished'
-
 import { RowBetween } from '../Row'
 import { ChevronDown } from 'react-feather'
 import { Button as RebassButton, ButtonProps } from 'rebass/styled-components'
@@ -245,14 +244,14 @@ export const ButtonWhite = styled(Base)`
     cursor: auto;
   }
 `
-export const NftButton = styled(Base)<{ color?: string; border?: string }>`
+export const NftButton = styled(Base)<{ color?: string; border?: string ;fontSize?:string}>`
   color: black;
   background-color: transparent;
-  width: 100%;
   margin: 1em;
   padding: 0.25em 1em;
   border: none;
-  border: none;
+
+  font-size:${({ fontSize }) => fontSize||'0.75rem'};
   border: ${({ border }) => border};
   color: ${({ color }) => color};
 `
@@ -375,7 +374,6 @@ export const ButtonSearch = styled(ButtonPrimary)`
   width: 8.5vw;
   border-radius: 0px 4px 4px 0px;
   font-size: 1.125rem;
-
 `
 
 interface ButtonMintProps {

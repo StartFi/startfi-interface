@@ -56,6 +56,7 @@ const NFTSummary: React.FC = () => {
   if (!nft) return null
 
   const next = () => {
+  
     switch (step) {
       case 4:
         return agree ? setStep(allowedSTFI ? 6 : 5) : null

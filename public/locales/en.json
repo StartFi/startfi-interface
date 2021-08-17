@@ -12,7 +12,7 @@
   "about": "About",
   "detailsCreated": "Details created by",
   "confirmBidding": "Confirm Bidding",
-  "bidDesc": "You are about to place a bid for {{ ownername }} by {{ owner }}",
+  "bidDesc": "You are about to place a bid for",
   "addToWishlist": "Add To Wishlist",
   "biddingOffer": "Bidding Offer :",
   "biddingBalance": "Bidding balance",
@@ -225,6 +225,7 @@
   "tokenSearchPlaceholder": "Search name or paste address",
 
   "whishList": "WISHLIST",
+
   "views": "Views",
   "createdBy": "Details created By",
   "prediction": "Prediction",
@@ -267,6 +268,7 @@
   "auctionEnds": " Auctions Ends In",
   "zeroBalanceMessage": " You don't have balance",
   "zeroBalance": " No balance",
+
    "Days":"Days",
   "Hours":"Hours",
   "Minutes":"Minutes",
@@ -282,7 +284,22 @@
   "checkInventory":"Check my Inventory",
   "BackToMarketplace":"Go Back to Marketplace",
   "DelistWarning":"You Asset cannot be delisted Until the Auction Time Ends",
-  "DelistBidWarning":"Your Asset cannot be delisted because it’s in auction and already got bids"
+  "DelistBidWarning":"Your Asset cannot be delisted because it’s in auction and already got bids",
+  "IncreaseStakes":"increase Stakes",
+  "Balance":"Your Balance",
+  "enterAmount":"Enter Amount",
+  "confirmIncStakeToken":"Are you sure you want to increase your balance",
+  "increaseBalance":"Increase My Balance",
+  "confirmIncreasing":"Confirm increasing",
+  "allowTransAction":"Allow Transaction",
+  "increasedStake":"Amount Of Increased Stakes",
+  "currentStakeAfterInc":"Current Stake Balance after increasing",
+  "stfiBalanceAfterInc":"STFI balance after the stake increasing",
+  "allowMetaMaskConnectionToIncreaseStake":"Allow Startfi to connect to you metamask to increase you stake balance",
+  "allow":"Allow",
+  "stakeTokenSuccess":"Your Stake Token balance has Increased Successfully",
+  "checkStakeBalance":"Check Stake Token Balance"
+
 
 
 

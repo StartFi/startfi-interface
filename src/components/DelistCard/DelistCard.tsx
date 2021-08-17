@@ -1,7 +1,6 @@
 import { Divider } from 'components/InMarketAsset/InMarket.styles'
 import React, { useState } from 'react'
 import { NFT } from 'services/models/NFT'
-
 import {
   DelistModal,
   Container,
