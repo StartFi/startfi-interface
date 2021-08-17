@@ -13,7 +13,7 @@
   "about": "About",
   "detailsCreated": "Details created by",
   "confirmBidding": "Confirm Bidding",
-  "bidDesc": "You are about to place a bid for {{ ownername }} by {{ owner }}",
+  "bidDesc": "You are about to place a bid for",
   "addToWishlist": "Add To Wishlist",
   "biddingOffer": "Bidding Offer :",
   "biddingBalance": "Bidding balance",
@@ -251,7 +251,7 @@
   "toleranceExplanation": "Lowering this limit decreases your risk of frontrunning. However, this makes more likely that your transaction will fail due to normal price movements.",
   "tokenSearchPlaceholder": "Search name or paste address",
 
-  "whishList": "WISHLIST",
+  "whishList": "Add to wishlist",
   "views": "Views",
   "createdBy": "Details created By",
   "prediction": "Prediction",
@@ -309,5 +309,16 @@
   "checkInventory": "Check my Inventory",
   "BackToMarketplace": "Go Back to Marketplace",
   "DelistWarning": "You Asset cannot be delisted Until the Auction Time Ends",
-  "DelistBidWarning": "Your Asset cannot be delisted because it’s in auction and already got bids"
+  "DelistBidWarning": "Your Asset cannot be delisted because it’s in auction and already got bids",
+  "noBidding":"No Bidding Yet",
+  "OriginallyCratedBy":"Originally Crated By",
+  "PercentageResellingTransaction":"Percentage on each reselling transaction",
+  "seller":"Seller",
+  "DetailsCreatedBySeller":"Details created by the seller",
+  "auctionsEndIn":"Auction Ends in",
+  "by":"by"
+
+
+
+
 }

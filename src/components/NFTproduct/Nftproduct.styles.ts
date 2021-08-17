@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Row } from 'theme'
 
-export const LoadingDiv = styled('div')<{ $display?: boolean }>`
+export const LoadingDiv = styled('div') <{ $display?: boolean }>`
   position: absolute;
   z-index: 100;
   top: 50%;
@@ -109,35 +109,19 @@ export const RightSubTitle = styled.div`
   margin-bottom: 17px;
 `
 
-export const PublisherCard = styled('div')<{ height?: string }>`
+export const PublisherCard = styled('div') <{ height?: string }>`
   height: ${({ height }) => height};
   width: 445px;
   border-radius: 8px;
   margin-bottom: 30px;
   background-color: #fbfbfb;
   display: flex;
-  align-items: center;
-  & p {
-    padding-left: 22px;
-    font-family: Roboto;
-    font-weight: 400;
-    font-size: 1rem;
-    color: #323232;
-
-    & span {
-      font-weight: 500;
-      font-size: 1.12rem;
-      color: #000000;
-      margin-left: 7px;
-      /* line-height: 2rem;
-      max-height: 4rem; */
-      overflow-wrap: break-word;
-    }
-  }
+  flex-direction:column;
+  align-items: start;
 `
 
 export const BuyCard = styled.div`
-  height: 223px;
+  height: 210px;
   width: 445px;
   padding-left: 23px;
   border-radius: 8px;
@@ -145,58 +129,43 @@ export const BuyCard = styled.div`
   background-color: #fbfbfb;
 `
 
-export const BuyCost = styled.div`
+export const LastBiddingContainer = styled.div`
   position: relative;
   top: 16px;
-  font-family: Roboto;
-  & p {
-    font-weight: 400px;
-    font-size: 1rem;
-    color: #323232;
-    & span {
-      font-weight: 900;
-      font-size: 1.375rem;
-      color: #000000;
-    }
-  }
+  display: flex;
+  align-items: center;
 `
 
-export const BuyButtons = styled('div')<{ $opacity?: boolean }>`
+export const BuyButtons = styled('div') <{ $opacity?: boolean }>`
   display: flex;
   position: relative;
-  top: 29px;
-  & img {
-    position: absolute;
-    top: 37%;
-    left: 30px;
-    opacity: ${({ $opacity }) => ($opacity ? '50%' : '')};
-  }
-
-  & button {
-    width: 175px;
-    height: 50px;
-    background: #fbfbfb;
-    border: 1px solid #ececec;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-right: 28px;
-  }
+  margin-top: 27px;
+  height: 45px;
+  margin-right: 23px;
 `
-
-export const ImageIcon = styled('img')<{ opacity?: boolean }>`
-  position: absolute;
-  top: 37%;
-  left: 30px;
-  opacity: ${({ opacity }) => (opacity ? '50%' : '')};
+export const PlaceBid = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 20px;
+  width: 135px;
+  height: 45px;
+  border-radius: 8px;
+  border: solid 1px #ececec;
+  background-color: #fbfbfb;
+  & button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
 `
 
 export const BuyNow = styled.div`
   & button {
     position: relative;
     top: 30px;
-    width: 378px;
+    width: 95%;
     height: 50px;
-    margin-top: 30px;
     border-radius: 4px;
     background-color: #000000;
     border: 1px solid #000000;
@@ -208,7 +177,7 @@ export const BuyNow = styled.div`
   }
 `
 
-export const DescriptionCard = styled('div')<{ overflowY?: string }>`
+export const DescriptionCard = styled('div') <{ overflowY?: string }>`
   height: 317px;
   width: 445px;
   border-radius: 8px;
@@ -251,30 +220,7 @@ export const OwnerText = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  & p {
-    font-family: Roboto;
-    font-weight: 400;
-    font-size: 1rem;
-    letter-spacing: 0.04em;
-    color: #323232;
-    width: 25%;
-  }
-
-  & span {
-    color: #000000;
-    width: 60%;
-    font-size: 1rem;
-    font-weight: 500;
-    line-height: 1.188;
-    max-height: 2rem;
-    /* -webkit-box-orient: vertical;
-      display: block;
-      display: -webkit-box; */
-    overflow-wrap: break-word;
-    /* overflow: hidden !important; */
-    /* text-overflow: ellipsis;
-      -webkit-line-clamp: 4px; */
-  }
+  margin-bottom: -15px;
 `
 
 export const Name = styled(Row)`
@@ -294,4 +240,47 @@ export const GetNow = styled.div`
   margin-left: 2vw;
   font-weight: 500;
   text-decoration: underline;
+`
+export const TagContainer = styled('div') <{ margin?: string; lastChildWidth?: string }>`
+  width: 445px;
+  height: 90px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+
+
+  & div {
+     display: flex;
+    align-items:center;
+     width: fit-content;
+    height: 35px;
+    margin: 5px 5px;
+    background: #f4f4f4;
+   border-radius: 4px;
+    outline: none;
+    border: transparent;
+    & p {
+     margin:15px ;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  & :last-child {
+    /* width: ${({ lastChildWidth }) => lastChildWidth ?? '87px'}; */
+  }
+`
+export const TimerContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  width: 449px;
+  height: 68px;
+  padding: 20px 33px 20px 21px;
+  box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.25), 0 0 8px 0 rgba(0, 0, 0, 0.25);
+  border: solid 1px #ececec;
+  background-color: #fbfbfb;
 `

@@ -18,7 +18,7 @@ const Text = styled('p')<{
   textJustify?:string;
 }>`
   font-family: ${({ fontFamily }) => fontFamily};
-  font-weight: ${({ FontWeight }) => FontWeight};
+  font-weight: ${({  FontWeight }) =>  FontWeight};
   font-size: ${({ fontSize }) => fontSize};
   width: ${({ width }) => width};
   color: ${({ color }) => color};

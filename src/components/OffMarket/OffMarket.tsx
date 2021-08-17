@@ -38,14 +38,16 @@ const OffMarket = () => {
   }, [])
 
   return (
+    <React.Fragment>
+    <TopTitle>
+    <span>{t('inventory')}</span>
+    <img src={Vector} />
+    <span>{t('offMarketPlace')}</span>
+    <img src={Vector} />
+    <span>{StringModifier(nft?.owner)}</span>
+  </TopTitle>
     <InventoryCard borderRadius="8px" marginTop="54px">
-      <TopTitle>
-        <span>{t('inventory')}</span>
-        <img src={Vector} />
-        <span>{t('offMarketPlace')}</span>
-        <img src={Vector} />
-        <span>{StringModifier(nft?.owner)}</span>
-      </TopTitle>
+
       <Row padding="20px" align="start">
         <Text fontFamily="Roboto" FontWeight="500" fontSize="1rem" color="#000000" margin="0 0 3px 8px">
           {nft?.name}
@@ -140,6 +142,8 @@ const OffMarket = () => {
         </ButtonMint>
       </Footer>
     </InventoryCard>
+    </React.Fragment>
+
   )
 }
 

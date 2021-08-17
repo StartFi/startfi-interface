@@ -28,16 +28,21 @@ export const Right = styled.div<PaymentCardProps>`
 `
 
 export const MarginLeft = styled.div`
-  margin-left: 4vw;
+  margin-left: 10vw;
 `
 
 export const Row = styled.div`
   display: flex;
   flex-flow: row nowrap;
+  margin-bottom: 20px;
 `
 
 export const Rows = styled(Row)`
   margin-bottom: 5vh;
+  & img {
+    height: 202px;
+    width: 187px;
+  }
 `
 
 export const SpaceBetween = styled(Row)`
@@ -59,6 +64,7 @@ export const Column = styled.div`
 
 interface ErrorProps {
   readonly error?: boolean
+  readonly margin?: string
 }
 
 export const Bold = styled.div<ErrorProps>`
@@ -67,6 +73,7 @@ export const Bold = styled.div<ErrorProps>`
   font-size: 18px;
   color: ${({ error }) => (error ? '#f00' : '#000000')};
   text-transform: capitalize;
+  margin: ${({ margin }) => margin};
 `
 
 export const MarginRight = styled(Bold)`
@@ -82,14 +89,24 @@ export const Bold16 = styled.div`
   margin-right: 1vw;
 `
 
-export const Text = styled.div`
+export const Text = styled('div')<{ margin?: string }>`
   letter-spacing: 0.04em;
   color: #323232;
+  margin: ${({ margin }) => margin};
 `
 
 export const TextBlack = styled(Text)`
   color: #000000;
   line-height: 28px;
+  text-align: justify;
+  text-justify: auto;
+  & span {
+    font-weight: 500;
+    text-decoration: underline;
+    text-align: justify;
+    text-justify: auto;
+    margin: 0 5px;
+  }
 `
 
 export const SemiBold = styled.div<ErrorProps>`
@@ -98,11 +115,15 @@ export const SemiBold = styled.div<ErrorProps>`
   letter-spacing: 0.04em;
   color: ${({ error }) => (error ? '#f00' : '#000000')};
   text-transform: capitalize;
+  margin-top: 12px;
 `
 
-export const Border = styled.div`
+export const Border = styled('div')<{ width?: string; left?: string }>`
+  position: relative;
   border-bottom: 1px solid #eeeeee;
-  width: 100%;
+  width: 95%;
+  width: ${({ width }) => width};
+  left: ${({ left }) => left};
 `
 
 export const MarginLeftBorder = styled(Border)`
@@ -111,7 +132,7 @@ export const MarginLeftBorder = styled(Border)`
 
 export const MarginBorder = styled(Border)`
   margin: 2vh 0;
-  width: 98%;
+  width: 95%;
 `
 
 export const MarginBottom = styled.div`
@@ -132,6 +153,7 @@ export const ButtonConfirmBid = styled.button`
   width: 24vw;
   height: 6vh;
   cursor: pointer;
+  margin: 5px 0px;
 `
 export const ButtonBlack = styled(ButtonConfirmBid)`
   background-color: #000000;
@@ -143,4 +165,15 @@ export const ButtonTransparent = styled(ButtonConfirmBid)`
 
 export const ButtonTransparentBorder = styled(ButtonTransparent)`
   border: 1px solid #000000;
+`
+
+export const TimerContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 619px;
+  height: 67px;
+  margin-bottom: 40px;
+  border: solid 1px #ececec;
+  background-color: #fbfbfb;
+  border-radius: 8px;
 `

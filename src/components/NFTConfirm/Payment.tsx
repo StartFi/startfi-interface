@@ -18,6 +18,7 @@ import {
   SpaceBetween,
   TextBlack
 } from './styles'
+import Amount from 'components/NFTSummary/Amount'
 
 const Payment: React.FC = () => {
   const { t } = useTranslation()
@@ -65,33 +66,32 @@ const Payment: React.FC = () => {
 
   return (
     <MarginLeft>
-      <Right minHeight="74vh">
+      <Right minHeight='74vh'>
         <Bold>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</Bold>
-        <TextBlack>{t('bidDesc', { ownername, owner: shortenAddress(nft.owner, 6) })}</TextBlack>
+        <TextBlack>
+          {t('bidDesc')}
+          <span>{nft?.name}</span>
+          {t('by')} <span>{shortenAddress(nft.owner, 6)}</span>
+        </TextBlack>
         <SpaceBetween>
-          <Bold>{t(bidOrBuy ? 'biddingOffer' : 'paymentAmount')}</Bold>
-          <Bold>{value} STFI</Bold>
+          <SemiBold>{t(bidOrBuy ? 'biddingOffer' : 'paymentAmount')}</SemiBold>
+          <Amount amount={value}></Amount>
         </SpaceBetween>
-        <Border />
-        <SpaceBetween>
-          <SemiBold>{t(bidOrBuy ? 'biddingBalance' : 'paymentBalance')}</SemiBold>
-          <Bold>{value} STFI</Bold>
-        </SpaceBetween>
+        <Border width='115%' left='-23px' />
+
         <SpaceBetween>
           <SemiBold>{t('yourBalance')}</SemiBold>
-          <Bold>{balance} STFI</Bold>
+          {balance ? <Amount amount={parseFloat(balance)}></Amount> : null}
         </SpaceBetween>
+
+        <Border width='115%' left='-23px' />
         <SpaceBetween>
-          <SemiBold>{t('serviceFees')}</SemiBold>
-          <Bold>{service()} STFI</Bold>
-        </SpaceBetween>
-        <Border />
-        <SpaceBetween>
-          <Bold>{t(bidOrBuy ? 'totalBidAmount' : 'totalPaymentAmount')}</Bold>
-          <Bold>{total(value, service())} STFI</Bold>
+          <SemiBold>{t(bidOrBuy ? 'totalBidAmount' : 'totalPaymentAmount')}</SemiBold>
+          <Amount amount={total(value, service())}></Amount>
+          {/* <Bold margin="5px 0px">{total(value, service())} STFI</Bold> */}
         </SpaceBetween>
         <ButtonBlack onClick={() => confirm()}>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</ButtonBlack>
-        <ButtonWishlist nftId={nft.id} type="NFTConfirm" />
+        <ButtonWishlist nftId={nft.id} type='NFTConfirm' />
         <ButtonTransparent onClick={() => history.goBack()}>
           {t(bidOrBuy ? 'cancelBidding' : 'cancelPayment')}
         </ButtonTransparent>
