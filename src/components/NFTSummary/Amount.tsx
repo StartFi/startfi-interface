@@ -3,14 +3,15 @@ import { useSTFItoUSD } from 'hooks/useSTFItoUSD'
 import React from 'react'
 
 interface AmountProps {
-  amount: number
+  amount: any
+  error?: boolean
 }
 
-const Amount: React.FC<AmountProps> = ({ amount }) => {
+const Amount: React.FC<AmountProps> = ({ amount, error }) => {
   const usd = useSTFItoUSD(amount)
 
   return (
-    <Bold>
+    <Bold error={error}>
       {amount} STFI ~ {usd} USD
     </Bold>
   )

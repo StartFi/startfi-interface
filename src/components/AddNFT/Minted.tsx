@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 import Check from './../../assets/icons/check.svg'
 import { SemiBold } from 'components/NFTConfirm/styles'
 import { useClearNFT, useNFT } from 'state/marketplace/hooks'
-import { MintedBorder, CheckIcon, MintedButtonBlack, MintedButtonWhite } from './styles'
+import { MintedBorder, CheckIcon, MintedButtonBlack, MintedButtonWhite } from '../MintCard.tsx/styles'
 
 const Minted: React.FC = () => {
   const { t } = useTranslation()

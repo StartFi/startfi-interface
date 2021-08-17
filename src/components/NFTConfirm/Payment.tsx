@@ -18,6 +18,7 @@ import {
   SpaceBetween,
   TextBlack
 } from './styles'
+import Amount from 'components/NFTSummary/Amount'
 
 const Payment: React.FC = () => {
   const { t } = useTranslation()
@@ -65,33 +66,32 @@ const Payment: React.FC = () => {
 
   return (
     <MarginLeft>
-      <Right minHeight="74vh">
-        <Bold margin="5px 0px">{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</Bold>
-        <TextBlack>{t('bidDesc')}<span>{nft?.name}</span>{t('by')} <span>{shortenAddress(nft.owner, 6)}</span></TextBlack>
+      <Right minHeight='74vh'>
+        <Bold>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</Bold>
+        <TextBlack>
+          {t('bidDesc')}
+          <span>{nft?.name}</span>
+          {t('by')} <span>{shortenAddress(nft.owner, 6)}</span>
+        </TextBlack>
         <SpaceBetween>
-          <Bold margin="5px 0px">{t(bidOrBuy ? 'biddingOffer' : 'paymentAmount')}</Bold>
-          <Bold margin="5px 0px">{value} STFI</Bold>
+          <SemiBold>{t(bidOrBuy ? 'biddingOffer' : 'paymentAmount')}</SemiBold>
+          <Amount amount={value}></Amount>
         </SpaceBetween>
-        <Border />
-        <SpaceBetween>
-          <SemiBold>{t(bidOrBuy ? 'biddingBalance' : 'paymentBalance')}</SemiBold>
-          <Bold margin="5px 0px">{value} STFI</Bold>
-        </SpaceBetween>
+        <Border width='115%' left='-23px' />
+
         <SpaceBetween>
           <SemiBold>{t('yourBalance')}</SemiBold>
-          <Bold margin="5px 0px">{balance} STFI</Bold>
+          {balance ? <Amount amount={parseFloat(balance)}></Amount> : null}
         </SpaceBetween>
+
+        <Border width='115%' left='-23px' />
         <SpaceBetween>
-          <SemiBold>{t('serviceFees')}</SemiBold>
-          <Bold margin="5px 0px">{service()} STFI</Bold>
-        </SpaceBetween>
-        <Border />
-        <SpaceBetween>
-          <Bold margin="5px 0px">{t(bidOrBuy ? 'totalBidAmount' : 'totalPaymentAmount')}</Bold>
-          <Bold margin="5px 0px">{total(value, service())} STFI</Bold>
+          <SemiBold>{t(bidOrBuy ? 'totalBidAmount' : 'totalPaymentAmount')}</SemiBold>
+          <Amount amount={total(value, service())}></Amount>
+          {/* <Bold margin="5px 0px">{total(value, service())} STFI</Bold> */}
         </SpaceBetween>
         <ButtonBlack onClick={() => confirm()}>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</ButtonBlack>
-        <ButtonWishlist nftId={nft.id} type="NFTConfirm" />
+        <ButtonWishlist nftId={nft.id} type='NFTConfirm' />
         <ButtonTransparent onClick={() => history.goBack()}>
           {t(bidOrBuy ? 'cancelBidding' : 'cancelPayment')}
         </ButtonTransparent>

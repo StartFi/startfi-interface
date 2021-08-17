@@ -34,8 +34,9 @@ import { usePopup } from 'state/application/hooks'
 
 import { Auction } from 'services/models/Auction'
 
-import { useMarketplace } from 'state/marketplace/hooks'
+import { useMarketplace, useNFT, useStep } from 'state/marketplace/hooks'
 import { AuctionNFT } from 'services/models/AuctionNFT'
+import { useHistory } from 'react-router-dom'
 
 function serializeToken(token: Token): SerializedToken {
   return {
@@ -238,18 +239,20 @@ export const useChainId = (): number | undefined => {
   return useMemo(() => chainId, [chainId])
 }
 
-export const useSaveDraft = (): ((draft: NFT) => void) => {
+export const useSaveDraft = (): (() => void) => {
   const dispatch = useDispatch()
   const user = useUserAddress()
   const popup = usePopup()
-  return useCallback(
-    (draft: NFT) => {
-      const drafts = [draft]
-      if (user) dispatch(saveDraftAction({ user, drafts }))
-      else popup({ success: false, message: 'connectWallet' })
-    },
-    [user, popup, dispatch]
-  )
+  const step = useStep()
+  const history = useHistory()
+  const draft = useNFT()
+  return useCallback(() => {
+    if (step < 2 || !draft) return popup({ success: false, message: 'cannotAddDraft' })
+    if (!user) return popup({ success: false, message: 'connectWallet' })
+    const drafts = [draft]
+    if (step < 6) dispatch(saveDraftAction({ user, drafts }))
+    else history.push('/inventory/off-market/' + draft.id)
+  }, [history, step, user, draft, popup, dispatch])
 }
 
 const useAddToWishlist = (nftId: number): (() => void) => {

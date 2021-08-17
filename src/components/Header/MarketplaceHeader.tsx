@@ -36,8 +36,8 @@ const MarketplaceHeader: React.FC = () => {
 
   useEffect(() => getNFTs({ category, search, sort: DEFAULT_SORT }), [category, search, getNFTs])
 
-  const getDropDownChanges = async (e: any) => {
-    switch (e.target.value) {
+  const getDropDownChanges = async (value: any) => {
+    switch (value) {
       case 'WishList':
         history.push('/marketplace/wishList')
         break
@@ -75,9 +75,7 @@ const MarketplaceHeader: React.FC = () => {
           itemsWidth='180px'
           border='none'
           selectIcon={true}
-          onChange={(e: any) => {
-            getDropDownChanges(e)
-          }}
+          onChange={getDropDownChanges}
         ></DropDownCategory>
         <Wallet />
       </FirstRow>

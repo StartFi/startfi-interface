@@ -17,6 +17,8 @@ __mocks__
 .env.test.local
 .env.production.local
 
+.env_
+
 /.netlify
 
 npm-debug.log*

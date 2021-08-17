@@ -1,6 +1,6 @@
 import React from 'react'
 import Wallet from 'components/Wallet'
-import Logo from './../../assets/icons/logo.svg'
+import Logo from '../../assets/svg/StartFi-c 1.svg'
 import Arrow from './../../assets/icons/backarrow.svg'
 import { LinkMarketplace } from 'components/Link'
 import { useTranslation } from 'react-i18next'
@@ -13,9 +13,8 @@ const Left = () => {
   const history = useHistory()
 
   return (
-    <LeftContainer onClick={() => history.push('/')}>
-      <img src={Logo} alt="Logo" />
-      <div>Startfi</div>
+    <LeftContainer>
+      <img src={Logo} alt="Logo" onClick={() => history.push('/')} />
     </LeftContainer>
   )
 }

@@ -14,7 +14,7 @@ export const Search = styled(Row)`
  `
 
 export const TabsCategory = styled(Row)`
-  /* margin-top: 1vh; */
+  margin-top: 2vh;
   margin-bottom: 4vh;
   padding: 3vh 0;
   padding-right: 10vw;
@@ -33,7 +33,7 @@ export const Tab = styled(CenteredRow)<TabProps>`
 `
 
 export const FirstRow = styled(Row)`
-  margin-bottom: 4vh;
+  /* margin-bottom: 4vh; */
   & img {
      cursor:pointer;
     margin-right: 12px;
@@ -56,5 +56,5 @@ export const ConnectWallet = styled.div`
   text-transform: capitalize;
   color: #ba0404;
   padding: 1vh 0;
-  margin-bottom: 2vh;
+  margin-top: 4vh;
 `

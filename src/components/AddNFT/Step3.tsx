@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
-import { StepProps } from '../../constants'
 import { useTranslation } from 'react-i18next'
 import { Input } from 'components/Input'
 import Label from 'components/Input/Label'
-import { Margin, Radios, RadioLabel, Royalty, Text } from './styles'
+import { Margin, Radios, RadioLabel, Royalty, Text } from '../MintCard.tsx/styles'
+import { useAddNFT } from 'state/marketplace/hooks'
 
-const Step3: React.FC<StepProps> = ({ state, handleChange }: StepProps) => {
+const Step3: React.FC = () => {
   const { t } = useTranslation()
 
-  const [royalty, setRoyalty] = useState(state.royalty ? true : false)
+  const { nft, handleChange } = useAddNFT()
+
+  const [royalty, setRoyalty] = useState(nft.royalty ? true : false)
 
   return (
     <React.Fragment>
@@ -32,7 +34,7 @@ const Step3: React.FC<StepProps> = ({ state, handleChange }: StepProps) => {
         <Royalty>
           <Input
             name="royalty"
-            value={state.royalty}
+            value={nft.royalty}
             onChange={handleChange}
             currency="%"
             outlineWidth="6vw"

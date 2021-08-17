@@ -10,6 +10,7 @@ import {
 } from 'services/Marketplace'
 import { Auction } from 'services/models/Auction'
 import { NFT } from 'services/models/NFT'
+import { STEP } from './types'
 
 export const getMarketplaceAction = createAsyncThunk('marketplace/getMarketplaceAction', getMarketplace)
 
@@ -35,4 +36,14 @@ export const clearNFT = createAction('marketplace/clearNFT')
 
 export const delistAuctionAction = createAsyncThunk('marketplace/delistAuctionAction', delistAuction)
 
-export const setWalletConfirmation = createAction('marketplace/setWalletConfirmation')
+export const setWalletConfirmation = createAction<{ type: string }>('marketplace/setWalletConfirmation')
+
+export const setStep = createAction<{ step: STEP }>('marketplace/setStep')
+
+export const setAuction = createAction<{ value: any; name: string }>('marketplace/setAuction')
+
+export const setNFT = createAction<{ value: any; name: string }>('marketplace/setNFT')
+
+export const setMissing = createAction<{ missing: string[] }>('marketplace/setMissing')
+
+export const removeMissing = createAction<{ name: string }>('marketplace/removeMissing')

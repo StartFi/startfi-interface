@@ -8,8 +8,9 @@ export const Footer = styled.div`
 `
 
 export const TopTitle = styled.div`
-  position: absolute;
-  top: 100px;
+  position: relative;
+  top: 8vh;
+  left: 3.5vw;
   & img {
     width: 10px;
     height: 10px;

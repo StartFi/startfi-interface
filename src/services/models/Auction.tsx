@@ -2,7 +2,7 @@ export interface Auction {
   id: string
   contractAddress: string
   nft: string
-  listingPrice: number
+  listingPrice?: number
   seller: string
   expireTimestamp: number
   buyer?: string
@@ -18,4 +18,5 @@ export interface Auction {
   minBid?: number
   qualifyAmount?: number
   chainId: number
+  requiredStakes: number
 }

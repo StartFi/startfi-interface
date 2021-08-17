@@ -1,10 +1,6 @@
 import styled from 'styled-components'
 import { Row } from 'theme'
 
-export const Title = styled.div`
-  color: #7e7e7e;
-`
-
 export const Count = styled.div`
   font-size: 12px;
   color: #444444;

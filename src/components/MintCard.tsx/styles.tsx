@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Row, Center } from 'theme/components'
+import { Row as R, Center } from 'theme/components'
 import { ButtonBlack, ButtonTransparentBorder } from 'components/NFTConfirm/styles'
 import { Link } from 'react-router-dom'
 
@@ -7,7 +7,7 @@ export const Container = styled.div`
   width: 100%;
 `
 
-export const Body = styled(Row)`
+export const Body = styled(R)`
   align-items: stretch;
   margin-top: 5vh;
 `
@@ -47,22 +47,22 @@ export const Step2Container = styled.div`
   flex: 1 1 auto;
 `
 
-export const Margin = styled(Row)`
+export const Margin = styled(R)`
   margin: 6vh 0 3vh 0;
 `
 
-export const Radios = styled(Row)`
+export const Radios = styled(R)`
   width: 35%;
 `
 
-export const Royalty = styled(Row)`
+export const Royalty = styled(R)`
   width: 16vw;
   margin: 3vh 0;
 `
 
 export const RadioLabel = styled.span`
-  font-weight: bold;
-  font-size: 14px;
+  /* font-weight: bold;
+  font-size: 14px; */
   margin-left: 1vw;
 `
 
@@ -70,9 +70,16 @@ export const Text = styled.div`
   margin-left: 2vw;
 `
 
-export const Price = styled(Row)`
+export const SellingPrice = styled(R)`
   width: 70%;
-  margin: 5vh 0;
+`
+
+export const Price = styled(SellingPrice)`
+  margin: 4vh 0;
+`
+
+export const Stakes = styled(Price)`
+  width: 71%;
 `
 
 export const QualifyAmount = styled(Price)`
@@ -84,10 +91,11 @@ export const BidOffers = styled.div`
 `
 
 export const MinBid = styled.div`
+  width: 80%;
   margin: 3vh 0;
 `
 
-export const OpenFor = styled(Row)`
+export const OpenForContainer = styled(R)`
   width: 60%;
 `
 
@@ -108,7 +116,7 @@ export const Underline = styled.hr`
   background-color: ${({ theme }) => theme.black};
 `
 
-export const Question = styled(Row)`
+export const Question = styled(R)`
   height: 100px;
 `
 
@@ -136,15 +144,6 @@ export const HeaderContainer = styled.div`
 
 export const LeftContainer = styled.div`
   width: 40%;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  font-weight: 500;
-  font-size: 1.125rem;
-  cursor: pointer;
-  img {
-    margin-right: 1vw;
-  }
 `
 
 export const HeaderRight = styled.div`
@@ -218,18 +217,19 @@ export const CardContainer = styled.div`
   height: 100%;
 `
 
-export const CardHeader = styled(Row)`
+export const CardHeader = styled(R)`
   align-items: flex-start;
 `
 
 export const Title = styled.div`
   text-transform: uppercase;
+  width: 70%;
 `
 
 export const CardUnderline = styled.hr`
   margin-top: 2vh;
-  width: 3vw;
-  height: 0.3vh;
+  width: 10vw;
+  height: 0.4vh;
   text-align: left;
   margin-left: 0;
   background-color: ${({ theme }) => theme.black};
@@ -242,4 +242,38 @@ export const Footer = styled.div`
 
 export const NeedHelpContainer = styled.div`
   min-height: 75vh;
+`
+
+export const Font500 = styled.div`
+  font-weight: 500;
+  margin: 5vh 0 3vh 0;
+`
+
+export const RadioDesc = styled.div`
+  font-size: 14px;
+  line-height: 1.57;
+`
+
+export const Row = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  margin: 2vh 0;
+`
+
+export const MarginLeft = styled.div`
+  margin-left: 1vw;
+`
+
+export const Font700 = styled.span`
+  font-weight: 700;
+`
+
+export const GetStakes = styled.div`
+  margin-left: 4vw;
+  text-decoration: underline;
+`
+
+export const Note = styled.div`
+  width: 80%;
 `

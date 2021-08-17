@@ -80,7 +80,7 @@ const Nftproduct = () => {
   const noStakes =
     balance &&
     auctionNFT &&
-    (parseFloat(balance) < auctionNFT.auction.listingPrice ||
+    ((auctionNFT.auction.listingPrice && parseFloat(balance) < auctionNFT.auction.listingPrice) ||
       (auctionNFT.auction.minBid && parseFloat(balance) < auctionNFT.auction.minBid))
 
   const showScroll = (readMore: boolean) => {

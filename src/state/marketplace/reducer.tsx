@@ -14,10 +14,17 @@ import {
   addToMarketplaceAction,
   clearNFT,
   delistAuctionAction,
-  setWalletConfirmation
+  setWalletConfirmation,
+  setStep,
+  setAuction,
+  setNFT,
+  setMissing,
+  removeMissing
 } from './actions'
 import { NFT } from 'services/models/NFT'
 import { Auction } from 'services/models/Auction'
+import { STEP } from './types'
+import { initialAuction, initialNFT } from './initial'
 
 const getFirstError = (object: any): string => {
   const keys = Object.keys(object)
@@ -34,13 +41,15 @@ export interface MarketplaceState {
   walletConfirmation: string | null
   popup: PopupContent | null
   minted: boolean
-  nft: NFT | null
-  auction: Auction | null
+  nft: NFT
+  auction: Auction
   NftDetails: NFT | null
   loading: boolean
   currentPage: number
   lastAuctions: any[]
   delisted: boolean
+  step: STEP
+  missing: string[]
 }
 
 const initialState: MarketplaceState = {
@@ -52,13 +61,15 @@ const initialState: MarketplaceState = {
   walletConfirmation: null,
   popup: null,
   minted: false,
-  nft: null,
-  auction: null,
+  nft: initialNFT,
+  auction: initialAuction,  
   NftDetails: null,
   loading: false,
   currentPage: 0,
   lastAuctions: [],
-  delisted: false
+  delisted: false,
+  step: 1,
+  missing: []
 }
 
 export default createReducer(initialState, builder =>
@@ -96,8 +107,8 @@ export default createReducer(initialState, builder =>
     .addCase(addToMarketplaceAction.pending, (state, action) => {})
     .addCase(addToMarketplaceAction.fulfilled, (state, action) => {
       state.walletConfirmation = null
-      state.nft = null
-      state.auction = null
+      state.nft = initialNFT
+      state.auction = initialAuction
       const success = action.payload.status === 'success'
       state.popup = {
         success,
@@ -152,7 +163,7 @@ export default createReducer(initialState, builder =>
       state.minted = false
     })
     .addCase(clearNFT, (state, action) => {
-      state.nft = null
+      state.nft = initialNFT
     })
     .addCase(delistAuctionAction.pending, (state, action) => {
       state.delisted = false
@@ -170,6 +181,23 @@ export default createReducer(initialState, builder =>
       state.popup = { success: false, message: action.error.message || 'Error occured while Delisting Auction' }
     })
     .addCase(setWalletConfirmation, (state, action) => {
-      state.walletConfirmation = 'Bidding'
+      state.walletConfirmation = action.payload.type
+    })
+    .addCase(setStep, (state, action) => {
+      state.step = action.payload.step
+    })
+    .addCase(setAuction, (state, action) => {
+      if (state.auction) state.auction[action.payload.name] = action.payload.value
+    })
+    .addCase(setNFT, (state, action) => {
+      if (state.nft) state.nft[action.payload.name] = action.payload.value
+    })
+    .addCase(setMissing, (state, action) => {
+      state.missing = action.payload.missing
+    })
+    .addCase(removeMissing, (state, action) => {
+      const newMissing = [...state.missing]
+      newMissing.splice(newMissing.indexOf(action.payload.name), 1)
+      state.missing = newMissing
     })
 )
