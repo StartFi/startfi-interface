@@ -70,8 +70,10 @@ interface ErrorProps {
 export const Bold = styled.div<ErrorProps>`
   font-weight: bold;
   letter-spacing: 0.04em;
+
   font-size: 18px;
   color: ${({ error }) => (error ? '#f00' : '#000000')};
+
   text-transform: capitalize;
   margin: ${({ margin }) => margin};
 `
@@ -146,14 +148,16 @@ export const Img = styled.img`
   border: none;
 `
 
-export const ButtonConfirmBid = styled.button`
+export const ButtonConfirmBid = styled('button')<{height?:string;width?:string}>`
   box-sizing: border-box;
   border: none;
   border-radius: 4px;
   width: 24vw;
   height: 6vh;
+
   cursor: pointer;
   margin: 5px 0px;
+
 `
 export const ButtonBlack = styled(ButtonConfirmBid)`
   background-color: #000000;

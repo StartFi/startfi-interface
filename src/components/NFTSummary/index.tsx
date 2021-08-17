@@ -27,6 +27,7 @@ const NFTSummary: React.FC = () => {
 
   if (!nft) return null
 
+
   return (
     <Container>
       {!address && <ConnectWallet>{t('marketplaceConnectWallet')}</ConnectWallet>}
