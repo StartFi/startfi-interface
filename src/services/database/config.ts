@@ -8,3 +8,14 @@ export default {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 }
+
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyBjGyTOQg0EnlTZX3HWSdQdzEhyHKCyNNs",
+//   authDomain: "startfi-platform.firebaseapp.com",
+//   projectId: "startfi-platform",
+//   storageBucket: "startfi-platform.appspot.com",
+//   messagingSenderId: "264137457726",
+//   appId: "1:264137457726:web:3ef8edea3f1af5c9f3116f",
+//   measurementId: "G-66NBEJZVH4"
+// };

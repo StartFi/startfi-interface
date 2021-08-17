@@ -3,7 +3,7 @@ import { useSTFItoUSD } from 'hooks/useSTFItoUSD'
 import React from 'react'
 
 interface AmountProps {
-  amount: number
+  amount: any
   error?: boolean
 }
 
