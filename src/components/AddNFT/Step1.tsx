@@ -1,32 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { DropDownCategory } from 'components/DropDown'
 import { InputFile, LabelWithCheck } from 'components/Input'
-import { CATEGORIES, StepProps } from '../../constants'
+import { CATEGORIES } from '../../constants'
 import { useTranslation } from 'react-i18next'
-import { useIpfsHash, useIpfsProgress, useIpfsStatus, useUploadToIpfs } from 'state/ipfs/hooks'
+import { useIPFS } from 'state/ipfs/hooks'
 import { ipfsEnumStatus } from 'state/ipfs/actions'
 import { LabelBlack } from 'components/Input/styles'
-import { DropDown, Label } from './styles'
+import { DropDown, Label } from '../MintCard.tsx/styles'
+import { useAddNFT } from 'state/marketplace/hooks'
 
-const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps) => {
-  const [filename, setFilename] = useState(state.filename)
+const Step1: React.FC = () => {
+  const { t } = useTranslation()
+
+  const { nft, handleChange, missing } = useAddNFT()
+
+  const { upload, ipfsProgress, hash, status } = useIPFS()
+
+  const [filename, setFilename] = useState(nft.filename)
 
   const [progress, setProgress] = useState(0)
 
-  const { t } = useTranslation()
-
-  const upload = useUploadToIpfs()
-
-  const ipfsProgress = useIpfsProgress()
-
-  const hash = useIpfsHash()
-
-  const status = useIpfsStatus()
-
   useEffect(() => {
     if (status === ipfsEnumStatus.DONE && filename !== '') {
-      handleChange({ target: { name: 'dataHash', value: 'ipfs://' + hash } })
-      handleChange({ target: { name: 'filename', value: filename } })
+      handleChange('ipfs://' + hash, 'dataHash')
+      handleChange(filename, 'filename')
     }
   }, [filename, status, hash, handleChange])
 
@@ -41,7 +38,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
           <LabelWithCheck
             text={t('chooseCategoryLabel')}
             Label={LabelBlack}
-            verified={state.category}
+            verified={nft.category ? true : false}
             error={missing.includes('category')}
           />
         </Label>
@@ -49,7 +46,7 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
           name="category"
           label={t('chooseCategory')}
           options={CATEGORIES}
-          value={state.category}
+          value={nft.category}
           onChange={handleChange}
           width="30vw"
           showLabel={true}
@@ -60,11 +57,11 @@ const Step1: React.FC<StepProps> = ({ state, handleChange, missing }: StepProps)
       <InputFile
         name="dataHash"
         label={t('uploadNFT')}
-        value={state.dataHash}
+        value={nft.dataHash}
         onChange={(e: any) => {
           if (e.target.files[0] === null) {
             setFilename('')
-            handleChange({ target: { name: 'dataHash', value: '' } })
+            handleChange('', 'dataHash')
             setProgress(0)
           } else {
             setFilename(e.target.files[0].name)

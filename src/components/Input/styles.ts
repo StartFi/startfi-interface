@@ -69,11 +69,13 @@ export const ButtonFile = styled.button`
   border: none;
   background-color: white;
   cursor: pointer;
+  white-space: nowrap;
 `
 
 interface FileInputProps {
   readonly error?: boolean
   readonly minWidth?: string
+  readonly borderRight?: boolean
 }
 
 export const FileInput = styled.div<FileInputProps>`
@@ -81,8 +83,7 @@ export const FileInput = styled.div<FileInputProps>`
   flex-flow: row nowrap;
   justify-content: space-around;
   align-items: center;
-  border: 1px solid ${props => (props.error ? '#FF0000' : '#dddddd')};
-  border-radius: 8px;
+  border-right: ${props => (props.borderRight ? '1px solid #dddddd' : 'none')};
   height: 7vh;
   cursor: pointer;
   min-width: ${props => props.minWidth || 'none'};
@@ -107,10 +108,15 @@ export const InputFileHeader = styled.div`
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: baseline;
+  max-width: 30vw;
 `
 
-export const InputFileFooter = styled(InputFileHeader)`
+export const InputFileFooter = styled(InputFileHeader)<FileInputProps>`
+  justify-content: flex-start;
   margin-top: 2vh;
+  border: 1px solid ${props => (props.error ? '#FF0000' : '#dddddd')};
+  border-radius: 8px;
+  width: fit-content;
 `
 
 export const InputUnderline = styled.input`
@@ -130,13 +136,19 @@ export const InputOutline = styled.textarea`
   resize: none;
 `
 
+export const Progress = styled.div`
+  font-size: 14px;
+  font-weight: bold;
+  color: #444;
+`
+
 export const LabelBlack = styled.div`
   margin-right: 1vw;
   color: black;
 `
 
 export const LabelGrey = styled.div`
-  margin-right: 2vw;
+  margin-right: 1vw;
   color: #7e7e7e;
 `
 
@@ -152,7 +164,7 @@ export const Outline = styled.div<OultineProps>`
   border: 1px solid ${props => (props.error ? '#FF0000' : '#dddddd')};
   border-radius: 8px;
   padding: 1.5vh 1.2vw;
-  height: ${({ height }) => height ? height : 'unset'};
+  height: ${({ height }) => (height ? height : 'unset')};
 `
 
 export const Character = styled.div`

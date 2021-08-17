@@ -1,14 +1,15 @@
+import Label from 'components/Input/Label'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Row } from 'theme/components'
 import Close from '../../assets/icons/close.svg'
-import { Title, Img, Input, Count, Outline, Tag } from './styles'
+import { Img, Input, Count, Outline, Tag } from './styles'
 
 interface TagsProps {
   name: string
   max: number
   value: string[]
-  onChange: (e: any) => void
+  onChange: (value: string[], name: string) => void
 }
 
 const Tags: React.FC<TagsProps> = ({ name, max, value, onChange }) => {
@@ -21,7 +22,7 @@ const Tags: React.FC<TagsProps> = ({ name, max, value, onChange }) => {
   return (
     <div>
       <Row>
-        <Title>{t('tags')}</Title>
+        <Label text="tags" question="tagsDesc" grey />
         <Count>
           {max} {t('tagsMax')}
         </Count>
@@ -47,7 +48,7 @@ const Tags: React.FC<TagsProps> = ({ name, max, value, onChange }) => {
           onChange={(e: any) => setWord(e.target.value)}
           onKeyDown={e => {
             if (e.key === 'Enter' || e.key === ' ') {
-              onChange({ target: { name, value: [...tags, word] } })
+              onChange([...tags, word], name)
               setTags([...tags, word])
               setWord('')
             }

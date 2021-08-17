@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled from "styled-components";
+import styled from 'styled-components'
 import {
   Grid,
   LeftGrid,
@@ -35,14 +35,13 @@ import uriToHttp from 'utils/uriToHttp'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { useUserBalance } from 'state/user/hooks'
 
-
-export const TagContainer = styled('div')<{marginLeft?:string,lastChildWidth?:string}>`
+export const TagContainer = styled('div')<{ marginLeft?: string; lastChildWidth?: string }>`
   display: flex;
-  margin-left: ${({marginLeft})=>marginLeft};
-  & div{
+  margin-left: ${({ marginLeft }) => marginLeft};
+  & div {
     display: flex;
-    align-items:center;
-    justify-content:center;
+    align-items: center;
+    justify-content: center;
     width: 87px;
     height: 35px;
     margin-right: 10px;
@@ -53,9 +52,8 @@ export const TagContainer = styled('div')<{marginLeft?:string,lastChildWidth?:st
   }
 
   & :last-child {
-    width: ${({lastChildWidth})=>lastChildWidth??'87px'};
+    width: ${({ lastChildWidth }) => lastChildWidth ?? '87px'};
   }
-
 `
 
 interface NFTParams {
@@ -89,7 +87,7 @@ const Nftproduct = () => {
     history.goBack()
     return null
   }
- 
+
   const nftId = parseInt(nft)
 
   const imgUrl = uriToHttp(`${auctionNFT?.nft?.dataHash}`)[1]
@@ -97,7 +95,7 @@ const Nftproduct = () => {
   const noStakes =
     balance &&
     auctionNFT &&
-    (parseFloat(balance) < auctionNFT.auction.listingPrice ||
+    ((auctionNFT.auction.listingPrice && parseFloat(balance) < auctionNFT.auction.listingPrice) ||
       (auctionNFT.auction.minBid && parseFloat(balance) < auctionNFT.auction.minBid))
 
   const showScroll = (readMore: boolean) => {
@@ -120,12 +118,12 @@ const Nftproduct = () => {
           <CreatedText>
             {/* text created by user */}
             <p>
-             {/* {auctionNFT?.nft.tags} */}
-                <TagContainer marginLeft="6.8rem">
-                  {auctionNFT?.nft?.tags?.map(e => (
-                    <div key={e}>{e}</div>
-                  ))}
-                </TagContainer>
+              {/* {auctionNFT?.nft.tags} */}
+              <TagContainer marginLeft="6.8rem">
+                {auctionNFT?.nft?.tags?.map(e => (
+                  <div key={e}>{e}</div>
+                ))}
+              </TagContainer>
             </p>
           </CreatedText>
         </LeftTextCard>

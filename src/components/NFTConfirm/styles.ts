@@ -57,11 +57,15 @@ export const Column = styled.div`
   width: 100%;
 `
 
-export const Bold = styled.div`
+interface ErrorProps {
+  readonly error?: boolean
+}
+
+export const Bold = styled.div<ErrorProps>`
   font-weight: bold;
   letter-spacing: 0.04em;
   font-size: 18px;
-  color: #000000;
+  color: ${({ error }) => (error ? '#f00' : '#000000')};
   text-transform: capitalize;
 `
 
@@ -88,11 +92,11 @@ export const TextBlack = styled(Text)`
   line-height: 28px;
 `
 
-export const SemiBold = styled.div`
+export const SemiBold = styled.div<ErrorProps>`
   font-weight: 500;
   font-size: 16px;
   letter-spacing: 0.04em;
-  color: #000000;
+  color: ${({ error }) => (error ? '#f00' : '#000000')};
   text-transform: capitalize;
 `
 

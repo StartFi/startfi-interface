@@ -191,7 +191,7 @@ const InMarket = () => {
                     <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' margin="0px 88px 10px 0px">
                       {t('pricing')}
                     </Text>
-                    <Amount amount={auction?.listingPrice}></Amount>
+                    <Amount amount={auction?.listingPrice || 0}></Amount>
                   </AmountContainer>
                   <Divider width='95%'></Divider>
 

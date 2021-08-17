@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { uploadIPFS, IpfsMedia } from 'services/Ipfs/Ipfs'
 import { AppState } from 'state'
@@ -36,4 +36,15 @@ export const useUploadToIpfs = (): ((ipfsMedia: IpfsMedia) => void) => {
     },
     [dispatch]
   )
+}
+
+export const useIPFS = () => {
+  const upload = useUploadToIpfs()
+  const ipfsProgress = useIpfsProgress()
+  const hash = useIpfsHash()
+  const status = useIpfsStatus()
+
+  return useMemo(()=>{
+    return { upload, ipfsProgress, hash, status }
+  },[upload, ipfsProgress, hash, status])
 }
