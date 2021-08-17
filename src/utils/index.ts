@@ -23,14 +23,26 @@ export const sortHelper = (sort: string): Dictionary => {
 export const openFor = (timestamp: number): string => {
   const date = new Date(timestamp)
   const now = new Date()
-  const years = date.getFullYear() - now.getFullYear()
-  const months = date.getMonth() - now.getMonth()
-  const days = date.getDate() - now.getDate()
-  var string = ''
-  if (days) string += days + ' days'
-  if (months) string += months + ' months'
-  if (years) string += years + ' years'
-  if (days < 0) return '0 days'
+  const daydiff = Math.round((date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+  let years = date.getFullYear() - now.getFullYear()
+  let months = date.getMonth() - now.getMonth()
+  let days = date.getDate() - now.getDate()
+  let string = ''
+  if (days < 0) {
+    if (daydiff < 0) return '0 days'
+    else {
+      days = daydiff
+      months = months - 1
+    }
+  }
+  if (months < 0) {
+    months = Math.round(daydiff / 30)
+    years = years - 1
+  }
+  if (days) string += days + ' days '
+  if (months) string += months + ' months '
+  if (years) string += years + ' years '
+  console.log(string)
   return string
 }
 
@@ -56,7 +68,7 @@ const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   // 42: 'kovan.',
   // 56: 'BSC.',
   // 97: 'BSCT.',
-  1337: 'StartFi.',
+  1337: 'StartFi.'
   // 80001: 'poygon',
   // 1313161555: 'AURORA.'
 }
