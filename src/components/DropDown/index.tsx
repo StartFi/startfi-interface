@@ -15,6 +15,7 @@ interface DropDownProps {
   border?: string
   showLabel?: boolean
   marginRight?: string
+  LabelWidth?:string
 }
 
 export const DropDown: React.FC<DropDownProps> = ({
@@ -24,6 +25,7 @@ export const DropDown: React.FC<DropDownProps> = ({
   onChange,
   width,
   label,
+  LabelWidth,
   selectIcon,
   itemsWidth,
   border,
@@ -45,7 +47,7 @@ export const DropDown: React.FC<DropDownProps> = ({
     <React.Fragment>
       {open && <BlurLayer onClick={() => setOpen(false)} />}
       <Container width={width || '10vh'} marginRight={marginRight}>
-        <LabelRow border={border} onBlur={() => setOpen(false)} onClick={() => setOpen(!open)}>
+        <LabelRow border={border} LabelWidth={LabelWidth} onBlur={() => setOpen(false)} onClick={() => setOpen(!open)}>
           {showLabel ? <Label>{t(selected) || t(label)}</Label> : null}
           {selectIcon ? <img src={SelectIcon} alt="Select" /> : null}
         </LabelRow>

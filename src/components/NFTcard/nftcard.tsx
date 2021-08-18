@@ -20,7 +20,7 @@ const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid 
   const { t } = useTranslation()
   const cardContent = auctionNFT.nft
   const expired = auctionNFT.auction.expireTimestamp - Date.now()
-
+let listPrice = auctionNFT?.auction?.listingPrice;
 
  
 
@@ -34,7 +34,7 @@ const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid 
         </Media>
         <div>
           <Price>
-            <Amount amount={auctionNFT?.auction?.listingPrice || 0}></Amount>
+            <Amount amount={listPrice}></Amount>
             <Text fontFamily='Roboto' FontWight='400' fontSize='1.0rem' margin='15px 0px 5px 0px'>
               {cardContent.name}
             </Text>
