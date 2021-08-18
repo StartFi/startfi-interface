@@ -42,6 +42,13 @@ const NFTs: React.FC = () => {
       </div>
     )
 
+    console.log("market place length  " + onMarket.length);
+    if(onMarket.length==0){
+      return <div>
+        <h3>No Result Found</h3>
+      </div>
+    }
+
   return (
     <Padding>
       <Header>
@@ -80,20 +87,22 @@ const NFTs: React.FC = () => {
           <DropDownImgIcons src={TabList}></DropDownImgIcons>
         </DropDownContainer>
       </Header>
+
       <NFTList>
-        {onMarket.map((auctionNFT: AuctionNFT) => (
-          <Nft key={auctionNFT.nft.id}>
-            <NTFCard
-              auctionNFT={auctionNFT}
-              navigateToCard={(auctionNFT: AuctionNFT) =>
-                history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
-              }
-              placeBid={(auctionNFT: AuctionNFT) =>
-                history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
-              }
-            ></NTFCard>
-          </Nft>
-        ))}
+        {
+          onMarket.map((auctionNFT: AuctionNFT) => (
+            <Nft key={auctionNFT.nft.id}>
+              <NTFCard
+                auctionNFT={auctionNFT}
+                navigateToCard={(auctionNFT: AuctionNFT) =>
+                  history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
+                }
+                placeBid={(auctionNFT: AuctionNFT) =>
+                  history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
+                }
+              ></NTFCard>
+            </Nft>
+          ))}
       </NFTList>
       <Pagination />
     </Padding>
