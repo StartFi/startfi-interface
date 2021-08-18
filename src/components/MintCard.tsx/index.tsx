@@ -18,8 +18,6 @@ const MintNFT: React.FC = () => {
 
   const icon = StepIcon(step)
 
-  console.log(icon)
-
   return (
     <Container>
       <Body>

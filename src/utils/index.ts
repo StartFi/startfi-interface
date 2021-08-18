@@ -42,7 +42,6 @@ export const openFor = (timestamp: number): string => {
   if (days) string += days + ' days '
   if (months) string += months + ' months '
   if (years) string += years + ' years '
-  console.log(string)
   return string
 }
 
