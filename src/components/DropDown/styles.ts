@@ -18,10 +18,10 @@ export const Container = styled.div<WidthProps>`
 `
 
 
-export const LabelRow = styled(Row)<{ border?: string }>`
-  /* min-height: 6vh; */
-  height:6vh;
-  width:151px;
+export const LabelRow = styled(Row)<{ border?: string,LabelWidth?:string }>`
+  min-height: 6vh;
+  /* height:6vh; */
+  width:${({LabelWidth }) =>LabelWidth};
   border: 1px solid #dddddd;
   border: ${({ border }) => border};
   box-sizing: border-box;
@@ -30,7 +30,7 @@ export const LabelRow = styled(Row)<{ border?: string }>`
   cursor: pointer;
   & img {
     position: relative;
-    left:3px;
+    left:1px;
   }
 
 `

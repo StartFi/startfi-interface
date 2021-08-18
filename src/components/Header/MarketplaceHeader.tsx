@@ -66,13 +66,16 @@ const MarketplaceHeader: React.FC = () => {
           </ButtonSearch>
         </Search>
 
-        <LinkCreateNFT to='/mint/steps'>{t('mintNFT')}</LinkCreateNFT>
+        <LinkCreateNFT width="40vw" to='/mint/steps'>{t('mintNFT')}</LinkCreateNFT>
 
         <DropDownCategory
           options={HEADER_DROPDOWN}
           name={'drop'}
+
           value={''}
           itemsWidth='180px'
+
+
           border='none'
           selectIcon={true}
           onChange={getDropDownChanges}
