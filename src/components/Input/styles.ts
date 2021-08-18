@@ -175,6 +175,7 @@ export const Character = styled.div`
 
 interface InputNumberProps {
   readonly width?: string
+  readonly error?: boolean
 }
 
 export const InputNumber = styled.input<InputNumberProps>`
@@ -189,19 +190,19 @@ export const OutlineNumber = styled.div<InputNumberProps>`
   width: ${({ width }) => (width ? width : '12vw')};
   height: 7vh;
   background-color: #ffffff;
-  border: 1px solid #dddddd;
+  border: 1px solid ${({ error }) => (error ? '#FF0000' : '#dddddd')};
   border-radius: 8px;
   align-items: center;
   padding-left: 1.2vw;
 `
 
-export const Border = styled.div`
+export const Border = styled.div<InputNumberProps>`
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
   align-content: center;
   align-items: center;
-  border: 1px solid #dddddd;
+  border: 1px solid ${({ error }) => (error ? '#FF0000' : '#dddddd')};
   border-radius: 8px;
   width: 8vw;
   height: 6vh;

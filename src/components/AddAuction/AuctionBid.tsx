@@ -4,11 +4,17 @@ import OpenFor from './OpenFor'
 import { useAddAuction } from 'state/marketplace/hooks'
 
 const AuctionBid: React.FC = () => {
-  const { auction, handleChange } = useAddAuction()
+  const { auction, handleChange, missing } = useAddAuction()
 
   return (
     <React.Fragment>
-      <InputSTFI name="minBid" label="minBid" value={auction.minBid || 0} onChange={handleChange} />
+      <InputSTFI
+        name="minBid"
+        label="minBid"
+        value={auction.minBid || 0}
+        onChange={handleChange}
+        error={missing.includes('minBid')}
+      />
       <OpenFor />
       <InputSTFI
         question="qualifyAmountDesc"
@@ -16,6 +22,7 @@ const AuctionBid: React.FC = () => {
         label="qualifyAmount"
         value={auction.qualifyAmount || 0}
         onChange={handleChange}
+        error={missing.includes('qualifyAmount')}
       />
     </React.Fragment>
   )

@@ -22,7 +22,7 @@ const AddAuction: React.FC = () => {
 
   const step = useStep()
 
-  const { auction, handleChange } = useAddAuction()
+  const { auction, handleChange, missing } = useAddAuction()
 
   const component = (step: number, auction: Auction) => {
     if (step === STEP.CHOOSE_TYPE) return <ChooseType />
@@ -34,6 +34,7 @@ const AddAuction: React.FC = () => {
             label="sellingPrice"
             value={auction.listingPrice || 0}
             onChange={handleChange}
+            error={missing.includes('listingPrice')}
           />
           <AuctionBid />
         </React.Fragment>

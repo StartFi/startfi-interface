@@ -11,9 +11,10 @@ interface InputSTFIProps {
   value: number
   onChange: (value: number, name: string) => void
   question?: string
+  error?: boolean
 }
 
-const InputSTFI: React.FC<InputSTFIProps> = ({ name, label, value, onChange, question }) => {
+const InputSTFI: React.FC<InputSTFIProps> = ({ name, label, value, onChange, question, error }) => {
   const STFItoUSD = useSTFItoUSD(value)
   const USDtoSTFI = useUSDtoSTFI()
 
@@ -25,6 +26,7 @@ const InputSTFI: React.FC<InputSTFIProps> = ({ name, label, value, onChange, que
         value={value}
         onChange={(value: any) => onChange(value, name)}
         question={question}
+        error={error}
         number
       />
       <Arrows src={PriceArrows} alt="Currency conversion" />
