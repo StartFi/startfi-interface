@@ -11,18 +11,25 @@ const Card = styled(Box)<{
   borderRadius?: string
   background?: string
   marginTop?: string
+  margin?:string
+  alignItems?:string
+  flexDirection?:string
 }>`
   width: ${({ width }) => width ?? '100%'};
   height: ${({ height }) => height};
   border-radius: 16px;
- 
   padding: ${({ padding }) => padding};
   border: ${({ border }) => border};
   border-radius: ${({ borderRadius }) => borderRadius};
   background-color: ${({ background }) => background};
   margin-top: ${({ marginTop }) => marginTop};
+  margin: ${({ margin }) => margin};
   display: flex;
+  flex-direction:${({ flexDirection }) => flexDirection};
   align-items: center;
+  align-items:  ${({ alignItems }) => alignItems};
+
+
 `
 export default Card
 
