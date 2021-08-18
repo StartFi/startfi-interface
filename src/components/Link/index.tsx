@@ -6,10 +6,10 @@ export const LinkBase = styled(Link)`
   text-decoration: none;
 `
 
-export const LinkCreateNFT = styled(LinkBase)`
+export const LinkCreateNFT = styled(LinkBase)<{width?:string}>`
   font-size: 1.125rem;
   font-weight: 500;
-  /* width:30%; */
+  width:${({ width }) => width};
   padding: 0px 15px;
 `
 

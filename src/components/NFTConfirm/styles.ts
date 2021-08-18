@@ -27,8 +27,8 @@ export const Right = styled.div<PaymentCardProps>`
   justify-content: space-between;
 `
 
-export const MarginLeft = styled.div`
-  margin-left: 10vw;
+export const MarginLeft = styled('div')<{ marginLeft?: string }>`
+  margin-left: ${({ marginLeft }) => marginLeft};
 `
 
 export const Row = styled.div`
@@ -70,8 +70,10 @@ interface ErrorProps {
 export const Bold = styled.div<ErrorProps>`
   font-weight: bold;
   letter-spacing: 0.04em;
+
   font-size: 18px;
   color: ${({ error }) => (error ? '#f00' : '#000000')};
+
   text-transform: capitalize;
   margin: ${({ margin }) => margin};
 `
@@ -146,12 +148,13 @@ export const Img = styled.img`
   border: none;
 `
 
-export const ButtonConfirmBid = styled.button`
+export const ButtonConfirmBid = styled('button')<{ height?: string; width?: string }>`
   box-sizing: border-box;
   border: none;
   border-radius: 4px;
   width: 24vw;
   height: 6vh;
+
   cursor: pointer;
   margin: 5px 0px;
 `
@@ -163,8 +166,11 @@ export const ButtonTransparent = styled(ButtonConfirmBid)`
   background-color: transparent;
 `
 
-export const ButtonTransparentBorder = styled(ButtonTransparent)`
+export const ButtonTransparentBorder = styled(ButtonTransparent)<{ color?: string; backgroundColor?: string ;border?:string }>`
   border: 1px solid #000000;
+  color: ${({ color }) => color};
+  background-color: ${({ backgroundColor }) => backgroundColor};
+  border ${({ border }) => border};
 `
 
 export const TimerContainer = styled.div`

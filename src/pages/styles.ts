@@ -31,8 +31,8 @@ export const DropDownContainer = styled.div`
   align-items: center;
 `
 export const DropDownImgIcons = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   cursor: pointer;
-  margin-top: 5px;
+  margin-top: 12px;
 `

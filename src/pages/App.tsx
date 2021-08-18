@@ -14,6 +14,7 @@ import Marketplace from './Marketplace'
 import WaitingConfirmation from 'components/WaitingConfirmation'
 import Inventory from './Inventory'
 
+
 const AppWrapper = styled.div`
   display: flex;
   flex-flow: column;
@@ -64,6 +65,7 @@ export default function App() {
               <Route path="/marketplace" component={Marketplace} />
               <Route path="/mint" component={Mint} />
               <Route path="/inventory" component={Inventory} />
+
             </Switch>
           </Web3ReactManager>
           <Marginer />
