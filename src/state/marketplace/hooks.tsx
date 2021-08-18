@@ -449,10 +449,11 @@ export const useSteps = () => {
   const addNFT = useAddNFT()
   const addAuction = useAddAuction()
   const setStep = useSetStep()
-  const back = useCallback(() => (step > STEP.STEP1 && step > STEP.CHOOSE_TYPE ? setStep(step - 1) : null), [
-    step,
-    setStep
-  ])
+  const back = useCallback(() => {
+    if (step < STEP.CHOOSE_TYPE) {
+      if (step > STEP.STEP1) setStep(step - 1)
+    } else if (step > STEP.CHOOSE_TYPE) setStep(step - 1)
+  }, [step, setStep])
   return useMemo(() => {
     const { agree, setAgree } = addNFT
     const nftOrAuction = step < STEP.CHOOSE_TYPE

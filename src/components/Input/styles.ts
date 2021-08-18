@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Row } from 'theme'
+import { Row, SpaceBetween } from 'theme'
 
 export const Container = styled(Row)`
   justify-content: flex-start;
@@ -227,4 +227,13 @@ export const Img = styled.div`
   width: 20px;
   height: 20px;
   padding: 5px;
+`
+
+export const ContainerSTFI = styled(SpaceBetween)`
+  width: fit-content;
+  margin: 2vh 0;
+`
+
+export const Arrows = styled.img`
+  margin: 0 2vw;
 `

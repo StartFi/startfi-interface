@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Font500, Font700, Note, SellingPrice } from '../MintCard.tsx/styles'
+import { Font500, Font700, Note } from '../MintCard.tsx/styles'
 import InputSTFI from 'components/Input/InputSTFI'
 import AuctionSale from './AuctionSale'
 import AuctionBid from './AuctionBid'
@@ -29,14 +29,12 @@ const AddAuction: React.FC = () => {
     if (auction.isForBid && auction.isForSale)
       return (
         <React.Fragment>
-          <SellingPrice>
-            <InputSTFI
-              name="listingPrice"
-              label="sellingPrice"
-              value={auction.listingPrice || 0}
-              onChange={handleChange}
-            />
-          </SellingPrice>
+          <InputSTFI
+            name="listingPrice"
+            label="sellingPrice"
+            value={auction.listingPrice || 0}
+            onChange={handleChange}
+          />
           <AuctionBid />
         </React.Fragment>
       )
