@@ -61,7 +61,7 @@ const NFTSummary: React.FC = () => {
             {(step === STEP.NFT_SUMMARY || step === STEP.AUCTION_SUMMARY) && <Footer />}
           </Left>
           {(step === STEP.ALLOW_TRANSFER || step === STEP.ADD_NFT) && (
-            <MarginLeft>
+            <MarginLeft marginLeft="3vw">
               <PaymentCard />
             </MarginLeft>
           )}

@@ -325,7 +325,8 @@
   "allowMetaMaskConnectionToIncreaseStake":"Allow Startfi to connect to you metamask to increase you stake balance",
   "allow":"Allow",
   "stakeTokenSuccess":"Your Stake Token balance has Increased Successfully",
-  "checkStakeBalance":"Check Stake Token Balance"
+  "checkStakeBalance":"Check Stake Token Balance",
+  "auctionsEndIn":" Auction Ends in "
 
 
 

@@ -3,9 +3,9 @@ import { DropDownSort } from 'components/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+
 import { useGetNFTs, useLoadTime, useMarketplace, useMarketplaceLoading } from 'state/marketplace/hooks'
-import { Row } from 'theme/components'
+
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import StartfiLoader from '../components/Loader/startfi'
 import Pagination from 'components/Pagination'
@@ -52,6 +52,7 @@ const NFTs: React.FC = () => {
 
           <DropDownSort
             itemsWidth='12vw'
+            LabelWidth="11.8vw"
             marginRight="40px"
             showLabel={true}
             name='network'
@@ -64,6 +65,7 @@ const NFTs: React.FC = () => {
           />
           <DropDownSort
             itemsWidth='12vw'
+            LabelWidth="11.8vw"
             marginRight="40px"
             showLabel={true}
             name='sort'

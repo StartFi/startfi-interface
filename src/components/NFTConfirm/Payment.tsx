@@ -65,7 +65,7 @@ const Payment: React.FC = () => {
   }
 
   return (
-    <MarginLeft>
+    <MarginLeft marginLeft="5vw" >
       <Right minHeight='74vh'>
         <Bold>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</Bold>
         <TextBlack>
@@ -92,6 +92,7 @@ const Payment: React.FC = () => {
         </SpaceBetween>
         <ButtonBlack onClick={() => confirm()}>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</ButtonBlack>
         <ButtonWishlist nftId={nft.id} type='NFTConfirm' />
+
         <ButtonTransparent onClick={() => history.goBack()}>
           {t(bidOrBuy ? 'cancelBidding' : 'cancelPayment')}
         </ButtonTransparent>
