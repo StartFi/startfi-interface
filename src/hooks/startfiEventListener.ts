@@ -42,7 +42,7 @@ export const useNftPaymentEventListener = () => {
     return () => {
       library?.removeAllListeners(transferRoyalEvent as EventFilter)
     }
-  }, [])
+  }, [account, chainId, dispatch, library, nft, nftRoyalty, transferRoyalEvent])
   useEffect(() => {
     if (transferEvent) {
       library?.on(transferEvent as EventFilter, result => {
