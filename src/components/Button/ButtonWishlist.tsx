@@ -53,7 +53,12 @@ const ButtonWishlist: React.FC<ButtonWishlistProps> = ({ nftId, type,width,borde
 
   if (type === 'NFTConfirm')
     return (
-      <ButtonTransparentBorder onClick={() => (isWishlist ? removeFromWishlist() : addToWishlist())}>
+      <ButtonTransparentBorder onClick={() => (isWishlist ? removeFromWishlist() : addToWishlist())}
+      color={isWishlist ? '#ffffff' : '#000000'}
+      backgroundColor={isWishlist ? '#878787' : '#ffffff'}
+      border={isWishlist ?"none":""}
+
+      >
         {t(isWishlist ? 'removeFromWishlist' : 'addToWishlist')}
       </ButtonTransparentBorder>
     )

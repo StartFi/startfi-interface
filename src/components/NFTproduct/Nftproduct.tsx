@@ -138,7 +138,7 @@ const Nftproduct = () => {
         {auctionNFT ? (
           <TimerContainer>
             <Text fontFamily='Roboto' fontSize='1rem' color='#323232' margin='0 23px 0px 0px'>
-              Auction Ends in :
+            {t('auctionsEndIn')} :
             </Text>
             <Timer timeStamp={auctionNFT.auction.expireTimestamp} helperString='Auction'></Timer>
           </TimerContainer>
