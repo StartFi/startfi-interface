@@ -138,7 +138,7 @@ const OffMarket = () => {
           onClick={() => {
             saveNFT(nft)
             setStep(STEP.CHOOSE_TYPE)
-            history.push(`/mint/steps/${id}`)
+            history.push(`/mint/steps`)
           }}
         >
           Add to marketplace
