@@ -4,9 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { GetStakes, Price, Stakes } from '../MintCard.tsx/styles'
 import InputSTFI from 'components/Input/InputSTFI'
 import { useAddAuction } from 'state/marketplace/hooks'
+import { useHistory } from 'react-router-dom'
 
 const AuctionSale: React.FC = () => {
   const { t } = useTranslation()
+
+  const history = useHistory()
 
   const { auction, handleChange } = useAddAuction()
 
@@ -24,7 +27,7 @@ const AuctionSale: React.FC = () => {
           question="requiredStakedDesc"
           number
         />
-        <GetStakes>{t('getStakes')}</GetStakes>
+        <GetStakes onClick={() => history.push('/marketplace/stakeTokens')}>{t('getStakes')}</GetStakes>
       </Stakes>
     </React.Fragment>
   )
