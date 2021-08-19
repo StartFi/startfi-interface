@@ -7,11 +7,12 @@ interface InputNumberButtonsProps {
   name: string
   value: number
   onChange: (value: number, name: string) => void
+  error?: boolean
 }
 
-const InputNumberButtons: React.FC<InputNumberButtonsProps> = ({ name, value, onChange }) => {
+const InputNumberButtons: React.FC<InputNumberButtonsProps> = ({ name, value, onChange, error }) => {
   return (
-    <Border>
+    <Border error={error}>
       <Img onClick={() => (value > 0 ? onChange(value - 1, name) : null)}>
         <img src={Decrement} alt="Decrement" />
       </Img>

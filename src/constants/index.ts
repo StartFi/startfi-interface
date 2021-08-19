@@ -63,9 +63,8 @@ export const StepIcon = step => {
       return Step2Icon
     case STEP.STEP3:
       return Step3Icon
-    default:
+    default: return null
   }
-  return Step1Icon
 }
 
 export const HEADER_DROPDOWN: string[] = [

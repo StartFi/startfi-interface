@@ -3,6 +3,7 @@ import { useUSDtoSTFI } from 'hooks/useUSDtoSTFI'
 import React from 'react'
 import { Input } from '.'
 import PriceArrows from './../../assets/icons/pricearrows.svg'
+import { Arrows, ContainerSTFI } from './styles'
 
 interface InputSTFIProps {
   name: string
@@ -10,23 +11,25 @@ interface InputSTFIProps {
   value: number
   onChange: (value: number, name: string) => void
   question?: string
+  error?: boolean
 }
 
-const InputSTFI: React.FC<InputSTFIProps> = ({ name, label, value, onChange, question }) => {
+const InputSTFI: React.FC<InputSTFIProps> = ({ name, label, value, onChange, question, error }) => {
   const STFItoUSD = useSTFItoUSD(value)
   const USDtoSTFI = useUSDtoSTFI()
 
   return (
-    <React.Fragment>
+    <ContainerSTFI>
       <Input
         name={name}
         label={label}
         value={value}
         onChange={(value: any) => onChange(value, name)}
         question={question}
+        error={error}
         number
       />
-      <img src={PriceArrows} alt="Currency conversion" />
+      <Arrows src={PriceArrows} alt="Currency conversion" />
       <Input
         name="usd"
         currency="USD"
@@ -34,7 +37,7 @@ const InputSTFI: React.FC<InputSTFIProps> = ({ name, label, value, onChange, que
         onChange={(value: any) => USDtoSTFI(value).then(stfi => onChange(stfi, name))}
         number
       />
-    </React.Fragment>
+    </ContainerSTFI>
   )
 }
 

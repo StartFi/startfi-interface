@@ -340,9 +340,7 @@ export const useAddNFT = () => {
 
   const next = useCallback(() => {
     const newMissing: string[] = []
-    console.log(nft)
     Object.keys(nft).forEach((key: string) => (nft[key] ? null : newMissing.push(key)))
-    console.log(newMissing)
     switch (step) {
       case STEP.STEP1:
         if (nft.category && nft.dataHash) {
@@ -391,6 +389,8 @@ export const useAddAuction = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const auction = useAuction()
+  const missing = useMissing()
+  const setMissing = useSetMissing()
   const step = useStep()
   const setStep = useSetStep()
   const allowed = useAllowed()
@@ -399,15 +399,24 @@ export const useAddAuction = () => {
   const nft = useNFT()
   const [loader, setLoader] = useState<boolean>(false)
 
-  const handleChange = useCallback((value: any, name: string) => dispatch(setAuction({ value, name })), [dispatch])
+  const handleChange = useCallback(
+    (value: any, name: string) => {
+      if (value || value === false) {
+        dispatch(removeMissing({ name }))
+        dispatch(setAuction({ value, name }))
+      }
+    },
+    [dispatch]
+  )
 
   const next = useCallback(() => {
-    if (!auction) return
+    const newMissing: string[] = []
+    Object.keys(auction).forEach((key: string) => (auction[key] ? null : newMissing.push(key)))
     const { isForSale, listingPrice, isForBid, minBid, qualifyAmount, expireTimestamp } = auction
     switch (step) {
       //CHOOSE TYPE
       case STEP.CHOOSE_TYPE:
-        if (isForSale || isForBid) setStep(STEP.AUCTION_DETAILS)
+        if (isForSale || isForBid) setStep(STEP.AUCTION_DETAILS) 
         break
       //AUCTION DETAILS
       case STEP.AUCTION_DETAILS:
@@ -418,7 +427,7 @@ export const useAddAuction = () => {
           setStep(STEP.AUCTION_SUMMARY)
           history.push('/mint/summary')
           break
-        }
+        } else setMissing(newMissing)
         break
       case STEP.AUCTION_SUMMARY:
         setStep(allowed ? STEP.ADD_AUCTION : STEP.ALLOW_MONETIZING)
@@ -437,11 +446,11 @@ export const useAddAuction = () => {
         break
       default:
     }
-  }, [history, auction, step, setStep, addToMarketplace, allowed, approve, nft])
+  }, [history, auction, step, setStep, setMissing, addToMarketplace, allowed, approve, nft])
 
   return useMemo(() => {
-    return { auction, handleChange, next, loader }
-  }, [auction, handleChange, next, loader])
+    return { auction, handleChange, missing, next, loader }
+  }, [auction, handleChange, missing, next, loader])
 }
 
 export const useSteps = () => {
@@ -449,10 +458,11 @@ export const useSteps = () => {
   const addNFT = useAddNFT()
   const addAuction = useAddAuction()
   const setStep = useSetStep()
-  const back = useCallback(() => (step > STEP.STEP1 && step > STEP.CHOOSE_TYPE ? setStep(step - 1) : null), [
-    step,
-    setStep
-  ])
+  const back = useCallback(() => {
+    if (step < STEP.CHOOSE_TYPE) {
+      if (step > STEP.STEP1) setStep(step - 1)
+    } else if (step > STEP.CHOOSE_TYPE) setStep(step - 1)
+  }, [step, setStep])
   return useMemo(() => {
     const { agree, setAgree } = addNFT
     const nftOrAuction = step < STEP.CHOOSE_TYPE

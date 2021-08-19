@@ -8,7 +8,7 @@ import { useAddAuction } from 'state/marketplace/hooks'
 const OpenFor: React.FC = () => {
   const { t } = useTranslation()
 
-  const { handleChange } = useAddAuction()
+  const { handleChange, missing } = useAddAuction()
 
   const [expire, setExpire] = useState({
     openFor: 0,
@@ -42,7 +42,7 @@ const OpenFor: React.FC = () => {
   return (
     <OpenForContainer>
       <div>{t('openFor')}</div>
-      <InputNumberButtons name="openFor" value={expire.openFor} onChange={handleExpire} />
+      <InputNumberButtons name="openFor" value={expire.openFor} onChange={handleExpire} error={missing.includes('expireTimestamp')}/>
       <DropDownDateType
         name="type"
         options={['Day', 'Week', 'Month', 'Year']}

@@ -45,7 +45,7 @@ const Payment: React.FC = () => {
     return null
   }
 
-  const { ownername, nft } = auctionNFT
+  const { nft } = auctionNFT
 
   if (value === 0) {
     popup({ success: false, message: 'noValue' })

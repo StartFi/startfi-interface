@@ -52,7 +52,7 @@ const PaymentCard: React.FC = () => {
       case STEP.ADD_AUCTION:
         return 'addAssetToMarketplace'
       default:
-        return 'error'
+        return 'confirmPayment'
     }
   }
 
