@@ -23,6 +23,13 @@ export const Row = styled(Flex)`
   width: 100%;
 `
 
+export const SpaceBetween = styled(Flex)`
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`
+
 export const SpaceEvenly = styled(Flex)`
   flex-flow: row nowrap;
   justify-content: space-evenly;

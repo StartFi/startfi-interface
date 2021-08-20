@@ -82,10 +82,6 @@ export const Stakes = styled(Price)`
   width: 71%;
 `
 
-export const QualifyAmount = styled(Price)`
-  width: 80%;
-`
-
 export const BidOffers = styled.div`
   margin-bottom: 2vh;
 `
@@ -96,7 +92,8 @@ export const MinBid = styled.div`
 `
 
 export const OpenForContainer = styled(R)`
-  width: 60%;
+  width: 50%;
+  margin: 2vh 0;
 `
 
 export const NeedHelp = styled.div`
@@ -223,7 +220,7 @@ export const CardHeader = styled(R)`
 
 export const Title = styled.div`
   text-transform: uppercase;
-  width: 70%;
+  /* width: 70%; */
 `
 
 export const CardUnderline = styled.hr`
@@ -276,4 +273,8 @@ export const GetStakes = styled.div`
 
 export const Note = styled.div`
   width: 80%;
+  margin-top: 2vh;
+`
+export const Stepicon = styled.img`
+  margin-left: 12vw;
 `
