@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ButtonFile, FileInput, InputFileFooter, InputFileHeader, LabelBlack, Progress } from './styles'
 import LabelWithCheck from './LabelWithCheck'
+import Upload from '../../assets/icons/upload.svg'
 
 interface InputFileProps {
   name: string
@@ -38,7 +39,7 @@ const InputFile: React.FC<InputFileProps> = ({ name, label, value, onChange, err
       <InputFileFooter>
         <FileInput
           onClick={() => (progress === 0 ? ref.current?.click() : null)}
-          minWidth="8vw"
+          minWidth="10vw"
           error={error}
           borderRight={filename ? true : false}
         >
@@ -54,10 +55,10 @@ const InputFile: React.FC<InputFileProps> = ({ name, label, value, onChange, err
             }}
           />
           <div>{t(progress === 0 ? 'upload' : progress === 100 ? 'uploaded' : 'uploading')}</div>
-          {/* <img src={progress === 0 ? Upload : progress === 100 ? Check : Pause} alt="Upload file" /> */}
+          {progress === 0 && <img src={Upload} alt="Upload file" />}
         </FileInput>
         {filename && (
-          <FileInput minWidth="22vw">
+          <FileInput minWidth="20vw">
             <div>{filename.substring(0, 20)}</div>
             <Progress>{progress} %</Progress>
           </FileInput>

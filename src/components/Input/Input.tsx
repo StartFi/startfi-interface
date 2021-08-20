@@ -102,7 +102,7 @@ const Input: React.FC<InputProps> = ({
         </Outline>
       )}
       {number && (
-        <OutlineNumber width={outlineWidth || '12vw'}>
+        <OutlineNumber width={outlineWidth || '12vw'} error={error}>
           <InputNumber
             name={name}
             type="number"

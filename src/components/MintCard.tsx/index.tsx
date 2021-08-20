@@ -3,7 +3,7 @@ import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
 import { useTranslation } from 'react-i18next'
 import { useSaveDraft } from 'state/user/hooks'
 import { useSteps } from 'state/marketplace/hooks'
-import { CardContainer, CardHeader, CardUnderline, Footer, Title, Body, Container, Left, Right } from './styles'
+import { CardContainer, CardHeader, CardUnderline, Footer, Title, Body, Container, Left, Right, Stepicon } from './styles'
 import { StepIcon } from '../../constants'
 import AddAuction from 'components/AddAuction'
 import AddNFT from 'components/AddNFT'
@@ -15,6 +15,8 @@ const MintNFT: React.FC = () => {
   const saveDraft = useSaveDraft()
 
   const { step, next, back, nftOrAuction } = useSteps()
+
+  const icon = StepIcon(step)
 
   return (
     <Container>
@@ -29,7 +31,7 @@ const MintNFT: React.FC = () => {
                 <Title>{t('mintNFTTitle')}</Title>
                 <CardUnderline />
               </div>
-              {StepIcon(step) && <img src={StepIcon(step)} alt="Step" />}
+              {icon && <Stepicon src={icon} alt="Step" />}
             </CardHeader>
             {nftOrAuction ? <AddNFT /> : <AddAuction />}
             <Footer>

@@ -49,6 +49,7 @@ export const Items = styled.div<WidthProps>`
   position: absolute;
   width: ${props => props.width};
   width: ${props => props.itemsWidth};
+  background-color: white;
 `
 
 interface ItemProps {

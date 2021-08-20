@@ -13,7 +13,8 @@ import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
 import { useTranslation } from 'react-i18next'
 import Vector from '../../assets/images/Vector.png'
 import StringModifier from 'utils/StringSplice'
-import { useSaveNFT } from 'state/marketplace/hooks'
+import { useSaveNFT, useSetStep } from 'state/marketplace/hooks'
+import { STEP } from 'state/marketplace/types'
 
 interface offMarketParams {
   id: string
@@ -27,6 +28,7 @@ const OffMarket = () => {
   const history = useHistory()
   const nft: NFT = useOffMarketItem(id)
   const saveNFT = useSaveNFT()
+  const setStep = useSetStep()
   const imgUrl = uriToHttp(`${nft?.dataHash}`)[1]
   const [tagsState, setTagsState] = useState(false)
 
@@ -135,7 +137,8 @@ const OffMarket = () => {
         <ButtonMint
           onClick={() => {
             saveNFT(nft)
-            history.push(`/mint/steps/${id}`)
+            setStep(STEP.CHOOSE_TYPE)
+            history.push(`/mint/steps`)
           }}
         >
           Add to marketplace
