@@ -2,9 +2,12 @@ import MintNFT from 'components/MintCard.tsx'
 import AddedToMarketplace from 'components/AddAuction/AddedToMarketplace'
 import Header from 'components/MintCard.tsx/Header'
 import NFTSummary from 'components/NFTSummary'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route } from 'react-router-dom'
 import styled from 'styled-components'
+import { useSaveNFT, useSetStep } from 'state/marketplace/hooks'
+import { initialNFT } from 'state/marketplace/initial'
+import { STEP } from 'state/marketplace/types'
 
 const Container = styled.div`
   width: 100%;
@@ -13,6 +16,17 @@ const Container = styled.div`
 `
 
 const Mint: React.FC = () => {
+  const saveNFT = useSaveNFT()
+
+  const setStep = useSetStep()
+
+  useEffect(() => {
+    return () => {
+      saveNFT(initialNFT)
+      setStep(STEP.STEP1)
+    }
+  }, [saveNFT, setStep])
+
   return (
     <Container>
       <Header />
