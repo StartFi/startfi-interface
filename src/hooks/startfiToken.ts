@@ -4,13 +4,12 @@ import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
-import { signERC2612Permit } from 'eth-permit'
-import { address as STARTFI_TOKEN_ADDRESS } from '../constants/abis/StartFiToken.json'
 
 import abiDecoder from 'abi-decoder'
 import { abi as STARTFI_TOKEN_ABI } from '../constants/abis/StartFiToken.json'
 import { Contract } from 'ethers'
 import { useERC20PermitSignature } from './usePermit'
+
 abiDecoder.addABI(STARTFI_TOKEN_ABI)
 export const useTokenInfo = () => {
   const contract = useStartFiToken(false)
@@ -80,7 +79,6 @@ export const useApproveToken = (): ((spender: string, amount: string | number) =
   const toggleWalletModal = useWalletModalToggle()
   const singe = useERC20PermitSignature()
   const permit = useSubmitTransaction()
-
   return useCallback(
     async (spender: string, amount: string | number) => {
       if (!account) {
@@ -89,7 +87,13 @@ export const useApproveToken = (): ((spender: string, amount: string | number) =
       }
       try {
         const { v, s, r, deadline } = await singe(spender, amount, contract as Contract)
-        await permit('permit', [account as string, spender, amount, deadline, v, r, s], contract, account, library)
+        return await permit(
+          'permit',
+          [account as string, spender, amount, deadline, v, r, s],
+          contract,
+          account,
+          library
+        )
       } catch (e) {
         console.log('error', e)
         return e
@@ -98,6 +102,7 @@ export const useApproveToken = (): ((spender: string, amount: string | number) =
     [account, contract, library, permit, singe, toggleWalletModal]
   )
 }
+
 export const useIncreaseAllowance = (): ((spender: string, addedValue: string | number) => any) => {
   const { account, library } = useActiveWeb3React()
   const contract = useStartFiToken(true)
