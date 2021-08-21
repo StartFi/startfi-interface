@@ -185,6 +185,7 @@ export default createReducer(initialState, builder =>
     })
     .addCase(setStep, (state, action) => {
       state.step = action.payload.step
+      if (action.payload.step === STEP.AUCTION_DETAILS) state.minted = false
     })
     .addCase(setAuction, (state, action) => {
       if (state.auction) state.auction[action.payload.name] = action.payload.value
