@@ -228,7 +228,9 @@ export const StyledMenuButton = styled.button`
 `
 
 const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
-  // [ChainId.RINKEBY]: 'Rinkeby',
+  [ChainId.HECO]: 'Heco Testnet',
+  [ChainId.POLYGON]: 'Polygon Testnet',
+  [ChainId.NEARTEST]: 'NEAR Testnet',
   [ChainId.ROPSTEN]: 'Ropsten',
   // [ChainId.GÖRLI]: 'Görli',
   // [ChainId.KOVAN]: 'Kovan'

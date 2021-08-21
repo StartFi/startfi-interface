@@ -128,6 +128,9 @@ export const COMMON_CONTRACT_NAMES: { [address: string]: string } = {
 const WETH_ONLY: ChainTokenList = {
   // [ChainId.MAINNET]: [WETH9[ChainId.MAINNET]],
   [ChainId.ROPSTEN]: [WETH9[ChainId.ROPSTEN]],
+  [ChainId.HECO]: [WETH9[ChainId.ROPSTEN]],
+  [ChainId.POLYGON]: [WETH9[ChainId.ROPSTEN]],
+  [ChainId.NEARTEST]: [WETH9[ChainId.ROPSTEN]],
   // [ChainId.RINKEBY]: [WETH9[ChainId.RINKEBY]],
   // [ChainId.GÖRLI]: [WETH9[ChainId.GÖRLI]],
   // [ChainId.BSCT]: [WETH9[ChainId.GÖRLI]],

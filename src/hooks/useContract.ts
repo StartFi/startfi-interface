@@ -48,7 +48,11 @@ declare type WETH_Only = {
 }
 const WETH: WETH_Only = {
   // [ChainId.MAINNET]: WETH9[ChainId.MAINNET],
+  [ChainId.ROPSTEN]:WETH9[ChainId.ROPSTEN],
   [ChainId.ROPSTEN]: WETH9[ChainId.ROPSTEN],
+  [ChainId.HECO]: WETH9[ChainId.ROPSTEN],
+  [ChainId.POLYGON]: WETH9[ChainId.ROPSTEN],
+  [ChainId.NEARTEST]: WETH9[ChainId.ROPSTEN],
   // [ChainId.RINKEBY]: WETH9[ChainId.RINKEBY],
   // [ChainId.GÖRLI]: WETH9[ChainId.GÖRLI],
   // [ChainId.BSCT]: new Token(ChainId.BSCT, '0x793b6B742e1206C5D3DFAF2Efd85D3919dba60eB', 18, 'ETH', 'Ethereum Token'),
@@ -121,6 +125,9 @@ export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contrac
     switch (chainId) {
       // case ChainId.MAINNET:
       // case ChainId.GÖRLI:
+      case ChainId.HECO:
+      case ChainId.POLYGON:
+      case ChainId.NEARTEST:
       case ChainId.ROPSTEN:
       // case ChainId.RINKEBY:
       //   address = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'

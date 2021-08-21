@@ -9,8 +9,9 @@ export enum ChainId {
     StartFi = 1337,
     // BSC = 56,
     // BSCT = 97,
-    // POLYGON = 80001,
-    // AURORA = 1313161555,
+    POLYGON = 80001,
+    HECO = 256,
+    NEARTEST = 1313161555,
 }
 
 export declare const WETH: {

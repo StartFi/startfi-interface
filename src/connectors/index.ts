@@ -24,6 +24,9 @@ const NETWORK_URLS: {
   // [1]: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
   // [4]: `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
   [3]: `https://ropsten.infura.io/v3/${INFURA_KEY}`,
+  [256]: `https://http-testnet.hecochain.com`,
+  [1313161555]: `https://testnet.aurora.dev`,
+    [80001]: `https://rpc-mumbai.matic.today`,
   // [5]: `https://goerli.infura.io/v3/${INFURA_KEY}`,
   // [42]: `https://kovan.infura.io/v3/${INFURA_KEY}`,
   // [56]: `https://bsc-dataseed.binance.org/`,
@@ -31,7 +34,7 @@ const NETWORK_URLS: {
   [1337]: `http://127.0.0.1:8545/`
 }
 
-const SUPPORTED_CHAIN_IDS = [/*1, 4, */3/*, 42, 5, 56, 97*/, 1337]
+const SUPPORTED_CHAIN_IDS = [/*1, 4, */3/*, 42, 5, 56, 97*/,80001,1313161555, 1337]
 
 export const network = new NetworkConnector({
   urls: NETWORK_URLS,

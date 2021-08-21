@@ -67,9 +67,10 @@ const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   // 42: 'kovan.',
   // 56: 'BSC.',
   // 97: 'BSCT.',
-  1337: 'StartFi.'
-  // 80001: 'poygon',
-  // 1313161555: 'AURORA.'
+  1337: 'StartFi.',
+  256: 'heco.',
+  80001: 'poygon',
+  1313161555: 'NEAR Test'
 }
 
 export function getEtherscanLink(
