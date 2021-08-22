@@ -130,7 +130,7 @@ const Nftproduct =  () => {
             {noStakes && (
               <Stakes>
                 <NoStakes>{t('needsMoreStakes')}</NoStakes>
-                <GetNow onClick={() => history.push('/')}>{t('getNow')}</GetNow>
+                <GetNow onClick={() => history.push('/marketplace/stakeTokens')}>{t('getNow')}</GetNow>
               </Stakes>
             )}
           </Name>
