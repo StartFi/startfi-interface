@@ -68,6 +68,8 @@ const Nftproduct = () => {
   const balance = useUserBalance()
   const setValue = useSetBidOrBuy()
 
+  const setValue = useSetBidOrBuy()
+
   if (!nft || !auction) {
     popup({ success: false, message: 'noNFT' })
     history.goBack()
@@ -177,12 +179,11 @@ const Nftproduct = () => {
           <BuyNow>
           <button
               onClick={() => {
-                console.log("---------------");
-                console.log(auctionNFT);
+
                 setValue(false, auctionNFT?.auction.listingPrice || 0)
                 history.push('/marketplace/buyorbid')
-                setBidOrBuy(false)
-                setIsOpen(true)
+                // setBidOrBuy(false)
+                // setIsOpen(true)
               }}
             >
               {t('buy')}
