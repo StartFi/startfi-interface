@@ -177,8 +177,6 @@ const Nftproduct = () => {
           <BuyNow>
           <button
               onClick={() => {
-                console.log("---------------");
-                console.log(auctionNFT);
                 setValue(false, auctionNFT?.auction.listingPrice || 0)
                 history.push('/marketplace/buyorbid')
                 setBidOrBuy(false)
