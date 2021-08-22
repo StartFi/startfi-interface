@@ -66,6 +66,7 @@ const Nftproduct = () => {
   const history = useHistory()
 
   const balance = useUserBalance()
+  const setValue = useSetBidOrBuy()
 
   const setValue = useSetBidOrBuy()
 
@@ -176,8 +177,9 @@ const Nftproduct = () => {
             </PlaceBid>
           </BuyButtons>
           <BuyNow>
-            <button
+          <button
               onClick={() => {
+
                 setValue(false, auctionNFT?.auction.listingPrice || 0)
                 history.push('/marketplace/buyorbid')
                 // setBidOrBuy(false)
