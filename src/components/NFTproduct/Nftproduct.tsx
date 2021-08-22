@@ -31,7 +31,7 @@ import BidOrBuy from 'components/BidOrBuy'
 import ButtonWishlist from 'components/Button/ButtonWishlist'
 import { usePopup } from 'state/application/hooks'
 import { useHistory, useParams } from 'react-router-dom'
-import { useAuctionNFT, useGetAuctionNFT } from 'state/marketplace/hooks'
+import { useAuctionNFT, useGetAuctionNFT, useSetBidOrBuy } from 'state/marketplace/hooks'
 import uriToHttp from 'utils/uriToHttp'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { useUserBalance } from 'state/user/hooks'
@@ -66,6 +66,8 @@ const Nftproduct = () => {
   const history = useHistory()
 
   const balance = useUserBalance()
+
+  const setValue = useSetBidOrBuy()
 
   if (!nft || !auction) {
     popup({ success: false, message: 'noNFT' })
@@ -176,9 +178,10 @@ const Nftproduct = () => {
           <BuyNow>
             <button
               onClick={() => {
+                setValue(false, auctionNFT?.auction.listingPrice || 0)
                 history.push('/marketplace/buyorbid')
-                setBidOrBuy(false)
-                setIsOpen(true)
+                // setBidOrBuy(false)
+                // setIsOpen(true)
               }}
             >
               {t('buy')}
