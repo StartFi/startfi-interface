@@ -15,8 +15,8 @@ import TabList from '../assets/images/Group 63.png'
 import { Padding, Results, NFTList, Nft, Header, DropDownContainer, DropDownImgIcons } from './styles'
 
 // const SORTBY = ['With Bids', 'Lowest price', 'Highest price']
-const NetWorks = ['all Network', 'Net WORK 1', 'NetWork 2']
-const Status = ['All Status', 'Status 1', 'Status 2']
+const NetWorks = ['all Network', 'Ropsten']
+const Status = ['All Status', 'Status 1']
 
 const NFTs: React.FC = () => {
   const history = useHistory()
