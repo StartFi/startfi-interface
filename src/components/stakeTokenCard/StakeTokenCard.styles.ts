@@ -17,6 +17,7 @@ interface ContainerProps {
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;
+    /* align-items:center; */
 
   `
 
@@ -25,6 +26,10 @@ interface ContainerProps {
   & p{
       width:60%
   }
+  `
+
+  export const ButtonContainer=styled.div`
+  margin:0px auto;
   `
 
 

@@ -49,6 +49,7 @@ export const useTokenBalance = (): ((address: string) => any) => {
     [contract]
   )
 }
+
 export const useGetAllowance = (): ((owner: string, spender: string) => any) => {
   const contract = useStartFiToken(false)
   return useCallback(
@@ -86,7 +87,6 @@ export const useApproveToken = (): ((spender: string, amount: string | number) =
         return decodedLogs[0].events
       } catch (e) {
         console.log('error', e)
-
         return e
       }
     },
