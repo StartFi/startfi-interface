@@ -39,6 +39,9 @@ import { AuctionNFT } from 'services/models/AuctionNFT'
 import { useHistory } from 'react-router-dom'
 import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
 import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/StartfiStakes.json'
+import { useGetAllowance } from 'hooks/startfiToken'
+
+
 function serializeToken(token: Token): SerializedToken {
   return {
     chainId: token.chainId,
@@ -422,3 +425,21 @@ export const useGetUserNFTs = () => {
 //   return {ownerStakes,getReserve}
 // }
 
+export const useGetStakeAllowance = () => {
+  const owner = useUserAddress()
+  const getAllowance = useGetAllowance()
+  const [allowStaking, setAllowStaking] = useState<boolean>(false)
+  useEffect(() => {
+    const getAllow = async () => {
+      if (owner) {
+        const allowed = await getAllowance(owner, STARTFI_STAKES_ADDRESSS)
+        if (allowed === '0x00') {
+          setAllowStaking(true)
+        }
+      }
+    }
+    getAllow()
+  },[owner, STARTFI_STAKES_ADDRESSS])
+
+  return allowStaking
+}

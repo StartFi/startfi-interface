@@ -8,14 +8,14 @@ import { useTranslation } from 'react-i18next'
 import { STFI, USD, USDPrice, USDWord, Input } from 'components/BidOrBuy/styles'
 import { ButtonMint } from 'components/Button'
 
-import { useApproveToken } from 'hooks/startfiToken'
+import { useApproveToken, useGetAllowance } from 'hooks/startfiToken'
 import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/StartfiStakes.json'
 
 
 import { usePopup } from 'state/application/hooks'
 import StakeTokenCard from 'components/stakeTokenCard/StakeTokenCard'
 import StakeTokenSuccess from './StakeTokenSuccess'
-import { useUserAddress } from 'state/user/hooks'
+import { useGetStakeAllowance, useUserAddress } from 'state/user/hooks'
 import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
 import { useSTFItoUSD } from 'hooks/useSTFItoUSD'
 
@@ -31,8 +31,12 @@ const StakeToken = () => {
   const [loader, setLoader] = useState<boolean>(false)
   const [buttonText, setButtonText] = useState<string>('Allow')
   const approveToken = useApproveToken()
+
+  const getAllowance=useGetStakeAllowance()
   const [step, setStep] = useState<number>(1)
   const popup = usePopup()
+
+  console.log('get allownce',getAllowance)
 
 
   const [ownerStakes, setOwnerStakes] = useState<number>(0)
@@ -53,6 +57,8 @@ const StakeToken = () => {
   }
 
   useEffect(()=>{
+
+
     const getReserve = async () => {
       if (owner) {
         const stakes = await getReserves(owner)

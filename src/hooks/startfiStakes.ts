@@ -17,7 +17,6 @@ export const useDeposit = (): ((user: string, amount: string | number) => any) =
         return `account: ${account} is not connected`
       }
       try {
-
         return await deposit('deposit', [user, amount], contract, account, library)
       } catch (e) {
         console.log('error', e)
