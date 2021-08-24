@@ -34,6 +34,7 @@ export const useGetReserves = (): ((owner: string) => any) => {
       try {
         const userReserved = await evaluateTransaction(contract, 'getReserves', [owner])
         const reserved = userReserved.toHexString()
+        
         return reserved
       } catch (e) {
         console.log(e)

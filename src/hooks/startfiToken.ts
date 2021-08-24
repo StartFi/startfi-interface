@@ -57,7 +57,6 @@ export const useGetAllowance = (): ((owner: string, spender: string) => any) => 
       const getAllowance = async () => {
         try {
           const allowance = await evaluateTransaction(contract, 'allowance', [owner, spender])
-          console.log(allowance.toHexString())
           return allowance.toHexString()
         } catch (e) {
           console.log(e)

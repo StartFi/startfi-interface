@@ -11,7 +11,6 @@ import { ButtonMint } from 'components/Button'
 import { useApproveToken, useGetAllowance } from 'hooks/startfiToken'
 import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/StartfiStakes.json'
 
-
 import { usePopup } from 'state/application/hooks'
 import StakeTokenCard from 'components/stakeTokenCard/StakeTokenCard'
 import StakeTokenSuccess from './StakeTokenSuccess'
@@ -19,10 +18,9 @@ import { useGetStakeAllowance, useUserAddress } from 'state/user/hooks'
 import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
 import { useSTFItoUSD } from 'hooks/useSTFItoUSD'
 
-
 const StakeToken = () => {
   const { t } = useTranslation()
-  const [cancelState, setCancelState] = useState<boolean>(true)
+  const [cancelState, setCancelState] = useState<boolean>(false)
   const [value, setValue] = useState(0)
   const usd = useSTFItoUSD(value)
   const [disabled, setDisabled] = useState<boolean>(true)
@@ -30,19 +28,17 @@ const StakeToken = () => {
   const [successModal, setSuccessModal] = useState<boolean>(false)
   const [loader, setLoader] = useState<boolean>(false)
   const [buttonText, setButtonText] = useState<string>('Allow')
-  const approveToken = useApproveToken()
-
-  const getAllowance=useGetStakeAllowance()
   const [step, setStep] = useState<number>(1)
   const popup = usePopup()
 
-  console.log('get allownce',getAllowance)
-
+  const approveToken = useApproveToken()
+  const getAllowance = useGetStakeAllowance()
 
   const [ownerStakes, setOwnerStakes] = useState<number>(0)
 
   const owner = useUserAddress()
   const getReserves = useGetReserves()
+  // const ownerStakes=useGetOwnerStakes()
 
   const depositStake = useDeposit()
 
@@ -54,11 +50,10 @@ const StakeToken = () => {
   }
   const closeSuccess = () => {
     setSuccessModal(false)
+    setCancelState(false)
   }
 
-  useEffect(()=>{
-
-
+  useEffect(() => {
     const getReserve = async () => {
       if (owner) {
         const stakes = await getReserves(owner)
@@ -66,25 +61,31 @@ const StakeToken = () => {
       }
     }
     getReserve()
-
-  },[owner,successModal])
+  }, [owner, successModal])
 
   const next = () => {
     switch (step) {
       case 1:
         setLoader(true)
         if (owner) {
-          approveToken(STARTFI_STAKES_ADDRESSS, value).then(res => {
-
-            setLoader(false)
-            setButtonText('Increase Stake Balance')
-            setStep(2)
-          })
+          approveToken(STARTFI_STAKES_ADDRESSS, value)
+            .then(res => {
+              if (res.code === 4001) {
+                throw new Error('Error occurred')
+              }
+              setLoader(false)
+              setButtonText('Increase Stake Balance')
+              setStep(2)
+            })
+            .catch(e => {
+              setLoader(false)
+              setCancelState(false)
+              setOpenModal(false)
+            })
         }
 
         break
       case 2:
-        // popup({ success: true, message: 'noNFT' })
         setLoader(true)
         if (owner) {
           depositStake(owner, value).then(res => {
@@ -131,7 +132,9 @@ const StakeToken = () => {
             fontSize='1rem'
             color={cancelState ? '#747474' : '#000000'}
             margin='0 30px 0 0'
-            onClick={() => setCancelState(!cancelState)}
+            onClick={() =>
+              owner ? setCancelState(!cancelState) : popup({ success: false, message: 'You Are Not Connected' })
+            }
           >
             {cancelState ? t('cancel') : t('IncreaseStakes')}
           </DelistButton>
@@ -160,8 +163,12 @@ const StakeToken = () => {
                 <Text fontFamily='Roboto' fontSize='0.875rem' FontWeight='500' color='#525252' margin='0 10px 0 0'>
                   {t('confirmIncStakeToken')}
                 </Text>
-                <ButtonMint onClick={() => setOpenModal(true)} disabled={disabled}>
-                  {' '}
+                <ButtonMint
+                  onClick={() =>
+                    getAllowance ? setOpenModal(true) : popup({ success: false, message: 'Staking not Allowed' })
+                  }
+                  disabled={disabled}
+                >
                   {disabled ? t('increaseBalance') : t('confirmIncreasing')}
                 </ButtonMint>
               </CheckContainer>

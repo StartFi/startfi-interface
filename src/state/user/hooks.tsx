@@ -411,9 +411,9 @@ export const useGetUserNFTs = () => {
 //   const [ownerStakes, setOwnerStakes] = useState<number>(0)
 //   const owner = useUserAddress()
 //   const getReserves = useGetReserves()
-//   let getReserve
+
 //   useEffect(() => {
-//      getReserve = async () => {
+//     const getReserve = async () => {
 //       if (owner) {
 //         const stakes = await getReserves(owner)
 //         setOwnerStakes(parseInt(stakes, 16))
@@ -422,7 +422,7 @@ export const useGetUserNFTs = () => {
 //     getReserve()
 //   }, [owner])
 
-//   return {ownerStakes,getReserve}
+//   return ownerStakes
 // }
 
 export const useGetStakeAllowance = () => {
