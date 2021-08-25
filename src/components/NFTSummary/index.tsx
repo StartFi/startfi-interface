@@ -13,6 +13,7 @@ import Question from 'components/Input/Question'
 import { useUserAddress } from 'state/user/hooks'
 import { ConnectWallet } from 'components/Header/styles'
 import { STEP } from 'state/marketplace/types'
+import { useHistory } from 'react-router-dom'
 
 const NFTSummary: React.FC = () => {
   const { t } = useTranslation()
@@ -25,8 +26,34 @@ const NFTSummary: React.FC = () => {
 
   const { step, nftOrAuction } = useSteps()
 
-  if (!nft) return null
+  const history = useHistory()
 
+  console.log(
+    ![
+      STEP.NFT_SUMMARY,
+      STEP.ALLOW_TRANSFER,
+      STEP.ADD_NFT,
+      STEP.NFT_SUMMARY,
+      STEP.ALLOW_MONETIZING,
+      STEP.ALLOW_MONETIZING,
+      STEP.ADD_AUCTION
+    ].includes(step)
+  )
+
+  if (
+    ![
+      STEP.NFT_SUMMARY,
+      STEP.ALLOW_TRANSFER,
+      STEP.ADD_NFT,
+      STEP.NFT_SUMMARY,
+      STEP.ALLOW_MONETIZING,
+      STEP.ALLOW_MONETIZING,
+      STEP.ADD_AUCTION
+    ].includes(step)
+  ) {
+    history.push('/')
+    // return null
+  }
 
   return (
     <Container>
