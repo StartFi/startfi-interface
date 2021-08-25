@@ -25,6 +25,7 @@ const MarketplaceHeader: React.FC = () => {
   const { t } = useTranslation()
 
   const [input, setInput] = useState('')
+  const [dropDown,setDropDown]= useState(HEADER_DROPDOWN[0])
 
   const getNFTs = useGetNFTs()
   const stakeToken = useDeposit()
@@ -72,7 +73,7 @@ const MarketplaceHeader: React.FC = () => {
           options={HEADER_DROPDOWN}
           name={'drop'}
 
-          value={''}
+          value={dropDown}
           itemsWidth='180px'
 
 
