@@ -33,15 +33,13 @@ const NFTSummary: React.FC = () => {
       STEP.NFT_SUMMARY,
       STEP.ALLOW_TRANSFER,
       STEP.ADD_NFT,
-      STEP.NFT_SUMMARY,
+      STEP.CHOOSE_TYPE,
+      STEP.AUCTION_SUMMARY,
       STEP.ALLOW_MONETIZING,
-      STEP.ALLOW_MONETIZING,
-      STEP.ADD_AUCTION,
-      STEP.CHOOSE_TYPE
+      STEP.ADD_AUCTION
     ].includes(step)
   ) {
     history.push('/')
-    // return null
   }
 
   return (
