@@ -39,6 +39,7 @@ export const useTokenBalance = (): ((address: string) => any) => {
       const getBalance = async () => {
         try {
           const balance = await evaluateTransaction(contract, 'balanceOf', [address])
+
           return balance.toHexString()
         } catch (e) {
           console.log(e)

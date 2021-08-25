@@ -8,15 +8,16 @@ import { useTranslation } from 'react-i18next'
 import { STFI, USD, USDPrice, USDWord, Input } from 'components/BidOrBuy/styles'
 import { ButtonMint } from 'components/Button'
 
-import { useApproveToken, useGetAllowance } from 'hooks/startfiToken'
+import { useApproveToken } from 'hooks/startfiToken'
 import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/StartfiStakes.json'
 
 import { usePopup } from 'state/application/hooks'
 import StakeTokenCard from 'components/stakeTokenCard/StakeTokenCard'
 import StakeTokenSuccess from './StakeTokenSuccess'
-import { useGetStakeAllowance, useUserAddress } from 'state/user/hooks'
+import { useGetOwnerStakes, useGetStakeAllowance, useUserAddress } from 'state/user/hooks'
 import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
 import { useSTFItoUSD } from 'hooks/useSTFItoUSD'
+import { useSTFIBalance } from 'hooks/useSTFIBalance'
 
 const StakeToken = () => {
   const { t } = useTranslation()
@@ -31,15 +32,19 @@ const StakeToken = () => {
   const [step, setStep] = useState<number>(1)
   const popup = usePopup()
 
+  const STFIBalance = useSTFIBalance()
   const approveToken = useApproveToken()
   const getAllowance = useGetStakeAllowance()
 
-  const [ownerStakes, setOwnerStakes] = useState<number>(0)
+
 
   const owner = useUserAddress()
-  const getReserves = useGetReserves()
-  // const ownerStakes=useGetOwnerStakes()
+  // const getReserves = useGetReserves()
+  const getOwnerStakes = useGetOwnerStakes()
+  const [ownerStakes, setOwnerStakes] = useState<number>(0)
 
+  const stakeAfterIncreased = parseInt(value.toString()) + ownerStakes
+  const STFIBalanceAfterStack = STFIBalance - value
   const depositStake = useDeposit()
 
   const handelCheckBoxChanges = e => {
@@ -51,17 +56,12 @@ const StakeToken = () => {
   const closeSuccess = () => {
     setSuccessModal(false)
     setCancelState(false)
+    setOwnerStakes(stakeAfterIncreased)
   }
 
-  useEffect(() => {
-    const getReserve = async () => {
-      if (owner) {
-        const stakes = await getReserves(owner)
-        setOwnerStakes(parseInt(stakes, 16))
-      }
-    }
-    getReserve()
-  }, [owner, successModal])
+useEffect(()=>{
+  setOwnerStakes(getOwnerStakes)
+},[getOwnerStakes])
 
   const next = () => {
     switch (step) {
@@ -99,84 +99,94 @@ const StakeToken = () => {
   }
 
   return (
-    <Card height={cancelState ? '600px' : '221px'} border='1px solid #F4F4F4' borderRadius='6px' marginTop='20px'>
-      <StakeTokenCard
-        isOpen={openModal}
-        close={closeCard}
-        loader={loader}
-        buttonText={buttonText}
-        next={next}
-        increasedStake={value}
-      ></StakeTokenCard>
+    <React.Fragment>
+      <Card height={cancelState ? '600px' : '221px'} border='1px solid #F4F4F4' borderRadius='6px' marginTop='20px'>
+        <StakeTokenCard
+          isOpen={openModal}
+          close={closeCard}
+          loader={loader}
+          buttonText={buttonText}
+          next={next}
+          increasedStake={value}
+          stakeAfterIncreased={stakeAfterIncreased}
+          stfiBalanceAfterStack={STFIBalanceAfterStack}
+        ></StakeTokenCard>
 
-      <StakeTokenSuccess isOpen={successModal} close={closeSuccess}></StakeTokenSuccess>
-      <Card
-        margin='0px 30px 0px 43px'
-        height={cancelState ? '431px' : '96px'}
-        background='#FBFBFB'
-        borderRadius='6px'
-        alignItems='start'
-        flexDirection='column'
-      >
-        <BalanceContainer>
-          <div>
-            <Text fontFamily='Roboto' fontSize='1rem' color='#444444' margin='0 178px 3px 30px'>
-              {t('Balance')}
-            </Text>
-            <Text>{ownerStakes}</Text>
-          </div>
-          <DelistButton
-            backgroundColor='transparent'
-            padding='15px'
-            textDecoration='underline'
-            fontSize='1rem'
-            color={cancelState ? '#747474' : '#000000'}
-            margin='0 30px 0 0'
-            onClick={() =>
-              owner ? setCancelState(!cancelState) : popup({ success: false, message: 'You Are Not Connected' })
-            }
-          >
-            {cancelState ? t('cancel') : t('IncreaseStakes')}
-          </DelistButton>
-        </BalanceContainer>
+        <StakeTokenSuccess isOpen={successModal} close={closeSuccess}></StakeTokenSuccess>
 
-        {cancelState ? (
-          <React.Fragment>
-            <BalanceContainer>
-              <div>
-                <Text fontFamily='Roboto' fontSize='1rem' color='#444444' margin='0 178px 3px 30px'>
-                  {t('enterAmount')}
-                </Text>
-                <InputContainer>
-                  <STFI>STFI</STFI>
-                  <Input type='number' value={value} onChange={(e: any) => setValue(e.target.value)} />
-                  <USD>
-                    <USDPrice type='number' value={usd} onChange={() => {}} />
-                    <USDWord>USD</USDWord>
-                  </USD>
-                </InputContainer>
-              </div>
-            </BalanceContainer>
-            <StokeTokenFooter left={disabled ? '15px' : '26px'}>
-              <CheckContainer>
-                <input type='checkbox' onChange={handelCheckBoxChanges} />
-                <Text fontFamily='Roboto' fontSize='0.875rem' FontWeight='500' color='#525252' margin='0 10px 0 0'>
-                  {t('confirmIncStakeToken')}
-                </Text>
-                <ButtonMint
-                  onClick={() =>
-                    getAllowance ? setOpenModal(true) : popup({ success: false, message: 'Staking not Allowed' })
-                  }
-                  disabled={disabled}
-                >
-                  {disabled ? t('increaseBalance') : t('confirmIncreasing')}
-                </ButtonMint>
-              </CheckContainer>
-            </StokeTokenFooter>
-          </React.Fragment>
-        ) : null}
+        <Card
+          margin='0px 30px 0px 43px'
+          height={cancelState ? '431px' : '96px'}
+          background='#FBFBFB'
+          borderRadius='6px'
+          alignItems='start'
+          flexDirection='column'
+        >
+          <Text fontFamily='Roboto' FontWeight='500' fontSize='1rem' color='#000000' margin='-30px 0 3px 8px'>
+            Stake Tokens
+          </Text>
+          <BalanceContainer>
+            <div>
+              <Text fontFamily='Roboto' fontSize='1rem' color='#444444' margin='0 178px 3px 30px'>
+                {t('Balance')}
+              </Text>
+              <Text FontWeight='500'>
+                {ownerStakes} {t('stake')}
+              </Text>
+            </div>
+            <DelistButton
+              backgroundColor='transparent'
+              padding='15px'
+              textDecoration='underline'
+              fontSize='1rem'
+              color={cancelState ? '#747474' : '#000000'}
+              margin='0 30px 0 0'
+              onClick={() =>
+                owner ? setCancelState(!cancelState) : popup({ success: false, message: 'You Are Not Connected' })
+              }
+            >
+              {cancelState ? t('cancel') : t('IncreaseStakes')}
+            </DelistButton>
+          </BalanceContainer>
+
+          {cancelState ? (
+            <React.Fragment>
+              <BalanceContainer>
+                <div>
+                  <Text fontFamily='Roboto' fontSize='1rem' color='#444444' margin='0 178px 3px 30px'>
+                    {t('enterAmount')}
+                  </Text>
+                  <InputContainer>
+                    <STFI>STFI</STFI>
+                    <Input type='number' value={value} onChange={(e: any) => setValue(e.target.value)} />
+                    <USD>
+                      <USDPrice type='number' value={usd} onChange={() => {}} />
+                      <USDWord>USD</USDWord>
+                    </USD>
+                  </InputContainer>
+                </div>
+              </BalanceContainer>
+              <StokeTokenFooter left={disabled ? '15px' : '26px'}>
+                <CheckContainer>
+                  <input type='checkbox' onChange={handelCheckBoxChanges} />
+                  <Text fontFamily='Roboto' fontSize='0.875rem' FontWeight='500' color='#525252' margin='0 10px 0 0'>
+                    {t('confirmIncStakeToken')}
+                  </Text>
+                  <ButtonMint
+                    onClick={() =>
+                      getAllowance ? setOpenModal(true) : popup({ success: false, message: 'Staking not Allowed' })
+                    }
+                    disabled={disabled}
+                  >
+                    {disabled ? t('increaseBalance') : t('confirmIncreasing')}
+                  </ButtonMint>
+                </CheckContainer>
+              </StokeTokenFooter>
+            </React.Fragment>
+          ) : null}
+        </Card>
       </Card>
-    </Card>
+    </React.Fragment>
   )
 }
 

@@ -24,7 +24,7 @@ interface ContainerProps {
   export const TextContainer =styled.div`
   display:flex;
   & p{
-      width:60%
+      /* width:60% */
   }
   `
 

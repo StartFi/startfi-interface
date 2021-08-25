@@ -39,8 +39,7 @@ import { AuctionNFT } from 'services/models/AuctionNFT'
 import { useHistory } from 'react-router-dom'
 import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
 import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/StartfiStakes.json'
-import { useGetAllowance } from 'hooks/startfiToken'
-
+import { useGetAllowance, useTokenBalance } from 'hooks/startfiToken'
 
 function serializeToken(token: Token): SerializedToken {
   return {
@@ -407,23 +406,21 @@ export const useGetUserNFTs = () => {
   )
 }
 
-// export const useGetOwnerStakes = () => {
-//   const [ownerStakes, setOwnerStakes] = useState<number>(0)
-//   const owner = useUserAddress()
-//   const getReserves = useGetReserves()
+export const useGetOwnerStakes = () => {
+  const [ownerStakes, setOwnerStakes] = useState<number>(0)
+  const owner = useUserAddress()
+  const getReserves = useGetReserves()
 
-//   useEffect(() => {
-//     const getReserve = async () => {
-//       if (owner) {
-//         const stakes = await getReserves(owner)
-//         setOwnerStakes(parseInt(stakes, 16))
-//       }
-//     }
-//     getReserve()
-//   }, [owner])
+  useEffect(() => {
+    if (owner) {
+      getReserves(owner).then(stakes => setOwnerStakes(parseInt(stakes, 16)))
+    }
 
-//   return ownerStakes
-// }
+    return () => {}
+  }, [owner, getReserves])
+
+  return ownerStakes
+}
 
 export const useGetStakeAllowance = () => {
   const owner = useUserAddress()
@@ -439,7 +436,8 @@ export const useGetStakeAllowance = () => {
       }
     }
     getAllow()
-  },[owner, STARTFI_STAKES_ADDRESSS])
+    return () => {}
+  }, [owner, STARTFI_STAKES_ADDRESSS])
 
   return allowStaking
 }

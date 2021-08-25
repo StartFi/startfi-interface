@@ -16,10 +16,12 @@ interface StokeTokenCardProps {
   loader?: boolean
   next?: () => void
   buttonText: string
-  increasedStake:number
+  increasedStake?:number
+  stakeAfterIncreased?:number
+  stfiBalanceAfterStack?:number
 }
 
-const StakeTokenCard: React.FC<StokeTokenCardProps> = ({ isOpen, close, loader, next, buttonText,  increasedStake}) => {
+const StakeTokenCard: React.FC<StokeTokenCardProps> = ({ isOpen, close, loader, next, buttonText, increasedStake, stakeAfterIncreased,stfiBalanceAfterStack}) => {
   const { t } = useTranslation()
   if (!isOpen) return null
   return (
@@ -29,24 +31,24 @@ const StakeTokenCard: React.FC<StokeTokenCardProps> = ({ isOpen, close, loader, 
         <Container minHeight='80vh' width='30vw'>
           <Bold>{t('allowTransAction')}</Bold>
           <TextContainer>
-            <Text fontFamily='Roboto' fontSize='1rem' FontWeight='400' color='#000000' margin='0 10px 0 0'>
+            <Text fontFamily='Roboto' fontSize='1rem' FontWeight='400' color='#000000' >
               {t('increasedStake')}
             </Text>
-            <Amount amount={increasedStake} />
+            <Amount amount={increasedStake} margin="15px 0px 0px 30px"/>
           </TextContainer>
           <Divider left='-6.7%' width='113%' backgroundColor='#D1D1D1'></Divider>
           <TextContainer>
-            <Text fontFamily='Roboto' fontSize='1rem' FontWeight='400' color='#000000' margin='0 10px 0 0'>
+            <Text fontFamily='Roboto' fontSize='1rem' FontWeight='400' color='#000000' >
               {t('currentStakeAfterInc')}
             </Text>
-            <Amount amount={232} />
+            <Amount amount={stakeAfterIncreased} margin="10px 0px 0px 10px"/>
           </TextContainer>
           <Divider left='-6.7%' width='113%' backgroundColor='#D1D1D1'></Divider>
           <TextContainer>
-            <Text fontFamily='Roboto' fontSize='1rem' FontWeight='400' color='#000000' margin='0 0px 0 0'>
+            <Text fontFamily='Roboto' fontSize='1rem' FontWeight='400' color='#000000' >
               {t('stfiBalanceAfterInc')}
             </Text>
-            <Amount amount={258} />
+            <Amount amount={stfiBalanceAfterStack} margin="10px 0px 0px 10px"/>
           </TextContainer>
           <Divider left='-6.7%' width='113%' backgroundColor='#D1D1D1'></Divider>
           <Text fontFamily='Roboto' fontSize='1rem' FontWeight='400' color='#000000' margin='0 5px 0 0'>
