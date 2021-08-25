@@ -28,18 +28,6 @@ const NFTSummary: React.FC = () => {
 
   const history = useHistory()
 
-  console.log(
-    ![
-      STEP.NFT_SUMMARY,
-      STEP.ALLOW_TRANSFER,
-      STEP.ADD_NFT,
-      STEP.NFT_SUMMARY,
-      STEP.ALLOW_MONETIZING,
-      STEP.ALLOW_MONETIZING,
-      STEP.ADD_AUCTION
-    ].includes(step)
-  )
-
   if (
     ![
       STEP.NFT_SUMMARY,
