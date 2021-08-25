@@ -36,7 +36,8 @@ const NFTSummary: React.FC = () => {
       STEP.NFT_SUMMARY,
       STEP.ALLOW_MONETIZING,
       STEP.ALLOW_MONETIZING,
-      STEP.ADD_AUCTION
+      STEP.ADD_AUCTION,
+      STEP.CHOOSE_TYPE
     ].includes(step)
   ) {
     history.push('/')

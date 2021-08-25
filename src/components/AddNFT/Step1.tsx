@@ -62,6 +62,7 @@ const Step1: React.FC = () => {
           if (e.target.files[0] === null) {
             setFilename('')
             handleChange('', 'dataHash')
+            handleChange('', 'filename')
             setProgress(0)
           } else {
             setFilename(e.target.files[0].name)
