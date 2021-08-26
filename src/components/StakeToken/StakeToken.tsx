@@ -10,7 +10,6 @@ import { ButtonMint } from 'components/Button'
 
 import { useApproveToken } from 'hooks/startfiToken'
 import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/StartfiStakes.json'
-
 import { usePopup } from 'state/application/hooks'
 import StakeTokenCard from 'components/stakeTokenCard/StakeTokenCard'
 import StakeTokenSuccess from './StakeTokenSuccess'
@@ -68,20 +67,26 @@ useEffect(()=>{
       case 1:
         setLoader(true)
         if (owner) {
-          approveToken(STARTFI_STAKES_ADDRESSS, value)
+          if(getAllowance){
+            approveToken(STARTFI_STAKES_ADDRESSS, value)
             .then(res => {
+
               if (res.code === 4001) {
                 throw new Error('Error occurred')
               }
-              setLoader(false)
-              setButtonText('Increase Stake Balance')
-              setStep(2)
+
             })
             .catch(e => {
               setLoader(false)
               setCancelState(false)
               setOpenModal(false)
             })
+          }else{
+            setLoader(false)
+            setButtonText('Increase Stake Balance')
+            setStep(2)
+          }
+
         }
 
         break
@@ -89,9 +94,16 @@ useEffect(()=>{
         setLoader(true)
         if (owner) {
           depositStake(owner, value).then(res => {
+            if (res.code === 4001) {
+              throw new Error('Error occurred')
+            }
             setOpenModal(false)
             setSuccessModal(true)
             setLoader(false)
+          }).catch(e => {
+            setLoader(false)
+            setCancelState(false)
+            setOpenModal(false)
           })
         }
         break
@@ -174,7 +186,7 @@ useEffect(()=>{
                   </Text>
                   <ButtonMint
                     onClick={() =>
-                      getAllowance ? setOpenModal(true) : popup({ success: false, message: 'Staking not Allowed' })
+                      setOpenModal(true)
                     }
                     disabled={disabled}
                   >

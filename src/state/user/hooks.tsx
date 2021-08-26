@@ -430,6 +430,7 @@ export const useGetStakeAllowance = () => {
     const getAllow = async () => {
       if (owner) {
         const allowed = await getAllowance(owner, STARTFI_STAKES_ADDRESSS)
+      
         if (allowed === '0x00') {
           setAllowStaking(true)
         }

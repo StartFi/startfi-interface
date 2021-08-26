@@ -21,7 +21,7 @@ interface StokeTokenCardProps {
   stfiBalanceAfterStack?:number
 }
 
-const StakeTokenCard: React.FC<StokeTokenCardProps> = ({ isOpen, close, loader, next, buttonText, increasedStake, stakeAfterIncreased,stfiBalanceAfterStack}) => {
+const StakeTokenCard: React.FC<StokeTokenCardProps> = React.memo(({ isOpen, close, loader, next, buttonText, increasedStake, stakeAfterIncreased,stfiBalanceAfterStack}) => {
   const { t } = useTranslation()
   if (!isOpen) return null
   return (
@@ -73,6 +73,6 @@ const StakeTokenCard: React.FC<StokeTokenCardProps> = ({ isOpen, close, loader, 
       </PaymentModal>
     </React.Fragment>
   )
-}
+})
 
 export default StakeTokenCard
