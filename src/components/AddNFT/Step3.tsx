@@ -25,7 +25,14 @@ const Step3: React.FC = () => {
         </div>
 
         <div>
-          <input type="radio" checked={!royalty} onChange={() => setRoyalty(false)} />
+          <input
+            type="radio"
+            checked={!royalty}
+            onChange={() => {
+              handleChange(0, 'royalty')
+              setRoyalty(false)
+            }}
+          />
           <RadioLabel>{t('notAllowed')}</RadioLabel>
         </div>
       </Radios>

@@ -1,6 +1,6 @@
 import { STFI_IN_WEI, WEI } from './../constants'
 import { useEffect, useState } from 'react'
-import { useEthPrice } from 'services/Blockchain/cryptoPrice'
+import { useStfiUsdPrice } from 'services/Blockchain/cryptoPrice'
 
 /**
  * @dev this function call the hook to get the token price in usd ( 1 SFTI =?? usd)
@@ -9,9 +9,9 @@ import { useEthPrice } from 'services/Blockchain/cryptoPrice'
  */
 export const useSTFItoUSD = (amount: number): number => {
   const [USD, setUSD] = useState<number>(amount)
-  const ethPrice = useEthPrice()
+  const stfiUsdPrice = useStfiUsdPrice()
   useEffect(() => {
-    ethPrice().then(value => setUSD(Math.round(amount * (value / WEI) * STFI_IN_WEI)))
-  }, [amount, ethPrice, setUSD])
+    stfiUsdPrice().then(value => setUSD(value*amount ))
+  }, [amount, stfiUsdPrice, setUSD])
   return USD
 }

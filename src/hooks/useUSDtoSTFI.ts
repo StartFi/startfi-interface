@@ -1,6 +1,6 @@
 import { STFI_IN_WEI, WEI } from './../constants'
 import { useCallback } from 'react'
-import { useUSDPrice } from 'services/Blockchain/cryptoPrice'
+import { useStfiUsdPrice } from 'services/Blockchain/cryptoPrice'
 
 /**
  * @dev this function call the hook to get the token price ( 1 USD =?? SFT)
@@ -8,10 +8,10 @@ import { useUSDPrice } from 'services/Blockchain/cryptoPrice'
  * @param amount
  */
 export const useUSDtoSTFI = (): ((amount: number) => Promise<number>) => {
-  const usdPrice = useUSDPrice()
+  const usdPrice = useStfiUsdPrice()
   return useCallback(
     (amount: number): Promise<number> => {
-      return usdPrice().then(value => Math.round((value * amount * WEI) / STFI_IN_WEI))
+      return usdPrice().then(value =>amount/value)
     },
     [usdPrice]
   )

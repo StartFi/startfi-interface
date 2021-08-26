@@ -332,8 +332,8 @@ export const useAddNFT = () => {
       if (name === 'royalty' && value > 100) return
       if (value) {
         dispatch(removeMissing({ name }))
-        dispatch(setNFT({ value, name }))
       }
+      dispatch(setNFT({ value, name }))
     },
     [dispatch]
   )
@@ -403,8 +403,8 @@ export const useAddAuction = () => {
     (value: any, name: string) => {
       if (value || value === false) {
         dispatch(removeMissing({ name }))
-        dispatch(setAuction({ value, name }))
       }
+      dispatch(setAuction({ value, name }))
     },
     [dispatch]
   )
