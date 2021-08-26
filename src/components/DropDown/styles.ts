@@ -12,13 +12,13 @@ export const Container = styled.div<WidthProps>`
   position: relative;
   height:5vh;
   margin-right:${props => props.marginRight};;
-  z-index: 9999;
+  /* z-index: 9999; */
 
 
 `
 
 
-export const LabelRow = styled(Row)<{ border?: string,LabelWidth?:string }>`
+export const LabelRow = styled(Row)<{ border?: string,LabelWidth?:string,boxShadow?:string }>`
   min-height: 6vh;
   /* height:6vh; */
   width:${({LabelWidth }) =>LabelWidth};
@@ -26,8 +26,10 @@ export const LabelRow = styled(Row)<{ border?: string,LabelWidth?:string }>`
   border: ${({ border }) => border};
   box-sizing: border-box;
   border-radius: 8px;
+  box-shadow: ${({boxShadow }) =>boxShadow};
   padding: 2vh 2vw;
   cursor: pointer;
+
   & img {
     position: relative;
     left:1px;
@@ -47,6 +49,8 @@ export const Items = styled.div<WidthProps>`
   border: 1px solid #dddddd;
   border-radius: 8px;
   position: absolute;
+  /* position: relative; */
+  z-index: 9999;
   width: ${props => props.width};
   width: ${props => props.itemsWidth};
   background-color: white;

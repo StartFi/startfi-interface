@@ -42,7 +42,7 @@ const NFTs: React.FC = () => {
       </div>
     )
 
-    console.log("market place length  " + onMarket.length);
+
     if(onMarket.length==0){
       return <div>
         <h3>No Result Found</h3>
@@ -57,11 +57,13 @@ const NFTs: React.FC = () => {
         </Results>
         <DropDownContainer>
 
-          <DropDownSort
+           <DropDownSort
             itemsWidth='12vw'
             LabelWidth="11.8vw"
             marginRight="40px"
             showLabel={true}
+            boxShadow="0 2px 8px 0 rgba(0, 0, 0, 0.14)"
+            border="none"
             name='network'
             selectIcon={true}
             options={NetWorks}
@@ -74,6 +76,8 @@ const NFTs: React.FC = () => {
             itemsWidth='12vw'
             LabelWidth="11.8vw"
             marginRight="40px"
+            boxShadow="0 2px 8px 0 rgba(0, 0, 0, 0.14)"
+            border="none"
             showLabel={true}
             name='sort'
             selectIcon={true}
