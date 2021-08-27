@@ -207,11 +207,11 @@ export const useAddToMarketplace = (): (() => void) => {
       createAuction(
         auction.contractAddress,
         nft.id,
-        auction.minBid as number,
+        auction.listingPrice as number,
         auction.qualifyAmount as number,
         auction.isForBid,
-        auction.listingPrice as number,
-        auction.expireTimestamp
+        auction.minBid as number,
+        auction.expireTimestamp // @AH @SY @AA time stamp should be by default more than 12 hour not zero
       )
       setWalletConfirmation('asset monetization')
     } else if (!seller || !chainId) popup({ success: false, message: 'connectWallet' })
@@ -416,7 +416,7 @@ export const useAddAuction = () => {
     switch (step) {
       //CHOOSE TYPE
       case STEP.CHOOSE_TYPE:
-        if (isForSale || isForBid) setStep(STEP.AUCTION_DETAILS) 
+        if (isForSale || isForBid) setStep(STEP.AUCTION_DETAILS)
         break
       //AUCTION DETAILS
       case STEP.AUCTION_DETAILS:
