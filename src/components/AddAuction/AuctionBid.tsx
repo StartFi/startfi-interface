@@ -11,7 +11,7 @@ const AuctionBid: React.FC = () => {
       <InputSTFI
         name="minBid"
         label="minBid"
-        value={auction.minBid || 0}
+        value={auction.minBid || 1}
         onChange={handleChange}
         error={missing.includes('minBid')}
       />
@@ -20,7 +20,7 @@ const AuctionBid: React.FC = () => {
         question="qualifyAmountDesc"
         name="qualifyAmount"
         label="qualifyAmount"
-        value={auction.qualifyAmount || 0}
+        value={auction.qualifyAmount || 2}
         onChange={handleChange}
         error={missing.includes('qualifyAmount')}
       />

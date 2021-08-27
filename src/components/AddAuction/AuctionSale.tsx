@@ -17,7 +17,7 @@ const AuctionSale: React.FC = () => {
       <InputSTFI
         name="listingPrice"
         label="NFTprice"
-        value={auction.listingPrice || 0}
+        value={auction.listingPrice || 1}
         onChange={handleChange}
         error={missing.includes('listingPrice')}
       />

@@ -70,6 +70,10 @@ export const useCreateAuction = (): ((
         toggleWalletModal()
         return `account: ${account} is not connected`
       }
+      if (!qualifyAmount || qualifyAmount == 0) {
+        qualifyAmount = 10
+      }
+
       try {
         console.log(
           nftContract,

@@ -61,16 +61,3 @@ const MintNFT: React.FC = () => {
 
 export default MintNFT
 
-// (step > 1 && step < 4 ? setStep(step - 1) : null)
-// const draft: NFT = useDraft(parseInt(id))
-// const offMarketNft: NFT = useOffMarketItem(id)
-// useEffect(() => {
-//   if (draft) {
-//     setNFT(draft)
-//     setStep(2)
-//   }
-//   if (offMarketNft) {
-//     setNFT(offMarketNft)
-//     setStep(7)
-//   }
-// }, [draft, offMarketNft])

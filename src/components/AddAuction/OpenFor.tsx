@@ -11,7 +11,7 @@ const OpenFor: React.FC = () => {
   const { handleChange, missing } = useAddAuction()
 
   const [expire, setExpire] = useState({
-    openFor: 0,
+    openFor: 1,
     type: 'Day'
   })
 

@@ -8,6 +8,7 @@ import ChooseType from './ChooseType'
 import { Auction } from 'services/models/Auction'
 import { useAddAuction, useStep } from 'state/marketplace/hooks'
 import { STEP } from 'state/marketplace/types'
+import { useHistory } from 'react-router-dom'
 
 const title = (step: STEP, auction: Auction): string => {
   if (step === STEP.CHOOSE_TYPE) return 'howToMonetize'
@@ -19,12 +20,14 @@ const title = (step: STEP, auction: Auction): string => {
 
 const AddAuction: React.FC = () => {
   const { t } = useTranslation()
+  const history = useHistory()
 
   const step = useStep()
 
   const { auction, handleChange, missing } = useAddAuction()
-
+  
   const component = (step: number, auction: Auction) => {
+    
     if (step === STEP.CHOOSE_TYPE) return <ChooseType />
     if (auction.isForBid && auction.isForSale)
       return (
@@ -32,7 +35,7 @@ const AddAuction: React.FC = () => {
           <InputSTFI
             name="listingPrice"
             label="sellingPrice"
-            value={auction.listingPrice || 0}
+            value={auction.listingPrice || 1}
             onChange={handleChange}
             error={missing.includes('listingPrice')}
           />
@@ -41,7 +44,7 @@ const AddAuction: React.FC = () => {
       )
     if (auction.isForSale) return <AuctionSale />
     if (auction.isForBid) return <AuctionBid />
-    return null
+    return history.push('/marketplace')
   }
 
   return (
