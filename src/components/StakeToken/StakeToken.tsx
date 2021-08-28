@@ -70,7 +70,6 @@ useEffect(()=>{
           if(getAllowance){
             approveToken(STARTFI_STAKES_ADDRESSS, value)
             .then(res => {
-
               if (res.code === 4001) {
                 throw new Error('Error occurred')
               }

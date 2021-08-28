@@ -26,6 +26,10 @@ export const STFI_IN_WEI = 5
 
 export const WEI = 8000
 
+export const ETH_USD_PRICE_URL="https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd"
+export const ETH_DAI_PRICE_URL="https://api.coingecko.com/api/v3/simple/price?ids=dai&vs_currencies=eth"
+export const STFI_USD_PRICE_URL="https://api.coingecko.com/api/v3/simple/price?ids=startfi&vs_currencies=usd"
+
 export interface StepProps {
   state: Dictionary
   handleChange: (value: any, name: string) => void

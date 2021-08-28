@@ -1,12 +1,11 @@
 import React, { useCallback } from 'react'
+import { ETH_USD_PRICE_URL, ETH_DAI_PRICE_URL, STFI_USD_PRICE_URL } from '../../constants'
 const ethers = require('ethers')
-
 
 export const useEthPrice = (): (() => Promise<number>) => {
   return useCallback(async () => {
     try {
-      const apiUrl = `https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd`
-      const result = await fetch(apiUrl)
+      const result = await fetch(ETH_USD_PRICE_URL)
       const value = await result.json()
 
       return value.ethereum.usd
@@ -19,8 +18,7 @@ export const useEthPrice = (): (() => Promise<number>) => {
 export const useUSDPrice = (): (() => Promise<number>) => {
   return useCallback(async () => {
     try {
-      const apiUrl = `https://api.coingecko.com/api/v3/simple/price?ids=dai&vs_currencies=eth`
-      const result = await fetch(apiUrl)
+      const result = await fetch(ETH_DAI_PRICE_URL)
       const value = await result.json()
 
       return value.dai.eth
@@ -44,23 +42,14 @@ export const convertToWie = (amount: number | string) => (value: number | string
 }
 
 export const useStfiUsdPrice = (): (() => Promise<number>) => {
-  return useCallback(
-    async (
+  return useCallback(async () => {
+    try {
+      const result = await fetch(STFI_USD_PRICE_URL)
+      const value = await result.json()
 
-    ) => {
-      try {
-        const apiUrl = `https://api.coingecko.com/api/v3/simple/price?ids=startfi&vs_currencies=usd`;
-     const result = await fetch(apiUrl)
-     const value= await result.json();
-   
-     
-          return  value.startfi.usd;
-       
-      } catch (e) {
-        console.log(e)
-      }
-    },
-    []
-  )
+      return value.startfi.usd
+    } catch (e) {
+      console.log(e)
+    }
+  }, [])
 }
-
