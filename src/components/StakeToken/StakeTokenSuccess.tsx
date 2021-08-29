@@ -31,7 +31,7 @@ const StakeTokenSuccess: React.FC<CardProps> = ({ isOpen, close }) => {
             {t('stakeTokenSuccess')}
           </Text>
 
-          <ButtonPaymentBlack width='95%' height='8vh'>
+          <ButtonPaymentBlack width='95%' height='8vh' onClick={close} >
           {t('checkStakeBalance')}
           </ButtonPaymentBlack>
         </StakeTokenSuccessCard>

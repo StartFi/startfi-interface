@@ -1,7 +1,7 @@
 // NOTICE: Kindly keep the old sdk unite we remove the code dependant on it in this file
 import { Pair, Token } from '@uniswap/sdk'
 import { PopupContent } from './../../constants'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { NFT } from 'services/models/NFT'
 import { User } from 'services/models/User'
@@ -37,6 +37,9 @@ import { Auction } from 'services/models/Auction'
 import { useMarketplace, useNFT, useStep } from 'state/marketplace/hooks'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { useHistory } from 'react-router-dom'
+import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
+import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/StartfiStakes.json'
+import { useGetAllowance, useTokenBalance } from 'hooks/startfiToken'
 
 function serializeToken(token: Token): SerializedToken {
   return {
@@ -401,4 +404,41 @@ export const useGetUserNFTs = () => {
         : popup({ success: false, message: 'connectWallet' }),
     [owner, chainId, popup, dispatch]
   )
+}
+
+export const useGetOwnerStakes = () => {
+  const [ownerStakes, setOwnerStakes] = useState<number>(0)
+  const owner = useUserAddress()
+  const getReserves = useGetReserves()
+
+  useEffect(() => {
+    if (owner) {
+      getReserves(owner).then(stakes => setOwnerStakes(parseInt(stakes, 16)))
+    }
+
+    return () => {}
+  }, [owner, getReserves])
+
+  return ownerStakes
+}
+
+export const useGetStakeAllowance = () => {
+  const owner = useUserAddress()
+  const getAllowance = useGetAllowance()
+  const [allowStaking, setAllowStaking] = useState<boolean>(false)
+  useEffect(() => {
+    const getAllow = async () => {
+      if (owner) {
+        const allowed = await getAllowance(owner, STARTFI_STAKES_ADDRESSS)
+      
+        if (allowed === '0x00') {
+          setAllowStaking(true)
+        }
+      }
+    }
+    getAllow()
+    return () => {}
+  }, [owner, STARTFI_STAKES_ADDRESSS])
+
+  return allowStaking
 }

@@ -1,5 +1,5 @@
 import { Shadow } from 'components/BidOrBuy/styles'
-import {  Bold, ButtonTransparentBorder, MarginLeft } from 'components/NFTConfirm/styles'
+import { Bold, ButtonTransparentBorder, MarginLeft } from 'components/NFTConfirm/styles'
 import Amount from 'components/NFTSummary/Amount'
 import { ButtonPaymentBlack, PaymentModal } from 'components/NFTSummary/styles'
 import Text from '../Text'
@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { Divider } from 'components/InMarketAsset/InMarket.styles'
 import Loading from './../../assets/icons/buttonloader.svg'
 import { LoadingIcon } from 'components/WaitingConfirmation/styles'
-import { Container, TextContainer } from './StakeTokenCard.styles'
+import { Container, TextContainer, ButtonContainer } from './StakeTokenCard.styles'
 
 interface StokeTokenCardProps {
   isOpen: boolean
@@ -16,58 +16,63 @@ interface StokeTokenCardProps {
   loader?: boolean
   next?: () => void
   buttonText: string
+  increasedStake?:number
+  stakeAfterIncreased?:number
+  stfiBalanceAfterStack?:number
 }
 
-const StakeTokenCard: React.FC<StokeTokenCardProps> = ({ isOpen, close, loader, next, buttonText }) => {
+const StakeTokenCard: React.FC<StokeTokenCardProps> = React.memo(({ isOpen, close, loader, next, buttonText, increasedStake, stakeAfterIncreased,stfiBalanceAfterStack}) => {
   const { t } = useTranslation()
   if (!isOpen) return null
   return (
     <React.Fragment>
       <Shadow onClick={close} />
       <PaymentModal>
-        <Container minHeight='70vh'>
+        <Container minHeight='80vh' width='30vw'>
           <Bold>{t('allowTransAction')}</Bold>
           <TextContainer>
-            <Text fontFamily='Roboto' fontSize='1rem' FontWeight='400' color='#000000' margin='0 10px 0 0'>
+            <Text fontFamily='Roboto' fontSize='1rem' FontWeight='400' color='#000000' >
               {t('increasedStake')}
             </Text>
-            <Amount amount={201} />
+            <Amount amount={increasedStake} margin="15px 0px 0px 30px"/>
           </TextContainer>
           <Divider left='-6.7%' width='113%' backgroundColor='#D1D1D1'></Divider>
           <TextContainer>
-            <Text fontFamily='Roboto' fontSize='1rem' FontWeight='400' color='#000000' margin='0 10px 0 0'>
+            <Text fontFamily='Roboto' fontSize='1rem' FontWeight='400' color='#000000' >
               {t('currentStakeAfterInc')}
             </Text>
-            <Amount amount={232} />
+            <Amount amount={stakeAfterIncreased} margin="10px 0px 0px 10px"/>
           </TextContainer>
           <Divider left='-6.7%' width='113%' backgroundColor='#D1D1D1'></Divider>
           <TextContainer>
-            <Text fontFamily='Roboto' fontSize='1rem' FontWeight='400' color='#000000' margin='0 0px 0 0'>
+            <Text fontFamily='Roboto' fontSize='1rem' FontWeight='400' color='#000000' >
               {t('stfiBalanceAfterInc')}
             </Text>
-            <Amount amount={258} />
+            <Amount amount={stfiBalanceAfterStack} margin="10px 0px 0px 10px"/>
           </TextContainer>
           <Divider left='-6.7%' width='113%' backgroundColor='#D1D1D1'></Divider>
           <Text fontFamily='Roboto' fontSize='1rem' FontWeight='400' color='#000000' margin='0 5px 0 0'>
             {t('allowMetaMaskConnectionToIncreaseStake')}
           </Text>
 
-          <ButtonPaymentBlack onClick={next} width='30vw' height='8vh'>
-            {t(buttonText)}
-            {loader && (
-              <MarginLeft>
-                <LoadingIcon src={Loading} alt='Loading' />
-              </MarginLeft>
-            )}
-          </ButtonPaymentBlack>
+          <ButtonContainer>
+            <ButtonPaymentBlack onClick={next} width='30vw' height='8vh'>
+              {t(buttonText)}
+              {loader && (
+                <MarginLeft>
+                  <LoadingIcon src={Loading} alt='Loading' />
+                </MarginLeft>
+              )}
+            </ButtonPaymentBlack>
 
-          <ButtonTransparentBorder width='30vw' height='8vh'>
-            {t('cancel')}
-          </ButtonTransparentBorder>
+            <ButtonTransparentBorder width='30vw' height='8vh' onClick={close}>
+              {t('cancel')}
+            </ButtonTransparentBorder>
+          </ButtonContainer>
         </Container>
       </PaymentModal>
     </React.Fragment>
   )
-}
+})
 
 export default StakeTokenCard

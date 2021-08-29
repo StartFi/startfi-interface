@@ -17,14 +17,19 @@ interface ContainerProps {
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;
+    /* align-items:center; */
 
   `
 
   export const TextContainer =styled.div`
   display:flex;
   & p{
-      width:60%
+      /* width:60% */
   }
+  `
+
+  export const ButtonContainer=styled.div`
+  margin:0px auto;
   `
 
 

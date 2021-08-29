@@ -330,7 +330,8 @@
   "noBidding":"No Bidding Yet",
   "DetailsCreatedBySeller":"Details created by the seller",
   "PercentageResellingTransaction":"Percentage on each reselling transaction",
-  "seller":"Seller"
+  "seller":"Seller",
+  "stake":"Stake"
 
 
 

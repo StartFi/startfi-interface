@@ -5,13 +5,14 @@ import React from 'react'
 interface AmountProps {
   amount: any
   error?: boolean
+  margin?:string
 }
 
-const Amount: React.FC<AmountProps> = ({ amount, error }) => {
+const Amount: React.FC<AmountProps> = ({ amount, error,margin }) => {
   const usd = useSTFItoUSD(amount)
 
   return (
-    <Bold error={error}>
+    <Bold error={error} margin={margin}>
       {amount} STFI ~ {usd} USD
     </Bold>
   )
