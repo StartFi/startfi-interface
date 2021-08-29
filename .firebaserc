@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "startfi"
+    "default": "startfi-platform",
+    "dev-project": "startfi-platform"
   }
 }
