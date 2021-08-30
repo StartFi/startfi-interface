@@ -85,12 +85,15 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
   const auctionNFT = useAuctionNFT()
   const dispatch = useDispatch()
   useEffect(() => {
-    if (listOnMarketplaceEvent) {
+    if (listOnMarketplaceEvent && seller && chainId) {
       library?.on(listOnMarketplaceEvent as EventFilter, result => {
         const eventLogs = marketplaceContract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
         const eventValue = parseBigNumber(args)
         dispatch(addNewEvent({ eventName: 'ListOnMarketplace', eventValue }))
+        dispatch(
+          addToMarketplaceAction({ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId })
+        )
       })
     }
     return () => {

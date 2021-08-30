@@ -208,14 +208,14 @@ export const useAddToMarketplace = (): (() => void) => {
       console.log(nft)
       console.log(auction)
       if (auction.isForSale && !auction.isForBid)
-        listOnMarketplace(auction.contractAddress, auction.listingPrice as number, nft.id)
+        listOnMarketplace(auction.contractAddress, nft.id, auction.listingPrice as number)
       else
         createAuction(
           auction.contractAddress,
           nft.id,
           auction.minBid as number,
           auction.qualifyAmount as number,
-          auction.isForBid,
+          auction.isForSale,
           auction.listingPrice as number,
           auction.expireTimestamp
         )
@@ -428,7 +428,7 @@ export const useAddAuction = () => {
       case STEP.AUCTION_DETAILS:
         if (
           (isForSale && listingPrice && listingPrice > 0) ||
-          (isForBid && minBid && minBid > 0 && qualifyAmount && qualifyAmount > 0 && expireTimestamp > 0)
+          (isForBid && minBid && minBid > 0 && qualifyAmount && qualifyAmount > 10 && expireTimestamp > 0)
         ) {
           setStep(STEP.AUCTION_SUMMARY)
           history.push('/mint/summary')
