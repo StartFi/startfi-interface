@@ -407,38 +407,44 @@ export const useGetUserNFTs = () => {
 }
 
 export const useGetOwnerStakes = () => {
-  const [ownerStakes, setOwnerStakes] = useState<number>(0)
+  const [getOwnerStakes, setOwnerStakes] = useState<number>(0)
   const owner = useUserAddress()
   const getReserves = useGetReserves()
+
 
   useEffect(() => {
     if (owner) {
       getReserves(owner).then(stakes => setOwnerStakes(parseInt(stakes, 16)))
     }
 
-    return () => {}
+
+
+    return () => { }
   }, [owner, getReserves])
 
-  return ownerStakes
+  return { getOwnerStakes }
 }
 
 export const useGetStakeAllowance = () => {
   const owner = useUserAddress()
   const getAllowance = useGetAllowance()
   const [allowStaking, setAllowStaking] = useState<boolean>(false)
+  const [allowedAmount, setAllowedAmount] = useState<number>(0)
   useEffect(() => {
     const getAllow = async () => {
       if (owner) {
         const allowed = await getAllowance(owner, STARTFI_STAKES_ADDRESSS)
-      
+
+        setAllowedAmount(parseInt(allowed))
+        console.log("allowed=>",parseInt(allowed))
         if (allowed === '0x00') {
           setAllowStaking(true)
         }
       }
     }
     getAllow()
-    return () => {}
+    return () => { }
   }, [owner, STARTFI_STAKES_ADDRESSS])
 
-  return allowStaking
+  return { allowStaking, allowedAmount }
 }

@@ -88,7 +88,8 @@ export const useApproveToken = (): ((spender: string, amount: string | number) =
         return decodedLogs[0].events
       } catch (e) {
         console.log('error', e)
-        return e
+        // return e
+        throw new Error(e)
       }
     },
     [account, contract, library, approve, toggleWalletModal]

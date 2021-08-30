@@ -13,7 +13,7 @@ import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/Startfi
 import { usePopup } from 'state/application/hooks'
 import StakeTokenCard from 'components/stakeTokenCard/StakeTokenCard'
 import StakeTokenSuccess from './StakeTokenSuccess'
-import { useGetOwnerStakes, useGetStakeAllowance, useUserAddress } from 'state/user/hooks'
+import { useGetStakeAllowance, useUserAddress } from 'state/user/hooks'
 import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
 import { useSTFItoUSD } from 'hooks/useSTFItoUSD'
 import { useSTFIBalance } from 'hooks/useSTFIBalance'
@@ -27,19 +27,20 @@ const StakeToken = () => {
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [successModal, setSuccessModal] = useState<boolean>(false)
   const [loader, setLoader] = useState<boolean>(false)
-  const [buttonText, setButtonText] = useState<string>('Allow')
+  const [buttonText, setButtonText] = useState<string>(t('allow'))
   const [step, setStep] = useState<number>(1)
   const popup = usePopup()
 
   const STFIBalance = useSTFIBalance()
   const approveToken = useApproveToken()
-  const getAllowance = useGetStakeAllowance()
-
-
+  const { allowStaking, allowedAmount } = useGetStakeAllowance()
+  const [askApproval, setAskApproval] = useState<boolean>(true)
 
   const owner = useUserAddress()
-  // const getReserves = useGetReserves()
-  const getOwnerStakes = useGetOwnerStakes()
+
+  const getReserves = useGetReserves()
+
+  // const {getOwnerStakes,trial} = useGetOwnerStakes()
   const [ownerStakes, setOwnerStakes] = useState<number>(0)
 
   const stakeAfterIncreased = parseInt(value.toString()) + ownerStakes
@@ -55,55 +56,78 @@ const StakeToken = () => {
   const closeSuccess = () => {
     setSuccessModal(false)
     setCancelState(false)
-    setOwnerStakes(stakeAfterIncreased)
   }
 
-useEffect(()=>{
-  setOwnerStakes(getOwnerStakes)
-},[getOwnerStakes])
+  useEffect(() => {
+    setAskApproval(allowStaking)
+    const getOwner = async () => {
+      if (owner) {
+        const res = await getReserves(owner)
+        setOwnerStakes(parseInt(res, 16))
+      }
+    }
+
+    if (cancelState) {
+      setValue(0)
+      setOwnerStakes(stakeAfterIncreased)
+    }
+
+    getOwner()
+    console.log('askApproval=>',askApproval)
+    if (askApproval) {
+      setButtonText(t('allow'))
+    } else {
+      setButtonText(t('increaseStake'))
+    }
+
+    return () => {}
+  }, [ownerStakes, cancelState, owner, allowStaking])
 
   const next = () => {
     switch (step) {
       case 1:
         setLoader(true)
         if (owner) {
-          if(getAllowance){
+          if (askApproval) {
             approveToken(STARTFI_STAKES_ADDRESSS, value)
-            .then(res => {
-              if (res.code === 4001) {
-                throw new Error('Error occurred')
-              }
-
-            })
-            .catch(e => {
-              setLoader(false)
-              setCancelState(false)
-              setOpenModal(false)
-            })
-          }else{
+              .then(res => {
+                setLoader(false)
+                setButtonText(t('increaseStake'))
+                setStep(2)
+              })
+              .catch(e => {
+                console.log('Approve Error', e)
+                popup({ success: false, message: 'Error Ocurred' })
+                setLoader(false)
+                setCancelState(false)
+                setOpenModal(false)
+              })
+          } else {
             setLoader(false)
-            setButtonText('Increase Stake Balance')
+            setButtonText(t('increaseStake'))
             setStep(2)
           }
-
         }
 
         break
       case 2:
         setLoader(true)
         if (owner) {
-          depositStake(owner, value).then(res => {
-            if (res.code === 4001) {
-              throw new Error('Error occurred')
-            }
-            setOpenModal(false)
-            setSuccessModal(true)
-            setLoader(false)
-          }).catch(e => {
-            setLoader(false)
-            setCancelState(false)
-            setOpenModal(false)
-          })
+          depositStake(owner, value)
+            .then(res => {
+              console.log('deposit Token',res)
+              setOpenModal(false)
+              setSuccessModal(true)
+              setLoader(false)
+              setOwnerStakes(stakeAfterIncreased)
+              setStep(1)
+            })
+            .catch(e => {
+              popup({ success: false, message: 'Error Ocurred' })
+              setLoader(false)
+              setCancelState(false)
+              setOpenModal(false)
+            })
         }
         break
     }
@@ -162,6 +186,17 @@ useEffect(()=>{
 
           {cancelState ? (
             <React.Fragment>
+              {/* <Text
+                fontFamily='Roboto'
+                fontSize='1rem'
+                color='#444444'
+                margin='10px 178px 3px 30px'
+                marginLeft='150px'
+                spanWeight='600'
+              >
+                AllowedAmount :<span> {allowedAmount}</span>
+              </Text> */}
+
               <BalanceContainer>
                 <div>
                   <Text fontFamily='Roboto' fontSize='1rem' color='#444444' margin='0 178px 3px 30px'>
@@ -183,12 +218,7 @@ useEffect(()=>{
                   <Text fontFamily='Roboto' fontSize='0.875rem' FontWeight='500' color='#525252' margin='0 10px 0 0'>
                     {t('confirmIncStakeToken')}
                   </Text>
-                  <ButtonMint
-                    onClick={() =>
-                      setOpenModal(true)
-                    }
-                    disabled={disabled}
-                  >
+                  <ButtonMint onClick={() => setOpenModal(true)} disabled={disabled}>
                     {disabled ? t('increaseBalance') : t('confirmIncreasing')}
                   </ButtonMint>
                 </CheckContainer>

@@ -38,6 +38,9 @@ export const loginAction = createAsyncThunk('user/loginAction', login)
 
 export const logoutAction = createAction<void>('user/logoutAction')
 
+export const updateStakeBalance= createAction<{stakeBalance:number}>('user/balance')
+
+
 export const addToWishlistAction = createAsyncThunk('user/addToWishlistAction', addToWishlist)
 
 export const removeFromWishlistAction = createAsyncThunk('user/removeFromWishlistAction', removeFromWishlist)

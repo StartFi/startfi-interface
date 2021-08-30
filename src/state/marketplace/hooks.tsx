@@ -416,7 +416,7 @@ export const useAddAuction = () => {
     switch (step) {
       //CHOOSE TYPE
       case STEP.CHOOSE_TYPE:
-        if (isForSale || isForBid) setStep(STEP.AUCTION_DETAILS) 
+        if (isForSale || isForBid) setStep(STEP.AUCTION_DETAILS)
         break
       //AUCTION DETAILS
       case STEP.AUCTION_DETAILS:

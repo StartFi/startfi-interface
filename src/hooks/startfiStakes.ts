@@ -20,7 +20,8 @@ export const useDeposit = (): ((user: string, amount: string | number) => any) =
         return await deposit('deposit', [user, amount], contract, account, library)
       } catch (e) {
         console.log('error', e)
-        return e
+        // return e
+        throw new Error(e)
       }
     },
     [account, contract, library, deposit, toggleWalletModal]
@@ -29,12 +30,15 @@ export const useDeposit = (): ((user: string, amount: string | number) => any) =
 
 export const useGetReserves = (): ((owner: string) => any) => {
   const contract = useStartFiStakes(false)
+
   return useCallback(
     async (owner: string) => {
       try {
         const userReserved = await evaluateTransaction(contract, 'getReserves', [owner])
         const reserved = userReserved.toHexString()
-        
+
+        console.log('Reserve Hook',parseInt(reserved,16))
+
         return reserved
       } catch (e) {
         console.log(e)
