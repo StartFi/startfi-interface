@@ -6,7 +6,7 @@ import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
 import abiDecoder from 'abi-decoder'
 import { abi as STARTFI_STAKES_ABI } from '../constants/abis/StartfiStakes.json'
-import { updateStakeBalance } from 'state/user/actions'
+import { updateStakeBalance,updateStackDepositState } from 'state/user/actions'
 import { useDispatch } from 'react-redux'
 abiDecoder.addABI(STARTFI_STAKES_ABI)
 
@@ -15,6 +15,7 @@ export const useDeposit = (): ((user: string, amount: string | number) => any) =
   const contract = useStartFiStakes(true)
   const deposit = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
+  const dispatch = useDispatch()
   return useCallback(
     async (user: string, amount: string | number) => {
       if (!account) {
@@ -22,10 +23,11 @@ export const useDeposit = (): ((user: string, amount: string | number) => any) =
         return `account: ${account} is not connected`
       }
       try {
-        console.log('deposit Amount=>', amount)
+
         const transaction = await deposit('deposit', [user, amount], contract, account, library)
         const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
         const decodedLogs = await abiDecoder.decodeLogs(transactionReceipt?.logs)
+        dispatch(updateStackDepositState({ depositState:true}))
         return decodedLogs[0].events
       } catch (e) {
         console.log('error', e)

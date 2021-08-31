@@ -17,7 +17,7 @@ import { useGetStakeAllowance, useStakeBalance, useUserAddress } from 'state/use
 import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
 import { useSTFItoUSD } from 'hooks/useSTFItoUSD'
 import { useSTFIBalance } from 'hooks/useSTFIBalance'
-import { useDispatch } from 'react-redux'
+
 
 
 const StakeToken = () => {
@@ -74,11 +74,11 @@ const StakeToken = () => {
       // setOwnerStakes(stakeAfterIncreased)
     }
 
-    if (askApproval) {
-      setButtonText(t('allow'))
-    } else {
-      setButtonText(t('increaseStake'))
-    }
+    // if (askApproval) {
+    //   setButtonText(t('allow'))
+    // } else {
+    //   setButtonText(t('increaseStake'))
+    // }
 
     return () => {}
   }, [ownerStakes, cancelState, owner, allowStaking,step,])
@@ -110,19 +110,19 @@ const StakeToken = () => {
 
         break
       case 2:
-        setLoader(true)
+        closeCard()
+        setSuccessModal(true)
+        setWaitingConfirmation(true)
         if (owner) {
          depositStake(owner, value)
 
           .then(res => {
             console.log('deposit Token',res)
             getReserves(owner)
-            // updatedStack()
-
+            setWaitingConfirmation(false)
             setOpenModal(false)
             setSuccessModal(true)
             setLoader(false)
-
             setStep(1)
           })
           .catch(e => {

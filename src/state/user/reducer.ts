@@ -23,7 +23,8 @@ import {
   getDraftsAction,
   getUserNFTsAction,
   removeFromWishlistAction,
-  updateStakeBalance
+  updateStakeBalance,
+  updateStackDepositState
 } from './actions'
 import { User } from 'services/models/User'
 import { NFT } from 'services/models/NFT'
@@ -72,6 +73,7 @@ export interface UserState {
   offMarket: NFT[]
   userAuctions: Auction[]
   stakeBalance:number
+  depositState:boolean;
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -95,7 +97,8 @@ export const initialState: UserState = {
   onMarket: [],
   offMarket: [],
   userAuctions: [],
-  stakeBalance:0
+  stakeBalance:0,
+  depositState:false,
 }
 
 export default createReducer(initialState, builder =>
@@ -243,8 +246,13 @@ export default createReducer(initialState, builder =>
       console.log('error',action)
       state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
     }).addCase(updateStakeBalance,(state,action)=>{
-      console.log('redux',state.stakeBalance)
+
       state.stakeBalance=action.payload.stakeBalance
+
+    }).addCase(updateStackDepositState,(state,action)=>{
+      console.log(action)
+
+      state.depositState=action.payload.depositState
 
     })
 )
