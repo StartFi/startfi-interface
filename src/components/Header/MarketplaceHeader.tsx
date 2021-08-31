@@ -8,11 +8,11 @@ import { useGetNFTs } from 'state/marketplace/hooks'
 import { useHistory } from 'react-router'
 import { ALL_CATEGORIES, DEFAULT_SORT, HEADER_DROPDOWN, TabIcons } from '../../constants'
 import { useTranslation } from 'react-i18next'
-import { useWalletAddress } from 'state/user/hooks'
+import {useWalletAddress } from 'state/user/hooks'
 import { useLocationSearch } from 'hooks'
 import { ConnectWallet, FirstRow, Img, Search, Tab, TabsCategory} from './styles'
 import { DropDownCategory } from 'components/DropDown'
-import { useDeposit } from 'hooks/startfiStakes'
+import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
 import { useWeb3React } from '@web3-react/core'
 import { useApproveToken } from 'hooks/startfiToken'
 import { address as STARTFI_STAKES_ADDRESS } from '../../constants/abis/StartfiStakes.json'
@@ -32,6 +32,7 @@ const MarketplaceHeader: React.FC = () => {
   const approveToken = useApproveToken()
   const { account } = useWeb3React()
   let { category, search } = useLocationSearch()
+  const getReserves = useGetReserves()
 
   if (!category) category = 'all'
 
@@ -49,7 +50,13 @@ const MarketplaceHeader: React.FC = () => {
         history.push('')
         break
       case 'Stake Tokens':
+        if(account){
+          getReserves(account)
+        }
+
+
         history.push('/marketplace/stakeTokens')
+
         // await approveToken(STARTFI_STAKES_ADDRESS, 1000)
         // await stakeToken(account as string, 1000)
 

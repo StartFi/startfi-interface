@@ -13,10 +13,12 @@ import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/Startfi
 import { usePopup } from 'state/application/hooks'
 import StakeTokenCard from 'components/stakeTokenCard/StakeTokenCard'
 import StakeTokenSuccess from './StakeTokenSuccess'
-import { useGetStakeAllowance, useUserAddress } from 'state/user/hooks'
+import { useGetStakeAllowance, useStakeBalance, useUserAddress } from 'state/user/hooks'
 import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
 import { useSTFItoUSD } from 'hooks/useSTFItoUSD'
 import { useSTFIBalance } from 'hooks/useSTFIBalance'
+import { useDispatch } from 'react-redux'
+
 
 const StakeToken = () => {
   const { t } = useTranslation()
@@ -25,27 +27,30 @@ const StakeToken = () => {
   const usd = useSTFItoUSD(value)
   const [disabled, setDisabled] = useState<boolean>(true)
   const [openModal, setOpenModal] = useState<boolean>(false)
+
   const [successModal, setSuccessModal] = useState<boolean>(false)
+  const [waitingConfirmation, setWaitingConfirmation] = useState<boolean>(false)
+
   const [loader, setLoader] = useState<boolean>(false)
   const [buttonText, setButtonText] = useState<string>(t('allow'))
   const [step, setStep] = useState<number>(1)
   const popup = usePopup()
 
-  const STFIBalance = useSTFIBalance()
+
+
+
   const approveToken = useApproveToken()
   const { allowStaking, allowedAmount } = useGetStakeAllowance()
   const [askApproval, setAskApproval] = useState<boolean>(true)
 
   const owner = useUserAddress()
-
   const getReserves = useGetReserves()
+  const ownerStakes = useStakeBalance()
+  const depositStake = useDeposit()
 
-  // const {getOwnerStakes,trial} = useGetOwnerStakes()
-  const [ownerStakes, setOwnerStakes] = useState<number>(0)
-
+  const STFIBalance = useSTFIBalance()
   const stakeAfterIncreased = parseInt(value.toString()) + ownerStakes
   const STFIBalanceAfterStack = STFIBalance - value
-  const depositStake = useDeposit()
 
   const handelCheckBoxChanges = e => {
     setDisabled(!e.target.checked)
@@ -60,20 +65,15 @@ const StakeToken = () => {
 
   useEffect(() => {
     setAskApproval(allowStaking)
-    const getOwner = async () => {
-      if (owner) {
-        const res = await getReserves(owner)
-        setOwnerStakes(parseInt(res, 16))
-      }
-    }
+    // updatedStack()
+
+    console.log('value=>', value)
 
     if (cancelState) {
-      setValue(0)
-      setOwnerStakes(stakeAfterIncreased)
+      // setValue(0)
+      // setOwnerStakes(stakeAfterIncreased)
     }
 
-    getOwner()
-    console.log('askApproval=>',askApproval)
     if (askApproval) {
       setButtonText(t('allow'))
     } else {
@@ -81,9 +81,9 @@ const StakeToken = () => {
     }
 
     return () => {}
-  }, [ownerStakes, cancelState, owner, allowStaking])
+  }, [ownerStakes, cancelState, owner, allowStaking,step,])
 
-  const next = () => {
+  const next = async () => {
     switch (step) {
       case 1:
         setLoader(true)
@@ -96,7 +96,6 @@ const StakeToken = () => {
                 setStep(2)
               })
               .catch(e => {
-                console.log('Approve Error', e)
                 popup({ success: false, message: 'Error Ocurred' })
                 setLoader(false)
                 setCancelState(false)
@@ -113,21 +112,25 @@ const StakeToken = () => {
       case 2:
         setLoader(true)
         if (owner) {
-          depositStake(owner, value)
-            .then(res => {
-              console.log('deposit Token',res)
-              setOpenModal(false)
-              setSuccessModal(true)
-              setLoader(false)
-              setOwnerStakes(stakeAfterIncreased)
-              setStep(1)
-            })
-            .catch(e => {
-              popup({ success: false, message: 'Error Ocurred' })
-              setLoader(false)
-              setCancelState(false)
-              setOpenModal(false)
-            })
+         depositStake(owner, value)
+
+          .then(res => {
+            console.log('deposit Token',res)
+            getReserves(owner)
+            // updatedStack()
+
+            setOpenModal(false)
+            setSuccessModal(true)
+            setLoader(false)
+
+            setStep(1)
+          })
+          .catch(e => {
+            popup({ success: false, message: 'Error Ocurred' })
+            setLoader(false)
+            setCancelState(false)
+            setOpenModal(false)
+          })
         }
         break
     }
@@ -147,7 +150,7 @@ const StakeToken = () => {
           stfiBalanceAfterStack={STFIBalanceAfterStack}
         ></StakeTokenCard>
 
-        <StakeTokenSuccess isOpen={successModal} close={closeSuccess}></StakeTokenSuccess>
+        <StakeTokenSuccess isOpen={successModal} close={closeSuccess} waitingConfirmation={waitingConfirmation}></StakeTokenSuccess>
 
         <Card
           margin='0px 30px 0px 43px'

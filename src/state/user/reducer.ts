@@ -243,6 +243,7 @@ export default createReducer(initialState, builder =>
       console.log('error',action)
       state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
     }).addCase(updateStakeBalance,(state,action)=>{
+      console.log('redux',state.stakeBalance)
       state.stakeBalance=action.payload.stakeBalance
 
     })

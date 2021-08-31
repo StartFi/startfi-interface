@@ -28,7 +28,8 @@ import {
   logoutAction,
   getDraftsAction,
   getUserNFTsAction,
-  removeFromWishlistAction
+  removeFromWishlistAction,
+  updateStakeBalance
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 
@@ -406,25 +407,59 @@ export const useGetUserNFTs = () => {
   )
 }
 
-export const useGetOwnerStakes = () => {
-  const [getOwnerStakes, setOwnerStakes] = useState<number>(0)
-  const owner = useUserAddress()
-  const getReserves = useGetReserves()
+// export const useGetOwnerStakes = () => {
+//   const [ownerStakes, setOwnerStakes] = useState<number>(0)
+//   const dispatch = useDispatch()
+//   const owner = useUserAddress()
+//   const getReserves = useGetReserves()
+//   let ownerStake
 
+//   useEffect(() => {
+//     if (owner) {
+//       getReserves(owner).then(stakes => {
+//         console.log('get Stake balance called',parseInt(stakes, 16))
+//         // setOwnerStakes(parseInt(stakes, 16))
+//         ownerStake = parseInt(stakes, 16)
+//         console.log('ownerStake', ownerStake)
+//         setOwnerStakes(ownerStake)
+//         dispatch(updateStakeBalance({ stakeBalance:parseInt(stakes, 16) }))
+//       })
+//     }
 
-  useEffect(() => {
-    if (owner) {
-      getReserves(owner).then(stakes => setOwnerStakes(parseInt(stakes, 16)))
-    }
+//     // return () => {}
+//   }, [owner, ownerStake, dispatch])
+//   return useSelector((state: AppState) => state.user.stakeBalance)
+// }
 
+// export const useUpdateStackBalance = () => {
+//   const dispatch = useDispatch()
+//   const stackBalance = useGetOwnerStakes()
 
-
-    return () => { }
-  }, [owner, getReserves])
-
-  return { getOwnerStakes }
+//   return useCallback(() => {
+//     dispatch(updateStakeBalance({ stakeBalance: stackBalance }))
+//   }, [stackBalance, dispatch])
+// }
+// get userAuctions
+export const useStakeBalance = (): number => {
+  return useSelector((state: AppState) => state.user.stakeBalance)
 }
 
+// deposit stakes
+export const useDepositStake = value => {
+  const dispatch = useDispatch()
+  const owner = useUserAddress()
+  const depositStake = useDeposit()
+  useEffect(() => {
+    const deposit = async () => {
+      if (owner) {
+        await depositStake(owner, value)
+      }
+    }
+    deposit()
+
+    return () => {}
+  }, [owner, dispatch])
+}
 export const useGetStakeAllowance = () => {
   const owner = useUserAddress()
   const getAllowance = useGetAllowance()
@@ -436,14 +471,14 @@ export const useGetStakeAllowance = () => {
         const allowed = await getAllowance(owner, STARTFI_STAKES_ADDRESSS)
 
         setAllowedAmount(parseInt(allowed))
-        console.log("allowed=>",parseInt(allowed))
+        console.log('allowed=>', parseInt(allowed))
         if (allowed === '0x00') {
           setAllowStaking(true)
         }
       }
     }
     getAllow()
-    return () => { }
+    return () => {}
   }, [owner, STARTFI_STAKES_ADDRESSS])
 
   return { allowStaking, allowedAmount }
