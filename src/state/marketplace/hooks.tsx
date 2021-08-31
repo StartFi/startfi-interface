@@ -24,7 +24,7 @@ import {
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
-import { useBid, useBuyNow, useCreateAuction, useDeList } from 'hooks/startfiMarketPlace'
+import { useBid, useBuyNow, useCreateAuction, useDeList, useListOnMarketplace } from 'hooks/startfiMarketPlace'
 import { useApproveToken } from 'hooks/startfiToken'
 import { useMint } from 'hooks/startfiPaymentNft'
 import { getAuction } from 'services/database/Auction'
@@ -200,24 +200,30 @@ export const useAddToMarketplace = (): (() => void) => {
   const nft = useNFT()
   const auction = useAuction()
   const createAuction = useCreateAuction()
+  const listOnMarketplace = useListOnMarketplace()
   const setWalletConfirmation = useSetWalletConfirmation()
   useMarketplaceListener(nft)
   return useCallback(() => {
     if (seller && chainId && auction && nft) {
-      createAuction(
-        auction.contractAddress,
-        nft.id,
-        auction.minBid as number,
-        auction.qualifyAmount as number,
-        auction.isForBid,
-        auction.listingPrice as number,
-        auction.expireTimestamp
-      )
+      console.log(nft)
+      console.log(auction)
+      if (auction.isForSale && !auction.isForBid)
+        listOnMarketplace(auction.contractAddress, nft.id, auction.listingPrice as number)
+      else
+        createAuction(
+          auction.contractAddress,
+          nft.id,
+          auction.minBid as number,
+          auction.qualifyAmount as number,
+          auction.isForSale,
+          auction.listingPrice as number,
+          auction.expireTimestamp
+        )
       setWalletConfirmation('asset monetization')
     } else if (!seller || !chainId) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
     else if (!auction) popup({ success: false, message: 'noAuction' })
-  }, [auction, nft, seller, chainId, createAuction, popup, setWalletConfirmation])
+  }, [auction, nft, seller, chainId, createAuction, popup, setWalletConfirmation, listOnMarketplace])
 }
 
 export const useGetAuctionNFT = (nftId: string, auctionId: string): void => {
@@ -416,13 +422,15 @@ export const useAddAuction = () => {
     switch (step) {
       //CHOOSE TYPE
       case STEP.CHOOSE_TYPE:
-        if (isForSale || isForBid) setStep(STEP.AUCTION_DETAILS) 
+        if (isForSale || isForBid) setStep(STEP.AUCTION_DETAILS)
         break
       //AUCTION DETAILS
       case STEP.AUCTION_DETAILS:
+        if (!process.env.REACT_APP_MIN_QUALIFY_AMOUNT) return console.log('No min qualify amount in env')
+        const minQualify = parseInt(process.env.REACT_APP_MIN_QUALIFY_AMOUNT)
         if (
           (isForSale && listingPrice && listingPrice > 0) ||
-          (isForBid && minBid && minBid > 0 && qualifyAmount && qualifyAmount > 0 && expireTimestamp > 0)
+          (isForBid && minBid && minBid > 0 && qualifyAmount && qualifyAmount > minQualify && expireTimestamp > 0)
         ) {
           setStep(STEP.AUCTION_SUMMARY)
           history.push('/mint/summary')
