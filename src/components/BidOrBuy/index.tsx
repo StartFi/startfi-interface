@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
 import { useBidOrBuyValue, useSetBidOrBuy } from 'state/marketplace/hooks'
-import { useUserBalance } from 'state/user/hooks'
+import { useSTFIBalance } from 'state/user/hooks'
 import { Row } from 'theme'
 import {
   Balance,
@@ -35,7 +35,7 @@ const BidOrBuy: React.FunctionComponent<BidOrBuyProps> = ({ bidOrBuy, isOpen, cl
 
   const history = useHistory()
 
-  const balance = useUserBalance()
+  const balance = useSTFIBalance()
 
   const setBidOrBuy = useSetBidOrBuy()
 

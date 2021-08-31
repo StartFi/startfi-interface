@@ -28,7 +28,7 @@ const Payment: React.FC = () => {
   const popup = usePopup()
 
   const balance = useUserBalance()
-
+  console.log(typeof balance + " ---- " + balance);
   const placebid = usePlaceBid()
 
   const buynft = useBuyNFT()
