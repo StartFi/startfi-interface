@@ -240,6 +240,7 @@ export const GetNow = styled.div`
   margin-left: 2vw;
   font-weight: 500;
   text-decoration: underline;
+  cursor:pointer;
 `
 export const TagContainer = styled('div') <{ margin?: string; lastChildWidth?: string }>`
   width: 445px;
