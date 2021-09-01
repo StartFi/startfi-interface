@@ -5,6 +5,7 @@ import { usePopup } from 'state/application/hooks'
 import ButtonWishlist from 'components/Button/ButtonWishlist'
 import { useAuctionNFT, useBidOrBuy, useBidOrBuyValue, useBuyNFT, usePlaceBid } from 'state/marketplace/hooks'
 import { useUserBalance } from 'state/user/hooks'
+import { useSTFIBalance } from 'hooks/useSTFIBalance'
 import { shortenAddress } from 'utils'
 
 import {
@@ -27,7 +28,7 @@ const Payment: React.FC = () => {
 
   const popup = usePopup()
 
-  const balance = useUserBalance()
+  const balance = useSTFIBalance()
 
   const placebid = usePlaceBid()
 
@@ -40,7 +41,7 @@ const Payment: React.FC = () => {
   const auctionNFT = useAuctionNFT()
 
   if (!auctionNFT) {
-    popup({ success: false, message: 'noNFT' })
+    popup({ success: false, message: t('noNFT' )})
     history.goBack()
     return null
   }
@@ -48,7 +49,7 @@ const Payment: React.FC = () => {
   const { nft } = auctionNFT
 
   if (value === 0) {
-    popup({ success: false, message: 'noValue' })
+    popup({ success: false, message:t( 'noValue' )})
     history.goBack()
     return null
   }
@@ -81,7 +82,7 @@ const Payment: React.FC = () => {
 
         <SpaceBetween>
           <SemiBold>{t('yourBalance')}</SemiBold>
-          {balance ? <Amount amount={parseFloat(balance)}></Amount> : null}
+          {balance ? <Amount amount={balance}></Amount> : null}
         </SpaceBetween>
 
         <Border width='115%' left='-23px' />

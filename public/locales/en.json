@@ -335,7 +335,8 @@
   "stakeBalance":"Stake",
   "stakeTokens":"Stake Tokens",
   "processingIncreaseStake":"increase staking still in process",
-  "increaseStake":"Increase Stake Balance"
+  "increaseStake":"Increase Stake Balance",
+  "stake":"STFI"
 
 
 
