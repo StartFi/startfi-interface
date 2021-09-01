@@ -439,9 +439,15 @@ export const useGetUserNFTs = () => {
 //     dispatch(updateStakeBalance({ stakeBalance: stackBalance }))
 //   }, [stackBalance, dispatch])
 // }
-// get userAuctions
+
+// get user stack balance
 export const useStakeBalance = (): number => {
   return useSelector((state: AppState) => state.user.stakeBalance)
+}
+
+// get deposit stack state
+export const useDepositStackState = (): boolean => {
+  return useSelector((state: AppState) => state.user.depositState)
 }
 
 // deposit stakes
@@ -460,10 +466,12 @@ export const useDepositStake = value => {
     return () => {}
   }, [owner, dispatch])
 }
+
+// get allowance from user
 export const useGetStakeAllowance = () => {
   const owner = useUserAddress()
   const getAllowance = useGetAllowance()
-  const [allowStaking, setAllowStaking] = useState<boolean>(false)
+  const [allowStaking, setAllowStaking] = useState<boolean>(true)
   const [allowedAmount, setAllowedAmount] = useState<number>(0)
   useEffect(() => {
     const getAllow = async () => {
@@ -471,15 +479,17 @@ export const useGetStakeAllowance = () => {
         const allowed = await getAllowance(owner, STARTFI_STAKES_ADDRESSS)
 
         setAllowedAmount(parseInt(allowed))
-        console.log('allowed=>', parseInt(allowed))
+
         if (allowed === '0x00') {
-          setAllowStaking(true)
+          console.log('reached')
+          setAllowStaking(false)
         }
+
       }
     }
     getAllow()
     return () => {}
   }, [owner, STARTFI_STAKES_ADDRESSS])
-
+  console.log('allowed hook=>', allowStaking)
   return { allowStaking, allowedAmount }
 }

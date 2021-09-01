@@ -13,12 +13,13 @@ import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/Startfi
 import { usePopup } from 'state/application/hooks'
 import StakeTokenCard from 'components/stakeTokenCard/StakeTokenCard'
 import StakeTokenSuccess from './StakeTokenSuccess'
-import { useGetStakeAllowance, useStakeBalance, useUserAddress } from 'state/user/hooks'
+import { useDepositStackState, useGetStakeAllowance, useStakeBalance, useUserAddress } from 'state/user/hooks'
 import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
 import { useSTFItoUSD } from 'hooks/useSTFItoUSD'
 import { useSTFIBalance } from 'hooks/useSTFIBalance'
-
-
+import { MarginLeft } from 'components/Input/styles'
+import { LoadingIcon } from 'components/WaitingConfirmation/styles'
+import Loading from './../../assets/icons/buttonloader.svg'
 
 const StakeToken = () => {
   const { t } = useTranslation()
@@ -30,18 +31,16 @@ const StakeToken = () => {
 
   const [successModal, setSuccessModal] = useState<boolean>(false)
   const [waitingConfirmation, setWaitingConfirmation] = useState<boolean>(false)
+  const depositStackState = useDepositStackState()
 
   const [loader, setLoader] = useState<boolean>(false)
   const [buttonText, setButtonText] = useState<string>(t('allow'))
   const [step, setStep] = useState<number>(1)
   const popup = usePopup()
 
-
-
-
   const approveToken = useApproveToken()
-  const { allowStaking, allowedAmount } = useGetStakeAllowance()
-  const [askApproval, setAskApproval] = useState<boolean>(true)
+  const { allowStaking} = useGetStakeAllowance()
+  const [askApproval, setAskApproval] = useState<boolean>(!allowStaking)
 
   const owner = useUserAddress()
   const getReserves = useGetReserves()
@@ -63,32 +62,21 @@ const StakeToken = () => {
     setCancelState(false)
   }
 
-  useEffect(() => {
-    setAskApproval(allowStaking)
-    // updatedStack()
+  // useEffect(() => {
+  //
 
-    console.log('value=>', value)
+  //   console.log('ask Approval', askApproval)
+  //   return () => {}
+  // }, [depositStackState, allowStaking])
 
-    if (cancelState) {
-      // setValue(0)
-      // setOwnerStakes(stakeAfterIncreased)
-    }
-
-    // if (askApproval) {
-    //   setButtonText(t('allow'))
-    // } else {
-    //   setButtonText(t('increaseStake'))
-    // }
-
-    return () => {}
-  }, [ownerStakes, cancelState, owner, allowStaking,step,])
-
-  const next = async () => {
+  const next = () => {
+    setAskApproval(!allowStaking)
+    console.log('next', allowStaking)
     switch (step) {
       case 1:
         setLoader(true)
         if (owner) {
-          if (askApproval) {
+          if (!allowStaking) {
             approveToken(STARTFI_STAKES_ADDRESSS, value)
               .then(res => {
                 setLoader(false)
@@ -114,23 +102,24 @@ const StakeToken = () => {
         setSuccessModal(true)
         setWaitingConfirmation(true)
         if (owner) {
-         depositStake(owner, value)
-
-          .then(res => {
-            console.log('deposit Token',res)
-            getReserves(owner)
-            setWaitingConfirmation(false)
-            setOpenModal(false)
-            setSuccessModal(true)
-            setLoader(false)
-            setStep(1)
-          })
-          .catch(e => {
-            popup({ success: false, message: 'Error Ocurred' })
-            setLoader(false)
-            setCancelState(false)
-            setOpenModal(false)
-          })
+          depositStake(owner, value)
+            .then(res => {
+              getReserves(owner)
+              setWaitingConfirmation(false)
+              setOpenModal(false)
+              setSuccessModal(true)
+              setLoader(false)
+              setDisabled(true)
+              setValue(0)
+              setButtonText(t('allow'))
+              setStep(1)
+            })
+            .catch(e => {
+              popup({ success: false, message: 'Error Ocurred' })
+              setLoader(false)
+              setCancelState(false)
+              setOpenModal(false)
+            })
         }
         break
     }
@@ -150,7 +139,11 @@ const StakeToken = () => {
           stfiBalanceAfterStack={STFIBalanceAfterStack}
         ></StakeTokenCard>
 
-        <StakeTokenSuccess isOpen={successModal} close={closeSuccess} waitingConfirmation={waitingConfirmation}></StakeTokenSuccess>
+        <StakeTokenSuccess
+          isOpen={successModal}
+          close={closeSuccess}
+          waitingConfirmation={waitingConfirmation}
+        ></StakeTokenSuccess>
 
         <Card
           margin='0px 30px 0px 43px'
@@ -163,6 +156,30 @@ const StakeToken = () => {
           <Text fontFamily='Roboto' FontWeight='500' fontSize='1rem' color='#000000' margin='-30px 0 3px 8px'>
             Stake Tokens
           </Text>
+          {!successModal && depositStackState ? (
+            <React.Fragment>
+              <Text
+                fontFamily='Roboto'
+                FontWeight='500'
+                fontSize='0.8rem'
+                color='#ff0000'
+                margin='20px auto -10px auto'
+              >
+                increase staking still in process
+              </Text>
+
+              <LoadingIcon
+                position='absolute'
+                left='58%'
+                top='40.5%'
+                width='15px'
+                height='15px'
+                src={Loading}
+                alt='Loading'
+              />
+            </React.Fragment>
+          ) : null}
+
           <BalanceContainer>
             <div>
               <Text fontFamily='Roboto' fontSize='1rem' color='#444444' margin='0 178px 3px 30px'>
@@ -172,6 +189,7 @@ const StakeToken = () => {
                 {ownerStakes} {t('stake')}
               </Text>
             </div>
+
             <DelistButton
               backgroundColor='transparent'
               padding='15px'
@@ -179,6 +197,8 @@ const StakeToken = () => {
               fontSize='1rem'
               color={cancelState ? '#747474' : '#000000'}
               margin='0 30px 0 0'
+              disabledColor='#c2c2c2'
+              disabled={depositStackState}
               onClick={() =>
                 owner ? setCancelState(!cancelState) : popup({ success: false, message: 'You Are Not Connected' })
               }

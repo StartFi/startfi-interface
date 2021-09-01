@@ -23,11 +23,12 @@ export const useDeposit = (): ((user: string, amount: string | number) => any) =
         return `account: ${account} is not connected`
       }
       try {
-
+        dispatch(updateStackDepositState({ depositState:true}))
         const transaction = await deposit('deposit', [user, amount], contract, account, library)
         const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
         const decodedLogs = await abiDecoder.decodeLogs(transactionReceipt?.logs)
-        dispatch(updateStackDepositState({ depositState:true}))
+        dispatch(updateStackDepositState({ depositState:false}))
+
         return decodedLogs[0].events
       } catch (e) {
         console.log('error', e)
