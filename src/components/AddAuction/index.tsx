@@ -6,8 +6,10 @@ import AuctionSale from './AuctionSale'
 import AuctionBid from './AuctionBid'
 import ChooseType from './ChooseType'
 import { Auction } from 'services/models/Auction'
-import { useAddAuction, useStep } from 'state/marketplace/hooks'
+import { useAddAuction, useGetAuctionNFT, useGetNFT, useStep } from 'state/marketplace/hooks'
 import { STEP } from 'state/marketplace/types'
+import { useParams } from 'react-router-dom'
+import { getAuctionNFT } from 'services/Marketplace'
 
 const title = (step: STEP, auction: Auction): string => {
   if (step === STEP.CHOOSE_TYPE) return 'howToMonetize'
@@ -19,10 +21,11 @@ const title = (step: STEP, auction: Auction): string => {
 
 const AddAuction: React.FC = () => {
   const { t } = useTranslation()
-
   const step = useStep()
-
-  const { auction, handleChange, missing } = useAddAuction()
+  const { nft, auction, handleChange, missing } = useAddAuction()
+  const params = useParams<{ nft: string }>()
+  const getNFT = useGetNFT()
+  if (nft.id === 0 && params.nft) getNFT(params.nft)
 
   const component = (step: number, auction: Auction) => {
     if (step === STEP.CHOOSE_TYPE) return <ChooseType />

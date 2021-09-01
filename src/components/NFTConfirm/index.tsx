@@ -35,8 +35,9 @@ const NFTConfirm: React.FunctionComponent = () => {
   const popup = usePopup()
 
   if (!auctionNFT) {
-    popup({ success: false, message: 'noNFT' })
-    history.goBack()
+    console.log(auctionNFT)
+    // popup({ success: false, message: 'noNFT' })
+    // history.goBack()
     return null
   }
 

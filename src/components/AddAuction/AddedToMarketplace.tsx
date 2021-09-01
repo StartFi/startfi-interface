@@ -12,7 +12,7 @@ const AddedToMarketplace: React.FC = () => {
       <AddedToMarketplaceText> {t('nftReviewedBySTFI')}</AddedToMarketplaceText>
       <Row>
         <PageLink to="/marketplace/nfts">{t('exploreMarketplace')}</PageLink>
-        <PageLink to="/mint/steps">{t('createNFT')}</PageLink>
+        <PageLink to="/mint/steps/0">{t('createNFT')}</PageLink>
       </Row>
     </AddedToMarketplaceContainer>
   )

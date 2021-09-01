@@ -53,7 +53,7 @@ const InventoryHome = () => {
   })
 
   const navigate = (id: number) => {
-    if (inventoryOption === InventoryOptions.Draft) history.push(`/mint/steps`)
+    if (inventoryOption === InventoryOptions.Draft) history.push(`/mint/steps/${id}`)
     if (inventoryOption === InventoryOptions.inMarketPlace) history.push(`/inventory/in-market/${id}`)
     if (inventoryOption === InventoryOptions.offMarketPlace) history.push(`/inventory/off-market/${id}`)
   }
@@ -66,7 +66,7 @@ const InventoryHome = () => {
         }}
       ></CardHeader>
       <InventoryCard>
-        <Row padding='20px' align='start'>
+        <Row padding="20px" align="start">
           {inventoryItems?.length > 0 ? (
             inventoryItems?.map((nft: NFT) => (
               <MiniCard key={nft.id} cardContent={nft} navigate={() => navigate(nft.id)} />

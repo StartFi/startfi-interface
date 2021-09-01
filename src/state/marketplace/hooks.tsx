@@ -20,7 +20,8 @@ import {
   setAuction,
   setMissing,
   setNFT,
-  removeMissing
+  removeMissing,
+  getNFTAction
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
@@ -139,6 +140,11 @@ export const useClearNFT = (): (() => void) => {
 export const useSetWalletConfirmation = (): ((type: string) => void) => {
   const dispatch = useDispatch()
   return useCallback((type: string) => dispatch(setWalletConfirmation({ type })), [dispatch])
+}
+
+export const useGetNFT = (): ((id: string) => void) => {
+  const dispatch = useDispatch()
+  return useCallback((id: string) => dispatch(getNFTAction(id)), [dispatch])
 }
 
 export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
@@ -365,7 +371,7 @@ export const useAddNFT = () => {
       case STEP.STEP3:
         setMissing([])
         setStep(STEP.NFT_SUMMARY)
-        history.push('/mint/summary')
+        history.push('/mint/summary/0')
         return
       case STEP.NFT_SUMMARY:
         if (agree) setStep(allowedSTFI ? STEP.ADD_NFT : STEP.ALLOW_TRANSFER)
@@ -433,7 +439,7 @@ export const useAddAuction = () => {
           (isForBid && minBid && minBid > 0 && qualifyAmount && qualifyAmount > minQualify && expireTimestamp > 0)
         ) {
           setStep(STEP.AUCTION_SUMMARY)
-          history.push('/mint/summary')
+          history.push('/mint/summary/' + nft.id)
           break
         } else setMissing(newMissing)
         break
@@ -457,8 +463,8 @@ export const useAddAuction = () => {
   }, [history, auction, step, setStep, setMissing, addToMarketplace, allowed, approve, nft])
 
   return useMemo(() => {
-    return { auction, handleChange, missing, next, loader }
-  }, [auction, handleChange, missing, next, loader])
+    return { auction, handleChange, missing, next, loader, nft }
+  }, [auction, handleChange, missing, next, loader, nft])
 }
 
 export const useSteps = () => {

@@ -19,7 +19,8 @@ import {
   setAuction,
   setNFT,
   setMissing,
-  removeMissing
+  removeMissing,
+  getNFTAction
 } from './actions'
 import { NFT } from 'services/models/NFT'
 import { Auction } from 'services/models/Auction'
@@ -62,7 +63,7 @@ const initialState: MarketplaceState = {
   popup: null,
   minted: false,
   nft: initialNFT,
-  auction: initialAuction,  
+  auction: initialAuction,
   NftDetails: null,
   loading: false,
   currentPage: 0,
@@ -78,7 +79,6 @@ export default createReducer(initialState, builder =>
       state.loading = true
     })
     .addCase(getMarketplaceAction.fulfilled, (state, action) => {
-      state.auctionNFT = null
       state.marketplace = action.payload.onMarket
       state.loadtime = action.payload.loadtime
       state.loading = false
@@ -200,5 +200,12 @@ export default createReducer(initialState, builder =>
       const newMissing = [...state.missing]
       newMissing.splice(newMissing.indexOf(action.payload.name), 1)
       state.missing = newMissing
+    })
+    .addCase(getNFTAction.pending, (state, action) => {})
+    .addCase(getNFTAction.fulfilled, (state, action) => {
+      state.nft = action.payload
+    })
+    .addCase(getNFTAction.rejected, (state, action) => {
+      state.popup = { success: false, message: action.error.message || 'Error occured while getting NFT' }
     })
 )

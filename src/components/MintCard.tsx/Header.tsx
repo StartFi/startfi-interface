@@ -21,12 +21,8 @@ const Left = () => {
 
 const Header: React.FC = () => {
   const { t } = useTranslation()
-
-  if (
-    useLocation()
-      .pathname.split('/')
-      .pop() !== 'steps'
-  )
+  const path = useLocation().pathname.split('/').pop()
+  if (path && path.includes('steps'))
     return (
       <Row>
         <Left />

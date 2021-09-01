@@ -35,7 +35,7 @@ const NFTBoxes: React.FC = () => {
 
   return (
     <React.Fragment>
-      <EditableBox editable={step === STEP.NFT_SUMMARY} link="/mint/steps" step={STEP.STEP1}>
+      <EditableBox editable={step === STEP.NFT_SUMMARY} link={`/mint/steps/${nft.id}`} step={STEP.STEP1}>
         <FirstField>
           <Img src={uriToHttp(nft.dataHash)[1]} alt="NFT" />
           <FirstBoxFields>
@@ -51,7 +51,7 @@ const NFTBoxes: React.FC = () => {
           </FirstBoxFields>
         </FirstField>
       </EditableBox>
-      <EditableBox editable={step === STEP.NFT_SUMMARY} link="/mint/steps" step={STEP.STEP2}>
+      <EditableBox editable={step === STEP.NFT_SUMMARY} link={`/mint/steps/${nft.id}`} step={STEP.STEP2}>
         <Field>
           <Label>{t('assetName')}</Label>
           <Data500>{nft?.name}</Data500>
@@ -73,7 +73,7 @@ const NFTBoxes: React.FC = () => {
           <DataWidth>{nft.description}</DataWidth>
         </Field>
       </EditableBox>
-      <EditableBox editable={step === STEP.NFT_SUMMARY} link="/mint/steps" step={STEP.STEP3}>
+      <EditableBox editable={step === STEP.NFT_SUMMARY} link={`/mint/steps/${nft.id}`} step={STEP.STEP3}>
         <Field>
           <Label>{t(nftOrAuction ? 'royaltyOption' : 'issuerRoyaltyShare')}</Label>
           <Royalty>

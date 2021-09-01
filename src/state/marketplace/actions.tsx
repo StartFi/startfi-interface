@@ -1,4 +1,5 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
+import { getNFT } from 'services/database/NFT'
 import {
   addToMarketplace,
   buyNFT,
@@ -47,3 +48,5 @@ export const setNFT = createAction<{ value: any; name: string }>('marketplace/se
 export const setMissing = createAction<{ missing: string[] }>('marketplace/setMissing')
 
 export const removeMissing = createAction<{ name: string }>('marketplace/removeMissing')
+
+export const getNFTAction = createAsyncThunk('marketplace/getNFTAction', getNFT)

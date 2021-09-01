@@ -11,7 +11,7 @@ import ipfs from './ipfs/reducer'
 import bcEvent from './blockchainEvents/reducer'
 import { getUserNFTsAction } from './user/actions'
 
-const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists']
+const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists', 'marketplace']
 
 const store = configureStore({
   reducer: {

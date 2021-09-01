@@ -20,7 +20,11 @@ const AuctionBoxes: React.FC = () => {
 
   return (
     <React.Fragment>
-      <EditableBox editable={step === STEP.AUCTION_SUMMARY} link="/mint/steps" step={STEP.AUCTION_DETAILS}>
+      <EditableBox
+        editable={step === STEP.AUCTION_SUMMARY}
+        link={`/mint/steps/${nft.id}`}
+        step={STEP.AUCTION_DETAILS}
+      >
         {auction.isForSale && (
           <Field>
             <Label>{t('pricing')}</Label>

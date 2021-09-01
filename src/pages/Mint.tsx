@@ -30,8 +30,8 @@ const Mint: React.FC = () => {
   return (
     <Container>
       <Header />
-      <Route path="/mint/steps" component={MintNFT} />
-      <Route path="/mint/summary" component={NFTSummary} />
+      <Route path="/mint/steps/:nft" component={MintNFT} />
+      <Route path="/mint/summary/:nft" component={NFTSummary} />
       <Route path="/mint/addedtomarketplace" component={AddedToMarketplace} />
     </Container>
   )

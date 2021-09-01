@@ -4,7 +4,7 @@ import Nftproduct from 'components/NFTproduct/Nftproduct'
 import StakeToken from 'components/StakeToken/StakeToken'
 import WishList from 'components/WishList'
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, useHistory, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import NFTs from './NFTs'
 
@@ -15,6 +15,10 @@ const MarketplaceWrapper = styled.div`
 `
 
 const Marketplace: React.FC = () => {
+  const location = useLocation()
+  const history = useHistory()
+  if (location.pathname === '/marketplace') history.push('/marketplace/nfts')
+
   return (
     <MarketplaceWrapper>
       <MarketplaceHeader />

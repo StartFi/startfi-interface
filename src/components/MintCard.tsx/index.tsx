@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
 import { useTranslation } from 'react-i18next'
 import { useSaveDraft } from 'state/user/hooks'
 
-import { useSteps } from 'state/marketplace/hooks'
+import { useSetStep, useSteps } from 'state/marketplace/hooks'
 import {
   CardContainer,
   CardHeader,
@@ -21,15 +21,21 @@ import { StepIcon } from '../../constants'
 import AddAuction from 'components/AddAuction'
 import AddNFT from 'components/AddNFT'
 import Questions from './Questions'
+import { useParams } from 'react-router-dom'
+import { STEP } from 'state/marketplace/types'
 
 const MintNFT: React.FC = () => {
   const { t } = useTranslation()
-
   const saveDraft = useSaveDraft()
-
   const { step, next, back, nftOrAuction } = useSteps()
-
   const icon = StepIcon(step)
+  const params = useParams<{ nft: string }>()
+  const setStep = useSetStep()
+
+  useEffect(() => {
+    console.log(params)
+    if (params.nft && params.nft !== '0') setStep(STEP.CHOOSE_TYPE)
+  }, [params, setStep])
 
   return (
     <Container>

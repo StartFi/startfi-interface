@@ -49,6 +49,7 @@ const CardHeader: React.FC<CardHeaderProps> = ({ getType }) => {
             onClick={() => {
               setInventoryType(type)
               getType(type)
+              history.push('/inventory/home/' + type.replaceAll(' ', ''))
             }}
           >
             {t(type)}
