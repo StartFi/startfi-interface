@@ -152,7 +152,7 @@ const StakeToken = () => {
           flexDirection='column'
         >
           <Text fontFamily='Roboto' FontWeight='500' fontSize='1rem' color='#000000' margin='-30px 0 3px 8px'>
-            Stake Tokens
+            {t('stakeTokens')}
           </Text>
           {!successModal && depositStackState ? (
             <React.Fragment>
@@ -163,7 +163,7 @@ const StakeToken = () => {
                 color='#ff0000'
                 margin='20px auto -10px auto'
               >
-                increase staking still in process
+                 {t('processingIncreaseStake')}
               </Text>
 
               <LoadingIcon

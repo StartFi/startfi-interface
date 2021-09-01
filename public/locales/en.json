@@ -332,7 +332,9 @@
   "DetailsCreatedBySeller":"Details created by the seller",
   "PercentageResellingTransaction":"Percentage on each reselling transaction",
   "seller":"Seller",
-  "stake":"Stake",
+  "stakeBalance":"Stake",
+  "stakeTokens":"Stake Tokens",
+  "processingIncreaseStake":"increase staking still in process",
   "increaseStake":"Increase Stake Balance"
 
 
