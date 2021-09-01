@@ -407,39 +407,6 @@ export const useGetUserNFTs = () => {
   )
 }
 
-// export const useGetOwnerStakes = () => {
-//   const [ownerStakes, setOwnerStakes] = useState<number>(0)
-//   const dispatch = useDispatch()
-//   const owner = useUserAddress()
-//   const getReserves = useGetReserves()
-//   let ownerStake
-
-//   useEffect(() => {
-//     if (owner) {
-//       getReserves(owner).then(stakes => {
-//         console.log('get Stake balance called',parseInt(stakes, 16))
-//         // setOwnerStakes(parseInt(stakes, 16))
-//         ownerStake = parseInt(stakes, 16)
-//         console.log('ownerStake', ownerStake)
-//         setOwnerStakes(ownerStake)
-//         dispatch(updateStakeBalance({ stakeBalance:parseInt(stakes, 16) }))
-//       })
-//     }
-
-//     // return () => {}
-//   }, [owner, ownerStake, dispatch])
-//   return useSelector((state: AppState) => state.user.stakeBalance)
-// }
-
-// export const useUpdateStackBalance = () => {
-//   const dispatch = useDispatch()
-//   const stackBalance = useGetOwnerStakes()
-
-//   return useCallback(() => {
-//     dispatch(updateStakeBalance({ stakeBalance: stackBalance }))
-//   }, [stackBalance, dispatch])
-// }
-
 // get user stack balance
 export const useStakeBalance = (): number => {
   return useSelector((state: AppState) => state.user.stakeBalance)
@@ -448,23 +415,6 @@ export const useStakeBalance = (): number => {
 // get deposit stack state
 export const useDepositStackState = (): boolean => {
   return useSelector((state: AppState) => state.user.depositState)
-}
-
-// deposit stakes
-export const useDepositStake = value => {
-  const dispatch = useDispatch()
-  const owner = useUserAddress()
-  const depositStake = useDeposit()
-  useEffect(() => {
-    const deposit = async () => {
-      if (owner) {
-        await depositStake(owner, value)
-      }
-    }
-    deposit()
-
-    return () => {}
-  }, [owner, dispatch])
 }
 
 // get allowance from user
@@ -481,15 +431,13 @@ export const useGetStakeAllowance = () => {
         setAllowedAmount(parseInt(allowed))
 
         if (allowed === '0x00') {
-          console.log('reached')
           setAllowStaking(false)
         }
-
       }
     }
     getAllow()
     return () => {}
   }, [owner, STARTFI_STAKES_ADDRESSS])
-  console.log('allowed hook=>', allowStaking)
+
   return { allowStaking, allowedAmount }
 }

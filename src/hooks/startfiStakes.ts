@@ -31,9 +31,11 @@ export const useDeposit = (): ((user: string, amount: string | number) => any) =
 
         return decodedLogs[0].events
       } catch (e) {
-        console.log('error', e)
+        console.log('error=>', e)
+        dispatch(updateStackDepositState({ depositState:false}))
         // return e
-        throw new Error(e)
+        // throw new Error(e)
+        throw e
       }
     },
     [account, contract, library, deposit, toggleWalletModal]

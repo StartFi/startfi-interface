@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Text from '../Text'
 import Card from 'components/Card'
 import { BalanceContainer, InputContainer, StokeTokenFooter } from './StakeToken.styles'
@@ -17,7 +17,7 @@ import { useDepositStackState, useGetStakeAllowance, useStakeBalance, useUserAdd
 import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
 import { useSTFItoUSD } from 'hooks/useSTFItoUSD'
 import { useSTFIBalance } from 'hooks/useSTFIBalance'
-import { MarginLeft } from 'components/Input/styles'
+
 import { LoadingIcon } from 'components/WaitingConfirmation/styles'
 import Loading from './../../assets/icons/buttonloader.svg'
 
@@ -39,8 +39,8 @@ const StakeToken = () => {
   const popup = usePopup()
 
   const approveToken = useApproveToken()
-  const { allowStaking} = useGetStakeAllowance()
-  const [askApproval, setAskApproval] = useState<boolean>(!allowStaking)
+  const { allowStaking, allowedAmount } = useGetStakeAllowance()
+
 
   const owner = useUserAddress()
   const getReserves = useGetReserves()
@@ -62,21 +62,13 @@ const StakeToken = () => {
     setCancelState(false)
   }
 
-  // useEffect(() => {
-  //
-
-  //   console.log('ask Approval', askApproval)
-  //   return () => {}
-  // }, [depositStackState, allowStaking])
-
   const next = () => {
-    setAskApproval(!allowStaking)
-    console.log('next', allowStaking)
+
     switch (step) {
       case 1:
         setLoader(true)
         if (owner) {
-          if (!allowStaking) {
+          if (!allowStaking || value > allowedAmount) {
             approveToken(STARTFI_STAKES_ADDRESSS, value)
               .then(res => {
                 setLoader(false)
@@ -84,7 +76,8 @@ const StakeToken = () => {
                 setStep(2)
               })
               .catch(e => {
-                popup({ success: false, message: 'Error Ocurred' })
+                console.log(e)
+                popup({ success: false, message: e.code === 4001 ? 'allow rejected' : 'Error Ocurred' })
                 setLoader(false)
                 setCancelState(false)
                 setOpenModal(false)
@@ -104,6 +97,7 @@ const StakeToken = () => {
         if (owner) {
           depositStake(owner, value)
             .then(res => {
+              console.log('reach success')
               getReserves(owner)
               setWaitingConfirmation(false)
               setOpenModal(false)
@@ -115,7 +109,11 @@ const StakeToken = () => {
               setStep(1)
             })
             .catch(e => {
-              popup({ success: false, message: 'Error Ocurred' })
+              console.log(e?.code)
+
+              popup({ success: false, message: e?.code === 4001 ? 'You reject transaction' : 'Error Ocurred' })
+              setWaitingConfirmation(false)
+              setSuccessModal(false)
               setLoader(false)
               setCancelState(false)
               setOpenModal(false)
@@ -209,17 +207,6 @@ const StakeToken = () => {
 
           {cancelState ? (
             <React.Fragment>
-              {/* <Text
-                fontFamily='Roboto'
-                fontSize='1rem'
-                color='#444444'
-                margin='10px 178px 3px 30px'
-                marginLeft='150px'
-                spanWeight='600'
-              >
-                AllowedAmount :<span> {allowedAmount}</span>
-              </Text> */}
-
               <BalanceContainer>
                 <div>
                   <Text fontFamily='Roboto' fontSize='1rem' color='#444444' margin='0 178px 3px 30px'>
