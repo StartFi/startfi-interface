@@ -40,7 +40,7 @@ import { useApproveNft } from 'hooks/startfiNft'
 import { useDigitizingFees } from 'hooks'
 import { STEP } from './types'
 
-const generateId =
+export const generateId =
   Date.now().toString(36) +
   Math.random()
     .toString(36)

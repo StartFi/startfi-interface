@@ -40,6 +40,8 @@ import { useHistory } from 'react-router-dom'
 import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
 import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/StartfiStakes.json'
 import { useGetAllowance, useTokenBalance } from 'hooks/startfiToken'
+import { setInvItem, useSaveInvItem } from 'state/inventory/hooks'
+import { InventoryType } from 'services/models/Inventory'
 
 function serializeToken(token: Token): SerializedToken {
   return {
@@ -248,12 +250,15 @@ export const useSaveDraft = (): (() => void) => {
   const popup = usePopup()
   const step = useStep()
   const history = useHistory()
+  const saveInvItem = useSaveInvItem()
   const draft = useNFT()
   return useCallback(() => {
     if (step < 2 || !draft) return popup({ success: false, message: 'cannotAddDraft' })
     if (!user) return popup({ success: false, message: 'connectWallet' })
-    const drafts = [draft]
-    if (step < 6) dispatch(saveDraftAction({ user, drafts }))
+    const invItem = setInvItem(user, InventoryType.Draft, draft)
+    // const drafts = [draft]
+    // if (step < 6) dispatch(saveDraftAction({ user, drafts }))
+    if (step < 6) saveInvItem(invItem)
     else history.push('/inventory/off-market/' + draft.id)
   }, [history, step, user, draft, popup, dispatch])
 }
@@ -430,7 +435,7 @@ export const useGetStakeAllowance = () => {
     const getAllow = async () => {
       if (owner) {
         const allowed = await getAllowance(owner, STARTFI_STAKES_ADDRESSS)
-      
+
         if (allowed === '0x00') {
           setAllowStaking(true)
         }
