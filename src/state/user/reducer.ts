@@ -227,10 +227,10 @@ export default createReducer(initialState, builder =>
       state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
     })
     .addCase(getUserNFTsAction.pending, (state, action) => {
-      console.log('pending')
+      // console.log('pending')
     })
     .addCase(getUserNFTsAction.fulfilled, (state, action) => {
-      console.log('reducer',action.payload)
+      // console.log('reducer',action.payload)
       state.onMarket = action.payload.onMarket
       state.offMarket = action.payload.offMarket
       state.userAuctions = action.payload.userAuctions

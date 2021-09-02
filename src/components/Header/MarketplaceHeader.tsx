@@ -16,6 +16,7 @@ import { useDeposit } from 'hooks/startfiStakes'
 import { useWeb3React } from '@web3-react/core'
 import { useApproveToken } from 'hooks/startfiToken'
 import { address as STARTFI_STAKES_ADDRESS } from '../../constants/abis/StartfiStakes.json'
+import { useGetUserInv } from 'state/inventory/hooks'
 
 const MarketplaceHeader: React.FC = () => {
   const address = useWalletAddress()
@@ -28,6 +29,7 @@ const MarketplaceHeader: React.FC = () => {
   const [dropDown,setDropDown]= useState(HEADER_DROPDOWN[0])
 
   const getNFTs = useGetNFTs()
+ 
   const stakeToken = useDeposit()
   const approveToken = useApproveToken()
   const { account } = useWeb3React()
@@ -43,6 +45,7 @@ const MarketplaceHeader: React.FC = () => {
         history.push('/marketplace/wishList')
         break
       case 'Inventory':
+        // getUserInv()
         history.push('/inventory/home/draft')
         break
       case 'Dashboard':

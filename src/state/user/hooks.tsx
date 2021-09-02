@@ -380,6 +380,7 @@ export const useAuctionItem = (nftId: string): Auction => {
   return useMemo(() => userAuctions.filter(auction => auction.nft === nftId)[0], [userAuctions, nftId])
 }
 
+
 export const useClearUserPopup = (): (() => void) => {
   const dispatch = useDispatch()
   return useCallback(() => {
