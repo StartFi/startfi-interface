@@ -1,3 +1,4 @@
+import { InventoryType } from './../services/models/Inventory';
 import { EventFilter } from 'ethers'
 import { useActiveWeb3React } from 'hooks'
 import { useEffect } from 'react'
@@ -15,6 +16,8 @@ import {
 import { useAuction, useAuctionNFT, useNFT } from 'state/marketplace/hooks'
 import { useChainId, useUserAddress } from 'state/user/hooks'
 import { Bid } from 'services/models/Bid'
+import { setInvItem } from 'state/inventory/hooks'
+import { addToInventory } from 'state/inventory/actions';
 export const useNftPaymentEventListener = () => {
   const account = useUserAddress()
   const chainId = useChainId()
@@ -34,7 +37,9 @@ export const useNftPaymentEventListener = () => {
         console.log({account, nft, chainId})
         if (account && nft && chainId) {
           const mintedNFT = { ...nft, id, issueDate: new Date(), owner: account, issuer: account, chainId }
+          const invItem=setInvItem(mintedNFT.owner,InventoryType.offMarket,mintedNFT)
           dispatch(mintNFTAction(mintedNFT))
+          dispatch(addToInventory(invItem))
           dispatch(saveNFT({ nft: mintedNFT }))
         }
         dispatch(addNewEvent({ eventName: 'transferRoyaltyEvent', eventValue: parseBigNumber(eventLogs) }))
