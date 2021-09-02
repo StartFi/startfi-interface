@@ -336,7 +336,9 @@
   "stakeTokens":"Stake Tokens",
   "processingIncreaseStake":"increase staking still in process",
   "increaseStake":"Increase Stake Balance",
-  "stake":"STFI"
+  "stake":"STFI",
+  "userRejectTransaction":"You reject transaction'"
+
 
 
 

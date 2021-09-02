@@ -97,7 +97,6 @@ export const DelistButton = styled('button')<{
   margin?: string
   disabledColor?:string
   disabledBackground?:string
-
 }>`
   cursor: pointer;
   box-sizing: border-box;
@@ -114,7 +113,7 @@ export const DelistButton = styled('button')<{
   font-size: ${({ fontSize }) => fontSize};
   margin: ${({ margin }) => margin};
   &:disabled {
-     background-color: ${({   disabledBackground }) =>   disabledBackground};
+     background-color: ${({  disabledBackground }) =>   disabledBackground};
     color:${({disabledColor }) => disabledColor};
   }
 `

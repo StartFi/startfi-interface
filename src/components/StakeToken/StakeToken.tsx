@@ -77,7 +77,7 @@ const StakeToken = () => {
               })
               .catch(e => {
                 console.log(e)
-                popup({ success: false, message: e.code === 4001 ? 'allow rejected' : 'Error Ocurred' })
+                popup({ success: false, message: e.code === 4001 ?  t('userRejectTransaction') : t('error') })
                 setLoader(false)
                 setCancelState(false)
                 setOpenModal(false)
@@ -97,7 +97,7 @@ const StakeToken = () => {
         if (owner) {
           depositStake(owner, value)
             .then(res => {
-              console.log('reach success')
+
               getReserves(owner)
               setWaitingConfirmation(false)
               setOpenModal(false)
@@ -109,9 +109,8 @@ const StakeToken = () => {
               setStep(1)
             })
             .catch(e => {
-              console.log(e?.code)
 
-              popup({ success: false, message: e?.code === 4001 ? 'You reject transaction' : 'Error Ocurred' })
+              popup({ success: false, message: e?.code === 4001 ? t('userRejectTransaction') : t('error') })
               setWaitingConfirmation(false)
               setSuccessModal(false)
               setLoader(false)
@@ -198,7 +197,7 @@ const StakeToken = () => {
               disabledColor='#c2c2c2'
               disabled={depositStackState}
               onClick={() =>
-                owner ? setCancelState(!cancelState) : popup({ success: false, message: 'You Are Not Connected' })
+                owner ? setCancelState(!cancelState) : popup({ success: false, message:t('connectWallet') })
               }
             >
               {cancelState ? t('cancel') : t('IncreaseStakes')}
