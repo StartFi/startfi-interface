@@ -10,12 +10,11 @@ import { ALL_CATEGORIES, DEFAULT_SORT, HEADER_DROPDOWN, TabIcons } from '../../c
 import { useTranslation } from 'react-i18next'
 import { useWalletAddress } from 'state/user/hooks'
 import { useLocationSearch } from 'hooks'
-import { ConnectWallet, FirstRow, Img, Search, Tab, TabsCategory} from './styles'
+import { ConnectWallet, FirstRow, Img, Search, Tab, TabsCategory } from './styles'
 import { DropDownCategory } from 'components/DropDown'
-import { useDeposit } from 'hooks/startfiStakes'
+import {  useGetReserves } from 'hooks/startfiStakes'
 import { useWeb3React } from '@web3-react/core'
-import { useApproveToken } from 'hooks/startfiToken'
-import { address as STARTFI_STAKES_ADDRESS } from '../../constants/abis/StartfiStakes.json'
+import { usePopup } from 'state/application/hooks'
 
 const MarketplaceHeader: React.FC = () => {
   const address = useWalletAddress()
@@ -25,13 +24,14 @@ const MarketplaceHeader: React.FC = () => {
   const { t } = useTranslation()
 
   const [input, setInput] = useState('')
-  const [dropDown,setDropDown]= useState(HEADER_DROPDOWN[0])
+  const [dropDown, setDropDown] = useState(HEADER_DROPDOWN[0])
 
   const getNFTs = useGetNFTs()
-  const stakeToken = useDeposit()
-  const approveToken = useApproveToken()
+
   const { account } = useWeb3React()
   let { category, search } = useLocationSearch()
+  const getReserves = useGetReserves()
+  const popup = usePopup()
 
   if (!category) category = 'all'
 
@@ -49,9 +49,9 @@ const MarketplaceHeader: React.FC = () => {
         history.push('')
         break
       case 'Stake Tokens':
+        if (!account) return popup({ success: false, message: t('connectWallet') })
+        getReserves(account)
         history.push('/marketplace/stakeTokens')
-        // await approveToken(STARTFI_STAKES_ADDRESS, 1000)
-        // await stakeToken(account as string, 1000)
 
         break
     }
@@ -59,7 +59,7 @@ const MarketplaceHeader: React.FC = () => {
   return (
     <React.Fragment>
       <FirstRow>
-        <img src={Logo} alt='Logo' onClick={() => history.push('/')}/>
+        <img src={Logo} alt='Logo' onClick={() => history.push('/')} />
         <Search>
           <InputSearch placeholder={t('searchNFTS')} value={input} onChange={(e: any) => setInput(e.target.value)} />
           <ButtonSearch onClick={() => history.push(`/marketplace/nfts/?category=${category}&search=${input}`)}>
@@ -67,16 +67,15 @@ const MarketplaceHeader: React.FC = () => {
           </ButtonSearch>
         </Search>
 
-        <LinkCreateNFT width="40vw" to='/mint/steps'>{t('mintNFT')}</LinkCreateNFT>
+        <LinkCreateNFT width='40vw' to='/mint/steps'>
+          {t('mintNFT')}
+        </LinkCreateNFT>
 
         <DropDownCategory
           options={HEADER_DROPDOWN}
           name={'drop'}
-
           value={dropDown}
           itemsWidth='180px'
-
-
           border='none'
           selectIcon={true}
           onChange={getDropDownChanges}
