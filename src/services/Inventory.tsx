@@ -1,6 +1,7 @@
+import { inventoryTypes } from 'components/invHome/CardHeader'
 import { checkSuccess } from 'utils'
 import { addInventory, getInventories } from './database/Inventory'
-import { Inventory } from './models/Inventory'
+import { Inventory, InventoryType } from './models/Inventory'
 
 
 // add inventory item
@@ -10,13 +11,17 @@ export const addInventoryItem = async (item: Inventory) => {
   return { status, itemAdded, type: item.type }
 }
 
-// get inventory 
+// get inventory
 export const getInventory = async (
   ethAddress: string
-): Promise<{
-  inventory: Inventory[]
-}> => {
+) => {
+  let draft,onMarket,offMarket
   const inventory = await getInventories({ ethAddress })
+  if(inventory){
+     draft=inventory.filter(item=>item.type===InventoryType.Draft)
+     onMarket=inventory.filter(item=>item.type===InventoryType.OnMarket)
+     offMarket=inventory.filter(item=>item.type===InventoryType.offMarket)
+  }
 
-  return { inventory }
+  return { inventory,draft,onMarket,offMarket }
 }

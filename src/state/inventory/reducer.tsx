@@ -3,14 +3,21 @@ import { PopupContent } from '../../constants'
 import { Inventory, InventoryType } from 'services/models/Inventory'
 import { addToInventory, clearInvPopup, getUserInventory } from './actions'
 import { initialInventory } from './initial'
+import { stat } from 'fs'
 
 export interface InventoryState {
   inventory: Inventory[]
+  draft:Inventory[]
+  onMarket:Inventory[]
+  offMarket:Inventory[]
   popup: PopupContent | null
 }
 
 const initialState: InventoryState = {
   inventory: [],
+  draft:[],
+  onMarket:[],
+  offMarket:[],
   popup: null
 }
 
@@ -18,7 +25,11 @@ export default createReducer(initialState, builder => {
   builder
     .addCase(getUserInventory.pending, (state, action) => {})
     .addCase(getUserInventory.fulfilled, (state, action) => {
+      console.log('state updated')
       state.inventory = action.payload.inventory
+      state.draft=action.payload.draft
+      state.onMarket=action.payload.onMarket
+      state.offMarket=action.payload.offMarket
     })
     .addCase(addToInventory.rejected, (state, action) => {})
     .addCase(addToInventory.pending, (state, action) => {})

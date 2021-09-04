@@ -8,7 +8,7 @@ import { useGetNFTs } from 'state/marketplace/hooks'
 import { useHistory } from 'react-router'
 import { ALL_CATEGORIES, DEFAULT_SORT, HEADER_DROPDOWN, TabIcons } from '../../constants'
 import { useTranslation } from 'react-i18next'
-import { useWalletAddress } from 'state/user/hooks'
+import { useUserAddress, useWalletAddress } from 'state/user/hooks'
 import { useLocationSearch } from 'hooks'
 import { ConnectWallet, FirstRow, Img, Search, Tab, TabsCategory} from './styles'
 import { DropDownCategory } from 'components/DropDown'
@@ -29,11 +29,13 @@ const MarketplaceHeader: React.FC = () => {
   const [dropDown,setDropDown]= useState(HEADER_DROPDOWN[0])
 
   const getNFTs = useGetNFTs()
- 
+
   const stakeToken = useDeposit()
   const approveToken = useApproveToken()
   const { account } = useWeb3React()
   let { category, search } = useLocationSearch()
+  // const owner = useUserAddress()
+  // const getUserInv = useGetUserInv()
 
   if (!category) category = 'all'
 
@@ -46,6 +48,10 @@ const MarketplaceHeader: React.FC = () => {
         break
       case 'Inventory':
         // getUserInv()
+      //    if(owner){
+      //   getUserInv(owner)
+      // }
+
         history.push('/inventory/home/draft')
         break
       case 'Dashboard':

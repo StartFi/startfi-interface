@@ -9,14 +9,14 @@ import { useGetUserInv } from 'state/inventory/hooks'
 import { useUserAddress } from 'state/user/hooks'
 
 const Inventory = () => {
-  const owner = useUserAddress()
-  const getUserInv = useGetUserInv()
-  useEffect(() => {
-      if(owner){
-        getUserInv(owner)
-      }
+  // const owner = useUserAddress()
+  // const getUserInv = useGetUserInv()
+  // useEffect(() => {
+  //     if(owner){
+  //       getUserInv(owner)
+  //     }
 
-  }, [owner])
+  // }, [owner])
 
   return (
     <InvPageContainer>
