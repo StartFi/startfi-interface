@@ -64,6 +64,12 @@ export const useOffMarketItem = (nftId: string): NFT => {
 export const useGetUserOnMarket = () => {
   return useSelector((state: AppState) => state.inventory.onMarket)
 }
+
+// get onMarket single item
+export const useOnMarketItem = (nftId: string): NFT => {
+  const onMarket: Inventory[] = useGetUserOnMarket()
+  return useMemo(() => onMarket?.filter(invItem => invItem.nft.id === nftId)[0]?.nft, [onMarket, nftId])
+}
 // inv popup
 export const useInventoryPopup = (): PopupContent | null => {
   return useSelector((state: AppState) => state.inventory.popup)

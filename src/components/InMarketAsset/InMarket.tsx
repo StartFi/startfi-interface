@@ -5,7 +5,7 @@ import Text from '../Text'
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
-import { useAuctionItem, useOnMarketItem } from 'state/user/hooks'
+import { useAuctionItem} from 'state/user/hooks'
 import uriToHttp from 'utils/uriToHttp'
 import {
   Divider,
@@ -25,6 +25,7 @@ import { Footer } from 'components/OffMarket/OffMarket.styles'
 import Amount from 'components/NFTSummary/Amount'
 
 import Timer from 'components/Timer/Timer'
+import { useOnMarketItem } from 'state/inventory/hooks'
 
 interface onMarketParams {
   id: string
