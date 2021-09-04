@@ -5,7 +5,7 @@ import Text from '../Text'
 import { useHistory, useParams } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
 import uriToHttp from 'utils/uriToHttp'
-import { useOffMarketItem} from 'state/user/hooks'
+
 import Card from 'components/Card'
 import { ImageContainer, Divider, TextContainer, TagRow } from 'components/InMarketAsset/InMarket.styles'
 import { Footer, TopTitle } from './OffMarket.styles'
@@ -15,16 +15,16 @@ import Vector from '../../assets/images/Vector.png'
 import StringModifier from 'utils/StringSplice'
 import { useSaveNFT, useSetStep } from 'state/marketplace/hooks'
 import { STEP } from 'state/marketplace/types'
+import { useOffMarketItem } from 'state/inventory/hooks'
 
 interface offMarketParams {
   id: string
 }
 
 const OffMarket = () => {
+
   const { t } = useTranslation()
   const { id }: offMarketParams = useParams()
-
-
   const history = useHistory()
   const nft: NFT = useOffMarketItem(id)
   const saveNFT = useSaveNFT()
@@ -33,11 +33,15 @@ const OffMarket = () => {
   const [tagsState, setTagsState] = useState(false)
 
 
+
   useEffect(() => {
+
     if (nft?.tags) {
       if (nft.tags.length > 0) setTagsState(true)
     }
   }, [])
+
+
 
   return (
     <React.Fragment>

@@ -343,10 +343,10 @@ export const useDrafts = (): NFT[] => {
 }
 
 // get single draft
-export const useDraft = (draftId: number): NFT => {
-  const userDrafts: NFT[] = useDrafts()
-  return useMemo(() => userDrafts?.filter(draft => draft.id === draftId)[0], [draftId, userDrafts])
-}
+// export const useDraft = (draftId: number): NFT => {
+//   const userDrafts: NFT[] = useDrafts()
+//   return useMemo(() => userDrafts?.filter(draft => draft.id === draftId)[0], [draftId, userDrafts])
+// }
 
 // get onMarket state
 export const useOnMarket = (): NFT[] => {
@@ -364,11 +364,11 @@ export const useOffMarket = (): NFT[] => {
   return useSelector((state: AppState) => state.user.offMarket)
 }
 
-// get single offMarket item
-export const useOffMarketItem = (nftId: string): NFT => {
-  const offMarket: NFT[] = useOffMarket()
-  return useMemo(() => offMarket.filter(nft => nft.id === nftId)[0], [offMarket, nftId])
-}
+// // get single offMarket item
+// export const useOffMarketItem = (nftId: string): NFT => {
+//   const offMarket: NFT[] = useOffMarket()
+//   return useMemo(() => offMarket.filter(nft => nft.id === nftId)[0], [offMarket, nftId])
+// }
 // get userAuctions
 export const useUserAuctions = (): Auction[] => {
   return useSelector((state: AppState) => state.user.userAuctions)

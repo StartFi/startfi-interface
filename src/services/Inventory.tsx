@@ -15,6 +15,7 @@ export const addInventoryItem = async (item: Inventory) => {
 export const getInventory = async (
   ethAddress: string
 ) => {
+  console.log('service called=>',ethAddress)
   let draft,onMarket,offMarket
   const inventory = await getInventories({ ethAddress })
   if(inventory){

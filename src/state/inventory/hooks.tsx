@@ -29,15 +29,12 @@ export const useSaveInvItem = (): ((item: Inventory) => void) => {
 export const useGetUserInv = () => {
   const dispatch = useDispatch()
   const owner = useUserAddress()
-  return useCallback(
-    () => {
-      if(owner){
-        dispatch(getUserInventory(owner))
-      }
 
-    },
-    [dispatch,owner]
-  )
+  return useCallback(() => {
+    if (owner) {
+      dispatch(getUserInventory(owner))
+    }
+  }, [dispatch, owner])
 }
 
 // get user inv
@@ -45,25 +42,25 @@ export const useUserInv = (): Inventory[] => {
   return useSelector((state: AppState) => state.inventory.inventory)
 }
 
-// get userDrafts
-// export const useGetUserDrafts=():Inventory[]=>{
-//   const userInv=useUserInv()
-//    const user = useUser()
-
-//    console.log('called=>')
-
-//   return useMemo(()=>userInv.filter(item=>item.type===InventoryType.Draft),[userInv,user])
-// }
-
-
 export const useGetUserDrafts = () => {
-  return useSelector((state: AppState) =>    // console.log(state.inventory.draft)
-    state.inventory.draft
-  )
+  return useSelector((state: AppState) => state.inventory.draft)
+}
+
+// get single draft
+export const useDraft = (draftId: number): NFT => {
+  const userDrafts: Inventory[] = useGetUserDrafts()
+  return useMemo(() => userDrafts?.filter(invItem => invItem.nft.id === draftId)[0].nft, [draftId, userDrafts])
 }
 export const useGetUserOffMarket = () => {
   return useSelector((state: AppState) => state.inventory.offMarket)
 }
+// get single offMarket item
+export const useOffMarketItem = (nftId: string): NFT => {
+  const offMarket: Inventory[] = useGetUserOffMarket()
+
+  return useMemo(() => offMarket?.filter(invItem => invItem.nft.id === nftId)[0]?.nft, [offMarket, nftId])
+}
+
 export const useGetUserOnMarket = () => {
   return useSelector((state: AppState) => state.inventory.onMarket)
 }

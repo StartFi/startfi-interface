@@ -10,7 +10,7 @@ import { ALL_CATEGORIES, DEFAULT_SORT, HEADER_DROPDOWN, TabIcons } from '../../c
 import { useTranslation } from 'react-i18next'
 import { useUserAddress, useWalletAddress } from 'state/user/hooks'
 import { useLocationSearch } from 'hooks'
-import { ConnectWallet, FirstRow, Img, Search, Tab, TabsCategory} from './styles'
+import { ConnectWallet, FirstRow, Img, Search, Tab, TabsCategory } from './styles'
 import { DropDownCategory } from 'components/DropDown'
 import { useDeposit } from 'hooks/startfiStakes'
 import { useWeb3React } from '@web3-react/core'
@@ -26,7 +26,7 @@ const MarketplaceHeader: React.FC = () => {
   const { t } = useTranslation()
 
   const [input, setInput] = useState('')
-  const [dropDown,setDropDown]= useState(HEADER_DROPDOWN[0])
+  const [dropDown, setDropDown] = useState(HEADER_DROPDOWN[0])
 
   const getNFTs = useGetNFTs()
 
@@ -35,7 +35,6 @@ const MarketplaceHeader: React.FC = () => {
   const { account } = useWeb3React()
   let { category, search } = useLocationSearch()
   // const owner = useUserAddress()
-  // const getUserInv = useGetUserInv()
 
   if (!category) category = 'all'
 
@@ -47,11 +46,6 @@ const MarketplaceHeader: React.FC = () => {
         history.push('/marketplace/wishList')
         break
       case 'Inventory':
-        // getUserInv()
-      //    if(owner){
-      //   getUserInv(owner)
-      // }
-
         history.push('/inventory/home/draft')
         break
       case 'Dashboard':
@@ -68,7 +62,7 @@ const MarketplaceHeader: React.FC = () => {
   return (
     <React.Fragment>
       <FirstRow>
-        <img src={Logo} alt='Logo' onClick={() => history.push('/')}/>
+        <img src={Logo} alt='Logo' onClick={() => history.push('/')} />
         <Search>
           <InputSearch placeholder={t('searchNFTS')} value={input} onChange={(e: any) => setInput(e.target.value)} />
           <ButtonSearch onClick={() => history.push(`/marketplace/nfts/?category=${category}&search=${input}`)}>
@@ -76,16 +70,15 @@ const MarketplaceHeader: React.FC = () => {
           </ButtonSearch>
         </Search>
 
-        <LinkCreateNFT width="40vw" to='/mint/steps'>{t('mintNFT')}</LinkCreateNFT>
+        <LinkCreateNFT width='40vw' to='/mint/steps'>
+          {t('mintNFT')}
+        </LinkCreateNFT>
 
         <DropDownCategory
           options={HEADER_DROPDOWN}
           name={'drop'}
-
           value={dropDown}
           itemsWidth='180px'
-
-
           border='none'
           selectIcon={true}
           onChange={getDropDownChanges}

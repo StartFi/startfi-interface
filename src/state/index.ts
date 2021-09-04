@@ -12,7 +12,7 @@ import ipfs from './ipfs/reducer'
 import bcEvent from './blockchainEvents/reducer'
 
 
-const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists']
+const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists','inventory']
 
 const store = configureStore({
   reducer: {
