@@ -9,6 +9,7 @@ import { usePopup } from 'state/application/hooks'
 import { generateId } from 'state/marketplace/hooks'
 import { useUser, useUserAddress } from 'state/user/hooks'
 import { addToInventory, clearInvPopup, getUserInventory } from './actions'
+import { initialAuction } from 'state/marketplace/initial'
 
 // set inventory item
 export const setInvItem = (
@@ -24,7 +25,7 @@ export const setInvItem = (
     nft,
     issueDate,
 
-    auction: auction ? auction : '',
+    auction: auction ? auction : initialAuction,
     type
   }
 }
@@ -96,9 +97,10 @@ export const useGetUserOnMarket = () => {
 }
 
 // get onMarket single item
-export const useOnMarketItem = (nftId: string): NFT => {
+export const useOnMarketItem = (nftId: string):Inventory => {
   const onMarket: Inventory[] = useGetUserOnMarket()
-  return useMemo(() => onMarket?.filter(invItem => invItem.nft.id === nftId)[0]?.nft, [onMarket, nftId])
+  console.log(nftId)
+  return useMemo(() => onMarket?.filter(invItem => invItem.nft.id === nftId)[0], [onMarket, nftId])
 }
 // inv popup
 export const useInventoryPopup = (): PopupContent | null => {

@@ -7,7 +7,7 @@ export interface Inventory {
   ethAddress: string
   nft: NFT
   issueDate: any
-  auction?: any
+  auction: Auction
   type: InventoryType
 }
 
