@@ -157,8 +157,7 @@ export const useApproveNft = (): ((spender: string, tokenId: string | number) =>
       try {
         const transaction = await approve('approve', [spender, tokenId], contract, account, library)
         const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
-        const decodedLogs = await abiDecoder.decodeLogs(transactionReceipt?.logs)
-        return decodedLogs[0].events
+        return transactionReceipt
       } catch (e) {
         console.log('error', e)
         return e
