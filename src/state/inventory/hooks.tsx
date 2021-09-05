@@ -77,12 +77,19 @@ export const useDraft = (draftId: number): NFT => {
 export const useGetUserOffMarket = () => {
   return useSelector((state: AppState) => state.inventory.offMarket)
 }
-// get single offMarket item
+// get single offMarket nft
+export const useOffMarketInvItem = (nftId: string): Inventory => {
+  const offMarket: Inventory[] = useGetUserOffMarket()
+  return useMemo(() => offMarket?.filter(invItem => invItem.nft.id === nftId)[0], [offMarket, nftId])
+}
+
+// get single offMarket nft
 export const useOffMarketItem = (nftId: string): NFT => {
   const offMarket: Inventory[] = useGetUserOffMarket()
-
   return useMemo(() => offMarket?.filter(invItem => invItem.nft.id === nftId)[0]?.nft, [offMarket, nftId])
 }
+
+
 
 export const useGetUserOnMarket = () => {
   return useSelector((state: AppState) => state.inventory.onMarket)

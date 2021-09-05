@@ -16,7 +16,7 @@ export const getMarketplaceAction = createAsyncThunk('marketplace/getMarketplace
 
 export const mintNFTAction = createAsyncThunk('marketplace/mintNFTAction', mintNFT)
 
-// export const addToMarketplaceAction = createAsyncThunk('marketplace/addToMarketplaceAction', addToMarketplace)
+export const addToMarketplaceAction = createAsyncThunk('marketplace/addToMarketplaceAction', addToMarketplace)
 
 export const getAuctionNFTAction = createAsyncThunk('marketplace/getAuctionNFTAction', getAuctionNFT)
 

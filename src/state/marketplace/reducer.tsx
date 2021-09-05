@@ -11,7 +11,7 @@ import {
   setBidOrBuy,
   saveNFT,
   saveAuction,
-  // addToMarketplaceAction,
+  addToMarketplaceAction,
   clearNFT,
   delistAuctionAction,
   setWalletConfirmation,

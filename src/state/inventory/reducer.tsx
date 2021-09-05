@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { PopupContent } from '../../constants'
 import { Inventory, InventoryType } from 'services/models/Inventory'
-import { addToInventory, clearInvPopup, getUserInventory } from './actions'
+import { addToInventory, clearInvPopup, editInventoryAction, getUserInventory } from './actions'
 
 
 export interface InventoryState {
@@ -41,6 +41,19 @@ export default createReducer(initialState, builder => {
           message: success ? 'Draft saved successfully' : action.payload.itemAdded
         }
       }
+    })
+    .addCase(editInventoryAction.rejected, (state, action) => {})
+    .addCase(editInventoryAction.pending, (state, action) => {})
+    .addCase(editInventoryAction.fulfilled, (state, action) => {
+      console.log(action.payload)
+      // const success = action.payload.status === 'success'
+      // if (action.payload.type === InventoryType.Draft) {
+      //   state.popup = {
+      //     success,
+      //     type: 'SaveDraft',
+      //     message: success ? 'Draft saved successfully' : action.payload.itemAdded
+      //   }
+      // }
     })
     .addCase(getUserInventory.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }

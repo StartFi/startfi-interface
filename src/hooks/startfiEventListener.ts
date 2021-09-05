@@ -1,4 +1,4 @@
-import { InventoryType } from './../services/models/Inventory';
+import { Inventory, InventoryType } from './../services/models/Inventory';
 import { EventFilter } from 'ethers'
 import { useActiveWeb3React } from 'hooks'
 import { useEffect } from 'react'
@@ -16,8 +16,8 @@ import {
 import { useAuction, useAuctionNFT, useNFT } from 'state/marketplace/hooks'
 import { useChainId, useUserAddress } from 'state/user/hooks'
 import { Bid } from 'services/models/Bid'
-import { setInvItem, useCheckInvItem } from 'state/inventory/hooks'
-import { addToInventory } from 'state/inventory/actions';
+import { setInvItem, useCheckInvItem, useOffMarketInvItem } from 'state/inventory/hooks'
+import { addToInventory,  editInventoryAction } from 'state/inventory/actions';
 export const useNftPaymentEventListener = () => {
   const account = useUserAddress()
   const chainId = useChainId()
@@ -93,6 +93,7 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
   const chainId = useChainId()
   const auctionNFT = useAuctionNFT()
   const dispatch = useDispatch()
+  let offMarketInv =useOffMarketInvItem(nft.id)
   useEffect(() => {
     if (listOnMarketplaceEvent && seller && chainId) {
       library?.on(listOnMarketplaceEvent as EventFilter, result => {
@@ -102,8 +103,10 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
         dispatch(addNewEvent({ eventName: 'ListOnMarketplace', eventValue }))
         dispatch(
           addToMarketplaceAction({ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId })
-          // here
+
         )
+        dispatch(editInventoryAction({...offMarketInv,type:InventoryType.OnMarket,auction:{ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId }}))
+
       })
     }
     return () => {
@@ -130,10 +133,13 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
         const eventLogs = marketplaceContract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
         const eventValue = parseBigNumber(args)
+
+
         dispatch(addNewEvent({ eventName: 'CreateAuction', eventValue }))
         dispatch(
           addToMarketplaceAction({ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId })
         )
+        dispatch(editInventoryAction({...offMarketInv,type:InventoryType.OnMarket,auction:{ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId }}))
       })
     }
     return () => {
