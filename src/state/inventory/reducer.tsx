@@ -2,8 +2,7 @@ import { createReducer } from '@reduxjs/toolkit'
 import { PopupContent } from '../../constants'
 import { Inventory, InventoryType } from 'services/models/Inventory'
 import { addToInventory, clearInvPopup, getUserInventory } from './actions'
-import { initialInventory } from './initial'
-import { stat } from 'fs'
+
 
 export interface InventoryState {
   inventory: Inventory[]

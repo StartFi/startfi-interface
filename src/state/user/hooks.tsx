@@ -192,7 +192,6 @@ function serializePair(pair: Pair): SerializedPair {
 
 export function usePairAdder(): (pair: Pair) => void {
   const dispatch = useDispatch<AppDispatch>()
-
   return useCallback(
     (pair: Pair) => {
       dispatch(addSerializedPair({ serializedPair: serializePair(pair) }))
@@ -255,7 +254,8 @@ export const useSaveDraft = (): (() => void) => {
   return useCallback(() => {
     if (step < 2 || !draft) return popup({ success: false, message: 'cannotAddDraft' })
     if (!user) return popup({ success: false, message: 'connectWallet' })
-    const invItem = setInvItem(user, InventoryType.Draft, draft)
+    const invItem = setInvItem(user, InventoryType.Draft, draft,draft.issueDate)
+    console.log('id',invItem.id)
     if (step < 6) saveInvItem(invItem)
     else history.push('/inventory/off-market/' + draft.id)
   }, [history, step, user, draft, popup, dispatch])

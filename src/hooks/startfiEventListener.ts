@@ -16,7 +16,7 @@ import {
 import { useAuction, useAuctionNFT, useNFT } from 'state/marketplace/hooks'
 import { useChainId, useUserAddress } from 'state/user/hooks'
 import { Bid } from 'services/models/Bid'
-import { setInvItem } from 'state/inventory/hooks'
+import { setInvItem, useCheckInvItem } from 'state/inventory/hooks'
 import { addToInventory } from 'state/inventory/actions';
 export const useNftPaymentEventListener = () => {
   const account = useUserAddress()
@@ -28,6 +28,7 @@ export const useNftPaymentEventListener = () => {
   const transferEvent = tokenContract?.filters.Transfer()
   const ApprovalEvent = tokenContract?.filters.Approval()
   const transferRoyalEvent = nftRoyalty?.filters.Transfer()
+  const checkInvItem= useCheckInvItem(nft.id)
   const dispatch = useDispatch()
   useEffect(() => {
     if (transferRoyalEvent) {
@@ -37,9 +38,12 @@ export const useNftPaymentEventListener = () => {
         console.log({account, nft, chainId})
         if (account && nft && chainId) {
           const mintedNFT = { ...nft, id, issueDate: new Date(), owner: account, issuer: account, chainId }
-          const invItem=setInvItem(mintedNFT.owner,InventoryType.offMarket,mintedNFT)
+          const invItem=setInvItem(mintedNFT.owner,InventoryType.offMarket,mintedNFT,mintedNFT.issueDate)
           dispatch(mintNFTAction(mintedNFT))
-          dispatch(addToInventory(invItem))
+
+          console.log('check=>=>',checkInvItem)
+         if(!checkInvItem) dispatch(addToInventory(invItem))
+         console.log('add to inventory called')
           dispatch(saveNFT({ nft: mintedNFT }))
         }
         dispatch(addNewEvent({ eventName: 'transferRoyaltyEvent', eventValue: parseBigNumber(eventLogs) }))
@@ -98,6 +102,7 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
         dispatch(addNewEvent({ eventName: 'ListOnMarketplace', eventValue }))
         dispatch(
           addToMarketplaceAction({ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId })
+          // here
         )
       })
     }

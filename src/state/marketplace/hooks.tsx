@@ -205,8 +205,8 @@ export const useAddToMarketplace = (): (() => void) => {
   useMarketplaceListener(nft)
   return useCallback(() => {
     if (seller && chainId && auction && nft) {
-      console.log('add to marketplace=>=>', nft)
-      console.log('add to marketplace=>=>', auction)
+      console.log('add to marketplace nft=>=>', nft)
+      console.log('add to marketplace auction=>=>', auction)
       if (auction.isForSale && !auction.isForBid)
         listOnMarketplace(auction.contractAddress, nft.id, auction.listingPrice as number)
       else
@@ -332,10 +332,11 @@ export const useAddNFT = () => {
   const fees = useDigitizingFees()
   const [agree, setAgree] = useState<boolean>(false)
   const [loader, setLoader] = useState<boolean>(false)
+  // to generate id to every nft
+  // dispatch(setNFT({ value:generateId, name:'id' }))
 
   const handleChange = useCallback(
     (value: any, name: string) => {
-      console.log('value=>', value, 'name=>', name)
       if (name === 'royalty' && value > 100) return
       if (value) {
         dispatch(removeMissing({ name }))

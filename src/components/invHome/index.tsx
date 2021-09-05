@@ -34,7 +34,7 @@ const InventoryHome = () => {
   }, [owner])
 
   useEffect(() => {
-    console.log('drafts', drafts?.length)
+    
     if (id === 'offMarketPlace') {
       setInventoryOption(InventoryOptions.offMarketPlace)
     }
@@ -60,9 +60,12 @@ const InventoryHome = () => {
     }
   }, [inventoryOption, drafts, onMarketNFT, offMarketNFT])
 
-  // inventoryItems.sort((a, b) => {
-  //   return b.issueDate.seconds - a.issueDate.seconds
-  // })
+  if(inventoryItems.length>0){
+ inventoryItems.sort((a, b) => {
+    return b.issueDate.seconds - a.issueDate.seconds
+  })
+  }
+
 
   const navigate = (nft: NFT) => {
     if (inventoryOption === InventoryOptions.Draft) {

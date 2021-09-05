@@ -5,7 +5,8 @@ import { NFT } from './NFT'
 export interface Inventory {
   id: any
   ethAddress: string
-  nft?: any
+  nft: NFT
+  issueDate: any
   auction?: any
   type: InventoryType
 }

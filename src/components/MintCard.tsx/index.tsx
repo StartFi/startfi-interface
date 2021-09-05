@@ -30,8 +30,7 @@ const MintNFT: React.FC = () => {
   const { step, next, back, nftOrAuction } = useSteps()
 
   const icon = StepIcon(step)
-  console.log('mintCard', nftOrAuction)
-
+  
   return (
     <Container>
       <Body>

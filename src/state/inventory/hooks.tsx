@@ -11,11 +11,19 @@ import { useUser, useUserAddress } from 'state/user/hooks'
 import { addToInventory, clearInvPopup, getUserInventory } from './actions'
 
 // set inventory item
-export const setInvItem = (ethAddress: string, type: InventoryType, nft?: NFT, auction?: Auction): Inventory => {
+export const setInvItem = (
+  ethAddress: string,
+  type: InventoryType,
+  nft: NFT,
+  issueDate: any,
+  auction?: Auction
+): Inventory => {
   return {
     id: generateId,
     ethAddress,
     nft,
+    issueDate,
+
     auction: auction ? auction : '',
     type
   }
@@ -40,6 +48,21 @@ export const useGetUserInv = () => {
 // get user inv
 export const useUserInv = (): Inventory[] => {
   return useSelector((state: AppState) => state.inventory.inventory)
+}
+
+// check if item in inv
+export const useCheckInvItem = (nftId: string) => {
+  const userInv = useUserInv()
+
+
+  return useMemo(() => {
+    if( userInv?.length>0){
+      return userInv.filter(invItem => invItem.nft.id === nftId)?.length > 0 ? true : false
+    }else{
+      return false
+    }
+
+  }, [nftId])
 }
 
 export const useGetUserDrafts = () => {
