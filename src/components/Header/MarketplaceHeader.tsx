@@ -77,6 +77,8 @@ const MarketplaceHeader: React.FC = () => {
           value={dropDown}
           itemsWidth='180px'
           border='none'
+          left="-11.562vw"
+          iconPosition="-1.56vw"
           selectIcon={true}
           onChange={getDropDownChanges}
         ></DropDownCategory>

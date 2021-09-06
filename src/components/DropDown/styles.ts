@@ -5,6 +5,7 @@ interface WidthProps {
   readonly width: string
   readonly itemsWidth?: string
   readonly marginRight?: string
+  readonly left?: string
 }
 
 export const Container = styled.div<WidthProps>`
@@ -18,7 +19,7 @@ export const Container = styled.div<WidthProps>`
 `
 
 
-export const LabelRow = styled(Row)<{ border?: string,LabelWidth?:string,boxShadow?:string }>`
+export const LabelRow = styled(Row)<{ border?: string,LabelWidth?:string,boxShadow?:string,iconPosition?:string }>`
   min-height: 6vh;
   /* height:6vh; */
   width:${({LabelWidth }) =>LabelWidth};
@@ -32,7 +33,7 @@ export const LabelRow = styled(Row)<{ border?: string,LabelWidth?:string,boxShad
 
   & img {
     position: relative;
-    left:1px;
+    left:${({iconPosition }) =>iconPosition};
   }
 
 `
@@ -49,6 +50,7 @@ export const Items = styled.div<WidthProps>`
   border: 1px solid #dddddd;
   border-radius: 8px;
   position: absolute;
+  left: ${props => props.left};
   /* position: relative; */
   z-index: 9999;
   width: ${props => props.width};
@@ -59,6 +61,7 @@ export const Items = styled.div<WidthProps>`
 interface ItemProps {
   readonly selected: boolean
   readonly last: boolean
+  readonly first: boolean
 }
 
 export const Item = styled.div<ItemProps>`
@@ -67,13 +70,14 @@ export const Item = styled.div<ItemProps>`
   cursor: pointer;
 
   text-transform: capitalize;
-  border-radius: ${props => (props.selected ? 'none' : props.last ? '0px 0px 8px 8px' : '8px 8px 0px 0px')};
+  border-radius: ${props => (props.first?'8px 8px 0px 0px' : props.last ? '0px 0px 8px 8px' : '0px 0px 0px 0px')};
+  border-radius: ${props => (props.selected &&props.first? '8px 8px 0px 0px' :'none')};
   color: ${props => (props.selected ? 'white' : 'black')};
   background-color: ${props => (props.selected ? 'black' : 'white')};
   &:hover {
     color: white;
     background-color: black;
-    border-radius: 0;
+    /* border-radius: 0; */
   }
 `
 
