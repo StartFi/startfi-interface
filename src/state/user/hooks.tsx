@@ -29,9 +29,7 @@ import {
   getDraftsAction,
   getUserNFTsAction,
   removeFromWishlistAction,
-
-  connectWalletAction
-
+  connectWalletAction,
   updateStakeBalance
 
 } from './actions'

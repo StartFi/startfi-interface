@@ -12,7 +12,7 @@ import {  useUserAddress, useWalletAddress } from 'state/user/hooks'
 import { useLocationSearch } from 'hooks'
 import { ConnectWallet, FirstRow, Img, Search, Tab, TabsCategory } from './styles'
 import { DropDownCategory } from 'components/DropDown'
-import {  useGetReserves } from 'hooks/startfiStakes'
+import {  useDeposit, useGetReserves } from 'hooks/startfiStakes'
 import { useWeb3React } from '@web3-react/core'
 
 import { useApproveToken } from 'hooks/startfiToken'
@@ -40,7 +40,6 @@ const MarketplaceHeader: React.FC = () => {
   const { account } = useWeb3React()
   let { category, search } = useLocationSearch()
   const getReserves = useGetReserves()
-  const popup = usePopup()
 
   const popup = usePopup()
   // const owner = useUserAddress()

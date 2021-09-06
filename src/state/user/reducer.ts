@@ -23,12 +23,9 @@ import {
   getDraftsAction,
   getUserNFTsAction,
   removeFromWishlistAction,
-
-  connectWalletAction
-
+  connectWalletAction,
   updateStakeBalance,
   updateStackDepositState
-
 } from './actions'
 import { User } from 'services/models/User'
 import { NFT } from 'services/models/NFT'
@@ -241,14 +238,14 @@ export default createReducer(initialState, builder =>
       // console.log('pending')
     })
     .addCase(getUserNFTsAction.fulfilled, (state, action) => {
-
       state.onMarket = action.payload.onMarket
       state.offMarket = action.payload.offMarket
       state.userAuctions = action.payload.userAuctions
     })
     .addCase(getUserNFTsAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
-    }).addCase(connectWalletAction, (state, action) => {
+    })
+    .addCase(connectWalletAction, (state, action) => {
       state.popup = { success: false, message: 'Connect Your Wallet' }
     })
     .addCase(updateStakeBalance, (state, action) => {
