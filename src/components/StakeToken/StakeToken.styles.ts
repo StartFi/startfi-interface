@@ -32,8 +32,10 @@ export const StokeTokenFooter = styled('div')<{ left?: string }>`
   }
 `
 
-export const StakeTokenSuccessCard=styled(Container)`
+export const StakeTokenSuccessCard=styled(Container)<{justifyContent?:string}>`
 align-items: center;
+justify-content: ${({ justifyContent}) => justifyContent};
+
 & img{
   margin-top: 33.5px;
   width:64px;

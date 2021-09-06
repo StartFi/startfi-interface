@@ -5,7 +5,7 @@ import Text from '../Text'
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
-import { useAuctionItem, useOnMarketItem } from 'state/user/hooks'
+import { useAuctionItem} from 'state/user/hooks'
 import uriToHttp from 'utils/uriToHttp'
 import {
   Divider,
@@ -26,6 +26,8 @@ import Amount from 'components/NFTSummary/Amount'
 import StartfiLoader from 'components/Loader/startfi'
 
 import Timer from 'components/Timer/Timer'
+import { useOnMarketItem } from 'state/inventory/hooks'
+import { Inventory } from 'services/models/Inventory'
 
 interface onMarketParams {
   id: string
@@ -34,9 +36,9 @@ interface onMarketParams {
 const InMarket = () => {
   const { t } = useTranslation()
   const { id }: onMarketParams = useParams()
-
-  const nft: NFT = useOnMarketItem(id)
-  const auction: Auction = useAuctionItem(id)
+  const invOnMarketItem:Inventory=useOnMarketItem(id)
+  const nft: NFT =invOnMarketItem?.nft
+  const auction: Auction = invOnMarketItem?.auction
   const imgUrl = uriToHttp(`${nft?.dataHash}`)[1]
   const [tagsState, setTagsState] = useState(false)
   const history = useHistory()
@@ -48,8 +50,13 @@ const InMarket = () => {
   const [delistContainerHeight, setDelistContainerHeight] = useState<string>('120px')
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [disabled, setDisabled] = useState<boolean>(false)
+  const expired = auction?.expireTimestamp - Date.now()
 
   useEffect(() => {
+    if (!nft) {
+      history.push(`/inventory/home/draft`)
+
+    }
     if (nft?.tags) {
       if (nft.tags.length > 0) setTagsState(true)
     }
@@ -59,7 +66,6 @@ const InMarket = () => {
      (history.push('/inventory/home/draft')
     )
 
-  const expired = auction.expireTimestamp - Date.now()
 
   const delist = () => {
     if (expired > 0 && !(auction?.bids.length > 0)) {
@@ -82,7 +88,8 @@ const InMarket = () => {
   const closeCard = () => {
     setOpenModal(false)
   }
-
+ // if user try to enter wrong id
+ if (!nft) return null
   return (
     <React.Fragment>
       <DelistCard isOpen={openModal} close={closeCard} nft={nft} auction={auction}></DelistCard>
