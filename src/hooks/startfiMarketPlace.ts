@@ -156,6 +156,7 @@ export const useDeList = (): ((listingId: string | number) => any) => {
   const contract = useStartFiMarketplace(true)
   const delist = useSubmitTransaction()
   const toggleWalletModal = useWalletModalToggle()
+  const onChainListingId = useGetListingDetails()
   return useCallback(
     async (listingId: string | number) => {
       if (!account) {
@@ -163,7 +164,8 @@ export const useDeList = (): ((listingId: string | number) => any) => {
         return `account: ${account} is not connected`
       }
       try {
-        return await delist('deList', [listingId], contract, account, library)
+        const onchainReturnedId = await onChainListingId(listingId)
+        return await delist('deList', [onchainReturnedId], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e
