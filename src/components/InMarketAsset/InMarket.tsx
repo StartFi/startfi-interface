@@ -37,7 +37,7 @@ const InMarket = () => {
   const { id }: onMarketParams = useParams()
   const invOnMarketItem:Inventory=useOnMarketItem(id)
   const nft: NFT =invOnMarketItem?.nft
-  const auction: Auction = invOnMarketItem.auction
+  const auction: Auction = invOnMarketItem?.auction
   const imgUrl = uriToHttp(`${nft?.dataHash}`)[1]
   const [tagsState, setTagsState] = useState(false)
   const history = useHistory()
@@ -51,7 +51,10 @@ const InMarket = () => {
   const expired = auction?.expireTimestamp - Date.now()
 
   useEffect(() => {
-    console.log(nft)
+    if (!nft) {
+      history.push(`/inventory/home/draft`)
+
+    }
     if (nft?.tags) {
       if (nft.tags.length > 0) setTagsState(true)
     }
@@ -78,7 +81,8 @@ const InMarket = () => {
   const closeCard = () => {
     setOpenModal(false)
   }
-
+ // if user try to enter wrong id
+ if (!nft) return null
   return (
     <React.Fragment>
       <DelistCard isOpen={openModal} close={closeCard} nft={nft} auction={auction}></DelistCard>
