@@ -40,8 +40,7 @@ const InMarket = () => {
   const imgUrl = uriToHttp(`${nft?.dataHash}`)[1]
   const [tagsState, setTagsState] = useState(false)
   const history = useHistory()
-
-  console.log(auction);
+  
 
   const [displayBidWarning, setDisplayBidWarning] = useState<string>('none')
   const [displayWarning, setDisplayWarning] = useState<string>('none')
@@ -55,7 +54,7 @@ const InMarket = () => {
       if (nft.tags.length > 0) setTagsState(true)
     }
   }, [])
-  
+
   if (auction == undefined)
     return (
       <div>
@@ -63,7 +62,7 @@ const InMarket = () => {
       </div>
     )
   console.log(auction);
-  console.log("--------------");
+  console.log("auction --------------");
   const expired = auction.expireTimestamp - Date.now()
   console.log(expired);
 
