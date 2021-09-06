@@ -56,16 +56,10 @@ const InMarket = () => {
   }, [])
 
   if (auction == undefined)
-    return (
-      <div>
-        <StartfiLoader></StartfiLoader>
-      </div>
+     (history.push('/inventory/home/draft')
     )
-  console.log(auction);
-  console.log("auction --------------");
-  const expired = auction.expireTimestamp - Date.now()
-  console.log(expired);
 
+  const expired = auction.expireTimestamp - Date.now()
 
   const delist = () => {
     if (expired > 0 && !(auction?.bids.length > 0)) {
