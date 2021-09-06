@@ -1,10 +1,10 @@
-import { inventoryTypes } from 'components/invHome/CardHeader'
 import { checkSuccess } from 'utils'
-import { addInventory,editInventory ,getInventories } from './database/Inventory'
+import { addInventory,editInventory ,getInventories,deleteInventory } from './database/Inventory'
 import { Inventory, InventoryType } from './models/Inventory'
 
 // add inventory item
 export const addInventoryItem = async (item: Inventory) => {
+  console.log('item id=>=>',item.id)
   const itemAdded = await addInventory(item)
   const status = checkSuccess({ itemAdded })
   return { status, itemAdded, type: item.type }
@@ -15,6 +15,14 @@ export const editInvItem=async (item: Inventory)=>{
   const itemEdited = await editInventory(item)
   const status = checkSuccess({ itemEdited })
   return { status, itemEdited, type: item.type }
+
+}
+
+// editInvItem
+export const deleteInvItem=async (id: string)=>{
+  const itemDeleted = await  deleteInventory(id)
+  const status = checkSuccess({ itemDeleted })
+  return { status,itemDeleted}
 
 }
 

@@ -45,7 +45,9 @@ export const removeFromWishlistAction = createAsyncThunk('user/removeFromWishlis
 export const saveDraftAction = createAsyncThunk('user/saveDraftAction', saveDraft)
 
 export const clearUserPopup = createAction<void>('user/clearUserPopup')
+export const connectWalletAction = createAction<void>('user/connectWallet')
 
 export const getDraftsAction = createAsyncThunk('marketplace/getDraftsAction', getDrafts)
 
 export const getUserNFTsAction = createAsyncThunk('marketplace/getUserNFTsAction', getUserNFTs)
+

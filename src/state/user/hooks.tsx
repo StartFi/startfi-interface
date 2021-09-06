@@ -28,13 +28,14 @@ import {
   logoutAction,
   getDraftsAction,
   getUserNFTsAction,
-  removeFromWishlistAction
+  removeFromWishlistAction,
+  connectWalletAction
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 
 import { Auction } from 'services/models/Auction'
 
-import { useMarketplace, useNFT, useStep } from 'state/marketplace/hooks'
+import { generateId, useMarketplace, useNFT, useStep } from 'state/marketplace/hooks'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { useHistory } from 'react-router-dom'
 import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
@@ -254,8 +255,10 @@ export const useSaveDraft = (): (() => void) => {
   return useCallback(() => {
     if (step < 2 || !draft) return popup({ success: false, message: 'cannotAddDraft' })
     if (!user) return popup({ success: false, message: 'connectWallet' })
-    const invItem = setInvItem(user, InventoryType.Draft, draft,draft.issueDate)
-    console.log('id',invItem.id)
+    const invItem = setInvItem(user, InventoryType.Draft, { ...draft, id: generateId }, draft.issueDate)
+    // invItem.id=generateId
+
+    // console.log('id',invItem.id)
     if (step < 6) saveInvItem(invItem)
     else history.push('/inventory/off-market/' + draft.id)
   }, [history, step, user, draft, popup, dispatch])
@@ -378,7 +381,6 @@ export const useAuctionItem = (nftId: string): Auction => {
   return useMemo(() => userAuctions.filter(auction => auction.nft === nftId)[0], [userAuctions, nftId])
 }
 
-
 export const useClearUserPopup = (): (() => void) => {
   const dispatch = useDispatch()
   return useCallback(() => {
@@ -446,3 +448,4 @@ export const useGetStakeAllowance = () => {
 
   return allowStaking
 }
+

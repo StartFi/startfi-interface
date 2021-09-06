@@ -18,13 +18,12 @@ export const setInvItem = (
   nft: NFT,
   issueDate: any,
   auction?: Auction
-): Inventory => {
+): Inventory=> {
   return {
-    id: generateId,
+     id: generateId,
     ethAddress,
     nft,
     issueDate,
-
     auction: auction ? auction : initialAuction,
     type
   }
@@ -52,20 +51,31 @@ export const useUserInv = (): Inventory[] => {
 }
 
 // check if item in inv
-export const useCheckInvItem = (nftId: string) => {
+export const useGetInvItem = () => {
+  const userInv = useUserInv()
+
+  return useCallback((nftId: string) => {
+
+    // if (userInv?.length > 0) {
+      return userInv?.filter(invItem => invItem.nft.id === nftId)
+    // }
+
+  }, [])
+}
+
+export const useCheckInvItem = () => {
   const userInv = useUserInv()
 
 
-  return useMemo(() => {
+  return useCallback((nftId: string) => {
     if( userInv?.length>0){
       return userInv.filter(invItem => invItem.nft.id === nftId)?.length > 0 ? true : false
     }else{
       return false
     }
 
-  }, [nftId])
+  }, [])
 }
-
 export const useGetUserDrafts = () => {
   return useSelector((state: AppState) => state.inventory.draft)
 }
@@ -90,14 +100,12 @@ export const useOffMarketItem = (nftId: string): NFT => {
   return useMemo(() => offMarket?.filter(invItem => invItem.nft.id === nftId)[0]?.nft, [offMarket, nftId])
 }
 
-
-
 export const useGetUserOnMarket = () => {
   return useSelector((state: AppState) => state.inventory.onMarket)
 }
 
 // get onMarket single item
-export const useOnMarketItem = (nftId: string):Inventory => {
+export const useOnMarketItem = (nftId: string): Inventory => {
   const onMarket: Inventory[] = useGetUserOnMarket()
   console.log(nftId)
   return useMemo(() => onMarket?.filter(invItem => invItem.nft.id === nftId)[0], [onMarket, nftId])

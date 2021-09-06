@@ -22,7 +22,8 @@ import {
   logoutAction,
   getDraftsAction,
   getUserNFTsAction,
-  removeFromWishlistAction
+  removeFromWishlistAction,
+  connectWalletAction
 } from './actions'
 import { User } from 'services/models/User'
 import { NFT } from 'services/models/NFT'
@@ -238,5 +239,7 @@ export default createReducer(initialState, builder =>
     .addCase(getUserNFTsAction.rejected, (state, action) => {
       console.log('error',action)
       state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
+    }).addCase(connectWalletAction, (state, action) => {
+      state.popup = { success: false, message: 'Connect Your Wallet' }
     })
 )

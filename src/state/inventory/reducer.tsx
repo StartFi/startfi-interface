@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { PopupContent } from '../../constants'
 import { Inventory, InventoryType } from 'services/models/Inventory'
-import { addToInventory, clearInvPopup, editInventoryAction, getUserInventory } from './actions'
+import { addToInventory, clearInvPopup, deleteInventoryAction, editInventoryAction, getUserInventory } from './actions'
 
 
 export interface InventoryState {
@@ -34,6 +34,7 @@ export default createReducer(initialState, builder => {
     .addCase(addToInventory.pending, (state, action) => {})
     .addCase(addToInventory.fulfilled, (state, action) => {
       const success = action.payload.status === 'success'
+      console.log('inv add reducer',action.payload)
       if (action.payload.type === InventoryType.Draft) {
         state.popup = {
           success,
@@ -41,6 +42,15 @@ export default createReducer(initialState, builder => {
           message: success ? 'Draft saved successfully' : action.payload.itemAdded
         }
       }
+    })
+    .addCase(deleteInventoryAction.rejected, (state, action) => {
+      console.log(state)
+    })
+    .addCase(deleteInventoryAction.pending, (state, action) => {})
+    .addCase(deleteInventoryAction.fulfilled, (state, action) => {
+
+      console.log('inv delete reducer',action.payload)
+
     })
     .addCase(editInventoryAction.rejected, (state, action) => {})
     .addCase(editInventoryAction.pending, (state, action) => {})
