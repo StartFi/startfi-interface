@@ -28,8 +28,7 @@ import {
   logoutAction,
   getDraftsAction,
   getUserNFTsAction,
-  removeFromWishlistAction,
-  updateStakeBalance
+  removeFromWishlistAction
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 
@@ -407,31 +406,33 @@ export const useGetUserNFTs = () => {
   )
 }
 
-// get user stack balance
-export const useStakeBalance = (): number => {
-  return useSelector((state: AppState) => state.user.stakeBalance)
+export const useGetOwnerStakes = () => {
+  const [ownerStakes, setOwnerStakes] = useState<number>(0)
+  const owner = useUserAddress()
+  const getReserves = useGetReserves()
+
+  useEffect(() => {
+    if (owner) {
+      getReserves(owner).then(stakes => setOwnerStakes(parseInt(stakes, 16)))
+    }
+
+    return () => {}
+  }, [owner, getReserves])
+
+  return ownerStakes
 }
 
-// get deposit stack state
-export const useDepositStackState = (): boolean => {
-  return useSelector((state: AppState) => state.user.depositState)
-}
-
-// get allowance from user
 export const useGetStakeAllowance = () => {
   const owner = useUserAddress()
   const getAllowance = useGetAllowance()
-  const [allowStaking, setAllowStaking] = useState<boolean>(true)
-  const [allowedAmount, setAllowedAmount] = useState<number>(0)
+  const [allowStaking, setAllowStaking] = useState<boolean>(false)
   useEffect(() => {
     const getAllow = async () => {
       if (owner) {
         const allowed = await getAllowance(owner, STARTFI_STAKES_ADDRESSS)
-
-        setAllowedAmount(parseInt(allowed))
-
+      
         if (allowed === '0x00') {
-          setAllowStaking(false)
+          setAllowStaking(true)
         }
       }
     }
@@ -439,5 +440,5 @@ export const useGetStakeAllowance = () => {
     return () => {}
   }, [owner, STARTFI_STAKES_ADDRESSS])
 
-  return { allowStaking, allowedAmount }
+  return allowStaking
 }

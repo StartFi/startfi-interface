@@ -33,6 +33,7 @@ interface onMarketParams {
 const InMarket = () => {
   const { t } = useTranslation()
   const { id }: onMarketParams = useParams()
+
   const nft: NFT = useOnMarketItem(id)
   const auction: Auction = useAuctionItem(id)
   const imgUrl = uriToHttp(`${nft?.dataHash}`)[1]
@@ -45,13 +46,19 @@ const InMarket = () => {
   const [delistContainerHeight, setDelistContainerHeight] = useState<string>('120px')
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [disabled, setDisabled] = useState<boolean>(false)
-  const expired = auction.expireTimestamp - Date.now()
 
   useEffect(() => {
     if (nft?.tags) {
       if (nft.tags.length > 0) setTagsState(true)
     }
   }, [])
+
+
+  if (auction == undefined)
+     (history.push('/inventory/home/draft')
+    )
+
+  const expired = auction.expireTimestamp - Date.now()
 
   const delist = () => {
     if (expired > 0 && !(auction?.bids.length > 0)) {

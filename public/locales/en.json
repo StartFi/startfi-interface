@@ -325,21 +325,13 @@
   "allowMetaMaskConnectionToIncreaseStake":"Allow Startfi to connect to you metamask to increase you stake balance",
   "allow":"Allow",
   "stakeTokenSuccess":"Your Stake Token balance has Increased Successfully",
-  "waitIncreaseStakeConfirm":"Waiting For Increasing Stake balance confirmation",
   "checkStakeBalance":"Check Stake Token Balance",
   "auctionsEndIn":" Auction Ends in ",
   "noBidding":"No Bidding Yet",
   "DetailsCreatedBySeller":"Details created by the seller",
   "PercentageResellingTransaction":"Percentage on each reselling transaction",
   "seller":"Seller",
-  "stakeBalance":"Stake",
-  "stakeTokens":"Stake Tokens",
-  "processingIncreaseStake":"increase staking still in process",
-  "increaseStake":"Increase Stake Balance",
-  "stake":"STFI",
-  "userRejectTransaction":"You reject transaction'"
-
-
+  "stake":"STFI"
 
 
 

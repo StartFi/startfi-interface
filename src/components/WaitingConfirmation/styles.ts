@@ -33,21 +33,9 @@ export const SidePadding = styled.div`
   padding: 0 3vw;
 `
 
-export const LoadingIcon = styled('img')<{
-  position?:string;
-  left?:string;
-  top?:string;
-  width?:string;
-  height?:string;
-
-}>`
+export const LoadingIcon = styled.img`
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
-  position:${({position }) => position};
-  left:${({left }) => left};
-  top:${({top }) => top};
-  width:${({width }) => width};
-  height:${({height }) => height};
 
   /* Safari */
   @-webkit-keyframes spin {
