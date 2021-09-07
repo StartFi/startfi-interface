@@ -53,18 +53,21 @@ interface GetUserNFTs {
 }
 
 // get user inMarket offMarket
-export const getUserNFTs = async ({ chainId, owner }: GetUserNFTs) => {
-  const userNFTs = await getNFTs({ chainId, owner })
-  console.log('step1',userNFTs )
-  const onMarket: NFT[] = []
-  const offMarket: NFT[] = []
-  let userAuctions: Auction[] = []
-  for (var i in userNFTs) {
-    const auctions = await getAuctions({ nft: userNFTs[i].id })
-    if (auctions.length > 0) userAuctions.push(auctions[0])
-    if (auctions.filter(auction => auction.status === 'open').length > 0) onMarket.push(userNFTs[i])
-    else offMarket.push(userNFTs[i])
-  }
-  console.log('onMarket=>',  onMarket.length,'offMarket=>',offMarket.length)
-  return { onMarket, offMarket, userAuctions }
-}
+
+// export const getUserNFTs = async ({ chainId, owner }: GetUserNFTs) => {
+//   const userNFTs = await getNFTs({ chainId, owner })
+//   // console.log('step1',userNFTs )
+//   const onMarket: NFT[] = []
+//   const offMarket: NFT[] = []
+//   let userAuctions: Auction[] = []
+//   for (var i in userNFTs) {
+//     const auctions = await getAuctions({ nft: userNFTs[i].id })
+//     if (auctions.length > 0) userAuctions.push(auctions[0])
+//     if (auctions.filter(auction => auction.status === 'open').length > 0) onMarket.push(userNFTs[i])
+//     else offMarket.push(userNFTs[i])
+//   }
+//   // console.log('onMarket=>',  onMarket.length,'offMarket=>',offMarket.length)
+//   return { onMarket, offMarket, userAuctions }
+// }
+
+

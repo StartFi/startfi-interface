@@ -21,14 +21,17 @@ import {
   updateUserSlippageTolerance,
   toggleURLWarning,
   updateUserSingleHopOnly,
-  saveDraftAction,
+
   loginAction,
   addToWishlistAction,
   clearUserPopup,
   logoutAction,
-  getDraftsAction,
-  getUserNFTsAction,
-  removeFromWishlistAction
+
+  removeFromWishlistAction,
+
+  updateStakeBalance
+
+
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 
@@ -392,19 +395,19 @@ export const useGetDrafts = () => {
   )
 }
 
-export const useGetUserNFTs = () => {
-  const dispatch = useDispatch()
-  const owner = useUserAddress()
-  const chainId = useChainId()
-  const popup = usePopup()
-  return useCallback(
-    () =>
-      owner && chainId
-        ? dispatch(getUserNFTsAction({ owner, chainId }))
-        : popup({ success: false, message: 'connectWallet' }),
-    [owner, chainId, popup, dispatch]
-  )
-}
+// export const useGetUserNFTs = () => {
+//   const dispatch = useDispatch()
+//   const owner = useUserAddress()
+//   const chainId = useChainId()
+//   const popup = usePopup()
+//   return useCallback(
+//     () =>
+//       owner && chainId
+//         ? dispatch(getUserNFTsAction({ owner, chainId }))
+//         : popup({ success: false, message: 'connectWallet' }),
+//     [owner, chainId, popup, dispatch]
+//   )
+// }
 
 export const useGetOwnerStakes = () => {
   const [ownerStakes, setOwnerStakes] = useState<number>(0)
