@@ -34,7 +34,7 @@ const InventoryHome = () => {
   }, [owner])
 
   useEffect(() => {
-    
+
     if (id === 'offMarketPlace') {
       setInventoryOption(InventoryOptions.offMarketPlace)
     }
