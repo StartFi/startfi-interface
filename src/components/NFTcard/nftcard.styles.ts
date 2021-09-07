@@ -83,5 +83,5 @@ export const ImageIcon = styled('img')<{ $opacity?: boolean }>`
   left: 29px;
   z-index:10;
   margin-right:10px;
-  /* opacity: ${({ $opacity }) => ($opacity ? '50%' : '')}; */
+  opacity: ${({ $opacity }) => ($opacity ? '50%' : '')};
 `
