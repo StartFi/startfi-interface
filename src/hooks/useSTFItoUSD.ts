@@ -1,4 +1,3 @@
-import { STFI_IN_WEI, WEI } from './../constants'
 import { useEffect, useState } from 'react'
 import { useStfiUsdPrice } from 'services/Blockchain/cryptoPrice'
 
@@ -11,7 +10,7 @@ export const useSTFItoUSD = (amount: number): number => {
   const [USD, setUSD] = useState<number>(amount)
   const stfiUsdPrice = useStfiUsdPrice()
   useEffect(() => {
-    stfiUsdPrice().then(value => setUSD(value*amount ))
+    stfiUsdPrice().then(value => setUSD(value * amount))
   }, [amount, stfiUsdPrice, setUSD])
   return USD
 }

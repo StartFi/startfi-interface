@@ -20,15 +20,16 @@ import {
   addToWishlistAction,
   clearUserPopup,
   logoutAction,
-  removeFromWishlistAction,
-  // connectWalletAction,
-  // updateStakeBalance,
-  // updateStackDepositState
 
+  removeFromWishlistAction,
+  connectWalletAction,
+  updateStakeBalance,
+  updateStackDepositState
 } from './actions'
 import { User } from 'services/models/User'
 import { NFT } from 'services/models/NFT'
 import { Auction } from 'services/models/Auction'
+import AuctionSale from 'components/AddAuction/AuctionSale'
 
 const currentTimestamp = () => new Date().getTime()
 
@@ -71,6 +72,8 @@ export interface UserState {
   onMarket: NFT[]
   offMarket: NFT[]
   userAuctions: Auction[]
+  stakeBalance: number
+  depositState: boolean
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -93,7 +96,9 @@ export const initialState: UserState = {
   drafts: [],
   onMarket: [],
   offMarket: [],
-  userAuctions: []
+  userAuctions: [],
+  stakeBalance: 0,
+  depositState: false
 }
 
 export default createReducer(initialState, builder =>
@@ -247,6 +252,5 @@ export default createReducer(initialState, builder =>
     })
     .addCase(updateStackDepositState, (state, action) => {
       state.depositState = action.payload.depositState
-
     })
 )

@@ -15,9 +15,6 @@ import Step1Icon from './../assets/icons/step1.svg'
 import Step2Icon from './../assets/icons/step2.svg'
 import Step3Icon from './../assets/icons/step3.svg'
 import { STEP } from 'state/marketplace/types'
-import Heart from '../assets/images/Heart.png'
-import Inventory from '../assets/images/inventory.png'
-import Stake from '../assets/images/stake.png'
 
 export const CATEGORIES: string[] = ['music', 'books', 'videos', 'art', 'images', 'games']
 
@@ -79,22 +76,11 @@ export const HEADER_DROPDOWN: string[] = [
   'Inventory',
   // 'Dashboard',
 
-  'Stake',
+  'Stake Tokens',
 
   // 'Get STFI Token',
   // 'My Account'
 ]
-
-export const DropDownIcons: Dictionary = {
-  WishList:Heart,
-  Inventory :Inventory ,
-  Stake:Stake
-  // art: Art,
-  // games: Games,
-  // all: All,
-  // music: Music,
-  // images: Images
-}
 
 // one Day in milliseconds
 export const ONE_DAY_MILLISECONDS=86400000

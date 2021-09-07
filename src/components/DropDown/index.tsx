@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import SelectIcon from './../../assets/icons/select.svg'
 import { useTranslation } from 'react-i18next'
 import { BlurLayer, Container, Item, Items, Label, LabelRow } from './styles'
-import { DropDownIcons } from '../../constants'
 
 interface DropDownProps {
   name: string
@@ -10,7 +9,6 @@ interface DropDownProps {
   value: string
   onChange: (value: any, name: string) => void
   width?: string
-  left?:string
   label?: string
   selectIcon?: boolean
   itemsWidth?: string
@@ -19,9 +17,6 @@ interface DropDownProps {
   marginRight?: string
   LabelWidth?:string
   boxShadow?:string
-  iconPosition?:string
-  hasIcon?:boolean
-  color?:string
 }
 
 export const DropDown: React.FC<DropDownProps> = ({
@@ -30,7 +25,6 @@ export const DropDown: React.FC<DropDownProps> = ({
   value,
   onChange,
   width,
-  left,
   label,
   LabelWidth,
   selectIcon,
@@ -38,10 +32,8 @@ export const DropDown: React.FC<DropDownProps> = ({
   border,
   showLabel,
   marginRight,
-  boxShadow,
-  iconPosition,
-  hasIcon,
-  color
+  boxShadow
+
 
 
 }: DropDownProps) => {
@@ -59,29 +51,24 @@ export const DropDown: React.FC<DropDownProps> = ({
     <React.Fragment>
       {open && <BlurLayer onClick={() => setOpen(false)} />}
       <Container width={width || '10vh'} marginRight={marginRight}>
-        <LabelRow border={border} LabelWidth={LabelWidth} boxShadow={boxShadow} iconPosition={iconPosition}  onBlur={() => setOpen(false)} onClick={() => setOpen(!open)}>
+        <LabelRow border={border} LabelWidth={LabelWidth} boxShadow={boxShadow} onBlur={() => setOpen(false)} onClick={() => setOpen(!open)}>
           {showLabel ? <Label>{t(selected) || t(label)}</Label> : null}
           {selectIcon ? <img src={SelectIcon} alt="Select" /> : null}
         </LabelRow>
         {open && (
-          <Items width={width || '10vh'} itemsWidth={itemsWidth} left={left}>
+          <Items width={width || '10vh'} itemsWidth={itemsWidth}>
             {options.map((o, i) => (
               <Item
                 selected={selected === o}
                 last={i === options.length - 1}
-                first={i===0}
                 key={o}
-                hasIcon={hasIcon}
-                color={color}
                 onClick={() => {
                   setSelected(o)
                   setOpen(false)
                   onChange(o, name)
                 }}
               >
-
-                {hasIcon?<img src={DropDownIcons[o]}/>:null}
-                {o==='Stake'?t('stakeTokens'):t(o)}
+                {t(o)}
               </Item>
             ))}
           </Items>

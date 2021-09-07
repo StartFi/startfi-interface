@@ -8,7 +8,7 @@ import { useAddNFT } from 'state/marketplace/hooks'
 const Step3: React.FC = () => {
   const { t } = useTranslation()
 
-  const { nft, handleChange } = useAddNFT()
+  const { nft, handleChange ,} = useAddNFT()
 
   const [royalty, setRoyalty] = useState(nft.royalty ? true : false)
 

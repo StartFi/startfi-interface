@@ -8,6 +8,7 @@ import { useClearUserPopup, useUserPopup } from 'state/user/hooks'
 import { usePopup } from './hooks'
 import { useClearMarketplacePopup, useMarketplacePopup } from 'state/marketplace/hooks'
 import { useHistory } from 'react-router-dom'
+import { useInventoryPopup, useClearInvPopup } from 'state/inventory/hooks'
 
 export default function Updater(): null {
   const { library, chainId } = useActiveWeb3React()
@@ -21,6 +22,10 @@ export default function Updater(): null {
   const clearUserPopup = useClearUserPopup()
 
   const marketplacePopup = useMarketplacePopup()
+
+//  inv popup
+  const inventoryPopup = useInventoryPopup()
+  const clearInvPopup = useClearInvPopup()
 
   const clearMarketplacePoup = useClearMarketplacePopup()
 
@@ -69,6 +74,14 @@ export default function Updater(): null {
     }
   }, [marketplacePopup, history, popup, clearMarketplacePoup, dispatch])
 
+  // inventory Popup
+  useEffect(() => {
+    if (inventoryPopup) {
+      popup(inventoryPopup)
+      clearInvPopup()
+      if (inventoryPopup.type === 'SaveDraft' && inventoryPopup.success) history.push('/')
+    }
+  },[inventoryPopup, history, popup, clearInvPopup, dispatch])
   // attach/detach listeners
   useEffect(() => {
     if (!library || !chainId || !windowVisible) return undefined
