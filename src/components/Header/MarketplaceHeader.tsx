@@ -74,11 +74,16 @@ const MarketplaceHeader: React.FC = () => {
           name={'drop'}
 
           value={dropDown}
+
           itemsWidth='180px'
 
 
           border='none'
+          left="-11.562vw"
+          iconPosition="-1.56vw"
           selectIcon={true}
+          hasIcon={true}
+          color="#929292"
           onChange={getDropDownChanges}
         ></DropDownCategory>
         <Wallet />
