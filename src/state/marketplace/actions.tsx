@@ -42,7 +42,7 @@ export const setStep = createAction<{ step: STEP }>('marketplace/setStep')
 
 export const setAuction = createAction<{ value: any; name: string }>('marketplace/setAuction')
 
-export const setNFT = createAction<{ value: any; name: string }>('marketplace/setNFT')
+ export const setNFT = createAction<{ value: any; name: string }>('marketplace/setNFT')
 
 export const setMissing = createAction<{ missing: string[] }>('marketplace/setMissing')
 

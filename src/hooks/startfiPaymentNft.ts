@@ -49,6 +49,10 @@ export const useMint = (): ((
   )
 }
 
+
+
+
+
 export const useNftPaymentInfo = (): (() => any) => {
   const contract = useStartFiPayment(false)
   return useCallback(() => {

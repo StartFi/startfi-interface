@@ -25,13 +25,16 @@ export const useListOnMarketplace = (): ((
         return `account: ${account} is not connected`
       }
       try {
-        return await listOnMarketplace(
+        const transaction = await listOnMarketplace(
           'listOnMarketplace',
           [nftContract, tokenId, listingPrice],
           contract,
           account,
           library
         )
+        const transactionReceipt = await library?.getTransactionReceipt((transaction as any).hash)
+        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
+        return decodedLogs[0].events
       } catch (e) {
         console.log('error', e)
         return e
@@ -79,13 +82,16 @@ export const useCreateAuction = (): ((
           'test txn param'
         )
 
-        return await createAuction(
+        const transaction = await createAuction(
           'createAuction',
           [nftContract, tokenId, listingPrice, qualifyAmount, sellForEnabled, sellingPrice, duration],
           contract,
           account,
           library
         )
+        const transactionReceipt = await library?.getTransactionReceipt((transaction as any).hash)
+        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
+        return decodedLogs[0].events
       } catch (e) {
         console.log('error', e)
         return e
@@ -107,7 +113,10 @@ export const useBid = (): ((listingId: string | number, bidPrice: string | numbe
         return `account: ${account} is not connected`
       }
       try {
-        return await bid('bid', [listingId, bidPrice], contract, account, library)
+        const transaction = await bid('bid', [listingId, bidPrice], contract, account, library)
+        const transactionReceipt = await library?.getTransactionReceipt((transaction as any).hash)
+        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
+        return decodedLogs[0].events
       } catch (e) {
         console.log('error', e)
         return e
@@ -129,7 +138,10 @@ export const useFullfilBid = (): ((listingId: string | number) => any) => {
         return `account: ${account} is not connected`
       }
       try {
-        return await fullfilBid('fullfillBid', [listingId], contract, account, library)
+        const transaction = await fullfilBid('fullfillBid', [listingId], contract, account, library)
+        const transactionReceipt = await library?.getTransactionReceipt((transaction as any).hash)
+        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
+        return decodedLogs[0].events
       } catch (e) {
         console.log('error', e)
         return e
