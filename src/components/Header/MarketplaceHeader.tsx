@@ -54,7 +54,10 @@ const MarketplaceHeader: React.FC = () => {
         history.push('/marketplace/wishList')
         break
       case 'Inventory':
-        if (!account) return popup({ success: false, message: t('connectWallet') })
+        if (!account)  {
+          history.push('/marketplace/nfts')
+         return popup({ success: false, message: t('connectWallet') })
+        }
        history.push('/inventory/home/draft')
         break
       case 'Dashboard':

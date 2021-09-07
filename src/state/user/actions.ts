@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { useGetReserves } from 'hooks/startfiStakes'
 
-import { addToWishlist, getDrafts, getUserNFTs, login, removeFromWishlist, saveDraft } from 'services/User'
+import { addToWishlist, getDrafts, login, removeFromWishlist, saveDraft } from 'services/User'
 
 export interface SerializedToken {
   chainId: number
@@ -54,6 +54,6 @@ export const connectWalletAction = createAction<void>('user/connectWallet')
 
 export const getDraftsAction = createAsyncThunk('marketplace/getDraftsAction', getDrafts)
 
-export const getUserNFTsAction = createAsyncThunk('marketplace/getUserNFTsAction', getUserNFTs)
+// export const getUserNFTsAction = createAsyncThunk('marketplace/getUserNFTsAction', getUserNFTs)
 
 

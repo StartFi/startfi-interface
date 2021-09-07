@@ -21,15 +21,15 @@ import {
   updateUserSlippageTolerance,
   toggleURLWarning,
   updateUserSingleHopOnly,
-  saveDraftAction,
+
   loginAction,
   addToWishlistAction,
   clearUserPopup,
   logoutAction,
-  getDraftsAction,
-  getUserNFTsAction,
+
+
   removeFromWishlistAction,
-  connectWalletAction,
+
   updateStakeBalance
 
 } from './actions'
@@ -400,19 +400,19 @@ export const useClearUserPopup = (): (() => void) => {
 //   )
 // }
 
-export const useGetUserNFTs = () => {
-  const dispatch = useDispatch()
-  const owner = useUserAddress()
-  const chainId = useChainId()
-  const popup = usePopup()
-  return useCallback(
-    () =>
-      owner && chainId
-        ? dispatch(getUserNFTsAction({ owner, chainId }))
-        : popup({ success: false, message: 'connectWallet' }),
-    [owner, chainId, popup, dispatch]
-  )
-}
+// export const useGetUserNFTs = () => {
+//   const dispatch = useDispatch()
+//   const owner = useUserAddress()
+//   const chainId = useChainId()
+//   const popup = usePopup()
+//   return useCallback(
+//     () =>
+//       owner && chainId
+//         ? dispatch(getUserNFTsAction({ owner, chainId }))
+//         : popup({ success: false, message: 'connectWallet' }),
+//     [owner, chainId, popup, dispatch]
+//   )
+// }
 
 // get user stack balance
 export const useStakeBalance = (): number => {
