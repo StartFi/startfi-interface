@@ -257,6 +257,11 @@ export const useSaveDraft = (): (() => void) => {
     if (!user) return popup({ success: false, message: 'connectWallet' })
     const drafts = [draft]
     // if (step < 6) dispatch(saveDraftAction({ user, drafts }))
+    const invItem = setInvItem(user, InventoryType.Draft, { ...draft, id: generateId }, draft.issueDate)
+    // invItem.id=generateId
+
+    console.log('id',invItem.id)
+    if (step < 6) saveInvItem(invItem)
     else history.push('/inventory/off-market/' + draft.id)
   }, [history, step, user, draft, popup, dispatch])
 }

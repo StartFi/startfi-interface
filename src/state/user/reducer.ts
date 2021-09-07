@@ -21,9 +21,9 @@ import {
   clearUserPopup,
   logoutAction,
   removeFromWishlistAction,
-  connectWalletAction,
-  updateStakeBalance,
-  updateStackDepositState
+  // connectWalletAction,
+  // updateStakeBalance,
+  // updateStackDepositState
 
 } from './actions'
 import { User } from 'services/models/User'
