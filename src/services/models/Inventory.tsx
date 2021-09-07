@@ -1,18 +1,7 @@
-import { Auction } from './Auction'
-import { NFT } from './NFT'
+import { InventoryOptions } from "components/invHome/CardHeader";
+import { NFT } from "./NFT";
 
-//type: must choose type : draft onMarket offMarket
-export interface Inventory {
-  id: any
-  ethAddress: string
-  nft: NFT
-  issueDate: any
-  auction: Auction
-  type: InventoryType
-}
-
-export enum InventoryType {
-  Draft = 'draft',
-  OnMarket = 'onMarket',
-  offMarket = 'offMarket'
+export interface Inventory{
+    type:InventoryOptions;
+    NFTs:NFT[];
 }

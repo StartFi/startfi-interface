@@ -2,7 +2,6 @@ import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { save, load } from 'redux-localstorage-simple'
 
 import marketplace from './marketplace/reducer'
-import inventory from './inventory/reducer'
 import application from './application/reducer'
 import { updateVersion } from './global/actions'
 import user from './user/reducer'
@@ -10,16 +9,15 @@ import transactions from './transactions/reducer'
 import multicall from './multicall/reducer'
 import ipfs from './ipfs/reducer'
 import bcEvent from './blockchainEvents/reducer'
+import { getUserNFTsAction } from './user/actions'
 
-
-const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists','inventory']
+const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists']
 
 const store = configureStore({
   reducer: {
     marketplace,
     application,
     user,
-    inventory,
     transactions,
     multicall,
     ipfs,

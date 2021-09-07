@@ -62,7 +62,7 @@ const initialState: MarketplaceState = {
   popup: null,
   minted: false,
   nft: initialNFT,
-  auction: initialAuction,
+  auction: initialAuction,  
   NftDetails: null,
   loading: false,
   currentPage: 0,

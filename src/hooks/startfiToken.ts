@@ -6,8 +6,6 @@ import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
 import abiDecoder from 'abi-decoder'
 import { abi as STARTFI_TOKEN_ABI } from '../constants/abis/StartFiToken.json'
-import { utils } from 'ethers'
-import abbreviate from 'number-abbreviate'
 abiDecoder.addABI(STARTFI_TOKEN_ABI)
 export const useTokenInfo = () => {
   const contract = useStartFiToken(false)
@@ -42,10 +40,9 @@ export const useTokenBalance = (): ((address: string) => any) => {
         try {
           const balance = await evaluateTransaction(contract, 'balanceOf', [address])
 
-          return abbreviate(utils.formatEther(balance).toString())
+          return balance.toHexString()
         } catch (e) {
           console.log(e)
-          return e
         }
       }
       return getBalance()
@@ -91,8 +88,7 @@ export const useApproveToken = (): ((spender: string, amount: string | number) =
         return decodedLogs[0].events
       } catch (e) {
         console.log('error', e)
-        // return e
-        throw e
+        return e
       }
     },
     [account, contract, library, approve, toggleWalletModal]
