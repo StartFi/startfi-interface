@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import SelectIcon from './../../assets/icons/select.svg'
 import { useTranslation } from 'react-i18next'
 import { BlurLayer, Container, Item, Items, Label, LabelRow } from './styles'
+import { DropDownIcons } from '../../constants'
 
 interface DropDownProps {
   name: string
@@ -19,6 +20,8 @@ interface DropDownProps {
   LabelWidth?:string
   boxShadow?:string
   iconPosition?:string
+  hasIcon?:boolean
+  color?:string
 }
 
 export const DropDown: React.FC<DropDownProps> = ({
@@ -36,8 +39,9 @@ export const DropDown: React.FC<DropDownProps> = ({
   showLabel,
   marginRight,
   boxShadow,
-  iconPosition
-
+  iconPosition,
+  hasIcon,
+  color
 
 
 }: DropDownProps) => {
@@ -67,13 +71,17 @@ export const DropDown: React.FC<DropDownProps> = ({
                 last={i === options.length - 1}
                 first={i===0}
                 key={o}
+                hasIcon={hasIcon}
+                color={color}
                 onClick={() => {
                   setSelected(o)
                   setOpen(false)
                   onChange(o, name)
                 }}
               >
-                {t(o)}
+
+                {hasIcon?<img src={DropDownIcons[o]}/>:null}
+                {o==='Stake'?t('stakeTokens'):t(o)}
               </Item>
             ))}
           </Items>

@@ -62,18 +62,27 @@ interface ItemProps {
   readonly selected: boolean
   readonly last: boolean
   readonly first: boolean
+  readonly hasIcon?:boolean
+  readonly color?:string
 }
 
 export const Item = styled.div<ItemProps>`
   border-bottom: ${props => (props.last ? 'none' : '1px solid #DDDDDD')};
   padding: 3vh 1vw;
   cursor: pointer;
+  display:flex;
+  align-items:center;
 
   text-transform: capitalize;
   border-radius: ${props => (props.first?'8px 8px 0px 0px' : props.last ? '0px 0px 8px 8px' : '0px 0px 0px 0px')};
   border-radius: ${props => (props.selected &&props.first? '8px 8px 0px 0px' :'none')};
-  color: ${props => (props.selected ? 'white' : 'black')};
+  color: ${props => (props.selected ? 'white' : props.color )};
   background-color: ${props => (props.selected ? 'black' : 'white')};
+  & img{
+    filter: ${props => (props.selected ? 'brightness(200%)' : 'black')};
+    height:15px;
+    width:15px;
+  }
   &:hover {
     color: white;
     background-color: black;
