@@ -139,11 +139,9 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
                     delist(auction.id)
                     setDelistSuccess(true)
                   }}
-                  disabledBackground="#c2c2c2"
                   disabled={disabled}
                   backgroundColor='#000000'
                   color='#ffffff'
-
                 >
                   {t('delistNowButton')}
                 </DelistButton>

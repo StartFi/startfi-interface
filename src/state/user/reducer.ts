@@ -22,15 +22,11 @@ import {
   logoutAction,
   getDraftsAction,
   getUserNFTsAction,
-  removeFromWishlistAction,
-  connectWalletAction,
-  updateStakeBalance,
-  updateStackDepositState
+  removeFromWishlistAction
 } from './actions'
 import { User } from 'services/models/User'
 import { NFT } from 'services/models/NFT'
 import { Auction } from 'services/models/Auction'
-import AuctionSale from 'components/AddAuction/AuctionSale'
 
 const currentTimestamp = () => new Date().getTime()
 
@@ -73,8 +69,6 @@ export interface UserState {
   onMarket: NFT[]
   offMarket: NFT[]
   userAuctions: Auction[]
-  stakeBalance: number
-  depositState: boolean
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -97,9 +91,7 @@ export const initialState: UserState = {
   drafts: [],
   onMarket: [],
   offMarket: [],
-  userAuctions: [],
-  stakeBalance: 0,
-  depositState: false
+  userAuctions: []
 }
 
 export default createReducer(initialState, builder =>
@@ -235,23 +227,16 @@ export default createReducer(initialState, builder =>
       state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
     })
     .addCase(getUserNFTsAction.pending, (state, action) => {
-      // console.log('pending')
+      console.log('pending')
     })
     .addCase(getUserNFTsAction.fulfilled, (state, action) => {
+      console.log('reducer',action.payload)
       state.onMarket = action.payload.onMarket
       state.offMarket = action.payload.offMarket
       state.userAuctions = action.payload.userAuctions
     })
     .addCase(getUserNFTsAction.rejected, (state, action) => {
+      console.log('error',action)
       state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
-    })
-    .addCase(connectWalletAction, (state, action) => {
-      state.popup = { success: false, message: 'Connect Your Wallet' }
-    })
-    .addCase(updateStakeBalance, (state, action) => {
-      state.stakeBalance = action.payload.stakeBalance
-    })
-    .addCase(updateStackDepositState, (state, action) => {
-      state.depositState = action.payload.depositState
     })
 )
