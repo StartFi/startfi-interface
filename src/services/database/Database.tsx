@@ -25,12 +25,12 @@ export const getDocument = async (collection: string, key: string | number): Pro
       .get()
   ).data()) as Document
 }
-
 export const deleteDocument = async (collection: string, key: string | number): Promise<void> => {
   return await DB.collection(collection)
     .doc(key.toString())
     .delete()
 }
+
 export const editDocument = async (collection: string, key: string | number, document: Document): Promise<string> => {
   if (!collection) return 'No entity provided'
   if (!key && key !== 0) return 'No key provided'

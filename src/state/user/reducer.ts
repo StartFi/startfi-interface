@@ -15,14 +15,14 @@ import {
   updateUserDeadline,
   toggleURLWarning,
   updateUserSingleHopOnly,
-  // saveDraftAction,
+  saveDraftAction,
   loginAction,
   addToWishlistAction,
   clearUserPopup,
   logoutAction,
-  // getDraftsAction,
-  getUserNFTsAction,
+
   removeFromWishlistAction,
+  connectWalletAction,
   updateStakeBalance,
   updateStackDepositState
 } from './actions'
@@ -211,39 +211,41 @@ export default createReducer(initialState, builder =>
     .addCase(removeFromWishlistAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while adding NFT to wishlist' }
     })
-    // .addCase(saveDraftAction.pending, (state, action) => {})
-    // .addCase(saveDraftAction.fulfilled, (state, action) => {
-    //   const success = action.payload.status === 'success'
-    //   state.popup = {
-    //     success,
-    //     type: 'SaveDraft',
-    //     message: success ? 'Draft saved successfully' : action.payload.draftAdded
-    //   }
-    // })
-    // .addCase(saveDraftAction.rejected, (state, action) => {
-    //   state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
-    // })
+    .addCase(saveDraftAction.pending, (state, action) => {})
+    .addCase(saveDraftAction.fulfilled, (state, action) => {
+      const success = action.payload.status === 'success'
+      state.popup = {
+        success,
+        type: 'SaveDraft',
+        message: success ? 'Draft saved successfully' : action.payload.draftAdded
+      }
+    })
+    .addCase(saveDraftAction.rejected, (state, action) => {
+      state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
+    })
     .addCase(clearUserPopup, (state, action) => {
       state.popup = null
     })
-    .addCase(getDraftsAction.pending, (state, action) => {})
-    .addCase(getDraftsAction.fulfilled, (state, action) => {
-      state.drafts = action.payload.drafts
-    })
-    .addCase(getDraftsAction.rejected, (state, action) => {
-      state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
-    })
-    .addCase(getUserNFTsAction.pending, (state, action) => {
-      console.log('pending')
-    })
-    .addCase(getUserNFTsAction.fulfilled, (state, action) => {
-      console.log('reducer', action.payload)
-      state.onMarket = action.payload.onMarket
-      state.offMarket = action.payload.offMarket
-      state.userAuctions = action.payload.userAuctions
-    })
-    .addCase(getUserNFTsAction.rejected, (state, action) => {
-      state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
+    // .addCase(getDraftsAction.pending, (state, action) => {})
+    // .addCase(getDraftsAction.fulfilled, (state, action) => {
+    //   state.drafts = action.payload.drafts
+    // })
+    // .addCase(getDraftsAction.rejected, (state, action) => {
+    //   state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
+    // })
+    // .addCase(getUserNFTsAction.pending, (state, action) => {
+    //   // console.log('pending')
+    // })
+    // .addCase(getUserNFTsAction.fulfilled, (state, action) => {
+    //   state.onMarket = action.payload.onMarket
+    //   state.offMarket = action.payload.offMarket
+    //   state.userAuctions = action.payload.userAuctions
+    // })
+    // .addCase(getUserNFTsAction.rejected, (state, action) => {
+    //   state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
+    // })
+    .addCase(connectWalletAction, (state, action) => {
+      state.popup = { success: false, message: 'Connect Your Wallet' }
     })
     .addCase(updateStakeBalance, (state, action) => {
       state.stakeBalance = action.payload.stakeBalance
