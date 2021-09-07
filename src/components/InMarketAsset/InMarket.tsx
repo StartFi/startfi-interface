@@ -5,7 +5,7 @@ import Text from '../Text'
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
-import { useAuctionItem, useOnMarketItem } from 'state/user/hooks'
+import { useAuctionItem} from 'state/user/hooks'
 import uriToHttp from 'utils/uriToHttp'
 import {
   Divider,
@@ -23,8 +23,11 @@ import DelistCard from 'components/DelistCard/DelistCard'
 
 import { Footer } from 'components/OffMarket/OffMarket.styles'
 import Amount from 'components/NFTSummary/Amount'
+import StartfiLoader from 'components/Loader/startfi'
 
 import Timer from 'components/Timer/Timer'
+import { useOnMarketItem } from 'state/inventory/hooks'
+import { Inventory } from 'services/models/Inventory'
 
 interface onMarketParams {
   id: string
@@ -33,11 +36,13 @@ interface onMarketParams {
 const InMarket = () => {
   const { t } = useTranslation()
   const { id }: onMarketParams = useParams()
-  const nft: NFT = useOnMarketItem(id)
-  const auction: Auction = useAuctionItem(id)
+  const invOnMarketItem:Inventory=useOnMarketItem(id)
+  const nft: NFT =invOnMarketItem?.nft
+  const auction: Auction = invOnMarketItem?.auction
   const imgUrl = uriToHttp(`${nft?.dataHash}`)[1]
   const [tagsState, setTagsState] = useState(false)
   const history = useHistory()
+  
 
   const [displayBidWarning, setDisplayBidWarning] = useState<string>('none')
   const [displayWarning, setDisplayWarning] = useState<string>('none')
@@ -45,13 +50,22 @@ const InMarket = () => {
   const [delistContainerHeight, setDelistContainerHeight] = useState<string>('120px')
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [disabled, setDisabled] = useState<boolean>(false)
-  const expired = auction.expireTimestamp - Date.now()
+  const expired = auction?.expireTimestamp - Date.now()
 
   useEffect(() => {
+    if (!nft) {
+      history.push(`/inventory/home/draft`)
+
+    }
     if (nft?.tags) {
       if (nft.tags.length > 0) setTagsState(true)
     }
   }, [])
+
+  if (auction == undefined)
+     (history.push('/inventory/home/draft')
+    )
+
 
   const delist = () => {
     if (expired > 0 && !(auction?.bids.length > 0)) {
@@ -74,7 +88,8 @@ const InMarket = () => {
   const closeCard = () => {
     setOpenModal(false)
   }
-
+ // if user try to enter wrong id
+ if (!nft) return null
   return (
     <React.Fragment>
       <DelistCard isOpen={openModal} close={closeCard} nft={nft} auction={auction}></DelistCard>
@@ -139,8 +154,8 @@ const InMarket = () => {
                       ))}
                     </TagContainer>
                   ) : (
-                    <span>{t('noTags')}</span>
-                  )}
+                      <span>{t('noTags')}</span>
+                    )}
                 </TagRow>
 
                 <Divider width='95%'></Divider>
@@ -218,17 +233,17 @@ const InMarket = () => {
                 </TextContainer>
               </Card>
             ) : (
-              <Card height='71px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
-                <TextContainer marginLeft='1.438rem' width='100%'>
-                  <div>
-                    <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
-                      {t('pricing')}
-                      <span>{auction?.listingPrice} STFI ~ 253 USD</span>
-                    </Text>
-                  </div>
-                </TextContainer>
-              </Card>
-            )}
+                <Card height='71px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
+                  <TextContainer marginLeft='1.438rem' width='100%'>
+                    <div>
+                      <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
+                        {t('pricing')}
+                        <span>{auction?.listingPrice} STFI ~ 253 USD</span>
+                      </Text>
+                    </div>
+                  </TextContainer>
+                </Card>
+              )}
 
             {/* 5 */}
             <Card height='123px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>

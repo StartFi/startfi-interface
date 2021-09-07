@@ -55,7 +55,7 @@ interface GetUserNFTs {
 // get user inMarket offMarket
 export const getUserNFTs = async ({ chainId, owner }: GetUserNFTs) => {
   const userNFTs = await getNFTs({ chainId, owner })
-  console.log('step1',userNFTs )
+  // console.log('step1',userNFTs )
   const onMarket: NFT[] = []
   const offMarket: NFT[] = []
   let userAuctions: Auction[] = []
@@ -65,6 +65,6 @@ export const getUserNFTs = async ({ chainId, owner }: GetUserNFTs) => {
     if (auctions.filter(auction => auction.status === 'open').length > 0) onMarket.push(userNFTs[i])
     else offMarket.push(userNFTs[i])
   }
-  console.log('onMarket=>',  onMarket.length,'offMarket=>',offMarket.length)
+  // console.log('onMarket=>',  onMarket.length,'offMarket=>',offMarket.length)
   return { onMarket, offMarket, userAuctions }
 }
