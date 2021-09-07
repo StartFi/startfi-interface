@@ -256,7 +256,7 @@ export const useSaveDraft = (): (() => void) => {
     if (step < 2 || !draft) return popup({ success: false, message: 'cannotAddDraft' })
     if (!user) return popup({ success: false, message: 'connectWallet' })
     const drafts = [draft]
-    if (step < 6) dispatch(saveDraftAction({ user, drafts }))
+    // if (step < 6) dispatch(saveDraftAction({ user, drafts }))
     else history.push('/inventory/off-market/' + draft.id)
   }, [history, step, user, draft, popup, dispatch])
 }
@@ -433,7 +433,7 @@ export const useGetStakeAllowance = () => {
     const getAllow = async () => {
       if (owner) {
         const allowed = await getAllowance(owner, STARTFI_STAKES_ADDRESSS)
-      
+
         if (allowed === '0x00') {
           setAllowStaking(true)
         }
