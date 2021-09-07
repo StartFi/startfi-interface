@@ -53,6 +53,7 @@ interface GetUserNFTs {
 }
 
 // get user inMarket offMarket
+
 // export const getUserNFTs = async ({ chainId, owner }: GetUserNFTs) => {
 //   const userNFTs = await getNFTs({ chainId, owner })
 //   // console.log('step1',userNFTs )
@@ -68,3 +69,5 @@ interface GetUserNFTs {
 //   // console.log('onMarket=>',  onMarket.length,'offMarket=>',offMarket.length)
 //   return { onMarket, offMarket, userAuctions }
 // }
+
+
