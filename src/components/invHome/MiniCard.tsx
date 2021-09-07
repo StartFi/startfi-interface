@@ -8,7 +8,6 @@ import { CardContent, MiniInvCard, TagContainer, TextContainer, Image } from './
 import NoImage from '../../assets/images/no-image-icon-23483.png'
 
 
-
 interface MiniCardContent {
   cardContent: NFT
   navigate: () => void
@@ -18,10 +17,10 @@ const MiniCard: React.FC<MiniCardContent> = ({ cardContent, navigate }) => {
   let tags: string[] = []
   if (cardContent?.tags) tags = [...cardContent?.tags].splice(0, 2)
   const imgUrl=uriToHttp(`${cardContent.dataHash}`)[1]
-
+ 
   const checkImage=useCheckIfImage(cardContent?.filename)
 
-  
+
   return (
     <MiniInvCard onClick={navigate}>
       <CardContent>

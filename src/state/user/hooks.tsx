@@ -21,30 +21,26 @@ import {
   updateUserSlippageTolerance,
   toggleURLWarning,
   updateUserSingleHopOnly,
-
+  saveDraftAction,
   loginAction,
   addToWishlistAction,
   clearUserPopup,
   logoutAction,
-
-
+  getDraftsAction,
+  getUserNFTsAction,
   removeFromWishlistAction,
-
   updateStakeBalance
-
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 
 import { Auction } from 'services/models/Auction'
 
-import { generateId, useMarketplace, useNFT, useStep } from 'state/marketplace/hooks'
+import { useMarketplace, useNFT, useStep } from 'state/marketplace/hooks'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { useHistory } from 'react-router-dom'
 import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
 import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/StartfiStakes.json'
 import { useGetAllowance, useTokenBalance } from 'hooks/startfiToken'
-import { setInvItem, useSaveInvItem } from 'state/inventory/hooks'
-import { InventoryType } from 'services/models/Inventory'
 
 function serializeToken(token: Token): SerializedToken {
   return {
@@ -195,6 +191,7 @@ function serializePair(pair: Pair): SerializedPair {
 
 export function usePairAdder(): (pair: Pair) => void {
   const dispatch = useDispatch<AppDispatch>()
+
   return useCallback(
     (pair: Pair) => {
       dispatch(addSerializedPair({ serializedPair: serializePair(pair) }))
@@ -252,16 +249,12 @@ export const useSaveDraft = (): (() => void) => {
   const popup = usePopup()
   const step = useStep()
   const history = useHistory()
-  const saveInvItem = useSaveInvItem()
   const draft = useNFT()
   return useCallback(() => {
     if (step < 2 || !draft) return popup({ success: false, message: 'cannotAddDraft' })
     if (!user) return popup({ success: false, message: 'connectWallet' })
-    const invItem = setInvItem(user, InventoryType.Draft, { ...draft, id: generateId }, draft.issueDate)
-    // invItem.id=generateId
-
-    console.log('id',invItem.id)
-    if (step < 6) saveInvItem(invItem)
+    const drafts = [draft]
+    if (step < 6) dispatch(saveDraftAction({ user, drafts }))
     else history.push('/inventory/off-market/' + draft.id)
   }, [history, step, user, draft, popup, dispatch])
 }
@@ -300,20 +293,20 @@ export const useWishlist = (nftId: number) => {
   }, [isWishlist, addToWishlist, removeFromWishlist])
 }
 
-// export const useGetInventory = () => {
-//   const dispatch = useDispatch()
-//   const owner = useUserAddress()
-//   const chainId = useChainId()
+export const useGetInventory = () => {
+  const dispatch = useDispatch()
+  const owner = useUserAddress()
+  const chainId = useChainId()
 
-//   const popup = usePopup()
-//   return useCallback(
-//     () =>
-//       owner && chainId
-//         ? (dispatch(getUserNFTsAction({ owner, chainId })), dispatch(getDraftsAction(owner)))
-//         : popup({ success: false, message: 'connectWallet' }),
-//     [owner, chainId, popup, dispatch]
-//   )
-// }
+  const popup = usePopup()
+  return useCallback(
+    () =>
+      owner && chainId
+        ? (dispatch(getUserNFTsAction({ owner, chainId })), dispatch(getDraftsAction(owner)))
+        : popup({ success: false, message: 'connectWallet' }),
+    [owner, chainId, popup, dispatch]
+  )
+}
 
 // get user Wishlist AuctionNft
 export const useUserWishList = (): AuctionNFT[] => {
@@ -341,37 +334,37 @@ export const useUserPopup = (): PopupContent | null => {
   return useSelector((state: AppState) => state.user.popup)
 }
 
-// export const useDrafts = (): NFT[] => {
-//   return useSelector((state: AppState) => state.user.drafts)
-// }
+export const useDrafts = (): NFT[] => {
+  return useSelector((state: AppState) => state.user.drafts)
+}
 
 // get single draft
-// export const useDraft = (draftId: number): NFT => {
-//   const userDrafts: NFT[] = useDrafts()
-//   return useMemo(() => userDrafts?.filter(draft => draft.id === draftId)[0], [draftId, userDrafts])
-// }
+export const useDraft = (draftId: number): NFT => {
+  const userDrafts: NFT[] = useDrafts()
+  return useMemo(() => userDrafts?.filter(draft => draft.id === draftId)[0], [draftId, userDrafts])
+}
 
 // get onMarket state
-// export const useOnMarket = (): NFT[] => {
-//   return useSelector((state: AppState) => state.user.onMarket)
-// }
+export const useOnMarket = (): NFT[] => {
+  return useSelector((state: AppState) => state.user.onMarket)
+}
 
 // get onMarket single item
-// export const useOnMarketItem = (nftId: string): NFT => {
-//   const onMarket: NFT[] = useOnMarket()
-//   return useMemo(() => onMarket.filter(nft => nft.id === nftId)[0], [onMarket, nftId])
-// }
+export const useOnMarketItem = (nftId: string): NFT => {
+  const onMarket: NFT[] = useOnMarket()
+  return useMemo(() => onMarket.filter(nft => nft.id === nftId)[0], [onMarket, nftId])
+}
 
 // get offMarket state
-// export const useOffMarket = (): NFT[] => {
-//   return useSelector((state: AppState) => state.user.offMarket)
-// }
+export const useOffMarket = (): NFT[] => {
+  return useSelector((state: AppState) => state.user.offMarket)
+}
 
-// // get single offMarket item
-// export const useOffMarketItem = (nftId: string): NFT => {
-//   const offMarket: NFT[] = useOffMarket()
-//   return useMemo(() => offMarket.filter(nft => nft.id === nftId)[0], [offMarket, nftId])
-// }
+// get single offMarket item
+export const useOffMarketItem = (nftId: string): NFT => {
+  const offMarket: NFT[] = useOffMarket()
+  return useMemo(() => offMarket.filter(nft => nft.id === nftId)[0], [offMarket, nftId])
+}
 // get userAuctions
 export const useUserAuctions = (): Auction[] => {
   return useSelector((state: AppState) => state.user.userAuctions)
@@ -390,29 +383,29 @@ export const useClearUserPopup = (): (() => void) => {
   }, [dispatch])
 }
 
-// export const useGetDrafts = () => {
-//   const dispatch = useDispatch()
-//   const user = useUserAddress()
-//   const popup = usePopup()
-//   return useCallback(
-//     () => (user ? dispatch(getDraftsAction(user)) : popup({ success: false, message: 'connectWallet' })),
-//     [user, popup, dispatch]
-//   )
-// }
+export const useGetDrafts = () => {
+  const dispatch = useDispatch()
+  const user = useUserAddress()
+  const popup = usePopup()
+  return useCallback(
+    () => (user ? dispatch(getDraftsAction(user)) : popup({ success: false, message: 'connectWallet' })),
+    [user, popup, dispatch]
+  )
+}
 
-// export const useGetUserNFTs = () => {
-//   const dispatch = useDispatch()
-//   const owner = useUserAddress()
-//   const chainId = useChainId()
-//   const popup = usePopup()
-//   return useCallback(
-//     () =>
-//       owner && chainId
-//         ? dispatch(getUserNFTsAction({ owner, chainId }))
-//         : popup({ success: false, message: 'connectWallet' }),
-//     [owner, chainId, popup, dispatch]
-//   )
-// }
+export const useGetUserNFTs = () => {
+  const dispatch = useDispatch()
+  const owner = useUserAddress()
+  const chainId = useChainId()
+  const popup = usePopup()
+  return useCallback(
+    () =>
+      owner && chainId
+        ? dispatch(getUserNFTsAction({ owner, chainId }))
+        : popup({ success: false, message: 'connectWallet' }),
+    [owner, chainId, popup, dispatch]
+  )
+}
 
 // get user stack balance
 export const useStakeBalance = (): number => {
@@ -435,9 +428,7 @@ export const useGetStakeAllowance = () => {
       if (owner) {
         const allowed = await getAllowance(owner, STARTFI_STAKES_ADDRESSS)
 
-
         setAllowedAmount(parseInt(allowed))
-
 
         if (allowed === '0x00') {
           setAllowStaking(false)
@@ -450,4 +441,3 @@ export const useGetStakeAllowance = () => {
 
   return { allowStaking, allowedAmount }
 }
-

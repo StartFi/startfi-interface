@@ -8,17 +8,12 @@ import { useGetNFTs } from 'state/marketplace/hooks'
 import { useHistory } from 'react-router'
 import { ALL_CATEGORIES, DEFAULT_SORT, HEADER_DROPDOWN, TabIcons } from '../../constants'
 import { useTranslation } from 'react-i18next'
-import {  useUserAddress, useWalletAddress } from 'state/user/hooks'
+import { useWalletAddress } from 'state/user/hooks'
 import { useLocationSearch } from 'hooks'
 import { ConnectWallet, FirstRow, Img, Search, Tab, TabsCategory } from './styles'
 import { DropDownCategory } from 'components/DropDown'
-import {  useDeposit, useGetReserves } from 'hooks/startfiStakes'
+import {  useGetReserves } from 'hooks/startfiStakes'
 import { useWeb3React } from '@web3-react/core'
-
-import { useApproveToken } from 'hooks/startfiToken'
-import { address as STARTFI_STAKES_ADDRESS } from '../../constants/abis/StartfiStakes.json'
-import { useGetUserInv } from 'state/inventory/hooks'
-
 import { usePopup } from 'state/application/hooks'
 
 const MarketplaceHeader: React.FC = () => {
@@ -33,16 +28,10 @@ const MarketplaceHeader: React.FC = () => {
 
   const getNFTs = useGetNFTs()
 
-
-  const stakeToken = useDeposit()
-  const approveToken = useApproveToken()
-
   const { account } = useWeb3React()
   let { category, search } = useLocationSearch()
   const getReserves = useGetReserves()
-
   const popup = usePopup()
-  // const owner = useUserAddress()
 
   if (!category) category = 'all'
 
@@ -55,11 +44,7 @@ const MarketplaceHeader: React.FC = () => {
         history.push('/marketplace/wishList')
         break
       case 'Inventory':
-        if (!account)  {
-          history.push('/marketplace/nfts')
-         return popup({ success: false, message: t('connectWallet') })
-        }
-       history.push('/inventory/home/draft')
+        history.push('/inventory/home/draft')
         break
       case 'Dashboard':
         history.push('')
@@ -92,9 +77,13 @@ const MarketplaceHeader: React.FC = () => {
           options={HEADER_DROPDOWN}
           name={'drop'}
           value={dropDown}
-          itemsWidth='180px'
+          itemsWidth='14.68vw'
           border='none'
+          left="-11.562vw"
+          iconPosition="-1.56vw"
           selectIcon={true}
+          hasIcon={true}
+          color="#929292"
           onChange={getDropDownChanges}
         ></DropDownCategory>
         <Wallet />
