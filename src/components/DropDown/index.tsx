@@ -66,6 +66,7 @@ export const DropDown: React.FC<DropDownProps> = ({
         {open && (
           <Items width={width || '10vh'} itemsWidth={itemsWidth} left={left}>
             {options.map((o, i) => (
+              
               <Item
                 selected={selected === o}
                 last={i === options.length - 1}
