@@ -21,6 +21,7 @@ export const deleteInventory = async (id: string): Promise<void> => {
 }
 
 export const editInventory = async (inventory: any): Promise<string> => {
+    // ----
      return editDocument(COLLECTION, inventory.id, inventory)
 }
 

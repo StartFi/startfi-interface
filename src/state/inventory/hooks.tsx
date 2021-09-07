@@ -18,9 +18,9 @@ export const setInvItem = (
   nft: NFT,
   issueDate: any,
   auction?: Auction
-): Inventory=> {
+): Inventory => {
   return {
-     id: generateId,
+    id: generateId,
     ethAddress,
     nft,
     issueDate,
@@ -55,25 +55,19 @@ export const useGetInvItem = () => {
   const userInv = useUserInv()
 
   return useCallback((nftId: string) => {
-
-    // if (userInv?.length > 0) {
-      return userInv?.filter(invItem => invItem.nft.id === nftId)
-    // }
-
+    return userInv?.filter(invItem => invItem.nft.id === nftId)
   }, [])
 }
 
 export const useCheckInvItem = () => {
   const userInv = useUserInv()
 
-
   return useCallback((nftId: string) => {
-    if( userInv?.length>0){
+    if (userInv?.length > 0) {
       return userInv.filter(invItem => invItem.nft.id === nftId)?.length > 0 ? true : false
-    }else{
+    } else {
       return false
     }
-
   }, [])
 }
 export const useGetUserDrafts = () => {

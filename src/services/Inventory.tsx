@@ -4,7 +4,7 @@ import { Inventory, InventoryType } from './models/Inventory'
 
 // add inventory item
 export const addInventoryItem = async (item: Inventory) => {
-  console.log('item id=>=>',item.id)
+  
   const itemAdded = await addInventory(item)
   const status = checkSuccess({ itemAdded })
   return { status, itemAdded, type: item.type }
