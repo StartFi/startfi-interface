@@ -17,6 +17,7 @@ import { useWeb3React } from '@web3-react/core'
 import { useApproveToken } from 'hooks/startfiToken'
 import { address as STARTFI_STAKES_ADDRESS } from '../../constants/abis/StartfiStakes.json'
 
+
 const MarketplaceHeader: React.FC = () => {
   const address = useWalletAddress()
 
@@ -28,10 +29,13 @@ const MarketplaceHeader: React.FC = () => {
   const [dropDown,setDropDown]= useState(HEADER_DROPDOWN[0])
 
   const getNFTs = useGetNFTs()
-  const stakeToken = useDeposit()
-  const approveToken = useApproveToken()
+
+
   const { account } = useWeb3React()
   let { category, search } = useLocationSearch()
+  const getReserves = useGetReserves()
+  const popup = usePopup()
+
 
   if (!category) category = 'all'
 

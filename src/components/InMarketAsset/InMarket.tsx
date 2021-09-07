@@ -23,7 +23,6 @@ import DelistCard from 'components/DelistCard/DelistCard'
 
 import { Footer } from 'components/OffMarket/OffMarket.styles'
 import Amount from 'components/NFTSummary/Amount'
-import StartfiLoader from 'components/Loader/startfi'
 
 import Timer from 'components/Timer/Timer'
 
@@ -40,7 +39,6 @@ const InMarket = () => {
   const imgUrl = uriToHttp(`${nft?.dataHash}`)[1]
   const [tagsState, setTagsState] = useState(false)
   const history = useHistory()
-  
 
   const [displayBidWarning, setDisplayBidWarning] = useState<string>('none')
   const [displayWarning, setDisplayWarning] = useState<string>('none')
@@ -54,6 +52,7 @@ const InMarket = () => {
       if (nft.tags.length > 0) setTagsState(true)
     }
   }, [])
+
 
   if (auction == undefined)
      (history.push('/inventory/home/draft')
@@ -147,8 +146,8 @@ const InMarket = () => {
                       ))}
                     </TagContainer>
                   ) : (
-                      <span>{t('noTags')}</span>
-                    )}
+                    <span>{t('noTags')}</span>
+                  )}
                 </TagRow>
 
                 <Divider width='95%'></Divider>
@@ -226,17 +225,17 @@ const InMarket = () => {
                 </TextContainer>
               </Card>
             ) : (
-                <Card height='71px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
-                  <TextContainer marginLeft='1.438rem' width='100%'>
-                    <div>
-                      <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
-                        {t('pricing')}
-                        <span>{auction?.listingPrice} STFI ~ 253 USD</span>
-                      </Text>
-                    </div>
-                  </TextContainer>
-                </Card>
-              )}
+              <Card height='71px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
+                <TextContainer marginLeft='1.438rem' width='100%'>
+                  <div>
+                    <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='9.75rem'>
+                      {t('pricing')}
+                      <span>{auction?.listingPrice} STFI ~ 253 USD</span>
+                    </Text>
+                  </div>
+                </TextContainer>
+              </Card>
+            )}
 
             {/* 5 */}
             <Card height='123px' border='1px solid #F4F4F4' borderRadius='6px' background='#FBFBFB' marginTop='20px'>
