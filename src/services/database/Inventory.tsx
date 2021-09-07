@@ -13,6 +13,7 @@ export const getInventories = async (filters: Dictionary, orders?: Dictionary): 
 }
 
 export const getInventory = async (id: string): Promise<Inventory> => {
+    
     return (await getDocument(COLLECTION, id)) as Inventory
 }
 
