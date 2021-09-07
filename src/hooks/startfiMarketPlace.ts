@@ -6,7 +6,6 @@ import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
 import { abi as STARTFI_MARKET_PLACE_ABI } from '../constants/abis/StartFiMarketPlace.json'
 import abiDecoder from 'abi-decoder'
-import { delistAuction } from '../services/Marketplace'
 
 abiDecoder.addABI(STARTFI_MARKET_PLACE_ABI)
 
@@ -152,8 +151,7 @@ export const useDeList = (): ((listingId: string | number) => any) => {
         return `account: ${account} is not connected`
       }
       try {
-        await delist('deList', [listingId], contract, account, library)
-        return await delistAuction(String(listingId))
+        return await delist('deList', [listingId], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e

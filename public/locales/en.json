@@ -296,8 +296,6 @@
   "zeroBalanceMessage": " You don't have balance",
   "zeroBalance": " No balance",
 
-
-
    "Days":"Days",
   "Hours":"Hours",
   "Minutes":"Minutes",
@@ -340,7 +338,6 @@
   "increaseStake":"Increase Stake Balance",
   "stake":"STFI",
   "userRejectTransaction":"You reject transaction'"
-
 
 
 

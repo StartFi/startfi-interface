@@ -23,7 +23,6 @@ import { useHistory } from 'react-router-dom'
 import { Auction } from 'services/models/Auction'
 import { useTranslation } from 'react-i18next'
 import { useDelistAuction } from 'state/marketplace/hooks'
-import { useDeList, useGetListingDetails } from 'hooks/startfiMarketPlace'
 
 interface DelistCardProps {
   isOpen: boolean
@@ -38,8 +37,7 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
   const [disabled, setDisabled] = useState<boolean>(true)
   const [delistSuccess, setDelistSuccess] = useState<boolean>(false)
   const timerComponents: any = []
-  // const delist = useDelistAuction(auction.id)
-  const delist = useDeList()
+  const delist = useDelistAuction(auction.id)
 
 
   const history = useHistory()
@@ -86,7 +84,7 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
 
           {!delistSuccess ? (
             <DelistMain>
-              {timerComponents.length > 0 && auction?.bids.length > 0 ? (
+              {timerComponents.length > 0 && auction?.bids.length>0 ? (
                 <Text
                   fontFamily='Roboto'
                   fontSize='0.875rem'
@@ -95,23 +93,23 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
                   textAlign='justify'
                   textJustify='auto'
                 >
-                  {t('delistCost')}
+                 {t('delistCost')}
                 </Text>
               ) : (
-                  <Text
-                    fontFamily='Roboto'
-                    fontSize='0.875rem'
-                    color='#444444'
-                    font-weight='400'
-                    textAlign='justify'
-                    textJustify='auto'
-                  >
-                    {t('delistNow')}
-                  </Text>
-                )}
+                <Text
+                  fontFamily='Roboto'
+                  fontSize='0.875rem'
+                  color='#444444'
+                  font-weight='400'
+                  textAlign='justify'
+                  textJustify='auto'
+                >
+                 {t('delistNow')}
+                </Text>
+              )}
 
               <DelistingDuration>
-                {timerComponents.length > 0 && auction?.bids.length > 0 ? (
+                {timerComponents.length > 0 && auction?.bids.length>0 ? (
                   <Text
                     textTransform='upperCase'
                     fontFamily='Roboto'
@@ -121,22 +119,22 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
                     textAlign='justify'
                     textJustify='auto'
                   >
-                    {t('minDelistLef')}
+                  {t('minDelistLef')}
                   </Text>
                 ) : null}
               </DelistingDuration>
-              {auction?.bids.length > 0 ? (<CounterContainer>{timerComponents}</CounterContainer>) : null}
+              {auction?.bids.length>0?(<CounterContainer>{timerComponents}</CounterContainer>):null}
 
               <CheckContainer>
                 <input type='checkbox' onChange={handelCheckBoxChanges} />
                 <Text fontFamily='Roboto' fontSize='10.5px' color='#000000' font-weight='500'>
-                  {t('delistConfirm')}
+                 {t('delistConfirm')}
                 </Text>
               </CheckContainer>
               <ButtonContainer>
                 <DelistButton
                   onClick={() => {
-                    delist(auction.id)
+                    delist()
                     setDelistSuccess(true)
                   }}
                   disabledBackground="#c2c2c2"
@@ -153,49 +151,49 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
               </ButtonContainer>
             </DelistMain>
           ) : (
-              <DelistSuccessContainer>
-                <img src={delistSuccessImg} />
-                <Text
-                  fontFamily='Roboto'
-                  fontSize='1rem'
-                  color='#444444'
-                  font-weight='500'
-                  margin='35px 0px 0px 0px'
-                  textAlign='center'
-                >
-                  {t('DelistSuccess')}
-                </Text>
+            <DelistSuccessContainer>
+              <img src={delistSuccessImg} />
+              <Text
+                fontFamily='Roboto'
+                fontSize='1rem'
+                color='#444444'
+                font-weight='500'
+                margin='35px 0px 0px 0px'
+                textAlign='center'
+              >
+                {t('DelistSuccess')}
+              </Text>
+              <div>
                 <div>
-                  <div>
-                    <DelistButton
-                      backgroundColor='transparent'
-                      padding='15px'
-                      textDecoration='underline'
-                      fontWeight='500'
-                      fontSize='0.9rem'
-                    >
-                      {t('checkStake')}
-                    </DelistButton>
-                    <DelistButton
-                      onClick={() => history.push('/inventory/home/draft')}
-                      backgroundColor='transparent'
-                      border='1px solid #000000'
-                      fontWeight='500'
-                      fontSize='0.9rem'
-                    >
-                      {t('checkInventory')}
-                    </DelistButton>
-                  </div>
                   <DelistButton
-                    onClick={() => history.push('/marketplace/nfts')}
-                    backgroundColor='#000000'
-                    color='#ffffff'
+                    backgroundColor='transparent'
+                    padding='15px'
+                    textDecoration='underline'
+                    fontWeight='500'
+                    fontSize='0.9rem'
                   >
-                    {t('BackToMarketplace')}
+                    {t('checkStake')}
+                  </DelistButton>
+                  <DelistButton
+                    onClick={() => history.push('/inventory/home/draft')}
+                    backgroundColor='transparent'
+                    border='1px solid #000000'
+                    fontWeight='500'
+                    fontSize='0.9rem'
+                  >
+                    {t('checkInventory')}
                   </DelistButton>
                 </div>
-              </DelistSuccessContainer>
-            )}
+                <DelistButton
+                  onClick={() => history.push('/marketplace/nfts')}
+                  backgroundColor='#000000'
+                  color='#ffffff'
+                >
+                {t('BackToMarketplace')}
+                </DelistButton>
+              </div>
+            </DelistSuccessContainer>
+          )}
         </Container>
       </DelistModal>
     </React.Fragment>
