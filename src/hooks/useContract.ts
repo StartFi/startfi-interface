@@ -3,7 +3,8 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
 import { Token, WETH9 } from '@uniswap/sdk-core'
 import { useMemo } from 'react'
-
+import { utils } from 'ethers'
+import abbreviate from 'number-abbreviate'
 import { ChainId } from '../constants/supportedChains'
 
 import {
@@ -65,7 +66,7 @@ const WETH: WETH_Only = {
     18,
     'ETH',
     'Binance-Peg Ethereum'
-  ),
+  )
   // [ChainId.AURORA]: new Token(
   //   ChainId.BSC,
   //   '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
@@ -109,7 +110,7 @@ export const useERC721 = (address: string | undefined, withSignerIfPossible?: bo
 export function useArgentWalletDetectorContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
   return useContract(
-    chainId === ChainId.ROPSTEN/**MAINNET */ ? ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS : undefined,
+    chainId === ChainId.ROPSTEN /**MAINNET */ ? ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS : undefined,
     ARGENT_WALLET_DETECTOR_ABI,
     false
   )
@@ -122,8 +123,8 @@ export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contrac
       // case ChainId.MAINNET:
       // case ChainId.GÖRLI:
       case ChainId.ROPSTEN:
-      // case ChainId.RINKEBY:
-      //   address = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
+        // case ChainId.RINKEBY:
+        //   address = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
         break
     }
   }
@@ -180,10 +181,15 @@ export const useStartFiReputation = (withSignerIfPossible?: boolean): Contract |
 }
 
 export function parseBigNumber(logs: any): any {
-  return logs.map(log => {
-    if (BigNumber.isBigNumber(log)) {
-      return log.toHexString()
-    }
-    return log
-  })
+  try {
+    return logs.map(log => {
+      if (BigNumber.isBigNumber(log)) {
+        return abbreviate(utils.formatEther(log.toString()))
+      }
+      return log
+    })
+  } catch (e) {
+    console.log(e)
+    return e
+  }
 }

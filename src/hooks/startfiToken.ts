@@ -18,12 +18,12 @@ export const useTokenInfo = () => {
         const symbol = await evaluateTransaction(contract, 'symbol', [])
         const decimals = await evaluateTransaction(contract, 'decimals', [])
         const totalSupply = await evaluateTransaction(contract, 'totalSupply', [])
-        const totalSupplyHex = totalSupply.toHexString()
+        const totalSupplyDecimal = abbreviate(utils.formatEther(totalSupply.toString()))
         return {
           name,
           symbol,
           decimals,
-          totalSupplyHex
+          totalSupplyDecimal
         }
       } catch (e) {
         console.log(e)
@@ -61,7 +61,7 @@ export const useGetAllowance = (): ((owner: string, spender: string) => any) => 
       const getAllowance = async () => {
         try {
           const allowance = await evaluateTransaction(contract, 'allowance', [owner, spender])
-          return allowance.toHexString()
+          return  abbreviate(utils.formatEther(allowance.toString()))
         } catch (e) {
           console.log(e)
           return e
@@ -112,7 +112,6 @@ export const useIncreaseAllowance = (): ((spender: string, addedValue: string | 
       try {
         const transaction = await approve('increaseAllowance', [spender, addedValue], contract, account, library)
         const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
-        console.log('transactionReceipt', transactionReceipt)
         const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
         return decodedLogs[0].events
       } catch (e) {
@@ -138,7 +137,6 @@ export const useDecreaseAllowance = (): ((spender: string, subtractedValue: stri
       try {
         const transaction = await approve('decreaseAllowance', [spender, subtractedValue], contract, account, library)
         const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
-        console.log('transactionReceipt', transactionReceipt)
         const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
         return decodedLogs[0].events
       } catch (e) {
@@ -161,10 +159,7 @@ export const useTransfer = (): ((address: string, amount: string | number) => an
         return `account: ${account} is not connected`
       }
       try {
-        const transaction = await transfer('transfer', [address, amount], contract, account, library)
-        const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
-        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
-        return decodedLogs[0].events
+        return await transfer('transfer', [address, amount], contract, account, library)
       } catch (e) {
         console.log('error', e)
         return e

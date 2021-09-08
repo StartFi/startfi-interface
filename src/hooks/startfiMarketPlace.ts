@@ -6,7 +6,8 @@ import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
 import { abi as STARTFI_MARKET_PLACE_ABI } from '../constants/abis/StartFiMarketPlace.json'
 import abiDecoder from 'abi-decoder'
-
+import { utils } from 'ethers'
+import abbreviate from 'number-abbreviate'
 abiDecoder.addABI(STARTFI_MARKET_PLACE_ABI)
 
 export const useListOnMarketplace = (): ((
@@ -243,7 +244,8 @@ export const useGetUserReserved = (): ((userAddress: string) => any) => {
     async (userAddress: string) => {
       try {
         const userReserved = await evaluateTransaction(contract, 'getUserReserved', [userAddress])
-        const reserved = userReserved.toHexString()
+        const reserved = abbreviate(utils.formatEther(userReserved.toString()))
+
         return reserved
       } catch (e) {
         console.log(e)
@@ -259,7 +261,7 @@ export const useGetServiceFee = () => {
   return useCallback(async () => {
     try {
       const userReserved = await evaluateTransaction(contract, 'getServiceFee', [])
-      return userReserved.toHexString()
+      return abbreviate(utils.formatEther(userReserved.toString()))
     } catch (e) {
       console.log(e)
       return e
