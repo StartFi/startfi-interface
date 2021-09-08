@@ -495,9 +495,7 @@ export const useSetDraftNft = () => {
   )
 }
 
-
 // check expired Auction
-export const useIsExpiredAuction=(auction:AuctionNFT|null)=>{
-  return useMemo(()=>auction?auction?.auction?.expireTimestamp < Date.now()?true:false:false,[auction])
-
+export const useIsExpiredAuction = (auction: AuctionNFT | null) => {
+  return useMemo(() => (auction ? (auction?.auction?.expireTimestamp < Date.now() ? true : false) : false), [auction])
 }

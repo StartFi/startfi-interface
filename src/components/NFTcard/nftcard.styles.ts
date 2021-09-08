@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Card = styled('div')<{boxShadow?:string}>`
+export const Card = styled('div')<{ boxShadow?: string }>`
   display: flex;
   flex-direction: column;
   width: 310px;
@@ -56,19 +56,18 @@ export const Actions = styled.div`
   display: flex;
   margin-top: auto;
   height: 45px;
-  & div{
-    width:50%;
+  & div {
+    width: 50%;
   }
 `
 
-export const WhishList = styled('div')<{background?:string,width?:string,borderRadius?:string}>`
+export const WhishList = styled('div')<{ background?: string; width?: string; borderRadius?: string }>`
   display: flex;
   align-items: center;
-  background-color:${({ background }) => background};
-  width:${({ width }) => width};
+  background-color: ${({ background }) => background};
+  width: ${({ width }) => width};
   border-radius: 0px 0px 0px 8px;
-  border-radius:${({ borderRadius }) => borderRadius};
-
+  border-radius: ${({ borderRadius }) => borderRadius};
 `
 export const Bid = styled.div`
   display: flex;
@@ -81,7 +80,7 @@ export const Bid = styled.div`
 export const ImageIcon = styled('img')<{ $opacity?: boolean }>`
   position: relative;
   left: 29px;
-  z-index:10;
-  margin-right:10px;
+  z-index: 10;
+  margin-right: 10px;
   opacity: ${({ $opacity }) => ($opacity ? '50%' : '')};
 `
