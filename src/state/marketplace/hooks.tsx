@@ -121,6 +121,11 @@ export const useSetBidOrBuy = (): ((bidOrBuy: boolean, value: number) => void) =
   return useCallback((bidOrBuy: boolean, value: number) => dispatch(setBidOrBuy({ bidOrBuy, value })), [dispatch])
 }
 
+// block bidding if value less than minBid
+export const useIsMoreThanMin = (value: number, minBid: number) => {
+  return useMemo(() => (value > minBid ? true : false), [value, minBid])
+}
+
 export const useSaveNFT = (): ((nft: NFT) => void) => {
   const dispatch = useDispatch()
   return useCallback((nft: NFT) => dispatch(saveNFT({ nft })), [dispatch])
@@ -138,7 +143,11 @@ export const useClearNFT = (): (() => void) => {
 
 export const useSetWalletConfirmation = (): ((type: string) => void) => {
   const dispatch = useDispatch()
-  return useCallback((type: string) => dispatch(setWalletConfirmation({ type })), [dispatch])
+  return useCallback(
+    (type: string) => dispatch(setWalletConfirmation({ type })),
+
+    [dispatch]
+  )
 }
 
 export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
@@ -494,5 +503,3 @@ export const useSetDraftNft = () => {
     [dispatch]
   )
 }
-
-

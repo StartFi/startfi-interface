@@ -60,7 +60,7 @@ const Nftproduct =  () => {
    useGetAuctionNFT(nft, auction)
 
   const auctionNFT: AuctionNFT | null = useAuctionNFT()
-
+  console.log('auctionNft', auctionNFT)
 
   const popup = usePopup()
 
@@ -97,11 +97,11 @@ const Nftproduct =  () => {
     readMore ? setIsReadMore('scroll') : setIsReadMore('')
   }
 
-  const LastBidding = auctionNFT ? parseInt(auctionNFT?.auction?.bids[auctionNFT?.auction?.bids.length - 1]) : null
+  const LastBidding = auctionNFT ? parseInt(auctionNFT?.auction?.bids[auctionNFT?.auction?.bids.length - 1],16) : null
   let listingPrice:number = auctionNFT?.auction?.listingPrice as number;
   return (
     <Grid>
-      <BidOrBuy bidOrBuy={bidOrBuy} isOpen={isOpen} close={() => setIsOpen(false)} />
+      <BidOrBuy bidOrBuy={bidOrBuy} isOpen={isOpen} close={() => setIsOpen(false)} minBid={auctionNFT?.auction?.minBid ||0}/>
       <LeftGrid>
         <ImgCard>
           <img src={imgUrl} alt='NFT' />

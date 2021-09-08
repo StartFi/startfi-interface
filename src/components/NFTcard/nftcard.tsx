@@ -9,7 +9,6 @@ import Amount from 'components/NFTSummary/Amount'
 import Timer from 'components/Timer/Timer'
 import { ONE_DAY_MILLISECONDS } from '../../constants'
 
-
 export interface NftCardProps {
   auctionNFT: AuctionNFT
   navigateToCard: (clickedCard: AuctionNFT) => void
@@ -20,14 +19,18 @@ const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid 
   const { t } = useTranslation()
   const cardContent = auctionNFT.nft
   const expired = auctionNFT.auction.expireTimestamp - Date.now()
-let listPrice = auctionNFT?.auction?.listingPrice;
+  let listPrice = auctionNFT?.auction?.listingPrice
 
  
 
-
   return (
-    <Card boxShadow={expired<ONE_DAY_MILLISECONDS?' inset 0 0 10px 0 rgba(0, 0, 0, 0.25), 0 0 8px 0 rgba(0, 0, 0, 0.25)'
-    :'0px 2px 8px rgba(0, 0, 0, 0.135216)'}>
+    <Card
+      boxShadow={
+        expired < ONE_DAY_MILLISECONDS
+          ? ' inset 0 0 10px 0 rgba(0, 0, 0, 0.25), 0 0 8px 0 rgba(0, 0, 0, 0.25)'
+          : '0px 2px 8px rgba(0, 0, 0, 0.135216)'
+      }
+    >
       <div onClick={() => navigateToCard(auctionNFT)}>
         <Media>
           <CardImg src={uriToHttp(auctionNFT.nft.dataHash)[1]} />
@@ -46,7 +49,6 @@ let listPrice = auctionNFT?.auction?.listingPrice;
         </div>
       </div>
       <Actions>
-
         <ButtonWishlist nftId={cardContent.id} type='NFTCard' />
         <Bid>
           <NftButton onClick={() => placeBid(auctionNFT)} color='#ffffff'>
