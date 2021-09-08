@@ -284,6 +284,9 @@ export const useGetAuctionBidDetails = (): ((listingId: string | number, bidder:
     async (listingId: string | number, bidder: string) => {
       try {
         const auctionBidDetails = await evaluateTransaction(contract, 'getAuctionBidDetails', [listingId, bidder])
+        let bidsArray:string[]=parseBigNumber(auctionBidDetails)
+        let mapped =bidsArray.map(e=>parseInt(e,16))
+        console.log('bidding array',mapped)
         return parseBigNumber(auctionBidDetails)
       } catch (e) {
         console.log(e)

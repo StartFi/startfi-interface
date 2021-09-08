@@ -34,12 +34,13 @@ import { useHistory, useParams } from 'react-router-dom'
 import { useAuctionNFT, useGetAuctionNFT, useSetBidOrBuy } from 'state/marketplace/hooks'
 import uriToHttp from 'utils/uriToHttp'
 import { AuctionNFT } from 'services/models/AuctionNFT'
-import { useUserBalance } from 'state/user/hooks'
+import { useUserAddress, useUserBalance } from 'state/user/hooks'
 import Timer from 'components/Timer/Timer'
 import Amount from 'components/NFTSummary/Amount'
 import StringModifier from 'utils/StringSplice'
 import Text from '../Text'
 import StartfiLoader from 'components/Loader/startfi'
+import { useGetAuctionBidDetails } from 'hooks/startfiMarketPlace'
 
 interface NFTParams {
   nft: string
@@ -60,7 +61,14 @@ const Nftproduct = () => {
   useGetAuctionNFT(nft, auction)
 
   const auctionNFT: AuctionNFT | null = useAuctionNFT()
-  console.log('auctionNft', auctionNFT)
+
+  const auctionBid=useGetAuctionBidDetails()
+  // console.log('auctionNft', auctionNFT)
+  const bidder = useUserAddress()
+  if(auctionNFT && bidder){
+    auctionBid(auctionNFT?.auction.id,bidder)
+  }
+
 
   const popup = usePopup()
 

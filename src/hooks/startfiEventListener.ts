@@ -136,7 +136,7 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
         const eventLogs = marketplaceContract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
         const eventValue = parseBigNumber(args)
-        console.log(eventValue)
+        // console.log(eventValue)
         if (bid) {
           bid.id = eventValue[0]
           dispatch(placeBidAction({ auctionId: auctionNFT?.auction.id || '', bid }))
