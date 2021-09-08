@@ -121,11 +121,19 @@ export const useSetBidOrBuy = (): ((bidOrBuy: boolean, value: number) => void) =
   return useCallback((bidOrBuy: boolean, value: number) => dispatch(setBidOrBuy({ bidOrBuy, value })), [dispatch])
 }
 
-// block bidding if value less than minBid
-export const useIsMoreThanMin = (value: number, minBid: number) => {
-  return useMemo(() => (value > minBid ? true : false), [value, minBid])
+
+
+// get max bid
+export const useGetTopBid = (auction: AuctionNFT | null) => {
+  const BidsArray = auction?.auction.bids.map(e => parseInt(e, 16))
+  return useMemo(() => (BidsArray ? Math.max.apply(null, BidsArray) : 0), [auction])
 }
 
+// block bidding if value less than minBid
+export const useIsMoreThanMin = (value: number, minBid: number,auction:AuctionNFT) => {
+  const topBid=useGetTopBid(auction)
+  return useMemo(() => (value > minBid ||value >topBid? true : false), [value, minBid])
+}
 export const useSaveNFT = (): ((nft: NFT) => void) => {
   const dispatch = useDispatch()
   return useCallback((nft: NFT) => dispatch(saveNFT({ nft })), [dispatch])

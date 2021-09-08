@@ -25,15 +25,17 @@ import {
   USDWord
 } from './styles'
 import { usePopup } from 'state/application/hooks'
+import { AuctionNFT } from 'services/models/AuctionNFT'
 
 interface BidOrBuyProps {
   bidOrBuy: boolean
   isOpen: boolean
   minBid: number
+  auction: AuctionNFT
   close: () => void
 }
 
-const BidOrBuy: React.FunctionComponent<BidOrBuyProps> = ({ bidOrBuy, isOpen, close, minBid }) => {
+const BidOrBuy: React.FunctionComponent<BidOrBuyProps> = ({ bidOrBuy, isOpen, close, minBid,auction }) => {
   const { t } = useTranslation()
 
   const history = useHistory()
@@ -45,7 +47,7 @@ const BidOrBuy: React.FunctionComponent<BidOrBuyProps> = ({ bidOrBuy, isOpen, cl
 
   const usd = useSTFItoUSD(value)
   const popup = usePopup()
-  const isMoreThanMin = useIsMoreThanMin(value,minBid)
+  const isMoreThanMin = useIsMoreThanMin(value,minBid,auction)
 
   if (!isOpen) return null
 
