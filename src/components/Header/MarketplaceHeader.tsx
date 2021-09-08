@@ -12,7 +12,7 @@ import { useWalletAddress } from 'state/user/hooks'
 import { useLocationSearch } from 'hooks'
 import { ConnectWallet, FirstRow, Img, Search, Tab, TabsCategory } from './styles'
 import { DropDownCategory } from 'components/DropDown'
-import {  useGetReserves } from 'hooks/startfiStakes'
+import { useGetReserves } from 'hooks/startfiStakes'
 import { useWeb3React } from '@web3-react/core'
 import { usePopup } from 'state/application/hooks'
 
@@ -24,12 +24,13 @@ const MarketplaceHeader: React.FC = () => {
   const { t } = useTranslation()
 
   const [input, setInput] = useState('')
-  const [dropDown, setDropDown] = useState(HEADER_DROPDOWN[0])
+  const [dropDown] = useState(HEADER_DROPDOWN[0])
 
   const getNFTs = useGetNFTs()
 
   const { account } = useWeb3React()
-  let { category, search } = useLocationSearch()
+  let { category } = useLocationSearch()
+  const { search } = useLocationSearch()
   const getReserves = useGetReserves()
   const popup = usePopup()
 
@@ -61,7 +62,7 @@ const MarketplaceHeader: React.FC = () => {
   return (
     <React.Fragment>
       <FirstRow>
-        <img src={Logo} alt='Logo' onClick={() => history.push('/')} />
+        <img src={Logo} alt="Logo" onClick={() => history.push('/')} />
         <Search>
           <InputSearch placeholder={t('searchNFTS')} value={input} onChange={(e: any) => setInput(e.target.value)} />
           <ButtonSearch onClick={() => history.push(`/marketplace/nfts/?category=${category}&search=${input}`)}>
@@ -69,7 +70,7 @@ const MarketplaceHeader: React.FC = () => {
           </ButtonSearch>
         </Search>
 
-        <LinkCreateNFT width='40vw' to='/mint/steps'>
+        <LinkCreateNFT width="40vw" to="/mint/steps">
           {t('mintNFT')}
         </LinkCreateNFT>
 
@@ -77,8 +78,8 @@ const MarketplaceHeader: React.FC = () => {
           options={HEADER_DROPDOWN}
           name={'drop'}
           value={dropDown}
-          itemsWidth='14.68vw'
-          border='none'
+          itemsWidth="14.68vw"
+          border="none"
           left="-11.562vw"
           iconPosition="-1.56vw"
           selectIcon={true}

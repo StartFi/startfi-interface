@@ -11,9 +11,9 @@ const Card = styled(Box)<{
   borderRadius?: string
   background?: string
   marginTop?: string
-  margin?:string
-  alignItems?:string
-  flexDirection?:string
+  margin?: string
+  alignItems?: string
+  flexDirection?: string
 }>`
   width: ${({ width }) => width ?? '100%'};
   height: ${({ height }) => height};
@@ -25,11 +25,9 @@ const Card = styled(Box)<{
   margin-top: ${({ marginTop }) => marginTop};
   margin: ${({ margin }) => margin};
   display: flex;
-  flex-direction:${({ flexDirection }) => flexDirection};
+  flex-direction: ${({ flexDirection }) => flexDirection};
   align-items: center;
-  align-items:  ${({ alignItems }) => alignItems};
-
-
+  align-items: ${({ alignItems }) => alignItems};
 `
 export default Card
 
@@ -72,39 +70,36 @@ const BlueCardStyled = styled(Card)`
 export const BlueCard = ({ children, ...rest }: CardProps) => {
   return (
     <BlueCardStyled {...rest}>
-      <Text fontWeight={500} color='#2172E5'>
+      <Text fontWeight={500} color="#2172E5">
         {children}
       </Text>
     </BlueCardStyled>
   )
 }
 
-
-export const ContainerCard= styled('div')<{
-  borderRadius?:string;
-  marginTop?:string
-  height?:string;
-  width:string
+export const ContainerCard = styled('div')<{
+  borderRadius?: string
+  marginTop?: string
+  height?: string
+  width: string
 }>`
-
-
-height: ${({height})=>height};
-width: ${({width})=>width};;
-margin: 0px auto 0px auto;
-background-color: #ffffff;
-border: 1px solid #e3e3e3;
-box-shadow: 0px 0px 20px rgba(239, 239, 239, 0.25);
-overflow-y: auto;
-border-radius: ${({ borderRadius }) => borderRadius};
-margin-top:${({ marginTop}) => marginTop};;
-&::-webkit-scrollbar {
-  width: 15px;
+  height: ${({ height }) => height};
+  width: ${({ width }) => width};
+  margin: 0px auto 0px auto;
+  background-color: #ffffff;
   border: 1px solid #e3e3e3;
-  background-color: #efefef;
-  border-radius: 100px;
-}
-&::-webkit-scrollbar-thumb {
-  border-radius: 100px;
-  background-color: #b5b5b5;
-}
+  box-shadow: 0px 0px 20px rgba(239, 239, 239, 0.25);
+  overflow-y: auto;
+  border-radius: ${({ borderRadius }) => borderRadius};
+  margin-top: ${({ marginTop }) => marginTop};
+  &::-webkit-scrollbar {
+    width: 15px;
+    border: 1px solid #e3e3e3;
+    background-color: #efefef;
+    border-radius: 100px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    background-color: #b5b5b5;
+  }
 `

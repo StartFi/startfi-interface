@@ -14,7 +14,7 @@ interface InputFileProps {
   filename: string
 }
 
-const InputFile: React.FC<InputFileProps> = ({ name, label, value, onChange, error, progress, filename }) => {
+const InputFile: React.FC<InputFileProps> = ({ name, label, onChange, error, progress, filename }) => {
   const { t } = useTranslation()
 
   const ref = useRef<HTMLInputElement>(null)

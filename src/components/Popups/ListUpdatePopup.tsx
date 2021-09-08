@@ -29,8 +29,6 @@ export default function ListUpdatePopup({
   const removePopup = useRemovePopup()
   const removeThisPopup = useCallback(() => removePopup(popKey), [popKey, removePopup])
 
- 
-
   const { added: tokensAdded, changed: tokensChanged, removed: tokensRemoved } = useMemo(() => {
     return diffTokenLists(oldList.tokens, newList.tokens)
   }, [newList.tokens, oldList.tokens])
@@ -82,7 +80,6 @@ export default function ListUpdatePopup({
               </ChangesList>
             </div>
             <AutoRow>
-           
               <div style={{ flexGrow: 1 }}>
                 <ButtonSecondary onClick={removeThisPopup}>Dismiss</ButtonSecondary>
               </div>

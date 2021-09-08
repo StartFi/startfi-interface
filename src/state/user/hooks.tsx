@@ -3,7 +3,6 @@ import { Pair, Token } from '@uniswap/sdk'
 import { PopupContent } from './../../constants'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { NFT } from 'services/models/NFT'
 import { User } from 'services/models/User'
 import { useETHBalances } from 'state/wallet/hooks'
 import { ChainId } from '../../constants/supportedChains'
@@ -21,17 +20,11 @@ import {
   updateUserSlippageTolerance,
   toggleURLWarning,
   updateUserSingleHopOnly,
-
   loginAction,
   addToWishlistAction,
   clearUserPopup,
   logoutAction,
-
-
-  removeFromWishlistAction,
-
-  updateStakeBalance
-
+  removeFromWishlistAction
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 
@@ -40,9 +33,8 @@ import { Auction } from 'services/models/Auction'
 import { generateId, useMarketplace, useNFT, useStep } from 'state/marketplace/hooks'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { useHistory } from 'react-router-dom'
-import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
 import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/StartfiStakes.json'
-import { useGetAllowance, useTokenBalance } from 'hooks/startfiToken'
+import { useGetAllowance } from 'hooks/startfiToken'
 import { setInvItem, useSaveInvItem } from 'state/inventory/hooks'
 import { InventoryType } from 'services/models/Inventory'
 
@@ -260,7 +252,7 @@ export const useSaveDraft = (): (() => void) => {
     const invItem = setInvItem(user, InventoryType.Draft, { ...draft, id: generateId }, draft.issueDate)
     // invItem.id=generateId
 
-    console.log('id',invItem.id)
+    console.log('id', invItem.id)
     if (step < 6) saveInvItem(invItem)
     else history.push('/inventory/off-market/' + draft.id)
   }, [history, step, user, draft, popup, dispatch])
@@ -435,9 +427,7 @@ export const useGetStakeAllowance = () => {
       if (owner) {
         const allowed = await getAllowance(owner, STARTFI_STAKES_ADDRESSS)
 
-
         setAllowedAmount(parseInt(allowed))
-
 
         if (allowed === '0x00') {
           setAllowStaking(false)
@@ -445,9 +435,8 @@ export const useGetStakeAllowance = () => {
       }
     }
     getAllow()
-    return () => {}
+    return
   }, [owner, STARTFI_STAKES_ADDRESSS])
 
   return { allowStaking, allowedAmount }
 }
-

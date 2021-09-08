@@ -5,10 +5,10 @@ import React from 'react'
 interface AmountProps {
   amount: any
   error?: boolean
-  margin?:string
+  margin?: string
 }
 
-const Amount: React.FC<AmountProps> = ({ amount, error,margin }) => {
+const Amount: React.FC<AmountProps> = ({ amount, error, margin }) => {
   const usd = useSTFItoUSD(amount)
 
   return (

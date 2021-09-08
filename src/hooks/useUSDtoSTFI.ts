@@ -1,4 +1,3 @@
-import { STFI_IN_WEI, WEI } from './../constants'
 import { useCallback } from 'react'
 import { useStfiUsdPrice } from 'services/Blockchain/cryptoPrice'
 
@@ -11,7 +10,7 @@ export const useUSDtoSTFI = (): ((amount: number) => Promise<number>) => {
   const usdPrice = useStfiUsdPrice()
   return useCallback(
     (amount: number): Promise<number> => {
-      return usdPrice().then(value =>amount/value)
+      return usdPrice().then(value => amount / value)
     },
     [usdPrice]
   )

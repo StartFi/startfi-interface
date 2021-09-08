@@ -42,7 +42,12 @@ const OpenFor: React.FC = () => {
   return (
     <OpenForContainer>
       <div>{t('openFor')}</div>
-      <InputNumberButtons name="openFor" value={expire.openFor} onChange={handleExpire} error={missing.includes('expireTimestamp')}/>
+      <InputNumberButtons
+        name="openFor"
+        value={expire.openFor}
+        onChange={handleExpire}
+        error={missing.includes('expireTimestamp')}
+      />
       <DropDownDateType
         name="type"
         options={['Day', 'Week', 'Month', 'Year']}
