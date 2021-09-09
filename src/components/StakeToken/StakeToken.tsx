@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Text from '../Text'
 import Card from 'components/Card'
 import { BalanceContainer, InputContainer, StokeTokenFooter } from './StakeToken.styles'
@@ -61,6 +61,13 @@ const StakeToken = () => {
     setSuccessModal(false)
     setCancelState(false)
   }
+
+  useEffect(()=>{
+    if(owner){
+      getReserves(owner)
+    }
+
+  },[owner])
 
   const next = () => {
 
