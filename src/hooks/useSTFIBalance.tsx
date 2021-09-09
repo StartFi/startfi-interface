@@ -10,7 +10,7 @@ export const useSTFIBalance = (): number => {
     if (address) {
       getSTFIBalance(address).then(balance => {
         // Checks if STFI balance is not a string (e.g 100m) || checks if STFI balance is a decimal (e.g 0,0043)
-        if (typeof balance === "number" || balance % 1 !== 0) {
+        if (typeof balance === "number" && balance % 1 !== 0) {
           balance = Number((balance).toFixed(4))
         }
         setBalance(balance)
