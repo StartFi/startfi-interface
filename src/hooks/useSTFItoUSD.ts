@@ -11,11 +11,19 @@ export const useSTFItoUSD = (amount: number): number => {
   const stfiUsdPrice = useStfiUsdPrice() // Price STFI in market
   useEffect(() => {
     stfiUsdPrice().then(value => {
-      // if k , m > fix NaN
-      // valueOfConversation = 0.5
-      // amountOfSTFI 
-      const formattedValue = +(value*amount).toFixed(4)
-      setUSD(formattedValue)})
+      let formattedAmount;
+      let amountStr = amount.toString()
+      if(typeof amount === 'string'){
+        const abbrevConverter = {m: '000000', k: '000'}
+        const abbrev = amountStr.slice(-1)
+        amountStr = amountStr.replace(abbrev, abbrevConverter[abbrev])
+        const amountNum = Number(amountStr)
+        formattedAmount =  Number((value*amountNum).toFixed(4))
+      }else{
+        formattedAmount = Number((value*amount).toFixed(4))
+      }
+      setUSD(formattedAmount)
+    })
   }, [amount, stfiUsdPrice, setUSD])
   return USD
 }
