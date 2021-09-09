@@ -8,9 +8,14 @@ import { useStfiUsdPrice } from 'services/Blockchain/cryptoPrice'
  */
 export const useSTFItoUSD = (amount: number): number => {
   const [USD, setUSD] = useState<number>(amount)
-  const stfiUsdPrice = useStfiUsdPrice()
+  const stfiUsdPrice = useStfiUsdPrice() // Price STFI in market
   useEffect(() => {
-    stfiUsdPrice().then(value => setUSD(value * amount))
+    stfiUsdPrice().then(value => {
+      // if k , m > fix NaN
+      // valueOfConversation = 0.5
+      // amountOfSTFI 
+      const formattedValue = +(value*amount).toFixed(4)
+      setUSD(formattedValue)})
   }, [amount, stfiUsdPrice, setUSD])
   return USD
 }
