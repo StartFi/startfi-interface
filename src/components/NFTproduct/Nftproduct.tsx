@@ -40,7 +40,7 @@ import Amount from 'components/NFTSummary/Amount'
 import StringModifier from 'utils/StringSplice'
 import Text from '../Text'
 import StartfiLoader from 'components/Loader/startfi'
-import { useGetAuctionBidDetails } from 'hooks/startfiMarketPlace'
+import {useWinnerBid} from 'hooks/startfiMarketPlace'
 
 interface NFTParams {
   nft: string
@@ -62,11 +62,11 @@ const Nftproduct = () => {
 
   const auctionNFT: AuctionNFT | null = useAuctionNFT()
 
-  const auctionBid=useGetAuctionBidDetails()
+  const auctionBid=useWinnerBid()
   // console.log('auctionNft', auctionNFT)
   const bidder = useUserAddress()
   if(auctionNFT && bidder){
-    auctionBid(auctionNFT?.auction.id,bidder)
+    auctionBid(auctionNFT?.auction.id)
   }
 
 

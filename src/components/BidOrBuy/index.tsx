@@ -54,7 +54,7 @@ const BidOrBuy: React.FunctionComponent<BidOrBuyProps> = ({ bidOrBuy, isOpen, cl
   const title = bidOrBuy ? 'placeBid' : 'proceedToPayment'
 
   const button = bidOrBuy ? 'setBidding' : 'proceedToPayment'
-  console.log(value)
+
 
   return (
     <React.Fragment>

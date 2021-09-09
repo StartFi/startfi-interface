@@ -272,6 +272,7 @@ export const useWinnerBid = (): ((listingId: string | number) => any) => {
   return useCallback(
     async (listingId: string | number) => {
       const bidWinner = await evaluateTransaction(contract, 'winnerBid', [listingId])
+      console.log(bidWinner)
       return bidWinner
     },
     [contract]
@@ -284,9 +285,7 @@ export const useGetAuctionBidDetails = (): ((listingId: string | number, bidder:
     async (listingId: string | number, bidder: string) => {
       try {
         const auctionBidDetails = await evaluateTransaction(contract, 'getAuctionBidDetails', [listingId, bidder])
-        let bidsArray:string[]=parseBigNumber(auctionBidDetails)
-        let mapped =bidsArray.map(e=>parseInt(e,16))
-        console.log('bidding array',mapped)
+
         return parseBigNumber(auctionBidDetails)
       } catch (e) {
         console.log(e)
@@ -302,6 +301,7 @@ export const useGetListingDetails = (): ((listingId: string | number) => any) =>
     async (listingId: string | number) => {
       try {
         const listingDetails = await evaluateTransaction(contract, 'getListingDetails', [listingId])
+
         return parseBigNumber(listingDetails)
       } catch (e) {
         console.log(e)
