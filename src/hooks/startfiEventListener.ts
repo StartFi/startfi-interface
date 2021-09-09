@@ -1,4 +1,3 @@
-import {  InventoryType } from './../services/models/Inventory';
 import { EventFilter } from 'ethers'
 import { useActiveWeb3React } from 'hooks'
 import { useEffect } from 'react'
@@ -13,11 +12,9 @@ import {
   placeBidAction,
   saveNFT
 } from 'state/marketplace/actions'
-import { generateId, useAuction, useAuctionNFT, useNFT } from 'state/marketplace/hooks'
+import { useAuction, useAuctionNFT, useNFT } from 'state/marketplace/hooks'
 import { useChainId, useUserAddress } from 'state/user/hooks'
 import { Bid } from 'services/models/Bid'
-import { setInvItem, useCheckInvItem, useGetInvItem, useOffMarketInvItem } from 'state/inventory/hooks'
-import { addToInventory,  deleteInventoryAction,  editInventoryAction } from 'state/inventory/actions';
 export const useNftPaymentEventListener = () => {
   const account = useUserAddress()
   const chainId = useChainId()
@@ -28,8 +25,6 @@ export const useNftPaymentEventListener = () => {
   const transferEvent = tokenContract?.filters.Transfer()
   const ApprovalEvent = tokenContract?.filters.Approval()
   const transferRoyalEvent = nftRoyalty?.filters.Transfer()
-  const checkInvItem= useCheckInvItem()
-  const getInvItem=useGetInvItem()
   const dispatch = useDispatch()
   useEffect(() => {
     if (transferRoyalEvent) {
@@ -39,22 +34,7 @@ export const useNftPaymentEventListener = () => {
         console.log({account, nft, chainId})
         if (account && nft && chainId) {
           const mintedNFT = { ...nft, id, issueDate: new Date(), owner: account, issuer: account, chainId }
-          // console.log('nft id before add inv off market=>=>',id)
-          let invItem=setInvItem(mintedNFT.owner,InventoryType.offMarket,mintedNFT,mintedNFT.issueDate)
-          invItem={...invItem,id}
-          // console.log('final before adding',invItem)
-
           dispatch(mintNFTAction(mintedNFT))
-
-// console.log('length',checkInvItem(id)?.length)
-         if(!checkInvItem(id))dispatch(addToInventory(invItem))
-         if(getInvItem(nft.id)?.length>0){
-          //  console.log('inv Draft=>=>',getInvItem(nft.id))
-           if(getInvItem(nft.id)[0].type===InventoryType.Draft)dispatch(deleteInventoryAction(getInvItem(nft.id)[0].id))
-
-         }
-
-        // console.log('add to inventory called')
           dispatch(saveNFT({ nft: mintedNFT }))
         }
         dispatch(addNewEvent({ eventName: 'transferRoyaltyEvent', eventValue: parseBigNumber(eventLogs) }))
@@ -104,7 +84,6 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
   const chainId = useChainId()
   const auctionNFT = useAuctionNFT()
   const dispatch = useDispatch()
-  let offMarketInv =useOffMarketInvItem(nft.id)
   useEffect(() => {
     if (listOnMarketplaceEvent && seller && chainId) {
       library?.on(listOnMarketplaceEvent as EventFilter, result => {
@@ -114,10 +93,7 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
         dispatch(addNewEvent({ eventName: 'ListOnMarketplace', eventValue }))
         dispatch(
           addToMarketplaceAction({ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId })
-
         )
-        dispatch(editInventoryAction({...offMarketInv,type:InventoryType.OnMarket,auction:{ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId }}))
-
       })
     }
     return () => {
@@ -144,13 +120,10 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
         const eventLogs = marketplaceContract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
         const eventValue = parseBigNumber(args)
-
-
         dispatch(addNewEvent({ eventName: 'CreateAuction', eventValue }))
         dispatch(
           addToMarketplaceAction({ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId })
         )
-        dispatch(editInventoryAction({...offMarketInv,type:InventoryType.OnMarket,auction:{ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId }}))
       })
     }
     return () => {

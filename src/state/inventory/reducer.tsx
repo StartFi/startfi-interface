@@ -44,7 +44,7 @@ export default createReducer(initialState, builder => {
     .addCase(deleteInventoryAction.rejected, (state, action) => {})
     .addCase(deleteInventoryAction.pending, (state, action) => {})
     .addCase(deleteInventoryAction.fulfilled, (state, action) => {
-      // console.log('inv delete reducer', action.payload)
+
     })
     .addCase(editInventoryAction.rejected, (state, action) => {})
     .addCase(editInventoryAction.pending, (state, action) => {})
