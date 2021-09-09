@@ -41,7 +41,7 @@ import { useApproveNft } from 'hooks/startfiNft'
 import { useDigitizingFees } from 'hooks'
 import { STEP } from './types'
 
-const generateId =
+export const generateId =
   Date.now().toString(36) +
   Math.random()
     .toString(36)
@@ -211,8 +211,8 @@ export const useAddToMarketplace = (): (() => void) => {
   useMarketplaceListener(nft)
   return useCallback(() => {
     if (seller && chainId && auction && nft) {
-      console.log(nft)
-      console.log(auction)
+      console.log('add to marketplace nft=>=>', nft)
+      console.log('add to marketplace auction=>=>', auction)
       if (auction.isForSale && !auction.isForBid)
         listOnMarketplace(auction.contractAddress, nft.id, auction.listingPrice as number)
       else
@@ -338,6 +338,8 @@ export const useAddNFT = () => {
   const fees = useDigitizingFees()
   const [agree, setAgree] = useState<boolean>(false)
   const [loader, setLoader] = useState<boolean>(false)
+  // to generate id to every nft
+  // dispatch(setNFT({ value:generateId, name:'id' }))
 
   const handleChange = useCallback(
     (value: any, name: string) => {
@@ -486,8 +488,17 @@ export const useSteps = () => {
   }, [step, addNFT, addAuction, back])
 }
 
-// else
-// setMissing(missing => {
-//   if (missing.includes(name)) return missing
-//   return [...missing, name]
-// })
+// this hook to set NFT if you clicked on inventory draft card
+export const useSetDraftNft = () => {
+  const dispatch = useDispatch()
+  return useCallback(
+    (draft: NFT) => {
+      for (const prop in draft) {
+        dispatch(setNFT({ value: draft[prop], name: prop }))
+      }
+    },
+    [dispatch]
+  )
+}
+
+
