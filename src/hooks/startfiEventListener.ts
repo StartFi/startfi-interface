@@ -137,6 +137,7 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
         const args = eventLogs?.args
         const eventValue = parseBigNumber(args)
         // console.log(eventValue)
+        console.log('bid added',bid)
         if (bid) {
           bid.id = eventValue[0]
           dispatch(placeBidAction({ auctionId: auctionNFT?.auction.id || '', bid }))

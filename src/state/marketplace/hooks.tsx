@@ -20,7 +20,8 @@ import {
   setAuction,
   setMissing,
   setNFT,
-  removeMissing
+  removeMissing,
+  getBids
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
@@ -122,17 +123,10 @@ export const useSetBidOrBuy = (): ((bidOrBuy: boolean, value: number) => void) =
 }
 
 
-
-// get max bid
-export const useGetTopBid = (auction: AuctionNFT | null) => {
-  const BidsArray = auction?.auction.bids.map(e => parseInt(e, 16))
-  return useMemo(() => (BidsArray ? Math.max.apply(null, BidsArray) : 0), [auction])
-}
-
 // block bidding if value less than minBid
-export const useIsMoreThanMin = (value: number, minBid: number,auction:AuctionNFT) => {
-  const topBid=useGetTopBid(auction)
-  return useMemo(() => (value > minBid ||value >topBid? true : false), [value, minBid])
+export const useIsValid = (value: number, minBid: number) => {
+  const topBid=useTopBid()
+  return useMemo(() => (!(value < minBid) &&value >topBid? true : false), [value, minBid,topBid])
 }
 export const useSaveNFT = (): ((nft: NFT) => void) => {
   const dispatch = useDispatch()
@@ -249,6 +243,7 @@ export const useGetAuctionNFT = (nftId: string, auctionId: string): void => {
   useEffect(() => {
     const AuctionNFT = nfts.filter(nft => nft.nft.id === nftId)[0]
     dispatch(getAuctionNFTAction({ nftId, auctionId, AuctionNFT }))
+    dispatch(getBids(nftId))
   }, [nftId, auctionId, nfts, dispatch])
 }
 
@@ -278,6 +273,10 @@ export const usePlaceBid = (): (() => void) => {
   }, [bidPrice, auctionNFT, bidWeb3, setWalletConfirmation])
 }
 
+// get topBid
+export const useTopBid = () => {
+  return useSelector((state: AppState) => state.marketplace.topNftBid)
+}
 export const useBuyNFT = (): (() => void) => {
   const buyNow = useBuyNow()
   const buyer = useUserAddress()
@@ -511,3 +510,5 @@ export const useSetDraftNft = () => {
     [dispatch]
   )
 }
+
+

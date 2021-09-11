@@ -3,7 +3,7 @@ import { NFT } from './models/NFT'
 import { addAuction, addBidToAuction, editAuction, getAuction, getAuctionsPaginated } from './database/Auction'
 import { getUser } from './database/User'
 import { addNFT, editNFT, getNFT, getNFTs } from './database/NFT'
-import { addBid } from './database/Bid'
+import { addBid, getBids } from './database/Bid'
 import { AuctionNFT } from './models/AuctionNFT'
 import { checkSuccess, sortHelper } from 'utils'
 import { Auction } from './models/Auction'
@@ -138,6 +138,13 @@ export const placeBid = async ({ auctionId, bid }: PlaceBid) => {
   const bidAddedToAuction = await addBidToAuction(auctionId, bid.id)
   const status = checkSuccess({ bidAdded, bidAddedToAuction })
   return { status, bidAdded, bidAddedToAuction }
+}
+
+// git bid array for an NFT
+export const getNftBids = async (nft: string) => {
+  const bids = await getBids({ nft })
+
+  return { bids }
 }
 
 export const delistAuction = async (id: string) => {

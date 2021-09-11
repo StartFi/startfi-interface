@@ -1,3 +1,4 @@
+import { getTopBid } from './../state/marketplace/actions';
 import { useCallback } from 'react'
 import { parseBigNumber, useStartFiMarketplace } from './useContract'
 import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
@@ -6,6 +7,7 @@ import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
 import { abi as STARTFI_MARKET_PLACE_ABI } from '../constants/abis/StartFiMarketPlace.json'
 import abiDecoder from 'abi-decoder'
+import { useDispatch } from 'react-redux';
 
 abiDecoder.addABI(STARTFI_MARKET_PLACE_ABI)
 
@@ -269,10 +271,13 @@ export const useGetServiceFee = () => {
 
 export const useWinnerBid = (): ((listingId: string | number) => any) => {
   const contract = useStartFiMarketplace(false)
+  const dispatch = useDispatch()
   return useCallback(
     async (listingId: string | number) => {
       const bidWinner = await evaluateTransaction(contract, 'winnerBid', [listingId])
-      console.log(bidWinner)
+      const {bidPrice}=bidWinner
+      const topBid=parseInt( bidPrice._hex,16)
+      dispatch(getTopBid({topBid}))
       return bidWinner
     },
     [contract]

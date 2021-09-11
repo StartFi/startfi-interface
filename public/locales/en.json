@@ -331,7 +331,10 @@
   "DetailsCreatedBySeller":"Details created by the seller",
   "PercentageResellingTransaction":"Percentage on each reselling transaction",
   "seller":"Seller",
-  "stake":"STFI"
+  "stake":"STFI",
+  "minBidding":"minimum Bidding",
+ "invalidMinBid":"Your Bidding is less than min Bidding of",
+ "invalidBid":"Your Bidding is less than last Bidding of"
 
 
 
