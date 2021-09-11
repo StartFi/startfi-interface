@@ -337,9 +337,9 @@
   "increaseStake": "Increase Stake Balance",
   "waitIncreaseStakeConfirm": "Waiting For Increasing Stake balance confirmation",
   "originallyCreatedBy": "Originally Created By",
-  "noRoyaltyShare":"No royalty share"
-    "minBidding":"minimum Bidding",
- "invalidMinBid":"Your Bidding is less than min Bidding of",
- "invalidBid":"Your Bidding is less than last Bidding of"
+  "noRoyaltyShare": "No royalty share",
+  "minBidding": "minimum Bidding",
+  "invalidMinBid": "Your Bidding is less than min Bidding of ",
+  "invalidBid": "Your Bidding is less than last Bidding of "
 
 }

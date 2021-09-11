@@ -31,7 +31,13 @@ import BidOrBuy from 'components/BidOrBuy'
 import ButtonWishlist from 'components/Button/ButtonWishlist'
 import { usePopup } from 'state/application/hooks'
 import { useHistory, useParams } from 'react-router-dom'
-import { useAuctionNFT, useGetAuctionNFT, useSetBidOrBuy,useTopBid,useIsExpiredAuction} from 'state/marketplace/hooks'
+import {
+  useAuctionNFT,
+  useGetAuctionNFT,
+  useSetBidOrBuy,
+  useTopBid,
+  useIsExpiredAuction
+} from 'state/marketplace/hooks'
 import uriToHttp from 'utils/uriToHttp'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { useUserAddress, useUserBalance } from 'state/user/hooks'
@@ -40,7 +46,7 @@ import Amount from 'components/NFTSummary/Amount'
 import StringModifier from 'utils/StringSplice'
 import Text from '../Text'
 import StartfiLoader from 'components/Loader/startfi'
-import {useWinnerBid} from 'hooks/startfiMarketPlace'
+import { useWinnerBid } from 'hooks/startfiMarketPlace'
 
 interface NFTParams {
   nft: string
@@ -64,29 +70,22 @@ const Nftproduct = () => {
   const nftId = parseInt(nft)
   const auctionNFT: AuctionNFT | null = useAuctionNFT()
   const imgUrl = uriToHttp(`${auctionNFT?.nft?.dataHash}`)[1]
-  const winnerBid=useWinnerBid()
+  const winnerBid = useWinnerBid()
   // const bidder = useUserAddress()
-  const topBid=useTopBid()
-
+  const topBid = useTopBid()
+  const listingPrice: number = auctionNFT?.auction?.listingPrice as number
 
   useGetAuctionNFT(nft, auction)
-
-
 
   const expiredAuction = useIsExpiredAuction(auctionNFT)
 
   useGetAuctionNFT(nft, auction)
 
-
-
-
-  useEffect(()=>{
-    if(auctionNFT){
+  useEffect(() => {
+    if (auctionNFT) {
       winnerBid(auctionNFT?.auction.id)
     }
-
-  },[auctionNFT])
-
+  }, [auctionNFT])
 
   if (!nft || !auction) {
     popup({ success: false, message: 'noNFT' })
@@ -101,8 +100,6 @@ const Nftproduct = () => {
       </div>
     )
 
-
-  // console.log('auctionNft', auctionNFT?.auction)
   const noStakes =
     balance &&
     auctionNFT &&
@@ -110,14 +107,8 @@ const Nftproduct = () => {
       (auctionNFT.auction.minBid && parseFloat(balance) < auctionNFT.auction.minBid))
 
   const showScroll = (readMore: boolean) => {
-
-    readMore ? setIsReadMore('scroll') : setIsReadMore('')}
-  const listingPrice: number = auctionNFT?.auction?.listingPrice as number
-
     readMore ? setIsReadMore('scroll') : setIsReadMore('')
   }
-
-  
 
   return (
     <Grid>
@@ -177,7 +168,7 @@ const Nftproduct = () => {
         ) : null}
 
         <BuyCard>
-          {topBid>0 ? (
+          {topBid > 0 ? (
             <LastBiddingContainer>
               <Text fontFamily='Roboto' FontWeight='bold' fontSize='0.875rem' color='#323232' margin='0 23px 0px 0px'>
                 {t('lastBidding')} :
@@ -215,18 +206,10 @@ const Nftproduct = () => {
           </BuyButtons>
           <BuyNow>
             <button
-    disabled={expiredAuction}
-             
-
-
-        
+              disabled={expiredAuction}
               onClick={() => {
                 setValue(false, listingPrice)
-
                 history.push('/marketplace/buyorbid')
-
-           
-
               }}
             >
               {t('buy')}
@@ -237,10 +220,7 @@ const Nftproduct = () => {
         <PublisherCard height='91px'>
           <OwnerText>
             <Text fontFamily='Roboto' FontWeight='400' fontSize='1rem' color='#323232' margin='15px 0px 0px 22px'>
-
-
               {t('originallyCreatedBy')} :
-
             </Text>
             {auctionNFT ? (
               <Text fontFamily='Roboto' FontWeight='600' fontSize='1rem' color='#323232' margin='15px 0px 0px 0px'>
