@@ -58,9 +58,9 @@ const BidOrBuy: React.FunctionComponent<BidOrBuyProps> = ({ bidOrBuy, isOpen, cl
       setInvalidBidMessage('')
       setShowInvalidBidMessage(false)
     } else if (!isValidBid && value < minBid) {
-      setInvalidBidMessage(t('invalidMinBid')`${minBid}`)
+      setInvalidBidMessage(`${t('invalidMinBid')}${minBid}`)
     } else {
-      setInvalidBidMessage(t('invalidBid')`${lastBidding}`)
+      setInvalidBidMessage(`${t('invalidBid')}${lastBidding}`)
     }
   }, [value])
 
