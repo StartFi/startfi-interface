@@ -15,6 +15,9 @@ import {
 import { useAuction, useAuctionNFT, useNFT } from 'state/marketplace/hooks'
 import { useChainId, useUserAddress } from 'state/user/hooks'
 import { Bid } from 'services/models/Bid'
+import { setInvItem, useCheckInvItem, useGetInvItem, useOffMarketInvItem } from 'state/inventory/hooks'
+import { InventoryType } from 'services/models/Inventory'
+import { addToInventory, deleteInventoryAction, editInventoryAction } from 'state/inventory/actions'
 export const useNftPaymentEventListener = () => {
   const account = useUserAddress()
   const chainId = useChainId()
@@ -25,6 +28,8 @@ export const useNftPaymentEventListener = () => {
   const transferEvent = tokenContract?.filters.Transfer()
   const ApprovalEvent = tokenContract?.filters.Approval()
   const transferRoyalEvent = nftRoyalty?.filters.Transfer()
+  const checkInvItem= useCheckInvItem()
+  const getInvItem=useGetInvItem()
   const dispatch = useDispatch()
   useEffect(() => {
     if (transferRoyalEvent) {
@@ -34,7 +39,15 @@ export const useNftPaymentEventListener = () => {
         console.log({account, nft, chainId})
         if (account && nft && chainId) {
           const mintedNFT = { ...nft, id, issueDate: new Date(), owner: account, issuer: account, chainId }
+          let invItem=setInvItem(mintedNFT.owner,InventoryType.offMarket,mintedNFT,mintedNFT.issueDate)
+          invItem={...invItem,id}
           dispatch(mintNFTAction(mintedNFT))
+          if(!checkInvItem(id))dispatch(addToInventory(invItem))
+          if(getInvItem(nft.id)?.length>0){
+
+            if(getInvItem(nft.id)[0].type===InventoryType.Draft)dispatch(deleteInventoryAction(getInvItem(nft.id)[0].id))
+
+          }
           dispatch(saveNFT({ nft: mintedNFT }))
         }
         dispatch(addNewEvent({ eventName: 'transferRoyaltyEvent', eventValue: parseBigNumber(eventLogs) }))
@@ -84,6 +97,7 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
   const chainId = useChainId()
   const auctionNFT = useAuctionNFT()
   const dispatch = useDispatch()
+  let offMarketInv =useOffMarketInvItem(nft.id)
   useEffect(() => {
     if (listOnMarketplaceEvent && seller && chainId) {
       library?.on(listOnMarketplaceEvent as EventFilter, result => {
@@ -94,6 +108,7 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
         dispatch(
           addToMarketplaceAction({ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId })
         )
+        dispatch(editInventoryAction({...offMarketInv,type:InventoryType.OnMarket,auction:{ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId }}))
       })
     }
     return () => {
@@ -124,6 +139,7 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
         dispatch(
           addToMarketplaceAction({ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId })
         )
+        dispatch(editInventoryAction({...offMarketInv,type:InventoryType.OnMarket,auction:{ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId }}))
       })
     }
     return () => {

@@ -45,14 +45,14 @@ export const useDeposit = (): ((user: string, amount: string | number) => any) =
 export const useGetReserves = (): ((owner: string) => any) => {
   const contract = useStartFiStakes(false)
   const dispatch = useDispatch()
-
+  const { account } = useActiveWeb3React()
 
   return useCallback(
     async (owner: string) => {
       try {
         const userReserved = await evaluateTransaction(contract, 'getReserves', [owner])
         const reserved = userReserved.toHexString()
-        console.log('Reserve Hook', parseInt(reserved, 16))
+
         dispatch(updateStakeBalance({ stakeBalance:parseInt(reserved, 16) }))
         return reserved
       } catch (e) {
