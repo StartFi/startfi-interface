@@ -49,6 +49,7 @@ I'm borrowing these from [Itwinjs Guidelines](https://www.itwinjs.org/learning/g
 
 - 2 spaces for indentation rather than tabs
 - You must use `yarn lint` for style unification
+- `yarn prepare` to install [husky](https://www.npmjs.com/package/husky)
 
 ## Documentation
 
