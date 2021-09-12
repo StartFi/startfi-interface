@@ -27,7 +27,7 @@ const expiredAuction=useIsExpiredAuction(auctionNFT)
 
   const listPrice = auctionNFT?.auction?.listingPrice
 
-  const expiredAuction = useIsExpiredAuction(auctionNFT)
+
 
 
   return (
