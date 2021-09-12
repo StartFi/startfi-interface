@@ -8,6 +8,7 @@ import uriToHttp from 'utils/uriToHttp'
 import Amount from 'components/NFTSummary/Amount'
 import Timer from 'components/Timer/Timer'
 import { ONE_DAY_MILLISECONDS } from '../../constants'
+import { useIsExpiredAuction } from 'state/marketplace/hooks'
 
 export interface NftCardProps {
   auctionNFT: AuctionNFT
@@ -20,6 +21,8 @@ const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid 
   const cardContent = auctionNFT.nft
   const expired = auctionNFT.auction.expireTimestamp - Date.now()
   const listPrice = auctionNFT?.auction?.listingPrice
+
+  const expiredAuction = useIsExpiredAuction(auctionNFT)
 
   return (
     <Card
@@ -47,9 +50,9 @@ const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid 
         </div>
       </div>
       <Actions>
-        <ButtonWishlist nftId={cardContent.id} type="NFTCard" />
+        <ButtonWishlist nftId={cardContent.id} type="NFTCard" disabled={expiredAuction} />
         <Bid>
-          <NftButton onClick={() => placeBid(auctionNFT)} color="#ffffff">
+          <NftButton disabled={expiredAuction} onClick={() => placeBid(auctionNFT)} color="#ffffff">
             {t('placeBid')}
           </NftButton>
         </Bid>

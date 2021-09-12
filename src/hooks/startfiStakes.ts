@@ -51,7 +51,7 @@ export const useGetReserves = (): ((owner: string) => any) => {
       try {
         const userReserved = await evaluateTransaction(contract, 'getReserves', [owner])
         const reserved = userReserved.toHexString()
-        console.log('Reserve Hook', parseInt(reserved, 16))
+
         dispatch(updateStakeBalance({ stakeBalance: parseInt(reserved, 16) }))
         return reserved
       } catch (e) {

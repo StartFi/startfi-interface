@@ -80,7 +80,7 @@ export const Bid = styled.div`
 export const ImageIcon = styled('img')<{ $opacity?: boolean }>`
   position: relative;
   left: 29px;
-  z-index:10;
-  margin-right:10px;
-  /* opacity: ${({ $opacity }) => ($opacity ? '50%' : '')}; */
+  z-index: 10;
+  margin-right: 10px;
+  opacity: ${({ $opacity }) => ($opacity ? '50%' : '')};
 `

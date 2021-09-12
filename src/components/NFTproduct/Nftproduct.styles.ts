@@ -174,6 +174,11 @@ export const BuyNow = styled.div`
     font-family: Roboto;
     letter-spacing: 0.04em;
     cursor: pointer;
+    &:disabled {
+      background-color: #c2c2c2;
+      color: #f4f4f4;
+      border: none;
+    }
   }
 `
 

@@ -38,9 +38,6 @@ export default createReducer(initialState, builder => {
         }
       }
     })
-    .addCase(deleteInventoryAction.fulfilled, (state, action) => {
-      console.log('inv delete reducer', action.payload)
-    })
     .addCase(getUserInventory.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while saving NFT to drafts' }
     })

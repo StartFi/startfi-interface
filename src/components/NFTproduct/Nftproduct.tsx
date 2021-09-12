@@ -31,7 +31,7 @@ import BidOrBuy from 'components/BidOrBuy'
 import ButtonWishlist from 'components/Button/ButtonWishlist'
 import { usePopup } from 'state/application/hooks'
 import { useHistory, useParams } from 'react-router-dom'
-import { useAuctionNFT, useGetAuctionNFT, useSetBidOrBuy } from 'state/marketplace/hooks'
+import { useAuctionNFT, useGetAuctionNFT, useSetBidOrBuy, useIsExpiredAuction } from 'state/marketplace/hooks'
 import uriToHttp from 'utils/uriToHttp'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { useUserBalance } from 'state/user/hooks'
@@ -60,6 +60,8 @@ const Nftproduct = () => {
   useGetAuctionNFT(nft, auction)
 
   const auctionNFT: AuctionNFT | null = useAuctionNFT()
+
+  const expiredAuction = useIsExpiredAuction(auctionNFT)
 
   const popup = usePopup()
 
@@ -164,13 +166,21 @@ const Nftproduct = () => {
           )}
 
           <BuyButtons>
-            <ButtonWishlist nftId={nftId} type="NFTProduct" width="70%" borderRadius="4px" fontSize="1rem" />
+            <ButtonWishlist
+              nftId={nftId}
+              type="NFTProduct"
+              width="70%"
+              borderRadius="4px"
+              fontSize="1rem"
+              disabled={expiredAuction}
+            />
             <PlaceBid>
               <button
                 onClick={() => {
                   setBidOrBuy(true)
                   setIsOpen(true)
                 }}
+                disabled={expiredAuction}
               >
                 {t('placeBid')}
               </button>
@@ -178,10 +188,12 @@ const Nftproduct = () => {
           </BuyButtons>
           <BuyNow>
             <button
+              disabled={expiredAuction}
               onClick={() => {
                 setValue(false, listingPrice)
 
                 history.push('/marketplace/buyorbid')
+
                 // setBidOrBuy(false)
                 // setIsOpen(true)
               }}
@@ -194,7 +206,7 @@ const Nftproduct = () => {
         <PublisherCard height="91px">
           <OwnerText>
             <Text fontFamily="Roboto" FontWeight="400" fontSize="1rem" color="#323232" margin="15px 0px 0px 22px">
-              {t('Originally Crated By')} :
+              {t('originallyCreatedBy')} :
             </Text>
             {auctionNFT ? (
               <Text fontFamily="Roboto" FontWeight="600" fontSize="1rem" color="#323232" margin="15px 0px 0px 0px">
@@ -202,15 +214,20 @@ const Nftproduct = () => {
               </Text>
             ) : null}
           </OwnerText>
-          <OwnerText>
-            <Text fontFamily="Roboto" FontWeight="800" fontSize="1rem" color="#323232" margin="30px 0px 0px 22px ">
-              {auctionNFT?.nft?.royalty} %
+          {auctionNFT?.nft?.royalty === 0 ? (
+            <Text fontFamily="Roboto" FontWeight="800" fontSize="1rem" color="#323232" margin="30px 10px 0px 25px ">
+              {t('noRoyaltyShare')}
             </Text>
-
-            <Text fontFamily="Roboto" FontWeight="400" fontSize="1rem" color="#323232" margin="30px 10px 0px 10px ">
-              {t('PercentageResellingTransaction')}
-            </Text>
-          </OwnerText>
+          ) : (
+            <OwnerText>
+              <Text fontFamily="Roboto" FontWeight="800" fontSize="1rem" color="#323232" margin="30px 0px 0px 22px ">
+                {auctionNFT?.nft?.royalty} %
+              </Text>
+              <Text fontFamily="Roboto" FontWeight="400" fontSize="1rem" color="#323232" margin="30px 10px 0px 10px ">
+                {t('PercentageResellingTransaction')}
+              </Text>
+            </OwnerText>
+          )}
         </PublisherCard>
 
         <PublisherCard height="60px">

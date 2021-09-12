@@ -13,6 +13,7 @@ interface ButtonWishlistProps {
   width?: string
   borderRadius?: string
   fontSize?: string
+  disabled?: boolean
 }
 
 const ButtonWishlist: React.FC<ButtonWishlistProps> = ({
@@ -20,7 +21,8 @@ const ButtonWishlist: React.FC<ButtonWishlistProps> = ({
   type,
   width,
   borderRadius,
-  fontSize
+  fontSize,
+  disabled
 }: ButtonWishlistProps) => {
   const { t } = useTranslation()
 
@@ -29,11 +31,12 @@ const ButtonWishlist: React.FC<ButtonWishlistProps> = ({
   if (type === 'NFTProduct')
     return (
       <WhishList background={isWishlist ? '#878787' : '#ededed'} width={width} borderRadius={borderRadius}>
-        <ImageIcon src={isWishlist ? RemoveWish : Heart} $opacity={isWishlist} />
+        <ImageIcon src={isWishlist ? RemoveWish : Heart} $opacity={disabled} />
         <NftButton
           onClick={() => (isWishlist ? removeFromWishlist() : addToWishlist())}
           color={isWishlist ? '#ffffff' : '#000000'}
           fontSize={fontSize}
+          disabled={disabled}
         >
           {t(isWishlist ? 'removeFromWishlist' : 'whishList')}
         </NftButton>
@@ -43,10 +46,11 @@ const ButtonWishlist: React.FC<ButtonWishlistProps> = ({
   if (type === 'NFTCard')
     return (
       <WhishList background={isWishlist ? '#878787' : '#ededed'}>
-        <ImageIcon src={isWishlist ? RemoveWish : Heart} $opacity={isWishlist} />
+        <ImageIcon src={isWishlist ? RemoveWish : Heart} $opacity={disabled} />
         <NftButton
           onClick={() => (isWishlist ? removeFromWishlist() : addToWishlist())}
           color={isWishlist ? '#ffffff' : '#000000'}
+          disabled={disabled}
         >
           {t(isWishlist ? 'removeFromWishlist' : 'whishList')}
         </NftButton>
