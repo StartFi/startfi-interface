@@ -1,11 +1,12 @@
 import { useCallback } from 'react'
-import { parseBigNumber, useStartFiMarketplace } from './useContract'
+import { useStartFiMarketplace } from './useContract'
 import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
 import { abi as STARTFI_MARKET_PLACE_ABI } from '../constants/abis/StartFiMarketPlace.json'
 import abiDecoder from 'abi-decoder'
+import parseBigNumber from 'utils/parseBigNumber'
 
 abiDecoder.addABI(STARTFI_MARKET_PLACE_ABI)
 

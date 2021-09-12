@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { BigNumber } from '@ethersproject/bignumber'
+
 import { Contract } from '@ethersproject/contracts'
 import { Token, WETH9 } from '@uniswap/sdk-core'
 import { useMemo } from 'react'
@@ -173,13 +173,4 @@ export const useStartFiStakes = (withSignerIfPossible?: boolean): Contract | nul
 }
 export const useStartFiReputation = (withSignerIfPossible?: boolean): Contract | null => {
   return useContract(STARTFI_REPUTATION_ADDRESS, STARTFI_REPUTATION_ABI, withSignerIfPossible)
-}
-
-export function parseBigNumber(logs: any): any {
-  return logs.map(log => {
-    if (BigNumber.isBigNumber(log)) {
-      return log.toHexString()
-    }
-    return log
-  })
 }

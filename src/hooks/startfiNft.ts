@@ -3,10 +3,11 @@ import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
-import { useStartFiPayment, useStartFiNft, useStartFiReputation, parseBigNumber } from './useContract'
+import { useStartFiPayment, useStartFiNft, useStartFiReputation } from './useContract'
 import { ROLES } from 'constants/index'
 import abiDecoder from 'abi-decoder'
 import { abi as STARTFI_NFT_PAYMENT_ABI } from '../constants/abis/StartFiNFTPayment.json'
+import parseBigNumber from 'utils/parseBigNumber'
 
 abiDecoder.addABI(STARTFI_NFT_PAYMENT_ABI)
 

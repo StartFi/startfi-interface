@@ -3,9 +3,10 @@ import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
-import { useStartFiPayment, parseBigNumber } from './useContract'
+import { useStartFiPayment } from './useContract'
 import abiDecoder from 'abi-decoder'
 import { abi as _ABI } from '../constants/abis/StartFiNFTPayment.json'
+import parseBigNumber from 'utils/parseBigNumber'
 abiDecoder.addABI(_ABI)
 
 export const useMint = (): ((
