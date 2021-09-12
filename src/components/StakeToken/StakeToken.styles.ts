@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Row } from 'theme'
 
-import { Container } from 'components/stakeTokenCard/StakeTokenCard.styles';
+import { Container } from 'components/stakeTokenCard/StakeTokenCard.styles'
 
 export const BalanceContainer = styled('div')<{ display?: string }>`
   display: flex;
@@ -28,19 +28,17 @@ export const StokeTokenFooter = styled('div')<{ left?: string }>`
   margin-left: 302px;
   & button {
     position: relative;
-    left:${({ left}) => left};
+    left: ${({ left }) => left};
   }
 `
 
-export const StakeTokenSuccessCard=styled(Container)<{justifyContent?:string}>`
-align-items: center;
-justify-content: ${({ justifyContent}) => justifyContent};
+export const StakeTokenSuccessCard = styled(Container)<{ justifyContent?: string }>`
+  align-items: center;
+  justify-content: ${({ justifyContent }) => justifyContent};
 
-& img{
-  margin-top: 33.5px;
-  width:64px;
-  height:51.1px;
-
-}
-
+  & img {
+    margin-top: 33.5px;
+    width: 64px;
+    height: 51.1px;
+  }
 `

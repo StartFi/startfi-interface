@@ -1,11 +1,11 @@
-import { Currency,Token } from '@uniswap/sdk-core'
+import { Currency, Token } from '@uniswap/sdk-core'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
 import EthereumLogo from '../../assets/images/ethereum-logo.png'
 import useHttpLocations from '../../hooks/useHttpLocations'
- import Logo from '../Logo'
- 
+import Logo from '../Logo'
+
 export const getTokenLogoURL = (address: string) =>
   `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
 
@@ -33,7 +33,7 @@ export default function CurrencyLogo({
   size?: string
   style?: React.CSSProperties
 }) {
-  const uriLocations = useHttpLocations( undefined)
+  const uriLocations = useHttpLocations(undefined)
   const srcs: string[] = useMemo(() => {
     if (!currency || currency.isNative) return []
 

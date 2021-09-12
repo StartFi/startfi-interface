@@ -18,7 +18,7 @@ export const useIpfsProgress = (): number => {
 
 export const useClearIPFSProgress = (): (() => void) => {
   const dispatch = useDispatch()
-  return useCallback(() => dispatch(ipfsProgress({ type:'', progress: 0 })), [dispatch])
+  return useCallback(() => dispatch(ipfsProgress({ type: '', progress: 0 })), [dispatch])
 }
 
 export const useUploadToIpfs = (): ((ipfsMedia: IpfsMedia) => void) => {
@@ -44,7 +44,7 @@ export const useIPFS = () => {
   const hash = useIpfsHash()
   const status = useIpfsStatus()
 
-  return useMemo(()=>{
+  return useMemo(() => {
     return { upload, ipfsProgress, hash, status }
-  },[upload, ipfsProgress, hash, status])
+  }, [upload, ipfsProgress, hash, status])
 }

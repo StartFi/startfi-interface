@@ -22,21 +22,21 @@ const StakeTokenSuccess: React.FC<CardProps> = ({ isOpen, close, waitingConfirma
     <React.Fragment>
       <Shadow onClick={close} />
       <PaymentModal>
-        <StakeTokenSuccessCard minHeight='50vh' width='27vw' justifyContent={waitingConfirmation ?"start":""}>
-          {waitingConfirmation ? <LoadingIcon src={Loading} alt='Loading' /> : <img src={SuccessImg} />}
+        <StakeTokenSuccessCard minHeight="50vh" width="27vw" justifyContent={waitingConfirmation ? 'start' : ''}>
+          {waitingConfirmation ? <LoadingIcon src={Loading} alt="Loading" /> : <img src={SuccessImg} />}
           <Text
-            fontFamily='Roboto'
-            fontSize='1.125rem'
-            FontWeight='500'
-            color='#736e6e'
-            margin={waitingConfirmation ?'30px 10px 0 0':'0 10px 0 0'}
-            textAlign='center'
+            fontFamily="Roboto"
+            fontSize="1.125rem"
+            FontWeight="500"
+            color="#736e6e"
+            margin={waitingConfirmation ? '30px 10px 0 0' : '0 10px 0 0'}
+            textAlign="center"
           >
             {waitingConfirmation ? t('waitIncreaseStakeConfirm') : t('stakeTokenSuccess')}
           </Text>
 
           {!waitingConfirmation ? (
-            <ButtonPaymentBlack width='95%' height='8vh' onClick={close}>
+            <ButtonPaymentBlack width="95%" height="8vh" onClick={close}>
               {t('checkStakeBalance')}
             </ButtonPaymentBlack>
           ) : null}

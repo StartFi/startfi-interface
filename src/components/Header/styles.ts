@@ -6,12 +6,12 @@ export const Img = styled.img`
 `
 
 export const Search = styled(Row)`
-   display: flex;
-   justify-content: start;
-   align-items: stretch;
-   height: 6vh;
-   width: 45%;
- `
+  display: flex;
+  justify-content: start;
+  align-items: stretch;
+  height: 6vh;
+  width: 45%;
+`
 
 export const TabsCategory = styled(Row)`
   margin-top: 2vh;
@@ -35,9 +35,8 @@ export const Tab = styled(CenteredRow)<TabProps>`
 export const FirstRow = styled(Row)`
   /* margin-bottom: 4vh; */
   & img {
-     cursor:pointer;
+    cursor: pointer;
     margin-right: 12px;
-
   }
 `
 
@@ -45,7 +44,6 @@ export const FirstRow = styled(Row)`
 // width:40px;
 // height:40px
 // `
-
 
 export const ConnectWallet = styled.div`
   width: 100%;

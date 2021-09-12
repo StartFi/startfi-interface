@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { TabProps } from "./CardHeader";
+import styled from 'styled-components'
+import { TabProps } from './CardHeader'
 
 export const InvPageContainer = styled.div`
   width: 100%;
@@ -19,28 +19,25 @@ export const HeaderContainer = styled.div`
 `
 
 export const InvTabsCategory = styled.div`
-display: flex;
-flex-flow: row nowrap;
-margin-left: -40px;
+  display: flex;
+  flex-flow: row nowrap;
+  margin-left: -40px;
 `
 export const InvTab = styled.div<TabProps>`
-margin-left: 80px;
-padding-bottom: 1vh;
-cursor: pointer;
-border-bottom: ${props => (props.selected ? '2px solid #000000;' : 'none;')};
-color: ${props => (props.selected ? ' #000000;' : '#919191;')};
-transition: ease-in-out 0.3s all;
+  margin-left: 80px;
+  padding-bottom: 1vh;
+  cursor: pointer;
+  border-bottom: ${props => (props.selected ? '2px solid #000000;' : 'none;')};
+  color: ${props => (props.selected ? ' #000000;' : '#919191;')};
+  transition: ease-in-out 0.3s all;
 `
 export const InventoryCard = styled('div')<{
-  borderRadius?:string;
-  marginTop?:string;
-  height?:string;
-
-
-
+  borderRadius?: string
+  marginTop?: string
+  height?: string
 }>`
   height: 500px;
-  height:${({ height }) => height};
+  height: ${({ height }) => height};
   width: 92%;
   margin: 0px auto 0px auto;
   background-color: #ffffff;
@@ -48,7 +45,7 @@ export const InventoryCard = styled('div')<{
   box-shadow: 0px 0px 20px rgba(239, 239, 239, 0.25);
   overflow-y: auto;
   border-radius: ${({ borderRadius }) => borderRadius};
-  margin-top:${({ marginTop}) => marginTop};;
+  margin-top: ${({ marginTop }) => marginTop};
   &::-webkit-scrollbar {
     width: 15px;
     border: 1px solid #e3e3e3;
@@ -87,13 +84,13 @@ export const Image = styled.img`
   height: 103px;
   border-radius: 4px;
 `
-export const TagContainer = styled('div')<{marginLeft?:string,lastChildWidth?:string}>`
+export const TagContainer = styled('div')<{ marginLeft?: string; lastChildWidth?: string }>`
   display: flex;
-  margin-left: ${({marginLeft})=>marginLeft};
-  & div{
+  margin-left: ${({ marginLeft }) => marginLeft};
+  & div {
     display: flex;
-    align-items:center;
-    justify-content:center;
+    align-items: center;
+    justify-content: center;
     width: 87px;
     height: 35px;
     margin-right: 10px;
@@ -104,9 +101,8 @@ export const TagContainer = styled('div')<{marginLeft?:string,lastChildWidth?:st
   }
 
   & :last-child {
-    width: ${({lastChildWidth})=>lastChildWidth??'87px'};
+    width: ${({ lastChildWidth }) => lastChildWidth ?? '87px'};
   }
-
 `
 
 export const TextContainer = styled.div`

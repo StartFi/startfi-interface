@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { useTokenBalance } from './startfiToken'
 import { useUserAddress } from 'state/user/hooks'
+import { useTokenBalance } from './startfiToken'
 
 export const useSTFIBalance = (): number => {
   const address = useUserAddress()
@@ -16,7 +16,7 @@ export const useSTFIBalance = (): number => {
         setBalance(balance)
       })
     }
-    return () => { }
+    return
   }, [address, getSTFIBalance])
   return balance
 }

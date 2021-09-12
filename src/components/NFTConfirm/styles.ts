@@ -166,7 +166,11 @@ export const ButtonTransparent = styled(ButtonConfirmBid)`
   background-color: transparent;
 `
 
-export const ButtonTransparentBorder = styled(ButtonTransparent)<{ color?: string; backgroundColor?: string ;border?:string }>`
+export const ButtonTransparentBorder = styled(ButtonTransparent)<{
+  color?: string
+  backgroundColor?: string
+  border?: string
+}>`
   border: 1px solid #000000;
   color: ${({ color }) => color};
   background-color: ${({ backgroundColor }) => backgroundColor};
