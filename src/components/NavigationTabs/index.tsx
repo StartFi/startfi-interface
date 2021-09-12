@@ -8,7 +8,7 @@ import { ArrowLeft } from 'react-feather'
 import { RowBetween } from '../Row'
 // import QuestionHelper from '../QuestionHelper'
 import Settings from '../Settings'
- 
+
 const Tabs = styled.div`
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: center;
@@ -90,7 +90,7 @@ export function AddRemoveTabs({ adding, creating }: { adding: boolean; creating:
         <HistoryLink
           to="/pool"
           onClick={() => {
-            adding 
+            adding
           }}
         >
           <StyledArrowLeft />

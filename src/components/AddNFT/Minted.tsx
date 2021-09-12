@@ -29,9 +29,7 @@ const Minted: React.FC = () => {
           </SemiBold>
         </SidePadding>
         <MintedBorder />
-        <MintedButtonBlack onClick={() => history.push('/mint/steps')}>
-          {t('addAssetToMarketplace')}
-        </MintedButtonBlack>
+        <MintedButtonBlack onClick={() => history.push('/mint/steps')}>{t('addAssetToMarketplace')}</MintedButtonBlack>
         <MintedButtonWhite
           onClick={() => {
             clearNFT()

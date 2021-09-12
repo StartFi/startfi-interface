@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { ETH_USD_PRICE_URL, ETH_DAI_PRICE_URL, STFI_USD_PRICE_URL } from '../../constants'
-const ethers = require('ethers')
+import { ethers } from 'ethers'
 
 export const useEthPrice = (): (() => Promise<number>) => {
   return useCallback(async () => {
@@ -28,16 +28,15 @@ export const useUSDPrice = (): (() => Promise<number>) => {
   }, [])
 }
 // TODO: useMemo hook and fix the issue here
-export const convertToWie = (amount: number | string) => (value: number | string) => {
+export const convertToWie = (amount: number | string) => () => {
   //the value of the unit Ether
-  let etherString = amount //"4.2"
+  const etherString = amount //"4.2"
 
   //convert units ether in units wei (return value BigNumber)
-  let wei = ethers.utils.parseEther(etherString)
+  const wei = ethers.utils.parseEther(etherString as string)
 
   //convert wei a decimal string
-  let weiString = wei.toString()
-  console.log(weiString)
+  const weiString = wei.toString()
   return weiString
 }
 

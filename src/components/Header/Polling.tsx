@@ -65,7 +65,7 @@ const Spinner = styled.div`
 `
 
 export default function Polling() {
-  const { chainId} = useActiveWeb3React()
+  const { chainId } = useActiveWeb3React()
 
   const blockNumber = useBlockNumber()
 
@@ -75,8 +75,6 @@ export default function Polling() {
   // useAddUserDoc(user,account)
   useEffect(
     () => {
-
-
       const timer1 = setTimeout(() => setIsMounted(true), 1000)
 
       // this will clear Timeout when component unmount like in willComponentUnmount

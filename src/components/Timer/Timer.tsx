@@ -4,10 +4,10 @@ import { Counter } from './Timer.style'
 import Text from '../Text'
 interface TimerProp {
   timeStamp: number
-  helperString:string
+  helperString: string
 }
 
-const Timer: React.FC<TimerProp> = ({ timeStamp ,helperString}) => {
+const Timer: React.FC<TimerProp> = ({ timeStamp, helperString }) => {
   const timeLeft = useCountDownTimer(timeStamp)
 
   const timerComponents: any = []
@@ -28,13 +28,17 @@ const Timer: React.FC<TimerProp> = ({ timeStamp ,helperString}) => {
     )
   })
 
-  return(
-
-     <React.Fragment>
-    {timerComponents.length > 0 ? <div> {timerComponents}</div> :
-      <Text fontFamily='Roboto' fontSize='1rem' color='#444444' spanWeight='500' marginLeft='5.0rem'>{helperString} Ended</Text>}
+  return (
+    <React.Fragment>
+      {timerComponents.length > 0 ? (
+        <div> {timerComponents}</div>
+      ) : (
+        <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="5.0rem">
+          {helperString} Ended
+        </Text>
+      )}
     </React.Fragment>
-    )
+  )
 }
 
 export default Timer

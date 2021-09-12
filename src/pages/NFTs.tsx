@@ -4,7 +4,7 @@ import NTFCard from '../components/NFTcard/nftcard'
 import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
 
-import { useGetNFTs, useLoadTime, useMarketplace, useMarketplaceLoading } from 'state/marketplace/hooks'
+import { useLoadTime, useMarketplace, useMarketplaceLoading } from 'state/marketplace/hooks'
 
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import StartfiLoader from '../components/Loader/startfi'
@@ -31,8 +31,6 @@ const NFTs: React.FC = () => {
 
   const loadtime = useLoadTime()
 
-  const getNFTs = useGetNFTs()
-
   const loading = useMarketplaceLoading()
 
   if (loading)
@@ -42,12 +40,13 @@ const NFTs: React.FC = () => {
       </div>
     )
 
-
-    if(onMarket.length==0){
-      return <div>
+  if (onMarket.length == 0) {
+    return (
+      <div>
         <h3>No Result Found</h3>
       </div>
-    }
+    )
+  }
 
   return (
     <Padding>
@@ -56,15 +55,14 @@ const NFTs: React.FC = () => {
           {onMarket.length} {t('NFTSResults')} {loadtime}ms
         </Results>
         <DropDownContainer>
-
-           <DropDownSort
-            itemsWidth='12vw'
+          <DropDownSort
+            itemsWidth="12vw"
             LabelWidth="11.8vw"
             marginRight="40px"
             showLabel={true}
             boxShadow="0 2px 8px 0 rgba(0, 0, 0, 0.14)"
             border="none"
-            name='network'
+            name="network"
             selectIcon={true}
             options={NetWorks}
             value={netWork}
@@ -73,13 +71,13 @@ const NFTs: React.FC = () => {
             }}
           />
           <DropDownSort
-            itemsWidth='12vw'
+            itemsWidth="12vw"
             LabelWidth="11.8vw"
             marginRight="40px"
             boxShadow="0 2px 8px 0 rgba(0, 0, 0, 0.14)"
             border="none"
             showLabel={true}
-            name='sort'
+            name="sort"
             selectIcon={true}
             options={Status}
             value={status}
@@ -93,20 +91,19 @@ const NFTs: React.FC = () => {
       </Header>
 
       <NFTList>
-        {
-          onMarket.map((auctionNFT: AuctionNFT) => (
-            <Nft key={auctionNFT.nft.id}>
-              <NTFCard
-                auctionNFT={auctionNFT}
-                navigateToCard={(auctionNFT: AuctionNFT) =>
-                  history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
-                }
-                placeBid={(auctionNFT: AuctionNFT) =>
-                  history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
-                }
-              ></NTFCard>
-            </Nft>
-          ))}
+        {onMarket.map((auctionNFT: AuctionNFT) => (
+          <Nft key={auctionNFT.nft.id}>
+            <NTFCard
+              auctionNFT={auctionNFT}
+              navigateToCard={(auctionNFT: AuctionNFT) =>
+                history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
+              }
+              placeBid={(auctionNFT: AuctionNFT) =>
+                history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
+              }
+            ></NTFCard>
+          </Nft>
+        ))}
       </NFTList>
       <Pagination />
     </Padding>

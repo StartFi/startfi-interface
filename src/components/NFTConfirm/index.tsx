@@ -22,7 +22,7 @@ import {
   MarginRight,
   Rows,
   TextBlack,
-  TimerContainer,
+  TimerContainer
 } from './styles'
 
 const NFTConfirm: React.FunctionComponent = () => {
@@ -46,10 +46,8 @@ const NFTConfirm: React.FunctionComponent = () => {
     <Container>
       <Left>
         <TimerContainer>
-        <Text margin="0px 10px 0px 10px">
-          {t('auctionsEndIn')}:
-          </Text>
-          <Timer timeStamp={auctionNFT.auction.expireTimestamp} helperString='Auction'></Timer>
+          <Text margin="0px 10px 0px 10px">{t('auctionsEndIn')}:</Text>
+          <Timer timeStamp={auctionNFT.auction.expireTimestamp} helperString="Auction"></Timer>
         </TimerContainer>
         <Rows>
           <Img src={uriToHttp(nft.dataHash)[1]} />

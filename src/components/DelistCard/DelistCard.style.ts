@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 interface DelistCardProps {
   readonly minHeight: string
-  minWidth?:string
+  minWidth?: string
 }
 
 export const Container = styled.div<DelistCardProps>`
@@ -13,7 +13,7 @@ export const Container = styled.div<DelistCardProps>`
   background-color: #fafafa;
   border-radius: 8px;
   min-height: ${({ minHeight }) => minHeight};
-  min-width:${({ minWidth }) => minWidth};
+  min-width: ${({ minWidth }) => minWidth};
   display: flex;
   flex-flow: column nowrap;
 `
@@ -95,8 +95,8 @@ export const DelistButton = styled('button')<{
   fontWeight?: string
   fontSize?: string
   margin?: string
-  disabledColor?:string
-  disabledBackground?:string
+  disabledColor?: string
+  disabledBackground?: string
 }>`
   cursor: pointer;
   box-sizing: border-box;
@@ -113,8 +113,8 @@ export const DelistButton = styled('button')<{
   font-size: ${({ fontSize }) => fontSize};
   margin: ${({ margin }) => margin};
   &:disabled {
-     background-color: ${({  disabledBackground }) =>   disabledBackground};
-    color:${({disabledColor }) => disabledColor};
+    background-color: ${({ disabledBackground }) => disabledBackground};
+    color: ${({ disabledColor }) => disabledColor};
   }
 `
 export const DelistSuccessContainer = styled.div`

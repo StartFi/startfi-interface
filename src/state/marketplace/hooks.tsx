@@ -34,13 +34,12 @@ import { address as STARTFI_MARKETPLACE_ADDRESS } from '../../constants/abis/Sta
 import { useHistory } from 'react-router-dom'
 import { useAllowedSTFI } from 'hooks/useAllowedSTFI'
 import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../../constants/abis/StartFiNFTPayment.json'
-import { address as STARTFI_Marketplace_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
 import { useAllowed } from 'hooks/useAllowed'
 import { useApproveNft } from 'hooks/startfiNft'
 import { useDigitizingFees } from 'hooks'
 import { STEP } from './types'
 
-const generateId =
+export const generateId =
   Date.now().toString(36) +
   Math.random()
     .toString(36)
@@ -205,8 +204,8 @@ export const useAddToMarketplace = (): (() => void) => {
   useMarketplaceListener(nft)
   return useCallback(() => {
     if (seller && chainId && auction && nft) {
-      console.log(nft)
-      console.log(auction)
+      console.log('add to marketplace nft=>=>', nft)
+      console.log('add to marketplace auction=>=>', auction)
       if (auction.isForSale && !auction.isForBid)
         listOnMarketplace(auction.contractAddress, nft.id, auction.listingPrice as number)
       else
@@ -332,6 +331,8 @@ export const useAddNFT = () => {
   const fees = useDigitizingFees()
   const [agree, setAgree] = useState<boolean>(false)
   const [loader, setLoader] = useState<boolean>(false)
+  // to generate id to every nft
+  // dispatch(setNFT({ value:generateId, name:'id' }))
 
   const handleChange = useCallback(
     (value: any, name: string) => {
@@ -443,7 +444,7 @@ export const useAddAuction = () => {
       case STEP.ALLOW_MONETIZING:
         if (!allowed) {
           setLoader(true)
-          approve(STARTFI_Marketplace_ADDRESS, nft?.id).then(() => {
+          approve(STARTFI_MARKETPLACE_ADDRESS, nft?.id).then(() => {
             setStep(STEP.ADD_AUCTION)
             setLoader(false)
           })
@@ -480,8 +481,20 @@ export const useSteps = () => {
   }, [step, addNFT, addAuction, back])
 }
 
-// else
-// setMissing(missing => {
-//   if (missing.includes(name)) return missing
-//   return [...missing, name]
-// })
+// this hook to set NFT if you clicked on inventory draft card
+export const useSetDraftNft = () => {
+  const dispatch = useDispatch()
+  return useCallback(
+    (draft: NFT) => {
+      for (const prop in draft) {
+        dispatch(setNFT({ value: draft[prop], name: prop }))
+      }
+    },
+    [dispatch]
+  )
+}
+
+// check expired Auction
+export const useIsExpiredAuction = (auction: AuctionNFT | null) => {
+  return useMemo(() => (auction ? (auction?.auction?.expireTimestamp < Date.now() ? true : false) : false), [auction])
+}

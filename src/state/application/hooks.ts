@@ -70,18 +70,21 @@ export function useAddPopup(): (content: PC, key?: string) => void {
   )
 }
 
-
 export const usePopup = (): ((popupContent: PopupContent) => void) => {
   const popup = useAddPopup()
-  return useCallback((popupContent: PopupContent)=>{
-    popup({txn:{
-      hash: '',
-      success: popupContent.success,
-      summary: popupContent.message
-    }})
-  },[popup])
+  return useCallback(
+    (popupContent: PopupContent) => {
+      popup({
+        txn: {
+          hash: '',
+          success: popupContent.success,
+          summary: popupContent.message
+        }
+      })
+    },
+    [popup]
+  )
 }
-
 
 // returns a function that allows removing a popup via its key
 export function useRemovePopup(): (key: string) => void {

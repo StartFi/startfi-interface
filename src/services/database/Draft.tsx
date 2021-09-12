@@ -8,7 +8,7 @@ export const addDraft = async (draft: Draft): Promise<string> => {
 
   if (userDrafts) {
     if (!userDrafts.drafts) userDrafts.drafts = []
-    let userDraftsID = userDrafts.drafts.map(e => {
+    const userDraftsID = userDrafts.drafts.map(e => {
       return e.uuid
     })
 
