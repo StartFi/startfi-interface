@@ -42,7 +42,7 @@ export const useTokenBalance = (): ((address: string) => any) => {
         try {
           const balance = await evaluateTransaction(contract, 'balanceOf', [address])
 
-          return abbreviate(utils.formatEther(balance).toString())
+          return utils.formatEther(balance)
         } catch (e) {
           console.log(e)
           return e

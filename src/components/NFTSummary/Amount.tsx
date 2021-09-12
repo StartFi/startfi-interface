@@ -1,7 +1,8 @@
 import { Bold } from 'components/NFTConfirm/styles'
 import { useSTFItoUSD } from 'hooks/useSTFItoUSD'
 import React from 'react'
-
+import abbreviate from 'number-abbreviate'
+import fixDecimal from 'utils/fixDecimal';
 interface AmountProps {
   amount: any
   error?: boolean
@@ -13,7 +14,7 @@ const Amount: React.FC<AmountProps> = ({ amount, error, margin }) => {
 
   return (
     <Bold error={error} margin={margin}>
-      {amount} STFI ~ {usd} USD
+      {abbreviate(fixDecimal(amount))} STFI ~ {abbreviate(fixDecimal(usd))} USD
     </Bold>
   )
 }
