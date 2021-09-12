@@ -4,6 +4,10 @@ I appreciate your interest in contributing to the Startfi interface!
 
 # Development
 
+## Node Version
+
+- Node 14
+
 ## Running the interface locally
 
 1. `yarn install`
