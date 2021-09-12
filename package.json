@@ -164,6 +164,7 @@
     "ipfs-http-client": "^50.1.2",
     "it-all": "^1.0.5",
     "lodash": "^4.17.21",
+    "number-abbreviate": "^2.0.0",
     "uint8arrays": "^2.1.5"
   }
 }
