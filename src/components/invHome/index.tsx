@@ -34,7 +34,6 @@ const InventoryHome = () => {
   }, [owner])
 
   useEffect(() => {
-
     if (id === 'offMarketPlace') {
       setInventoryOption(InventoryOptions.offMarketPlace)
     }
@@ -60,12 +59,11 @@ const InventoryHome = () => {
     }
   }, [inventoryOption, drafts, onMarketNFT, offMarketNFT])
 
-  if(inventoryItems.length>0){
- inventoryItems.sort((a, b) => {
-    return b.issueDate.seconds - a.issueDate.seconds
-  })
+  if (inventoryItems.length > 0) {
+    inventoryItems.sort((a, b) => {
+      return b.issueDate.seconds - a.issueDate.seconds
+    })
   }
-
 
   const navigate = (nft: NFT) => {
     if (inventoryOption === InventoryOptions.Draft) {
@@ -85,7 +83,7 @@ const InventoryHome = () => {
         }}
       ></CardHeader>
       <InventoryCard>
-        <Row padding='20px' align='start'>
+        <Row padding="20px" align="start">
           {inventoryItems?.length > 0 ? (
             inventoryItems?.map((item: Inventory) => (
               <MiniCard key={item.id} cardContent={item.nft} navigate={() => navigate(item.nft)} />

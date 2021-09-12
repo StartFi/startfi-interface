@@ -13,8 +13,7 @@ import {
   DelistMain,
   DelistSuccessContainer,
   DelistButton,
-  ButtonContainer,
-
+  ButtonContainer
 } from './DelistCard.style'
 import Text from '../Text'
 import { useCountDownTimer } from 'hooks/countDownTimer'
@@ -32,13 +31,12 @@ interface DelistCardProps {
 }
 
 const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const timeLeft = useCountDownTimer(1630751434000)
   const [disabled, setDisabled] = useState<boolean>(true)
   const [delistSuccess, setDelistSuccess] = useState<boolean>(false)
   const timerComponents: any = []
   const delist = useDelistAuction(auction.id)
-
 
   const history = useHistory()
 
@@ -50,15 +48,15 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
     if (!timeLeft[interval]) {
       return
     }
-    let modifiedInterval: string = ''
+    let modifiedInterval = ''
     if (interval === 'D') modifiedInterval = 'Days'
     if (interval === 'H') modifiedInterval = 'Hours'
     if (interval === 'M') modifiedInterval = 'Minutes'
 
     if (interval !== 'S') {
       timerComponents.push(
-        <div >
-          <Divider left='40%' top='60%' width='40.5%' backgroundColor='#E2E2E2'></Divider>
+        <div>
+          <Divider left="40%" top="60%" width="40.5%" backgroundColor="#E2E2E2"></Divider>
           <CounterSegment>
             <p>{timeLeft[interval]}</p>
             <p>{t(modifiedInterval)}</p>
@@ -74,61 +72,61 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
     <React.Fragment>
       <Shadow onClick={close} />
       <DelistModal>
-        <Container minHeight='70vh'>
+        <Container minHeight="70vh">
           <DelistCardHeader>
-            <Text fontFamily='Roboto' fontSize='1.2rem' color='#000000' font-weight='500' margin='5px 0px 15px 0px'>
+            <Text fontFamily="Roboto" fontSize="1.2rem" color="#000000" font-weight="500" margin="5px 0px 15px 0px">
               {t('delistAsset')} {nft?.name}
             </Text>
-            <Divider left='-7.8%' width='115.5%' backgroundColor='#D1D1D1'></Divider>
+            <Divider left="-7.8%" width="115.5%" backgroundColor="#D1D1D1"></Divider>
           </DelistCardHeader>
 
           {!delistSuccess ? (
             <DelistMain>
-              {timerComponents.length > 0 && auction?.bids.length>0 ? (
+              {timerComponents.length > 0 && auction?.bids.length > 0 ? (
                 <Text
-                  fontFamily='Roboto'
-                  fontSize='0.875rem'
-                  color='#444444'
-                  font-weight='400'
-                  textAlign='justify'
-                  textJustify='auto'
+                  fontFamily="Roboto"
+                  fontSize="0.875rem"
+                  color="#444444"
+                  font-weight="400"
+                  textAlign="justify"
+                  textJustify="auto"
                 >
-                 {t('delistCost')}
+                  {t('delistCost')}
                 </Text>
               ) : (
                 <Text
-                  fontFamily='Roboto'
-                  fontSize='0.875rem'
-                  color='#444444'
-                  font-weight='400'
-                  textAlign='justify'
-                  textJustify='auto'
+                  fontFamily="Roboto"
+                  fontSize="0.875rem"
+                  color="#444444"
+                  font-weight="400"
+                  textAlign="justify"
+                  textJustify="auto"
                 >
-                 {t('delistNow')}
+                  {t('delistNow')}
                 </Text>
               )}
 
               <DelistingDuration>
-                {timerComponents.length > 0 && auction?.bids.length>0 ? (
+                {timerComponents.length > 0 && auction?.bids.length > 0 ? (
                   <Text
-                    textTransform='upperCase'
-                    fontFamily='Roboto'
-                    fontSize='0.875rem'
-                    color='#000000'
-                    font-weight='500'
-                    textAlign='justify'
-                    textJustify='auto'
+                    textTransform="upperCase"
+                    fontFamily="Roboto"
+                    fontSize="0.875rem"
+                    color="#000000"
+                    font-weight="500"
+                    textAlign="justify"
+                    textJustify="auto"
                   >
-                  {t('minDelistLef')}
+                    {t('minDelistLef')}
                   </Text>
                 ) : null}
               </DelistingDuration>
-              {auction?.bids.length>0?(<CounterContainer>{timerComponents}</CounterContainer>):null}
+              {auction?.bids.length > 0 ? <CounterContainer>{timerComponents}</CounterContainer> : null}
 
               <CheckContainer>
-                <input type='checkbox' onChange={handelCheckBoxChanges} />
-                <Text fontFamily='Roboto' fontSize='10.5px' color='#000000' font-weight='500'>
-                 {t('delistConfirm')}
+                <input type="checkbox" onChange={handelCheckBoxChanges} />
+                <Text fontFamily="Roboto" fontSize="10.5px" color="#000000" font-weight="500">
+                  {t('delistConfirm')}
                 </Text>
               </CheckContainer>
               <ButtonContainer>
@@ -139,57 +137,56 @@ const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) 
                   }}
                   disabledBackground="#c2c2c2"
                   disabled={disabled}
-                  backgroundColor='#000000'
-                  color='#ffffff'
-
+                  backgroundColor="#000000"
+                  color="#ffffff"
                 >
                   {t('delistNowButton')}
                 </DelistButton>
-                <DelistButton onClick={close} backgroundColor='transparent' border='1px solid #000000'>
+                <DelistButton onClick={close} backgroundColor="transparent" border="1px solid #000000">
                   {t('cancelDelisting')}
                 </DelistButton>
               </ButtonContainer>
             </DelistMain>
           ) : (
             <DelistSuccessContainer>
-              <img src={delistSuccessImg} />
+              <img src={delistSuccessImg} alt="no image found" />
               <Text
-                fontFamily='Roboto'
-                fontSize='1rem'
-                color='#444444'
-                font-weight='500'
-                margin='35px 0px 0px 0px'
-                textAlign='center'
+                fontFamily="Roboto"
+                fontSize="1rem"
+                color="#444444"
+                font-weight="500"
+                margin="35px 0px 0px 0px"
+                textAlign="center"
               >
                 {t('DelistSuccess')}
               </Text>
               <div>
                 <div>
                   <DelistButton
-                    backgroundColor='transparent'
-                    padding='15px'
-                    textDecoration='underline'
-                    fontWeight='500'
-                    fontSize='0.9rem'
+                    backgroundColor="transparent"
+                    padding="15px"
+                    textDecoration="underline"
+                    fontWeight="500"
+                    fontSize="0.9rem"
                   >
                     {t('checkStake')}
                   </DelistButton>
                   <DelistButton
                     onClick={() => history.push('/inventory/home/draft')}
-                    backgroundColor='transparent'
-                    border='1px solid #000000'
-                    fontWeight='500'
-                    fontSize='0.9rem'
+                    backgroundColor="transparent"
+                    border="1px solid #000000"
+                    fontWeight="500"
+                    fontSize="0.9rem"
                   >
                     {t('checkInventory')}
                   </DelistButton>
                 </div>
                 <DelistButton
                   onClick={() => history.push('/marketplace/nfts')}
-                  backgroundColor='#000000'
-                  color='#ffffff'
+                  backgroundColor="#000000"
+                  color="#ffffff"
                 >
-                {t('BackToMarketplace')}
+                  {t('BackToMarketplace')}
                 </DelistButton>
               </div>
             </DelistSuccessContainer>

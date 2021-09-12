@@ -41,7 +41,6 @@ const StakeToken = () => {
   const approveToken = useApproveToken()
   const { allowStaking, allowedAmount } = useGetStakeAllowance()
 
-
   const owner = useUserAddress()
   const getReserves = useGetReserves()
   const ownerStakes = useStakeBalance()
@@ -62,15 +61,13 @@ const StakeToken = () => {
     setCancelState(false)
   }
 
-  useEffect(()=>{
-    if(owner){
+  useEffect(() => {
+    if (owner) {
       getReserves(owner)
     }
-
-  },[owner])
+  }, [owner])
 
   const next = () => {
-
     switch (step) {
       case 1:
         setLoader(true)
@@ -84,7 +81,7 @@ const StakeToken = () => {
               })
               .catch(e => {
                 console.log(e)
-                popup({ success: false, message: e.code === 4001 ?  t('userRejectTransaction') : t('error') })
+                popup({ success: false, message: e.code === 4001 ? t('userRejectTransaction') : t('error') })
                 setLoader(false)
                 setCancelState(false)
                 setOpenModal(false)
@@ -104,7 +101,6 @@ const StakeToken = () => {
         if (owner) {
           depositStake(owner, value)
             .then(res => {
-
               getReserves(owner)
               setWaitingConfirmation(false)
               setOpenModal(false)
@@ -116,7 +112,6 @@ const StakeToken = () => {
               setStep(1)
             })
             .catch(e => {
-
               popup({ success: false, message: e?.code === 4001 ? t('userRejectTransaction') : t('error') })
               setWaitingConfirmation(false)
               setSuccessModal(false)
@@ -131,7 +126,7 @@ const StakeToken = () => {
 
   return (
     <React.Fragment>
-      <Card height={cancelState ? '600px' : '221px'} border='1px solid #F4F4F4' borderRadius='6px' marginTop='20px'>
+      <Card height={cancelState ? '600px' : '221px'} border="1px solid #F4F4F4" borderRadius="6px" marginTop="20px">
         <StakeTokenCard
           isOpen={openModal}
           close={closeCard}
@@ -150,61 +145,61 @@ const StakeToken = () => {
         ></StakeTokenSuccess>
 
         <Card
-          margin='0px 30px 0px 43px'
+          margin="0px 30px 0px 43px"
           height={cancelState ? '431px' : '96px'}
-          background='#FBFBFB'
-          borderRadius='6px'
-          alignItems='start'
-          flexDirection='column'
+          background="#FBFBFB"
+          borderRadius="6px"
+          alignItems="start"
+          flexDirection="column"
         >
-          <Text fontFamily='Roboto' FontWeight='500' fontSize='1rem' color='#000000' margin='-30px 0 3px 8px'>
+          <Text fontFamily="Roboto" FontWeight="500" fontSize="1rem" color="#000000" margin="-30px 0 3px 8px">
             {t('stakeTokens')}
           </Text>
           {!successModal && depositStackState ? (
             <React.Fragment>
               <Text
-                fontFamily='Roboto'
-                FontWeight='500'
-                fontSize='0.8rem'
-                color='#ff0000'
-                margin='20px auto -10px auto'
+                fontFamily="Roboto"
+                FontWeight="500"
+                fontSize="0.8rem"
+                color="#ff0000"
+                margin="20px auto -10px auto"
               >
-                 {t('processingIncreaseStake')}
+                {t('processingIncreaseStake')}
               </Text>
 
               <LoadingIcon
-                position='absolute'
-                left='58%'
-                top='40.5%'
-                width='15px'
-                height='15px'
+                position="absolute"
+                left="58%"
+                top="40.5%"
+                width="15px"
+                height="15px"
                 src={Loading}
-                alt='Loading'
+                alt="Loading"
               />
             </React.Fragment>
           ) : null}
 
           <BalanceContainer>
             <div>
-              <Text fontFamily='Roboto' fontSize='1rem' color='#444444' margin='0 178px 3px 30px'>
+              <Text fontFamily="Roboto" fontSize="1rem" color="#444444" margin="0 178px 3px 30px">
                 {t('Balance')}
               </Text>
-              <Text FontWeight='500'>
+              <Text FontWeight="500">
                 {ownerStakes} {t('stake')}
               </Text>
             </div>
 
             <DelistButton
-              backgroundColor='transparent'
-              padding='15px'
-              textDecoration='underline'
-              fontSize='1rem'
+              backgroundColor="transparent"
+              padding="15px"
+              textDecoration="underline"
+              fontSize="1rem"
               color={cancelState ? '#747474' : '#000000'}
-              margin='0 30px 0 0'
-              disabledColor='#c2c2c2'
+              margin="0 30px 0 0"
+              disabledColor="#c2c2c2"
               disabled={depositStackState}
               onClick={() =>
-                owner ? setCancelState(!cancelState) : popup({ success: false, message:t('connectWallet') })
+                owner ? setCancelState(!cancelState) : popup({ success: false, message: t('connectWallet') })
               }
             >
               {cancelState ? t('cancel') : t('IncreaseStakes')}
@@ -215,14 +210,14 @@ const StakeToken = () => {
             <React.Fragment>
               <BalanceContainer>
                 <div>
-                  <Text fontFamily='Roboto' fontSize='1rem' color='#444444' margin='0 178px 3px 30px'>
+                  <Text fontFamily="Roboto" fontSize="1rem" color="#444444" margin="0 178px 3px 30px">
                     {t('enterAmount')}
                   </Text>
                   <InputContainer>
                     <STFI>STFI</STFI>
-                    <Input type='number' value={value} onChange={(e: any) => setValue(e.target.value)} />
+                    <Input type="number" value={value} onChange={(e: any) => setValue(e.target.value)} />
                     <USD>
-                      <USDPrice type='number' value={usd} onChange={() => {}} />
+                      <USDPrice type="number" value={usd} />
                       <USDWord>USD</USDWord>
                     </USD>
                   </InputContainer>
@@ -230,8 +225,8 @@ const StakeToken = () => {
               </BalanceContainer>
               <StokeTokenFooter left={disabled ? '15px' : '26px'}>
                 <CheckContainer>
-                  <input type='checkbox' onChange={handelCheckBoxChanges} />
-                  <Text fontFamily='Roboto' fontSize='0.875rem' FontWeight='500' color='#525252' margin='0 10px 0 0'>
+                  <input type="checkbox" onChange={handelCheckBoxChanges} />
+                  <Text fontFamily="Roboto" fontSize="0.875rem" FontWeight="500" color="#525252" margin="0 10px 0 0">
                     {t('confirmIncStakeToken')}
                   </Text>
                   <ButtonMint onClick={() => setOpenModal(true)} disabled={disabled}>

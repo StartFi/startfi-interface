@@ -2,7 +2,6 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { Web3Provider } from '@ethersproject/providers'
 import { useCallback } from 'react'
 import { Contract } from '@ethersproject/contracts'
-import { calculateGasMargin } from 'utils'
 
 export const useSubmitTransaction = (): ((
   methodsName: string,
@@ -20,16 +19,11 @@ export const useSubmitTransaction = (): ((
       library: any
     ) => {
       try {
-        const estimatedGas = await library?.estimateGas(contract?.interface.encodeFunctionData(methodsName, args))
-        const gasPrice = await (await library?.getGasPrice())?.toNumber()
-
         const callData = contract?.interface.encodeFunctionData(methodsName, args)
         return library?.getSigner().sendTransaction({
           from: account ? account : undefined,
           to: contract?.address,
           data: callData
-          /*    gasLimit: calculateGasMargin(estimatedGas), // or library?._lastBlockNumber
-          gasPrice: gasPrice */
         })
       } catch (e) {
         console.log(e)

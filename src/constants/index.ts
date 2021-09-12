@@ -1,4 +1,4 @@
-import { Percent, Token, WETH9 } from '@uniswap/sdk-core'
+import { Percent, Token } from '@uniswap/sdk-core'
 import JSBI from 'jsbi'
 import { ChainId } from '../constants/supportedChains'
 import { AbstractConnector } from '@web3-react/abstract-connector'
@@ -29,9 +29,9 @@ export const STFI_IN_WEI = 5
 
 export const WEI = 8000
 
-export const ETH_USD_PRICE_URL="https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd"
-export const ETH_DAI_PRICE_URL="https://api.coingecko.com/api/v3/simple/price?ids=dai&vs_currencies=eth"
-export const STFI_USD_PRICE_URL="https://api.coingecko.com/api/v3/simple/price?ids=startfi&vs_currencies=usd"
+export const ETH_USD_PRICE_URL = 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd'
+export const ETH_DAI_PRICE_URL = 'https://api.coingecko.com/api/v3/simple/price?ids=dai&vs_currencies=eth'
+export const STFI_USD_PRICE_URL = 'https://api.coingecko.com/api/v3/simple/price?ids=startfi&vs_currencies=usd'
 
 export interface StepProps {
   state: Dictionary
@@ -70,7 +70,8 @@ export const StepIcon = step => {
       return Step2Icon
     case STEP.STEP3:
       return Step3Icon
-    default: return null
+    default:
+      return null
   }
 }
 
@@ -79,16 +80,16 @@ export const HEADER_DROPDOWN: string[] = [
   'Inventory',
   // 'Dashboard',
 
-  'Stake',
+  'Stake'
 
   // 'Get STFI Token',
   // 'My Account'
 ]
 
 export const DropDownIcons: Dictionary = {
-  WishList:Heart,
-  Inventory :Inventory ,
-  Stake:Stake
+  WishList: Heart,
+  Inventory: Inventory,
+  Stake: Stake
   // art: Art,
   // games: Games,
   // all: All,
@@ -97,7 +98,7 @@ export const DropDownIcons: Dictionary = {
 }
 
 // one Day in milliseconds
-export const ONE_DAY_MILLISECONDS=86400000
+export const ONE_DAY_MILLISECONDS = 86400000
 export const ROUTER_ADDRESS = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
 export interface PopupContent {
   success: boolean
@@ -142,19 +143,6 @@ export const COMMON_CONTRACT_NAMES: { [address: string]: string } = {
 // export const MERKLE_DISTRIBUTOR_ADDRESS: { [chainId in ChainId]?: string } = {
 //   [ChainId.MAINNET]: '0x090D4613473dEE047c3f2706764f49E0821D256e'
 // }
-
-const WETH_ONLY: ChainTokenList = {
-  // [ChainId.MAINNET]: [WETH9[ChainId.MAINNET]],
-  [ChainId.ROPSTEN]: [WETH9[ChainId.ROPSTEN]],
-  // [ChainId.RINKEBY]: [WETH9[ChainId.RINKEBY]],
-  // [ChainId.GÖRLI]: [WETH9[ChainId.GÖRLI]],
-  // [ChainId.BSCT]: [WETH9[ChainId.GÖRLI]],
-  // [ChainId.BSC]: [WETH9[ChainId.GÖRLI]],
-  [ChainId.StartFi]: [WETH9[ChainId.ROPSTEN]],
-  // [ChainId.POLYGON]: [WETH9[ChainId.GÖRLI]],
-  // [ChainId.AURORA]: [WETH9[ChainId.GÖRLI]],
-  // [ChainId.KOVAN]: [WETH9[ChainId.KOVAN]]
-}
 
 // used to construct intermediary pairs for trading
 // export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {

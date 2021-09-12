@@ -65,7 +65,7 @@ const WETH: WETH_Only = {
     18,
     'ETH',
     'Binance-Peg Ethereum'
-  ),
+  )
   // [ChainId.AURORA]: new Token(
   //   ChainId.BSC,
   //   '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
@@ -109,7 +109,7 @@ export const useERC721 = (address: string | undefined, withSignerIfPossible?: bo
 export function useArgentWalletDetectorContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
   return useContract(
-    chainId === ChainId.ROPSTEN/**MAINNET */ ? ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS : undefined,
+    chainId === ChainId.ROPSTEN /**MAINNET */ ? ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS : undefined,
     ARGENT_WALLET_DETECTOR_ABI,
     false
   )
@@ -122,8 +122,8 @@ export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contrac
       // case ChainId.MAINNET:
       // case ChainId.GÖRLI:
       case ChainId.ROPSTEN:
-      // case ChainId.RINKEBY:
-      //   address = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
+        // case ChainId.RINKEBY:
+        //   address = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
         break
     }
   }
@@ -157,7 +157,6 @@ export const useStartFiToken = (withSignerIfPossible?: boolean): Contract | null
 }
 
 export const useStartFiNft = (withSignerIfPossible?: boolean): Contract | null => {
-  const { chainId } = useActiveWeb3React()
   return useContract(STARTFI_NFT_ADDRESS, STARTFI_NFT_ABI, withSignerIfPossible)
 }
 
@@ -167,15 +166,12 @@ export const useStartFiMarketplace = (withSignerIfPossible?: boolean): Contract 
 }
 
 export const useStartFiPayment = (withSignerIfPossible?: boolean): Contract | null => {
-  const { chainId } = useActiveWeb3React()
   return useContract(STARTFI_NFT_PAYMENT_ADDRESS, STARTFI_NFT_PAYMENT_ABI, withSignerIfPossible)
 }
 export const useStartFiStakes = (withSignerIfPossible?: boolean): Contract | null => {
-  const { chainId } = useActiveWeb3React()
   return useContract(STARTFI_STAKES_ADDRESS, STARTFI_STAKES_PAYMENT_ABI, withSignerIfPossible)
 }
 export const useStartFiReputation = (withSignerIfPossible?: boolean): Contract | null => {
-  const { chainId } = useActiveWeb3React()
   return useContract(STARTFI_REPUTATION_ADDRESS, STARTFI_REPUTATION_ABI, withSignerIfPossible)
 }
 

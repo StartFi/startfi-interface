@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNFT } from 'state/marketplace/hooks'
 import { useUserAddress } from 'state/user/hooks'
-import { address as STARTFI_Marketplace_ADDRESS } from './../constants/abis/StartFiMarketPlace.json'
+import { address as STARTFI_MARKETPLACE_ADDRESS } from './../constants/abis/StartFiMarketPlace.json'
 import { useGetApproverAddress } from './startfiNft'
 
 export const useAllowed = (): boolean => {
@@ -14,7 +14,7 @@ export const useAllowed = (): boolean => {
     if (address)
       getApproverAddress(tokenId).then(owner =>
         owner === address
-          ? getApproverAddress(tokenId).then(approver => setAllowed(approver === (STARTFI_Marketplace_ADDRESS as any)))
+          ? getApproverAddress(tokenId).then(approver => setAllowed(approver === (STARTFI_MARKETPLACE_ADDRESS as any)))
           : null
       )
   }, [address, nft, getApproverAddress])

@@ -47,7 +47,7 @@ const WishCard: React.FC<MiniCardContent> = ({ cardContent, navigateToNft }) => 
 
       <TextContainer>
         <RemoveContainer>
-          <Text fontFamily='Roboto' fontSize='1rem' color='#000000' margin='-1px 0'>
+          <Text fontFamily="Roboto" fontSize="1rem" color="#000000" margin="-1px 0">
             {cardContent.nft.name}
           </Text>
           <div>
@@ -64,18 +64,18 @@ const WishCard: React.FC<MiniCardContent> = ({ cardContent, navigateToNft }) => 
         </RemoveContainer>
 
         {cardContent.auction?.bids?.length > 0 ? (
-          <Text FontWeight='500' color='#000000' fontSize='1rem'>
-           {t('lastBidding')} : {cardContent.auction.bids[cardContent.auction?.bids?.length - 1]} STFI
+          <Text FontWeight="500" color="#000000" fontSize="1rem">
+            {t('lastBidding')} : {cardContent.auction.bids[cardContent.auction?.bids?.length - 1]} STFI
           </Text>
         ) : (
-          <Text FontWeight='700' color='#000000' fontSize='1rem'>
+          <Text FontWeight="700" color="#000000" fontSize="1rem">
             {cardContent.auction.listingPrice} STFI
           </Text>
         )}
 
         {timerComponents?.length > 0 ? (
           <CounterContainer>
-            <Text FontWeight='400' color='#000000' fontSize='1rem' margin='0 5px 0 10px'>
+            <Text FontWeight="400" color="#000000" fontSize="1rem" margin="0 5px 0 10px">
               {t('auctionEnds')}:
             </Text>
 

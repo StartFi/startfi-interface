@@ -23,7 +23,7 @@ export default function Updater(): null {
 
   const marketplacePopup = useMarketplacePopup()
 
-//  inv popup
+  //  inv popup
   const inventoryPopup = useInventoryPopup()
   const clearInvPopup = useClearInvPopup()
 
@@ -81,7 +81,7 @@ export default function Updater(): null {
       clearInvPopup()
       if (inventoryPopup.type === 'SaveDraft' && inventoryPopup.success) history.push('/')
     }
-  },[inventoryPopup, history, popup, clearInvPopup, dispatch])
+  }, [inventoryPopup, history, popup, clearInvPopup, dispatch])
   // attach/detach listeners
   useEffect(() => {
     if (!library || !chainId || !windowVisible) return undefined
