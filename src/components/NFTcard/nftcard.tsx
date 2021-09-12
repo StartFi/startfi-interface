@@ -20,9 +20,15 @@ const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid 
   const { t } = useTranslation()
   const cardContent = auctionNFT.nft
   const expired = auctionNFT.auction.expireTimestamp - Date.now()
-  let listPrice = auctionNFT?.auction?.listingPrice
+
 
 const expiredAuction=useIsExpiredAuction(auctionNFT)
+
+
+  const listPrice = auctionNFT?.auction?.listingPrice
+
+  const expiredAuction = useIsExpiredAuction(auctionNFT)
+
 
   return (
     <Card
@@ -39,11 +45,11 @@ const expiredAuction=useIsExpiredAuction(auctionNFT)
         <div>
           <Price>
             <Amount amount={listPrice}></Amount>
-            <Text fontFamily='Roboto' FontWight='400' fontSize='1.0rem' margin='15px 0px 5px 0px'>
+            <Text fontFamily="Roboto" FontWight="400" fontSize="1.0rem" margin="15px 0px 5px 0px">
               {cardContent.name}
             </Text>
             <div>
-              <Timer timeStamp={auctionNFT.auction.expireTimestamp} helperString='Auction'></Timer>
+              <Timer timeStamp={auctionNFT.auction.expireTimestamp} helperString="Auction"></Timer>
               {expired > 1 ? <Text> LEFT</Text> : null}
             </div>
           </Price>
@@ -53,10 +59,13 @@ const expiredAuction=useIsExpiredAuction(auctionNFT)
 
 
 
+
         <ButtonWishlist nftId={cardContent.id} type='NFTCard' disabled={expiredAuction} />
 
+        <ButtonWishlist nftId={cardContent.id} type="NFTCard" disabled={expiredAuction} />
+
         <Bid>
-          <NftButton   disabled={expiredAuction} onClick={() => placeBid(auctionNFT)} color='#ffffff'>
+          <NftButton disabled={expiredAuction} onClick={() => placeBid(auctionNFT)} color="#ffffff">
             {t('placeBid')}
           </NftButton>
         </Bid>

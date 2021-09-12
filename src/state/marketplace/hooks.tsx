@@ -35,7 +35,6 @@ import { address as STARTFI_MARKETPLACE_ADDRESS } from '../../constants/abis/Sta
 import { useHistory } from 'react-router-dom'
 import { useAllowedSTFI } from 'hooks/useAllowedSTFI'
 import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../../constants/abis/StartFiNFTPayment.json'
-import { address as STARTFI_Marketplace_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
 import { useAllowed } from 'hooks/useAllowed'
 import { useApproveNft } from 'hooks/startfiNft'
 import { useDigitizingFees } from 'hooks'
@@ -461,7 +460,7 @@ export const useAddAuction = () => {
       case STEP.ALLOW_MONETIZING:
         if (!allowed) {
           setLoader(true)
-          approve(STARTFI_Marketplace_ADDRESS, nft?.id).then(() => {
+          approve(STARTFI_MARKETPLACE_ADDRESS, nft?.id).then(() => {
             setStep(STEP.ADD_AUCTION)
             setLoader(false)
           })

@@ -9,6 +9,7 @@ __mocks__
 
 # production
 /build
+/documentation
 
 # misc
 .DS_Store

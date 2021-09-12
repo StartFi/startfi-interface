@@ -10,18 +10,18 @@ interface DropDownProps {
   value: string
   onChange: (value: any, name: string) => void
   width?: string
-  left?:string
+  left?: string
   label?: string
   selectIcon?: boolean
   itemsWidth?: string
   border?: string
   showLabel?: boolean
   marginRight?: string
-  LabelWidth?:string
-  boxShadow?:string
-  iconPosition?:string
-  hasIcon?:boolean
-  color?:string
+  LabelWidth?: string
+  boxShadow?: string
+  iconPosition?: string
+  hasIcon?: boolean
+  color?: string
 }
 
 export const DropDown: React.FC<DropDownProps> = ({
@@ -42,8 +42,6 @@ export const DropDown: React.FC<DropDownProps> = ({
   iconPosition,
   hasIcon,
   color
-
-
 }: DropDownProps) => {
   const { t } = useTranslation()
 
@@ -59,18 +57,24 @@ export const DropDown: React.FC<DropDownProps> = ({
     <React.Fragment>
       {open && <BlurLayer onClick={() => setOpen(false)} />}
       <Container width={width || '10vh'} marginRight={marginRight}>
-        <LabelRow border={border} LabelWidth={LabelWidth} boxShadow={boxShadow} iconPosition={iconPosition}  onBlur={() => setOpen(false)} onClick={() => setOpen(!open)}>
+        <LabelRow
+          border={border}
+          LabelWidth={LabelWidth}
+          boxShadow={boxShadow}
+          iconPosition={iconPosition}
+          onBlur={() => setOpen(false)}
+          onClick={() => setOpen(!open)}
+        >
           {showLabel ? <Label>{t(selected) || t(label)}</Label> : null}
           {selectIcon ? <img src={SelectIcon} alt="Select" /> : null}
         </LabelRow>
         {open && (
           <Items width={width || '10vh'} itemsWidth={itemsWidth} left={left}>
             {options.map((o, i) => (
-              
               <Item
                 selected={selected === o}
                 last={i === options.length - 1}
-                first={i===0}
+                first={i === 0}
                 key={o}
                 hasIcon={hasIcon}
                 color={color}
@@ -80,9 +84,8 @@ export const DropDown: React.FC<DropDownProps> = ({
                   onChange(o, name)
                 }}
               >
-
-                {hasIcon?<img src={DropDownIcons[o]}/>:null}
-                {o==='Stake'?t('stakeTokens'):t(o)}
+                {hasIcon ? <img src={DropDownIcons[o]} /> : null}
+                {o === 'Stake' ? t('stakeTokens') : t(o)}
               </Item>
             ))}
           </Items>

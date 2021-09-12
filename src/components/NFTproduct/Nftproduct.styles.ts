@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Row } from 'theme'
 
-export const LoadingDiv = styled('div') <{ $display?: boolean }>`
+export const LoadingDiv = styled('div')<{ $display?: boolean }>`
   position: absolute;
   z-index: 100;
   top: 50%;
@@ -109,14 +109,14 @@ export const RightSubTitle = styled.div`
   margin-bottom: 17px;
 `
 
-export const PublisherCard = styled('div') <{ height?: string }>`
+export const PublisherCard = styled('div')<{ height?: string }>`
   height: ${({ height }) => height};
   width: 445px;
   border-radius: 8px;
   margin-bottom: 30px;
   background-color: #fbfbfb;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   align-items: start;
 `
 
@@ -136,7 +136,7 @@ export const LastBiddingContainer = styled.div`
   align-items: center;
 `
 
-export const BuyButtons = styled('div') <{ $opacity?: boolean }>`
+export const BuyButtons = styled('div')<{ $opacity?: boolean }>`
   display: flex;
   position: relative;
   margin-top: 27px;
@@ -174,15 +174,15 @@ export const BuyNow = styled.div`
     font-family: Roboto;
     letter-spacing: 0.04em;
     cursor: pointer;
-    &:disabled{
-      background-color: #C2C2C2;
-      color:#f4f4f4;
+    &:disabled {
+      background-color: #c2c2c2;
+      color: #f4f4f4;
       border: none;
     }
   }
 `
 
-export const DescriptionCard = styled('div') <{ overflowY?: string }>`
+export const DescriptionCard = styled('div')<{ overflowY?: string }>`
   height: 317px;
   width: 445px;
   border-radius: 8px;
@@ -245,9 +245,9 @@ export const GetNow = styled.div`
   margin-left: 2vw;
   font-weight: 500;
   text-decoration: underline;
-  cursor:pointer;
+  cursor: pointer;
 `
-export const TagContainer = styled('div') <{ margin?: string; lastChildWidth?: string }>`
+export const TagContainer = styled('div')<{ margin?: string; lastChildWidth?: string }>`
   width: 445px;
   height: 90px;
   border-radius: 8px;

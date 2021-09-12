@@ -31,11 +31,11 @@ const NETWORK_URLS: {
   [1337]: `http://127.0.0.1:8545/`
 }
 
-const SUPPORTED_CHAIN_IDS = [/*1, 4, */3/*, 42, 5, 56, 97*/, 1337]
+const SUPPORTED_CHAIN_IDS = [/*1, 4, */ 3 /*, 42, 5, 56, 97*/, 1337]
 
 export const network = new NetworkConnector({
   urls: NETWORK_URLS,
-  defaultChainId: 3//1
+  defaultChainId: 3 //1
 })
 
 let networkLibrary: Web3Provider | undefined

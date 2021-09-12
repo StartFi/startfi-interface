@@ -57,10 +57,9 @@ export const AuctionTimer = styled.div`
 
 export const AmountContainer = styled.div`
   display: flex;
-  align-items:center;
+  align-items: center;
 
-
-  & div{
-    margin-left:65px
+  & div {
+    margin-left: 65px;
   }
 `

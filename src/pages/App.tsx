@@ -3,7 +3,6 @@ import { Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 import Polling from '../components/Header/Polling'
-import URLWarning from '../components/Header/URLWarning'
 import Popups from '../components/Popups'
 import Web3ReactManager from '../components/Web3ReactManager'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
@@ -13,7 +12,6 @@ import Mint from './Mint'
 import Marketplace from './Marketplace'
 import WaitingConfirmation from 'components/WaitingConfirmation'
 import Inventory from './Inventory'
-
 
 const AppWrapper = styled.div`
   display: flex;
@@ -65,7 +63,6 @@ export default function App() {
               <Route path="/marketplace" component={Marketplace} />
               <Route path="/mint" component={Mint} />
               <Route path="/inventory" component={Inventory} />
-
             </Switch>
           </Web3ReactManager>
           <Marginer />

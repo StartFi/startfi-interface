@@ -10,7 +10,7 @@ export const useCountDownTimer = (expireTimestamp: number) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      let time = calculateTimeLeft(expireTimestamp)
+      const time = calculateTimeLeft(expireTimestamp)
       if (Object.keys(time).length > 0) setUpdater(!updater)
 
       setTimeLeft(calculateTimeLeft(expireTimestamp))

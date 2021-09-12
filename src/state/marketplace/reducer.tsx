@@ -81,7 +81,7 @@ const initialState: MarketplaceState = {
 
 export default createReducer(initialState, builder =>
   builder
-    .addCase(getMarketplaceAction.pending, (state, action) => {
+    .addCase(getMarketplaceAction.pending, state => {
       state.loading = true
     })
     .addCase(getMarketplaceAction.fulfilled, (state, action) => {
@@ -111,7 +111,6 @@ export default createReducer(initialState, builder =>
     .addCase(mintNFTAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while minting NFT' }
     })
-    .addCase(addToMarketplaceAction.pending, (state, action) => {})
     .addCase(addToMarketplaceAction.fulfilled, (state, action) => {
       state.walletConfirmation = null
       state.nft = initialNFT
@@ -126,14 +125,13 @@ export default createReducer(initialState, builder =>
     .addCase(addToMarketplaceAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while Adding NFT to Marketplace' }
     })
-    .addCase(getAuctionNFTAction.pending, (state, action) => {})
     .addCase(getAuctionNFTAction.fulfilled, (state, action) => {
       state.auctionNFT = action.payload.auctionNFT
     })
     .addCase(getAuctionNFTAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while getting NFT' }
     })
-    .addCase(placeBidAction.pending, (state, action) => {
+    .addCase(placeBidAction.pending, state => {
       state.walletConfirmation = 'Bidding'
     })
     .addCase(placeBidAction.fulfilled, (state, action) => {
@@ -144,7 +142,6 @@ export default createReducer(initialState, builder =>
     .addCase(placeBidAction.rejected, (state, action) => {
       state.popup = { success: false, message: action.error.message || 'Error occured while placing bid' }
     })
-    .addCase(buyNFTAction.pending, (state, action) => {})
     .addCase(buyNFTAction.fulfilled, (state, action) => {
       state.walletConfirmation = null
       const success = action.payload.status === 'success'
@@ -158,7 +155,7 @@ export default createReducer(initialState, builder =>
       state.bidOrBuyValue = value
     })
 
-    .addCase(clearMarketplacePopup, (state, action) => {
+    .addCase(clearMarketplacePopup, state => {
       state.popup = null
     })
     .addCase(saveNFT, (state, action) => {
@@ -169,10 +166,10 @@ export default createReducer(initialState, builder =>
       state.auction = action.payload.auction
       state.minted = false
     })
-    .addCase(clearNFT, (state, action) => {
+    .addCase(clearNFT, state => {
       state.nft = initialNFT
     })
-    .addCase(delistAuctionAction.pending, (state, action) => {
+    .addCase(delistAuctionAction.pending, state => {
       state.delisted = false
     })
     .addCase(delistAuctionAction.fulfilled, (state, action) => {

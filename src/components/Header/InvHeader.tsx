@@ -3,9 +3,7 @@ import Logo from '../../assets/svg/StartFi-c 1.svg'
 import Wallet from 'components/Wallet'
 import styled from 'styled-components'
 
-
 import { useHistory } from 'react-router-dom'
-
 
 const Container = styled.div`
   display: flex;
@@ -22,7 +20,7 @@ const Left = styled.div`
   font-size: 1.125rem;
   img {
     margin-right: 1vw;
-    cursor:pointer;
+    cursor: pointer;
   }
 `
 
@@ -35,14 +33,11 @@ const Right = styled.div`
 `
 
 const InvHeader = () => {
-
-
   const history = useHistory()
   return (
     <Container>
-      <Left onClick={() => history.push('/')} >
-
-        <img src={Logo} alt='Logo' />
+      <Left onClick={() => history.push('/')}>
+        <img src={Logo} alt="Logo" />
         {/* <div>Startfi</div> */}
       </Left>
 

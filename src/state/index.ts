@@ -11,8 +11,7 @@ import multicall from './multicall/reducer'
 import ipfs from './ipfs/reducer'
 import bcEvent from './blockchainEvents/reducer'
 
-
-const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists','inventory']
+const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists', 'inventory']
 
 const store = configureStore({
   reducer: {
@@ -26,10 +25,14 @@ const store = configureStore({
     bcEvent
   },
 
-  middleware: [...getDefaultMiddleware({
-    thunk: true, logger: false,serializableCheck: false
-
-  }), save({ states: PERSISTED_KEYS })],
+  middleware: [
+    ...getDefaultMiddleware({
+      thunk: true,
+      logger: false,
+      serializableCheck: false
+    }),
+    save({ states: PERSISTED_KEYS })
+  ],
 
   preloadedState: load({ states: PERSISTED_KEYS })
 })

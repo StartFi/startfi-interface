@@ -2,7 +2,10 @@ import { useSTFItoUSD } from 'hooks/useSTFItoUSD'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
+
 import { useBidOrBuyValue, useSetBidOrBuy, useIsValid } from 'state/marketplace/hooks'
+
+
 import { useSTFIBalance } from 'hooks/useSTFIBalance'
 import { Row } from 'theme'
 import Text from '../Text'

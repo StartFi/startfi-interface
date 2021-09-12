@@ -7,7 +7,6 @@ import styled from 'styled-components'
 // import StartFi from '../../assets/svg/StartFi-c 1.svg'
 import StartFi from '../../assets/images/logo.png'
 
-
 const PageWrapper = styled.div`
   width: 100%;
   padding: 4vh 3.2vw;
@@ -21,8 +20,8 @@ const PageWrapper = styled.div`
 // `
 
 const Logo = styled.img`
-   height: 90px;
-   width: 323px;
+  height: 90px;
+  width: 323px;
 `
 
 const MainText = styled.div`

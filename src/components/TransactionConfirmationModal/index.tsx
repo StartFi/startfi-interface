@@ -1,4 +1,4 @@
-import {  Currency } from '@uniswap/sdk-core'
+import { Currency } from '@uniswap/sdk-core'
 import { ChainId } from '../../constants/supportedChains'
 
 import React, { useContext } from 'react'
@@ -32,7 +32,6 @@ const ConfirmedIcon = styled(ColumnCenter)`
   padding: 60px 0;
 `
 
-
 function ConfirmationPendingContent({ onDismiss, pendingText }: { onDismiss: () => void; pendingText: string }) {
   return (
     <Wrapper>
@@ -65,15 +64,14 @@ function ConfirmationPendingContent({ onDismiss, pendingText }: { onDismiss: () 
 function TransactionSubmittedContent({
   onDismiss,
   chainId,
-  hash}: {
+  hash
+}: {
   onDismiss: () => void
   hash: string | undefined
   chainId: ChainId
   currencyToAdd?: Currency | undefined
 }) {
   const theme = useContext(ThemeContext)
-
-
 
   return (
     <Wrapper>

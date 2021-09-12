@@ -11,7 +11,6 @@ import styled from 'styled-components'
 
 // import Logo from '../../assets/svg/logo.svg'
 import Logo from '../../assets/svg/logo.svg'
-import LogoDark from '../../assets/svg/logo.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useETHBalances } from '../../state/wallet/hooks'
@@ -22,8 +21,6 @@ import Menu from '../Menu'
 
 import Row, { RowFixed } from '../Row'
 import Web3Status from '../Web3Status'
-
-
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -229,7 +226,7 @@ export const StyledMenuButton = styled.button`
 
 const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   // [ChainId.RINKEBY]: 'Rinkeby',
-  [ChainId.ROPSTEN]: 'Ropsten',
+  [ChainId.ROPSTEN]: 'Ropsten'
   // [ChainId.GÖRLI]: 'Görli',
   // [ChainId.KOVAN]: 'Kovan'
 }
@@ -238,22 +235,18 @@ export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
 
-
-
-
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
   // const [isDark] = useDarkModeManager()
   const [darkMode, toggleDarkMode] = useDarkModeManager()
 
   const [] = useState(false)
-  
 
   return (
     <HeaderFrame>
       <HeaderRow>
-        <Title href='.'>
+        <Title href=".">
           <UniIcon>
-            <img src={Logo} alt='logo' />
+            <img src={Logo} alt="logo" />
           </UniIcon>
         </Title>
         <HeaderLinks>
@@ -275,7 +268,7 @@ export default function Header() {
           </HideSmall>
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             {account && userEthBalance ? (
-              <BalanceText style={{ flexShrink: 0 }} pl='0.75rem' pr='0.5rem' fontWeight={500}>
+              <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
                 {userEthBalance?.toSignificant(4)} ETH
               </BalanceText>
             ) : null}

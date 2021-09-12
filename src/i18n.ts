@@ -4,8 +4,8 @@ import XHR from 'i18next-xhr-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
 
 const resources = {
-  loadPath: "/locales/{{lng}}.json",
-};
+  loadPath: '/locales/{{lng}}.json'
+}
 
 i18next
   .use(XHR)

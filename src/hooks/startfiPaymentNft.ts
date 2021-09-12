@@ -3,12 +3,10 @@ import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
-import { useStartFiPayment,  parseBigNumber } from './useContract'
-import { ROLES } from 'constants/index'
+import { useStartFiPayment, parseBigNumber } from './useContract'
 import abiDecoder from 'abi-decoder'
 import { abi as _ABI } from '../constants/abis/StartFiNFTPayment.json'
 abiDecoder.addABI(_ABI)
-
 
 export const useMint = (): ((
   address: string,
@@ -48,10 +46,6 @@ export const useMint = (): ((
     [account, contract, library, mint, toggleWalletModal]
   )
 }
-
-
-
-
 
 export const useNftPaymentInfo = (): (() => any) => {
   const contract = useStartFiPayment(false)
