@@ -8,7 +8,7 @@
     "@babel/preset-env": "^7.14.7",
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.14.5",
-    "@compodoc/compodoc": "^1.1.11",
+    "@compodoc/compodoc": "1.1.11",
     "@ethersproject/experimental": "^5.0.1",
     "@popperjs/core": "^2.4.4",
     "@reach/dialog": "^0.10.3",
@@ -60,6 +60,7 @@
     "eslint-plugin-react-hooks": "^4.0.0",
     "ethers": "^5.0.7",
     "faker": "^5.5.3",
+    "husky": "^7.0.2",
     "i18next": "^15.0.9",
     "i18next-browser-languagedetector": "^3.0.1",
     "i18next-xhr-backend": "^2.0.1",
@@ -103,8 +104,7 @@
     "workbox-expiration": "^6.1.0",
     "workbox-precaching": "^6.1.0",
     "workbox-routing": "^6.1.0",
-    "workbox-strategies": "^6.1.0",
-    "husky": "^7.0.2"
+    "workbox-strategies": "^6.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -165,6 +165,7 @@
     "ipfs-http-client": "^50.1.2",
     "it-all": "^1.0.5",
     "lodash": "^4.17.21",
+    "number-abbreviate": "^2.0.0",
     "uint8arrays": "^2.1.5"
   }
 }
