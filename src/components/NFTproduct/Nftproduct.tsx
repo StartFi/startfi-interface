@@ -61,7 +61,6 @@ const Nftproduct = () => {
 
   const auctionNFT: AuctionNFT | null = useAuctionNFT()
   const [isBid] = useState<boolean>(auctionNFT ? auctionNFT.auction.isForBid : false)
-  const [isSale] = useState<boolean>(auctionNFT ? auctionNFT.auction.isForSale : false)
   const expiredAuction = useIsExpiredAuction(auctionNFT)
 
   const popup = usePopup()
