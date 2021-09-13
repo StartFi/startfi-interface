@@ -36,7 +36,7 @@ import uriToHttp from 'utils/uriToHttp'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { useUserBalance } from 'state/user/hooks'
 import Timer from 'components/Timer/Timer'
-import DisplayBalance  from 'components/NFTSummary/DisplayBalance'
+import DisplayBalance from 'components/NFTSummary/DisplayBalance'
 import StringModifier from 'utils/StringSplice'
 import Text from '../Text'
 import StartfiLoader from 'components/Loader/startfi'
@@ -155,7 +155,7 @@ const Nftproduct = () => {
               <Text fontFamily="Roboto" FontWeight="bold" fontSize="0.875rem" color="#323232" margin="0 23px 0px 0px">
                 {t('lastBidding')} :
               </Text>
-              <DisplayBalance  amount={LastBidding}></DisplayBalance >
+              <DisplayBalance amount={LastBidding}></DisplayBalance>
             </LastBiddingContainer>
           ) : (
             <LastBiddingContainer>

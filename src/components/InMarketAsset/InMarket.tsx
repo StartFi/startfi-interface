@@ -21,7 +21,7 @@ import { useTranslation } from 'react-i18next'
 import DelistCard from 'components/DelistCard/DelistCard'
 
 import { Footer } from 'components/OffMarket/OffMarket.styles'
-import DisplayBalance  from 'components/NFTSummary/DisplayBalance'
+import DisplayBalance from 'components/NFTSummary/DisplayBalance'
 
 import Timer from 'components/Timer/Timer'
 import { useOnMarketItem } from 'state/inventory/hooks'
@@ -185,7 +185,7 @@ const InMarket = () => {
                     >
                       {t('pricing')}
                     </Text>
-                    <DisplayBalance  amount={auction?.listingPrice || 0}></DisplayBalance >
+                    <DisplayBalance amount={auction?.listingPrice || 0}></DisplayBalance>
                   </AmountContainer>
                   <Divider width="95%"></Divider>
 
@@ -194,7 +194,7 @@ const InMarket = () => {
                       <Text fontFamily="Roboto" fontSize="1rem" color="#444444" margin="15px 13px 15px 0px">
                         {t('minBiding')}
                       </Text>
-                      {auction?.minBid ? <DisplayBalance  amount={auction?.minBid}></DisplayBalance > : null}
+                      {auction?.minBid ? <DisplayBalance amount={auction?.minBid}></DisplayBalance> : null}
                     </AmountContainer>
                   </div>
 
@@ -218,7 +218,7 @@ const InMarket = () => {
                         {t('qualifyAmount')}
                       </Text>
                       {auction?.qualifyAmount ? (
-                        <DisplayBalance  amount={auction?.qualifyAmount}></DisplayBalance >
+                        <DisplayBalance amount={auction?.qualifyAmount}></DisplayBalance>
                       ) : null}
                     </AmountContainer>
                   </div>
