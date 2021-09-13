@@ -5,11 +5,8 @@ import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
-import { abi as STARTFI_MARKET_PLACE_ABI } from '../constants/abis/StartFiMarketPlace.json'
-import abiDecoder from 'abi-decoder'
-import { useDispatch } from 'react-redux';
 
-abiDecoder.addABI(STARTFI_MARKET_PLACE_ABI)
+
 
 export const useListOnMarketplace = (): ((
   nftContract: string,
@@ -35,8 +32,7 @@ export const useListOnMarketplace = (): ((
           library
         )
         const transactionReceipt = await library?.getTransactionReceipt((transaction as any).hash)
-        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
-        return decodedLogs[0].events
+        return transactionReceipt
       } catch (e) {
         console.log('error', e)
         return e
@@ -92,8 +88,7 @@ export const useCreateAuction = (): ((
           library
         )
         const transactionReceipt = await library?.getTransactionReceipt((transaction as any).hash)
-        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
-        return decodedLogs[0].events
+        return transactionReceipt
       } catch (e) {
         console.log('error', e)
         return e
@@ -117,8 +112,7 @@ export const useBid = (): ((listingId: string | number, bidPrice: string | numbe
       try {
         const transaction = await bid('bid', [listingId, bidPrice], contract, account, library)
         const transactionReceipt = await library?.getTransactionReceipt((transaction as any).hash)
-        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
-        return decodedLogs[0].events
+        return transactionReceipt
       } catch (e) {
         console.log('error', e)
         return e
@@ -142,8 +136,7 @@ export const useFullfilBid = (): ((listingId: string | number) => any) => {
       try {
         const transaction = await fullfilBid('fullfillBid', [listingId], contract, account, library)
         const transactionReceipt = await library?.getTransactionReceipt((transaction as any).hash)
-        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
-        return decodedLogs[0].events
+        return transactionReceipt
       } catch (e) {
         console.log('error', e)
         return e

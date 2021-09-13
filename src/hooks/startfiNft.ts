@@ -5,10 +5,6 @@ import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
 import { useStartFiPayment, useStartFiNft, useStartFiReputation, parseBigNumber } from './useContract'
 import { ROLES } from 'constants/index'
-import abiDecoder from 'abi-decoder'
-import { abi as STARTFI_NFT_PAYMENT_ABI } from '../constants/abis/StartFiNFTPayment.json'
-
-abiDecoder.addABI(STARTFI_NFT_PAYMENT_ABI)
 
 export const useNftInfo = () => {
   const contract = useStartFiNft(false)
@@ -53,13 +49,11 @@ export const useMint = (): ((
             library
           )
           const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
-          const decodedLogs = await abiDecoder.decodeLogs(transactionReceipt?.logs)
-          return decodedLogs[0].events
+          return transactionReceipt
         } else {
           const transaction = await mint('MintNFTWithoutRoyalty', [address, ipfsHash], contract, account, library)
           const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
-          const decodedLogs = await abiDecoder.decodeLogs(transactionReceipt?.logs)
-          return decodedLogs[0].events
+          return transactionReceipt
         }
       } catch (e) {
         console.log('error', e)
@@ -157,8 +151,7 @@ export const useApproveNft = (): ((spender: string, tokenId: string | number) =>
       try {
         const transaction = await approve('approve', [spender, tokenId], contract, account, library)
         const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
-        const decodedLogs = await abiDecoder.decodeLogs(transactionReceipt?.logs)
-        return decodedLogs[0].events
+        return transactionReceipt
       } catch (e) {
         console.log('error', e)
         return e
