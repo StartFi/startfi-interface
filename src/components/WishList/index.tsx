@@ -14,6 +14,7 @@ const WishList = () => {
 
   const history = useHistory()
   const userWishList: AuctionNFT[] = useUserWishList()
+  
 
   return (
     <ContainerCard height="703px" width="100%" borderRadius="8px 8px 0 0" id="ui">

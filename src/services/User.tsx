@@ -21,6 +21,7 @@ interface Wishlisting {
 }
 
 export const addToWishlist = async ({ userId, nftId }: Wishlisting) => {
+  console.log('service add to WL',nftId)
   const addedToWishlist = await addNFTToWishlist(userId, nftId)
   const user = await login(userId)
   return { addedToWishlist, user }

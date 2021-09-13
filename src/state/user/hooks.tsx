@@ -313,7 +313,11 @@ export const useUserWishList = (): AuctionNFT[] => {
   const marketPlace = useMarketplace()
   return useMemo(() => {
     return marketPlace.filter(e => {
-      return user?.wishlist.includes(e.nft.id)
+
+      let id=parseInt(e.nft.id)
+      console.log(id)
+
+      return user?.wishlist.includes(id)
     })
   }, [user, marketPlace])
 }
