@@ -1,6 +1,6 @@
 import React from 'react'
-import { Input } from 'components/Input'
-import Tags from 'components/Tags'
+import { Input } from '../../UI/Input'
+import Tags from '../../UI/Tags'
 import { Step2Container } from '../MintCard.tsx/styles'
 import { useAddNFT } from 'state/marketplace/hooks'
 

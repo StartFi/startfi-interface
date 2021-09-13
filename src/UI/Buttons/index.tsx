@@ -38,7 +38,7 @@ const Base = styled(RebassButton)<{
   }
 `
 
-export const ButtonPrimaryy = styled(Base)`
+export const CustomButtonPrimary = styled(Base)`
   background-color: ${({ theme }) => theme.primary1};
   color: white;
   &:focus {
@@ -159,7 +159,7 @@ export const ButtonPink = styled(Base)`
   }
 `
 
-export const ButtonUNIGradient = styled(ButtonPrimaryy)`
+export const ButtonUNIGradient = styled(CustomButtonPrimary)`
   color: white;
   padding: 4px 8px;
   height: 36px;
@@ -299,7 +299,7 @@ export function ButtonConfirmed({
   if (confirmed) {
     return <ButtonConfirmedStyle {...rest} />
   } else {
-    return <ButtonPrimaryy {...rest} altDisabledStyle={altDisabledStyle} />
+    return <CustomButtonPrimary {...rest} altDisabledStyle={altDisabledStyle} />
   }
 }
 
@@ -307,18 +307,18 @@ export function ButtonError({ error, ...rest }: { error?: boolean } & ButtonProp
   if (error) {
     return <ButtonErrorStyle {...rest} />
   } else {
-    return <ButtonPrimaryy {...rest} />
+    return <CustomButtonPrimary {...rest} />
   }
 }
 
 export function ButtonDropdown({ disabled = false, children, ...rest }: { disabled?: boolean } & ButtonProps) {
   return (
-    <ButtonPrimaryy {...rest} disabled={disabled}>
+    <CustomButtonPrimary {...rest} disabled={disabled}>
       <RowBetween>
         <div style={{ display: 'flex', alignItems: 'center' }}>{children}</div>
         <ChevronDown size={24} />
       </RowBetween>
-    </ButtonPrimaryy>
+    </CustomButtonPrimary>
   )
 }
 
@@ -348,7 +348,7 @@ export function ButtonRadio({ active, ...rest }: { active?: boolean } & ButtonPr
   if (!active) {
     return <ButtonWhite {...rest} />
   } else {
-    return <ButtonPrimaryy {...rest} />
+    return <CustomButtonPrimary {...rest} />
   }
 }
 

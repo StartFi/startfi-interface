@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import useHttpLocations from '../../hooks/useHttpLocations'
 
-import Logo from '../Logo'
+import Logo from 'UI/Logo'
 
 const StyledListLogo = styled(Logo)<{ size: string }>`
   width: ${({ size }) => size};

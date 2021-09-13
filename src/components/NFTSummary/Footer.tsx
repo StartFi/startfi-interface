@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Buttons, FooterContainer, Radio, RadioLabel } from './styles'
 import Checked from './../../assets/icons/checked.svg'
 import Unchecked from './../../assets/icons/unchecked.svg'
-import { ButtonDraft, ButtonMint } from 'components/Button'
+import { ButtonDraft, ButtonMint } from 'UI/Buttons'
 import { useSaveDraft } from 'state/user/hooks'
 import { useAddNFT, useSteps } from 'state/marketplace/hooks'
 

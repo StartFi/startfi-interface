@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import Text from '../Text'
-import Card from 'components/Card'
+import Text from '../../UI/Text'
+import Card from '../../UI/Card'
 import { BalanceContainer, InputContainer, StokeTokenFooter } from './StakeToken.styles'
 import { CheckContainer, DelistButton } from 'components/DelistCard/DelistCard.style'
 import { useTranslation } from 'react-i18next'
 
 import { STFI, USD, USDPrice, USDWord, Input } from 'components/BidOrBuy/styles'
-import { ButtonMint } from 'components/Button'
+import { ButtonMint } from 'UI/Buttons'
 
 import { useApproveToken } from 'hooks/startfiToken'
 import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/StartfiStakes.json'

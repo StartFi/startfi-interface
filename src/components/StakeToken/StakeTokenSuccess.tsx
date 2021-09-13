@@ -4,7 +4,7 @@ import { ButtonPaymentBlack, PaymentModal } from 'components/NFTSummary/styles'
 import SuccessImg from '../../assets/images/delistSuccess.png'
 import Loading from './../../assets/icons/loading.svg'
 
-import Text from '../Text'
+import Text from '../../UI/Text'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StakeTokenSuccessCard } from './StakeToken.styles'

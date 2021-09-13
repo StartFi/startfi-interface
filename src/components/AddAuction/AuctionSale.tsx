@@ -1,8 +1,8 @@
 import React from 'react'
-import { Input } from 'components/Input'
+import { Input } from '../../UI/Input'
 import { useTranslation } from 'react-i18next'
 import { GetStakes, Stakes } from '../MintCard.tsx/styles'
-import InputSTFI from 'components/Input/InputSTFI'
+import InputSTFI from '../../UI/Input/InputSTFI'
 import { useAddAuction } from 'state/marketplace/hooks'
 import { useHistory } from 'react-router-dom'
 

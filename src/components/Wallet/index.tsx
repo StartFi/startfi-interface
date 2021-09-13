@@ -4,7 +4,7 @@ import { Text } from 'rebass'
 // import { ChainId } from '@uniswap/sdk'
 import { ChainId } from '../../constants/supportedChains'
 
-import { YellowCard } from 'components/Card'
+import { YellowCard } from '../../UI/Card'
 import { useActiveWeb3React } from 'hooks'
 import { useETHBalances } from 'state/wallet/hooks'
 import Web3Status from 'components/Web3Status'

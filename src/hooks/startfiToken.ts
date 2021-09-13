@@ -135,10 +135,8 @@ export const useDecreaseAllowance = (): ((spender: string, subtractedValue: stri
         const transaction = await approve('decreaseAllowance', [spender, subtractedValue], contract, account, library)
         const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
 
-
         console.log('transactionReceipt', transactionReceipt)
         return transactionReceipt
-
       } catch (e) {
         console.log('error', e)
         return e

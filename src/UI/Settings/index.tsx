@@ -13,13 +13,13 @@ import {
   useUserSingleHopOnly
 } from '../../state/user/hooks'
 import { TYPE } from '../../theme'
-import { ButtonError } from '../Button'
+import { ButtonError } from '../Buttons'
 import { AutoColumn } from '../Column'
 import Modal from '../Modal'
-import QuestionHelper from '../QuestionHelper'
+import QuestionHelper from '../../components/QuestionHelper'
 import { RowBetween, RowFixed } from '../Row'
 import Toggle from '../Toggle'
-import TransactionSettings from '../TransactionSettings'
+import TransactionSettings from '../../components/TransactionSettings'
 
 const StyledMenuIcon = styled(Settings)`
   height: 20px;

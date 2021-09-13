@@ -16,12 +16,12 @@ import { useWalletModalToggle } from '../../state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from '../../state/transactions/hooks'
 import { TransactionDetails } from '../../state/transactions/reducer'
 import { shortenAddress } from '../../utils'
-import { ButtonSecondary } from '../Button'
+import { ButtonSecondary } from '../../UI/Buttons'
 
 import Identicon from '../Identicon'
-import Loader from '../Loader'
+import Loader from '../../UI/Loader'
 
-import { RowBetween } from '../Row'
+import { RowBetween } from '../../UI/Row'
 import WalletModal from '../WalletModal'
 
 const IconWrapper = styled.div<{ size?: number }>`

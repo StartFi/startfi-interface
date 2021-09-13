@@ -1,5 +1,5 @@
 import React from 'react'
-import { ButtonDraft, ButtonMint, ButtonMintBack } from 'components/Button'
+import { ButtonDraft, ButtonMint, ButtonMintBack } from 'UI/Buttons'
 import { useTranslation } from 'react-i18next'
 import { useSaveDraft } from 'state/user/hooks'
 

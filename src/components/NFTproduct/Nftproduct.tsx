@@ -25,21 +25,21 @@ import {
   TimerContainer,
   PublisherCard
 } from './Nftproduct.styles'
-import ReadMore from '../ReadMore/readmore'
+import ReadMore from '../../UI/ReadMore/readmore'
 import { useTranslation } from 'react-i18next'
 import BidOrBuy from 'components/BidOrBuy'
-import ButtonWishlist from 'components/Button/ButtonWishlist'
+import ButtonWishlist from 'UI/Buttons/ButtonWishlist'
 import { usePopup } from 'state/application/hooks'
 import { useHistory, useParams } from 'react-router-dom'
 import { useAuctionNFT, useGetAuctionNFT, useSetBidOrBuy, useIsExpiredAuction } from 'state/marketplace/hooks'
 import uriToHttp from 'utils/uriToHttp'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { useUserBalance } from 'state/user/hooks'
-import Timer from 'components/Timer/Timer'
+import Timer from '../../UI/Timer/Timer'
 import Amount from 'components/NFTSummary/Amount'
 import StringModifier from 'utils/StringSplice'
-import Text from '../Text'
-import StartfiLoader from 'components/Loader/startfi'
+import Text from '../../UI/Text'
+import StartfiLoader from '../../UI/Loader/startfi'
 
 interface NFTParams {
   nft: string

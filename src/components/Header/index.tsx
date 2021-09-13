@@ -15,11 +15,11 @@ import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useETHBalances } from '../../state/wallet/hooks'
 
-import { YellowCard } from '../Card'
+import { YellowCard } from 'UI/Card'
 import { Moon, Sun } from 'react-feather'
-import Menu from '../Menu'
+import Menu from '../../UI/Menu'
 
-import Row, { RowFixed } from '../Row'
+import Row, { RowFixed } from 'UI/Row'
 import Web3Status from '../Web3Status'
 
 const HeaderFrame = styled.div`

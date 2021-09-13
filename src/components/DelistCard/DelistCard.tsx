@@ -15,7 +15,7 @@ import {
   DelistButton,
   ButtonContainer
 } from './DelistCard.style'
-import Text from '../Text'
+import Text from '../../UI/Text'
 import { useCountDownTimer } from 'hooks/countDownTimer'
 import delistSuccessImg from '../../assets/images/delistSuccess.png'
 import { useHistory } from 'react-router-dom'
