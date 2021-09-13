@@ -179,17 +179,22 @@ export const useMintNFT = (): (() => void) => {
   const mint = useMint()
   const setWalletConfirmation = useSetWalletConfirmation()
   useNftPaymentEventListener()
-  return useCallback(() => {
+  return useCallback(async () => {
     if (address && nft) {
+      let transaction
       if (nft.royalty === 0) {
-        mint(address, nft.dataHash)
+        transaction = await mint(address, nft.dataHash)
       } else {
-        mint(address, nft.dataHash, nft.royalty, 100)
+        transaction = await mint(address, nft.dataHash, nft.royalty, 100)
       }
-      setWalletConfirmation('Digitizing')
+      if (transaction.error) {
+        popup({ success: false, message: transaction.error.message })
+      } else {
+        setWalletConfirmation('Digitizing')
+      }
     } else if (!address) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
-  }, [nft, address, popup, mint, setWalletConfirmation])
+  }, [address, nft, popup, setWalletConfirmation, mint])
 }
 
 export const useAddToMarketplace = (): (() => void) => {
@@ -202,14 +207,13 @@ export const useAddToMarketplace = (): (() => void) => {
   const listOnMarketplace = useListOnMarketplace()
   const setWalletConfirmation = useSetWalletConfirmation()
   useMarketplaceListener(nft)
-  return useCallback(() => {
+  return useCallback(async () => {
     if (seller && chainId && auction && nft) {
-      console.log('add to marketplace nft=>=>', nft)
-      console.log('add to marketplace auction=>=>', auction)
-      if (auction.isForSale && !auction.isForBid)
-        listOnMarketplace(auction.contractAddress, nft.id, auction.listingPrice as number)
-      else
-        createAuction(
+      let transaction
+      if (auction.isForSale && !auction.isForBid) {
+        transaction = await listOnMarketplace(auction.contractAddress, nft.id, auction.listingPrice as number)
+      } else {
+        transaction = await createAuction(
           auction.contractAddress,
           nft.id,
           auction.minBid as number,
@@ -218,7 +222,12 @@ export const useAddToMarketplace = (): (() => void) => {
           auction.listingPrice as number,
           auction.expireTimestamp
         )
-      setWalletConfirmation('asset monetization')
+      }
+      if (transaction && transaction.error) {
+        popup({ success: false, message: transaction.error.message })
+      } else {
+        setWalletConfirmation('asset monetization')
+      }
     } else if (!seller || !chainId) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
     else if (!auction) popup({ success: false, message: 'noAuction' })
