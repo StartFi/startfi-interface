@@ -4,11 +4,9 @@ import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
-import abiDecoder from 'abi-decoder'
-import { abi as STARTFI_TOKEN_ABI } from '../constants/abis/StartFiToken.json'
 import { utils } from 'ethers'
 import abbreviate from 'number-abbreviate'
-abiDecoder.addABI(STARTFI_TOKEN_ABI)
+
 export const useTokenInfo = () => {
   const contract = useStartFiToken(false)
   return useCallback(() => {
@@ -87,8 +85,7 @@ export const useApproveToken = (): ((spender: string, amount: string | number) =
       try {
         const transaction = await approve('approve', [spender, amount], contract, account, library)
         const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
-        const decodedLogs = await abiDecoder.decodeLogs(transactionReceipt?.logs)
-        return decodedLogs[0].events
+        return transactionReceipt
       } catch (e) {
         console.log('error', e)
         // return e
@@ -113,8 +110,7 @@ export const useIncreaseAllowance = (): ((spender: string, addedValue: string | 
         const transaction = await approve('increaseAllowance', [spender, addedValue], contract, account, library)
         const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
         console.log('transactionReceipt', transactionReceipt)
-        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
-        return decodedLogs[0].events
+        return transactionReceipt
       } catch (e) {
         console.log('error', e)
         return e
@@ -139,8 +135,10 @@ export const useDecreaseAllowance = (): ((spender: string, subtractedValue: stri
         const transaction = await approve('decreaseAllowance', [spender, subtractedValue], contract, account, library)
         const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
 
-        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
-        return decodedLogs[0].events
+
+        console.log('transactionReceipt', transactionReceipt)
+        return transactionReceipt
+
       } catch (e) {
         console.log('error', e)
         return e
@@ -163,8 +161,7 @@ export const useTransfer = (): ((address: string, amount: string | number) => an
       try {
         const transaction = await transfer('transfer', [address, amount], contract, account, library)
         const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
-        const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
-        return decodedLogs[0].events
+        return transactionReceipt
       } catch (e) {
         console.log('error', e)
         return e

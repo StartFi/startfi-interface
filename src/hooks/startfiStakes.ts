@@ -4,11 +4,8 @@ import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
-import abiDecoder from 'abi-decoder'
-import { abi as STARTFI_STAKES_ABI } from '../constants/abis/StartfiStakes.json'
 import { updateStakeBalance, updateStackDepositState } from 'state/user/actions'
 import { useDispatch } from 'react-redux'
-abiDecoder.addABI(STARTFI_STAKES_ABI)
 
 export const useDeposit = (): ((user: string, amount: string | number) => any) => {
   const { account, library } = useActiveWeb3React()
@@ -26,10 +23,8 @@ export const useDeposit = (): ((user: string, amount: string | number) => any) =
         dispatch(updateStackDepositState({ depositState: true }))
         const transaction = await deposit('deposit', [user, amount], contract, account, library)
         const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
-        const decodedLogs = await abiDecoder.decodeLogs(transactionReceipt?.logs)
         dispatch(updateStackDepositState({ depositState: false }))
-
-        return decodedLogs[0].events
+        return transactionReceipt
       } catch (e) {
         console.log('error=>', e)
         dispatch(updateStackDepositState({ depositState: false }))
