@@ -8,6 +8,7 @@ import abiDecoder from 'abi-decoder'
 import { abi as STARTFI_STAKES_ABI } from '../constants/abis/StartfiStakes.json'
 import { updateStakeBalance, updateStackDepositState } from 'state/user/actions'
 import { useDispatch } from 'react-redux'
+import { utils } from 'ethers'
 abiDecoder.addABI(STARTFI_STAKES_ABI)
 
 export const useDeposit = (): ((user: string, amount: string | number) => any) => {
@@ -50,7 +51,7 @@ export const useGetReserves = (): ((owner: string) => any) => {
     async (owner: string) => {
       try {
         const userReserved = await evaluateTransaction(contract, 'getReserves', [owner])
-        const reserved = userReserved.toHexString()
+        const reserved = utils.formatEther(userReserved)
 
         dispatch(updateStakeBalance({ stakeBalance: parseInt(reserved, 16) }))
         return reserved

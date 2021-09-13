@@ -8,6 +8,7 @@ import { ROLES } from 'constants/index'
 import abiDecoder from 'abi-decoder'
 import { abi as STARTFI_NFT_PAYMENT_ABI } from '../constants/abis/StartFiNFTPayment.json'
 import parseBigNumber from 'utils/parseBigNumber'
+import { utils } from 'ethers'
 
 abiDecoder.addABI(STARTFI_NFT_PAYMENT_ABI)
 
@@ -111,7 +112,7 @@ export const useNftBalance = (): ((address: string) => any) => {
       const getBalance = async () => {
         try {
           const balance = await evaluateTransaction(contract, 'balanceOf', [address])
-          return balance.toHexString()
+          return utils.formatEther(balance)
         } catch (e) {
           console.log(e)
           return e

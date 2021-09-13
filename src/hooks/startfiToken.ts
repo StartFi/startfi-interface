@@ -7,7 +7,7 @@ import { useActiveWeb3React } from 'hooks'
 import abiDecoder from 'abi-decoder'
 import { abi as STARTFI_TOKEN_ABI } from '../constants/abis/StartFiToken.json'
 import { utils } from 'ethers'
-import abbreviate from 'number-abbreviate'
+
 abiDecoder.addABI(STARTFI_TOKEN_ABI)
 export const useTokenInfo = () => {
   const contract = useStartFiToken(false)
@@ -18,7 +18,7 @@ export const useTokenInfo = () => {
         const symbol = await evaluateTransaction(contract, 'symbol', [])
         const decimals = await evaluateTransaction(contract, 'decimals', [])
         const totalSupply = await evaluateTransaction(contract, 'totalSupply', [])
-        const totalSupplyHex = totalSupply.toHexString()
+        const totalSupplyHex = utils.formatEther(totalSupply)
         return {
           name,
           symbol,
@@ -61,7 +61,7 @@ export const useGetAllowance = (): ((owner: string, spender: string) => any) => 
       const getAllowance = async () => {
         try {
           const allowance = await evaluateTransaction(contract, 'allowance', [owner, spender])
-          return allowance.toHexString()
+          return utils.formatEther(allowance)
         } catch (e) {
           console.log(e)
           return e

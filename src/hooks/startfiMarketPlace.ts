@@ -7,6 +7,7 @@ import { useActiveWeb3React } from 'hooks'
 import { abi as STARTFI_MARKET_PLACE_ABI } from '../constants/abis/StartFiMarketPlace.json'
 import abiDecoder from 'abi-decoder'
 import parseBigNumber from 'utils/parseBigNumber'
+import { utils } from 'ethers'
 
 abiDecoder.addABI(STARTFI_MARKET_PLACE_ABI)
 
@@ -244,7 +245,7 @@ export const useGetUserReserved = (): ((userAddress: string) => any) => {
     async (userAddress: string) => {
       try {
         const userReserved = await evaluateTransaction(contract, 'getUserReserved', [userAddress])
-        const reserved = userReserved.toHexString()
+        const reserved = utils.formatEther(userReserved)
         return reserved
       } catch (e) {
         console.log(e)
@@ -260,7 +261,7 @@ export const useGetServiceFee = () => {
   return useCallback(async () => {
     try {
       const userReserved = await evaluateTransaction(contract, 'getServiceFee', [])
-      return userReserved.toHexString()
+      return utils.formatEther(userReserved)
     } catch (e) {
       console.log(e)
       return e
