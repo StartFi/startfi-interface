@@ -5,7 +5,6 @@ import { Row } from 'theme'
 import Check from './../../assets/icons/whitecheck.svg'
 import Times from './../../assets/icons/whitetimes.svg'
 import { useSpring, animated } from 'react-spring'
-import { opacify } from 'polished'
 
 const Container = styled(Row)`
   background: #000000;
