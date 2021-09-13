@@ -84,8 +84,6 @@ const Nftproduct = () => {
     )
 
   const nftId = parseInt(nft)
-
-  console.log(auctionNFT)
   const imgUrl = uriToHttp(`${auctionNFT?.nft?.dataHash}`)[1]
   const noStakes =
     balance &&
@@ -202,7 +200,7 @@ const Nftproduct = () => {
                 // setIsOpen(true)
               }}
             >
-              {t('buy')}
+              {t('buy')} {listingPrice}$
             </button>
           </BuyNow>
         </BuyCard>
