@@ -84,8 +84,6 @@ const Nftproduct = () => {
     )
 
   const nftId = parseInt(nft)
-  console.log('expiredAuction', expiredAuction)
-
   const imgUrl = uriToHttp(`${auctionNFT?.nft?.dataHash}`)[1]
 
   const noStakes =

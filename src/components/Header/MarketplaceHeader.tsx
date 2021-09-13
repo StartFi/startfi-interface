@@ -39,7 +39,6 @@ const MarketplaceHeader: React.FC = () => {
   useEffect(() => getNFTs({ category, search, sort: DEFAULT_SORT }), [category, search, getNFTs])
 
   const getDropDownChanges = async (value: any) => {
-    console.log(value)
     switch (value) {
       case 'WishList':
         history.push('/marketplace/wishList')
@@ -51,7 +50,6 @@ const MarketplaceHeader: React.FC = () => {
         history.push('')
         break
       case 'Stake':
-        console.log(';p;p')
         if (!account) return popup({ success: false, message: t('connectWallet') })
         getReserves(account)
         history.push('/marketplace/stakeTokens')

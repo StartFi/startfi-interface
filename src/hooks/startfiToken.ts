@@ -138,7 +138,7 @@ export const useDecreaseAllowance = (): ((spender: string, subtractedValue: stri
       try {
         const transaction = await approve('decreaseAllowance', [spender, subtractedValue], contract, account, library)
         const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
-        console.log('transactionReceipt', transactionReceipt)
+
         const decodedLogs = abiDecoder.decodeLogs(transactionReceipt?.logs)
         return decodedLogs[0].events
       } catch (e) {
