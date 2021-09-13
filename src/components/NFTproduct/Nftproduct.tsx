@@ -60,7 +60,8 @@ const Nftproduct = () => {
   useGetAuctionNFT(nft, auction)
 
   const auctionNFT: AuctionNFT | null = useAuctionNFT()
-
+  const [isBid] = useState<boolean>(auctionNFT ? auctionNFT.auction.isForBid : false)
+  const [isSale] = useState<boolean>(auctionNFT ? auctionNFT.auction.isForSale : false)
   const expiredAuction = useIsExpiredAuction(auctionNFT)
 
   const popup = usePopup()
@@ -85,8 +86,8 @@ const Nftproduct = () => {
 
   const nftId = parseInt(nft)
 
+  console.log(auctionNFT)
   const imgUrl = uriToHttp(`${auctionNFT?.nft?.dataHash}`)[1]
-
   const noStakes =
     balance &&
     auctionNFT &&
@@ -123,12 +124,12 @@ const Nftproduct = () => {
         <RightTitle>
           <Name>
             <p>{auctionNFT?.nft.name}</p>
-            {noStakes && (
+            {noStakes && isBid ? (
               <Stakes>
                 <NoStakes>{t('needsMoreStakes')}</NoStakes>
                 <GetNow onClick={() => history.push('/marketplace/stakeTokens')}>{t('getNow')}</GetNow>
               </Stakes>
-            )}
+            ) : null}
           </Name>
         </RightTitle>
 
@@ -140,7 +141,7 @@ const Nftproduct = () => {
           ))}
         </TagContainer>
 
-        {auctionNFT ? (
+        {isBid ? (
           <TimerContainer>
             <Text fontFamily="Roboto" fontSize="1rem" color="#323232" margin="0 23px 0px 0px">
               {t('auctionsEndIn')} :
@@ -150,20 +151,22 @@ const Nftproduct = () => {
         ) : null}
 
         <BuyCard>
-          {LastBidding ? (
-            <LastBiddingContainer>
-              <Text fontFamily="Roboto" FontWeight="bold" fontSize="0.875rem" color="#323232" margin="0 23px 0px 0px">
-                {t('lastBidding')} :
-              </Text>
-              <Amount amount={LastBidding}></Amount>
-            </LastBiddingContainer>
-          ) : (
-            <LastBiddingContainer>
-              <Text fontFamily="Roboto" FontWeight="bold" fontSize="1rem" color="#323232" margin="15px auto">
-                {t('noBidding')}
-              </Text>
-            </LastBiddingContainer>
-          )}
+          {isBid ? (
+            LastBidding ? (
+              <LastBiddingContainer>
+                <Text fontFamily="Roboto" FontWeight="bold" fontSize="0.875rem" color="#323232" margin="0 23px 0px 0px">
+                  {t('lastBidding')} :
+                </Text>
+                <Amount amount={LastBidding}></Amount>
+              </LastBiddingContainer>
+            ) : (
+              <LastBiddingContainer>
+                <Text fontFamily="Roboto" FontWeight="bold" fontSize="1rem" color="#323232" margin="15px auto">
+                  {t('noBidding')}
+                </Text>
+              </LastBiddingContainer>
+            )
+          ) : null}
 
           <BuyButtons>
             <ButtonWishlist
@@ -174,17 +177,19 @@ const Nftproduct = () => {
               fontSize="1rem"
               disabled={expiredAuction}
             />
-            <PlaceBid>
-              <button
-                onClick={() => {
-                  setBidOrBuy(true)
-                  setIsOpen(true)
-                }}
-                disabled={expiredAuction}
-              >
-                {t('placeBid')}
-              </button>
-            </PlaceBid>
+            {isBid ? (
+              <PlaceBid>
+                <button
+                  onClick={() => {
+                    setBidOrBuy(true)
+                    setIsOpen(true)
+                  }}
+                  disabled={expiredAuction}
+                >
+                  {t('placeBid')}
+                </button>
+              </PlaceBid>
+            ) : null}
           </BuyButtons>
           <BuyNow>
             <button
