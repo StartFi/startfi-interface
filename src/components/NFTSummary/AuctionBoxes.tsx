@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useAuction, useNFT, useStep } from 'state/marketplace/hooks'
 import { STEP } from 'state/marketplace/types'
 import { openFor } from 'utils'
-import DisplaySTFIUSD from './DisplaySTFI-USD'
+import DisplayBalance  from './DisplayBalance'
 import EditableBox from './EditableBox'
 import { Label, Data, Field, Line } from './styles'
 
@@ -25,7 +25,7 @@ const AuctionBoxes: React.FC = () => {
           <Field>
             <Label>{t('pricing')}</Label>
             <Data>
-              <DisplaySTFIUSD amount={auction.listingPrice || 0} />
+              <DisplayBalance  amount={auction.listingPrice || 0} />
             </Data>
           </Field>
         )}
@@ -35,7 +35,7 @@ const AuctionBoxes: React.FC = () => {
             <Field>
               <Label>{t('minimumBidding')}</Label>
               <Data>
-                <DisplaySTFIUSD amount={auction.minBid || 0} />
+                <DisplayBalance  amount={auction.minBid || 0} />
               </Data>
             </Field>
             <Line />
@@ -49,7 +49,7 @@ const AuctionBoxes: React.FC = () => {
             <Field>
               <Label>{t('qualifyAmount')}</Label>
               <Data>
-                <DisplaySTFIUSD amount={auction.qualifyAmount || 0} />
+                <DisplayBalance  amount={auction.qualifyAmount || 0} />
               </Data>
             </Field>
           </React.Fragment>

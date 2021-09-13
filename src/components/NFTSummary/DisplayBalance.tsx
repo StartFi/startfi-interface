@@ -9,7 +9,7 @@ interface AmountProps {
   margin?: string
 }
 
-const Amount: React.FC<AmountProps> = ({ amount, error, margin }) => {
+const DisplayBalance: React.FC<AmountProps> = ({ amount, error, margin }) => {
   const usd = useSTFItoUSD(amount)
   return (
     <Bold error={error} margin={margin}>
@@ -18,4 +18,4 @@ const Amount: React.FC<AmountProps> = ({ amount, error, margin }) => {
   )
 }
 
-export default Amount
+export default DisplayBalance
