@@ -17,7 +17,7 @@ import {
   Royalty,
   Approx
 } from './styles'
-import Amount from './Amount'
+import DisplaySTFIUSD from './DisplaySTFI-USD'
 import { useTranslation } from 'react-i18next'
 import { useAuction, useNFT, useSteps } from 'state/marketplace/hooks'
 import { STEP } from 'state/marketplace/types'
@@ -82,7 +82,7 @@ const NFTBoxes: React.FC = () => {
               t('forEachResell')
             ) : (
               <Royalty>
-                <Approx>~</Approx> ( <Amount amount={(nft.royalty / 100) * (auction?.listingPrice || 0)} /> ){' '}
+                <Approx>~</Approx> ( <DisplaySTFIUSD amount={(nft.royalty / 100) * (auction?.listingPrice || 0)} /> ){' '}
               </Royalty>
             )}
           </Royalty>

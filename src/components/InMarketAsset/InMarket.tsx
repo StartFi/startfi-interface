@@ -21,7 +21,7 @@ import { useTranslation } from 'react-i18next'
 import DelistCard from 'components/DelistCard/DelistCard'
 
 import { Footer } from 'components/OffMarket/OffMarket.styles'
-import Amount from 'components/NFTSummary/Amount'
+import DisplaySTFIUSD from 'components/NFTSummary/DisplaySTFI-USD'
 
 import Timer from 'components/Timer/Timer'
 import { useOnMarketItem } from 'state/inventory/hooks'
@@ -166,7 +166,7 @@ const InMarket = () => {
                   <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="3.40rem">
                     {t('IssueRoyaltyShare')}
                   </Text>
-                  <Amount amount={nft?.royalty}></Amount>
+                  <DisplaySTFIUSD amount={nft?.royalty}></DisplaySTFIUSD>
                 </AmountContainer>
               </TextContainer>
             </Card>
@@ -185,7 +185,7 @@ const InMarket = () => {
                     >
                       {t('pricing')}
                     </Text>
-                    <Amount amount={auction?.listingPrice || 0}></Amount>
+                    <DisplaySTFIUSD amount={auction?.listingPrice || 0}></DisplaySTFIUSD>
                   </AmountContainer>
                   <Divider width="95%"></Divider>
 
@@ -194,7 +194,7 @@ const InMarket = () => {
                       <Text fontFamily="Roboto" fontSize="1rem" color="#444444" margin="15px 13px 15px 0px">
                         {t('minBiding')}
                       </Text>
-                      {auction?.minBid ? <Amount amount={auction?.minBid}></Amount> : null}
+                      {auction?.minBid ? <DisplaySTFIUSD amount={auction?.minBid}></DisplaySTFIUSD> : null}
                     </AmountContainer>
                   </div>
 
@@ -217,7 +217,9 @@ const InMarket = () => {
                       <Text fontFamily="Roboto" fontSize="1rem" color="#444444" margin="15px 30px 15px 0px">
                         {t('qualifyAmount')}
                       </Text>
-                      {auction?.qualifyAmount ? <Amount amount={auction?.qualifyAmount}></Amount> : null}
+                      {auction?.qualifyAmount ? (
+                        <DisplaySTFIUSD amount={auction?.qualifyAmount}></DisplaySTFIUSD>
+                      ) : null}
                     </AmountContainer>
                   </div>
                 </TextContainer>

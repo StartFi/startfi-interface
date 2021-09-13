@@ -18,7 +18,7 @@ import {
   SpaceBetween,
   TextBlack
 } from './styles'
-import Amount from 'components/NFTSummary/Amount'
+import DisplaySTFIUSD from 'components/NFTSummary/DisplaySTFI-USD'
 
 const Payment: React.FC = () => {
   const { t } = useTranslation()
@@ -75,19 +75,19 @@ const Payment: React.FC = () => {
         </TextBlack>
         <SpaceBetween>
           <SemiBold>{t(bidOrBuy ? 'biddingOffer' : 'paymentAmount')}</SemiBold>
-          <Amount amount={value}></Amount>
+          <DisplaySTFIUSD amount={value}></DisplaySTFIUSD>
         </SpaceBetween>
         <Border width="115%" left="-23px" />
 
         <SpaceBetween>
           <SemiBold>{t('yourBalance')}</SemiBold>
-          {balance ? <Amount amount={balance}></Amount> : null}
+          {balance ? <DisplaySTFIUSD amount={balance}></DisplaySTFIUSD> : null}
         </SpaceBetween>
 
         <Border width="115%" left="-23px" />
         <SpaceBetween>
           <SemiBold>{t(bidOrBuy ? 'totalBidAmount' : 'totalPaymentAmount')}</SemiBold>
-          <Amount amount={total(value, service())}></Amount>
+          <DisplaySTFIUSD amount={total(value, service())}></DisplaySTFIUSD>
           {/* <Bold margin="5px 0px">{total(value, service())} STFI</Bold> */}
         </SpaceBetween>
         <ButtonBlack onClick={() => confirm()}>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</ButtonBlack>

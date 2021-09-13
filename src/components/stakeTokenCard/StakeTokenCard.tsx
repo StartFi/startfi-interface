@@ -2,7 +2,7 @@
 /* eslint-disable react/display-name */
 import { Shadow } from 'components/BidOrBuy/styles'
 import { Bold, ButtonTransparentBorder, MarginLeft } from 'components/NFTConfirm/styles'
-import Amount from 'components/NFTSummary/Amount'
+import DisplaySTFIUSD from 'components/NFTSummary/DisplaySTFI-USD'
 import { ButtonPaymentBlack, PaymentModal } from 'components/NFTSummary/styles'
 import Text from '../Text'
 import React from 'react'
@@ -37,21 +37,21 @@ const StakeTokenCard: React.FC<StokeTokenCardProps> = React.memo(
               <Text fontFamily="Roboto" fontSize="1rem" FontWeight="400" color="#000000">
                 {t('increasedStake')}
               </Text>
-              <Amount amount={increasedStake} margin="15px 0px 0px 30px" />
+              <DisplaySTFIUSD amount={increasedStake} margin="15px 0px 0px 30px" />
             </TextContainer>
             <Divider left="-6.7%" width="113%" backgroundColor="#D1D1D1"></Divider>
             <TextContainer>
               <Text fontFamily="Roboto" fontSize="1rem" FontWeight="400" color="#000000">
                 {t('currentStakeAfterInc')}
               </Text>
-              <Amount amount={stakeAfterIncreased} margin="10px 0px 0px 10px" />
+              <DisplaySTFIUSD amount={stakeAfterIncreased} margin="10px 0px 0px 10px" />
             </TextContainer>
             <Divider left="-6.7%" width="113%" backgroundColor="#D1D1D1"></Divider>
             <TextContainer>
               <Text fontFamily="Roboto" fontSize="1rem" FontWeight="400" color="#000000">
                 {t('stfiBalanceAfterInc')}
               </Text>
-              <Amount amount={stfiBalanceAfterStack} margin="10px 0px 0px 10px" />
+              <DisplaySTFIUSD amount={stfiBalanceAfterStack} margin="10px 0px 0px 10px" />
             </TextContainer>
             <Divider left="-6.7%" width="113%" backgroundColor="#D1D1D1"></Divider>
             <Text fontFamily="Roboto" fontSize="1rem" FontWeight="400" color="#000000" margin="0 5px 0 0">
