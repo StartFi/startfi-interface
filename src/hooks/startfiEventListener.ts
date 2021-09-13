@@ -36,7 +36,7 @@ export const useNftPaymentEventListener = () => {
       library?.on(transferRoyalEvent as EventFilter, result => {
         const eventLogs = nftRoyalty?.interface.parseLog({ data: result.data, topics: result.topics }).args
         const id: string = parseInt(parseBigNumber(eventLogs)[2], 16).toString() //tokenId
-        console.log({ account, nft, chainId })
+
         if (account && nft && chainId) {
           const mintedNFT = { ...nft, id, issueDate: new Date(), owner: account, issuer: account, chainId }
           let invItem = setInvItem(mintedNFT.owner, InventoryType.offMarket, mintedNFT, mintedNFT.issueDate)
@@ -163,8 +163,7 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
         const eventLogs = marketplaceContract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
         const eventValue = parseBigNumber(args)
-        // console.log(eventValue)
-        console.log('bid added',bid)
+
         if (bid) {
           bid.id = eventValue[0]
           dispatch(placeBidAction({ auctionId: auctionNFT?.auction.id || '', bid }))
@@ -212,7 +211,7 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
         const auctionId = auctionNFT?.auction.id || ''
         const buyer = seller || ''
         const soldPrice = 10
-        console.log('buyvalue', eventValue)
+      
         dispatch(buyNFTAction({ nftId, auctionId, buyer, soldPrice }))
         dispatch(addNewEvent({ eventName: 'BuyNow', eventValue }))
       })

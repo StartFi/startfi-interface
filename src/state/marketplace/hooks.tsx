@@ -215,8 +215,7 @@ export const useAddToMarketplace = (): (() => void) => {
   useMarketplaceListener(nft)
   return useCallback(() => {
     if (seller && chainId && auction && nft) {
-      console.log('add to marketplace nft=>=>', nft)
-      console.log('add to marketplace auction=>=>', auction)
+     
       if (auction.isForSale && !auction.isForBid)
         listOnMarketplace(auction.contractAddress, nft.id, auction.listingPrice as number)
       else

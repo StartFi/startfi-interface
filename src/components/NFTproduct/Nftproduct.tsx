@@ -75,6 +75,7 @@ const Nftproduct = () => {
   const topBid = useTopBid()
   const listingPrice: number = auctionNFT?.auction?.listingPrice as number
 
+
   useGetAuctionNFT(nft, auction)
 
   const expiredAuction = useIsExpiredAuction(auctionNFT)
