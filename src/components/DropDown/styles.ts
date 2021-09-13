@@ -11,7 +11,7 @@ interface WidthProps {
 export const Container = styled.div<WidthProps>`
   width: ${props => props.width};
   position: relative;
-  height: 5vh;
+  /* height: 0vh; */
   margin-right: ${props => props.marginRight};
   /* z-index: 9999; */
 `
@@ -30,7 +30,7 @@ export const LabelRow = styled(Row)<{
   box-sizing: border-box;
   border-radius: 8px;
   box-shadow: ${({ boxShadow }) => boxShadow};
-  padding: 2vh 2vw;
+  padding: 0vh 2vw;
   cursor: pointer;
 
   & img {
