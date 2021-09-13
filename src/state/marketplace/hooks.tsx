@@ -279,11 +279,15 @@ export const useBuyNFT = (): (() => void) => {
   const setWalletConfirmation = useSetWalletConfirmation()
   useMarketplaceListener(auctionNFT?.nft)
   return useCallback(async () => {
-    if (buyer && auctionNFT) {
-      setWalletConfirmation('Payment')
-      await approveToken(STARTFI_MARKETPLACE_ADDRESS, soldPrice)
-      await buyNow(auctionNFT.auction.id, soldPrice)
-    } else popup({ success: false, message: 'connectWallet' })
+    try {
+      if (buyer && auctionNFT) {
+        setWalletConfirmation('Payment')
+        await approveToken(STARTFI_MARKETPLACE_ADDRESS, soldPrice)
+        await buyNow(auctionNFT.auction.id, soldPrice)
+      } else popup({ success: false, message: 'connectWallet' })
+    } catch (error) {
+      popup({ success: false, message: error && error.message ? error.message : error })
+    }
   }, [soldPrice, auctionNFT, buyer, approveToken, buyNow, popup, setWalletConfirmation])
 }
 
@@ -334,6 +338,7 @@ export const useAddNFT = () => {
   const step = useStep()
   const setStep = useSetStep()
   const nft = useNFT()
+  const popup = usePopup()
   const allowedSTFI = useAllowedSTFI()
   const mint = useMintNFT()
   const approveToken = useApproveToken()
@@ -382,9 +387,15 @@ export const useAddNFT = () => {
         break
       case STEP.ALLOW_TRANSFER:
         setLoader(true)
-        approveToken(STARTFI_NFT_PAYMENT_ADDRESS, fees).then(() => {
-          setStep(STEP.ADD_NFT)
-          setLoader(false)
+        approveToken(STARTFI_NFT_PAYMENT_ADDRESS, fees).then(transaction => {
+          console.log('hnaaaaa', { transaction })
+          if (transaction && transaction.error) {
+            setLoader(false)
+            popup({ success: false, message: transaction.error.message })
+          } else {
+            setStep(STEP.ADD_NFT)
+            setLoader(false)
+          }
         })
         break
       case STEP.ADD_NFT:
@@ -412,6 +423,7 @@ export const useAddAuction = () => {
   const allowed = useAllowed()
   const addToMarketplace = useAddToMarketplace()
   const approve = useApproveNft()
+  const popup = usePopup()
   const nft = useNFT()
   const [loader, setLoader] = useState<boolean>(false)
 
@@ -453,9 +465,14 @@ export const useAddAuction = () => {
       case STEP.ALLOW_MONETIZING:
         if (!allowed) {
           setLoader(true)
-          approve(STARTFI_MARKETPLACE_ADDRESS, nft?.id).then(() => {
-            setStep(STEP.ADD_AUCTION)
-            setLoader(false)
+          approve(STARTFI_MARKETPLACE_ADDRESS, nft?.id).then(transaction => {
+            if (transaction && transaction.error) {
+              setLoader(false)
+              popup({ success: false, message: transaction.error.message })
+            } else {
+              setStep(STEP.ADD_AUCTION)
+              setLoader(false)
+            }
           })
         }
         break
