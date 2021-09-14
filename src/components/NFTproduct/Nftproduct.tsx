@@ -42,9 +42,12 @@ import { useWinnerBid } from 'hooks/blockchain-hooks/startfiMarketPlace'
 
 import uriToHttp from 'utils/uriToHttp'
 import { AuctionNFT } from 'services/models/AuctionNFT'
-import { useUserBalance } from 'state/user/hooks'
+
+import { useNeedMoreStack, useUserBalance } from 'state/user/hooks'
+
 import Timer from 'UI/Timer/Timer'
 import DisplayBalance from 'components/NFTSummary/DisplayBalance'
+
 import StringModifier from 'utils/StringSplice'
 import Text from '../../UI/Text'
 import StartfiLoader from '../../UI/Loader/startfi'
@@ -82,6 +85,8 @@ const Nftproduct = () => {
 
   useGetAuctionNFT(nft, auction)
 
+  const needStack = useNeedMoreStack()
+
   useEffect(() => {
     if (auctionNFT) {
       winnerBid(auctionNFT?.auction.id)
@@ -101,11 +106,10 @@ const Nftproduct = () => {
       </div>
     )
 
-  const noStakes =
-    balance &&
-    auctionNFT &&
-    ((auctionNFT.auction.listingPrice && parseFloat(balance) < auctionNFT.auction.listingPrice) ||
-      (auctionNFT.auction.minBid && parseFloat(balance) < auctionNFT.auction.minBid))
+  const noStakes = balance && auctionNFT && needStack
+
+  // ((auctionNFT.auction.listingPrice && parseFloat(balance) < auctionNFT.auction.listingPrice) ||
+  //   (auctionNFT.auction.minBid && parseFloat(balance) < auctionNFT.auction.minBid))
 
   const showScroll = (readMore: boolean) => {
     readMore ? setIsReadMore('scroll') : setIsReadMore('')
