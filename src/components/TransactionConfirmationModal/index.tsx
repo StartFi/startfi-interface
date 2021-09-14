@@ -13,7 +13,7 @@ import { CustomButtonPrimary as ButtonPrimary } from '../../UI/Buttons/CustomBut
 import { AutoColumn, ColumnCenter } from 'UI/Column'
 import Circle from '../../assets/images/blue-loader.svg'
 import { getEtherscanLink } from '../../utils'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React } from '../../hooks/blockchain-hooks/useActiveWeb3React'
 
 const Wrapper = styled.div`
   width: 100%;

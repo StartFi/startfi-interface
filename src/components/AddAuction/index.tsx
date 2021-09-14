@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Font500, Font700, Note } from '../MintCard.tsx/styles'
-import InputSTFI from 'UI/Input/InputSTFI'
+import InputSTFI from 'UI/Inputs/InputSTFI'
 import AuctionSale from './AuctionSale'
 import AuctionBid from './AuctionBid'
 import ChooseType from './ChooseType'

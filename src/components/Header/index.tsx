@@ -11,7 +11,7 @@ import styled from 'styled-components'
 
 // import Logo from '../../assets/svg/logo.svg'
 import Logo from '../../assets/svg/logo.svg'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React } from '../../hooks/blockchain-hooks/useActiveWeb3React'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useETHBalances } from '../../state/wallet/hooks'
 

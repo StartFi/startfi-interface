@@ -1,4 +1,4 @@
-import Label from '../Input/Label'
+import Label from '../Labels/Label'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Row } from 'theme/components'

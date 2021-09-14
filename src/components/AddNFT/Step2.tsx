@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input } from '../../UI/Input'
+import { Input } from '../../UI/Inputs'
 import Tags from '../../UI/Tags'
 import { Step2Container } from '../MintCard.tsx/styles'
 import { useAddNFT } from 'state/marketplace/hooks'

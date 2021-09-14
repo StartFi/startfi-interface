@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import useHttpLocations from '../../hooks/useHttpLocations'
+import useHttpLocations from '../../hooks/blockchain-hooks/useHttpLocations'
 
 import Logo from 'UI/Logo'
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { DropDownDateType } from '../../UI/DropDown'
-import { InputNumberButtons } from '../../UI/Input'
+import { InputNumberButtons } from '../../UI/Inputs'
 import { useTranslation } from 'react-i18next'
 import { OpenForContainer } from '../MintCard.tsx/styles'
 import { useAddAuction } from 'state/marketplace/hooks'

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
 import { useBidOrBuyValue, useSetBidOrBuy } from 'state/marketplace/hooks'
-import { useSTFIBalance } from 'hooks/useSTFIBalance'
+import { useSTFIBalance } from 'hooks/blockchain-hooks/useSTFIBalance'
 import { Row } from 'theme'
 import {
   Balance,

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Input } from '../../UI/Input'
-import Label from '../../UI/Input/Label'
+import { Input } from '../../UI/Inputs'
+import Label from '../../UI/Labels/Label'
 import { Margin, Radios, RadioLabel, Royalty, Text } from '../MintCard.tsx/styles'
 import { useAddNFT } from 'state/marketplace/hooks'
 
