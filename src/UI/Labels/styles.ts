@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Row, SpaceBetween } from 'theme'
+import { Row } from 'theme'
 
 export const Container = styled(Row)`
   justify-content: flex-start;

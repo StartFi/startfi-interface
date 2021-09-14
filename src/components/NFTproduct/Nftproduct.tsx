@@ -45,8 +45,6 @@ import { AuctionNFT } from 'services/models/AuctionNFT'
 
 import { useNeedMoreStack, useUserBalance } from 'state/user/hooks'
 
-
-
 import Timer from '../../UI/Timer/Timer'
 
 import Amount from 'components/NFTSummary/Amount'
@@ -87,17 +85,13 @@ const Nftproduct = () => {
 
   useGetAuctionNFT(nft, auction)
 
-
-  const balance = useUserBalance()
-  const setValue = useSetBidOrBuy()
-  const needStack=useNeedMoreStack()
+  const needStack = useNeedMoreStack()
 
   useEffect(() => {
     if (auctionNFT) {
       winnerBid(auctionNFT?.auction.id)
     }
   }, [auctionNFT])
-
 
   if (!nft || !auction) {
     popup({ success: false, message: 'noNFT' })
@@ -112,12 +106,10 @@ const Nftproduct = () => {
       </div>
     )
 
-  const noStakes =
-    balance &&
-    auctionNFT &&needStack
+  const noStakes = balance && auctionNFT && needStack
 
-    // ((auctionNFT.auction.listingPrice && parseFloat(balance) < auctionNFT.auction.listingPrice) ||
-    //   (auctionNFT.auction.minBid && parseFloat(balance) < auctionNFT.auction.minBid))
+  // ((auctionNFT.auction.listingPrice && parseFloat(balance) < auctionNFT.auction.listingPrice) ||
+  //   (auctionNFT.auction.minBid && parseFloat(balance) < auctionNFT.auction.minBid))
 
   const showScroll = (readMore: boolean) => {
     readMore ? setIsReadMore('scroll') : setIsReadMore('')

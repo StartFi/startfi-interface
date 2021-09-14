@@ -37,8 +37,7 @@ import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/Startfi
 import { useGetAllowance } from 'hooks/blockchain-hooks/startfiToken'
 import { setInvItem, useSaveInvItem } from 'state/inventory/hooks'
 import { InventoryType } from 'services/models/Inventory'
-import { useSTFIBalance } from 'hooks/useSTFIBalance'
-import { useGetReserves } from 'hooks/startfiStakes'
+import { useGetReserves } from 'hooks/blockchain-hooks/startfiStakes'
 
 function serializeToken(token: Token): SerializedToken {
   return {
@@ -255,7 +254,7 @@ export const useSaveDraft = (): (() => void) => {
 
     if (step < 6) saveInvItem(invItem)
     else history.push('/inventory/off-market/' + draft.id)
-  }, [history, step, user, draft, popup, dispatch])
+  }, [history, step, user, draft, popup, dispatch, saveInvItem])
 }
 
 const useAddToWishlist = (nftId: number): (() => void) => {
@@ -455,7 +454,7 @@ export const useGetStakeAllowance = () => {
     }
     getAllow()
     return
-  }, [owner, STARTFI_STAKES_ADDRESSS])
+  }, [owner, STARTFI_STAKES_ADDRESSS, getAllowance])
 
   return { allowStaking, allowedAmount }
 }

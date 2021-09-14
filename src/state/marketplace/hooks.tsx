@@ -295,7 +295,6 @@ export const usePlaceBid = (): (() => void) => {
   }, [bidPrice, auctionNFT, bidWeb3, setWalletConfirmation])
 }
 
-
 export const useBuyNFT = (): (() => void) => {
   const buyNow = useBuyNow()
   const buyer = useUserAddress()
