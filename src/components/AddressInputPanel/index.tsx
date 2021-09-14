@@ -1,10 +1,10 @@
 import React, { useContext, useCallback } from 'react'
 import styled, { ThemeContext } from 'styled-components'
-import useENS from '../../hooks/useENS'
-import { useActiveWeb3React } from '../../hooks'
+import useENS from '../../hooks/blockchain-hooks/useENS'
+import { useActiveWeb3React } from '../../hooks/blockchain-hooks'
 import { ExternalLink, TYPE } from '../../theme'
-import { AutoColumn } from '../Column'
-import { RowBetween } from '../Row'
+import { AutoColumn } from 'UI/Column'
+import { RowBetween } from 'UI/Row'
 import { getEtherscanLink } from '../../utils'
 
 const InputPanel = styled.div`

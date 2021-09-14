@@ -2,9 +2,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import { usePopup } from 'state/application/hooks'
-import ButtonWishlist from 'components/Button/ButtonWishlist'
+import ButtonWishlist from 'UI/Buttons/ButtonWishlist'
 import { useAuctionNFT, useBidOrBuy, useBidOrBuyValue, useBuyNFT, usePlaceBid } from 'state/marketplace/hooks'
-import { useSTFIBalance } from 'hooks/useSTFIBalance'
+import { useSTFIBalance } from 'hooks/blockchain-hooks/useSTFIBalance'
 import { shortenAddress } from 'utils'
 
 import {

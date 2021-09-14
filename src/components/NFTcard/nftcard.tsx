@@ -1,12 +1,12 @@
 import React from 'react'
 import { Media, CardImg, Card, Price, Text, Actions, Bid } from './nftcard.styles'
 import { useTranslation } from 'react-i18next'
-import ButtonWishlist from 'components/Button/ButtonWishlist'
-import { NftButton } from 'components/Button'
+import ButtonWishlist from 'UI/Buttons/ButtonWishlist'
+import { NftButton } from 'UI/Buttons/NftButton'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import uriToHttp from 'utils/uriToHttp'
 import Amount from 'components/NFTSummary/Amount'
-import Timer from 'components/Timer/Timer'
+import Timer from 'UI/Timer/Timer'
 import { ONE_DAY_MILLISECONDS } from '../../constants'
 import { useIsExpiredAuction } from 'state/marketplace/hooks'
 
@@ -20,7 +20,9 @@ const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid 
   const { t } = useTranslation()
   const cardContent = auctionNFT.nft
   const expired = auctionNFT.auction.expireTimestamp - Date.now()
+
   const listPrice = auctionNFT?.auction?.listingPrice
+
   const nftId = parseInt(cardContent.id)
   const expiredAuction = useIsExpiredAuction(auctionNFT)
 
@@ -51,6 +53,7 @@ const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid 
       </div>
       <Actions>
         <ButtonWishlist nftId={nftId} type="NFTCard" disabled={expiredAuction} />
+
         <Bid>
           <NftButton disabled={expiredAuction} onClick={() => placeBid(auctionNFT)} color="#ffffff">
             {t('placeBid')}
