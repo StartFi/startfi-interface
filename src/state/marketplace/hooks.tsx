@@ -278,6 +278,10 @@ export const usePlaceBid = (): (() => void) => {
   }, [bidPrice, auctionNFT, bidWeb3, setWalletConfirmation])
 }
 
+// get topBid
+export const useTopBid = () => {
+  return useSelector((state: AppState) => state.marketplace.topNftBid)
+}
 export const useBuyNFT = (): (() => void) => {
   const buyNow = useBuyNow()
   const buyer = useUserAddress()
