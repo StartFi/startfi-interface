@@ -172,7 +172,7 @@ export const usePagination = () => {
   }, [currentPage, nfts, changePage])
 }
 
-export const useMintNFT = (): (() => void) => {
+export const useMintNFT = (): (() => any) => {
   const address = useUserAddress()
   const popup = usePopup()
   const nft = useNFT()
@@ -192,6 +192,7 @@ export const useMintNFT = (): (() => void) => {
       } else {
         setWalletConfirmation('Digitizing')
       }
+      return transaction
     } else if (!address) popup({ success: false, message: 'connectWallet' })
     else if (!nft) popup({ success: false, message: 'noNFT' })
   }, [address, nft, popup, setWalletConfirmation, mint])
@@ -250,6 +251,7 @@ export const usePlaceBid = (): (() => void) => {
   const bidPrice = useBidOrBuyValue()
   const setWalletConfirmation = useSetWalletConfirmation()
   const bidWeb3 = useBid()
+  const popup = usePopup()
   const bid: Bid = {
     id: generateId,
     nft: auctionNFT?.nft.id,
@@ -263,8 +265,12 @@ export const usePlaceBid = (): (() => void) => {
   return useCallback(async () => {
     if (auctionNFT) {
       const auctionId = auctionNFT.auction.id
-      setWalletConfirmation('Bidding')
-      await bidWeb3(auctionId, bidPrice)
+      const transaction = await bidWeb3(auctionId, bidPrice)
+      if (transaction && transaction.error) {
+        popup({ success: false, message: transaction.error.message })
+      } else {
+        setWalletConfirmation('Bidding')
+      }
     }
   }, [bidPrice, auctionNFT, bidWeb3, setWalletConfirmation])
 }
@@ -279,15 +285,19 @@ export const useBuyNFT = (): (() => void) => {
   const setWalletConfirmation = useSetWalletConfirmation()
   useMarketplaceListener(auctionNFT?.nft)
   return useCallback(async () => {
-    try {
-      if (buyer && auctionNFT) {
-        setWalletConfirmation('Payment')
-        await approveToken(STARTFI_MARKETPLACE_ADDRESS, soldPrice)
-        await buyNow(auctionNFT.auction.id, soldPrice)
-      } else popup({ success: false, message: 'connectWallet' })
-    } catch (error) {
-      popup({ success: false, message: error && error.message ? error.message : error })
-    }
+    if (buyer && auctionNFT) {
+      const approveTransaction = await approveToken(STARTFI_MARKETPLACE_ADDRESS, soldPrice)
+      if (approveTransaction && approveTransaction.error) {
+        popup({ success: false, message: approveTransaction.error.message })
+      } else {
+        const buyNowTransaction = await buyNow(auctionNFT.auction.id, soldPrice)
+        if (buyNowTransaction && buyNowTransaction.error) {
+          popup({ success: false, message: buyNowTransaction.error.message })
+        } else {
+          setWalletConfirmation('Payment')
+        }
+      }
+    } else popup({ success: false, message: 'connectWallet' })
   }, [soldPrice, auctionNFT, buyer, approveToken, buyNow, popup, setWalletConfirmation])
 }
 
@@ -319,7 +329,10 @@ export const useDelistAuction = (auctionId: string): (() => void) => {
       auction.bids.length === 0 &&
       auction.expireTimestamp > new Date().valueOf()
     ) {
-      await deListWeb3(auctionId) // need to make sure the auctionId is correct
+      const transaction = await deListWeb3(auctionId) // need to make sure the auctionId is correct
+      if (transaction && transaction.error) {
+        popup({ success: false, message: transaction.error.message })
+      }
     }
     //displaying error
     else if (!owner || owner !== nft.owner) popup({ success: false, message: 'notOwner' })
@@ -388,7 +401,6 @@ export const useAddNFT = () => {
       case STEP.ALLOW_TRANSFER:
         setLoader(true)
         approveToken(STARTFI_NFT_PAYMENT_ADDRESS, fees).then(transaction => {
-          console.log('hnaaaaa', { transaction })
           if (transaction && transaction.error) {
             setLoader(false)
             popup({ success: false, message: transaction.error.message })
@@ -399,8 +411,11 @@ export const useAddNFT = () => {
         })
         break
       case STEP.ADD_NFT:
-        mint()
-        setStep(STEP.CHOOSE_TYPE)
+        mint().then(transaction => {
+          if (transaction && !transaction.error) {
+            setStep(STEP.CHOOSE_TYPE)
+          }
+        })
         break
       default:
     }
