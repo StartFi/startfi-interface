@@ -19,12 +19,15 @@ import {
   setAuction,
   setNFT,
   setMissing,
-  removeMissing
+  removeMissing,
+  getBids,
+  getTopBid
 } from './actions'
 import { NFT } from 'services/models/NFT'
 import { Auction } from 'services/models/Auction'
 import { STEP } from './types'
 import { initialAuction, initialNFT } from './initial'
+import { Bid } from 'services/models/Bid'
 
 const getFirstError = (object: any): string => {
   const keys = Object.keys(object)
@@ -50,6 +53,8 @@ export interface MarketplaceState {
   delisted: boolean
   step: STEP
   missing: string[]
+  NftBids: Bid[]
+  topNftBid:number
 }
 
 const initialState: MarketplaceState = {
@@ -69,7 +74,9 @@ const initialState: MarketplaceState = {
   lastAuctions: [],
   delisted: false,
   step: 1,
-  missing: []
+  missing: [],
+  NftBids: [],
+  topNftBid:0
 }
 
 export default createReducer(initialState, builder =>
@@ -197,5 +204,13 @@ export default createReducer(initialState, builder =>
       const newMissing = [...state.missing]
       newMissing.splice(newMissing.indexOf(action.payload.name), 1)
       state.missing = newMissing
+    })
+    .addCase(getBids.pending, (state, action) => {})
+    .addCase(getBids.fulfilled, (state, action) => {
+      state.NftBids = action.payload.bids
+    })
+    .addCase(getBids.rejected, (state, action) => {})
+    .addCase(getTopBid, (state, action) => {
+      state.topNftBid= action.payload.topBid
     })
 )

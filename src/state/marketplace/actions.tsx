@@ -5,6 +5,7 @@ import {
   delistAuction,
   getAuctionNFT,
   getMarketplace,
+  getNftBids,
   mintNFT,
   placeBid
 } from 'services/Marketplace'
@@ -47,3 +48,6 @@ export const setNFT = createAction<{ value: any; name: string }>('marketplace/se
 export const setMissing = createAction<{ missing: string[] }>('marketplace/setMissing')
 
 export const removeMissing = createAction<{ name: string }>('marketplace/removeMissing')
+
+export const getBids=createAsyncThunk('marketplace/getNFTBidsAction', getNftBids)
+export const getTopBid = createAction<{ topBid: number }>('marketplace/nftTopBid')
