@@ -1,5 +1,5 @@
 import Timer from 'UI/Timer/Timer'
-import React from 'react'
+import React, {useState} from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import { usePopup } from 'state/application/hooks'
@@ -31,7 +31,7 @@ const NFTConfirm: React.FunctionComponent = () => {
   const history = useHistory()
 
   const auctionNFT = useAuctionNFT()
-
+  const [isBid] = useState<boolean>(auctionNFT ? auctionNFT.auction.isForBid : false)
   const popup = usePopup()
 
   if (!auctionNFT) {
@@ -45,10 +45,12 @@ const NFTConfirm: React.FunctionComponent = () => {
   return (
     <Container>
       <Left>
-        <TimerContainer>
-          <Text margin="0px 10px 0px 10px">{t('auctionsEndIn')}:</Text>
-          <Timer timeStamp={auctionNFT.auction.expireTimestamp} helperString="Auction"></Timer>
-        </TimerContainer>
+        { isBid && (
+          <TimerContainer>
+            <Text margin="0px 10px 0px 10px">{t('auctionsEndIn')}:</Text>
+            <Timer timeStamp={auctionNFT.auction.expireTimestamp} helperString="Auction"></Timer>
+          </TimerContainer>
+        )}
         <Rows>
           <Img src={uriToHttp(nft.dataHash)[1]} />
           <Column>

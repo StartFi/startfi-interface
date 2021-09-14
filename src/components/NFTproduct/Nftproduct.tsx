@@ -169,20 +169,22 @@ const Nftproduct = () => {
         ) : null}
 
         <BuyCard>
-          { isBid && topBid > 0 ? (
-            <LastBiddingContainer>
-              <Text fontFamily="Roboto" FontWeight="bold" fontSize="0.875rem" color="#323232" margin="0 23px 0px 0px">
-                {t('lastBidding')} :
-              </Text>
-              <Amount amount={topBid}></Amount>
-            </LastBiddingContainer>
-          ) : (
-            <LastBiddingContainer>
-              <Text fontFamily="Roboto" FontWeight="bold" fontSize="1rem" color="#323232" margin="15px auto">
-                {t('noBidding')}
-              </Text>
-            </LastBiddingContainer>
-          )}
+          {isBid ? (
+            topBid > 0 ? (
+              <LastBiddingContainer>
+                <Text fontFamily="Roboto" FontWeight="bold" fontSize="0.875rem" color="#323232" margin="0 23px 0px 0px">
+                  {t('lastBidding')} :
+                </Text>
+                <Amount amount={topBid}></Amount>
+              </LastBiddingContainer>
+            ) : (
+              <LastBiddingContainer>
+                <Text fontFamily="Roboto" FontWeight="bold" fontSize="1rem" color="#323232" margin="15px auto">
+                  {t('noBidding')}
+                </Text>
+              </LastBiddingContainer>
+            )
+          ) : null}
 
           <BuyButtons>
             <ButtonWishlist
