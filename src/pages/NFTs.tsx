@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { DropDownSort } from 'components/DropDown'
+import { DropDownSort } from '../UI/DropDown'
 import NTFCard from '../components/NFTcard/nftcard'
 import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
@@ -7,8 +7,8 @@ import { useTranslation } from 'react-i18next'
 import { useLoadTime, useMarketplace, useMarketplaceLoading } from 'state/marketplace/hooks'
 
 import { AuctionNFT } from 'services/models/AuctionNFT'
-import StartfiLoader from '../components/Loader/startfi'
-import Pagination from 'components/Pagination'
+import StartfiLoader from '../UI/Loader/startfi'
+import Pagination from '../UI/Pagination'
 import Gallery from '../assets/images/Group 62.png'
 import TabList from '../assets/images/Group 63.png'
 

@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import Wallet from 'components/Wallet'
 import Logo from '../../assets/svg/StartFi-c 1.svg'
-import { ButtonSearch } from 'components/Button'
-import { LinkCreateNFT } from 'components/Link'
-import { InputSearch } from 'components/Input/styles'
+import { ButtonSearch } from 'UI/Buttons/ButtonSearch'
+import { LinkCreateNFT } from '../../UI/Link'
+import { InputSearch } from '../../UI/Inputs/styles'
 import { useGetNFTs } from 'state/marketplace/hooks'
 import { useHistory } from 'react-router'
 import { ALL_CATEGORIES, DEFAULT_SORT, HEADER_DROPDOWN, TabIcons } from '../../constants'
 import { useTranslation } from 'react-i18next'
 import { useWalletAddress } from 'state/user/hooks'
-import { useLocationSearch } from 'hooks'
+import { useLocationSearch } from 'hooks/blockchain-hooks/useLocationSearch'
 import { ConnectWallet, FirstRow, Img, Search, Tab, TabsCategory } from './styles'
-import { DropDownCategory } from 'components/DropDown'
-import { useGetReserves } from 'hooks/startfiStakes'
+import { DropDownCategory } from '../../UI/DropDown'
+import { useGetReserves } from 'hooks/blockchain-hooks/startfiStakes'
 import { useWeb3React } from '@web3-react/core'
 import { usePopup } from 'state/application/hooks'
 
@@ -39,7 +39,6 @@ const MarketplaceHeader: React.FC = () => {
   useEffect(() => getNFTs({ category, search, sort: DEFAULT_SORT }), [category, search, getNFTs])
 
   const getDropDownChanges = async (value: any) => {
-    console.log(value)
     switch (value) {
       case 'WishList':
         history.push('/marketplace/wishList')
@@ -51,7 +50,6 @@ const MarketplaceHeader: React.FC = () => {
         history.push('')
         break
       case 'Stake':
-        console.log(';p;p')
         if (!account) return popup({ success: false, message: t('connectWallet') })
         getReserves(account)
         history.push('/marketplace/stakeTokens')

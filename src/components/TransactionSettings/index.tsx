@@ -3,8 +3,8 @@ import styled, { ThemeContext } from 'styled-components'
 
 import QuestionHelper from '../QuestionHelper'
 import { TYPE } from '../../theme'
-import { AutoColumn } from '../Column'
-import { RowBetween, RowFixed } from '../Row'
+import { AutoColumn } from 'UI/Column'
+import { RowBetween, RowFixed } from 'UI/Row'
 
 import { darken } from 'polished'
 
