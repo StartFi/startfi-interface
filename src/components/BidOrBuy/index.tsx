@@ -5,10 +5,9 @@ import { useHistory } from 'react-router'
 
 import { useBidOrBuyValue, useSetBidOrBuy, useIsValid } from 'state/marketplace/hooks'
 
-
-import { useSTFIBalance } from 'hooks/useSTFIBalance'
+import { useSTFIBalance } from 'hooks/blockchain-hooks/useSTFIBalance'
 import { Row } from 'theme'
-import Text from '../Text'
+import Text from '../../UI/Text'
 import {
   Balance,
   Container,
@@ -77,12 +76,12 @@ const BidOrBuy: React.FunctionComponent<BidOrBuyProps> = ({ bidOrBuy, isOpen, cl
           {t(title)}
           {showInvalidBidMessage ? (
             <Text
-              fontFamily='Roboto'
-              fontSize='0.7rem'
-              color='#ff0000'
-              spanWeight='800'
-              marginLeft='1rem'
-              margin='15px 0px 0px 0px'
+              fontFamily="Roboto"
+              fontSize="0.7rem"
+              color="#ff0000"
+              spanWeight="800"
+              marginLeft="1rem"
+              margin="15px 0px 0px 0px"
             >
               {invalidBidMessage}
             </Text>
@@ -98,19 +97,19 @@ const BidOrBuy: React.FunctionComponent<BidOrBuyProps> = ({ bidOrBuy, isOpen, cl
 
           <InputContainer>
             <STFI>STFI</STFI>
-            <Input type='number' value={value} onChange={(e: any) => setValue(e.target.value)} />
+            <Input type="number" value={value} onChange={(e: any) => setValue(e.target.value)} />
             <USD>
-              <USDPrice type='number' value={usd} />
+              <USDPrice type="number" value={usd} />
               <USDWord>USD</USDWord>
             </USD>
           </InputContainer>
           <Text
-            fontFamily='Roboto'
-            fontSize='0.7rem'
-            color='#ff0000'
-            spanWeight='600'
-            marginLeft='1rem'
-            margin='-40px 0px 20px 0px'
+            fontFamily="Roboto"
+            fontSize="0.7rem"
+            color="#ff0000"
+            spanWeight="600"
+            marginLeft="1rem"
+            margin="-40px 0px 20px 0px"
           >
             {t('minBidding')} :
             <span>

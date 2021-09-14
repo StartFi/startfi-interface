@@ -1,12 +1,12 @@
 import React from 'react'
 import { Media, CardImg, Card, Price, Text, Actions, Bid } from './nftcard.styles'
 import { useTranslation } from 'react-i18next'
-import ButtonWishlist from 'components/Button/ButtonWishlist'
-import { NftButton } from 'components/Button'
+import ButtonWishlist from 'UI/Buttons/ButtonWishlist'
+import { NftButton } from 'UI/Buttons/NftButton'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import uriToHttp from 'utils/uriToHttp'
 import Amount from 'components/NFTSummary/Amount'
-import Timer from 'components/Timer/Timer'
+import Timer from 'UI/Timer/Timer'
 import { ONE_DAY_MILLISECONDS } from '../../constants'
 import { useIsExpiredAuction } from 'state/marketplace/hooks'
 
@@ -41,21 +41,21 @@ const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid 
         <div>
           <Price>
             <Amount amount={listPrice}></Amount>
-            <Text fontFamily='Roboto' FontWight='400' fontSize='1.0rem' margin='15px 0px 5px 0px'>
+            <Text fontFamily="Roboto" FontWight="400" fontSize="1.0rem" margin="15px 0px 5px 0px">
               {cardContent.name}
             </Text>
             <div>
-              <Timer timeStamp={auctionNFT.auction.expireTimestamp} helperString='Auction'></Timer>
+              <Timer timeStamp={auctionNFT.auction.expireTimestamp} helperString="Auction"></Timer>
               {expired > 1 ? <Text> LEFT</Text> : null}
             </div>
           </Price>
         </div>
       </div>
       <Actions>
-        <ButtonWishlist nftId={nftId} type='NFTCard' disabled={expiredAuction} />
+        <ButtonWishlist nftId={nftId} type="NFTCard" disabled={expiredAuction} />
 
         <Bid>
-          <NftButton disabled={expiredAuction} onClick={() => placeBid(auctionNFT)} color='#ffffff'>
+          <NftButton disabled={expiredAuction} onClick={() => placeBid(auctionNFT)} color="#ffffff">
             {t('placeBid')}
           </NftButton>
         </Bid>

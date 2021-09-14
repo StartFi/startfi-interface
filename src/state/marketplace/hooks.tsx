@@ -25,19 +25,25 @@ import {
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
-import { useBid, useBuyNow, useCreateAuction, useDeList, useListOnMarketplace } from 'hooks/startfiMarketPlace'
-import { useApproveToken } from 'hooks/startfiToken'
-import { useMint } from 'hooks/startfiPaymentNft'
+import {
+  useBid,
+  useBuyNow,
+  useCreateAuction,
+  useDeList,
+  useListOnMarketplace
+} from 'hooks/blockchain-hooks/startfiMarketPlace'
+import { useApproveToken } from 'hooks/blockchain-hooks/startfiToken'
+import { useMint } from 'hooks/blockchain-hooks/startfiPaymentNft'
 import { getAuction } from 'services/database/Auction'
 import { getNFT } from 'services/database/NFT'
-import { useMarketplaceListener, useNftPaymentEventListener } from 'hooks/startfiEventListener'
+import { useMarketplaceListener, useNftPaymentEventListener } from 'hooks/blockchain-hooks/startfiEventListener'
 import { address as STARTFI_MARKETPLACE_ADDRESS } from '../../constants/abis/StartFiMarketPlace.json'
 import { useHistory } from 'react-router-dom'
-import { useAllowedSTFI } from 'hooks/useAllowedSTFI'
+import { useAllowedSTFI } from 'hooks/blockchain-hooks/useAllowedSTFI'
 import { address as STARTFI_NFT_PAYMENT_ADDRESS } from '../../constants/abis/StartFiNFTPayment.json'
-import { useAllowed } from 'hooks/useAllowed'
-import { useApproveNft } from 'hooks/startfiNft'
-import { useDigitizingFees } from 'hooks'
+import { useAllowed } from 'hooks/blockchain-hooks/useAllowed'
+import { useApproveNft } from 'hooks/blockchain-hooks/startfiNft'
+import { useDigitizingFees } from 'hooks/blockchain-hooks/useDigitizingFees'
 import { STEP } from './types'
 
 export const generateId =
@@ -120,12 +126,14 @@ export const useSetBidOrBuy = (): ((bidOrBuy: boolean, value: number) => void) =
   const dispatch = useDispatch()
   return useCallback((bidOrBuy: boolean, value: number) => dispatch(setBidOrBuy({ bidOrBuy, value })), [dispatch])
 }
-
-
+// get topBid
+export const useTopBid = () => {
+  return useSelector((state: AppState) => state.marketplace.topNftBid)
+}
 // block bidding if value less than minBid
 export const useIsValid = (value: number, minBid: number) => {
-  const topBid=useTopBid()
-  return useMemo(() => (!(value < minBid) &&value >topBid? true : false), [value, minBid,topBid])
+  const topBid = useTopBid()
+  return useMemo(() => (!(value < minBid) && value > topBid ? true : false), [value, minBid, topBid])
 }
 export const useSaveNFT = (): ((nft: NFT) => void) => {
   const dispatch = useDispatch()
@@ -215,7 +223,6 @@ export const useAddToMarketplace = (): (() => void) => {
   useMarketplaceListener(nft)
   return useCallback(() => {
     if (seller && chainId && auction && nft) {
-
       if (auction.isForSale && !auction.isForBid)
         listOnMarketplace(auction.contractAddress, nft.id, auction.listingPrice as number)
       else

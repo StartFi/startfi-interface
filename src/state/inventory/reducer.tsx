@@ -29,7 +29,6 @@ export default createReducer(initialState, builder => {
     })
     .addCase(addToInventory.fulfilled, (state, action) => {
       const success = action.payload.status === 'success'
-  
       if (action.payload.type === InventoryType.Draft) {
         state.popup = {
           success,

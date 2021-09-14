@@ -49,5 +49,5 @@ export const setMissing = createAction<{ missing: string[] }>('marketplace/setMi
 
 export const removeMissing = createAction<{ name: string }>('marketplace/removeMissing')
 
-export const getBids=createAsyncThunk('marketplace/getNFTBidsAction', getNftBids)
+export const getBids = createAsyncThunk('marketplace/getNFTBidsAction', getNftBids)
 export const getTopBid = createAction<{ topBid: number }>('marketplace/nftTopBid')

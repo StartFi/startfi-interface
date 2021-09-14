@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { NFT } from 'services/models/NFT'
 import uriToHttp from 'utils/uriToHttp'
-import Text from '../Text'
+import Text from '../../UI/Text'
 import { CardContent, MiniInvCard, TagContainer, TextContainer, Image } from './InvHome.styles'
 import NoImage from '../../assets/images/no-image-icon-23483.png'
 
