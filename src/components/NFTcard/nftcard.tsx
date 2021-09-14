@@ -27,7 +27,8 @@ const expiredAuction=useIsExpiredAuction(auctionNFT)
 
   const listPrice = auctionNFT?.auction?.listingPrice
 
-
+  const nftId = parseInt(cardContent.id)
+  const expiredAuction = useIsExpiredAuction(auctionNFT)
 
 
   return (
@@ -60,9 +61,11 @@ const expiredAuction=useIsExpiredAuction(auctionNFT)
 
 
 
-        <ButtonWishlist nftId={cardContent.id} type='NFTCard' disabled={expiredAuction} />
 
-        <ButtonWishlist nftId={cardContent.id} type="NFTCard" disabled={expiredAuction} />
+    
+
+
+        <ButtonWishlist nftId={nftId} type="NFTCard" disabled={expiredAuction} />
 
         <Bid>
           <NftButton disabled={expiredAuction} onClick={() => placeBid(auctionNFT)} color="#ffffff">

@@ -51,7 +51,7 @@ const MarketplaceHeader: React.FC = () => {
         history.push('')
         break
       case 'Stake':
-        
+
         if (!account) return popup({ success: false, message: t('connectWallet') })
         getReserves(account)
         history.push('/marketplace/stakeTokens')

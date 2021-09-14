@@ -251,8 +251,6 @@ export const useSaveDraft = (): (() => void) => {
     if (!user) return popup({ success: false, message: 'connectWallet' })
     const invItem = setInvItem(user, InventoryType.Draft, { ...draft, id: generateId }, draft.issueDate)
 
-
-
     if (step < 6) saveInvItem(invItem)
     else history.push('/inventory/off-market/' + draft.id)
   }, [history, step, user, draft, popup, dispatch])
@@ -313,7 +311,10 @@ export const useUserWishList = (): AuctionNFT[] => {
   const marketPlace = useMarketplace()
   return useMemo(() => {
     return marketPlace.filter(e => {
-      return user?.wishlist.includes(e.nft.id)
+      const id = parseInt(e.nft.id)
+      console.log(id)
+
+      return user?.wishlist.includes(id)
     })
   }, [user, marketPlace])
 }

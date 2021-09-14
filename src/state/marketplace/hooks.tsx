@@ -215,7 +215,7 @@ export const useAddToMarketplace = (): (() => void) => {
   useMarketplaceListener(nft)
   return useCallback(() => {
     if (seller && chainId && auction && nft) {
-     
+
       if (auction.isForSale && !auction.isForBid)
         listOnMarketplace(auction.contractAddress, nft.id, auction.listingPrice as number)
       else
@@ -511,5 +511,9 @@ export const useSetDraftNft = () => {
 
 // check expired Auction
 export const useIsExpiredAuction = (auction: AuctionNFT | null) => {
-  return useMemo(() => (auction ? (auction?.auction?.expireTimestamp < Date.now() ? true : false) : false), [auction])
+  return useMemo(
+    () =>
+      auction ? (auction?.auction?.expireTimestamp < Date.now() && !auction?.auction?.isForSale ? true : false) : false,
+    [auction]
+  )
 }

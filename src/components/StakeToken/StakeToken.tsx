@@ -80,7 +80,6 @@ const StakeToken = () => {
                 setStep(2)
               })
               .catch(e => {
-                console.log(e)
                 popup({ success: false, message: e.code === 4001 ? t('userRejectTransaction') : t('error') })
                 setLoader(false)
                 setCancelState(false)

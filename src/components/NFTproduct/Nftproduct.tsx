@@ -101,6 +101,12 @@ const Nftproduct = () => {
       </div>
     )
 
+
+
+  const nftId = parseInt(nft)
+  const imgUrl = uriToHttp(`${auctionNFT?.nft?.dataHash}`)[1]
+
+
   const noStakes =
     balance &&
     auctionNFT &&

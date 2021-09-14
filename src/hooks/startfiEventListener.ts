@@ -211,7 +211,9 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
         const auctionId = auctionNFT?.auction.id || ''
         const buyer = seller || ''
         const soldPrice = 10
-      
+
+
+
         dispatch(buyNFTAction({ nftId, auctionId, buyer, soldPrice }))
         dispatch(addNewEvent({ eventName: 'BuyNow', eventValue }))
       })
