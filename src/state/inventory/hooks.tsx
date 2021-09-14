@@ -100,7 +100,7 @@ export const useGetUserOnMarket = () => {
 // get onMarket single item
 export const useOnMarketItem = (nftId: string): Inventory => {
   const onMarket: Inventory[] = useGetUserOnMarket()
-  console.log(nftId)
+
   return useMemo(() => onMarket?.filter(invItem => invItem.nft.id === nftId)[0], [onMarket, nftId])
 }
 // inv popup

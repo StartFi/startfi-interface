@@ -21,7 +21,7 @@ const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid 
   const cardContent = auctionNFT.nft
   const expired = auctionNFT.auction.expireTimestamp - Date.now()
   const listPrice = auctionNFT?.auction?.listingPrice
-
+  const nftId = parseInt(cardContent.id)
   const expiredAuction = useIsExpiredAuction(auctionNFT)
 
   return (
@@ -50,7 +50,7 @@ const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid 
         </div>
       </div>
       <Actions>
-        <ButtonWishlist nftId={cardContent.id} type="NFTCard" disabled={expiredAuction} />
+        <ButtonWishlist nftId={nftId} type="NFTCard" disabled={expiredAuction} />
         <Bid>
           <NftButton disabled={expiredAuction} onClick={() => placeBid(auctionNFT)} color="#ffffff">
             {t('placeBid')}
