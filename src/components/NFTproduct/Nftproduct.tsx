@@ -77,7 +77,8 @@ const Nftproduct = () => {
   const listingPrice: number = auctionNFT?.auction?.listingPrice as number
 
   useGetAuctionNFT(nft, auction)
-  const [isBid] = useState<boolean>(auctionNFT ? auctionNFT.auction.isForBid : false)
+  const [isBid, setBid] = useState<boolean>(false)
+  const [isSale, setSale] = useState<boolean>(false)
   const expiredAuction = useIsExpiredAuction(auctionNFT)
 
   useGetAuctionNFT(nft, auction)
@@ -85,6 +86,8 @@ const Nftproduct = () => {
   useEffect(() => {
     if (auctionNFT) {
       winnerBid(auctionNFT?.auction.id)
+      setBid(auctionNFT.auction.isForBid)
+      setSale(auctionNFT.auction.isForSale)
     }
   }, [auctionNFT])
 
@@ -169,7 +172,7 @@ const Nftproduct = () => {
         ) : null}
 
         <BuyCard>
-          {isBid ? (
+          {isBid && !expiredAuction ? (
             topBid > 0 ? (
               <LastBiddingContainer>
                 <Text fontFamily="Roboto" FontWeight="bold" fontSize="0.875rem" color="#323232" margin="0 23px 0px 0px">
@@ -186,7 +189,7 @@ const Nftproduct = () => {
             )
           ) : null}
 
-          <BuyButtons>
+            <BuyButtons>
             <ButtonWishlist
               nftId={nftId}
               type="NFTProduct"
@@ -209,16 +212,31 @@ const Nftproduct = () => {
               </PlaceBid>
             ) : null}
           </BuyButtons>
-          <BuyNow>
-            <button
-              onClick={() => {
-                setValue(false, listingPrice)
-                history.push('/marketplace/buyorbid')
-              }}
-            >
-              {t('buy')} {listingPrice}$
-            </button>
-          </BuyNow>
+          {isBid && isSale && (
+            <BuyNow>
+              <button
+                onClick={() => {
+                  setValue(false, listingPrice)
+                  history.push('/marketplace/buyorbid')
+                }}
+                disabled={expiredAuction}
+              >
+                {t('buy')} {listingPrice}$
+              </button>
+            </BuyNow>
+          )}
+          {isSale && !isBid && (
+            <BuyNow>
+              <button
+                onClick={() => {
+                  setValue(false, listingPrice)
+                  history.push('/marketplace/buyorbid')
+                }}
+              >
+                {t('buy')} {listingPrice}$
+              </button>
+            </BuyNow>
+          )}
         </BuyCard>
 
         <PublisherCard height="91px">
