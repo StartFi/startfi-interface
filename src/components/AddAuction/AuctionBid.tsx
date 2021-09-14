@@ -1,5 +1,5 @@
 import React from 'react'
-import InputSTFI from 'components/Input/InputSTFI'
+import InputSTFI from 'UI/Inputs/InputSTFI'
 import OpenFor from './OpenFor'
 import { useAddAuction } from 'state/marketplace/hooks'
 

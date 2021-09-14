@@ -4,9 +4,10 @@ import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 
 import { network } from '../../connectors'
-import { useEagerConnect, useInactiveListener } from '../../hooks'
+import { useEagerConnect } from '../../hooks/blockchain-hooks/useEagerConnect'
+import { useInactiveListener } from '../../hooks/blockchain-hooks/useInactiveListener'
 import { NetworkContextName } from '../../constants'
-import Loader from '../Loader'
+import Loader from '../../UI/Loader'
 
 const MessageWrapper = styled.div`
   display: flex;

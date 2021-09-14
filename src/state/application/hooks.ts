@@ -1,7 +1,7 @@
 import { PopupContent } from './../../constants'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React } from '../../hooks/blockchain-hooks/useActiveWeb3React'
 import { AppDispatch, AppState } from '../index'
 import { addPopup, ApplicationModal, PopupContent as PC, removePopup, setOpenModal } from './actions'
 

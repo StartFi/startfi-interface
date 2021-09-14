@@ -4,7 +4,7 @@ import { TYPE, ExternalLink } from '../../theme'
 
 import { useBlockNumber } from '../../state/application/hooks'
 import { getEtherscanLink } from '../../utils'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React } from '../../hooks/blockchain-hooks/useActiveWeb3React'
 // import { UserDoc } from 'services/firebase/firebaseStore'
 // import { useAddUserDoc } from 'state/user/hooks'
 
