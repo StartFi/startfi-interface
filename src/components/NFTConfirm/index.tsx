@@ -1,5 +1,5 @@
 import Timer from 'UI/Timer/Timer'
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import { usePopup } from 'state/application/hooks'
@@ -45,7 +45,7 @@ const NFTConfirm: React.FunctionComponent = () => {
   return (
     <Container>
       <Left>
-        { isBid && (
+        {isBid && (
           <TimerContainer>
             <Text margin="0px 10px 0px 10px">{t('auctionsEndIn')}:</Text>
             <Timer timeStamp={auctionNFT.auction.expireTimestamp} helperString="Auction"></Timer>
