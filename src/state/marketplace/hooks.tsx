@@ -121,12 +121,8 @@ export const useSetBidOrBuy = (): ((bidOrBuy: boolean, value: number) => void) =
   return useCallback((bidOrBuy: boolean, value: number) => dispatch(setBidOrBuy({ bidOrBuy, value })), [dispatch])
 }
 
-
 // block bidding if value less than minBid
-export const useIsValid = (value: number, minBid: number) => {
-  const topBid=useTopBid()
-  return useMemo(() => (!(value < minBid) &&value >topBid? true : false), [value, minBid,topBid])
-}
+
 export const useSaveNFT = (): ((nft: NFT) => void) => {
   const dispatch = useDispatch()
   return useCallback((nft: NFT) => dispatch(saveNFT({ nft })), [dispatch])
@@ -215,7 +211,6 @@ export const useAddToMarketplace = (): (() => void) => {
   useMarketplaceListener(nft)
   return useCallback(() => {
     if (seller && chainId && auction && nft) {
-
       if (auction.isForSale && !auction.isForBid)
         listOnMarketplace(auction.contractAddress, nft.id, auction.listingPrice as number)
       else
@@ -275,6 +270,12 @@ export const usePlaceBid = (): (() => void) => {
 export const useTopBid = () => {
   return useSelector((state: AppState) => state.marketplace.topNftBid)
 }
+
+export const useIsValid = (value: number, minBid: number) => {
+  const topBid = useTopBid()
+  return useMemo(() => (!(value < minBid) && value > topBid ? true : false), [value, minBid, topBid])
+}
+
 export const useBuyNFT = (): (() => void) => {
   const buyNow = useBuyNow()
   const buyer = useUserAddress()

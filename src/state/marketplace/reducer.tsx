@@ -54,7 +54,7 @@ export interface MarketplaceState {
   step: STEP
   missing: string[]
   NftBids: Bid[]
-  topNftBid:number
+  topNftBid: number
 }
 
 const initialState: MarketplaceState = {
@@ -76,7 +76,7 @@ const initialState: MarketplaceState = {
   step: 1,
   missing: [],
   NftBids: [],
-  topNftBid:0
+  topNftBid: 0
 }
 
 export default createReducer(initialState, builder =>
@@ -205,12 +205,16 @@ export default createReducer(initialState, builder =>
       newMissing.splice(newMissing.indexOf(action.payload.name), 1)
       state.missing = newMissing
     })
-    .addCase(getBids.pending, (state, action) => {})
+    .addCase(getBids.pending, (state, action) => {
+      return
+    })
     .addCase(getBids.fulfilled, (state, action) => {
       state.NftBids = action.payload.bids
     })
-    .addCase(getBids.rejected, (state, action) => {})
+    .addCase(getBids.rejected, (state, action) => {
+      return
+    })
     .addCase(getTopBid, (state, action) => {
-      state.topNftBid= action.payload.topBid
+      state.topNftBid = action.payload.topBid
     })
 )
