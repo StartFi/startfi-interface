@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { useRemovePopup } from '../../state/application/hooks'
 import { TYPE } from '../../theme'
 import listVersionLabel from '../../utils/listVersionLabel'
-import { ButtonSecondary } from '../Buttons'
+import { ButtonSecondary } from '../Buttons/ButtonSecondary'
 import { AutoColumn } from '../Column'
 import { AutoRow } from '../Row'
 

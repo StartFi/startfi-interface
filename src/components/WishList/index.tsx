@@ -1,4 +1,4 @@
-import { ButtonOutlined } from 'UI/Buttons'
+import { ButtonOutlined } from 'UI/Buttons/ButtonOutlined'
 import { ContainerCard } from '../../UI/Card'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

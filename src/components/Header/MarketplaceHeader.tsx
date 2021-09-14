@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Wallet from 'components/Wallet'
 import Logo from '../../assets/svg/StartFi-c 1.svg'
-import { ButtonSearch } from 'UI/Buttons'
+import { ButtonSearch } from 'UI/Buttons/ButtonSearch'
 import { LinkCreateNFT } from '../../UI/Link'
 import { InputSearch } from '../../UI/Input/styles'
 import { useGetNFTs } from 'state/marketplace/hooks'

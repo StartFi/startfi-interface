@@ -3,9 +3,9 @@ import { ButtonTransparentBorder } from 'components/NFTConfirm/styles'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWishlist } from 'state/user/hooks'
-import { NftButton } from '.'
-import Heart from '../../assets/svg/Path.svg'
-import RemoveWish from '../../assets/images/removeWish.png'
+import { NftButton } from '../NftButton'
+import Heart from '../../../assets/svg/Path.svg'
+import RemoveWish from '../../../assets/images/removeWish.png'
 
 interface ButtonWishlistProps {
   nftId: number

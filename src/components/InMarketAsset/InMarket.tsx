@@ -16,7 +16,8 @@ import {
   AmountContainer
 } from './InMarket.styles'
 import { Auction } from 'services/models/Auction'
-import { ButtonMintBack, DelistButton } from 'UI/Buttons'
+import { ButtonMintBack } from 'UI/Buttons/ButtonMintBack'
+import { DelistButton } from 'UI/Buttons/DelistButton'
 import { useTranslation } from 'react-i18next'
 import DelistCard from 'components/DelistCard/DelistCard'
 

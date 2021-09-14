@@ -6,7 +6,7 @@ import { CheckContainer, DelistButton } from 'components/DelistCard/DelistCard.s
 import { useTranslation } from 'react-i18next'
 
 import { STFI, USD, USDPrice, USDWord, Input } from 'components/BidOrBuy/styles'
-import { ButtonMint } from 'UI/Buttons'
+import { ButtonMint } from 'UI/Buttons/ButtonMint'
 
 import { useApproveToken } from 'hooks/startfiToken'
 import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/StartfiStakes.json'

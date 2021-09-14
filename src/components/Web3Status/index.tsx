@@ -16,7 +16,7 @@ import { useWalletModalToggle } from '../../state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from '../../state/transactions/hooks'
 import { TransactionDetails } from '../../state/transactions/reducer'
 import { shortenAddress } from '../../utils'
-import { ButtonSecondary } from '../../UI/Buttons'
+import { ButtonSecondary } from '../../UI/Buttons/ButtonSecondary'
 
 import Identicon from '../Identicon'
 import Loader from '../../UI/Loader'

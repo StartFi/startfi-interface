@@ -13,7 +13,7 @@ import {
   useUserSingleHopOnly
 } from '../../state/user/hooks'
 import { TYPE } from '../../theme'
-import { ButtonError } from '../Buttons'
+import { ButtonError } from '../Buttons/ButtonError'
 import { AutoColumn } from '../Column'
 import Modal from '../Modal'
 import QuestionHelper from '../../components/QuestionHelper'
