@@ -295,7 +295,6 @@ export const usePlaceBid = (): (() => void) => {
   }, [bidPrice, auctionNFT, bidWeb3, setWalletConfirmation])
 }
 
-
 export const useBuyNFT = (): (() => void) => {
   const buyNow = useBuyNow()
   const buyer = useUserAddress()
@@ -488,7 +487,7 @@ export const useAddAuction = () => {
         const minQualify = parseInt(process.env.REACT_APP_MIN_QUALIFY_AMOUNT)
         if (
           (isForSale && listingPrice && listingPrice > 0) ||
-          (isForBid && minBid && minBid > 0 && qualifyAmount && qualifyAmount > minQualify && expireTimestamp > 0)
+          (isForBid && minBid && minBid > 0 && qualifyAmount && qualifyAmount >= minQualify && expireTimestamp > 0)
         ) {
           setStep(STEP.AUCTION_SUMMARY)
           history.push('/mint/summary')
