@@ -34,7 +34,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import { useAuctionNFT, useGetAuctionNFT, useSetBidOrBuy, useIsExpiredAuction } from 'state/marketplace/hooks'
 import uriToHttp from 'utils/uriToHttp'
 import { AuctionNFT } from 'services/models/AuctionNFT'
-import { useUserBalance } from 'state/user/hooks'
+import { useNeedMoreStack, useUserBalance } from 'state/user/hooks'
 import Timer from 'components/Timer/Timer'
 import Amount from 'components/NFTSummary/Amount'
 import StringModifier from 'utils/StringSplice'
@@ -69,6 +69,7 @@ const Nftproduct = () => {
 
   const balance = useUserBalance()
   const setValue = useSetBidOrBuy()
+  const needStack=useNeedMoreStack()
 
   if (!nft || !auction) {
     popup({ success: false, message: 'noNFT' })
@@ -88,9 +89,10 @@ const Nftproduct = () => {
 
   const noStakes =
     balance &&
-    auctionNFT &&
-    ((auctionNFT.auction.listingPrice && parseFloat(balance) < auctionNFT.auction.listingPrice) ||
-      (auctionNFT.auction.minBid && parseFloat(balance) < auctionNFT.auction.minBid))
+    auctionNFT &&needStack
+
+    // ((auctionNFT.auction.listingPrice && parseFloat(balance) < auctionNFT.auction.listingPrice) ||
+    //   (auctionNFT.auction.minBid && parseFloat(balance) < auctionNFT.auction.minBid))
 
   const showScroll = (readMore: boolean) => {
     readMore ? setIsReadMore('scroll') : setIsReadMore('')

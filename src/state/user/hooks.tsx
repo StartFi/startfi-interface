@@ -37,6 +37,8 @@ import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/Startfi
 import { useGetAllowance } from 'hooks/startfiToken'
 import { setInvItem, useSaveInvItem } from 'state/inventory/hooks'
 import { InventoryType } from 'services/models/Inventory'
+import { useSTFIBalance } from 'hooks/useSTFIBalance'
+import { useGetReserves } from 'hooks/startfiStakes'
 
 function serializeToken(token: Token): SerializedToken {
   return {
@@ -410,6 +412,22 @@ export const useClearUserPopup = (): (() => void) => {
 // get user stack balance
 export const useStakeBalance = (): number => {
   return useSelector((state: AppState) => state.user.stakeBalance)
+}
+
+// need more stack
+export const useNeedMoreStack = () => {
+  const owner = useUserAddress()
+  const getReserves = useGetReserves()
+  const stackBalance = useStakeBalance()
+  if (owner) {
+    getReserves(owner)
+  }
+
+  const minQualifyAmount = process.env.REACT_APP_MIN_QUALIFY_AMOUNT
+  return useMemo(() => (minQualifyAmount ? (stackBalance < parseInt(minQualifyAmount) ? true : false) : false), [
+    stackBalance,
+    owner
+  ])
 }
 
 // get deposit stack state
