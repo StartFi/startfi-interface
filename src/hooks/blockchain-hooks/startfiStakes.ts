@@ -6,7 +6,6 @@ import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { updateStakeBalance, updateStackDepositState } from 'state/user/actions'
 import { useDispatch } from 'react-redux'
-import { utils } from 'ethers'
 
 export const useDeposit = (): ((user: string, amount: string | number) => any) => {
   const { account, library } = useActiveWeb3React()
@@ -44,7 +43,7 @@ export const useGetReserves = (): ((owner: string) => any) => {
     async (owner: string) => {
       try {
         const userReserved = await evaluateTransaction(contract, 'getReserves', [owner])
-        const reserved = utils.formatEther(userReserved)
+        const reserved = userReserved.toHexString()
 
         dispatch(updateStakeBalance({ stakeBalance: parseInt(reserved, 16) }))
         return reserved
