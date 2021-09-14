@@ -3,8 +3,10 @@ import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from './useActiveWeb3React'
-import { useStartFiPayment, useStartFiNft, useStartFiReputation, parseBigNumber } from './useContract'
+import { useStartFiPayment, useStartFiNft, useStartFiReputation } from './useContract'
 import { ROLES } from 'constants/index'
+import parseBigNumber from 'utils/parseBigNumber'
+import { utils } from 'ethers'
 
 export const useNftInfo = () => {
   const contract = useStartFiNft(false)
@@ -104,7 +106,7 @@ export const useNftBalance = (): ((address: string) => any) => {
       const getBalance = async () => {
         try {
           const balance = await evaluateTransaction(contract, 'balanceOf', [address])
-          return balance.toHexString()
+          return utils.formatEther(balance)
         } catch (e) {
           console.log(e)
           return e

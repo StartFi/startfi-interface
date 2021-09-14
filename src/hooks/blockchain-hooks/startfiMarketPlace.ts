@@ -1,11 +1,13 @@
 import { getTopBid } from '../../state/marketplace/actions'
 import { useCallback } from 'react'
-import { parseBigNumber, useStartFiMarketplace } from './useContract'
+import { useStartFiMarketplace } from './useContract'
 import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { useDispatch } from 'react-redux'
+import parseBigNumber from 'utils/parseBigNumber'
+import { utils } from 'ethers'
 
 export const useListOnMarketplace = (): ((
   nftContract: string,
@@ -226,7 +228,7 @@ export const useGetUserReserved = (): ((userAddress: string) => any) => {
     async (userAddress: string) => {
       try {
         const userReserved = await evaluateTransaction(contract, 'getUserReserved', [userAddress])
-        const reserved = userReserved.toHexString()
+        const reserved = utils.formatEther(userReserved)
         return reserved
       } catch (e) {
         console.log(e)
@@ -242,7 +244,7 @@ export const useGetServiceFee = () => {
   return useCallback(async () => {
     try {
       const userReserved = await evaluateTransaction(contract, 'getServiceFee', [])
-      return userReserved.toHexString()
+      return utils.formatEther(userReserved)
     } catch (e) {
       console.log(e)
       return { error: e }

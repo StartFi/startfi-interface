@@ -5,7 +5,7 @@ import ButtonWishlist from 'UI/Buttons/ButtonWishlist'
 import { NftButton } from 'UI/Buttons/NftButton'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import uriToHttp from 'utils/uriToHttp'
-import Amount from 'components/NFTSummary/Amount'
+import DisplayBalance from 'components/NFTSummary/DisplayBalance'
 import Timer from 'UI/Timer/Timer'
 import { ONE_DAY_MILLISECONDS } from '../../constants'
 import { useIsExpiredAuction } from 'state/marketplace/hooks'
@@ -40,7 +40,7 @@ const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid 
         </Media>
         <div>
           <Price>
-            <Amount amount={listPrice}></Amount>
+            <DisplayBalance amount={listPrice}></DisplayBalance>
             <Text fontFamily="Roboto" FontWight="400" fontSize="1.0rem" margin="15px 0px 5px 0px">
               {cardContent.name}
             </Text>

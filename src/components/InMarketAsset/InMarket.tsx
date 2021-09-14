@@ -22,7 +22,7 @@ import { useTranslation } from 'react-i18next'
 import DelistCard from 'components/DelistCard/DelistCard'
 
 import { Footer } from 'components/OffMarket/OffMarket.styles'
-import Amount from 'components/NFTSummary/Amount'
+import DisplayBalance from 'components/NFTSummary/DisplayBalance'
 
 import Timer from 'UI/Timer/Timer'
 import { useOnMarketItem } from 'state/inventory/hooks'
@@ -167,7 +167,7 @@ const InMarket = () => {
                   <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="3.40rem">
                     {t('IssueRoyaltyShare')}
                   </Text>
-                  <Amount amount={nft?.royalty}></Amount>
+                  <DisplayBalance amount={nft?.royalty}></DisplayBalance>
                 </AmountContainer>
               </TextContainer>
             </Card>
@@ -186,7 +186,7 @@ const InMarket = () => {
                     >
                       {t('pricing')}
                     </Text>
-                    <Amount amount={auction?.listingPrice || 0}></Amount>
+                    <DisplayBalance amount={auction?.listingPrice || 0}></DisplayBalance>
                   </AmountContainer>
                   <Divider width="95%"></Divider>
 
@@ -195,7 +195,7 @@ const InMarket = () => {
                       <Text fontFamily="Roboto" fontSize="1rem" color="#444444" margin="15px 13px 15px 0px">
                         {t('minBiding')}
                       </Text>
-                      {auction?.minBid ? <Amount amount={auction?.minBid}></Amount> : null}
+                      {auction?.minBid ? <DisplayBalance amount={auction?.minBid}></DisplayBalance> : null}
                     </AmountContainer>
                   </div>
 
@@ -218,7 +218,9 @@ const InMarket = () => {
                       <Text fontFamily="Roboto" fontSize="1rem" color="#444444" margin="15px 30px 15px 0px">
                         {t('qualifyAmount')}
                       </Text>
-                      {auction?.qualifyAmount ? <Amount amount={auction?.qualifyAmount}></Amount> : null}
+                      {auction?.qualifyAmount ? (
+                        <DisplayBalance amount={auction?.qualifyAmount}></DisplayBalance>
+                      ) : null}
                     </AmountContainer>
                   </div>
                 </TextContainer>

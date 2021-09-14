@@ -45,9 +45,9 @@ import { AuctionNFT } from 'services/models/AuctionNFT'
 
 import { useNeedMoreStack, useUserBalance } from 'state/user/hooks'
 
-import Timer from '../../UI/Timer/Timer'
+import Timer from 'UI/Timer/Timer'
+import DisplayBalance from 'components/NFTSummary/DisplayBalance'
 
-import Amount from 'components/NFTSummary/Amount'
 import StringModifier from 'utils/StringSplice'
 import Text from '../../UI/Text'
 import StartfiLoader from '../../UI/Loader/startfi'
@@ -178,7 +178,7 @@ const Nftproduct = () => {
               <Text fontFamily="Roboto" FontWeight="bold" fontSize="0.875rem" color="#323232" margin="0 23px 0px 0px">
                 {t('lastBidding')} :
               </Text>
-              <Amount amount={topBid}></Amount>
+              <DisplayBalance amount={topBid}></DisplayBalance>
             </LastBiddingContainer>
           ) : (
             <LastBiddingContainer>

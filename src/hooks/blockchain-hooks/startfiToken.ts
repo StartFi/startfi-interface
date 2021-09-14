@@ -16,7 +16,7 @@ export const useTokenInfo = () => {
         const symbol = await evaluateTransaction(contract, 'symbol', [])
         const decimals = await evaluateTransaction(contract, 'decimals', [])
         const totalSupply = await evaluateTransaction(contract, 'totalSupply', [])
-        const totalSupplyHex = totalSupply.toHexString()
+        const totalSupplyHex = utils.formatEther(totalSupply)
         return {
           name,
           symbol,
@@ -40,7 +40,7 @@ export const useTokenBalance = (): ((address: string) => any) => {
         try {
           const balance = await evaluateTransaction(contract, 'balanceOf', [address])
 
-          return abbreviate(utils.formatEther(balance).toString())
+          return utils.formatEther(balance)
         } catch (e) {
           console.log(e)
           return e
@@ -59,7 +59,7 @@ export const useGetAllowance = (): ((owner: string, spender: string) => any) => 
       const getAllowance = async () => {
         try {
           const allowance = await evaluateTransaction(contract, 'allowance', [owner, spender])
-          return allowance.toHexString()
+          return utils.formatEther(allowance)
         } catch (e) {
           console.log(e)
           return { error: e }
