@@ -1,13 +1,11 @@
-import { getTopBid } from './../state/marketplace/actions';
+import { getTopBid } from './../state/marketplace/actions'
 import { useCallback } from 'react'
 import { parseBigNumber, useStartFiMarketplace } from './useContract'
 import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from 'hooks'
-import { useDispatch } from 'react-redux';
-
-
+import { useDispatch } from 'react-redux'
 
 export const useListOnMarketplace = (): ((
   nftContract: string,
@@ -269,9 +267,9 @@ export const useWinnerBid = (): ((listingId: string | number) => any) => {
   return useCallback(
     async (listingId: string | number) => {
       const bidWinner = await evaluateTransaction(contract, 'winnerBid', [listingId])
-      const {bidPrice}=bidWinner
-      const topBid=parseInt( bidPrice._hex,16)
-      dispatch(getTopBid({topBid}))
+      const { bidPrice } = bidWinner
+      const topBid = parseInt(bidPrice._hex, 16)
+      dispatch(getTopBid({ topBid }))
       return bidWinner
     },
     [contract]
