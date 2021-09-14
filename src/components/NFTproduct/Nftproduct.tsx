@@ -75,7 +75,6 @@ const Nftproduct = () => {
   const topBid = useTopBid()
   const listingPrice: number = auctionNFT?.auction?.listingPrice as number
 
-
   useGetAuctionNFT(nft, auction)
 
   const expiredAuction = useIsExpiredAuction(auctionNFT)
@@ -100,12 +99,6 @@ const Nftproduct = () => {
         <StartfiLoader></StartfiLoader>
       </div>
     )
-
-
-
-  const nftId = parseInt(nft)
-  const imgUrl = uriToHttp(`${auctionNFT?.nft?.dataHash}`)[1]
-
 
   const noStakes =
     balance &&
