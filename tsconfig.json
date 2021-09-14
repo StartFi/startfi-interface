@@ -26,5 +26,5 @@
     "baseUrl": "src"
   },
   "exclude": ["node_modules", "cypress"],
-  "include": ["./src/**/*.ts", "./src/**/*.tsx", "src/components"]
+  "include": ["./src/**/*.ts", "./src/**/*.tsx", "src/components","src/UI", "src/UI/Settings", "src/UI/Buttons", "src/UI/Tooltip", "src/UI/ReadMore"]
 }

@@ -1,4 +1,4 @@
-import { LinkCreateNFT } from 'components/Link'
+import { LinkCreateNFT } from 'UI/Link'
 import Wallet from 'components/Wallet'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

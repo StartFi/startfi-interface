@@ -1,7 +1,7 @@
 import React from 'react'
 import EditableBox from 'components/NFTSummary/EditableBox'
 import uriToHttp from 'utils/uriToHttp'
-import { Tag } from 'components/Tags/styles'
+import { Tag } from '../../UI/Tags/styles'
 import {
   DataWidth,
   Label,

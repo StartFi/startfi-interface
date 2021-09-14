@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import Text from '../Text'
-import Card from 'components/Card'
+import Text from '../../UI/Text'
+import Card from '../../UI/Card'
 import { BalanceContainer, InputContainer, StokeTokenFooter } from './StakeToken.styles'
 import { CheckContainer, DelistButton } from 'components/DelistCard/DelistCard.style'
 import { useTranslation } from 'react-i18next'
 
 import { STFI, USD, USDPrice, USDWord, Input } from 'components/BidOrBuy/styles'
-import { ButtonMint } from 'components/Button'
+import { ButtonMint } from 'UI/Buttons/ButtonMint'
 
-import { useApproveToken } from 'hooks/startfiToken'
+import { useApproveToken } from 'hooks/blockchain-hooks/startfiToken'
 import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/StartfiStakes.json'
 import { usePopup } from 'state/application/hooks'
 import StakeTokenCard from 'components/stakeTokenCard/StakeTokenCard'
 import StakeTokenSuccess from './StakeTokenSuccess'
 import { useDepositStackState, useGetStakeAllowance, useStakeBalance, useUserAddress } from 'state/user/hooks'
-import { useDeposit, useGetReserves } from 'hooks/startfiStakes'
+import { useDeposit, useGetReserves } from 'hooks/blockchain-hooks/startfiStakes'
 import { useSTFItoUSD } from 'hooks/useSTFItoUSD'
-import { useSTFIBalance } from 'hooks/useSTFIBalance'
+import { useSTFIBalance } from 'hooks/blockchain-hooks/useSTFIBalance'
 
 import { LoadingIcon } from 'components/WaitingConfirmation/styles'
 import Loading from './../../assets/icons/buttonloader.svg'
@@ -73,19 +73,15 @@ const StakeToken = () => {
         setLoader(true)
         if (owner) {
           if (!allowStaking || value > allowedAmount) {
-            approveToken(STARTFI_STAKES_ADDRESSS, value)
-              .then(res => {
-                setLoader(false)
+            approveToken(STARTFI_STAKES_ADDRESSS, value).then(transaction => {
+              setLoader(false)
+              if (transaction && transaction.error) {
+                popup({ success: false, message: transaction.error.message })
+              } else {
                 setButtonText(t('increaseStake'))
                 setStep(2)
-              })
-              .catch(e => {
-                console.log(e)
-                popup({ success: false, message: e.code === 4001 ? t('userRejectTransaction') : t('error') })
-                setLoader(false)
-                setCancelState(false)
-                setOpenModal(false)
-              })
+              }
+            })
           } else {
             setLoader(false)
             setButtonText(t('increaseStake'))
@@ -100,19 +96,28 @@ const StakeToken = () => {
         setWaitingConfirmation(true)
         if (owner) {
           depositStake(owner, value)
-            .then(res => {
-              getReserves(owner)
-              setWaitingConfirmation(false)
-              setOpenModal(false)
-              setSuccessModal(true)
-              setLoader(false)
-              setDisabled(true)
-              setValue(0)
-              setButtonText(t('allow'))
-              setStep(1)
+            .then(transaction => {
+              if (transaction && transaction.error) {
+                popup({ success: false, message: transaction.error.message })
+                setWaitingConfirmation(false)
+                setSuccessModal(false)
+                setLoader(false)
+                setCancelState(false)
+                setOpenModal(false)
+              } else {
+                setWaitingConfirmation(false)
+                getReserves(owner)
+                setOpenModal(false)
+                setSuccessModal(true)
+                setLoader(false)
+                setDisabled(true)
+                setValue(0)
+                setButtonText(t('allow'))
+                setStep(1)
+              }
             })
             .catch(e => {
-              popup({ success: false, message: e?.code === 4001 ? t('userRejectTransaction') : t('error') })
+              popup({ success: false, message: e.message })
               setWaitingConfirmation(false)
               setSuccessModal(false)
               setLoader(false)

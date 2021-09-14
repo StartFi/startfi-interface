@@ -6,7 +6,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { User } from 'services/models/User'
 import { useETHBalances } from 'state/wallet/hooks'
 import { ChainId } from '../../constants/supportedChains'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React } from '../../hooks/blockchain-hooks/useActiveWeb3React'
 import { AppDispatch, AppState } from '../index'
 import {
   addSerializedPair,
@@ -34,7 +34,7 @@ import { generateId, useMarketplace, useNFT, useStep } from 'state/marketplace/h
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { useHistory } from 'react-router-dom'
 import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/StartfiStakes.json'
-import { useGetAllowance } from 'hooks/startfiToken'
+import { useGetAllowance } from 'hooks/blockchain-hooks/startfiToken'
 import { setInvItem, useSaveInvItem } from 'state/inventory/hooks'
 import { InventoryType } from 'services/models/Inventory'
 
@@ -250,9 +250,7 @@ export const useSaveDraft = (): (() => void) => {
     if (step < 2 || !draft) return popup({ success: false, message: 'cannotAddDraft' })
     if (!user) return popup({ success: false, message: 'connectWallet' })
     const invItem = setInvItem(user, InventoryType.Draft, { ...draft, id: generateId }, draft.issueDate)
-    // invItem.id=generateId
 
-    console.log('id', invItem.id)
     if (step < 6) saveInvItem(invItem)
     else history.push('/inventory/off-market/' + draft.id)
   }, [history, step, user, draft, popup, dispatch])
@@ -313,7 +311,10 @@ export const useUserWishList = (): AuctionNFT[] => {
   const marketPlace = useMarketplace()
   return useMemo(() => {
     return marketPlace.filter(e => {
-      return user?.wishlist.includes(e.nft.id)
+      const id = parseInt(e.nft.id)
+      console.log(id)
+
+      return user?.wishlist.includes(id)
     })
   }, [user, marketPlace])
 }

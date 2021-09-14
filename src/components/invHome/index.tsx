@@ -1,4 +1,4 @@
-import Row from 'components/Row'
+import Row from '../../UI/Row'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'

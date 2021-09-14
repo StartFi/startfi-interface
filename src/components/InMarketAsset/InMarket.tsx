@@ -1,7 +1,7 @@
-import Card from 'components/Card'
+import Card from '../../UI/Card'
 import { InventoryCard, TagContainer } from 'components/invHome/InvHome.styles'
-import Row from 'components/Row'
-import Text from '../Text'
+import Row from '../../UI/Row'
+import Text from '../../UI/Text'
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { NFT } from 'services/models/NFT'
@@ -16,14 +16,15 @@ import {
   AmountContainer
 } from './InMarket.styles'
 import { Auction } from 'services/models/Auction'
-import { ButtonMintBack, DelistButton } from 'components/Button'
+import { ButtonMintBack } from 'UI/Buttons/ButtonMintBack'
+import { DelistButton } from 'UI/Buttons/DelistButton'
 import { useTranslation } from 'react-i18next'
 import DelistCard from 'components/DelistCard/DelistCard'
 
 import { Footer } from 'components/OffMarket/OffMarket.styles'
 import DisplayBalance from 'components/NFTSummary/DisplayBalance'
 
-import Timer from 'components/Timer/Timer'
+import Timer from 'UI/Timer/Timer'
 import { useOnMarketItem } from 'state/inventory/hooks'
 import { Inventory } from 'services/models/Inventory'
 
