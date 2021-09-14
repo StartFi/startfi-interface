@@ -189,7 +189,7 @@ const Nftproduct = () => {
             )
           ) : null}
 
-            <BuyButtons>
+          <BuyButtons>
             <ButtonWishlist
               nftId={nftId}
               type="NFTProduct"
