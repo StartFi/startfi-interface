@@ -190,7 +190,6 @@ const Nftproduct = () => {
           </BuyButtons>
           <BuyNow>
             <button
-              disabled={expiredAuction}
               onClick={() => {
                 setValue(false, listingPrice)
 
