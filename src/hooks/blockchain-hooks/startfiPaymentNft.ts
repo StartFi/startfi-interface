@@ -3,7 +3,9 @@ import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from './useActiveWeb3React'
-import { useStartFiPayment, parseBigNumber } from './useContract'
+import { useStartFiPayment } from './useContract'
+import parseBigNumber from 'utils/parseBigNumber'
+import { utils } from 'ethers'
 
 export const useMint = (): ((
   address: string,

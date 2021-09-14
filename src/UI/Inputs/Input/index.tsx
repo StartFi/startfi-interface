@@ -99,7 +99,9 @@ const Input: React.FC<InputProps> = ({
             name={name}
             type="number"
             onChange={e => {
+              e.target.value = e.target.value.split('')[0] === '0' ? e.target.value.substr(1) : e.target.value
               handleChange({ target: { name, value: parseFloat(e.target.value) } })
+              e.target.value.split('').length === 0 && handleChange({ target: { name, value: 0 } })
             }}
             value={value}
             width={inputWidth || '7vw'}

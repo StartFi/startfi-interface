@@ -43,8 +43,8 @@ import { useWinnerBid } from 'hooks/blockchain-hooks/startfiMarketPlace'
 import uriToHttp from 'utils/uriToHttp'
 import { AuctionNFT } from 'services/models/AuctionNFT'
 import { useUserBalance } from 'state/user/hooks'
-import Timer from '../../UI/Timer/Timer'
-import Amount from 'components/NFTSummary/Amount'
+import Timer from 'UI/Timer/Timer'
+import DisplayBalance from 'components/NFTSummary/DisplayBalance'
 import StringModifier from 'utils/StringSplice'
 import Text from '../../UI/Text'
 import StartfiLoader from '../../UI/Loader/startfi'
@@ -174,7 +174,7 @@ const Nftproduct = () => {
               <Text fontFamily="Roboto" FontWeight="bold" fontSize="0.875rem" color="#323232" margin="0 23px 0px 0px">
                 {t('lastBidding')} :
               </Text>
-              <Amount amount={topBid}></Amount>
+              <DisplayBalance amount={topBid}></DisplayBalance>
             </LastBiddingContainer>
           ) : (
             <LastBiddingContainer>

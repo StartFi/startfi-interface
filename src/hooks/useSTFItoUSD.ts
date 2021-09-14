@@ -10,7 +10,7 @@ export const useSTFItoUSD = (amount: number): number => {
   const [USD, setUSD] = useState<number>(amount)
   const stfiUsdPrice = useStfiUsdPrice()
   useEffect(() => {
-    stfiUsdPrice().then(value => setUSD(value * amount))
+    stfiUsdPrice().then(value => setUSD(amount * value))
   }, [amount, stfiUsdPrice, setUSD])
   return USD
 }

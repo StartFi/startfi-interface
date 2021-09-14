@@ -3,7 +3,7 @@ import { useActiveWeb3React } from './useActiveWeb3React'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { addNewEvent } from 'state/blockchainEvents/actions'
-import { parseBigNumber, useStartFiToken, useStartFiMarketplace, useStartFiNft } from './useContract'
+import { useStartFiToken, useStartFiMarketplace, useStartFiNft } from './useContract'
 import {
   addToMarketplaceAction,
   buyNFTAction,
@@ -18,6 +18,7 @@ import { Bid } from 'services/models/Bid'
 import { setInvItem, useCheckInvItem, useGetInvItem, useOffMarketInvItem } from 'state/inventory/hooks'
 import { InventoryType } from 'services/models/Inventory'
 import { addToInventory, deleteInventoryAction, editInventoryAction } from 'state/inventory/actions'
+import parseBigNumber from 'utils/parseBigNumber'
 export const useNftPaymentEventListener = () => {
   const account = useUserAddress()
   const chainId = useChainId()
