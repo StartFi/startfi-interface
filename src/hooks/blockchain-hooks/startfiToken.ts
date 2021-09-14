@@ -25,7 +25,7 @@ export const useTokenInfo = () => {
         }
       } catch (e) {
         console.log(e)
-        return e
+        return { error: e }
       }
     }
     return getInfo()
@@ -62,7 +62,7 @@ export const useGetAllowance = (): ((owner: string, spender: string) => any) => 
           return allowance.toHexString()
         } catch (e) {
           console.log(e)
-          return e
+          return { error: e }
         }
       }
       return getAllowance()
@@ -88,8 +88,7 @@ export const useApproveToken = (): ((spender: string, amount: string | number) =
         return transactionReceipt
       } catch (e) {
         console.log('error', e)
-        // return e
-        throw e
+        return { error: e }
       }
     },
     [account, contract, library, approve, toggleWalletModal]
@@ -113,7 +112,7 @@ export const useIncreaseAllowance = (): ((spender: string, addedValue: string | 
         return transactionReceipt
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, approve, toggleWalletModal]
@@ -134,12 +133,10 @@ export const useDecreaseAllowance = (): ((spender: string, subtractedValue: stri
       try {
         const transaction = await approve('decreaseAllowance', [spender, subtractedValue], contract, account, library)
         const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
-
-        console.log('transactionReceipt', transactionReceipt)
         return transactionReceipt
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, approve, toggleWalletModal]
@@ -162,7 +159,7 @@ export const useTransfer = (): ((address: string, amount: string | number) => an
         return transactionReceipt
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [transfer, account, contract, library, toggleWalletModal]
@@ -186,7 +183,7 @@ export const useBurn = (): ((amount: string | number, from?: string) => any) => 
         return await transfer('burn', [amount], contract, account, library)
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [transfer, account, contract, library, toggleWalletModal]

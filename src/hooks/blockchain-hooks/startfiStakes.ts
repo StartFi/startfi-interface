@@ -26,11 +26,9 @@ export const useDeposit = (): ((user: string, amount: string | number) => any) =
         dispatch(updateStackDepositState({ depositState: false }))
         return transactionReceipt
       } catch (e) {
-        console.log('error=>', e)
+        console.log(e)
         dispatch(updateStackDepositState({ depositState: false }))
-        // return e
-        // throw new Error(e)
-        throw e
+        return { error: e }
       }
     },
     [account, contract, library, deposit, toggleWalletModal]
@@ -51,7 +49,7 @@ export const useGetReserves = (): ((owner: string) => any) => {
         return reserved
       } catch (e) {
         console.log(e)
-        return e
+        return { error: e }
       }
     },
     [contract]

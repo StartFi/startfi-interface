@@ -34,7 +34,7 @@ export const useListOnMarketplace = (): ((
         return transactionReceipt
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, listOnMarketplace, toggleWalletModal]
@@ -68,17 +68,6 @@ export const useCreateAuction = (): ((
         return `account: ${account} is not connected`
       }
       try {
-        console.log(
-          nftContract,
-          tokenId,
-          listingPrice,
-          qualifyAmount,
-          sellForEnabled,
-          sellingPrice,
-          duration,
-          'test txn param'
-        )
-
         const transaction = await createAuction(
           'createAuction',
           [nftContract, tokenId, listingPrice, qualifyAmount, sellForEnabled, sellingPrice, duration],
@@ -90,7 +79,7 @@ export const useCreateAuction = (): ((
         return transactionReceipt
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, createAuction, toggleWalletModal]
@@ -114,7 +103,7 @@ export const useBid = (): ((listingId: string | number, bidPrice: string | numbe
         return transactionReceipt
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, bid, toggleWalletModal]
@@ -138,7 +127,7 @@ export const useFullfilBid = (): ((listingId: string | number) => any) => {
         return transactionReceipt
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, fullfilBid, toggleWalletModal]
@@ -160,7 +149,7 @@ export const useDeList = (): ((listingId: string | number) => any) => {
         return await delist('deList', [listingId], contract, account, library)
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, delist, toggleWalletModal]
@@ -182,7 +171,7 @@ export const useBuyNow = (): ((listingId: string | number, price: string | numbe
         return await buyNow('buyNow', [listingId, price], contract, account, library)
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, buyNow, toggleWalletModal]
@@ -204,7 +193,7 @@ export const useDisputeAuction = (): ((listingId: string | number) => any) => {
         return await disputeAuction('disputeAuction', [listingId], contract, account, library)
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, disputeAuction, toggleWalletModal]
@@ -225,7 +214,7 @@ export const useFreeReserves = (): (() => any) => {
       return await freeReserves('freeReserves', [], contract, account, library)
     } catch (e) {
       console.log('error', e)
-      return e
+      return { error: e }
     }
   }, [account, contract, library, freeReserves, toggleWalletModal])
 }
@@ -241,7 +230,7 @@ export const useGetUserReserved = (): ((userAddress: string) => any) => {
         return reserved
       } catch (e) {
         console.log(e)
-        return e
+        return { error: e }
       }
     },
     [contract]
@@ -256,7 +245,7 @@ export const useGetServiceFee = () => {
       return userReserved.toHexString()
     } catch (e) {
       console.log(e)
-      return e
+      return { error: e }
     }
   }, [contract])
 }
@@ -286,7 +275,7 @@ export const useGetAuctionBidDetails = (): ((listingId: string | number, bidder:
         return parseBigNumber(auctionBidDetails)
       } catch (e) {
         console.log(e)
-        return e
+        return { error: e }
       }
     },
     [contract]
@@ -302,7 +291,7 @@ export const useGetListingDetails = (): ((listingId: string | number) => any) =>
         return parseBigNumber(listingDetails)
       } catch (e) {
         console.log(e)
-        return e
+        return { error: e }
       }
     },
     [contract]

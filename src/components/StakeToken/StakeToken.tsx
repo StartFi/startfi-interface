@@ -73,18 +73,15 @@ const StakeToken = () => {
         setLoader(true)
         if (owner) {
           if (!allowStaking || value > allowedAmount) {
-            approveToken(STARTFI_STAKES_ADDRESSS, value)
-              .then(res => {
-                setLoader(false)
+            approveToken(STARTFI_STAKES_ADDRESSS, value).then(transaction => {
+              setLoader(false)
+              if (transaction && transaction.error) {
+                popup({ success: false, message: transaction.error.message })
+              } else {
                 setButtonText(t('increaseStake'))
                 setStep(2)
-              })
-              .catch(e => {
-                popup({ success: false, message: e.code === 4001 ? t('userRejectTransaction') : t('error') })
-                setLoader(false)
-                setCancelState(false)
-                setOpenModal(false)
-              })
+              }
+            })
           } else {
             setLoader(false)
             setButtonText(t('increaseStake'))
@@ -99,19 +96,28 @@ const StakeToken = () => {
         setWaitingConfirmation(true)
         if (owner) {
           depositStake(owner, value)
-            .then(res => {
-              getReserves(owner)
-              setWaitingConfirmation(false)
-              setOpenModal(false)
-              setSuccessModal(true)
-              setLoader(false)
-              setDisabled(true)
-              setValue(0)
-              setButtonText(t('allow'))
-              setStep(1)
+            .then(transaction => {
+              if (transaction && transaction.error) {
+                popup({ success: false, message: transaction.error.message })
+                setWaitingConfirmation(false)
+                setSuccessModal(false)
+                setLoader(false)
+                setCancelState(false)
+                setOpenModal(false)
+              } else {
+                setWaitingConfirmation(false)
+                getReserves(owner)
+                setOpenModal(false)
+                setSuccessModal(true)
+                setLoader(false)
+                setDisabled(true)
+                setValue(0)
+                setButtonText(t('allow'))
+                setStep(1)
+              }
             })
             .catch(e => {
-              popup({ success: false, message: e?.code === 4001 ? t('userRejectTransaction') : t('error') })
+              popup({ success: false, message: e.message })
               setWaitingConfirmation(false)
               setSuccessModal(false)
               setLoader(false)

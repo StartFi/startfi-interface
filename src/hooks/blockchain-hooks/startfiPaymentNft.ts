@@ -37,7 +37,7 @@ export const useMint = (): ((
         }
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, mint, toggleWalletModal]
@@ -53,6 +53,7 @@ export const useNftPaymentInfo = (): (() => any) => {
         return parseBigNumber(info)
       } catch (e) {
         console.log(e)
+        return { error: e }
       }
     }
     return getInfo()
@@ -74,7 +75,7 @@ export const useChangeFeesNftPayment = (): ((newFees: string | number) => any) =
         return await changeFees('changeFees', [newFees], contract, account, library)
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, changeFees, toggleWalletModal]
@@ -96,7 +97,7 @@ export const useChangeNftContractNftPayment = (): ((nftAddress: string) => any) 
         return await changeNftContract('changeNftContract', [nftAddress], contract, account, library)
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, changeNftContract, toggleWalletModal]
@@ -118,7 +119,7 @@ export const useChangePaymentContractNftPayment = (): ((paymentAddress: string) 
         return await changePaymentContract('changePaymentContract', [nftAddress], contract, account, library)
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, changePaymentContract, toggleWalletModal]

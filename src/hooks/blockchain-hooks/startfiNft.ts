@@ -18,7 +18,7 @@ export const useNftInfo = () => {
       }
     } catch (e) {
       console.log(e)
-      return e
+      return { error: e }
     }
   }, [contract])
 }
@@ -57,7 +57,7 @@ export const useMint = (): ((
         }
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, mint, toggleWalletModal]
@@ -88,7 +88,7 @@ export const useGetNftOwner = (): ((tokenId: string | number) => any) => {
           return uri
         } catch (e) {
           console.log(e)
-          return e
+          return { error: e }
         }
       }
       return getUri()
@@ -130,7 +130,7 @@ export const useGrantRoleNft = (): ((user: string) => any) => {
         return await grantRole('grantRole', [ROLES.admin, user], contract, account, library)
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, grantRole, toggleWalletModal]
@@ -154,7 +154,7 @@ export const useApproveNft = (): ((spender: string, tokenId: string | number) =>
         return transactionReceipt
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, approve, toggleWalletModal]
@@ -170,7 +170,7 @@ export const useGetApproverAddress = (): ((tokenId: string | number) => any) => 
           return address
         } catch (e) {
           console.log(e)
-          return e
+          return { error: e }
         }
       }
       return getAddress()
@@ -207,6 +207,7 @@ export const useNftPaymentInfo = (): (() => any) => {
         return parseBigNumber(info)
       } catch (e) {
         console.log(e)
+        return { error: e }
       }
     }
     return getInfo()
@@ -228,7 +229,7 @@ export const useChangeFeesNftPayment = (): ((newFees: string | number) => any) =
         return await changeFees('changeFees', [newFees], contract, account, library)
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, changeFees, toggleWalletModal]
@@ -250,7 +251,7 @@ export const useChangeNftContractNftPayment = (): ((nftAddress: string) => any) 
         return await changeNftContract('changeNftContract', [nftAddress], contract, account, library)
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, changeNftContract, toggleWalletModal]
@@ -272,7 +273,7 @@ export const useChangePaymentContractNftPayment = (): ((paymentAddress: string) 
         return await changePaymentContract('changePaymentContract', [nftAddress], contract, account, library)
       } catch (e) {
         console.log('error', e)
-        return e
+        return { error: e }
       }
     },
     [account, contract, library, changePaymentContract, toggleWalletModal]
