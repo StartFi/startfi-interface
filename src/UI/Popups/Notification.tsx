@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Row } from 'theme'
 import Check from './../../assets/icons/whitecheck.svg'
 import Times from './../../assets/icons/whitetimes.svg'
+import { useSpring, animated } from 'react-spring'
 
 const Container = styled(Row)`
   background: #000000;
@@ -30,12 +31,17 @@ const Notification: React.FC<{
   summary?: string
 }> = ({ hash, success, summary }) => {
   const { t } = useTranslation()
-
+  const slideDownAnimation = useSpring({
+    from: { width: 0, opacity: 0 },
+    to: { width: 400, opacity: 1 }
+  })
   return (
-    <Container>
-      <Img src={success ? Check : Times} alt="Status" />
-      <Text>{t(summary)}</Text>
-    </Container>
+    <animated.div style={slideDownAnimation}>
+      <Container>
+        <Img src={success ? Check : Times} alt="Status" />
+        <Text>{t(summary)}</Text>
+      </Container>
+    </animated.div>
   )
 }
 
