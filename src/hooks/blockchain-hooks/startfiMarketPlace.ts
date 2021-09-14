@@ -1,9 +1,11 @@
+import { getTopBid } from '../../state/marketplace/actions'
 import { useCallback } from 'react'
 import { parseBigNumber, useStartFiMarketplace } from './useContract'
 import { useSubmitTransaction } from 'services/Blockchain/submitTransaction'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { evaluateTransaction } from 'services/Blockchain/useEvaluateTransaction'
 import { useActiveWeb3React } from './useActiveWeb3React'
+import { useDispatch } from 'react-redux'
 
 export const useListOnMarketplace = (): ((
   nftContract: string,
@@ -261,9 +263,13 @@ export const useGetServiceFee = () => {
 
 export const useWinnerBid = (): ((listingId: string | number) => any) => {
   const contract = useStartFiMarketplace(false)
+  const dispatch = useDispatch()
   return useCallback(
     async (listingId: string | number) => {
       const bidWinner = await evaluateTransaction(contract, 'winnerBid', [listingId])
+      const { bidPrice } = bidWinner
+      const topBid = parseInt(bidPrice._hex, 16)
+      dispatch(getTopBid({ topBid }))
       return bidWinner
     },
     [contract]
@@ -276,6 +282,7 @@ export const useGetAuctionBidDetails = (): ((listingId: string | number, bidder:
     async (listingId: string | number, bidder: string) => {
       try {
         const auctionBidDetails = await evaluateTransaction(contract, 'getAuctionBidDetails', [listingId, bidder])
+
         return parseBigNumber(auctionBidDetails)
       } catch (e) {
         console.log(e)
@@ -291,6 +298,7 @@ export const useGetListingDetails = (): ((listingId: string | number) => any) =>
     async (listingId: string | number) => {
       try {
         const listingDetails = await evaluateTransaction(contract, 'getListingDetails', [listingId])
+
         return parseBigNumber(listingDetails)
       } catch (e) {
         console.log(e)

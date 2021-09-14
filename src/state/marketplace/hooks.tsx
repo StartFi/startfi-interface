@@ -20,7 +20,8 @@ import {
   setAuction,
   setMissing,
   setNFT,
-  removeMissing
+  removeMissing,
+  getBids
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 import { Auction } from 'services/models/Auction'
@@ -125,7 +126,15 @@ export const useSetBidOrBuy = (): ((bidOrBuy: boolean, value: number) => void) =
   const dispatch = useDispatch()
   return useCallback((bidOrBuy: boolean, value: number) => dispatch(setBidOrBuy({ bidOrBuy, value })), [dispatch])
 }
-
+// get topBid
+export const useTopBid = () => {
+  return useSelector((state: AppState) => state.marketplace.topNftBid)
+}
+// block bidding if value less than minBid
+export const useIsValid = (value: number, minBid: number) => {
+  const topBid = useTopBid()
+  return useMemo(() => (!(value < minBid) && value > topBid ? true : false), [value, minBid, topBid])
+}
 export const useSaveNFT = (): ((nft: NFT) => void) => {
   const dispatch = useDispatch()
   return useCallback((nft: NFT) => dispatch(saveNFT({ nft })), [dispatch])
@@ -143,7 +152,11 @@ export const useClearNFT = (): (() => void) => {
 
 export const useSetWalletConfirmation = (): ((type: string) => void) => {
   const dispatch = useDispatch()
-  return useCallback((type: string) => dispatch(setWalletConfirmation({ type })), [dispatch])
+  return useCallback(
+    (type: string) => dispatch(setWalletConfirmation({ type })),
+
+    [dispatch]
+  )
 }
 
 export const useGetNFTs = (): ((query?: NFTQUERY) => void) => {
@@ -235,6 +248,7 @@ export const useGetAuctionNFT = (nftId: string, auctionId: string): void => {
   useEffect(() => {
     const AuctionNFT = nfts.filter(nft => nft.nft.id === nftId)[0]
     dispatch(getAuctionNFTAction({ nftId, auctionId, AuctionNFT }))
+    dispatch(getBids(nftId))
   }, [nftId, auctionId, nfts, dispatch])
 }
 
