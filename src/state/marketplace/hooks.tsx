@@ -295,7 +295,7 @@ export const usePlaceBid = (): (() => void) => {
   }, [bidPrice, auctionNFT, bidWeb3, setWalletConfirmation])
 }
 
-export const useBuyNFT = (): (() => void) => {
+export const useBuyNFT = (setLoader): (() => void) => {
   const buyNow = useBuyNow()
   const buyer = useUserAddress()
   const auctionNFT = useAuctionNFT()
@@ -306,11 +306,15 @@ export const useBuyNFT = (): (() => void) => {
   useMarketplaceListener(auctionNFT?.nft)
   return useCallback(async () => {
     if (buyer && auctionNFT) {
+      setLoader(true) // start approving
       const approveTransaction = await approveToken(STARTFI_MARKETPLACE_ADDRESS, soldPrice)
+      if (approveTransaction) setLoader(false) // done authenticating
       if (approveTransaction && approveTransaction.error) {
         popup({ success: false, message: approveTransaction.error.message })
       } else {
+        setLoader(true) // start buying
         const buyNowTransaction = await buyNow(auctionNFT.auction.id, soldPrice)
+        if (buyNowTransaction) setLoader(false) // done authenticating
         if (buyNowTransaction && buyNowTransaction.error) {
           popup({ success: false, message: buyNowTransaction.error.message })
         } else {

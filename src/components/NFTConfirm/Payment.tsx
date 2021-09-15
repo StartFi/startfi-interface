@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import { usePopup } from 'state/application/hooks'
@@ -6,11 +6,12 @@ import ButtonWishlist from 'UI/Buttons/ButtonWishlist'
 import { useAuctionNFT, useBidOrBuy, useBidOrBuyValue, useBuyNFT, usePlaceBid } from 'state/marketplace/hooks'
 import { useSTFIBalance } from 'hooks/blockchain-hooks/useSTFIBalance'
 import { shortenAddress } from 'utils'
-
+import { LoadingIcon } from 'components/WaitingConfirmation/styles'
 import {
   Bold,
   Border,
   ButtonBlack,
+  ButtonPaymentBlack,
   ButtonTransparent,
   MarginLeft,
   Right,
@@ -18,11 +19,12 @@ import {
   SpaceBetween,
   TextBlack
 } from './styles'
+import Loading from './../../assets/icons/buttonloader.svg'
 import DisplayBalance from 'components/NFTSummary/DisplayBalance'
 
 const Payment: React.FC = () => {
   const { t } = useTranslation()
-
+  const [loader, setLoader] = useState(false)
   const history = useHistory()
 
   const popup = usePopup()
@@ -31,7 +33,7 @@ const Payment: React.FC = () => {
 
   const placebid = usePlaceBid()
 
-  const buynft = useBuyNFT()
+  const buynft = useBuyNFT(setLoader)
 
   const bidOrBuy = useBidOrBuy()
 
@@ -90,7 +92,14 @@ const Payment: React.FC = () => {
           <DisplayBalance amount={total(value, service())}></DisplayBalance>
           {/* <Bold margin="5px 0px">{total(value, service())} STFI</Bold> */}
         </SpaceBetween>
-        <ButtonBlack onClick={() => confirm()}>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</ButtonBlack>
+        <ButtonPaymentBlack onClick={() => confirm()} disabled={loader}>
+          {t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}
+          {loader && (
+            <MarginLeft marginLeft="2vw">
+              <LoadingIcon src={Loading} alt="Loading" />
+            </MarginLeft>
+          )}
+        </ButtonPaymentBlack>
         <ButtonWishlist nftId={nft.id} type="NFTConfirm" />
 
         <ButtonTransparent onClick={() => history.goBack()}>
