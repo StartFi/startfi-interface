@@ -63,13 +63,12 @@ const Payment: React.FC = () => {
     if (bidOrBuy) placebid()
     else buynft()
   }
-
   return (
     <MarginLeft marginLeft="5vw">
       <Right minHeight="74vh">
         <Bold>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</Bold>
         <TextBlack>
-          {t('bidDesc')}
+          {t(bidOrBuy ? 'bidDesc' : 'buyDesc')} <br />
           <span>{nft?.name}</span>
           {t('by')} <span>{shortenAddress(nft.owner, 6)}</span>
         </TextBlack>
