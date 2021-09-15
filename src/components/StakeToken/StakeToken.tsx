@@ -220,7 +220,15 @@ const StakeToken = () => {
                   </Text>
                   <InputContainer>
                     <STFI>STFI</STFI>
-                    <Input type="number" value={value} onChange={(e: any) => setValue(e.target.value)} />
+                    <Input
+                      type="number"
+                      value={value}
+                      onChange={(e: any) => {
+                        e.target.value = e.target.value.split('')[0] === '0' ? e.target.value.substr(1) : e.target.value
+                        setValue(Number(e.target.value))
+                        e.target.value.split('').length === 0 && setValue(0)
+                      }}
+                    />
                     <USD>
                       <USDPrice type="number" value={usd} />
                       <USDWord>USD</USDWord>
