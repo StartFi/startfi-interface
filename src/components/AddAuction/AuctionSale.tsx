@@ -12,7 +12,7 @@ const AuctionSale: React.FC = () => {
   const base = 100
   console.log(auction)
   useEffect(() => {
-    const listingPrice =auction?.listingPrice||0
+    const listingPrice = auction?.listingPrice || 0
     if (auction) {
       setRequiredStakes((listingPrice * listQualifyPercentage) / base)
     }
@@ -21,17 +21,17 @@ const AuctionSale: React.FC = () => {
   return (
     <React.Fragment>
       <InputSTFI
-        name='listingPrice'
-        label='NFTprice'
+        name="listingPrice"
+        label="NFTprice"
         value={auction.listingPrice || 0}
         onChange={handleChange}
         error={missing.includes('listingPrice')}
       />
 
       <Input
-        question='requiredStakedDesc'
-        name='requiredStack'
-        label='Required Stack'
+        question="requiredStakedDesc"
+        name="requiredStack"
+        label="Required Stack"
         value={requiredStakes}
         onChange={handleChange}
         number
