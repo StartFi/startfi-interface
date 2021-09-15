@@ -197,7 +197,7 @@ const Nftproduct = () => {
             <ButtonWishlist
               nftId={nftId}
               type="NFTProduct"
-              width="70%"
+              width={isBid ? '70%' : '100%'}
               borderRadius="4px"
               fontSize="1rem"
               disabled={expiredAuction}
