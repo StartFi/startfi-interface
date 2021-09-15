@@ -59,7 +59,7 @@ export const useGetAllowance = (): ((owner: string, spender: string) => any) => 
       const getAllowance = async () => {
         try {
           const allowance = await evaluateTransaction(contract, 'allowance', [owner, spender])
-          return utils.formatEther(allowance)
+          return allowance.toString()
         } catch (e) {
           console.log(e)
           return { error: e }
