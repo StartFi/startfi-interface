@@ -5,7 +5,7 @@ import { ButtonPaymentBlack, Info, MarginLeft, ZeroBalance } from './styles'
 import { Bold, Border, ButtonTransparentBorder, Right, SemiBold, SpaceBetween } from 'components/NFTConfirm/styles'
 import Question from 'UI/Question'
 import { useSaveDraft } from 'state/user/hooks'
-import Amount from './Amount'
+import DisplayBalance from './DisplayBalance'
 import { useNFT, useSteps } from 'state/marketplace/hooks'
 import { useSTFIBalance } from 'hooks/blockchain-hooks/useSTFIBalance'
 import Loading from './../../assets/icons/buttonloader.svg'
@@ -72,7 +72,7 @@ const PaymentCard: React.FC = () => {
       <Bold>{t(title())}</Bold>
       <SpaceBetween>
         <SemiBold>{t(nftOrAuction ? 'digitizingFees' : 'monetizingFees')}</SemiBold>
-        <Amount amount={fees} />
+        <DisplayBalance amount={fees} />
       </SpaceBetween>
       {!nftOrAuction && <div>{t('monetizingFeesCharge')}</div>}
       <Border />
@@ -80,12 +80,12 @@ const PaymentCard: React.FC = () => {
         <React.Fragment>
           <SpaceBetween>
             <SemiBold error={noBalance}>{t('yourBalance')}</SemiBold>
-            <Amount amount={STFIBalance} error={noBalance} />
+            <DisplayBalance amount={STFIBalance} error={noBalance} />
           </SpaceBetween>
           <Border />
           <SpaceBetween>
             <SemiBold>{t('totalPaymentAmount')}</SemiBold>
-            <Amount amount={fees} />
+            <DisplayBalance amount={fees} />
           </SpaceBetween>
         </React.Fragment>
       )}

@@ -37,6 +37,7 @@ import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/Startfi
 import { useGetAllowance } from 'hooks/blockchain-hooks/startfiToken'
 import { setInvItem, useSaveInvItem } from 'state/inventory/hooks'
 import { InventoryType } from 'services/models/Inventory'
+import { useGetReserves } from 'hooks/blockchain-hooks/startfiStakes'
 
 function serializeToken(token: Token): SerializedToken {
   return {
@@ -253,7 +254,7 @@ export const useSaveDraft = (): (() => void) => {
 
     if (step < 6) saveInvItem(invItem)
     else history.push('/inventory/off-market/' + draft.id)
-  }, [history, step, user, draft, popup, dispatch])
+  }, [history, step, user, draft, popup, dispatch, saveInvItem])
 }
 
 const useAddToWishlist = (nftId: number): (() => void) => {
@@ -412,6 +413,22 @@ export const useStakeBalance = (): number => {
   return useSelector((state: AppState) => state.user.stakeBalance)
 }
 
+// need more stack
+export const useNeedMoreStack = () => {
+  const owner = useUserAddress()
+  const getReserves = useGetReserves()
+  const stackBalance = useStakeBalance()
+  if (owner) {
+    getReserves(owner)
+  }
+
+  const minQualifyAmount = process.env.REACT_APP_MIN_QUALIFY_AMOUNT
+  return useMemo(() => (minQualifyAmount ? (stackBalance < parseInt(minQualifyAmount) ? true : false) : false), [
+    stackBalance,
+    owner
+  ])
+}
+
 // get deposit stack state
 export const useDepositStackState = (): boolean => {
   return useSelector((state: AppState) => state.user.depositState)
@@ -437,7 +454,7 @@ export const useGetStakeAllowance = () => {
     }
     getAllow()
     return
-  }, [owner, STARTFI_STAKES_ADDRESSS])
+  }, [owner, STARTFI_STAKES_ADDRESSS, getAllowance])
 
   return { allowStaking, allowedAmount }
 }
