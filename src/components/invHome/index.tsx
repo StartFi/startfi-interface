@@ -61,7 +61,7 @@ const InventoryHome = () => {
 
   if (inventoryItems.length > 0) {
     inventoryItems.sort((a, b) => {
-      return b.issueDate.seconds - a.issueDate.seconds
+      return b.issueDate && a.issueDate && b.issueDate.seconds - a.issueDate.seconds
     })
   }
 
