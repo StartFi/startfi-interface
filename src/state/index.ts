@@ -13,6 +13,7 @@ import bcEvent from './blockchainEvents/reducer'
 import nft from './Nft/reducer'
 import _inventory from './_Inventory/reducer'
 import _marketplace from './_Marketplace/reducer'
+import bid from './Bid/reducer'
 
 const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists', 'inventory']
 
@@ -28,7 +29,8 @@ const store = configureStore({
     bcEvent,
     nft,
     _inventory,
-    _marketplace
+    _marketplace,
+    bid
   },
 
   middleware: [
