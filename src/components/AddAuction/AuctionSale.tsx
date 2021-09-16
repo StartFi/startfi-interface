@@ -16,7 +16,7 @@ const AuctionSale: React.FC = () => {
 
   const listQualifyPercentage = 1
   const base = 100
-  console.log(auction)
+ 
   useEffect(() => {
     const listingPrice = auction?.listingPrice || 0
     if (auction) {
@@ -27,8 +27,8 @@ const AuctionSale: React.FC = () => {
   return (
     <React.Fragment>
       <InputSTFI
-        name='listingPrice'
-        label='NFTprice'
+        name="listingPrice"
+        label="NFTprice"
         value={auction.listingPrice || 0}
         onChange={handleChange}
         error={missing.includes('listingPrice')}
@@ -36,9 +36,9 @@ const AuctionSale: React.FC = () => {
 
       <AutoRow>
         <Input
-          question='requiredStakedDesc'
-          name='requiredStack'
-          label='Required Stack'
+          question="requiredStakedDesc"
+          name="requiredStack"
+          label="Required Stack"
           value={requiredStakes}
           onChange={handleChange}
           number
@@ -46,7 +46,7 @@ const AuctionSale: React.FC = () => {
 
         <GetNow onClick={() => history.push('/marketplace/stakeTokens')}>{t('getNow')}</GetNow>
       </AutoRow>
-      {useNeedMoreStack(requiredStakes) && <NoStakes margin='10px 0px 0px 0px'>{t('needsMoreStakes')}</NoStakes>}
+      {useNeedMoreStack(requiredStakes) && <NoStakes margin="10px 0px 0px 0px">{t('needsMoreStakes')}</NoStakes>}
     </React.Fragment>
   )
 }
