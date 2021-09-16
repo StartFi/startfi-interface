@@ -20,6 +20,7 @@ import { useSTFIBalance } from 'hooks/blockchain-hooks/useSTFIBalance'
 
 import { LoadingIcon } from 'components/WaitingConfirmation/styles'
 import Loading from './../../assets/icons/buttonloader.svg'
+import { utils } from 'ethers'
 
 const StakeToken = () => {
   const { t } = useTranslation()
@@ -220,7 +221,15 @@ const StakeToken = () => {
                   </Text>
                   <InputContainer>
                     <STFI>STFI</STFI>
-                    <Input type="number" value={value} onChange={(e: any) => setValue(e.target.value)} />
+                    <Input
+                      type="number"
+                      value={value}
+                      onChange={(e: any) => {
+                        e.target.value = e.target.value.split('')[0] === '0' ? e.target.value.substr(1) : e.target.value
+                        setValue(Number(e.target.value))
+                        e.target.value.split('').length === 0 && setValue(0)
+                      }}
+                    />
                     <USD>
                       <USDPrice type="number" value={usd} />
                       <USDWord>USD</USDWord>
@@ -234,8 +243,8 @@ const StakeToken = () => {
                   <Text fontFamily="Roboto" fontSize="0.875rem" FontWeight="500" color="#525252" margin="0 10px 0 0">
                     {t('confirmIncStakeToken')}
                   </Text>
-                  <ButtonMint onClick={() => setOpenModal(true)} disabled={disabled}>
-                    {disabled ? t('increaseBalance') : t('confirmIncreasing')}
+                  <ButtonMint onClick={() => setOpenModal(true)} disabled={disabled || !value}>
+                    {disabled || value === 0 ? t('increaseBalance') : t('confirmIncreasing')}
                   </ButtonMint>
                 </CheckContainer>
               </StokeTokenFooter>
