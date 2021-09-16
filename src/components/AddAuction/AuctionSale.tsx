@@ -16,7 +16,7 @@ const AuctionSale: React.FC = () => {
 
   const listQualifyPercentage = 1
   const base = 100
- 
+
   useEffect(() => {
     const listingPrice = auction?.listingPrice || 0
     if (auction) {
