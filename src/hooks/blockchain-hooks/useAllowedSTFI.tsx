@@ -8,7 +8,8 @@ export const useAllowedSTFI = (): number => {
   const getAllowedSTFI = useGetAllowance()
   const [allowed, setAllowed] = useState<number>(0)
   useEffect(() => {
-    if (address) getAllowedSTFI(address, STARTFI_NFT_PAYMENT_ADDRESS).then(allowedStfi => setAllowed(allowedStfi))
+    if (address)
+      getAllowedSTFI(address, STARTFI_NFT_PAYMENT_ADDRESS).then(allowedStfi => setAllowed(Number(allowedStfi)))
   }, [address, getAllowedSTFI])
   return allowed
 }
