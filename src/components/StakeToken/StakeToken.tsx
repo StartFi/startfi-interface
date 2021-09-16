@@ -20,6 +20,7 @@ import { useSTFIBalance } from 'hooks/blockchain-hooks/useSTFIBalance'
 
 import { LoadingIcon } from 'components/WaitingConfirmation/styles'
 import Loading from './../../assets/icons/buttonloader.svg'
+import { utils } from 'ethers'
 
 const StakeToken = () => {
   const { t } = useTranslation()

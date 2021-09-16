@@ -83,6 +83,7 @@ export const useApproveToken = (): ((spender: string, amount: string | number) =
         return `account: ${account} is not connected`
       }
       try {
+        amount = utils.parseEther(amount.toString())._hex
         const transaction = await approve('approve', [spender, amount], contract, account, library)
         const transactionReceipt = await library?.waitForTransaction((transaction as any).hash)
         return transactionReceipt
