@@ -10,6 +10,9 @@ import transactions from './transactions/reducer'
 import multicall from './multicall/reducer'
 import ipfs from './ipfs/reducer'
 import bcEvent from './blockchainEvents/reducer'
+import nft from './Nft/reducer'
+import _inventory from './_Inventory/reducer'
+import _marketplace from './_Marketplace/reducer'
 
 const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists', 'inventory']
 
@@ -22,7 +25,10 @@ const store = configureStore({
     transactions,
     multicall,
     ipfs,
-    bcEvent
+    bcEvent,
+    nft,
+    _inventory,
+    _marketplace
   },
 
   middleware: [
