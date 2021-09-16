@@ -45,7 +45,7 @@ export const useGetReserves = (): ((owner: string) => any) => {
     async (owner: string) => {
       try {
         const userReserved = await evaluateTransaction(contract, 'getReserves', [owner])
-        dispatch(updateStakeBalance({ stakeBalance: Number(userReserved.toString()) }))
+        dispatch(updateStakeBalance({ stakeBalance: Number(userReserved.toString() / Math.pow(10, 18)) }))
         return userReserved
       } catch (e) {
         console.log(e)

@@ -24,7 +24,7 @@ export async function evaluateTransaction(
   try {
     const methods = await contract?.callStatic
     const balance = await methods?.[methodName](...args)
-    return balance / Math.pow(10, 18)
+    return balance
   } catch (e) {
     console.log(e)
     return e
