@@ -66,8 +66,8 @@ const NFTs: React.FC = () => {
             selectIcon={true}
             options={NetWorks}
             value={netWork}
-            onChange={(e: any) => {
-              setNetWork(e.target.value)
+            onChange={(name: string) => {
+              setNetWork(name)
             }}
           />
           <DropDownSort
@@ -81,8 +81,8 @@ const NFTs: React.FC = () => {
             selectIcon={true}
             options={Status}
             value={status}
-            onChange={(e: any) => {
-              setStatus(e.target.value)
+            onChange={(name: string) => {
+              setStatus(name)
             }}
           />
           <DropDownImgIcons src={Gallery}></DropDownImgIcons>
