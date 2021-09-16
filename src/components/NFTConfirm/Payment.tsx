@@ -91,7 +91,7 @@ const Payment: React.FC = () => {
           {/* <Bold margin="5px 0px">{total(value, service())} STFI</Bold> */}
         </SpaceBetween>
         <ButtonBlack onClick={() => confirm()}>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</ButtonBlack>
-        <ButtonWishlist nftId={nft.id} type="NFTConfirm" />
+        <ButtonWishlist nftId={nft.tokenId} type="NFTConfirm" />
 
         <ButtonTransparent onClick={() => history.goBack()}>
           {t(bidOrBuy ? 'cancelBidding' : 'cancelPayment')}

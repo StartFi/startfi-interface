@@ -1,7 +1,7 @@
 import { useCheckIfImage } from 'hooks/checkImage'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { NFT } from 'services/models/NFT'
+import { NFT } from 'state/types/NFT'
 import uriToHttp from 'utils/uriToHttp'
 import Text from '../../UI/Text'
 import { CardContent, MiniInvCard, TagContainer, TextContainer, Image } from './InvHome.styles'

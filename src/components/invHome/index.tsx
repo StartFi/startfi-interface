@@ -2,9 +2,9 @@ import Row from '../../UI/Row'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
-import { Inventory } from 'services/models/Inventory'
-import { NFT } from 'services/models/NFT'
-import { useGetUserDrafts, useGetUserInv, useGetUserOffMarket, useGetUserOnMarket } from 'state/inventory/hooks'
+import { Inventory } from 'state/types/Inventory'
+import { NFT } from 'state/types/NFT'
+// import { useGetUserDrafts, useGetUserInv, useGetUserOffMarket, useGetUserOnMarket } from 'state/inventory/hooks'
 import { useSetDraftNft, useSetStep } from 'state/marketplace/hooks'
 import { STEP } from 'state/marketplace/types'
 import { useUserAddress } from 'state/user/hooks'
@@ -17,21 +17,21 @@ const InventoryHome = () => {
   const [inventoryOption, setInventoryOption] = useState(InventoryOptions.Draft)
   const [inventoryItems, setInventoryItems] = useState<Inventory[]>([])
   const history = useHistory()
-  const drafts: Inventory[] | undefined = useGetUserDrafts()
-  const onMarketNFT: Inventory[] | undefined = useGetUserOnMarket()
-  const offMarketNFT: Inventory[] | undefined = useGetUserOffMarket()
+  // const drafts: Inventory[] | undefined = useGetUserDrafts()
+  // const onMarketNFT: Inventory[] | undefined = useGetUserOnMarket()
+  // const offMarketNFT: Inventory[] | undefined = useGetUserOffMarket()
 
   const owner = useUserAddress()
-  const getUserInv = useGetUserInv()
+  // const getUserInv = useGetUserInv()
 
   const setStep = useSetStep()
   const setDraftNFT = useSetDraftNft()
 
   const { id }: InvParams = useParams()
 
-  useEffect(() => {
-    getUserInv()
-  }, [owner])
+  // useEffect(() => {
+  //   getUserInv()
+  // }, [owner])
 
   useEffect(() => {
     if (id === 'offMarketPlace') {
@@ -41,23 +41,23 @@ const InventoryHome = () => {
       setInventoryOption(InventoryOptions.inMarketPlace)
     }
 
-    switch (inventoryOption) {
-      case InventoryOptions.Draft:
-        setInventoryItems([...drafts])
-        if (drafts?.length > 0) {
-          setInventoryItems([...drafts])
-        } else {
-          setInventoryItems([])
-        }
-        break
-      case InventoryOptions.inMarketPlace:
-        setInventoryItems([...onMarketNFT])
-        break
-      case InventoryOptions.offMarketPlace:
-        setInventoryItems([...offMarketNFT])
-        break
-    }
-  }, [inventoryOption, drafts, onMarketNFT, offMarketNFT])
+    // switch (inventoryOption) {
+    //   case InventoryOptions.Draft:
+    //     setInventoryItems([...drafts])
+    //     if (drafts?.length > 0) {
+    //       setInventoryItems([...drafts])
+    //     } else {
+    //       setInventoryItems([])
+    //     }
+    //     break
+    //   case InventoryOptions.inMarketPlace:
+    //     setInventoryItems([...onMarketNFT])
+    //     break
+    //   case InventoryOptions.offMarketPlace:
+    //     setInventoryItems([...offMarketNFT])
+    //     break
+    //}
+  }, [inventoryOption /*, drafts, onMarketNFT, offMarketNFT*/])
 
   if (inventoryItems.length > 0) {
     inventoryItems.sort((a, b) => {
@@ -71,8 +71,8 @@ const InventoryHome = () => {
       setStep(STEP.STEP2)
       history.push(`/mint/steps`)
     }
-    if (inventoryOption === InventoryOptions.inMarketPlace) history.push(`/inventory/in-market/${nft.id}`)
-    if (inventoryOption === InventoryOptions.offMarketPlace) history.push(`/inventory/off-market/${nft.id}`)
+    if (inventoryOption === InventoryOptions.inMarketPlace) history.push(`/inventory/in-market/${nft.tokenId}`)
+    if (inventoryOption === InventoryOptions.offMarketPlace) history.push(`/inventory/off-market/${nft.tokenId}`)
   }
 
   return (

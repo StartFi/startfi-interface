@@ -1,6 +1,6 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 
-import { addToWishlist, getDrafts, login, removeFromWishlist, saveDraft } from 'services/User'
+import { addToWishlist, getDrafts, login, removeFromWishlist, saveDraft } from 'services/database/User'
 
 export interface SerializedToken {
   chainId: number

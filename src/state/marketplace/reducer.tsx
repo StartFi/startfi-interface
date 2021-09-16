@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { PopupContent } from './../../constants'
-import { AuctionNFT } from 'services/models/AuctionNFT'
+import { AuctionNFT } from 'state/types/AuctionNFT'
 import {
   mintNFTAction,
   buyNFTAction,
@@ -23,11 +23,11 @@ import {
   getBids,
   getTopBid
 } from './actions'
-import { NFT } from 'services/models/NFT'
-import { Auction } from 'services/models/Auction'
+import { NFT } from 'state/types/NFT'
+import { MarketplaceListings } from 'state/types/MarketplaceListings'
 import { STEP } from './types'
 import { initialAuction, initialNFT } from './initial'
-import { Bid } from 'services/models/Bid'
+import { Bid } from 'state/types/Bid'
 
 const getFirstError = (object: any): string => {
   const keys = Object.keys(object)
@@ -45,7 +45,7 @@ export interface MarketplaceState {
   popup: PopupContent | null
   minted: boolean
   nft: NFT
-  auction: Auction
+  auction: MarketplaceListings
   NftDetails: NFT | null
   loading: boolean
   currentPage: number
@@ -207,9 +207,9 @@ export default createReducer(initialState, builder =>
     })
     // fix: Linting Unexpected empty arrow function
     //.addCase(getBids.pending, (state, action) => {})
-    .addCase(getBids.fulfilled, (state, action) => {
-      state.NftBids = action.payload.bids
-    })
+    // .addCase(getBids.fulfilled, (state, action) => {
+    //   state.NftBids = action.payload.bids
+    // })
     // fix: Linting Unexpected empty arrow function
 
     //.addCase(getBids.rejected, (state, action) => {})

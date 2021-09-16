@@ -7,3 +7,9 @@ export interface Bid {
   txtHash: string
   chainId: number
 }
+
+export interface PlaceBid {
+  listingId: string
+  userAddress: string
+  bid: Bid
+}

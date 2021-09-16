@@ -1,6 +1,6 @@
-import { Dictionary } from './../../constants'
-import { addDocument, editDocument, getDocument, getDocuments } from 'services/database/Database'
-import { NFT } from 'services/models/NFT'
+import { Dictionary } from '../../../constants'
+import { addDocument, editDocument, getDocument, getDocuments } from './Database'
+import { NFT } from '../models/NFT'
 
 const COLLECTION = 'nfts'
 

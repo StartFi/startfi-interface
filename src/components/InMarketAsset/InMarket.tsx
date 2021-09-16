@@ -4,7 +4,7 @@ import Row from '../../UI/Row'
 import Text from '../../UI/Text'
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import { NFT } from 'services/models/NFT'
+import { NFT } from 'state/types/NFT'
 import uriToHttp from 'utils/uriToHttp'
 import {
   Divider,
@@ -15,7 +15,7 @@ import {
   AuctionTimer,
   AmountContainer
 } from './InMarket.styles'
-import { Auction } from 'services/models/Auction'
+import { MarketplaceListings } from 'state/types/MarketplaceListings'
 import { ButtonMintBack } from 'UI/Buttons/ButtonMintBack'
 import { DelistButton } from 'UI/Buttons/DelistButton'
 import { useTranslation } from 'react-i18next'
@@ -25,8 +25,8 @@ import { Footer } from 'components/OffMarket/OffMarket.styles'
 import DisplayBalance from 'components/NFTSummary/DisplayBalance'
 
 import Timer from 'UI/Timer/Timer'
-import { useOnMarketItem } from 'state/inventory/hooks'
-import { Inventory } from 'services/models/Inventory'
+// import { useOnMarketItem } from 'state/inventory/hooks'
+import { Inventory } from 'state/types/Inventory'
 
 interface OnMarketParams {
   id: string
@@ -35,10 +35,10 @@ interface OnMarketParams {
 const InMarket = () => {
   const { t } = useTranslation()
   const { id }: OnMarketParams = useParams()
-  const invOnMarketItem: Inventory = useOnMarketItem(id)
-  const nft: NFT = invOnMarketItem?.nft
-  const auction: Auction = invOnMarketItem?.auction
-  const imgUrl = uriToHttp(`${nft?.dataHash}`)[1]
+  // const invOnMarketItem: Inventory = useOnMarketItem(id)
+  const nft: any = {} //= invOnMarketItem?.nft
+  const auction: any = {} //= invOnMarketItem?.auction
+  const imgUrl = '' //uriToHttp(`${nft?.dataHash}`)[1]
   const [tagsState, setTagsState] = useState(false)
   const history = useHistory()
 
@@ -48,7 +48,7 @@ const InMarket = () => {
   const [delistContainerHeight, setDelistContainerHeight] = useState<string>('120px')
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [disabled, setDisabled] = useState<boolean>(false)
-  const expired = auction?.expireTimestamp - Date.now()
+  const expired = /* auction?.expireTimestamp -*/ Date.now()
 
   useEffect(() => {
     if (!nft) {
@@ -173,7 +173,7 @@ const InMarket = () => {
             </Card>
 
             {/* 4 */}
-            {auction?.isForBid ? (
+            {auction?.isBedEnabled ? (
               <Card height="229px" border="1px solid #F4F4F4" borderRadius="6px" background="#FBFBFB" marginTop="20px">
                 <TextContainer marginLeft="1.438rem" width="100%">
                   <AmountContainer>
@@ -218,8 +218,8 @@ const InMarket = () => {
                       <Text fontFamily="Roboto" fontSize="1rem" color="#444444" margin="15px 30px 15px 0px">
                         {t('qualifyAmount')}
                       </Text>
-                      {auction?.qualifyAmount ? (
-                        <DisplayBalance amount={auction?.qualifyAmount}></DisplayBalance>
+                      {auction?.insuranceAmount ? (
+                        <DisplayBalance amount={auction?.insuranceAmount}></DisplayBalance>
                       ) : null}
                     </AmountContainer>
                   </div>
@@ -239,7 +239,7 @@ const InMarket = () => {
             )}
 
             {/* 5 */}
-            <Card height="123px" border="1px solid #F4F4F4" borderRadius="6px" background="#FBFBFB" marginTop="20px">
+            {/* <Card height="123px" border="1px solid #F4F4F4" borderRadius="6px" background="#FBFBFB" marginTop="20px">
               <TextContainer marginLeft="1.438rem" width="100%">
                 <div>
                   <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="9.75rem">
@@ -255,7 +255,7 @@ const InMarket = () => {
                   </Text>
                 </div>
               </TextContainer>
-            </Card>
+            </Card> */}
           </Row>
           <Footer>
             <ButtonMintBack onClick={() => history.push('/inventory/home/onMarketPlace')}>{t('back')}</ButtonMintBack>

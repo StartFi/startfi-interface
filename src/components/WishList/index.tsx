@@ -3,7 +3,7 @@ import { ContainerCard } from '../../UI/Card'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
-import { AuctionNFT } from 'services/models/AuctionNFT'
+import { AuctionNFT } from 'state/types/AuctionNFT'
 import { useUserWishList } from 'state/user/hooks'
 import Text from '../../UI/Text'
 import WishCard from './WishCard'
@@ -27,7 +27,7 @@ const WishList = () => {
             key={auction.auction.id}
             cardContent={auction}
             navigateToNft={(auction: AuctionNFT) =>
-              history.push(`/marketplace/nft/${auction.nft.id}/${auction.auction.id}`)
+              history.push(`/marketplace/nft/${auction.nft.tokenId}/${auction.auction.id}`)
             }
           ></WishCard>
         ))

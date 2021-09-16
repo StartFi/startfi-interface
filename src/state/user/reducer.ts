@@ -25,9 +25,9 @@ import {
   updateStakeBalance,
   updateStackDepositState
 } from './actions'
-import { User } from 'services/models/User'
-import { NFT } from 'services/models/NFT'
-import { Auction } from 'services/models/Auction'
+import { Users } from 'state/types/User'
+import { NFT } from 'state/types/NFT'
+import { MarketplaceListings } from 'state/types/MarketplaceListings'
 
 const currentTimestamp = () => new Date().getTime()
 
@@ -64,12 +64,12 @@ export interface UserState {
   timestamp: number
   URLWarningVisible: boolean
 
-  user: User | null
+  user: Users | null
   popup: PopupContent | null
   drafts: NFT[]
   onMarket: NFT[]
   offMarket: NFT[]
-  userAuctions: Auction[]
+  userAuctions: MarketplaceListings[]
   stakeBalance: number
   depositState: boolean
 }

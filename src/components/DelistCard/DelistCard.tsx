@@ -1,6 +1,6 @@
 import { Divider } from 'components/InMarketAsset/InMarket.styles'
 import React, { useState } from 'react'
-import { NFT } from 'services/models/NFT'
+import { NFT } from 'state/types/NFT'
 import {
   DelistModal,
   Container,
@@ -19,7 +19,7 @@ import Text from '../../UI/Text'
 import { useCountDownTimer } from 'hooks/countDownTimer'
 import delistSuccessImg from '../../assets/images/delistSuccess.png'
 import { useHistory } from 'react-router-dom'
-import { Auction } from 'services/models/Auction'
+import { MarketplaceListings } from 'state/types/MarketplaceListings'
 import { useTranslation } from 'react-i18next'
 import { useDelistAuction } from 'state/marketplace/hooks'
 
@@ -27,7 +27,7 @@ interface DelistCardProps {
   isOpen: boolean
   close: () => void
   nft: NFT
-  auction: Auction
+  auction: MarketplaceListings
 }
 
 const DelistCard: React.FC<DelistCardProps> = ({ isOpen, close, nft, auction }) => {

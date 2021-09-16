@@ -21,7 +21,7 @@ const AuctionBoxes: React.FC = () => {
   return (
     <React.Fragment>
       <EditableBox editable={step === STEP.AUCTION_SUMMARY} link="/mint/steps" step={STEP.AUCTION_DETAILS}>
-        {auction.isForSale && (
+        {auction.isSellForEnabled && (
           <Field>
             <Label>{t('pricing')}</Label>
             <Data>
@@ -30,7 +30,7 @@ const AuctionBoxes: React.FC = () => {
           </Field>
         )}
         <Line />
-        {auction.isForBid && (
+        {auction.isBedEnabled && (
           <React.Fragment>
             <Field>
               <Label>{t('minimumBidding')}</Label>
@@ -49,7 +49,7 @@ const AuctionBoxes: React.FC = () => {
             <Field>
               <Label>{t('qualifyAmount')}</Label>
               <Data>
-                <DisplayBalance amount={auction.qualifyAmount || 0} />
+                <DisplayBalance amount={auction.insuranceAmount || 0} />
               </Data>
             </Field>
           </React.Fragment>
@@ -58,12 +58,12 @@ const AuctionBoxes: React.FC = () => {
       <EditableBox>
         <Field>
           <Label>{t('tokenId')}</Label>
-          <Data>{nft.id}</Data>
+          <Data>{nft.tokenId}</Data>
         </Field>
         <Line />
         <Field>
           <Label>{t('contractAddressAttribute')}</Label>
-          <Data>{auction.contractAddress}</Data>
+          <Data>{auction.nFTContractAddress}</Data>
         </Field>
       </EditableBox>
     </React.Fragment>

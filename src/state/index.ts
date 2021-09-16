@@ -11,7 +11,6 @@ import multicall from './multicall/reducer'
 import ipfs from './ipfs/reducer'
 import bcEvent from './blockchainEvents/reducer'
 import nft from './Nft/reducer'
-import _inventory from './_Inventory/reducer'
 import _marketplace from './_Marketplace/reducer'
 import bid from './Bid/reducer'
 
@@ -28,7 +27,6 @@ const store = configureStore({
     ipfs,
     bcEvent,
     nft,
-    _inventory,
     _marketplace,
     bid
   },

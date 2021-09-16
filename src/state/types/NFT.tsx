@@ -1,8 +1,6 @@
-import { Dictionary } from '../../constants'
-
-export interface NFT extends Dictionary {
+export interface NFT {
   // id: string it should be string but get error becauseof current data
-  id: any
+  tokenId: any
   dataHash: string
   name: string
   description: string

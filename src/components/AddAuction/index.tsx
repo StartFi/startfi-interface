@@ -5,15 +5,15 @@ import InputSTFI from 'UI/Inputs/InputSTFI'
 import AuctionSale from './AuctionSale'
 import AuctionBid from './AuctionBid'
 import ChooseType from './ChooseType'
-import { Auction } from 'services/models/Auction'
+import { MarketplaceListings } from 'state/types/MarketplaceListings'
 import { useAddAuction, useStep } from 'state/marketplace/hooks'
 import { STEP } from 'state/marketplace/types'
 
-const title = (step: STEP, auction: Auction): string => {
+const title = (step: STEP, auction: MarketplaceListings): string => {
   if (step === STEP.CHOOSE_TYPE) return 'howToMonetize'
-  if (auction.isForBid && auction.isForSale) return 'auctionSaleAndBidTitle'
-  else if (auction.isForSale) return 'auctionSaleTitle'
-  else if (auction.isForBid) return 'auctionBidTitle'
+  if (auction.isBedEnabled && auction.isSellForEnabled) return 'auctionSaleAndBidTitle'
+  else if (auction.isSellForEnabled) return 'auctionSaleTitle'
+  else if (auction.isBedEnabled) return 'auctionBidTitle'
   return ''
 }
 
@@ -24,9 +24,9 @@ const AddAuction: React.FC = () => {
 
   const { auction, handleChange, missing } = useAddAuction()
 
-  const component = (step: number, auction: Auction) => {
+  const component = (step: number, auction: MarketplaceListings) => {
     if (step === STEP.CHOOSE_TYPE) return <ChooseType />
-    if (auction.isForBid && auction.isForSale)
+    if (auction.isBedEnabled && auction.isSellForEnabled)
       return (
         <React.Fragment>
           <InputSTFI
@@ -39,8 +39,8 @@ const AddAuction: React.FC = () => {
           <AuctionBid />
         </React.Fragment>
       )
-    if (auction.isForSale) return <AuctionSale />
-    if (auction.isForBid) return <AuctionBid />
+    if (auction.isSellForEnabled) return <AuctionSale />
+    if (auction.isBedEnabled) return <AuctionBid />
     return null
   }
 

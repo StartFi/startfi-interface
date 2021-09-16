@@ -26,7 +26,7 @@ import {
   USDPrice,
   USDWord
 } from './styles'
-import { AuctionNFT } from 'services/models/AuctionNFT'
+import { AuctionNFT } from 'state/types/AuctionNFT'
 
 interface BidOrBuyProps {
   bidOrBuy: boolean

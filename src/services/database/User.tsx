@@ -1,40 +1,49 @@
-import { addDocument, editDocument, getDocument } from 'services/database/Database'
-import { User } from 'services/models/User'
+import { checkSuccess } from 'utils'
+import { Drafts } from './models/Draft'
+import { addDraft, getDraft } from './CRUD/Draft'
+import { addNFTToWishlist, addUser, getUser, removeNFTFromWishlist } from './CRUD/User'
+import { Users } from './models/User'
 
-const COLLECTION = 'users'
-
-export const addUser = async (user: User): Promise<string> => {
-  return addDocument(COLLECTION, user.ethAddress, user)
-}
-
-export const getUser = async (ethAddress: string): Promise<User> => {
-  return (await getDocument(COLLECTION, ethAddress)) as User
-}
-
-export const editUser = async (user: any): Promise<string> => {
-  return editDocument(COLLECTION, user.ethAddress, user)
-}
-
-export const addNFTToWishlist = async (userId: string, nftId: number): Promise<string> => {
-  const oldUser = (await getDocument(COLLECTION, userId)) as User
-  if (oldUser) {
-    const newUser = { ...oldUser }
-    if (newUser.wishlist) {
-      if (newUser.wishlist.includes(nftId)) return "NFT already exist is user's wishlist"
-      else newUser.wishlist.push(nftId)
-    } else newUser.wishlist = [nftId]
-    return editDocument(COLLECTION, newUser.ethAddress, newUser)
+export const login = async (ethAddress: string): Promise<Users> => {
+  const user = await getUser(ethAddress)
+  if (user) return user
+  const newUser: Users = {
+    ethAddress,
+    wishlist: []
   }
-  return 'No user'
+  await addUser(newUser)
+  return getUser(ethAddress)
 }
 
-export const removeNFTFromWishlist = async (userId: string, nftId: number): Promise<string> => {
-  const oldUser = (await getDocument(COLLECTION, userId)) as User
-  if (oldUser) {
-    const newUser = { ...oldUser }
-    const index = newUser.wishlist.indexOf(nftId)
-    newUser.wishlist.splice(index, 1)
-    return editDocument(COLLECTION, newUser.ethAddress, newUser)
-  }
-  return 'No user'
+interface Wishlist {
+  userId: string
+  nftId: number
+}
+
+export const addToWishlist = async ({ userId, nftId }: Wishlist) => {
+  const addedToWishlist = await addNFTToWishlist(userId, nftId)
+  const user = await login(userId)
+  return { addedToWishlist, user }
+}
+
+export const removeFromWishlist = async ({ userId, nftId }: Wishlist) => {
+  const removedWishlistItem = await removeNFTFromWishlist(userId, nftId)
+  const user = await login(userId)
+  return { removedWishlistItem, user }
+}
+
+export const saveDraft = async (draft: Drafts) => {
+  const draftAdded = await addDraft(draft)
+  const status = checkSuccess({ draftAdded })
+  return { status, draftAdded }
+}
+
+export const getDrafts = async (user: string) => {
+  const drafts = await getDraft(user)
+  return { drafts }
+}
+
+interface GetUserNFTs {
+  chainId: number
+  owner: string
 }

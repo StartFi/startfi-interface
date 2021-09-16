@@ -25,11 +25,11 @@ const AuctionBid: React.FC = () => {
         question="qualifyAmountDesc"
         name="qualifyAmount"
         label="qualifyAmount"
-        value={auction.qualifyAmount || 0}
+        value={auction.insuranceAmount || 0}
         onChange={handleChange}
         error={
           missing.includes('qualifyAmount') ||
-          (auction.qualifyAmount !== undefined && auction.qualifyAmount < minQualify)
+          (auction.insuranceAmount !== undefined && auction.insuranceAmount < minQualify)
         }
       />
     </React.Fragment>

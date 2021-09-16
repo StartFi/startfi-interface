@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useLoadTime, useMarketplace, useMarketplaceLoading } from 'state/marketplace/hooks'
 
-import { AuctionNFT } from 'services/models/AuctionNFT'
+import { AuctionNFT } from 'state/types/AuctionNFT'
 import StartfiLoader from '../UI/Loader/startfi'
 import Pagination from '../UI/Pagination'
 import Gallery from '../assets/images/Group 62.png'
@@ -92,14 +92,14 @@ const NFTs: React.FC = () => {
 
       <NFTList>
         {onMarket.map((auctionNFT: AuctionNFT) => (
-          <Nft key={auctionNFT.nft.id}>
+          <Nft key={auctionNFT.nft.tokenId}>
             <NTFCard
               auctionNFT={auctionNFT}
               navigateToCard={(auctionNFT: AuctionNFT) =>
-                history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
+                history.push(`/marketplace/nft/${auctionNFT.nft.tokenId}/${auctionNFT.auction.id}`)
               }
               placeBid={(auctionNFT: AuctionNFT) =>
-                history.push(`/marketplace/nft/${auctionNFT.nft.id}/${auctionNFT.auction.id}`)
+                history.push(`/marketplace/nft/${auctionNFT.nft.tokenId}/${auctionNFT.auction.id}`)
               }
             ></NTFCard>
           </Nft>

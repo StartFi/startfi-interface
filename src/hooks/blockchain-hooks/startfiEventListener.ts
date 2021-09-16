@@ -14,10 +14,10 @@ import {
 } from 'state/marketplace/actions'
 import { useAuction, useAuctionNFT, useNFT } from 'state/marketplace/hooks'
 import { useChainId, useUserAddress } from 'state/user/hooks'
-import { Bid } from 'services/models/Bid'
-import { setInvItem, useCheckInvItem, useGetInvItem, useOffMarketInvItem } from 'state/inventory/hooks'
-import { InventoryType } from 'services/models/Inventory'
-import { addToInventory, deleteInventoryAction, editInventoryAction } from 'state/inventory/actions'
+import { Bid } from 'state/types/Bid'
+// import { setInvItem, useCheckInvItem, useGetInvItem, useOffMarketInvItem } from 'state/inventory/hooks'
+// import { InventoryType } from 'state/types/Inventory'
+// import { addToInventory, deleteInventoryAction, editInventoryAction } from 'state/inventory/actions'
 import parseBigNumber from 'utils/parseBigNumber'
 export const useNftPaymentEventListener = () => {
   const account = useUserAddress()
@@ -29,8 +29,8 @@ export const useNftPaymentEventListener = () => {
   const transferEvent = tokenContract?.filters.Transfer()
   const ApprovalEvent = tokenContract?.filters.Approval()
   const transferRoyalEvent = nftRoyalty?.filters.Transfer()
-  const checkInvItem = useCheckInvItem()
-  const getInvItem = useGetInvItem()
+  // const checkInvItem = useCheckInvItem()
+  // const getInvItem = useGetInvItem()
   const dispatch = useDispatch()
   useEffect(() => {
     if (transferRoyalEvent) {
@@ -40,14 +40,14 @@ export const useNftPaymentEventListener = () => {
 
         if (account && nft && chainId) {
           const mintedNFT = { ...nft, id, issueDate: new Date(), owner: account, issuer: account, chainId }
-          let invItem = setInvItem(mintedNFT.owner, InventoryType.offMarket, mintedNFT, mintedNFT.issueDate)
-          invItem = { ...invItem, id }
+          // let invItem = setInvItem(mintedNFT.owner, InventoryType.offMarket, mintedNFT, mintedNFT.issueDate)
+          // invItem = { ...invItem, id }
           dispatch(mintNFTAction(mintedNFT))
-          if (!checkInvItem(id)) dispatch(addToInventory(invItem))
-          if (getInvItem(nft.id)?.length > 0) {
-            if (getInvItem(nft.id)[0].type === InventoryType.Draft)
-              dispatch(deleteInventoryAction(getInvItem(nft.id)[0].id))
-          }
+          // if (!checkInvItem(id)) dispatch(addToInventory(invItem))
+          // if (getInvItem(nft.id)?.length > 0) {
+          //   if (getInvItem(nft.id)[0].type === InventoryType.Draft)
+          //     dispatch(deleteInventoryAction(getInvItem(nft.id)[0].id))
+          // }
           dispatch(saveNFT({ nft: mintedNFT }))
         }
         dispatch(addNewEvent({ eventName: 'transferRoyaltyEvent', eventValue: parseBigNumber(eventLogs) }))
@@ -97,7 +97,7 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
   const chainId = useChainId()
   const auctionNFT = useAuctionNFT()
   const dispatch = useDispatch()
-  const offMarketInv = useOffMarketInvItem(nft.id)
+  // const offMarketInv = useOffMarketInvItem(nft.id)
   useEffect(() => {
     if (listOnMarketplaceEvent && seller && chainId) {
       library?.on(listOnMarketplaceEvent as EventFilter, result => {
@@ -105,16 +105,16 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
         const args = eventLogs?.args
         const eventValue = parseBigNumber(args)
         dispatch(addNewEvent({ eventName: 'ListOnMarketplace', eventValue }))
-        dispatch(
-          addToMarketplaceAction({ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId })
-        )
-        dispatch(
-          editInventoryAction({
-            ...offMarketInv,
-            type: InventoryType.OnMarket,
-            auction: { ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId }
-          })
-        )
+        // dispatch(
+        //   addToMarketplaceAction({ ...auction, id: eventValue[0], nftTokenId: nft.id, seller, listTime: new Date(), chainId })
+        // )
+        // dispatch(
+        //   editInventoryAction({
+        //     ...offMarketInv,
+        //     type: InventoryType.OnMarket,
+        //     auction: { ...auction, id: eventValue[0], nftTokenId: nft.id, seller, listTime: new Date(), chainId }
+        //   })
+        // )
       })
     }
     return () => {
@@ -142,16 +142,16 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
         const args = eventLogs?.args
         const eventValue = parseBigNumber(args)
         dispatch(addNewEvent({ eventName: 'CreateAuction', eventValue }))
-        dispatch(
-          addToMarketplaceAction({ ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId })
-        )
-        dispatch(
-          editInventoryAction({
-            ...offMarketInv,
-            type: InventoryType.OnMarket,
-            auction: { ...auction, id: eventValue[0], nft: nft.id, seller, listTime: new Date(), chainId }
-          })
-        )
+        // dispatch(
+        //   addToMarketplaceAction({ ...auction, id: eventValue[0], nftTokenId: nft.id, seller, listTime: new Date(), chainId })
+        // )
+        // dispatch(
+        //   editInventoryAction({
+        //     ...offMarketInv,
+        //     type: InventoryType.OnMarket,
+        //     auction: { ...auction, id: eventValue[0], nftTokenId: nft.id, seller, listTime: new Date(), chainId }
+        //   })
+        // )
       })
     }
     return () => {
@@ -167,7 +167,7 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
 
         if (bid) {
           bid.id = eventValue[0]
-          dispatch(placeBidAction({ auctionId: auctionNFT?.auction.id || '', bid }))
+          // dispatch(placeBidAction({ auctionId: auctionNFT?.auction.id || '', bid }))
         }
         dispatch(addNewEvent({ eventName: 'BidOnAuction', eventValue }))
       })
@@ -208,12 +208,12 @@ export const useMarketplaceListener = (nft?: any, bid?: Bid, listingId?: string)
         const eventLogs = marketplaceContract?.interface.parseLog({ data: result.data, topics: result.topics })
         const args = eventLogs?.args
         const eventValue = parseBigNumber(args)
-        const nftId = auctionNFT?.nft.id
+        const nftId = auctionNFT?.nft.tokenId
         const auctionId = auctionNFT?.auction.id || ''
         const buyer = seller || ''
         const soldPrice = 10
 
-        dispatch(buyNFTAction({ nftId, auctionId, buyer, soldPrice }))
+        // dispatch(buyNFTAction({ nftId, auctionId, buyer, soldPrice }))
         dispatch(addNewEvent({ eventName: 'BuyNow', eventValue }))
       })
     }

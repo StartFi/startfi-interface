@@ -1,13 +1,14 @@
-export interface Auction {
+export interface MarketplaceListings {
   id: string
-  contractAddress: string
-  nft: string
+  nFTContractAddress: string
+  nftTokenId: string
   listingPrice?: number
+  endPrice?: number // purchased price , if auction it might be different from listing price
   seller: string
   expireTimestamp: number
   buyer?: string
-  isForSale: boolean
-  isForBid: boolean
+  isSellForEnabled: boolean
+  isBedEnabled: boolean
   bids: string[]
   listTime: Date
   purchaseTime?: Date
@@ -16,7 +17,7 @@ export interface Auction {
   soldPrice?: number
   status: string
   minBid?: number
-  qualifyAmount?: number
+  insuranceAmount?: number
   chainId: number
   requiredStakes: number
 }

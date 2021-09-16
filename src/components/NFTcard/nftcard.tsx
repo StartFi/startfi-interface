@@ -3,7 +3,7 @@ import { Media, CardImg, Card, Price, Text, Actions, Bid } from './nftcard.style
 import { useTranslation } from 'react-i18next'
 import ButtonWishlist from 'UI/Buttons/ButtonWishlist'
 import { NftButton } from 'UI/Buttons/NftButton'
-import { AuctionNFT } from 'services/models/AuctionNFT'
+import { AuctionNFT } from 'state/types/AuctionNFT'
 import uriToHttp from 'utils/uriToHttp'
 import DisplayBalance from 'components/NFTSummary/DisplayBalance'
 import Timer from 'UI/Timer/Timer'
@@ -23,7 +23,7 @@ const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid 
 
   const listPrice = auctionNFT?.auction?.listingPrice
 
-  const nftId = parseInt(cardContent.id)
+  const nftId = parseInt(cardContent.tokenId)
   const expiredAuction = useIsExpiredAuction(auctionNFT)
 
   return (

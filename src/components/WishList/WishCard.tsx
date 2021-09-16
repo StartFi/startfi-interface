@@ -1,5 +1,5 @@
 import React from 'react'
-import { AuctionNFT } from 'services/models/AuctionNFT'
+import { AuctionNFT } from 'state/types/AuctionNFT'
 import uriToHttp from 'utils/uriToHttp'
 import { WishListCard, TextContainer, RemoveContainer, ImgDIV, Counter, CounterContainer } from './WishList.styles'
 import Text from '../../UI/Text'
@@ -17,7 +17,7 @@ interface MiniCardContent {
 
 const WishCard: React.FC<MiniCardContent> = ({ cardContent, navigateToNft }) => {
   const { t } = useTranslation()
-  const remove = useRemoveWishlistItem(cardContent.nft.id)
+  const remove = useRemoveWishlistItem(cardContent.nft.tokenId)
   const timeLeft = useCountDownTimer(cardContent.auction.expireTimestamp)
 
   const timerComponents: any = []

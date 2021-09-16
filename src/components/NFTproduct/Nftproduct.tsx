@@ -41,7 +41,7 @@ import {
 import { useWinnerBid } from 'hooks/blockchain-hooks/startfiMarketPlace'
 
 import uriToHttp from 'utils/uriToHttp'
-import { AuctionNFT } from 'services/models/AuctionNFT'
+import { AuctionNFT } from 'state/types/AuctionNFT'
 
 import { useNeedMoreStack, useUserBalance } from 'state/user/hooks'
 

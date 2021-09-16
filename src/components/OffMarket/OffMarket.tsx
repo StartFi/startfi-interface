@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Row from '../../UI/Row'
 import Text from '../../UI/Text'
 import { useHistory, useParams } from 'react-router-dom'
-import { NFT } from 'services/models/NFT'
+import { NFT } from 'state/types/NFT'
 import uriToHttp from 'utils/uriToHttp'
 
 import Card from '../../UI/Card'
@@ -17,7 +17,7 @@ import Vector from '../../assets/images/Vector.png'
 import StringModifier from 'utils/StringSplice'
 import { useSaveNFT, useSetStep } from 'state/marketplace/hooks'
 import { STEP } from 'state/marketplace/types'
-import { useOffMarketItem } from 'state/inventory/hooks'
+// import { useOffMarketItem } from 'state/inventory/hooks'
 
 interface OffMarketParams {
   id: string
@@ -27,10 +27,10 @@ const OffMarket = () => {
   const { t } = useTranslation()
   const { id }: OffMarketParams = useParams()
   const history = useHistory()
-  const nft: NFT = useOffMarketItem(id)
+  const nft: any /*NFT*/ = {} //= useOffMarketItem(id)
   const saveNFT = useSaveNFT()
   const setStep = useSetStep()
-  const imgUrl = uriToHttp(`${nft?.dataHash}`)[1]
+  const imgUrl = '' //uriToHttp(`${nft?.dataHash}`)[1]
   const [tagsState, setTagsState] = useState(false)
 
   useEffect(() => {
@@ -124,7 +124,7 @@ const OffMarket = () => {
               <div>
                 <Text fontFamily="Roboto" fontSize="1rem" color="#444444" spanWeight="500" marginLeft="9.75rem">
                   {t('tokenId')}
-                  <span>{nft?.id}</span>
+                  <span>{nft?.tokenId}</span>
                 </Text>
               </div>
               <Divider width="95%"></Divider>

@@ -3,7 +3,7 @@ import { Pair, Token } from '@uniswap/sdk'
 import { PopupContent } from './../../constants'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { User } from 'services/models/User'
+import { Users } from 'state/types/User'
 import { useETHBalances } from 'state/wallet/hooks'
 import { ChainId } from '../../constants/supportedChains'
 import { useActiveWeb3React } from '../../hooks/blockchain-hooks/useActiveWeb3React'
@@ -28,15 +28,15 @@ import {
 } from './actions'
 import { usePopup } from 'state/application/hooks'
 
-import { Auction } from 'services/models/Auction'
+import { MarketplaceListings } from 'state/types/MarketplaceListings'
 
 import { generateId, useMarketplace, useNFT, useStep } from 'state/marketplace/hooks'
-import { AuctionNFT } from 'services/models/AuctionNFT'
+import { AuctionNFT } from 'state/types/AuctionNFT'
 import { useHistory } from 'react-router-dom'
 import { address as STARTFI_STAKES_ADDRESSS } from '../../constants/abis/StartfiStakes.json'
 import { useGetAllowance } from 'hooks/blockchain-hooks/startfiToken'
-import { setInvItem, useSaveInvItem } from 'state/inventory/hooks'
-import { InventoryType } from 'services/models/Inventory'
+// import { setInvItem, useSaveInvItem } from 'state/inventory/hooks'
+import { InventoryType } from 'state/types/Inventory'
 import { useGetReserves } from 'hooks/blockchain-hooks/startfiStakes'
 
 function serializeToken(token: Token): SerializedToken {
@@ -219,7 +219,7 @@ export const useLogin = () => {
   }, [account, dispatch])
 }
 
-export const useUser = (): User | null => {
+export const useUser = (): Users | null => {
   return useSelector((state: AppState) => state.user.user)
 }
 
@@ -245,16 +245,15 @@ export const useSaveDraft = (): (() => void) => {
   const popup = usePopup()
   const step = useStep()
   const history = useHistory()
-  const saveInvItem = useSaveInvItem()
+  // const saveInvItem = useSaveInvItem()
   const draft = useNFT()
   return useCallback(() => {
     if (step < 2 || !draft) return popup({ success: false, message: 'cannotAddDraft' })
     if (!user) return popup({ success: false, message: 'connectWallet' })
-    const invItem = setInvItem(user, InventoryType.Draft, { ...draft, id: generateId }, draft.issueDate)
-
-    if (step < 6) saveInvItem(invItem)
-    else history.push('/inventory/off-market/' + draft.id)
-  }, [history, step, user, draft, popup, dispatch, saveInvItem])
+    // const invItem = setInvItem(user, InventoryType.Draft, { ...draft, tokenId: generateId }, draft.issueDate)
+    // if (step < 6) saveInvItem(invItem)
+    else history.push('/inventory/off-market/' + draft.tokenId)
+  }, [history, step, user, draft, popup, dispatch /*,saveInvItem*/])
 }
 
 const useAddToWishlist = (nftId: number): (() => void) => {
@@ -312,7 +311,7 @@ export const useUserWishList = (): AuctionNFT[] => {
   const marketPlace = useMarketplace()
   return useMemo(() => {
     return marketPlace.filter(e => {
-      const id = parseInt(e.nft.id)
+      const id = parseInt(e.nft.tokenId)
       console.log(id)
 
       return user?.wishlist.includes(id)
@@ -367,14 +366,14 @@ export const useUserPopup = (): PopupContent | null => {
 //   return useMemo(() => offMarket.filter(nft => nft.id === nftId)[0], [offMarket, nftId])
 // }
 // get userAuctions
-export const useUserAuctions = (): Auction[] => {
+export const useUserAuctions = (): MarketplaceListings[] => {
   return useSelector((state: AppState) => state.user.userAuctions)
 }
 
 // get single Auction
-export const useAuctionItem = (nftId: string): Auction => {
-  const userAuctions: Auction[] = useUserAuctions()
-  return useMemo(() => userAuctions.filter(auction => auction.nft === nftId)[0], [userAuctions, nftId])
+export const useAuctionItem = (nftId: string): MarketplaceListings => {
+  const userAuctions: MarketplaceListings[] = useUserAuctions()
+  return useMemo(() => userAuctions.filter(auction => auction.nftTokenId === nftId)[0], [userAuctions, nftId])
 }
 
 export const useClearUserPopup = (): (() => void) => {

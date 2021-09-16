@@ -8,9 +8,9 @@ import {
   getNftBids,
   mintNFT,
   placeBid
-} from 'services/Marketplace'
-import { Auction } from 'services/models/Auction'
-import { NFT } from 'services/models/NFT'
+} from 'services/database/Marketplace'
+import { MarketplaceListings } from 'state/types/MarketplaceListings'
+import { NFT } from 'state/types/NFT'
 import { STEP } from './types'
 
 export const getMarketplaceAction = createAsyncThunk('marketplace/getMarketplaceAction', getMarketplace)
@@ -31,7 +31,7 @@ export const clearMarketplacePopup = createAction<void>('marketplace/clearMarket
 
 export const saveNFT = createAction<{ nft: NFT }>('marketplace/saveNFT')
 
-export const saveAuction = createAction<{ auction: Auction }>('marketplace/saveAuction')
+export const saveAuction = createAction<{ auction: MarketplaceListings }>('marketplace/saveAuction')
 
 export const clearNFT = createAction('marketplace/clearNFT')
 

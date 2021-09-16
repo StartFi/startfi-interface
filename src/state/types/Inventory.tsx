@@ -1,4 +1,4 @@
-import { Auction } from './Auction'
+import { MarketplaceListings } from './MarketplaceListings'
 import { NFT } from './NFT'
 
 //type: must choose type : draft onMarket offMarket
@@ -7,7 +7,7 @@ export interface Inventory {
   ethAddress: string
   nft: NFT
   issueDate: any
-  auction: Auction
+  auction: MarketplaceListings
   type: InventoryType
 }
 

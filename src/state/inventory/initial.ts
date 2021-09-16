@@ -1,4 +1,4 @@
-import { NftInterface } from './../Nft/initial'
+import { NftInterface } from '../Nft/initial'
 export interface InventoryInterface {
   draft: NftInterface[]
   myNft: NftInterface[]

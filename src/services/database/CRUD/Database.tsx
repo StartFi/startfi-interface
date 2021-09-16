@@ -1,7 +1,7 @@
-import { Dictionary } from './../../constants'
+import { Dictionary } from '../../../constants'
 import firebase from 'firebase'
-import { Document } from 'services/models/Document'
-import config from './config'
+import { Document } from '../models/Document'
+import config from '../config'
 
 firebase.initializeApp(config)
 
