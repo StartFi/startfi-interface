@@ -165,6 +165,12 @@ export const ButtonBlack = styled(ButtonConfirmBid)`
 export const ButtonTransparent = styled(ButtonConfirmBid)`
   background-color: transparent;
 `
+export const ButtonPaymentBlack = styled(ButtonBlack)`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+`
 
 export const ButtonTransparentBorder = styled(ButtonTransparent)<{
   color?: string

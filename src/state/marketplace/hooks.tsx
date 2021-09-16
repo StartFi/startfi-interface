@@ -295,32 +295,47 @@ export const usePlaceBid = (): (() => void) => {
   }, [bidPrice, auctionNFT, bidWeb3, setWalletConfirmation])
 }
 
-export const useBuyNFT = (): (() => void) => {
-  const buyNow = useBuyNow()
+export const useApproveBuyNFT = (setLoader, setApproved): (() => void) => {
   const buyer = useUserAddress()
   const auctionNFT = useAuctionNFT()
   const soldPrice = useBidOrBuyValue()
   const approveToken = useApproveToken()
   const popup = usePopup()
+  useMarketplaceListener(auctionNFT?.nft)
+  return useCallback(async () => {
+    if (buyer && auctionNFT) {
+      setLoader(true) // start approving
+      const approveTransaction = await approveToken(STARTFI_MARKETPLACE_ADDRESS, soldPrice)
+      if (approveTransaction) setLoader(false) // done approving
+      if (approveTransaction && approveTransaction.error) {
+        popup({ success: false, message: approveTransaction.error.message })
+      } else {
+        setApproved(true)
+      }
+    } else popup({ success: false, message: 'connectWallet' })
+  }, [soldPrice, auctionNFT, buyer, approveToken, popup, setWalletConfirmation])
+}
+export const useConfirmBuyNFT = (setLoader): (() => void) => {
+  const buyer = useUserAddress()
+  const popup = usePopup()
+  const buyNow = useBuyNow()
+  const auctionNFT = useAuctionNFT()
+  const soldPrice = useBidOrBuyValue()
   const setWalletConfirmation = useSetWalletConfirmation()
   useMarketplaceListener(auctionNFT?.nft)
   return useCallback(async () => {
     if (buyer && auctionNFT) {
-      const approveTransaction = await approveToken(STARTFI_MARKETPLACE_ADDRESS, soldPrice)
-      if (approveTransaction && approveTransaction.error) {
-        popup({ success: false, message: approveTransaction.error.message })
+      setLoader(true) // start buying
+      const buyNowTransaction = await buyNow(auctionNFT.auction.id, soldPrice)
+      if (buyNowTransaction) setLoader(false) // done buying
+      if (buyNowTransaction && buyNowTransaction.error) {
+        popup({ success: false, message: buyNowTransaction.error.message })
       } else {
-        const buyNowTransaction = await buyNow(auctionNFT.auction.id, soldPrice)
-        if (buyNowTransaction && buyNowTransaction.error) {
-          popup({ success: false, message: buyNowTransaction.error.message })
-        } else {
-          setWalletConfirmation('Payment')
-        }
+        setWalletConfirmation('Payment')
       }
     } else popup({ success: false, message: 'connectWallet' })
-  }, [soldPrice, auctionNFT, buyer, approveToken, buyNow, popup, setWalletConfirmation])
+  }, [auctionNFT, buyNow, buyer, popup, setWalletConfirmation, soldPrice])
 }
-
 export const useNFTDetails = () => {
   return useSelector((state: AppState) => state.marketplace.NftDetails)
 }

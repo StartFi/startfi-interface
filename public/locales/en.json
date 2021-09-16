@@ -22,6 +22,7 @@
   "totalBidAmount": "Total Bid Amount",
   "cancelBidding": "Cancel Bidding",
   "confirmPayment": "Confirm Payment",
+  "approvePayment": "Approve Payment",
   "paymentAmount": "Payment Amount",
   "paymentBalance": "Payment balance",
   "totalPaymentAmount": "Total Payment Amount",
