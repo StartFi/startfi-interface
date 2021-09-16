@@ -31,6 +31,7 @@ export interface ItemInterface {
   listingId: string
   type: MarketplaceType
   nft: NftInterface
+  itemDetails: ItemDetails
   auction?: AuctionInterface
 }
 
