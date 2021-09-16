@@ -6,7 +6,6 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { User } from 'services/models/User'
 import { useETHBalances } from 'state/wallet/hooks'
 import { ChainId } from '../../constants/supportedChains'
-import { useActiveWeb3React } from '../../hooks/blockchain-hooks/useActiveWeb3React'
 import { AppDispatch, AppState } from '../index'
 import {
   addSerializedPair,
@@ -38,6 +37,7 @@ import { useGetAllowance } from 'hooks/blockchain-hooks/startfiToken'
 import { setInvItem, useSaveInvItem } from 'state/inventory/hooks'
 import { InventoryType } from 'services/models/Inventory'
 import { useGetReserves } from 'hooks/blockchain-hooks/startfiStakes'
+import { useActiveWeb3React } from 'hooks/blockchain-hooks/useActiveWeb3React'
 
 function serializeToken(token: Token): SerializedToken {
   return {
@@ -291,21 +291,6 @@ export const useWishlist = (nftId: number) => {
   }, [isWishlist, addToWishlist, removeFromWishlist])
 }
 
-// export const useGetInventory = () => {
-//   const dispatch = useDispatch()
-//   const owner = useUserAddress()
-//   const chainId = useChainId()
-
-//   const popup = usePopup()
-//   return useCallback(
-//     () =>
-//       owner && chainId
-//         ? (dispatch(getUserNFTsAction({ owner, chainId })), dispatch(getDraftsAction(owner)))
-//         : popup({ success: false, message: 'connectWallet' }),
-//     [owner, chainId, popup, dispatch]
-//   )
-// }
-
 // get user Wishlist AuctionNft
 export const useUserWishList = (): AuctionNFT[] => {
   const user = useUser()
@@ -313,7 +298,6 @@ export const useUserWishList = (): AuctionNFT[] => {
   return useMemo(() => {
     return marketPlace.filter(e => {
       const id = parseInt(e.nft.id)
-      console.log(id)
 
       return user?.wishlist.includes(id)
     })
@@ -335,37 +319,6 @@ export const useUserPopup = (): PopupContent | null => {
   return useSelector((state: AppState) => state.user.popup)
 }
 
-// export const useDrafts = (): NFT[] => {
-//   return useSelector((state: AppState) => state.user.drafts)
-// }
-
-// get single draft
-// export const useDraft = (draftId: number): NFT => {
-//   const userDrafts: NFT[] = useDrafts()
-//   return useMemo(() => userDrafts?.filter(draft => draft.id === draftId)[0], [draftId, userDrafts])
-// }
-
-// get onMarket state
-// export const useOnMarket = (): NFT[] => {
-//   return useSelector((state: AppState) => state.user.onMarket)
-// }
-
-// get onMarket single item
-// export const useOnMarketItem = (nftId: string): NFT => {
-//   const onMarket: NFT[] = useOnMarket()
-//   return useMemo(() => onMarket.filter(nft => nft.id === nftId)[0], [onMarket, nftId])
-// }
-
-// get offMarket state
-// export const useOffMarket = (): NFT[] => {
-//   return useSelector((state: AppState) => state.user.offMarket)
-// }
-
-// // get single offMarket item
-// export const useOffMarketItem = (nftId: string): NFT => {
-//   const offMarket: NFT[] = useOffMarket()
-//   return useMemo(() => offMarket.filter(nft => nft.id === nftId)[0], [offMarket, nftId])
-// }
 // get userAuctions
 export const useUserAuctions = (): Auction[] => {
   return useSelector((state: AppState) => state.user.userAuctions)
@@ -384,37 +337,13 @@ export const useClearUserPopup = (): (() => void) => {
   }, [dispatch])
 }
 
-// export const useGetDrafts = () => {
-//   const dispatch = useDispatch()
-//   const user = useUserAddress()
-//   const popup = usePopup()
-//   return useCallback(
-//     () => (user ? dispatch(getDraftsAction(user)) : popup({ success: false, message: 'connectWallet' })),
-//     [user, popup, dispatch]
-//   )
-// }
-
-// export const useGetUserNFTs = () => {
-//   const dispatch = useDispatch()
-//   const owner = useUserAddress()
-//   const chainId = useChainId()
-//   const popup = usePopup()
-//   return useCallback(
-//     () =>
-//       owner && chainId
-//         ? dispatch(getUserNFTsAction({ owner, chainId }))
-//         : popup({ success: false, message: 'connectWallet' }),
-//     [owner, chainId, popup, dispatch]
-//   )
-// }
-
 // get user stack balance
 export const useStakeBalance = (): number => {
   return useSelector((state: AppState) => state.user.stakeBalance)
 }
 
 // need more stack
-export const useNeedMoreStack = () => {
+export const useNeedMoreStack = requiredStack => {
   const owner = useUserAddress()
   const getReserves = useGetReserves()
   const stackBalance = useStakeBalance()
@@ -422,10 +351,10 @@ export const useNeedMoreStack = () => {
     getReserves(owner)
   }
 
-  const minQualifyAmount = process.env.REACT_APP_MIN_QUALIFY_AMOUNT
-  return useMemo(() => (minQualifyAmount ? (stackBalance < parseInt(minQualifyAmount) ? true : false) : false), [
+  return useMemo(() => (requiredStack ? (stackBalance < parseInt(requiredStack) ? true : false) : false), [
     stackBalance,
-    owner
+    owner,
+    requiredStack
   ])
 }
 

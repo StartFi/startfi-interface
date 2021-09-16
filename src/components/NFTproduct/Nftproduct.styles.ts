@@ -237,8 +237,9 @@ export const Stakes = styled(Row)`
   width: fit-content;
 `
 
-export const NoStakes = styled.li`
+export const NoStakes = styled('li')<{margin?:string}>`
   color: #d90000;
+  margin:${({ margin }) => margin};
 `
 
 export const GetNow = styled.div`
