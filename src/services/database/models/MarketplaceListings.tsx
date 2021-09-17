@@ -28,7 +28,7 @@ export interface Auction {
   isSellForEnabled: boolean
   sellForPrice?: number
   disputeTime: Date
-  bids: Bids[]
+ // bids: Bids[] we will make it in a single collection so that when we query user bids , the query would be much easier
 }
 export enum MarketplaceStatus {
   Sold,
