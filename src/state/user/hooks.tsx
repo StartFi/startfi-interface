@@ -350,10 +350,9 @@ export const useNeedMoreStack = requiredStack => {
   if (owner) {
     getReserves(owner)
   }
-  let difference = stackBalance - parseInt(requiredStack)
-  let needStack: boolean = stackBalance < parseInt(requiredStack) ? true : false
+  const difference = stackBalance - parseInt(requiredStack)
+  const needStack: boolean = stackBalance < parseInt(requiredStack) ? true : false
   return useMemo(() => {
-
     return { difference, needStack }
   }, [needStack, owner, difference])
 }

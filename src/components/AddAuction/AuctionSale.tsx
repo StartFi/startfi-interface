@@ -13,13 +13,13 @@ const AuctionSale: React.FC = () => {
   const { auction, handleChange, missing } = useAddAuction()
   const history = useHistory()
   const [requiredStakes, setRequiredStakes] = useState(0)
-  const [needStackValue,setNeedStackValue]=useState(0)
-  const  {difference,needStack}=useNeedMoreStack(requiredStakes)
+  const [needStackValue, setNeedStackValue] = useState(0)
+  const { difference, needStack } = useNeedMoreStack(requiredStakes)
 
   const listQualifyPercentage = 1
   const base = 100
 
-  console.log(difference,needStack)
+  console.log(difference, needStack)
 
   useEffect(() => {
     const listingPrice = auction?.listingPrice || 0
@@ -28,11 +28,10 @@ const AuctionSale: React.FC = () => {
       setRequiredStakes((listingPrice * listQualifyPercentage) / base)
     }
 
-    if(needStack){
+    if (needStack) {
       setNeedStackValue(difference)
-
     }
-  }, [auction,needStack])
+  }, [auction, needStack])
 
   return (
     <React.Fragment>
