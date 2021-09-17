@@ -53,7 +53,6 @@ const MarketplaceHeader: React.FC = () => {
         if (!account) return popup({ success: false, message: t('connectWallet') })
         getReserves(account)
         history.push('/marketplace/stakeTokens')
-
         break
     }
   }

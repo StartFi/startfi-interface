@@ -105,6 +105,7 @@ const Input: React.FC<InputProps> = ({
             }}
             value={value}
             width={inputWidth || '7vw'}
+            error={error}
           />
           {currency ? currency : 'STFI'}
         </OutlineNumber>

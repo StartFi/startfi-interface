@@ -350,12 +350,12 @@ export const useNeedMoreStack = requiredStack => {
   if (owner) {
     getReserves(owner)
   }
+  let difference = stackBalance - parseInt(requiredStack)
+  let needStack: boolean = stackBalance < parseInt(requiredStack) ? true : false
+  return useMemo(() => {
 
-  return useMemo(() => (requiredStack ? (stackBalance < parseInt(requiredStack) ? true : false) : false), [
-    stackBalance,
-    owner,
-    requiredStack
-  ])
+    return { difference, needStack }
+  }, [needStack, owner, difference])
 }
 
 // get deposit stack state

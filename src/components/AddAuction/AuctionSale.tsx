@@ -13,16 +13,26 @@ const AuctionSale: React.FC = () => {
   const { auction, handleChange, missing } = useAddAuction()
   const history = useHistory()
   const [requiredStakes, setRequiredStakes] = useState(0)
+  const [needStackValue,setNeedStackValue]=useState(0)
+  const  {difference,needStack}=useNeedMoreStack(requiredStakes)
 
   const listQualifyPercentage = 1
   const base = 100
 
+  console.log(difference,needStack)
+
   useEffect(() => {
     const listingPrice = auction?.listingPrice || 0
     if (auction) {
+      setNeedStackValue(0)
       setRequiredStakes((listingPrice * listQualifyPercentage) / base)
     }
-  }, [auction])
+
+    if(needStack){
+      setNeedStackValue(difference)
+
+    }
+  }, [auction,needStack])
 
   return (
     <React.Fragment>
@@ -39,14 +49,15 @@ const AuctionSale: React.FC = () => {
           question="requiredStakedDesc"
           name="requiredStack"
           label="Required Stack"
-          value={requiredStakes}
+          value={needStackValue}
           onChange={handleChange}
           number
+          error={needStack}
         />
 
         <GetNow onClick={() => history.push('/marketplace/stakeTokens')}>{t('getNow')}</GetNow>
       </AutoRow>
-      {useNeedMoreStack(requiredStakes) && <NoStakes margin="10px 0px 0px 0px">{t('needsMoreStakes')}</NoStakes>}
+      {/* {useNeedMoreStack(requiredStakes) && <NoStakes margin="10px 0px 0px 0px">{t('needsMoreStakes')}</NoStakes>} */}
     </React.Fragment>
   )
 }

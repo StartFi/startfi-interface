@@ -85,7 +85,7 @@ const Nftproduct = () => {
 
   useGetAuctionNFT(nft, auction)
 
-  const needStack = useNeedMoreStack(process.env.REACT_APP_MIN_QUALIFY_AMOUNT)
+  const {needStack}= useNeedMoreStack(process.env.REACT_APP_MIN_QUALIFY_AMOUNT)
 
   useEffect(() => {
     if (auctionNFT) {

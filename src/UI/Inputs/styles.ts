@@ -115,6 +115,7 @@ export const InputOutline = styled.textarea`
   background: #ffffff;
   border: none;
   resize: none;
+
 `
 
 export const Progress = styled.div`
@@ -152,7 +153,11 @@ interface InputNumberProps {
 export const InputNumber = styled.input<InputNumberProps>`
   border: none;
   outline: none;
+  /* min:none; */
   width: ${({ width }) => (width ? width : '7vw')};
+  color: ${props => (props.error ? '#FF0000' : null)};
+ 
+
 `
 
 export const OutlineNumber = styled.div<InputNumberProps>`
@@ -165,6 +170,7 @@ export const OutlineNumber = styled.div<InputNumberProps>`
   border-radius: 8px;
   align-items: center;
   padding-left: 1.2vw;
+
 `
 
 export const Border = styled.div<InputNumberProps>`
