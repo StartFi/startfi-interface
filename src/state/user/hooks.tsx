@@ -342,7 +342,7 @@ export const useStakeBalance = (): number => {
   return useSelector((state: AppState) => state.user.stakeBalance)
 }
 
-// need more stack
+// need more stack 
 export const useNeedMoreStack = requiredStack => {
   const owner = useUserAddress()
   const getReserves = useGetReserves()
@@ -350,11 +350,11 @@ export const useNeedMoreStack = requiredStack => {
   if (owner) {
     getReserves(owner)
   }
-  const difference = stackBalance - parseInt(requiredStack)
+  const stackDifference = stackBalance - parseInt(requiredStack)
   const needStack: boolean = stackBalance < parseInt(requiredStack) ? true : false
   return useMemo(() => {
-    return { difference, needStack }
-  }, [needStack, owner, difference])
+    return {  stackDifference , needStack }
+  }, [needStack, owner,  stackDifference ])
 }
 
 // get deposit stack state

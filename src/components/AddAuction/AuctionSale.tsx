@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import InputSTFI from '../../UI/Inputs/InputSTFI'
 import { useAddAuction } from 'state/marketplace/hooks'
 import { Input } from 'UI/Inputs'
-import { NoStakes, GetNow } from 'components/NFTproduct/Nftproduct.styles'
+import { GetNow } from 'components/NFTproduct/Nftproduct.styles'
 import { useTranslation } from 'react-i18next'
 import { AutoRow } from 'UI/Row'
 import { useHistory } from 'react-router-dom'
@@ -14,12 +14,10 @@ const AuctionSale: React.FC = () => {
   const history = useHistory()
   const [requiredStakes, setRequiredStakes] = useState(0)
   const [needStackValue, setNeedStackValue] = useState(0)
-  const { difference, needStack } = useNeedMoreStack(requiredStakes)
+  const { stackDifference, needStack } = useNeedMoreStack(requiredStakes)
 
   const listQualifyPercentage = 1
   const base = 100
-
-  console.log(difference, needStack)
 
   useEffect(() => {
     const listingPrice = auction?.listingPrice || 0
@@ -29,15 +27,15 @@ const AuctionSale: React.FC = () => {
     }
 
     if (needStack) {
-      setNeedStackValue(difference)
+      setNeedStackValue(stackDifference)
     }
   }, [auction, needStack])
 
   return (
     <React.Fragment>
       <InputSTFI
-        name="listingPrice"
-        label="NFTprice"
+        name='listingPrice'
+        label='NFTprice'
         value={auction.listingPrice || 0}
         onChange={handleChange}
         error={missing.includes('listingPrice')}
@@ -45,9 +43,9 @@ const AuctionSale: React.FC = () => {
 
       <AutoRow>
         <Input
-          question="requiredStakedDesc"
-          name="requiredStack"
-          label="Required Stack"
+          question='requiredStakedDesc'
+          name='requiredStack'
+          label='Required Stack'
           value={needStackValue}
           onChange={handleChange}
           number
@@ -56,7 +54,6 @@ const AuctionSale: React.FC = () => {
 
         <GetNow onClick={() => history.push('/marketplace/stakeTokens')}>{t('getNow')}</GetNow>
       </AutoRow>
-      {/* {useNeedMoreStack(requiredStakes) && <NoStakes margin="10px 0px 0px 0px">{t('needsMoreStakes')}</NoStakes>} */}
     </React.Fragment>
   )
 }
