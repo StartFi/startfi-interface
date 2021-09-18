@@ -156,7 +156,8 @@ export const useApproveNft = (): ((spender: string, tokenId: string | number) =>
         return transactionReceipt
       } catch (e) {
         console.log('error', e)
-        return { error: e }
+        return { error: e}
+
       }
     },
     [account, contract, library, approve, toggleWalletModal]

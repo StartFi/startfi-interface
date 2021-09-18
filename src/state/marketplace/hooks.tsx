@@ -517,8 +517,13 @@ export const useAddAuction = () => {
           setLoader(true)
           approve(STARTFI_MARKETPLACE_ADDRESS, nft?.id).then(transaction => {
             if (transaction && transaction.error) {
+
               setLoader(false)
-              popup({ success: false, message: transaction.error.message })
+              setStep(STEP.AUCTION_SUMMARY)
+
+              popup({ success: false, message: 'error : your transaction fail'})
+
+
             } else {
               setStep(STEP.ADD_AUCTION)
               setLoader(false)
