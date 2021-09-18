@@ -12,7 +12,7 @@ import { AutoRow } from '../Row'
 export const ChangesList = styled.ul`
   max-height: 400px;
   overflow: auto;
-  text-align:center;
+  text-align: center;
 `
 
 export default function ListUpdatePopup({
