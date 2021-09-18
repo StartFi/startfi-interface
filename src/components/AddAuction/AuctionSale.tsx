@@ -34,8 +34,8 @@ const AuctionSale: React.FC = () => {
   return (
     <React.Fragment>
       <InputSTFI
-        name='listingPrice'
-        label='NFTprice'
+        name="listingPrice"
+        label="NFTprice"
         value={auction.listingPrice || 0}
         onChange={handleChange}
         error={missing.includes('listingPrice')}
@@ -43,9 +43,9 @@ const AuctionSale: React.FC = () => {
 
       <AutoRow>
         <Input
-          question='requiredStakedDesc'
-          name='requiredStack'
-          label='Required Stack'
+          question="requiredStakedDesc"
+          name="requiredStack"
+          label="Required Stack"
           value={needStackValue}
           onChange={handleChange}
           number
