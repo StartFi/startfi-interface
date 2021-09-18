@@ -85,7 +85,7 @@ const Nftproduct = () => {
 
   useGetAuctionNFT(nft, auction)
 
-  const needStack = useNeedMoreStack()
+  const { needStack } = useNeedMoreStack(process.env.REACT_APP_MIN_QUALIFY_AMOUNT)
 
   useEffect(() => {
     if (auctionNFT) {
@@ -107,9 +107,6 @@ const Nftproduct = () => {
     )
 
   const noStakes = balance && auctionNFT && needStack
-
-  // ((auctionNFT.auction.listingPrice && parseFloat(balance) < auctionNFT.auction.listingPrice) ||
-  //   (auctionNFT.auction.minBid && parseFloat(balance) < auctionNFT.auction.minBid))
 
   const showScroll = (readMore: boolean) => {
     readMore ? setIsReadMore('scroll') : setIsReadMore('')

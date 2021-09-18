@@ -152,7 +152,9 @@ interface InputNumberProps {
 export const InputNumber = styled.input<InputNumberProps>`
   border: none;
   outline: none;
+  /* min:none; */
   width: ${({ width }) => (width ? width : '7vw')};
+  color: ${props => (props.error ? '#FF0000' : null)};
 `
 
 export const OutlineNumber = styled.div<InputNumberProps>`

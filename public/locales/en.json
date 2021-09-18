@@ -150,7 +150,7 @@
   "sellDesc": "your asset will be presented only for sell for the price that you required and won’t be allowed for bids and offers",
   "note": "Note",
   "auctionNote": ": your can change your asset monetizing status to be for auction or Auction or sell by click on Back below",
-  "requiredStakedDesc": "in order to user our service “selling asset” we require to hold an amount of tokens in the stake contract depends on the price that you will set for your asset, this tokens would be released when it sold or delisting",
+  "requiredStakedDesc": "in order to use our service “selling asset” we require to hold an amount of tokens in the stake contract depends on the price that you will set for your asset, this tokens would be released when it sold or delisting",
   "requiredStakes": "Required Stakes",
   "getStakes": "Get Stakes",
   "auctionSaleTitle": "Set the price for you Asset",
