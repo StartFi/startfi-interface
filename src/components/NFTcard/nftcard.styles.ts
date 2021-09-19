@@ -77,6 +77,14 @@ export const Bid = styled.div`
   border-radius: 0px 0px 8px 0px;
 `
 
+export const Buy = styled.div`
+  display: flex;
+  background-color: #000000;
+  width: 100%;
+  align-items: center;
+  border-radius: 0px 0px 8px 0px;
+`
+
 export const ImageIcon = styled('img')<{ $opacity?: boolean }>`
   position: relative;
   left: 29px;

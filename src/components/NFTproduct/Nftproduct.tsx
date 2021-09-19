@@ -80,7 +80,8 @@ const Nftproduct = () => {
   const listingPrice: number = auctionNFT?.auction?.listingPrice as number
 
   useGetAuctionNFT(nft, auction)
-
+  const [isBid, setBid] = useState<boolean>(false)
+  const [isSale, setSale] = useState<boolean>(false)
   const expiredAuction = useIsExpiredAuction(auctionNFT)
 
   useGetAuctionNFT(nft, auction)
@@ -90,6 +91,8 @@ const Nftproduct = () => {
   useEffect(() => {
     if (auctionNFT) {
       winnerBid(auctionNFT?.auction.id)
+      setBid(auctionNFT.auction.isForBid)
+      setSale(auctionNFT.auction.isForSale)
     }
   }, [auctionNFT])
 
@@ -146,12 +149,12 @@ const Nftproduct = () => {
         <RightTitle>
           <Name>
             <p>{auctionNFT?.nft.name}</p>
-            {noStakes && (
+            {noStakes && isBid ? (
               <Stakes>
                 <NoStakes>{t('needsMoreStakes')}</NoStakes>
                 <GetNow onClick={() => history.push('/marketplace/stakeTokens')}>{t('getNow')}</GetNow>
               </Stakes>
-            )}
+            ) : null}
           </Name>
         </RightTitle>
 
@@ -163,7 +166,7 @@ const Nftproduct = () => {
           ))}
         </TagContainer>
 
-        {auctionNFT ? (
+        {isBid ? (
           <TimerContainer>
             <Text fontFamily="Roboto" fontSize="1rem" color="#323232" margin="0 23px 0px 0px">
               {t('auctionsEndIn')} :
@@ -173,53 +176,71 @@ const Nftproduct = () => {
         ) : null}
 
         <BuyCard>
-          {topBid > 0 ? (
-            <LastBiddingContainer>
-              <Text fontFamily="Roboto" FontWeight="bold" fontSize="0.875rem" color="#323232" margin="0 23px 0px 0px">
-                {t('lastBidding')} :
-              </Text>
-              <DisplayBalance amount={topBid}></DisplayBalance>
-            </LastBiddingContainer>
-          ) : (
-            <LastBiddingContainer>
-              <Text fontFamily="Roboto" FontWeight="bold" fontSize="1rem" color="#323232" margin="15px auto">
-                {t('noBidding')}
-              </Text>
-            </LastBiddingContainer>
-          )}
+          {isBid && !expiredAuction ? (
+            topBid > 0 ? (
+              <LastBiddingContainer>
+                <Text fontFamily="Roboto" FontWeight="bold" fontSize="0.875rem" color="#323232" margin="0 23px 0px 0px">
+                  {t('lastBidding')} :
+                </Text>
+                <DisplayBalance amount={topBid}></DisplayBalance>
+              </LastBiddingContainer>
+            ) : (
+              <LastBiddingContainer>
+                <Text fontFamily="Roboto" FontWeight="bold" fontSize="1rem" color="#323232" margin="15px auto">
+                  {t('noBidding')}
+                </Text>
+              </LastBiddingContainer>
+            )
+          ) : null}
 
           <BuyButtons>
             <ButtonWishlist
               nftId={nftId}
               type="NFTProduct"
-              width="70%"
+              width={isBid ? '70%' : '100%'}
               borderRadius="4px"
               fontSize="1rem"
               disabled={expiredAuction}
             />
-            <PlaceBid>
+            {isBid ? (
+              <PlaceBid>
+                <button
+                  onClick={() => {
+                    setBidOrBuy(true)
+                    setIsOpen(true)
+                  }}
+                  disabled={expiredAuction}
+                >
+                  {t('placeBid')}
+                </button>
+              </PlaceBid>
+            ) : null}
+          </BuyButtons>
+          {isBid && isSale && (
+            <BuyNow>
               <button
                 onClick={() => {
-                  setBidOrBuy(true)
-                  setIsOpen(true)
+                  setValue(false, listingPrice)
+                  history.push('/marketplace/buyorbid')
                 }}
                 disabled={expiredAuction}
               >
-                {t('placeBid')}
+                {t('buy')} {listingPrice}$
               </button>
-            </PlaceBid>
-          </BuyButtons>
-          <BuyNow>
-            <button
-              disabled={expiredAuction}
-              onClick={() => {
-                setValue(false, listingPrice)
-                history.push('/marketplace/buyorbid')
-              }}
-            >
-              {t('buy')}
-            </button>
-          </BuyNow>
+            </BuyNow>
+          )}
+          {isSale && !isBid && (
+            <BuyNow>
+              <button
+                onClick={() => {
+                  setValue(false, listingPrice)
+                  history.push('/marketplace/buyorbid')
+                }}
+              >
+                {t('buy')} {listingPrice}$
+              </button>
+            </BuyNow>
+          )}
         </BuyCard>
 
         <PublisherCard height="91px">

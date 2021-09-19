@@ -75,13 +75,12 @@ const Payment: React.FC = () => {
     else if (!approved) aprroveNFT()
     else confirmNFT()
   }
-
   return (
     <MarginLeft marginLeft="5vw">
       <Right minHeight="74vh">
         <Bold>{t(bidOrBuy ? 'confirmBidding' : 'confirmPayment')}</Bold>
         <TextBlack>
-          {t('bidDesc')}
+          {t(bidOrBuy ? 'bidDesc' : 'buyDesc')} <br />
           <span>{nft?.name}</span>
           {t('by')} <span>{shortenAddress(nft.owner, 6)}</span>
         </TextBlack>

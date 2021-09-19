@@ -1,5 +1,5 @@
-import React from 'react'
-import { Media, CardImg, Card, Price, Text, Actions, Bid } from './nftcard.styles'
+import React, { useState } from 'react'
+import { Media, CardImg, Card, Price, Text, Actions, Bid, Buy } from './nftcard.styles'
 import { useTranslation } from 'react-i18next'
 import ButtonWishlist from 'UI/Buttons/ButtonWishlist'
 import { NftButton } from 'UI/Buttons/NftButton'
@@ -22,8 +22,7 @@ const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid 
   const expired = auctionNFT.auction.expireTimestamp - Date.now()
 
   const listPrice = auctionNFT?.auction?.listingPrice
-
-  const nftId = parseInt(cardContent.id)
+  const [isBid] = useState<boolean>(auctionNFT ? auctionNFT.auction.isForBid : false)
   const expiredAuction = useIsExpiredAuction(auctionNFT)
 
   return (
@@ -44,21 +43,32 @@ const NTFCard: React.FC<NftCardProps> = ({ auctionNFT, navigateToCard, placeBid 
             <Text fontFamily="Roboto" FontWight="400" fontSize="1.0rem" margin="15px 0px 5px 0px">
               {cardContent.name}
             </Text>
-            <div>
-              <Timer timeStamp={auctionNFT.auction.expireTimestamp} helperString="Auction"></Timer>
-              {expired > 1 ? <Text> LEFT</Text> : null}
-            </div>
+            {isBid ? (
+              <div>
+                <Timer timeStamp={auctionNFT.auction.expireTimestamp} helperString="Auction"></Timer>
+                {expired > 1 ? <Text> LEFT</Text> : null}
+              </div>
+            ) : null}
           </Price>
         </div>
       </div>
       <Actions>
-        <ButtonWishlist nftId={nftId} type="NFTCard" disabled={expiredAuction} />
-
-        <Bid>
-          <NftButton disabled={expiredAuction} onClick={() => placeBid(auctionNFT)} color="#ffffff">
-            {t('placeBid')}
-          </NftButton>
-        </Bid>
+        {isBid && expiredAuction ? (
+          <ButtonWishlist nftId={cardContent.id} type="NFTCard" disabled={expiredAuction} />
+        ) : (
+          <ButtonWishlist nftId={cardContent.id} type="NFTCard" />
+        )}
+        {isBid ? (
+          <Bid>
+            <NftButton disabled={expiredAuction} onClick={() => placeBid(auctionNFT)} color="#ffffff">
+              {t('placeBid')}
+            </NftButton>
+          </Bid>
+        ) : (
+          <Buy onClick={() => navigateToCard(auctionNFT)}>
+            <NftButton color="#ffffff">{t('buy')}</NftButton>
+          </Buy>
+        )}
       </Actions>
     </Card>
   )
