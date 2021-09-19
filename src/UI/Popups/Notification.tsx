@@ -19,6 +19,8 @@ const Text = styled.div`
   line-height: 26px;
   color: #ffffff;
   white-space: nowrap;
+  text-align: center;
+  margin: 0 auto;
 `
 
 const Img = styled.img`

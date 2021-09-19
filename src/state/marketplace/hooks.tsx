@@ -45,6 +45,7 @@ import { useAllowed } from 'hooks/blockchain-hooks/useAllowed'
 import { useApproveNft } from 'hooks/blockchain-hooks/startfiNft'
 import { useDigitizingFees } from 'hooks/blockchain-hooks/useDigitizingFees'
 import { STEP } from './types'
+import { useTranslation } from 'react-i18next'
 
 export const generateId =
   Date.now().toString(36) +
@@ -218,10 +219,14 @@ export const useMintNFT = (): (() => any) => {
 }
 
 export const useAddToMarketplace = (): (() => void) => {
+  const { t } = useTranslation()
   const seller = useUserAddress()
   const chainId = useChainId()
   const popup = usePopup()
   const nft = useNFT()
+  const step = useStep()
+  const setStep = useSetStep()
+
   const auction = useAuction()
   const createAuction = useCreateAuction()
   const listOnMarketplace = useListOnMarketplace()
@@ -244,7 +249,8 @@ export const useAddToMarketplace = (): (() => void) => {
         )
       }
       if (transaction && transaction.error) {
-        popup({ success: false, message: transaction.error.message })
+        setStep(STEP.AUCTION_SUMMARY)
+        popup({ success: false, message: t('addAuctionError') })
       } else {
         setWalletConfirmation('asset monetization')
       }
@@ -463,6 +469,7 @@ export const useAddNFT = () => {
 }
 
 export const useAddAuction = () => {
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const history = useHistory()
   const auction = useAuction()
@@ -518,7 +525,9 @@ export const useAddAuction = () => {
           approve(STARTFI_MARKETPLACE_ADDRESS, nft?.id).then(transaction => {
             if (transaction && transaction.error) {
               setLoader(false)
-              popup({ success: false, message: transaction.error.message })
+              setStep(STEP.AUCTION_SUMMARY)
+
+              popup({ success: false, message: t('addAuctionError') })
             } else {
               setStep(STEP.ADD_AUCTION)
               setLoader(false)
