@@ -32,10 +32,10 @@ export const useMint = (): ((
             account,
             library
           )
-          return (mintedNFT as any).value.toNumber()
+          return mintedNFT as any
         } else {
           const mintedNFT = await mint('MintNFTWithoutRoyalty', [address, ipfsHash], contract, account, library)
-          return (mintedNFT as any).value.toNumber()
+          return mintedNFT as any
         }
       } catch (e) {
         console.log('error', e)
