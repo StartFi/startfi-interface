@@ -123,7 +123,10 @@ export default createReducer(initialState, builder =>
       }
     })
     .addCase(addToMarketplaceAction.rejected, (state, action) => {
-      state.popup = { success: false, message: action.error.message || 'Error occurred while Adding NFT to Marketplace' }
+      state.popup = {
+        success: false,
+        message: action.error.message || 'Error occurred while Adding NFT to Marketplace'
+      }
     })
     .addCase(getAuctionNFTAction.fulfilled, (state, action) => {
       state.auctionNFT = action.payload.auctionNFT
